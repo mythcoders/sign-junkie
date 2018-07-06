@@ -1,0 +1,20 @@
+# Gemfile.lock
+
+.bundle
+.idea
+.vscode
+.byebug_history
+.ds_store
+/log
+/tmp
+/doc
+/node_modules
+/yarn-error.log
+/storage
+/public/assets
+
+!/log/.keep
+!/tmp/.keep
+
+*.key
+*.pdf
