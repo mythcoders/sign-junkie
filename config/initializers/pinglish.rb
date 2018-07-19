@@ -6,7 +6,7 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   ping.check :app_name do
-    SignJunkie::SystemInfo.app_name
+    SignJunkie::SystemInfo.name
   end
 
   ping.check :version do
@@ -20,5 +20,13 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   ping.check :database do
     ActiveRecord::Base.connection
     ActiveRecord::Base.connected?
+  end
+
+  ping.check :email do
+    true
+  end
+
+  ping.check :payment do
+    true
   end
 end

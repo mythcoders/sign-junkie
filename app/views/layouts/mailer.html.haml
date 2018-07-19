@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
+    = render partial: 'layouts/partials/mailer_css'
+  %body
+    = yield
+    %hr
+    %strong= WHIZ::INFO.owner
+    %br 629 Downard Road
+    Zanesville, OH 43701

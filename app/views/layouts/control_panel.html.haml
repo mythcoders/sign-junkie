@@ -1,0 +1,30 @@
+!!!
+%html{html_attrs('en-us')}
+  %head
+    = render partial: 'layouts/partials/header'
+    = stylesheet_link_tag 'admin/application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
+    = javascript_include_tag 'admin/application', 'data-turbolinks-track': 'reload'
+  %body
+    %a#top
+    = render partial: 'layouts/partials/control_panel_navbar'
+    .container-fluid
+      .row
+        %nav.col-md-2.d-none.d-md-block.bg-light.sidebar
+          = render partial: 'layouts/partials/control_panel_sidebar'
+        %main.col-md-9.ml-sm-auto.col-lg-10.pt-3.px-4{:role => "main"}
+          #pageLoading
+            #pageLoadingContent
+              %p#pageLoadingSpinner
+                = fa_spin 'spinner', 'fa-5x'
+                %br
+                %span.text-primary Loading ... Please wait...
+          = render partial: 'layouts/partials/alerts'
+          =# render partial: 'layouts/partials/screen_size'
+          = yield :breadcrumbs
+          = yield
+  = yield :scripts
+  :javascript
+    document.addEventListener("turbolinks:load", function() {
+      window.FontAwesome.dom.i2svg();
+      $.onmount()
+    });

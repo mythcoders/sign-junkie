@@ -4,8 +4,12 @@ module SignJunkie
     IS_PRE = true
 
     class << self
-      def app_name
+      def name
         Rails.application.class.parent_name.underscore
+      end
+
+      def app_name
+        self.name.humanize.titleize
       end
 
       def developer

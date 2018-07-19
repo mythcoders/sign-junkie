@@ -1,0 +1,56 @@
+.sidebar-sticky
+  %ul.nav.flex-column
+    %li.nav-item.my-30
+      %a.nav-link{sidebar_link(cp_path, cp_home_action?('index'))}
+        = fa_regular 'home'
+        Dashboard
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'users'
+        Customers
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'award'
+        Gift Certificates
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'shopping-bag'
+        Orders
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'inventory'
+        Products
+
+    %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
+      %span Administration
+    %li.nav-item.mt-1
+      %a.nav-link{disabled_link}
+        = fa_regular 'history'
+        Data History
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'sitemap'
+        Employees
+    %li.nav-item
+      %a.nav-link{disabled_link}
+        = fa_regular 'chart-line'
+        Reports
+    %li.nav-item
+      %a.nav-link{href: admin_about_path}
+        = fa_regular 'info-circle'
+        About
+
+    %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
+      %span Actions
+    %li.nav-item.mt-1
+      %a.nav-link{href: home_path}
+        = fa_regular 'globe'
+        View Public Website
+    -#%li.nav-item
+    -#  %a.nav-link{profile_link}
+    -#    = fa_regular 'user-circle'
+    -#    Manage Account
+    -#%li.nav-item
+    -#  = link_to destroy_user_session_path, method:'delete', title: 'Sign out', class: 'nav-link', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
+    -#    = fa_regular 'sign-out-alt'
+    -#    Sign Out

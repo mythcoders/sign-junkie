@@ -1,0 +1,31 @@
+!!!
+%html
+  %head
+    = render partial: 'layouts/partials/header'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    - if @client_token
+      %script{src: 'https://www.paypalobjects.com/api/checkout.js', 'data-version-4': ''}
+      %script{src: 'https://js.braintreegateway.com/web/3.34.0/js/client.min.js'}
+      %script{src: 'https://js.braintreegateway.com/web/3.34.0/js/paypal-checkout.min.js'}
+  %body
+    %a#top
+    = render partial: 'layouts/partials/navbar'
+    .container.padded-container
+      #pageLoading
+        #pageLoadingContent
+          %p#pageLoadingSpinner
+            = fa_spin 'spinner', 'fa-5x'
+            %br
+            %span.text-primary Loading ... Please wait...
+      = render partial: 'layouts/partials/alerts'
+      =# render partial: 'layouts/partials/screen_size'
+      = yield :breadcrumbs
+      = yield
+    = render partial: 'layouts/partials/footer'
+    = yield :scripts
+    :javascript
+      document.addEventListener("turbolinks:load", function() {
+        window.FontAwesome.dom.i2svg();
+        $.onmount()
+      });
