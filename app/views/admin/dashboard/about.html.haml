@@ -1,0 +1,42 @@
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_light 'info-circle'
+    = "About #{SignJunkie::SystemInfo::app_name}"
+
+.row
+  .col-6
+    .form-group.row
+      %label.col-sm-3.col-form-label Version
+      .col-sm-9
+        = SignJunkie::SystemInfo.version
+        - if SignJunkie::SystemInfo.prerelease?
+          %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
+    .form-group.row
+      %label.col-sm-3.col-form-label Developed For
+      .col-sm-9
+        %a{href: 'https://www.whiznews.com'}= SignJunkie::SystemInfo.owner
+        %br= "\u00A9 Copyright #{Date.today.year}"
+    .form-group.row
+      %label.col-sm-3.col-form-label Developed By
+      .col-sm-9
+        %a{href: 'https://www.mythcoders.com'}= SignJunkie::SystemInfo.developer
+        %br
+          Made with
+          = fa_solid 'heart', 'text-warning'
+          in Ohio
+    .form-group.row
+      %label.col-sm-3.col-form-label Support
+      .col-sm-9
+        .text-muted Need help? Open a support ticket with us!
+        %br
+        %a.btn.btn-outline-primary{href: 'mailto:incoming+ext/sign-jukie@git.mythcoders.net'}
+          = fa_light 'life-ring'
+          Support ticket via email
+  .col-6
+    %pre= SignJunkie::SystemInfo.environment
+
+%hr
+
+.row
+  .col
+    = raw @markdown
