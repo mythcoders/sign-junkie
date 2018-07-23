@@ -12,6 +12,11 @@ RSpec.describe 'Navigation' do
   end
 
   context 'when not authenticated' do
+    it 'loads the public page' do
+      get '/'
+      expect(response.status).to eq(200)
+    end
+
     it 'loads the admin dashboard' do
       get '/admin/dashboard/index'
       expect(response.status).to eq(200)

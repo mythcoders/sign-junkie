@@ -1,4 +1,4 @@
-module SignJunkie
+module Ares
   module SystemInfo
     PHASE = 'alpha1'.freeze
     IS_PRE = true

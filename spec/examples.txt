@@ -1,5 +1,7 @@
-example_id                                                   | status | run_time        |
------------------------------------------------------------- | ------ | --------------- |
-./spec/controllers/admin/dashboard_controller_spec.rb[1:1:1] | passed | 0.07587 seconds |
-./spec/requests/navigation_spec.rb[1:1:1]                    | passed | 0.52589 seconds |
-./spec/requests/navigation_spec.rb[1:2:1]                    | passed | 0.99172 seconds |
+example_id                                                   | status  | run_time        |
+------------------------------------------------------------ | ------- | --------------- |
+./spec/controllers/admin/dashboard_controller_spec.rb[1:1:1] | passed  | 0.0955 seconds  |
+./spec/helpers/public_helper_spec.rb[1:1]                    | pending | 0.00002 seconds |
+./spec/requests/navigation_spec.rb[1:1:1]                    | passed  | 0.08509 seconds |
+./spec/requests/navigation_spec.rb[1:2:1]                    | passed  | 0.28827 seconds |
+./spec/requests/navigation_spec.rb[1:2:2]                    | passed  | 0.19226 seconds |

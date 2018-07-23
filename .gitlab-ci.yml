@@ -1,0 +1,53 @@
+image: "ruby:2.5.1"
+services:
+  - postgres:latest
+variables:
+  HEROKU_APP_NAME: "sign-junkie"  
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
+  POSTGRES_DB: "signjunkie"
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/ruby
+stages:
+  - test
+  - deploy
+
+before_script:
+  - ruby -v
+  - source scripts/utils.sh
+  - apt-get update -q && apt-get install nodejs -yqq  
+
+after_script:
+  - date
+
+rspec:
+  stage: test
+  variables:    
+    RAILS_ENV: "test"
+    DATABASE_URL: "postgres://runner:@postgres:5432/signjunkie"
+  script:
+  - gem install bundler  --no-ri --no-rdoc
+  - date
+  - bundle install -j $(nproc) --path vendor --without production --quiet
+  - date
+  - write_master_key  
+  - RAILS_ENV=$RAILS_ENV bundle exec rspec
+
+deploy qa:
+  stage: deploy
+  environment:
+    name: qa
+    url: https://sign-junkie-qa.herokuapp.com/
+  variables:
+    HEROKU_APP_NAME: "sign-junkie-qa"
+  script:
+  - write_version
+  - write_branch
+  - gem install dpl
+  - dpl --provider=heroku --api-key=$HEROKU_API_KEY --app=$HEROKU_APP_NAME
+  only:
+    - branches
+  except:
+    - master

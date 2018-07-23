@@ -2,7 +2,6 @@
 
 .bundle
 .idea
-.vscode
 .byebug_history
 .ds_store
 /coverage
@@ -20,3 +19,5 @@
 *.csv
 *.key
 *.pdf
+
+spec/examples.txt

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SignJunkie
+module Ares
   module IconHelper
     def fa_solid(icon, html_class = nil)
       tag.i class: "fas fa-#{icon} #{html_class}"
