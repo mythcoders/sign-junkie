@@ -10,16 +10,21 @@ development:
   database: signjunkie_dev
 
 test:
-  <<: *default
-  database: signjunkie_test
+  <<: *default  
+  url: <%= ENV['DATABASE_URL'] %>  
 
-staging:
-  <<: *default
-  database: signjunkie_staging
+qa:
+  <<: *default  
+  url: <%= ENV['DATABASE_URL'] %>
+  connect_timeout: 1
+  checkout_timeout: 5
+  variables:
+    statement_timeout: 5000 # ms
 
 production:
   <<: *default
-  database: signjunkie_prod
+  # url: <%= ENV['DATABASE_URL'] %>
+  database: signjunkie_dev
   connect_timeout: 1
   checkout_timeout: 5
   variables:

@@ -6,15 +6,15 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   ping.check :app_name do
-    SignJunkie::SystemInfo.name
+    Ares::SystemInfo.name
   end
 
   ping.check :version do
-    SignJunkie::SystemInfo.version
+    Ares::SystemInfo.version
   end
 
   ping.check :branch do
-    SignJunkie::SystemInfo.branch
+    Ares::SystemInfo.branch
   end
 
   ping.check :database do

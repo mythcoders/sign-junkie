@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SignJunkie
+module Ares
   # Helpers with the sidebar
   module SidebarHelper
     def profile_link

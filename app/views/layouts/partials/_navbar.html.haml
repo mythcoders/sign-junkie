@@ -4,13 +4,12 @@
       %span.navbar-toggler-icon
     .collapse.navbar-collapse#navbarSupportedContent
       = link_to home_path, class: 'navbar-brand text-white' do
-        = image_tag 'whiz-store-logo.png', class: 'd-inline-block align-top'
         Online Store
         - if Rails.env.development?
           %strong.text-info DEV
         - if Rails.env.test?
           %strong.text-danger TEST
-      - if user_signed_in?
-        = render partial: 'layouts/partials/user_menu'
-      - else
-        = render partial: 'layouts/partials/public_menu'
+      -# - if user_signed_in?
+      -#   = render partial: 'layouts/partials/user_menu'
+      -# - else
+      = render partial: 'layouts/partials/public_menu'

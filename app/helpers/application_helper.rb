@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  include SignJunkie::IconHelper
-  include SignJunkie::SidebarHelper
+  include Ares::IconHelper
+  include Ares::SidebarHelper
 
   USER_ROLES = [
     { name: 'Customer', id: 1 },
