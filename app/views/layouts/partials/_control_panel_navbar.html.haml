@@ -1,9 +1,0 @@
-%nav.navbar.navbar-dark.sticky-top.bg-primary.flex-md-nowrap.p-0
-  %a.navbar-brand.col-sm-3.col-md-2.mr-0{:href => cp_path}
-    = fa_light 'cogs'
-    Control Panel
-    - if Rails.env.development?
-      %strong.text-warning DEVELOPMENT
-    - if Rails.env.test?
-      %strong.text-danger TEST
-  %input.form-control.form-control-dark.w-100{"aria-label" => "Search", :placeholder => "Search", :type => "text"}

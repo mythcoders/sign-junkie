@@ -1,4 +1,4 @@
-// Cosmo 4.0.0
+// Cosmo 4.1.2
 // Bootswatch
 
 //
@@ -17,7 +17,7 @@ $gray-800: #373a3c !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
 
-$blue:    #002C50 !default;
+$blue:    #2780E3 !default;
 $indigo:  #6610f2 !default;
 $purple:  #613d7c !default;
 $pink:    #e83e8c !default;
@@ -49,7 +49,7 @@ $body-color:    $gray-800 !default;
 
 $font-family-sans-serif: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif !default;
 
-// $font-size-base: 0.9375rem !default;
+$font-size-base: 0.9375rem !default;
 
 $headings-font-weight:   300 !default;
 
@@ -65,4 +65,4 @@ $alert-border-width:                0 !default;
 
 // Progress bars
 
-$progress-height:               8px !default;
+$progress-height:               0.5rem !default;

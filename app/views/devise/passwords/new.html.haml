@@ -1,0 +1,16 @@
+- content_for :header do
+  Forgot Password
+
+= devise_error_messages!
+= form_for(resource, as: resource_name, url: confirmation_path(resource_name), :html => { :method => :post }) do |f|
+  .form-group
+    .input-group
+      .input-group-prepend
+        %span.input-group-text
+          = fa_regular 'lock-alt'
+      = f.email_field :email, autofocus: true, class: 'form-control', :placeholder => 'Email Address'
+
+  .form-group
+    = f.submit 'Sent reset instructions', class: 'btn btn-primary btn-block btn-login'
+  .login-bottom-links
+    = render 'devise/shared/links'

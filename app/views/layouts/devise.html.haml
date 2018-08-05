@@ -3,7 +3,6 @@
   %head
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'insights.min', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     .container.padded-container
@@ -12,7 +11,7 @@
         .col-sm-8.offset-sm-2
           .card
             .card-header.bg-primary.text-white
-              %strong= WHIZ::INFO::app_name
+              %strong= Ares::SystemInfo::app_name
               |
               = yield :header
             .card-body

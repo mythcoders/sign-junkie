@@ -1,0 +1,6 @@
+%nav.navbar.navbar-dark.sticky-top.bg-dark.flex-md-nowrap.p-0
+  %a.navbar-brand.col-sm-3.col-md-2.mr-0{:href => cp_path}
+    = fa_light 'wrench'
+    Admin Portal
+    %strong.text-warning.text-uppercase.ml-2= Ares::SystemInfo.environment
+  %input.form-control.form-control-dark.w-100{"aria-label" => "Search", :placeholder => "Search", :type => "text"}

@@ -1,19 +1,20 @@
 module Ares
   module SystemInfo
-    PHASE = 'alpha1'.freeze
-    IS_PRE = true
-
     class << self
       def name
         Rails.application.class.parent_name.underscore
       end
 
       def app_name
-        self.name.humanize.titleize
+        'Online Store' # name.humanize.titleize
       end
 
       def developer
         'MythCoders, LLC'
+      end
+
+      def support_url
+        'mailto:incoming+ext/sign-jukie@git.mythcoders.net'
       end
 
       def owner
@@ -41,21 +42,42 @@ module Ares
       end
 
       def prerelease?
-        IS_PRE
+        version.include? '-'
+      end
+
+      def phase
+        prerelease? ? version.split('-').last : 'release'
       end
 
       def environment
-        s = "Instance Information\n"
-        s << [
-            [nil, nil],
-            ['Environment', Rails.env],
-            ['Platform', RUBY_PLATFORM.to_s],
-            ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
-            [nil, nil],
-            ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"],
-            ['Rails version', Rails::VERSION::STRING],
-            ['Bundler version', Bundler::VERSION]
+        case Rails.env
+        when 'development'
+          'dev'
+        when 'quality-assurance'
+          'qa'
+        else
+          Rails.env
+        end
+      end
+
+      def instance
+        [
+          [nil, nil],
+          ['Environment', Rails.env],
+          ['Platform', RUBY_PLATFORM.to_s],
+          ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
+          [nil, nil],
+          ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"],
+          ['Rails version', Rails::VERSION::STRING],
+          ['Bundler version', Bundler::VERSION]
         ].map { |info| '%-19s %s' % info }.join("\n") + "\n"
+      end
+
+      def license
+        s = "#{owner}\n"
+        s << "Trial\n"
+        s << '99/99/9999 - 99/99/9999'
+        s
       end
     end
   end

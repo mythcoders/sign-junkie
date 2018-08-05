@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 gem 'rails', '~> 5.2.0'
+gem 'devise'
 gem 'pg'
 gem 'haml'
 gem 'haml-rails'
@@ -29,10 +30,10 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'guard-rspec'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '3.7.2'
   gem 'ruby-debug-ide'
-  gem 'simplecov', require: false
-  gem 'simplecov-rcov', require: false
+  gem 'shoulda-matchers'
 end
 
 group :development do

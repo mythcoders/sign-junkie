@@ -11,7 +11,7 @@ development:
 
 test:
   <<: *default  
-  url: <%= ENV['DATABASE_URL'] %>  
+  url: <%= ENV['DATABASE_URL'] %>
 
 qa:
   <<: *default  
@@ -24,7 +24,7 @@ qa:
 production:
   <<: *default
   # url: <%= ENV['DATABASE_URL'] %>
-  database: signjunkie_dev
+  database: signjunkie
   connect_timeout: 1
   checkout_timeout: 5
   variables:
