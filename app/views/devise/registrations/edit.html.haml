@@ -1,0 +1,32 @@
+- content_for :header do
+  My Profile
+
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = devise_error_messages!
+
+  .form-horizontal
+    .form-group
+      = f.label :your_name
+      .input-group
+        .input-group-prepend
+          %span.input-group-text
+            = fa_regular 'user'
+        = f.text_field :first_name, class: 'form-control', placeholder: 'First Name', autofocus: true, autocomplete: 'off'
+        = f.text_field :last_name, class: 'form-control', autocomplete: 'off', placeholder: 'Last Name'
+
+    .form-group
+      = f.label :phone_number
+      = f.text_field :phone_number, class: 'form-control', autocomplete: 'off', type: 'phone'
+
+    .form-group
+      = f.label :email
+      = f.email_field :email, class: 'form-control', autocomplete: 'off'
+
+    .form-group
+      = f.label :current_password
+      = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+      %p.form-text.text-muted
+        We need your current password to confirm your changes
+
+    = link_to 'Cancel', home_path, class: 'btn btn-secondary'
+    = f.submit 'Save Changes', class: 'btn btn-success'

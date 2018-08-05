@@ -1,0 +1,16 @@
+- content_for :header do
+  Resend Account Confirmation
+
+= devise_error_messages!
+= form_for(resource, as: resource_name, url: confirmation_path(resource_name), :html => { :method => :post, class: '' }) do |f|
+  .form-group
+    .input-group
+      .input-group-prepend
+        %span.input-group-text
+          = fa_regular 'lock-alt'
+      = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control', :placeholder => 'Email Address'
+
+  .form-group
+    = f.submit 'Resend', class: 'btn btn-primary btn-block btn-login'
+  .login-bottom-links
+    = render 'devise/shared/links'

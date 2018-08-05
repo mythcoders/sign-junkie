@@ -13,27 +13,132 @@ cache:
 stages:
   - test
   - deploy
-
-before_script:
-  - ruby -v
-  - source scripts/utils.sh
-  - apt-get update -q && apt-get install nodejs -yqq  
+#  - performance
 
 after_script:
   - date
 
 rspec:
-  stage: test
-  variables:    
-    RAILS_ENV: "test"
-    DATABASE_URL: "postgres://runner:@postgres:5432/signjunkie"
-  script:
-  - gem install bundler  --no-ri --no-rdoc
-  - date
-  - bundle install -j $(nproc) --path vendor --without production --quiet
-  - date
-  - write_master_key  
-  - RAILS_ENV=$RAILS_ENV bundle exec rspec
+   stage: test
+   allow_failure: true
+   variables:
+     RAILS_ENV: "test"
+     DATABASE_URL: "postgres://runner:@postgres:5432/signjunkie_test"
+   script:
+   - ruby -v
+   - source scripts/utils.sh
+   - apt-get update -q && apt-get install nodejs -yqq
+   - gem install bundler  --no-ri --no-rdoc
+   - date
+   - bundle install -j $(nproc) --path vendor --without production --quiet
+   - date
+   - RAILS_ENV=$RAILS_ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY bundle exec rspec
+
+#sast:
+#  image: docker:stable
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#  allow_failure: true
+#  services:
+#    - docker:stable-dind
+#  script:
+#    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+#    - docker run
+#        --env SAST_CONFIDENCE_LEVEL="${SAST_CONFIDENCE_LEVEL:-3}"
+#        --volume "$PWD:/code"
+#        --volume /var/run/docker.sock:/var/run/docker.sock
+#        "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
+#  artifacts:
+#    paths: [gl-sast-report.json]
+#
+#dast:
+#  image: registry.gitlab.com/gitlab-org/security-products/zaproxy
+#  variables:
+#    website: "https://example.com"
+#  allow_failure: true
+#  script:
+#    - mkdir /zap/wrk/
+#    - /zap/zap-baseline.py -J gl-dast-report.json -t $website || true
+#    - cp /zap/wrk/gl-dast-report.json .
+#  artifacts:
+#    paths: [gl-dast-report.json]
+#
+#license_management:
+#  image: docker:stable
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#  allow_failure: true
+#  services:
+#    - docker:stable-dind
+#  script:
+#    - export LICENSE_MANAGEMENT_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+#    - docker run
+#        --volume "$PWD:/code"
+#        "registry.gitlab.com/gitlab-org/security-products/license-management:$LICENSE_MANAGEMENT_VERSION" analyze /code
+#  artifacts:
+#    paths: [gl-license-management-report.json]
+
+# container_scanning:
+#   image: docker:stable
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#     ## Define two new variables based on GitLab's CI/CD predefined variables
+#     ## https://docs.gitlab.com/ee/ci/variables/#predefined-variables-environment-variables
+#     CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+#     CI_APPLICATION_TAG: $CI_COMMIT_SHA
+#   allow_failure: true
+#   services:
+#     - docker:stable-dind
+#   script:
+#     - docker run -d --name db arminc/clair-db:latest
+#     - docker run -p 6060:6060 --link db:postgres -d --name clair --restart on-failure arminc/clair-local-scan:v2.0.1
+#     - apk add -U wget ca-certificates
+#     - docker pull ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}
+#     - wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
+#     - mv clair-scanner_linux_amd64 clair-scanner
+#     - chmod +x clair-scanner
+#     - touch clair-whitelist.yml
+#     - while( ! wget -q -O /dev/null http://docker:6060/v1/namespaces ) ; do sleep 1 ; done
+#     - retries=0
+#     - echo "Waiting for clair daemon to start"
+#     - while( ! wget -T 10 -q -O /dev/null http://docker:6060/v1/namespaces ) ; do sleep 1 ; echo -n "." ; if [ $retries -eq 10 ] ; then echo " Timeout, aborting." ; exit 1 ; fi ; retries=$(($retries+1)) ; done
+#     - ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG} || true
+#   artifacts:
+#     paths: [gl-container-scanning-report.json]
+
+#dependency_scanning:
+#  image: docker:stable
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#  allow_failure: true
+#  services:
+#    - docker:stable-dind
+#  script:
+#    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+#    - docker run
+#        --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
+#        --volume "$PWD:/code"
+#        --volume /var/run/docker.sock:/var/run/docker.sock
+#        "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
+#  artifacts:
+#    paths: [gl-dependency-scanning-report.json]
+#
+#code_quality:
+#  image: docker:stable
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#  allow_failure: true
+#  services:
+#    - docker:stable-dind
+#  script:
+#    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+#    - docker run
+#        --env SOURCE_CODE="$PWD"
+#        --volume "$PWD":/code
+#        --volume /var/run/docker.sock:/var/run/docker.sock
+#        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
+#  artifacts:
+#    paths: [gl-code-quality-report.json]
 
 deploy qa:
   stage: deploy
@@ -43,6 +148,7 @@ deploy qa:
   variables:
     HEROKU_APP_NAME: "sign-junkie-qa"
   script:
+  - source scripts/utils.sh
   - write_version
   - write_branch
   - gem install dpl
@@ -51,3 +157,22 @@ deploy qa:
     - branches
   except:
     - master
+
+#performance:
+#  stage: performance
+#  image: docker:git
+#  services:
+#    - docker:stable-dind
+#  dependencies:
+#    - deploy qa
+#  script:
+#    - export CI_ENVIRONMENT_URL=$(cat environment_url.txt)
+#    - mkdir gitlab-exporter
+#    - wget -O ./gitlab-exporter/index.js https://gitlab.com/gitlab-org/gl-performance/raw/master/index.js
+#    - mkdir sitespeed-results
+#    - docker run --shm-size=1g --rm -v "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io:6.3.1 --plugins.add ./gitlab-exporter --outputFolder sitespeed-results "$CI_ENVIRONMENT_URL"
+#    - mv sitespeed-results/data/performance.json performance.json
+#  artifacts:
+#    paths:
+#      - performance.json
+#      - sitespeed-results/

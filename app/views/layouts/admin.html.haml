@@ -6,11 +6,11 @@
     = javascript_include_tag 'admin/application', 'data-turbolinks-track': 'reload'
   %body
     %a#top
-    = render partial: 'layouts/partials/control_panel_navbar'
+    = render partial: 'layouts/partials/admin_navbar'
     .container-fluid
       .row
         %nav.col-md-2.d-none.d-md-block.bg-light.sidebar
-          = render partial: 'layouts/partials/control_panel_sidebar'
+          = render partial: 'layouts/partials/admin_sidebar'
         %main.col-md-9.ml-sm-auto.col-lg-10.pt-3.px-4{:role => "main"}
           #pageLoading
             #pageLoadingContent

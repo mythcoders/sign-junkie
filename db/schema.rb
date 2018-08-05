@@ -16,45 +16,35 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
   enable_extension "plpgsql"
 
   create_table "addresses", id: :serial, force: :cascade do |t|
-    t.string "nickname"
-    t.string "street", null: false
-    t.string "street2"
-    t.string "city", null: false
-    t.string "state", null: false
-    t.string "zip_code", null: false
-    t.string "country", null: false
+    t.string "nickname", limit: 25
+    t.string "street", limit: 30, null: false
+    t.string "street2", limit: 30
+    t.string "city", limit: 25, null: false
+    t.string "state", limit: 2, null: false
+    t.string "zip_code", limit: 9, null: false
+    t.string "country", limit: 3, null: false
     t.boolean "is_default", null: false
-    t.bigint "customers_id"
+    t.bigint "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customers_id"], name: "index_addresses_on_customers_id"
+    t.index ["users_id"], name: "index_addresses_on_users_id"
   end
 
   create_table "cart_items", id: :serial, force: :cascade do |t|
     t.string "session_id"
     t.integer "quantity", default: 1, null: false
     t.bigint "events_id"
-    t.bigint "customers_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["customers_id"], name: "index_cart_items_on_customers_id"
-    t.index ["events_id"], name: "index_cart_items_on_events_id"
-  end
-
-  create_table "customers", id: :serial, force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "middle_name"
-    t.string "last_name", null: false
-    t.string "phone_number"
     t.bigint "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_customers_on_users_id"
+    t.index ["events_id"], name: "index_cart_items_on_events_id"
+    t.index ["users_id"], name: "index_cart_items_on_users_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
+    t.string "name", limit: 50, null: false
+    t.string "description", limit: 500
+    t.datetime "posting_start_date", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date"
     t.integer "tickets_available"
@@ -66,16 +56,16 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
 
   create_table "notes", id: :serial, force: :cascade do |t|
     t.string "author"
-    t.string "content"
+    t.string "content", limit: 500
     t.boolean "is_flagged"
-    t.bigint "customers_id"
+    t.bigint "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customers_id"], name: "index_notes_on_customers_id"
+    t.index ["users_id"], name: "index_notes_on_users_id"
   end
 
   create_table "order_items", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 50, null: false
     t.decimal "price", default: "0.0", null: false
     t.integer "quantity", null: false
     t.boolean "is_overridden", default: false, null: false
@@ -88,7 +78,7 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
 
   create_table "order_notes", id: :serial, force: :cascade do |t|
     t.string "author", null: false
-    t.string "content", null: false
+    t.string "content", limit: 500, null: false
     t.boolean "is_printed", null: false
     t.bigint "orders_id"
     t.datetime "created_at", null: false
@@ -97,37 +87,43 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
-    t.string "order_number"
+    t.string "order_number", limit: 10
     t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_fulfilled"
     t.datetime "date_canceled"
     t.decimal "tax_rate", default: "0.0", null: false
-    t.bigint "customers_id"
+    t.bigint "users_id"
     t.bigint "addresses_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["addresses_id"], name: "index_orders_on_addresses_id"
-    t.index ["customers_id"], name: "index_orders_on_customers_id"
+    t.index ["users_id"], name: "index_orders_on_users_id"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
-    t.string "memo"
-    t.string "transaction_id"
+    t.string "memo", limit: 100
+    t.string "transaction_id", limit: 25
     t.string "method", null: false
     t.decimal "amount"
+    t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_posted"
     t.datetime "date_cleared"
     t.integer "status", default: 0, null: false
-    t.bigint "user_id"
+    t.bigint "users_id"
     t.bigint "orders_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["orders_id"], name: "index_payments_on_orders_id"
-    t.index ["user_id"], name: "index_payments_on_user_id"
+    t.index ["users_id"], name: "index_payments_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "first_name", limit: 50, null: false
+    t.string "middle_name", limit: 25
+    t.string "last_name", limit: 50, null: false
+    t.string "phone_number", limit: 10
+    t.string "role", default: "customer", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -151,15 +147,14 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "addresses", "customers", column: "customers_id"
-  add_foreign_key "cart_items", "customers", column: "customers_id"
+  add_foreign_key "addresses", "users", column: "users_id"
   add_foreign_key "cart_items", "events", column: "events_id"
-  add_foreign_key "customers", "users", column: "users_id"
-  add_foreign_key "notes", "customers", column: "customers_id"
+  add_foreign_key "cart_items", "users", column: "users_id"
+  add_foreign_key "notes", "users", column: "users_id"
   add_foreign_key "order_items", "orders", column: "orders_id"
   add_foreign_key "order_notes", "orders", column: "orders_id"
   add_foreign_key "orders", "addresses", column: "addresses_id"
-  add_foreign_key "orders", "customers", column: "customers_id"
+  add_foreign_key "orders", "users", column: "users_id"
   add_foreign_key "payments", "orders", column: "orders_id"
-  add_foreign_key "payments", "users"
+  add_foreign_key "payments", "users", column: "users_id"
 end

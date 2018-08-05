@@ -1,0 +1,15 @@
+- content_for :header do
+  Resend unlock instructions
+
+= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+  = devise_error_messages!
+  .form-group
+    .input-group
+      .input-group-prepend
+        %span.input-group-text
+          = fa_light 'lock-alt'
+      = f.email_field :email, autofocus: true, class: 'form-control', :placeholder => 'Email Address'
+  .form-group
+    = f.submit 'Resend unlock instructions', class: 'btn btn-primary btn-block btn-login'
+  .login-bottom-links
+    = render 'devise/shared/links'

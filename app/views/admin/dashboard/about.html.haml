@@ -1,42 +1,48 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
   %h1.h2
     = fa_light 'info-circle'
-    = "About #{SJunkie::SystemInfo::app_name}"
+    = "About #{Ares::SystemInfo::app_name}"
+  .btn-toolbar.mb-2.mb-md-0
+    .btn-group.mr-2
+      %a.btn.btn-outline-secondary{href: Ares::SystemInfo.support_url}
+        = fa_light 'life-ring'
+        Support
+      %a.btn.btn-outline-info{href: '../../_ping', target: '_blank'}
+        = fa_light 'heartbeat'
+        System Health
 
 .row
-  .col-6
+  .col-5
+    -#.form-group.row
+    -#  %label.col-sm-3.col-form-label License
+    -#  .col-sm-9
+    -#    %pre= Ares::SystemInfo.license
     .form-group.row
       %label.col-sm-3.col-form-label Version
       .col-sm-9
-        = SJunkie::SystemInfo.version
-        - if SJunkie::SystemInfo.prerelease?
+        = Ares::SystemInfo.version
+        - if Ares::SystemInfo.prerelease?
           %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
-    .form-group.row
-      %label.col-sm-3.col-form-label Developed For
-      .col-sm-9
-        %a{href: 'https://www.whiznews.com'}= SJunkie::SystemInfo.owner
-        %br= "\u00A9 Copyright #{Date.today.year}"
     .form-group.row
       %label.col-sm-3.col-form-label Developed By
       .col-sm-9
-        %a{href: 'https://www.mythcoders.com'}= SJunkie::SystemInfo.developer
+        %a{href: 'https://www.mythcoders.com'}= Ares::SystemInfo.developer
         %br
           Made with
           = fa_solid 'heart', 'text-warning'
           in Ohio
-    .form-group.row
-      %label.col-sm-3.col-form-label Support
-      .col-sm-9
-        .text-muted Need help? Open a support ticket with us!
-        %br
-        %a.btn.btn-outline-primary{href: 'mailto:incoming+ext/sign-jukie@git.mythcoders.net'}
-          = fa_light 'life-ring'
-          Support ticket via email
-  .col-6
-    %pre= SJunkie::SystemInfo.environment
 
+  .col-7
+    -#.form-group
+    -#  %label.col-form-label Instance Information
+    .form-group.row
+      %label.col-sm-3.col-form-label Instance Information
+      %pre
+        %br
+        = Ares::SystemInfo.instance
 %hr
 
 .row
   .col
+    %h3 Release Notes
     = raw @markdown

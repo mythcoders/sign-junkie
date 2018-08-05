@@ -10,16 +10,16 @@
         Customers
     %li.nav-item
       %a.nav-link{disabled_link}
+        = fa_regular 'calendar-alt'
+        Events
+    %li.nav-item
+      %a.nav-link{disabled_link}
         = fa_regular 'award'
         Gift Certificates
     %li.nav-item
       %a.nav-link{disabled_link}
         = fa_regular 'shopping-bag'
         Orders
-    %li.nav-item
-      %a.nav-link{disabled_link}
-        = fa_regular 'inventory'
-        Products
 
     %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
       %span Administration
@@ -46,11 +46,11 @@
       %a.nav-link{href: home_path}
         = fa_regular 'globe'
         View Public Website
-    -#%li.nav-item
-    -#  %a.nav-link{profile_link}
-    -#    = fa_regular 'user-circle'
-    -#    Manage Account
-    -#%li.nav-item
-    -#  = link_to destroy_user_session_path, method:'delete', title: 'Sign out', class: 'nav-link', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
-    -#    = fa_regular 'sign-out-alt'
-    -#    Sign Out
+    %li.nav-item
+      %a.nav-link{profile_link}
+        = fa_regular 'user-circle'
+        Manage Account
+    %li.nav-item
+      = link_to destroy_user_session_path, method:'delete', title: 'Sign out', class: 'nav-link', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
+        = fa_regular 'sign-out-alt'
+        Sign Out
