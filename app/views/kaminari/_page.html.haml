@@ -1,0 +1,8 @@
+- if page.current?
+  %li.page-item.active
+    %a.page-link{href:url, remote:remote, rel:(page.next? ? 'next' : (page.prev? ? 'prev' : nil))}
+      = page
+- else
+  %li.page-item
+    %a.page-link{href:url, remote:remote, rel:(page.next? ? 'next' : (page.prev? ? 'prev' : nil))}
+      = page

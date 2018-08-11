@@ -14,6 +14,10 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = true
   config.action_mailer.perform_caching = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = {
+    host: 'https://sign-junkie-qa.herokuapp.com/'
+  }
   config.active_storage.service = :local
   config.active_support.deprecation = :notify
 

@@ -15,10 +15,11 @@ def create_and_login_user
   current_user
 end
 
-def logout_user
-  sign_out :user
+def login_user(user)
+  @request.env["devise.mapping"] = Devise.mappings[:user]
+  sign_in user
 end
 
-def login_user(user)
-  sign_in user, scope: :user
+def logout_user
+  sign_out :user
 end

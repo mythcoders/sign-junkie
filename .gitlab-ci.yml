@@ -20,10 +20,10 @@ after_script:
 
 rspec:
    stage: test
-   allow_failure: true
    variables:
      RAILS_ENV: "test"
      DATABASE_URL: "postgres://runner:@postgres:5432/signjunkie_test"
+   allow_failure: true
    script:
    - ruby -v
    - source scripts/utils.sh

@@ -1,0 +1,25 @@
+- page_title 'Data History Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_regular 'history'
+    Data History
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th ID
+        %th Entity
+        %th Action
+        %th Username
+        %th Timestamp
+    %tbody
+      - @audits.each do |u|
+        %tr{data: { 'clickable-row': '', 'href': admin_audit_path(u) }}
+          %td= u.id
+          %td= u.auditable_type
+          %td= u.action
+          %td= u.username || 'anonymous'
+          %td= l u.created_at
+  .card-footer
+    = paginate @audits
+    = page_entries_info @audits

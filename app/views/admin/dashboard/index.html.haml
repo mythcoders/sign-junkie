@@ -1,2 +1,68 @@
-<h1>Admin::Dashboard#index</h1>
-<p>Find me in app/views/admin/dashboard/index.html.erb</p>
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2=welcome_message
+.row
+  .col-2
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_regular 'link'
+        Quick Links
+      %ul.list-group.list-group-flush
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_customer_path }}
+          New Customer
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_employee_path }}
+          New Employee
+        -# %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_event_path}}
+        -#   New Event
+        %li.list-group-item
+          %h6 Quick Search
+          .input-group
+            %input.form-control#quick_search_order_number{'aria-describedby' => 'basic-addon2', 'aria-label' => 'Order number for quick search', placeholder: 'Order #', type: 'text'}
+            .input-group-append
+              %button.btn.btn-outline-secondary.btn-order-search{:type => 'button'} Go
+
+
+  .col-3
+    .card.outline-info
+      .card-header.text-white.bg-primary
+        .row
+          .col-3
+            = fa_regular 'calendar-alt fa-5x'
+          .col-9
+            .float-right
+              %h3 0
+              Orders placed
+      .card-footer
+        %a{:onclick => 'alert(\'This feature is coming in a future release!\');', href: '#'}
+          View orders
+          .float-right
+            = fa_regular 'chevron-double-right'
+  .col-3
+    .card.outline-info
+      .card-header.text-white.bg-primary
+        .row
+          .col-3
+            = fa_regular 'user-plus fa-5x'
+          .col-9
+            .float-right
+              %h3= @new_customers
+              New customers
+      .card-footer
+        %a{:href => admin_customers_path}
+          View customers
+          .float-right
+            = fa_regular 'chevron-double-right'
+  -# .col-3
+  -#   .card.outline-info
+  -#     .card-header.text-white.bg-primary
+  -#       .row
+  -#         .col-3
+  -#           = fa_regular 'truck fa-5x'
+  -#         .col-9
+  -#           .float-right
+  -#             %h3= @orders_to_ship
+  -#             Orders needing shipment
+  -#     .card-footer
+  -#       %a{:href => admin_events__path}
+  -#         View pending shipments
+  -#         .float-right
+  -#           = fa_regular 'chevron-double-right'

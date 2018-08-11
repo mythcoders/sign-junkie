@@ -1,0 +1,42 @@
+- page_title @customer.full_name, 'Customers'
+
+= render :partial => 'admin/customers/header'
+
+.row
+  .col-4
+    .card
+      %h5.card-header.bg-primary.text-white
+        = @customer.full_name
+      %table.table.table-border-fix.table-sm
+        %tbody
+          %tr
+            %td
+              = fa_regular 'envelope'
+              %strong Email
+            %td
+              %a{href: "mailto:#{@customer.email}"}= @customer.email
+          %tr
+            %td
+              = fa_regular 'phone'
+              %strong Phone
+            %td= @customer.phone_number
+    %br
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'map-marker-alt'
+        Addresses
+      = render :partial => 'admin/addresses/show'
+
+  .col-8
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'shopping-cart'
+        Orders
+      -#= render :partial => 'admin/orders/list'
+
+    %br
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'sticky-note'
+        Notes
+      = render :partial => 'admin/notes/show'

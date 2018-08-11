@@ -52,23 +52,25 @@ class Initial < ActiveRecord::Migration[5.2]
       t.string :zip_code, null: false, limit: 9
       t.string :country, null: false, limit: 3
       t.boolean :is_default, null: false
-      t.references :users, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.timestamps
     end
 
     create_table :notes, id: :serial do |t|
-      t.string :author
+      t.integer :user_id, null: false
+      t.integer :author_id, null: false
       t.string :content, limit: 500
       t.boolean :is_flagged
-      t.references :users, index: true, foreign_key: true
+      t.foreign_key :users, column: :author_id, index: true
+      t.foreign_key :users, column: :user_id, index: true
       t.timestamps
     end
 
     create_table :cart_items, id: :serial do |t|
       t.string :session_id, null: true
       t.integer :quantity, null: false, default: 1
-      t.references :events, index: true, foreign_key: true
-      t.references :users, index: true, foreign_key: true
+      t.references :event, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.timestamps
     end
 
@@ -79,8 +81,8 @@ class Initial < ActiveRecord::Migration[5.2]
       t.datetime :date_fulfilled
       t.datetime :date_canceled
       t.decimal :tax_rate, default: 0.00, null: false
-      t.references :users, index: true, foreign_key: true
-      t.references :addresses, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+      t.references :address, index: true, foreign_key: true
       t.timestamps
     end
 
@@ -90,15 +92,16 @@ class Initial < ActiveRecord::Migration[5.2]
       t.integer :quantity, null: false
       t.boolean :is_overridden, default: false, null: false
       t.decimal :overridden_amount, null: true
-      t.references :orders, index: true, foreign_key: true
+      t.references :order, index: true, foreign_key: true
       t.timestamps
     end
 
     create_table :order_notes, id: :serial do |t|
-      t.string :author, null: false
+      t.integer :author_id, null: false
       t.string :content, null: false, limit: 500
       t.boolean :is_printed, null: false
-      t.references :orders, index: true, foreign_key: true
+      t.references :order, index: true, foreign_key: true
+      t.foreign_key :users, column: :author_id, index: true
       t.timestamps
     end
 
@@ -111,8 +114,8 @@ class Initial < ActiveRecord::Migration[5.2]
       t.datetime :date_posted
       t.datetime :date_cleared
       t.integer :status, null: false, default: 0
-      t.references :users, index: true, foreign_key: true
-      t.references :orders, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+      t.references :order, index: true, foreign_key: true
       t.timestamps
     end
   end

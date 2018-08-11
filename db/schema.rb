@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_07_130732) do
+ActiveRecord::Schema.define(version: 2018_08_06_010645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,21 +24,43 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.string "zip_code", limit: 9, null: false
     t.string "country", limit: 3, null: false
     t.boolean "is_default", null: false
-    t.bigint "users_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_addresses_on_users_id"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.text "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_id", "associated_type"], name: "associated_index"
+    t.index ["auditable_id", "auditable_type"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "cart_items", id: :serial, force: :cascade do |t|
     t.string "session_id"
     t.integer "quantity", default: 1, null: false
-    t.bigint "events_id"
-    t.bigint "users_id"
+    t.bigint "event_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["events_id"], name: "index_cart_items_on_events_id"
-    t.index ["users_id"], name: "index_cart_items_on_users_id"
+    t.index ["event_id"], name: "index_cart_items_on_event_id"
+    t.index ["user_id"], name: "index_cart_items_on_user_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -55,13 +77,12 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
   end
 
   create_table "notes", id: :serial, force: :cascade do |t|
-    t.string "author"
+    t.integer "user_id", null: false
+    t.integer "author_id", null: false
     t.string "content", limit: 500
     t.boolean "is_flagged"
-    t.bigint "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_notes_on_users_id"
   end
 
   create_table "order_items", id: :serial, force: :cascade do |t|
@@ -70,20 +91,20 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.integer "quantity", null: false
     t.boolean "is_overridden", default: false, null: false
     t.decimal "overridden_amount"
-    t.bigint "orders_id"
+    t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["orders_id"], name: "index_order_items_on_orders_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
   create_table "order_notes", id: :serial, force: :cascade do |t|
-    t.string "author", null: false
+    t.integer "author_id", null: false
     t.string "content", limit: 500, null: false
     t.boolean "is_printed", null: false
-    t.bigint "orders_id"
+    t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["orders_id"], name: "index_order_notes_on_orders_id"
+    t.index ["order_id"], name: "index_order_notes_on_order_id"
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
@@ -93,12 +114,12 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.datetime "date_fulfilled"
     t.datetime "date_canceled"
     t.decimal "tax_rate", default: "0.0", null: false
-    t.bigint "users_id"
-    t.bigint "addresses_id"
+    t.bigint "user_id"
+    t.bigint "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["addresses_id"], name: "index_orders_on_addresses_id"
-    t.index ["users_id"], name: "index_orders_on_users_id"
+    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -110,12 +131,12 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.datetime "date_posted"
     t.datetime "date_cleared"
     t.integer "status", default: 0, null: false
-    t.bigint "users_id"
-    t.bigint "orders_id"
+    t.bigint "user_id"
+    t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["orders_id"], name: "index_payments_on_orders_id"
-    t.index ["users_id"], name: "index_payments_on_users_id"
+    t.index ["order_id"], name: "index_payments_on_order_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -147,14 +168,16 @@ ActiveRecord::Schema.define(version: 2018_07_07_130732) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "addresses", "users", column: "users_id"
-  add_foreign_key "cart_items", "events", column: "events_id"
-  add_foreign_key "cart_items", "users", column: "users_id"
-  add_foreign_key "notes", "users", column: "users_id"
-  add_foreign_key "order_items", "orders", column: "orders_id"
-  add_foreign_key "order_notes", "orders", column: "orders_id"
-  add_foreign_key "orders", "addresses", column: "addresses_id"
-  add_foreign_key "orders", "users", column: "users_id"
-  add_foreign_key "payments", "orders", column: "orders_id"
-  add_foreign_key "payments", "users", column: "users_id"
+  add_foreign_key "addresses", "users"
+  add_foreign_key "cart_items", "events"
+  add_foreign_key "cart_items", "users"
+  add_foreign_key "notes", "users"
+  add_foreign_key "notes", "users", column: "author_id"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_notes", "orders"
+  add_foreign_key "order_notes", "users", column: "author_id"
+  add_foreign_key "orders", "addresses"
+  add_foreign_key "orders", "users"
+  add_foreign_key "payments", "orders"
+  add_foreign_key "payments", "users"
 end

@@ -7,16 +7,16 @@
         Your Account
 %ul.navbar-nav.ml-auto
   - if current_user.customer?
-    %li.nav-item
-      = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
-        = fa_regular 'shopping-cart'
-        Cart
-        %span.badge.badge-info= @cart_total
+    -# %li.nav-item
+    -#   = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
+    -#     = fa_regular 'shopping-cart'
+    -#     Cart
+    -#     %span.badge.badge-info= @cart_total
   - if current_user.can_cp?
     %li.nav-item
-      = link_to cp_path, title: 'Control Panel', class: 'nav-link text-white' do
-        = fa_regular 'cogs'
-        Control Panel
+      = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do
+        = fa_regular 'wrench'
+        Admin Portal
   %li.nav-item
     = link_to destroy_user_session_path, :method=>'delete', :title=> 'Sign out', class: 'nav-link text-white', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
       = fa_regular 'sign-out-alt'

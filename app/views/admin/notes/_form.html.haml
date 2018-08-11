@@ -1,0 +1,10 @@
+= f.hidden_field :id
+= f.hidden_field :user_id
+= f.hidden_field :author_id
+.form-group
+  = f.label :content, class: 'col-form-label'
+  = f.text_area :content, class: 'form-control', :rows => 6
+.form-group
+  .form-check
+    = f.check_box :is_flagged, class: 'form-check-input'
+    = f.label :is_flagged, class: 'form-check-label'

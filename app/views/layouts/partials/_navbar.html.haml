@@ -9,7 +9,7 @@
           %strong.text-info DEV
         - if Rails.env.test?
           %strong.text-danger TEST
-      -# - if user_signed_in?
-      -#   = render partial: 'layouts/partials/user_menu'
-      -# - else
-      = render partial: 'layouts/partials/public_menu'
+      - if user_signed_in?
+        = render partial: 'layouts/partials/user_menu'
+      - else
+        = render partial: 'layouts/partials/public_menu'

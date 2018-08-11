@@ -1,32 +1,39 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rails', '~> 5.2.0'
+gem 'audited' # data audits
+gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'jbuilder', '~> 2.5'
+gem 'kaminari' # Pagination
 gem 'pg'
-gem 'haml'
-gem 'haml-rails'
+gem 'pinglish'
 gem 'puma', '~> 3.11'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'rails', '~> 5.2.0'
+gem 'sendgrid-ruby' # ActiveMailer
+
+# UI
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
-gem 'jbuilder', '~> 2.5'
-gem 'pinglish'
+gem 'haml'
+gem 'haml-rails'
+gem 'jquery-rails'
 gem 'redcarpet' # Markdown rendering
+gem 'sass-rails', '~> 5.0'
+gem 'turbolinks', '~> 5'
+gem 'uglifier', '>= 1.3.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
-gem 'bootsnap', '>= 1.1.0', require: false
-
 group :development, :test do
-  gem 'debase'
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'
+  gem 'debase'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'guard-rspec'
@@ -44,8 +51,8 @@ group :development do
 end
 
 group :test do
-  gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'selenium-webdriver'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
