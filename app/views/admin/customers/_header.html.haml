@@ -1,0 +1,16 @@
+.row
+  .col-12
+    .btn-toolbar
+      .btn-group.mr-2
+        %a.btn.btn-outline-secondary{href: admin_customers_path}
+          = fa_regular 'arrow-left'
+          Back to Search
+        .btn-group{role: 'group'}
+          %button#btnGroupDrop1.btn.btn-outline-primary.dropdown-toggle{'aria-expanded': 'false', 'aria-haspopup': 'true', 'data-toggle': 'dropdown', type: 'button'}
+            = fa_regular 'plus'
+            New
+          .dropdown-menu{'aria-labelledby': 'btnGroupDrop1'}
+            %a.dropdown-item{href: new_admin_customer_address_path(@customer)} Address
+            %a.dropdown-item{href: new_admin_customer_note_path(@customer)} Note
+        %a.btn.btn-primary{href: edit_admin_customer_path(@customer)} Edit
+%br

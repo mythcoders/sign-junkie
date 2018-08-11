@@ -1,0 +1,12 @@
+- page_title 'Edit', 'Addresses'
+
+= form_for @address, url: admin_customer_address_path(@address), method: :patch do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      = "Edit Address for #{@address.customer.full_name}"
+    .card-body
+      = error_messages_for 'address'
+      = render :partial => 'admin/addresses/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_customer_path(@address.customer), class: 'btn btn-outline-secondary'
+      = f.submit 'Create', class: 'btn btn-success'

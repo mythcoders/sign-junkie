@@ -1,0 +1,30 @@
+- page_title 'Data History'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = "Audit ##{@audit.id}"
+  .card-body
+    = hidden_field_tag :changes, @audit.audited_changes
+    .row
+      .col-2
+        %strong Entity
+      .col-10= @audit.auditable_type
+    .row
+      .col-2
+        %strong Action
+      .col-10= @audit.action
+    .row
+      .col-2
+        %strong Username
+      .col-10= @audit.username || 'anonymous'
+    .row
+      .col-2
+        %strong Timestamp
+      .col-10= l @audit.created_at
+    .row
+      .col-2
+        %strong Changes
+      .col-10
+        %pre= @changes
+  .card-footer
+    = link_to 'Go Back', admin_audits_path, class: 'btn btn-outline-secondary'

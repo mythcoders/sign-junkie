@@ -1,0 +1,22 @@
+- page_title 'Customer Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_regular 'users'
+    Customers
+  %table.table.table-bordered.table-striped.table-border-fix.table-hover
+    %thead
+      %tr
+        %th First Name
+        %th Last Name
+    %tbody
+      - @customers.each do |c|
+        %tr{data: { 'clickable-row': '', 'href': admin_customer_path(c) }}
+          %td= c.first_name
+          %td= c.last_name
+  .card-footer
+    = paginate @customers
+    = page_entries_info @customers
+
+%br
+= link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary'

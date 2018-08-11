@@ -1,0 +1,23 @@
+- page_title 'Employee Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_regular 'sitemap'
+    Employees
+  %table.table.table-bordered.table-striped.table-hover.table-border-fix
+    %thead
+      %tr
+        %th First Name
+        %th Last Name
+        %th Role
+    %tbody
+      - @employees.each do |e|
+        %tr{data: { 'clickable-row': '', 'href': admin_employee_path(e) }}
+          %td= e.first_name
+          %td= e.last_name
+          %td= e.role
+  .card-footer
+    = paginate @employees
+    = page_entries_info @employees
+%br
+= link_to 'New Employee', new_admin_employee_path, class: 'btn btn-primary'

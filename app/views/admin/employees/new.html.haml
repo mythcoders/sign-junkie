@@ -1,0 +1,19 @@
+- page_title 'New', 'Employee'
+
+= form_for @employee, url: admin_employees_path do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      New Employee
+    .card-body
+      = error_messages_for 'employee'
+      = render :partial => 'admin/employees/form', locals: { f: f }
+
+      %br
+      %h4 Login Information
+      .form-group.col-2
+        = f.label :password, class: 'col-form-label'
+        = f.password_field :password, class: 'form-control'
+
+    .card-footer
+      = link_to 'Cancel', admin_employees_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Create', class: 'btn btn-success'

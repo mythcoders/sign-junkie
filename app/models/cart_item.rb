@@ -1,3 +1,4 @@
 class CartItem < ApplicationRecord
-  # belongs_to :customer
+  audited
+  belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 end

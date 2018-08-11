@@ -1,11 +1,11 @@
 .sidebar-sticky
   %ul.nav.flex-column
     %li.nav-item.my-30
-      %a.nav-link{sidebar_link(cp_path, cp_home_action?('index'))}
+      %a.nav-link{sidebar_link(admin_dashboard_path, admin_home_action?('index'))}
         = fa_regular 'home'
         Dashboard
     %li.nav-item
-      %a.nav-link{disabled_link}
+      %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
         = fa_regular 'users'
         Customers
     %li.nav-item
@@ -24,11 +24,11 @@
     %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
       %span Administration
     %li.nav-item.mt-1
-      %a.nav-link{disabled_link}
+      %a.nav-link{sidebar_link(admin_audits_path, audits_controller?)}
         = fa_regular 'history'
         Data History
     %li.nav-item
-      %a.nav-link{disabled_link}
+      %a.nav-link{sidebar_link(admin_employees_path, employees_controller?)}
         = fa_regular 'sitemap'
         Employees
     %li.nav-item
@@ -36,7 +36,7 @@
         = fa_regular 'chart-line'
         Reports
     %li.nav-item
-      %a.nav-link{href: admin_about_path}
+      %a.nav-link{sidebar_link(admin_about_path, admin_home_action?('about'))}
         = fa_regular 'info-circle'
         About
 
@@ -47,7 +47,7 @@
         = fa_regular 'globe'
         View Public Website
     %li.nav-item
-      %a.nav-link{profile_link}
+      %a.nav-link{profile_link, target: '_blank'}
         = fa_regular 'user-circle'
         Manage Account
     %li.nav-item

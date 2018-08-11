@@ -1,0 +1,25 @@
+- page_title @employee.full_name, 'Employees'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = @employee.full_name
+  .card-body
+    .form-group
+      %label
+        %strong Employee Type
+      .card-text
+        =@employee.role
+    .form-group
+      %label
+        %strong Phone
+      .card-text= @employee.phone_number
+    .form-group
+      %label
+        %strong Email
+        .card-text
+          %a{href: "mailto:#{@employee.email}"}= @employee.email
+  .card-footer
+    %a.btn.btn-outline-secondary{:href => admin_employees_path}
+      = fa_regular 'arrow-left'
+      Back to Search
+    = link_to 'Edit', edit_admin_employee_path(@employee), class: 'btn btn-primary'

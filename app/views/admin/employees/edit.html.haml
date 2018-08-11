@@ -1,0 +1,12 @@
+- page_title 'Edit', 'Employee'
+
+= form_for @employee, url: admin_employee_path(@employee), method: :patch do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      Edit employee
+    .card-body
+      = error_messages_for 'employee'
+      = render :partial => 'admin/employees/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_employee_path(@employee), class: 'btn btn-outline-secondary'
+      = f.submit 'Save', class: 'btn btn-success'

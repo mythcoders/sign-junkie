@@ -17,6 +17,7 @@
             .card-body
               = yield
   :javascript
-    $(document).ready(function(){
-      window.FontAwesome.dom.i2svg();
-    });
+    document.addEventListener("turbolinks:load", function() {
+        window.FontAwesome.dom.i2svg();
+        $.onmount()
+      });
