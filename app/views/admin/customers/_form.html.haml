@@ -13,7 +13,7 @@
   .form-group.col-2
     = f.label :role, class: 'col-form-label'
     = f.select(:role, User.roles.keys,
-      { include_blank: ' - Select - ', disabled: %i[employee admin operator] },
+      { include_blank: ' - Select - ', disabled: @disabled_roles },
       { class: 'custom-select' })
   .form-group.col-2
     = f.label :phone_number, class: 'col-form-label'

@@ -23,11 +23,9 @@ module Ares
     #   controller.class == Admin::ReportsController
     # end
     #
-    # def products_controller?
-    #   controller.class == Admin::ProductsController ||
-    #       controller.class == Admin::PricesController ||
-    #       controller.class == Admin::ImagesController
-    # end
+    def events_controller?
+      controller.class == Admin::EventsController
+    end
 
     def customers_controller?
       controller.class == Admin::CustomersController ||

@@ -18,7 +18,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {
     host: 'https://sign-junkie-qa.herokuapp.com/'
   }
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
   config.active_support.deprecation = :notify
 
   config.i18n.fallbacks = true

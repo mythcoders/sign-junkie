@@ -18,8 +18,7 @@ class User < ApplicationRecord
   has_many :orders
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
-
-  validates_presence_of :role
+  validates_presence_of :first_name, :last_name, :role
 
   scope :recently_created, lambda {
     where('created_at > ? AND role = ?', Time.now - 24.hours, User.roles[:customer])

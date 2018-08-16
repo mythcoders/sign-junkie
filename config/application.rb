@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 require 'rails/all'
 
@@ -20,7 +22,7 @@ module SignJunkie
     config.action_mailer.perform_caching = false
     ActionMailer::Base.smtp_settings = {
       user_name: 'apikey',
-      password: Rails.application.credentials.sendgrid,
+      password: Rails.application.credentials.email_api,
       domain: 'mythcoders.com',
       address: 'smtp.sendgrid.net',
       port: 587,

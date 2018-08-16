@@ -5,10 +5,8 @@
     .collapse.navbar-collapse#navbarSupportedContent
       = link_to home_path, class: 'navbar-brand text-white' do
         Online Store
-        - if Rails.env.development?
-          %strong.text-info DEV
-        - if Rails.env.test?
-          %strong.text-danger TEST
+        - unless Rails.env.production?
+          %strong.text-warning.text-uppercase.ml-2= Ares::EnvironmentInfo.current
       - if user_signed_in?
         = render partial: 'layouts/partials/user_menu'
       - else

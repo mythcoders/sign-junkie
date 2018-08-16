@@ -4,6 +4,7 @@ module Admin
   class CustomersController < ApplicationController
 
     before_action :get, only: %i[edit show update]
+    before_action :disable_roles, only: %i[edit update]
 
     def index
       @customers = User.customer.order(:last_name).page(params[:page]).per(10)
@@ -20,6 +21,7 @@ module Admin
         flash['success'] = t('CreateSuccess')
         redirect_to admin_customer_path @customer
       else
+        disabled_roles
         render 'new'
       end
     end
@@ -29,6 +31,7 @@ module Admin
         flash['success'] = t('UpdateSuccess')
         redirect_to admin_customer_path @customer
       else
+        disabled_roles
         render 'edit'
       end
     end
@@ -38,6 +41,10 @@ module Admin
     def customer_params
       params.require(:user).permit(:id, :first_name, :middle_name, :last_name,
                                    :email, :password, :role, :phone_number)
+    end
+
+    def disable_roles
+      @disabled_roles = current_user.operator? ? %i[] : %i[employee admin operator]
     end
 
     def get

@@ -21,12 +21,5 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
     ActiveRecord::Base.connection
     ActiveRecord::Base.connected?
   end
-
-  ping.check :email do
-    true
-  end
-
-  ping.check :payment do
-    true
-  end
+  
 end

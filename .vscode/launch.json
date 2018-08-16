@@ -26,9 +26,7 @@
       "request": "launch",
       "cwd": "${workspaceRoot}",
       "program": "${workspaceRoot}/bin/rails",
-      "args": [
-        "server"
-      ]
+      "args": ["server"]
     },
     {
       "name": "RSpec - all",
@@ -37,10 +35,7 @@
       "cwd": "${workspaceRoot}",
       "program": "${workspaceRoot}/bin/rspec",
       // "pathToRDebugIDE": "/Users/justinadkins/.rvm/gems/ruby-2.5.1/gems/ruby-debug-ide-0.7.0.beta4/bin/rdebug-ide",
-      "args": [
-        "-I",
-        "${workspaceRoot}"
-      ]
+      "args": ["-I", "${workspaceRoot}"]
     },
     {
       "name": "RSpec - active spec file only",
@@ -48,11 +43,7 @@
       "request": "launch",
       "cwd": "${workspaceRoot}",
       "program": "${workspaceRoot}/bin/rspec",
-      "args": [
-        "-I",
-        "${workspaceRoot}",
-        "${file}"
-      ]
+      "args": ["-I", "${workspaceRoot}", "${file}"]
     },
     {
       "name": "Cucumber",
