@@ -1,0 +1,42 @@
+- page_title @event.name, 'events'
+
+.row
+  .col-4
+    .card
+      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
+        = @event.name
+      .card-body
+        .form-group
+          %label.col-form-label Description
+          .form-control-plaintext= @event.description        
+        .form-group
+          %label.col-form-label Start Date
+          .form-control-plaintext= lifp(@event.start_date, :long)
+        .form-group
+          %label.col-form-label End Date
+          .form-control-plaintext= lifp(@event.end_date, :long)
+        %hr
+        .form-group
+          %label.col-form-label Available for purchase
+          .form-control-plaintext= lifp(@event.posting_start_date, :long)
+        .form-group
+          %label.col-form-label Tickets for sale
+          .form-control-plaintext= @event.tickets_available
+        .form-group
+          %label.col-form-label Ticket price
+          .form-control-plaintext= number_to_currency(@event.ticket_price)
+        .form-group
+          %label.col-form-label Is this event ready for sale?
+          .form-control-plaintext= @event.is_for_sale
+
+      .card-footer
+        %a.btn.btn-outline-secondary.btn-sm{href: admin_events_path}
+          = fa_regular 'arrow-left'
+          Search
+        %a.btn.btn-primary.btn-sm{href: edit_admin_event_path(@event)} Edit
+  .col-8
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'images'
+        Images
+      = render :partial => 'admin/images/show'

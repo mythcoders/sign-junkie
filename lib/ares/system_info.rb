@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ares
   module SystemInfo
     class << self
@@ -6,7 +8,7 @@ module Ares
       end
 
       def app_name
-        'Online Store' # name.humanize.titleize
+        # name.humanize.titleize
       end
 
       def developer
@@ -15,18 +17,6 @@ module Ares
 
       def support_url
         'mailto:incoming+ext/sign-jukie@git.mythcoders.net'
-      end
-
-      def owner
-        'Sign Junkie'
-      end
-
-      def address_1
-        'Street'
-      end
-
-      def address_2
-        'Something, OH 43701'
       end
 
       def version
@@ -49,30 +39,6 @@ module Ares
         prerelease? ? version.split('-').last : 'release'
       end
 
-      def environment
-        case Rails.env
-        when 'development'
-          'dev'
-        when 'quality-assurance'
-          'qa'
-        else
-          Rails.env
-        end
-      end
-
-      def instance
-        [
-          [nil, nil],
-          ['Environment', Rails.env],
-          ['Platform', RUBY_PLATFORM.to_s],
-          ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
-          [nil, nil],
-          ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"],
-          ['Rails version', Rails::VERSION::STRING],
-          ['Bundler version', Bundler::VERSION]
-        ].map { |info| '%-19s %s' % info }.join("\n") + "\n"
-      end
-
       def license
         s = "#{owner}\n"
         s << "Trial\n"
@@ -82,4 +48,3 @@ module Ares
     end
   end
 end
-
