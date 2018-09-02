@@ -1,0 +1,12 @@
+- @events.each do |p|
+  .card
+    .card-body
+      .row
+        .col-3
+          %img.card-img-top{:alt => "Image of #{p.name}", :src => url_for(p.primary_image)}
+        .col-9
+          %h4
+            = link_to p.name, product_path(p)
+          %hr
+          %p.card-text= p.description
+  %br

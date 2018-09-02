@@ -1,0 +1,8 @@
+= form_for @payment, url: order_payments_path do |f|
+  .row
+    .col-sm-8.offset-sm-2
+      .card
+        %h4.card-header= "Order ##{@payment.order.order_number} - Payment Information"
+        = f.hidden_field :id
+        = f.hidden_field :status
+        = render partial: @payment.order.payment_method, locals: { :f => f }

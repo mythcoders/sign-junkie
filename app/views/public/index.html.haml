@@ -1,1 +1,8 @@
-Hello!
+.row
+  .col-3
+    = render partial: 'events/filters'
+  .col-9
+    - if @events.any?
+      = render partial: "events/#{@view}"
+    - else
+      %h3 Looks like we didn't have any events that matched that criteria.

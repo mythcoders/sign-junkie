@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_232913) do
+ActiveRecord::Schema.define(version: 2018_08_29_235427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
-    t.string "order_number", limit: 10
+    t.serial "order_number", limit: 10
     t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_fulfilled"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.bigint "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_method"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

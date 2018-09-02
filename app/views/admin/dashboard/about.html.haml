@@ -10,13 +10,12 @@
       %a.btn.btn-outline-info{href: '../../_ping', target: '_blank'}
         = fa_light 'heartbeat'
         System Health
-
 .row
   .col-5
-    -#.form-group.row
-    -#  %label.col-sm-3.col-form-label License
-    -#  .col-sm-9
-    -#    %pre= Ares::SystemInfo.license
+    .form-group.row
+      %label.col-sm-3.col-form-label License
+      .col-sm-9
+        %pre= Ares::SystemInfo.license
     .form-group.row
       %label.col-sm-3.col-form-label Version
       .col-sm-9

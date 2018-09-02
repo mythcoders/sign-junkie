@@ -1,4 +1,12 @@
-#### 0.3.1 - 08-14-18
+#### 0.4 - 08-19-18
+
+- Features
+  - Customers are now able to view events from the public website
+  - Customers can add events to their cart and complete a basic checkout experience
+  - Customers can view past orders and manage their account
+  - Orders can be managed from the Admin Portal
+
+#### 0.3.1 - 08-15-18
 
 - Features
   - Proper date and time formats
