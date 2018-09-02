@@ -1,0 +1,7 @@
+= "#{@order.customer.full_name},"
+
+Thanks for placing your order! We'll get started on it right away and notify you about any updates.
+- if @order.paid_with_cash?
+  = "Please be sure to bring #{number_to_currency(@order.total_due)} with you in cash."
+= ''
+= render partial: 'orders/receipt'

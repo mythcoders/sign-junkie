@@ -12,7 +12,7 @@ module Ares
         when 'qa'
           :qa
         when 'production'
-          :prod        
+          :prod
         end
       end
 
@@ -21,7 +21,7 @@ module Ares
           [nil, nil],
           ['Environment', Rails.env],
           ['Platform', RUBY_PLATFORM.to_s],
-          ['DB Adapter', ActiveRecord::Base.connection.adapter_name],          
+          ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
           [nil, nil],
           ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"],
           ['Rails version', Rails::VERSION::STRING],

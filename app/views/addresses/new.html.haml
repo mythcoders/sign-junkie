@@ -1,0 +1,14 @@
+- page_title @address.customer.full_name, 'Addresses', 'New'
+
+.row
+  .col-sm-8.offset-sm-2
+    = form_for @address, url: addresses_path do |f|
+      .card
+        %h4.card-header.bg-primary.text-white
+          New address for your account
+        .card-body
+          = error_messages_for 'address'
+          = render :partial => 'addresses/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', addresses_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Create', class: 'btn btn-success'

@@ -4,7 +4,7 @@ RSpec.describe PublicController, type: :controller do
 
   describe '#index' do
     it 'should show' do
-      get 'index'
+      get 'index'      
       expect(response.status).to be 200
     end
   end

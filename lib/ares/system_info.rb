@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Ares
   module SystemInfo
     class << self
@@ -8,15 +6,15 @@ module Ares
       end
 
       def app_name
-        # name.humanize.titleize
+        name.humanize.titleize
       end
 
       def developer
-        'MythCoders, LLC'
+        'MythCoders, LLC'.freeze
       end
 
       def support_url
-        'mailto:incoming+ext/sign-jukie@git.mythcoders.net'
+        'mailto:mythcoders_signjunkie@issues.zohoprojects.com'.freeze
       end
 
       def version
@@ -40,7 +38,7 @@ module Ares
       end
 
       def license
-        s = "#{owner}\n"
+        s = "#{Ares::ClientInfo.owner}\n"
         s << "Trial\n"
         s << '99/99/9999 - 99/99/9999'
         s

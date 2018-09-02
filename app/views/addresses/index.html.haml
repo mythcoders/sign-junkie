@@ -1,0 +1,27 @@
+- page_title 'Addresses'
+%h1
+  = fa_regular 'address-book'
+  Addresses
+
+.row.mb-3
+  - @addresses.each do |a|
+    .col-12.col-sm-6.col-lg-3.mb-2
+      .card
+        .card-body
+          .d-flex.justify-content-between.align-items-center
+            %h4
+              = link_to a.nickname, edit_address_path(a)
+            - if a.is_default?
+              %span.badge.badge-success
+                = fa_solid 'check'
+                Default
+          = a.street
+          - unless a.street2.blank?
+            %br= a.street2
+            = "#{a.city} #{a.state}, #{a.zip_code}"
+            %br= a.country
+          - else
+            %br= "#{a.city} #{a.state}, #{a.zip_code}"
+            = a.country
+
+= link_to 'New Address', new_address_path, class: 'btn btn-outline-primary'

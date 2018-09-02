@@ -37,9 +37,9 @@ module Ares
       controller.class == Admin::EmployeesController
     end
 
-    # def order_controller?
-    #   controller.class == Admin::OrdersController
-    # end
+    def order_controller?
+      controller.class == Admin::OrdersController
+    end
 
     def admin_home_action?(action)
       controller.class == Admin::DashboardController &&
@@ -48,7 +48,7 @@ module Ares
 
     def disabled_link
       { href: '#',
-        onclick: "'alert('#{t('feature_un')}');'" }
+        onclick: "alert('#{t('feature_un')}');" }
     end
   end
 end

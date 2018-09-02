@@ -1,0 +1,30 @@
+%h1
+  = fa_light 'shopping-bag'
+  Orders
+
+- if @orders.any?
+  .row
+    - @orders.each do |o|
+      .col-12.col-sm-6.mb-2
+        .card
+          .card-header.d-flex.justify-content-between.align-items-center
+            %h4
+              = link_to "# #{o.order_number}", o.editable? ? edit_order_path(o) : order_path(o)
+            - if o.canceled?
+              %span.badge.badge-danger= o.status
+            - if o.placed?
+              %span.badge.badge-success= o.status
+            - else
+              %span.badge.badge-info= o.status
+          .card-body
+            %dl.row
+              %dt.col-6.col-xl-2.col-lg-3 Total
+              %dd.col-6.col-xl-4.col-lg-3= number_to_currency(o.total_due)
+              %dt.col-6.col-xl-2.col-lg-3 Tickets
+              %dd.col-6.col-xl-4.col-lg-3= o.total_tickets
+              %dt.col-6.col-xl-2.col-lg-3 Created
+              %dd.col-6.col-xl-4.col-lg-3= lifp(o.date_created, :short)
+              %dt.col-6.col-xl-2.col-lg-3 Ordered
+              %dd.col-6.col-xl-4.col-lg-3= lifp(o.date_placed, :short)
+- else
+  You haven't placed any orders yet!

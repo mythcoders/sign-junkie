@@ -1,0 +1,53 @@
+.card-body
+  %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+  .col
+    %div#paypal-button
+.card-footer
+
+= content_for :scripts do
+  :javascript
+    braintree.client.create({
+      authorization: "#{@client_token}"
+    }, function (clientErr, clientInstance) {
+      if (clientErr) {
+        console.error('Error creating client:', clientErr);
+        return;
+      }
+      braintree.paypalCheckout.create({
+        client: clientInstance
+      }, function (paypalCheckoutErr, paypalCheckoutInstance) {
+        if (paypalCheckoutErr) {
+          console.error('Error creating PayPal Checkout:', paypalCheckoutErr);
+          return;
+        }
+        paypal.Button.render({
+          env: "#{PaymentsHelper.braintree_env}",
+          commit: true,
+          payment: function () {
+            return paypalCheckoutInstance.createPayment({
+              flow: 'checkout',
+              amount: "#{@payment.amount}",
+              currency: 'USD',
+              enableShippingAddress: false,
+              shippingAddressEditable: false
+            });
+          },
+          onAuthorize: function (data, actions) {
+            return paypalCheckoutInstance.tokenizePayment(data, function (err, payload) {
+              $('#payment_method_nonce').val(payload.nonce);
+              $('.edit_payment')[0].submit();
+              ShowLoader();
+            });
+          },
+          onCancel: function (data) {
+            console.log('checkout.js payment cancelled', JSON.stringify(data, 0, 2));
+          },
+          onError: function (err) {
+            console.error('checkout.js error', err);
+            HideLoader();
+          }
+        }, '#paypal-button').then(function () {
+          console.log('ready for payment!')
+        });
+      });
+    });

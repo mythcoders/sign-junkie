@@ -1,23 +1,28 @@
 %ul.navbar-nav
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'Our Products', home_path, class: 'nav-link text-white'
-  - if current_user.customer?
-    %li.nav-item
-      = link_to my_account_path, title: 'My account', class: 'nav-link text-white' do
-        Your Account
+    = link_to 'Our Events', home_path, class: 'nav-link text-white'
 %ul.navbar-nav.ml-auto
-  - if current_user.customer?
-    -# %li.nav-item
-    -#   = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
-    -#     = fa_regular 'shopping-cart'
-    -#     Cart
-    -#     %span.badge.badge-info= @cart_total
   - if current_user.can_cp?
     %li.nav-item
       = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do
         = fa_regular 'wrench'
-        Admin Portal
-  %li.nav-item
-    = link_to destroy_user_session_path, :method=>'delete', :title=> 'Sign out', class: 'nav-link text-white', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
-      = fa_regular 'sign-out-alt'
-      Sign Out
+  - if current_user.customer?
+    %li.nav-item
+      = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
+        = fa_regular 'shopping-cart'
+        %span.badge.badge-info= @cart_total
+    %li.nav-item
+      = link_to orders_path, title: 'Orders', class: 'nav-link text-white' do
+        = fa_regular 'shopping-bag'
+        Orders
+    %li.nav-item.dropdown
+      %a#navbarDropdown.nav-link.dropdown-toggle.text-white{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+        = fa_light 'user-circle'
+        My Account
+      .dropdown-menu.dropdown-menu-right{"aria-labelledby" => "navbarDropdown"}
+        %a.dropdown-item{:href => addresses_path} Addresses
+        %a.dropdown-item{:href => edit_user_registration_path} Security
+        .dropdown-divider
+        = link_to destroy_user_session_path, method: 'delete', title: 'Sign out', class: 'dropdown-item', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
+          = fa_regular 'sign-out-alt'
+          Sign Out

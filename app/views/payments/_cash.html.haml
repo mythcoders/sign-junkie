@@ -1,0 +1,18 @@
+.card-body
+  .card-text
+    You've chosen to pick-up your order and pay with cash. Please be sure to bring
+    %span.text-success= number_to_currency(@payment.order.total_balance)
+    with you.
+  .row
+    .col
+      .form-group
+        .form-check
+          = check_box_tag :authorize, 'authorize', false, { class: 'form-check-input' }
+          = label_tag :authorize, 'I\'ll bring the required amount', { class: 'form-check-label' }
+    .col
+      .address
+        %strong Pickup Location
+        %br 629 Downard Road
+        Zanesville, OH 43701
+.card-footer
+  = f.submit 'Submit order!', class: 'btn btn-outline-success float-right'
