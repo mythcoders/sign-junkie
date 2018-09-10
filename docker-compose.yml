@@ -1,0 +1,74 @@
+version: "3.3"
+
+services:
+  app:
+    container_name: sign-junkie-app
+    build: .
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - "3000:3000"
+    env_file:
+      - variables.env
+    depends_on:
+      - db
+      - proxy
+    volumes:
+      - .:/app:delegated
+    deploy:
+      restart_policy:
+        condition: on-failure
+    labels:
+      - "traefik.frontend.rule=Host:sign-junkie.dev.mythcoders.io"
+      - "traefik.backend=sign-junkie"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+
+  db:
+    container_name: sign-junkie-db
+    image: postgres
+    labels:
+      traefik.enable: "false"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    deploy:
+      mode: replicated
+      replicas: 2
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  proxy:
+    container_name: traefik-proxy
+    image: registry.mythcoders.net/inf/traefik
+    command: --api
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    labels:
+      - "traefik.frontend.rule=Host:proxy.dev.mythcoders.io"
+
+  # redis:
+  #   image: redis
+  #   command: redis-server --appendonly yes
+  #   volumes:
+  #     - redisdata:/data
+  #   ports:
+  #     - "6379:6379"
+
+volumes:
+  ? db-data
+# networks:
+#   mc-dev:
+#     driver: bridge

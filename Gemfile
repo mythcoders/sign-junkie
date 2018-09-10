@@ -12,6 +12,7 @@ gem 'braintree'
 gem 'devise'
 gem 'jbuilder', '~> 2.5'
 gem 'kaminari' # Pagination
+gem 'mini_racer'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'

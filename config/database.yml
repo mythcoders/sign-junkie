@@ -2,20 +2,22 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  host: localhost
+  host: <%= ENV["DB_HOST"] %>
   port: 5432
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
 
 development:
   <<: *default
   database: signjunkie_dev
 
 test:
-  <<: *default  
-  url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  database: signjunkie_test
 
 qa:
-  <<: *default  
-  url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  database: signjunkie_qa
   connect_timeout: 1
   checkout_timeout: 5
   variables:
@@ -23,7 +25,6 @@ qa:
 
 production:
   <<: *default
-  # url: <%= ENV['DATABASE_URL'] %>
   database: signjunkie
   connect_timeout: 1
   checkout_timeout: 5
