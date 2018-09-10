@@ -5,6 +5,7 @@ services:
     container_name: sign-junkie-app
     build: .
     command: bundle exec puma -C config/puma.rb
+    # image: signjunkie:registry.mythcoders.net/ext/sign-jukie
     ports:
       - "3000:3000"
     env_file:
