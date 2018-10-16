@@ -1,0 +1,32 @@
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+pool:
+  vmImage: 'Ubuntu 16.04'
+trigger:
+  batch: false
+  branches:
+    include: [ master ]
+jobs:
+- job: build
+  displayName: 'Build'
+  steps:
+  - task: UseRubyVersion@0
+    inputs:
+      versionSpec: '>= 2.5'
+  - script: ./scripts/cibuild.sh
+    displayName: 'CI Build'
+- job: test
+  displayName: 'Test'
+  dependsOn: build
+  steps:
+  - script: ls
+    displayName: 'Temp Test'
+  - task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    testRunTitle: 'Ruby tests'
+- job: release
+  displayName: 'Release'
+  dependsOn: test
+  steps:
+  - script: ./scripts/heroku_release.sh whiz-store ${HEROKU_API_KEY}
+    displayName: 'Temp Release'
