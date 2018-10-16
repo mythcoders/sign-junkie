@@ -22,10 +22,6 @@ jobs:
   steps:
   - script: ls
     displayName: 'Temp Test'
-  - task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/test-*.xml'
-    testRunTitle: 'Ruby tests'
 - job: release
   displayName: 'Release'
   dependsOn: test
