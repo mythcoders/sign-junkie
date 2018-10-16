@@ -1,6 +1,4 @@
 name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
-pool:
-  vmImage: 'Ubuntu 16.04'
 trigger:
   batch: false
   branches:
@@ -8,6 +6,8 @@ trigger:
 jobs:
 - job: build
   displayName: 'Build'
+  pool:
+    vmImage: 'Ubuntu 16.04'
   steps:
   - task: UseRubyVersion@0
     inputs:
@@ -17,6 +17,8 @@ jobs:
 - job: test
   displayName: 'Test'
   dependsOn: build
+  pool:
+    vmImage: 'Ubuntu 16.04'
   steps:
   - script: ls
     displayName: 'Temp Test'
@@ -27,6 +29,8 @@ jobs:
 - job: release
   displayName: 'Release'
   dependsOn: test
+  pool:
+    vmImage: 'Ubuntu 16.04'
   steps:
   - script: ./scripts/heroku_release.sh whiz-store ${HEROKU_API_KEY}
     displayName: 'Temp Release'
