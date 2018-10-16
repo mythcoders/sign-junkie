@@ -9,6 +9,8 @@ jobs:
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
+  - checkout: self
+    clean: true
   - task: UseRubyVersion@0
     inputs:
       versionSpec: '>= 2.5'
