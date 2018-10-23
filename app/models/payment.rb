@@ -16,29 +16,12 @@ class Payment < ApplicationRecord
 
   def self.build(order_id, user_id)
     payment = Payment.new(status: :created)
-    payment.order = Order.find(order_id)
-    payment.user_id = user_id
+    payment.order = order_id
+    payment.created_by_user_id = user_id
     payment.method = payment.order.payment_method
     payment.amount = payment.order.total_balance
     payment.date_posted = Time.now
     payment
-  end
-
-  def process(params)
-    return_value = false
-    ActiveRecord::Base.transaction do
-      service = Ares::PaymentService.new(self.order)
-      result = service.post(params[:payment_method_nonce])
-      return_value = service.process(result)
-      if return_value
-        self.status = :authorized
-        self.transaction_id = result.transaction.id
-        self.date_posted = Time.now
-        save!
-        order.place!
-      end
-    end
-    return_value
   end
 
   def can_make?
@@ -59,9 +42,5 @@ class Payment < ApplicationRecord
 
   def editable?
     status == :created
-  end
-
-  def self.new_client_token
-    Ares::PaymentService.new_token
   end
 end

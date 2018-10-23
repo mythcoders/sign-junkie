@@ -12,48 +12,70 @@ module Ares
       Braintree::Transaction::Status::SubmittedForSettlement
     ].freeze
 
-    attr_reader :payment, :gateway
+    attr_reader :payment, :order, :gateway
 
     def initialize(payment)
       @payment = payment
+      @order = nil
       @gateway = new_braintree
     end
 
-    def post(nonce)
-      gateway.transaction.sale(
-        amount: amount,
-        payment_method_nonce: nonce,
-        order_id: @payment.order.order_number,
-        options: { submit_for_settlement: true }
-      )
+    def attempt(order, payment_nonce)
+      @order = order
+      was_successful = @payment.cash? ? handle_cash : post_payment(payment_nonce)
+      successful_payment if was_successful
+      was_successful
     end
 
-    def process(result)
-      if result.success?
-        true
-      else
-        logger.debug result.message
-        false
-      end
+    def self.tax_rate
+      0.0725
     end
 
     def self.env
-      ENV['BT_ENVIRONMENT']
+      ENV['PAYMENT_ENV']
     end
 
-    def self.new_token
-      new_braintree.client_token.generate
+    def new_token
+      gateway.client_token.generate
     end
 
     private
 
+    def successful_payment
+      @payment.date_posted = Time.now
+    end
+
+    def handle_cash
+      @payment.status = :authorized
+      true
+    end
+
+    def post_payment(payment_nonce)
+      result = gateway.transaction.sale(
+        payment_method_nonce: payment_nonce,
+        amount: @payment.amount,
+        tax_amount: @order.total_tax,
+        shipping_amount: @order.total_shipping,
+        order_id: @order.order_number,
+        options: { submit_for_settlement: true }
+      )
+      if result.success?
+        @payment.status = :authorized
+        @payment.transaction_id = result.transaction.id
+        true
+      else
+        Raven.capture_exception(result.message)
+        false
+      end
+    end
+
     def new_braintree
-      env = PaymentService.env.to_sym
+      env = WHIZ::PaymentService.env.to_sym
       Braintree::Gateway.new(
         environment: env,
-        merchant_id: Rails.application.credentials.braintree[env][:merchant_id],
-        public_key: Rails.application.credentials.braintree[env][:public_key],
-        private_key: Rails.application.credentials.braintree[env][:private_key]
+        merchant_id: Rails.application.credentials.payment[env][:merchant_id],
+        public_key: Rails.application.credentials.payment[env][:public_key],
+        private_key: Rails.application.credentials.payment[env][:private_key]
       )
     end
   end

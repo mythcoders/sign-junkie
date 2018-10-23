@@ -11,13 +11,8 @@ module Taxable
   # total amount due for taxes
   # returns 0.00 if the order isn't taxable
   def total_tax
-    0.00 unless taxed?
-    total_line_items * tax_rate
-  end
+    return 0.00 unless taxed?
 
-  private
-
-  def calc_tax_rate
-    taxed? ? 0.0725 : 0.00
+    total_taxable * Ares::PaymentService.tax_rate
   end
 end

@@ -28,7 +28,7 @@ module Billable
 
   # total amount due for the entire invoice
   def total_balance
-    total_due - total_paid
+    (total_due - total_paid).round(2)
   end
 
   # if the order has been paid for completely
@@ -39,7 +39,12 @@ module Billable
   # checks if a payment can be applied to the order
   def can_make_payment?
     return false unless open?
+
     !paid_in_full?
+  end
+
+  def tax_percentage
+    tax_rate * 100
   end
 
   def paid_with_card?
@@ -51,7 +56,10 @@ module Billable
   end
 
   def ready_for_payment?
-    return true if payment_method.present? && !placed?
+    if !placed? && payment_method.present?
+      return true if address_id.present?
+    end
+
     false
   end
 end
