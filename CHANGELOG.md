@@ -1,3 +1,9 @@
+#### 0.6 - 10-26-18
+
+- Features
+- Changes
+- Fixes
+
 #### 0.4 - 08-19-18
 
 - Features
