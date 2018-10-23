@@ -3,6 +3,7 @@
 class CartController < ApplicationController
   before_action :authenticate_user!
   before_action :get, only: %i[update destroy]
+  before_action :check_cart_auth, only: %i[update destroy]
 
   def index
     @cart = CartItem.for(current_user)
@@ -55,5 +56,9 @@ class CartController < ApplicationController
 
   def cart_params
     params.require(:cart_item).permit(:id, :quantity)
+  end
+
+  def check_cart_auth
+    unauthorized if @cart_item.user_id != current_user.id
   end
 end

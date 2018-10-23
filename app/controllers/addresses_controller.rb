@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class AddressesController < ApplicationController
-  before_action :get, only: %i[edit show update]
-  before_action :set_cart_total
+  before_action :authenticate_user!
+  before_action :get, only: %i[edit update]
+  before_action :set_cart_total, only: %i[index edit new]
+  before_action :check_address_auth, only: %i[edit update]
 
   def index
-    @addresses = current_user.addresses.order(is_default: :desc)
+    @addresses = current_user.addresses
   end
 
   def new
-    @address = Address.new(user_id: current_user.id, state: 'OH', country: 'USA')
+    @address = Address.new(user_id: current_user.id, state: 'OH')
   end
 
   def create
@@ -38,15 +40,11 @@ class AddressesController < ApplicationController
   end
 
   def address_params
-    params.require(:address).permit(:id,
-                                    :user_id,
-                                    :street,
-                                    :street2,
-                                    :city,
-                                    :state,
-                                    :zip_code,
-                                    :country,
-                                    :is_default,
-                                    :nickname)
+    params.require(:address).permit(:id,  :user_id, :street, :street2, :city, :state, :zip_code,
+                                    :is_default, :nickname)
+  end
+
+  def check_address_auth
+    unauthorized if @address.user_id != current_user.id
   end
 end

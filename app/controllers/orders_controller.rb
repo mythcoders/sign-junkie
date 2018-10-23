@@ -3,72 +3,57 @@
 # Controller for root/orders
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get, only: %i[show receipt edit update]
-  before_action :check_order_auth, only: %i[show edit update]
-  before_action :check_editable, only: %i[edit update]
-  before_action :set_addresses, only: %i[edit]
-  before_action :set_cart_total, only: %i[show edit]
+  before_action :set_order, only: %i[show receipt cancel]
+  before_action :check_order_auth, only: %i[show receipt cancel]
+  before_action :build_order, only: %i[new ui create]
+  before_action :set_addresses, only: %i[new]
+  before_action :set_cart_total, only: %i[index show new]
+  before_action :check_cart_total, only: %i[new]
+  before_action :prepare_payment, only: %i[new ui]
+  before_action :assign_create_params, only: %i[create ui]
+  before_action :check_params, only: %i[create]
 
   layout 'mailer', only: %i[receipt]
 
   def index
-    @orders = Order.current(current_user.id)
-  end
-
-  def show
-    redirect_to edit_order_path @order if @order.editable?
-  end
-
-  def receipt
-    render text: 'receipt'
-  end
-
-  def edit
-    pending = @order.payments.select(&:in_progress?)
-    unless pending.nil?
-      redirect_to edit_order_payment_path(@order, pending.first) if pending.any?
-    end
-    flash[:info] = t('user.need_addresses') if @addresses.empty?
+    @orders = Order.current(current_user.id).order(date_created: :desc)
   end
 
   def create
-    @order = Order.new(create_params)
-    if @order.create(current_user.id)
-      flash[:success] = t('order.create.success')
-      redirect_to edit_order_path @order
+    if @order.place!(params.fetch(:payment_method_nonce, nil))
+      flash[:success] = t('order.placed.success')
+      redirect_to order_path @order
     else
       flash[:error] = t('order.create.failure')
-      redirect_to cart_index_path
+      set_addresses
+      set_cart_total
+      prepare_payment
+      render 'new'
     end
   end
 
-  def update
-    if @order.update(update_params)
-      if params[:pay] && @order.ready_for_payment?
-        return redirect_to edit_order_payment_path(@order, @payment) if prepare_payment
-      else
-        flash[:success] = t('order.update.success')
-        return redirect_to edit_order_path(@order)
-      end
+  def cancel
+    if @order.cancel!
+      flash[:success] = 'Order has been canceled'
+      redirect_to order_path(@order)
+    else
+      flash[:error] = 'Sorry, error'
+      render 'show'
     end
-    set_addresses
-    render 'edit'
   end
 
   private
 
-  def get
-    @order = Order.includes(:items,
-                            :payments,
-                            :address,
-                            :customer,
-                            :notes)
-                  .find(params[:id])
+  def build_order
+    @order = Order.build(current_user)
   end
 
-  def prepare_payment
-    @payment = Payment.build(@order.id, current_user.id)
-    @payment.save
+  def set_order
+    @order = Order.includes(:items, :payments, :address, :customer).find(params[:id])
+  end
+
+  def check_cart_total
+    redirect_to cart_path @order unless @cart_total.positive?
   end
 
   def set_addresses
@@ -79,17 +64,23 @@ class OrdersController < ApplicationController
     unauthorized if @order.user_id != current_user.id
   end
 
-  def check_editable
-    unauthorized unless @order.editable?
-  end
-
   def create_params
-    params.require(:order).permit(:id, :user_id)
+    params.require(:order).permit(:date_created, :payment_method, :address_id)
   end
 
-  def update_params
-    params.require(:order).permit(:id,
-                                  :payment_method,
-                                  :address_id)
+  def prepare_payment
+    @order.payments.build
+    @client_token = WHIZ::PaymentService.new(@order.payments.first).new_token
+  end
+
+  def assign_create_params
+    @order.assign_attributes(create_params)
+  end
+
+  def check_params
+    if @order.paid_with_cash? && params.fetch(:payment_method_nonce, nil).nil?
+      flash[:error] = t('order.create.failure')
+      render 'new'
+    end
   end
 end
