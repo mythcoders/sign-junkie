@@ -1,21 +1,13 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
 
   before_action :store_user_location!, if: :storable_location?
-  protect_from_forgery with: :exception
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   layout :layout_by_resource
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
-  def layout_by_resource
-    if devise_controller?
-      'devise'
-    elsif request.controller_class.superclass == Admin::ApplicationController
-      'admin'
-    else
-      'application'
-    end
-  end
-  
   def append_info_to_payload(payload)
     super
     payload[:request_id] = request.uuid
@@ -25,6 +17,22 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def configure_permitted_parameters
+    additional_fields = %i[first_name middle_name last_name phone_number].freeze
+    devise_parameter_sanitizer.permit(:sign_up, keys: additional_fields)
+    devise_parameter_sanitizer.permit(:account_update, keys: additional_fields)
+
+    return unless user_signed_in? && current_user.can_cp?
+
+    devise_parameter_sanitizer.permit(:account_update, keys: [:role])
+  end
+
+  def convert_datetime(value)
+    return nil if value.blank?
+
+    Time.strptime(value, t('time.formats.default'))
+  end
+
   def record_not_found
     render file: 'public/404.html', status: :not_found
   end
@@ -33,8 +41,18 @@ class ApplicationController < ActionController::Base
     render file: 'public/401.html', status: :unauthorized
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || super
+  def layout_by_resource
+    if devise_controller?
+      'devise'
+    end
+  end
+
+  def after_sign_out_path_for(user)
+    stored_location_for(user) || super
+  end
+
+  def after_sign_in_path_for(user)
+    user.can_cp? ? cp_path : home_path
   end
 
   # Its important that the location is NOT stored if:

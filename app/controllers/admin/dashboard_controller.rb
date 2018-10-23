@@ -1,5 +1,5 @@
 module Admin
-  class DashboardController < ApplicationController
+  class DashboardController < AdminController
     before_action :populate_changelog, only: %i[about]
     before_action :get_new_customers, only: %i[index]
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class OrdersController < ApplicationController
+  class OrdersController < AdminController
     before_action :get, only: %i[show edit fulfill ship pick_up]
     before_action :populate_addresses, only: %i[edit]
 

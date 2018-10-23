@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class CustomersController < ApplicationController
+  class CustomersController < AdminController
 
     before_action :get, only: %i[edit show update]
     before_action :disable_roles, only: %i[edit update]

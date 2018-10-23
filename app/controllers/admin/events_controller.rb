@@ -1,7 +1,7 @@
 # fronzen_string_literal: true
 
 module Admin
-  class EventsController < ApplicationController
+  class EventsController < AdminController
     before_action :populate_event, only: %i(edit update show destory)
 
     def index
