@@ -14,12 +14,12 @@
       %tbody
         - @cart.each do |c|
           %tr
+            %td.action-column
+              %img{:alt => "Image of #{c.event.name}", :src => url_for(c.event.primary_image.variant(resize: "100x100"))}
             %td
               %a{href: event_path(c.event)}
-                %h3= c.event.name
-              %p.text-muted= c.event.when
-            %td.action-column
-              = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm btn-block', data: {confirm: 'Are you sure want to remove this item from your cart?'}
+                %h3= c.event.when
+                = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
             %td.action-column
               = form_for c, url: cart_path(c), method: :patch do |f|
                 = f.hidden_field :id
@@ -29,13 +29,13 @@
       %tfoot
         %tr
           %td.text-right.text-primary{colspan: 4}
-            %strong= content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
+              %strong
+                Subtotal:
+                = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
     .card-footer
-      = form_for :order, url: orders_path do |f|
-        = f.hidden_field :user_id, value: current_user.id
-        = button_tag(type: 'submit', class: 'btn btn-success float-right') do
-          Check out
-          = fa_regular 'money-bill'
+      = link_to new_order_path, class: 'btn btn-success float-right' do
+        Proceed to Checkout
+        = fa_regular 'money-bill'
   - else
     .card-body
       You haven't added anything to your cart yet!

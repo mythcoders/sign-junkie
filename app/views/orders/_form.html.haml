@@ -1,0 +1,33 @@
+.card-body
+  = f.hidden_field :date_created
+  %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+  %h4.card-header
+    = fa_light 'usd-circle'
+    Billing
+  .form-group{'data-js-shipping-address-section': ''}
+    %label Address
+    .input-group
+      = f.select(:address_id,
+        @addresses.collect { |r| [ r[:nickname], r[:id] ] },
+        { include_blank: ' - Select - ' },
+        { class: 'custom-select', 'data-js-shipping-address': '' })
+      .input-group-append
+        %a.btn.btn-outline-secondary{href: new_address_path, target: '_blank'}
+          = fa_light 'plus'
+  .form-group
+    %label Choose a payment method
+    .custom-control.custom-radio
+      = f.radio_button :payment_method, 'card', class: 'custom-control-input', 'data-js-payment-method': ''
+      = f.label :payment_method, value: 'card', class: 'custom-control-label' do
+        = fa_light 'credit-card-front'
+        Card
+    .custom-control.custom-radio
+      = f.radio_button :payment_method, 'paypal', class: 'custom-control-input', 'data-js-payment-method': ''
+      = f.label :payment_method, value: 'paypal', class: 'custom-control-label' do
+        = fa_brands 'paypal'
+        PayPal
+  #payment-container{style: 'display: none;'}
+.card-footer
+  %button{type: 'submit', name: 'save', class: 'btn btn-sm btn-outline-success'}
+    Place your order
+    = fa_regular 'shopping-cart'
