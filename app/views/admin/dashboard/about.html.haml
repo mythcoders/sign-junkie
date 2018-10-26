@@ -11,17 +11,18 @@
         = fa_light 'heartbeat'
         System Health
 .row
-  .col-5
-    .form-group.row
-      %label.col-sm-3.col-form-label License
-      .col-sm-9
-        %pre= Ares::SystemInfo.license
+  .col-6
     .form-group.row
       %label.col-sm-3.col-form-label Version
       .col-sm-9
         = Ares::SystemInfo.version
         - if Ares::SystemInfo.prerelease?
           %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
+    .form-group.row
+      %label.col-sm-3.col-form-label Developed For
+      .col-sm-9
+        %a{href: 'https://www.signjunkieworkshop.com'}= Ares::ClientInfo.owner
+        %br= "\u00A9 Copyright #{Date.today.year}"
     .form-group.row
       %label.col-sm-3.col-form-label Developed By
       .col-sm-9
@@ -30,15 +31,8 @@
           Made with
           = fa_solid 'heart', 'text-warning'
           in Ohio
-
-  .col-7
-    -#.form-group
-    -#  %label.col-form-label Instance Information
-    .form-group.row
-      %label.col-sm-3.col-form-label Instance Information
-      %pre
-        %br
-        = Ares::EnvironmentInfo.instance
+  .col-6
+    %pre= Ares::EnvironmentInfo.instance
 %hr
 
 .row
