@@ -8,7 +8,7 @@
           New address for your account
         .card-body
           = error_messages_for 'address'
-          = render :partial => 'addresses/form', locals: { f: f }
+          = render partial: 'addresses/form', locals: { f: f }
         .card-footer
           = link_to 'Cancel', addresses_path, class: 'btn btn-outline-secondary'
           = f.submit 'Create', class: 'btn btn-success'

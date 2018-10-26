@@ -8,7 +8,7 @@
       .input-group-prepend
         %span.input-group-text
           = fa_light 'lock-alt'
-      = f.email_field :email, autofocus: true, class: 'form-control', :placeholder => 'Email Address'
+      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email Address'
   .form-group
     = f.submit 'Resend unlock instructions', class: 'btn btn-primary btn-block btn-login'
   .login-bottom-links

@@ -7,7 +7,7 @@
         %h4.card-header.bg-primary.text-white= "Edit #{@address.nickname}"
         .card-body
           = error_messages_for 'address'
-          = render :partial => 'addresses/form', locals: { f: f }
+          = render partial: 'addresses/form', locals: { f: f }
         .card-footer
           = link_to 'Cancel', addresses_path, class: 'btn btn-outline-secondary'
           = f.submit 'Save changes', class: 'btn btn-success'

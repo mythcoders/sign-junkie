@@ -6,7 +6,7 @@
       New Employee
     .card-body
       = error_messages_for 'employee'
-      = render :partial => 'admin/employees/form', locals: { f: f }
+      = render partial: 'admin/employees/form', locals: { f: f }
 
       %br
       %h4 Login Information

@@ -6,7 +6,7 @@
       Edit Customer
     .card-body
       = error_messages_for 'customer'
-      = render :partial => 'admin/customers/form', locals: { f: f }
+      = render partial: 'admin/customers/form', locals: { f: f }
     .card-footer
       = link_to 'Cancel', admin_customer_path(@customer), class: 'btn btn-outline-secondary'
       = f.submit 'Save', class: 'btn btn-success'

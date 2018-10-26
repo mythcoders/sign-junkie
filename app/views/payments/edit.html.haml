@@ -6,4 +6,4 @@
           = fa_regular 'shopping-bag'
           = "Order ##{@payment.order.order_number} - Payment Information"
         = f.hidden_field :id
-        = render partial: @payment.order.payment_method, locals: { :f => f }
+        = render partial: @payment.order.payment_method, locals: { f: f }

@@ -19,7 +19,7 @@
         .card-text
           %a{href: "mailto:#{@employee.email}"}= @employee.email
   .card-footer
-    %a.btn.btn-outline-secondary{:href => admin_employees_path}
+    %a.btn.btn-outline-secondary{href: admin_employees_path}
       = fa_regular 'arrow-left'
       Back to Search
     = link_to 'Edit', edit_admin_employee_path(@employee), class: 'btn btn-primary'

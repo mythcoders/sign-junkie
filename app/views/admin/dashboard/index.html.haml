@@ -16,9 +16,9 @@
         %li.list-group-item
           %h6 Quick Search
           .input-group
-            %input.form-control#quick_search_order_number{'aria-describedby' => 'basic-addon2', 'aria-label' => 'Order number for quick search', placeholder: 'Order #', type: 'text'}
+            %input.form-control#quick_search_order_number{'aria-describedby': 'basic-addon2', 'aria-label': 'Order number for quick search', placeholder: 'Order #', type: 'text'}
             .input-group-append
-              %button.btn.btn-outline-secondary.btn-order-search{:type => 'button'} Go
+              %button.btn.btn-outline-secondary.btn-order-search{type: 'button'} Go
 
 
   .col-3
@@ -32,7 +32,7 @@
               %h3 0
               Orders placed
       .card-footer
-        %a{:onclick => 'alert(\'This feature is coming in a future release!\');', href: '#'}
+        %a{onclick: 'alert(\'This feature is coming in a future release!\');', href: '#'}
           View orders
           .float-right
             = fa_regular 'chevron-double-right'
@@ -47,7 +47,7 @@
               %h3= @new_customers
               New customers
       .card-footer
-        %a{:href => admin_customers_path}
+        %a{href: admin_customers_path}
           View customers
           .float-right
             = fa_regular 'chevron-double-right'
@@ -62,7 +62,7 @@
   -#             %h3= @orders_to_ship
   -#             Orders needing shipment
   -#     .card-footer
-  -#       %a{:href => admin_events__path}
+  -#       %a{href: admin_events__path}
   -#         View pending shipments
   -#         .float-right
   -#           = fa_regular 'chevron-double-right'

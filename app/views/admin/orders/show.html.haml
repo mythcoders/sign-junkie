@@ -1,4 +1,4 @@
-= render :partial => 'admin/orders/header'
+= render partial: 'admin/orders/header'
 
 - if @order.status == :open
   .alert.alert-info
@@ -40,10 +40,10 @@
         = fa_light 'clipboard-list'
         Details
       .table-responsive-md
-        = render :partial => 'admin/order_items/show'
+        = render partial: 'admin/order_items/show'
     %br
     .card
       %h5.card-header.bg-primary.text-white
         = fa_light 'sticky-note'
         Notes
-      = render :partial => 'admin/order_notes/show'
+      = render partial: 'admin/order_notes/show'

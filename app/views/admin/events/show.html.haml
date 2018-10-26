@@ -8,7 +8,7 @@
       .card-body
         .form-group
           %label.col-form-label Description
-          .form-control-plaintext= @event.description        
+          .form-control-plaintext= @event.description
         .form-group
           %label.col-form-label Start Date
           .form-control-plaintext= lifp(@event.start_date, :long)
@@ -39,4 +39,4 @@
       %h5.card-header.bg-primary.text-white
         = fa_light 'images'
         Images
-      = render :partial => 'admin/images/show'
+      = render partial: 'admin/images/show'

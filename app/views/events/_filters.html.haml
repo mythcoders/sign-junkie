@@ -12,11 +12,11 @@
         %label View Options
         .btn-group.btn-group-toggle{'data-toggle': 'buttons'}
           %label{class: ['btn btn-light', ('active' if @view == 'grid')]}
-            %input{checked_attr(@view, 'grid'), :name => "view", :value => 'grid', :type => "radio"}
+            %input{checked_attr(@view, 'grid'), name: "view", value: 'grid', type: "radio"}
             = fa_regular 'th'
             Grid
           %label{class: ['btn btn-light', ('active' if @view == 'list')]}
-            %input{checked_attr(@view, 'list'), :name => "view", :value => 'list', :type => "radio"}
+            %input{checked_attr(@view, 'list'), name: "view", value: 'list', type: "radio"}
             = fa_regular 'th-list'
             List
     .card-footer
