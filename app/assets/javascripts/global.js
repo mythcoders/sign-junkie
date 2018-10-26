@@ -1,6 +1,4 @@
 $(function() {
-  console.log('global loaded');
-  window.FontAwesome.dom.i2svg();
   $.onmount();
   $.fn.datetimepicker.Constructor.Default = $.extend(
     {},

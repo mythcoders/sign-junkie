@@ -138,8 +138,7 @@ function update_prices(data) {
 }
 
 function update_shipping_method() {
-  enable_shipping_address();
-  if (get_shipping_address() !== null) {
+  if (get_address() !== null) {
     enable_payment_section();
     show_payment_section();
   } else {
