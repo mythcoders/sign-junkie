@@ -23,6 +23,7 @@ gem 'pinglish'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
 gem 'sendgrid-ruby' # ActiveMailer
+gem 'sentry-raven' # Exceptions
 
 # UI
 gem 'bootstrap'
