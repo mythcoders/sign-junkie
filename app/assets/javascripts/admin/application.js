@@ -6,5 +6,4 @@
 //= require popper
 //= require bootstrap
 //= require ../behaviors/clickable-row
-//= require ../behaviors/order-payment
 //= require ../global

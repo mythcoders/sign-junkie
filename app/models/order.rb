@@ -33,6 +33,8 @@ class Order < ApplicationRecord
       remove_items_from_inventory
       remove_items_from_cart
       self.date_placed = Time.now
+      self.date_fulfilled = Time.now
+      self.date_closed = Time.now
       was_successful = save
     end
     OrderMailer.with(order: self).placed.deliver_now if was_successful
