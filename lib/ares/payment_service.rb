@@ -52,7 +52,6 @@ module Ares
         payment_method_nonce: payment_nonce,
         amount: @payment.amount,
         tax_amount: @order.total_tax,
-        shipping_amount: @order.total_shipping,
         order_id: @order.order_number,
         options: { submit_for_settlement: true }
       )

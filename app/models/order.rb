@@ -8,6 +8,10 @@ class Order < ApplicationRecord
   scope :current, ->(user_id) { where(user_id: user_id).order(:id) if user_id.present? }
   has_many :notes, class_name: 'OrderNote'
 
+  attr_readonly :order_number
+  accepts_nested_attributes_for :items
+  validates_presence_of :address_id, :payment_method, :user_id
+
   # builds an order for the user based on the contents of their cart
   def self.build(user)
     order = Order.new(user_id: user.id, tax_rate: Ares::PaymentService.tax_rate, date_created: Time.now)
@@ -38,7 +42,7 @@ class Order < ApplicationRecord
   def fulfill!
     self.date_fulfilled = Time.now
     was_successful = save!
-    OrderMailer.with(order: self).fulfilled.deliver_now if was_successful && being_picked_up?
+    OrderMailer.with(order: self).fulfilled.deliver_now if was_successful
     was_successful
   end
 
@@ -52,11 +56,11 @@ class Order < ApplicationRecord
   def close!
     self.date_closed = Time.now
     was_successful = save!
-    if being_shipped? && was_successful
-      OrderMailer.with(order: self).shipped.deliver_now
-    elsif was_successful
-      OrderMailer.with(order: self).picked_up.deliver_now
-    end
+    # if being_shipped? && was_successful
+    #   OrderMailer.with(order: self).shipped.deliver_now
+    # elsif was_successful
+    #   OrderMailer.with(order: self).picked_up.deliver_now
+    # end
     was_successful
   end
 
@@ -84,6 +88,14 @@ class Order < ApplicationRecord
     date_canceled.present?
   end
 
+  def fulfilled?
+    date_fulfilled.present?
+  end
+
+  def total_tickets
+    items.map(&:quantity).reduce(:+) || 0
+  end
+
   def closed?
     date_closed.present?
   end
@@ -97,7 +109,6 @@ class Order < ApplicationRecord
 
   def can_be_placed?
     return false if placed? || paid_in_full?
-    return true if being_picked_up? && paid_with_cash?
 
     false
   end
@@ -115,7 +126,7 @@ class Order < ApplicationRecord
       status: :created,
       method: payment_method,
       amount: total_balance,
-      created_by_user_id: customer.id
+      user_id: customer.id
     )
     service = Ares::PaymentService.new(payment)
     if service.attempt(self, payment_nonce)
@@ -132,7 +143,7 @@ class Order < ApplicationRecord
 
   def remove_items_from_inventory
     items.each do |i|
-      i.config.remove_stock(i.quantity)
+      i.event.remove_stock(i.quantity)
     end
   end
 

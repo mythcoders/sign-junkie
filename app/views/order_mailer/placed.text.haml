@@ -1,7 +1,5 @@
 %h3= "#{@order.customer.full_name},"
 
 %p Thanks for placing your order! We'll get started on it right away and notify you about any updates.
-- if @order.paid_with_cash?
-  %p= "Please be sure to bring #{number_to_currency(@order.total_due)} with you in cash."
 
 = render partial: 'orders/receipt'

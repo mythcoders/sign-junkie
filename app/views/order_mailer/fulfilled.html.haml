@@ -1,5 +1,3 @@
 %h3= "#{@order.customer.full_name},"
 
 %p We've finished processing your order and it's now ready for pick-up!
-- if @order.paid_with_cash?
-  %p= "Please be sure to bring #{number_to_currency(@order.total_due)} with you in cash."

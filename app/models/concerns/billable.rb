@@ -8,7 +8,7 @@ module Billable
     belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
     belongs_to :address, optional: true
     has_many :payments
-    has_many :items, -> { order(:created_at) }, class_name: 'OrderItem'
+    has_many :items, -> { order(:created_at) }, class_name: 'OrderItem', inverse_of: :order
   end
 
   # entire amount due for the order, includes items, tax, and shipping

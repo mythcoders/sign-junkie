@@ -44,17 +44,17 @@ class Event < ApplicationRecord
   end
 
   def add_stock(amount, _user_id)
-    self.stock_level += amount
+    self.tickets_available += amount
     save
   end
 
   def return_stock(amount)
-    self.stock_level += amount
+    self.tickets_available += amount
     save
   end
 
   def remove_stock(amount)
-    self.stock_level -= amount
+    self.tickets_available -= amount
     save
   end
 end
