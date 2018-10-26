@@ -11,15 +11,8 @@
           New Customer
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_employee_path }}
           New Employee
-        -# %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_event_path}}
-        -#   New Event
-        %li.list-group-item
-          %h6 Quick Search
-          .input-group
-            %input.form-control#quick_search_order_number{'aria-describedby': 'basic-addon2', 'aria-label': 'Order number for quick search', placeholder: 'Order #', type: 'text'}
-            .input-group-append
-              %button.btn.btn-outline-secondary.btn-order-search{type: 'button'} Go
-
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_event_path}}
+          New Event
 
   .col-3
     .card.outline-info
@@ -51,18 +44,3 @@
           View customers
           .float-right
             = fa_regular 'chevron-double-right'
-  -# .col-3
-  -#   .card.outline-info
-  -#     .card-header.text-white.bg-primary
-  -#       .row
-  -#         .col-3
-  -#           = fa_regular 'truck fa-5x'
-  -#         .col-9
-  -#           .float-right
-  -#             %h3= @orders_to_ship
-  -#             Orders needing shipment
-  -#     .card-footer
-  -#       %a{href: admin_events__path}
-  -#         View pending shipments
-  -#         .float-right
-  -#           = fa_regular 'chevron-double-right'
