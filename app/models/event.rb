@@ -6,7 +6,8 @@ class Event < ApplicationRecord
   has_many_attached :images
 
   scope :active, (lambda do
-    where('is_for_sale = ? AND posting_start_date <= ? AND end_date >= ?', true, Date.today, Date.today).distinct
+    where('is_for_sale = ? AND posting_start_date <= CURRENT_TIMESTAMP AND end_date >= CURRENT_TIMESTAMP', true)
+    .distinct
   end)
 
   validates_presence_of :name, :posting_start_date, :start_date, :is_for_sale

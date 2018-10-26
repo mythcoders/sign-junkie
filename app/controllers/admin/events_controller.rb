@@ -2,7 +2,7 @@
 
 module Admin
   class EventsController < AdminController
-    before_action :populate_event, only: %i(edit update show destory)
+    before_action :populate_event, only: %i[edit update show destory]
 
     def index
       @events = Event.order(:start_date).page(params[:page]).per(10)
@@ -13,7 +13,7 @@ module Admin
     end
 
     def create
-      @event = Event.new(event_params)
+      @event = Event.new(filtered_params)
       if @event.save
         flash[:success] = t('CreateSuccess')
         redirect_to admin_event_path @event
@@ -23,7 +23,7 @@ module Admin
     end
 
     def update
-      if @event.update(event_params)
+      if @event.update(filtered_params)
         flash[:success] = t('UpdateSuccess')
         redirect_to admin_event_path @event
       else
@@ -48,6 +48,14 @@ module Admin
 
     def populate_event
       @event = Event.find(params[:id])
+    end
+
+    def filtered_params
+      parameters = event_params
+      parameters[:posting_start_date] = convert_datetime(parameters[:posting_start_date])
+      parameters[:start_date] = convert_datetime(parameters[:start_date])
+      parameters[:end_date] = convert_datetime(parameters[:end_date])
+      parameters
     end
   end
 end
