@@ -7,6 +7,6 @@ module PublicHelper
   }.freeze
 
   def checked_attr(value, desired)
-    { checked: 'checked' } if value == desired || Hash.empty
+    { checked: 'checked' } if value == desired || Hash.new
   end
 end

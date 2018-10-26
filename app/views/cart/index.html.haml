@@ -29,9 +29,9 @@
       %tfoot
         %tr
           %td.text-right.text-primary{colspan: 4}
-              %strong
-                Subtotal:
-                = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
+            %strong
+              Subtotal:
+              = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
     .card-footer
       = link_to new_order_path, class: 'btn btn-success float-right' do
         Proceed to Checkout

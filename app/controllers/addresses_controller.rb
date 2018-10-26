@@ -11,7 +11,7 @@ class AddressesController < ApplicationController
   end
 
   def new
-    @address = Address.new(user_id: current_user.id, state: 'OH')
+    @address = Address.new(user_id: current_user.id, state: 'OH', country: 'USA')
   end
 
   def create
@@ -40,7 +40,7 @@ class AddressesController < ApplicationController
   end
 
   def address_params
-    params.require(:address).permit(:id,  :user_id, :street, :street2, :city, :state, :zip_code,
+    params.require(:address).permit(:id,  :user_id, :street, :street2, :city, :state, :zip_code, :country,
                                     :is_default, :nickname)
   end
 
