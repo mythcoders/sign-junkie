@@ -4,7 +4,7 @@
 [![View QA](https://img.shields.io/badge/app-view%20qa-yellowgreen.svg)](http://qa.signjunkieworkshop.com/)
 [![View Production](https://img.shields.io/badge/app-view%20prod-orange.svg)](https://http://signjunkieworkshop.com/)
 
-eCommerce website for [Sign Junkie Workshop](https://www.whiznews.com/) in Thornville, OH.
+eCommerce website for [Sign Junkie Workshop](https://www.signjunkieworkshop.com/) in Thornville, OH.
 
 Built on the Rails platform, Sign Junkie allows Admin users to create events where tickets can be sold on public facing pages. Customers then use Braintree to pay with PayPal and complete their purchases.
 

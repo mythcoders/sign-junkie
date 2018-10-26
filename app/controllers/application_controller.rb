@@ -72,5 +72,4 @@ class ApplicationController < ActionController::Base
   def set_cart_total
     @cart_total = CartItem.for(current_user).count
   end
-
 end
