@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   def self.build(user)
     order = Order.new(user_id: user.id, tax_rate: Ares::PaymentService.tax_rate, date_created: Time.now)
     CartItem.for(user).as_of(order.date_created).each do |cart_item|
-      order.items << OrderItem.create(cart_item.price, cart_item.quantity)
+      order.items << OrderItem.create(cart_item.event, cart_item.quantity)
     end
     order
   end

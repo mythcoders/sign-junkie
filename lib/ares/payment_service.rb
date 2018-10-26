@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Ares
+
+  # Handles communication with the Braintree API for processing card and PayPal payments.
   class PaymentService
     TRANSACTION_SUCCESS_STATUSES = [
       Braintree::Transaction::Status::Authorizing,
@@ -22,7 +24,7 @@ module Ares
 
     def attempt(order, payment_nonce)
       @order = order
-      was_successful = @payment.cash? ? handle_cash : post_payment(payment_nonce)
+      was_successful = post_payment(payment_nonce)
       successful_payment if was_successful
       was_successful
     end
@@ -45,11 +47,6 @@ module Ares
       @payment.date_posted = Time.now
     end
 
-    def handle_cash
-      @payment.status = :authorized
-      true
-    end
-
     def post_payment(payment_nonce)
       result = gateway.transaction.sale(
         payment_method_nonce: payment_nonce,
@@ -70,13 +67,27 @@ module Ares
     end
 
     def new_braintree
-      env = WHIZ::PaymentService.env.to_sym
+      env = Ares::PaymentService.env.to_sym
       Braintree::Gateway.new(
         environment: env,
-        merchant_id: Rails.application.credentials.payment[env][:merchant_id],
-        public_key: Rails.application.credentials.payment[env][:public_key],
-        private_key: Rails.application.credentials.payment[env][:private_key]
+        merchant_id: merchant_id(env),
+        public_key: public_key(env),
+        private_key: private_key(env)
       )
+    end
+
+    protected
+
+    def merchant_id(env)
+      Rails.application.credentials.payment[env][:merchant_id]
+    end
+
+    def public_key(env)
+      Rails.application.credentials.payment[env][:public_key]
+    end
+
+    def private_key(env)
+      Rails.application.credentials.payment[env][:private_key]
     end
   end
 end

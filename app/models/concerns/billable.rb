@@ -13,7 +13,11 @@ module Billable
 
   # entire amount due for the order, includes items, tax, and shipping
   def total_due
-    total_line_items + total_tax
+    total_taxable + total_tax
+  end
+
+  def total_taxable
+    total_line_items
   end
 
   # total of all the items in the order, does not include tax or shipping

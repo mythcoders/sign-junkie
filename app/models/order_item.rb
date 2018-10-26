@@ -6,11 +6,10 @@ class OrderItem < ApplicationRecord
   validates :name, presence: true
   validates :quantity, presence: true
 
-  def self.create(event, qty, order)
+  def self.create(event, qty)
     OrderItem.new(name: event.name,
                   price: event.ticket_price,
-                  quantity: qty,
-                  order: order)
+                  quantity: qty)
   end
 
   def item_total

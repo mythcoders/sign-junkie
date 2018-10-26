@@ -1,6 +1,6 @@
 $.onmount("[data-js-address]", function() {
   $(this).on("change", function() {
-    update_shipping_method();
+    update_address();
   });
 });
 
@@ -11,16 +11,18 @@ $.onmount("[data-js-payment-method]", function() {
 });
 
 $(function() {
-  update_shipping_method();
+  update_address();
   return update_payment_method();
 });
 
 function disable_payment_section() {
-  $("#paymentButton").attr("disabled", "disabled");
+  $("#order_payment_method_card").attr("disabled", "disabled");
+  $("#order_payment_method_paypal").attr("disabled", "disabled");
 }
 
 function enable_payment_section() {
-  $("#paymentButton").removeAttr("disabled");
+  $("#order_payment_method_card").removeAttr("disabled");
+  $("#order_payment_method_paypal").removeAttr("disabled");
 }
 
 function get_payment_method() {
@@ -28,7 +30,7 @@ function get_payment_method() {
 }
 
 function get_address() {
-  return $("[data-js-shipping-address]").val() || null;
+  return $("[data-js-address]").val() || null;
 }
 
 function new_braintree(data) {
@@ -87,16 +89,13 @@ function recalc_prices() {
       update_prices(data);
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      console.log(textStatus);
+      HideLoader();
+      console.error(jqXHR);
       alert(
         "An error occurred while attempting to fetch prices. Please try again."
       );
     }
   });
-}
-
-function show_payment_section() {
-  $("#collapsePayment").collapse("show");
 }
 
 function update_payment_method() {
@@ -121,7 +120,8 @@ function update_payment_method() {
         new_braintree(data);
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        console.log(textStatus);
+        HideLoader();
+        console.error(jqXHR);
         alert(
           "An error occurred while attempting to fetch prices. Please try again."
         );
@@ -137,10 +137,9 @@ function update_prices(data) {
   $("#order_total_due").html(data.total_due);
 }
 
-function update_shipping_method() {
+function update_address() {
   if (get_address() !== null) {
     enable_payment_section();
-    show_payment_section();
   } else {
     disable_payment_section();
   }

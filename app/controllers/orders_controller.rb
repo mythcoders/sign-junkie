@@ -24,11 +24,7 @@ class OrdersController < ApplicationController
       flash[:success] = t('order.placed.success')
       redirect_to order_path @order
     else
-      flash[:error] = t('order.create.failure')
-      set_addresses
-      set_cart_total
-      prepare_payment
-      render 'new'
+      order_create_error
     end
   end
 
@@ -70,7 +66,7 @@ class OrdersController < ApplicationController
 
   def prepare_payment
     @order.payments.build
-    @client_token = WHIZ::PaymentService.new(@order.payments.first).new_token
+    @client_token = Ares::PaymentService.new(@order.payments.first).new_token
   end
 
   def assign_create_params
@@ -78,9 +74,14 @@ class OrdersController < ApplicationController
   end
 
   def check_params
-    if @order.paid_with_cash? && params.fetch(:payment_method_nonce, nil).nil?
-      flash[:error] = t('order.create.failure')
-      render 'new'
-    end
+    order_create_error unless params.fetch(:payment_method_nonce, nil).present?
+  end
+
+  def order_create_error
+    flash[:error] = t('order.create.failure')
+    set_addresses
+    set_cart_total
+    prepare_payment
+    render 'new'
   end
 end

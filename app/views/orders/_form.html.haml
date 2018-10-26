@@ -1,16 +1,16 @@
 .card-body
   = f.hidden_field :date_created
   %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
-  %h4.card-header
+  %h4
     = fa_light 'usd-circle'
     Billing
-  .form-group{'data-js-shipping-address-section': ''}
+  .form-group{'data-js-address-section': ''}
     %label Address
     .input-group
       = f.select(:address_id,
         @addresses.collect { |r| [ r[:nickname], r[:id] ] },
         { include_blank: ' - Select - ' },
-        { class: 'custom-select', 'data-js-shipping-address': '' })
+        { class: 'custom-select', 'data-js-address': '' })
       .input-group-append
         %a.btn.btn-outline-secondary{href: new_address_path, target: '_blank'}
           = fa_light 'plus'
