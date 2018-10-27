@@ -17,10 +17,10 @@
           .form-control-plaintext= lifp(@event.end_date, :long)
         %hr
         .form-group
-          %label.col-form-label Available for purchase
+          %label.col-form-label Date available for purchase
           .form-control-plaintext= lifp(@event.posting_start_date, :long)
         .form-group
-          %label.col-form-label Tickets for sale
+          %label.col-form-label Remaining tickets for sale
           .form-control-plaintext= @event.tickets_available
         .form-group
           %label.col-form-label Ticket price

@@ -23,14 +23,14 @@
 %hr
 .form-row
   .form-group.col-3
-    = f.label :posting_start_date, class: 'col-form-label'
+    = f.label :date_available_for_purchase, class: 'col-form-label'
     #postingstartpicker.input-group.date{"data-target-input": "nearest", 'data-future-date-time-picker': ''}
       = f.text_field :posting_start_date, class: 'form-control datetimepicker-input', 'data-target': '#postingstartpicker'
       .input-group-append{"data-target": "#postingstartpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
   .form-group.col-2
-    = f.label :tickets_available, class: 'col-form-label'
+    = f.label :total_tickets_for_sale, class: 'col-form-label'
     = f.text_field :tickets_available, class: 'form-control'
   .form-group.col-2
     = f.label :ticket_price, class: 'col-form-label'

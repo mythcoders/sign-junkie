@@ -20,12 +20,12 @@ $(function() {
   $("[data-date-time-picker]").datetimepicker({ format: "MM/DD/YYYY hh:mm A" });
   $("[data-future-date-time-picker]").datetimepicker({
     format: "MM/DD/YYYY hh:mm A",
-    minDate: moment(new Date()).add(1, "days")
+    minDate: moment(new Date())
   });
   $("[data-date-picker]").datetimepicker({ format: "MM-DD-YYYY" });
   $("[data-future-date-picker]").datetimepicker({
     format: "MM-DD-YYYY",
-    minDate: moment(new Date()).add(1, "days")
+    minDate: moment(new Date())
   });
 });
 function ShowLoader() {
