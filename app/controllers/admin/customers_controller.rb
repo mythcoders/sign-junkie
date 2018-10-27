@@ -43,7 +43,7 @@ module Admin
                                    :email, :password, :role, :phone_number)
     end
 
-    def disable_roles
+    def disabled_roles
       @disabled_roles = current_user.operator? ? %i[] : %i[employee admin operator]
     end
 
