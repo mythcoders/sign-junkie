@@ -20,7 +20,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    if @order.place!(params.fetch(:payment_method_nonce, nil))
+    service = Ares::OrderService.new(@order)
+    if service.place(params.fetch(:payment_method_nonce, nil))
       flash[:success] = t('order.placed.success')
       redirect_to order_path @order
     else
@@ -65,8 +66,7 @@ class OrdersController < ApplicationController
   end
 
   def prepare_payment
-    @order.payments.build
-    @client_token = Ares::PaymentService.new(@order.payments.first).new_token
+    @client_token = Ares::PaymentService.new(@order).new_token
   end
 
   def assign_create_params

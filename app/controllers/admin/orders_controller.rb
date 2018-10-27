@@ -2,7 +2,7 @@
 
 module Admin
   class OrdersController < AdminController
-    before_action :get, only: %i[show edit update cancel]
+    before_action :get, only: %i[show edit update cancel close]
     before_action :populate_addresses, only: %i[edit]
 
     def index
@@ -29,10 +29,20 @@ module Admin
       end
     end
 
+    def close
+      if @order.close!
+        flash[:success] = 'Order has been closed!'
+        redirect_to admin_order_path(@order)
+      else
+        flash[:error] = t('order.update.failure')
+        render 'show'
+      end
+    end
+
     private
 
     def get
-      @order = Order.includes(:items, :payments, :customer).find(params[:id])
+      @order = Order.includes(:items, :payments, :customer, :notes).find(params[:id])
     end
 
     def populate_addresses

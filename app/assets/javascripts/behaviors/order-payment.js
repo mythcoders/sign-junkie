@@ -36,6 +36,7 @@ function get_address() {
 function new_braintree(data) {
   var form, nonceInput, selected_method;
   $("#payment-container").html("");
+  $("#payment_method_nonce").val("");
   selected_method = get_payment_method();
   form = document.querySelector(".new_order");
   nonceInput = document.querySelector("#payment_method_nonce");

@@ -1,4 +1,7 @@
 .card-body
+  = error_messages_for 'order'
+  = error_messages_for 'payment'
+
   = f.hidden_field :date_created
   %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
   %h4

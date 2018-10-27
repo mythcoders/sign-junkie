@@ -13,21 +13,17 @@ module Billable
 
   # entire amount due for the order, includes items, tax, and shipping
   def total_due
-    total_taxable + total_tax
-  end
-
-  def total_taxable
-    total_line_items
+    (total_taxable + total_tax).round(2)
   end
 
   # total of all the items in the order, does not include tax or shipping
   def total_line_items
-    items.map(&:item_total).reduce(:+) || 0.00
+    (items.map(&:item_total).reduce(:+) || 0.00).round(2)
   end
 
   # total of all payments made by the customer
   def total_paid
-    payments.select(&:posted?).map(&:amount).reduce(:+) || 0.00
+    (payments.select(&:posted?).map(&:amount).reduce(:+) || 0.00).round(2)
   end
 
   # total amount due for the entire invoice
@@ -45,10 +41,6 @@ module Billable
     return false unless open?
 
     !paid_in_full?
-  end
-
-  def tax_percentage
-    tax_rate * 100
   end
 
   def paid_with_card?

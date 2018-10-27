@@ -1,12 +1,9 @@
-= error_messages_for 'order'
-= error_messages_for 'payment'
-
 = form_for @order, url: orders_path do |f|
   .row
     .col-12.col-sm-7
       .card.card-primary
         %h4.card-header.bg-primary.text-white
-          Checkout
+          Checkout          
         = render partial: 'orders/form', locals: { f: f }
     .col-12.col-sm-5
       .card
