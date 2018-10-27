@@ -39,6 +39,6 @@ class User < ApplicationRecord
   private
 
   def strip_phone_number
-    phone_number.gsub!(/\D/, '')
+    phone_number.gsub!(/\D/, '') unless phone_number.blank?
   end
 end
