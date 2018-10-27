@@ -32,6 +32,10 @@ class User < ApplicationRecord
     employee? || admin? || operator?
   end
 
+  def can_upgrade_operator?
+    operator?
+  end
+
   private
 
   def strip_phone_number
