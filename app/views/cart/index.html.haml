@@ -15,7 +15,8 @@
         - @cart.each do |c|
           %tr
             %td.action-column
-              %img{alt: "Image of #{c.event.name}", src: url_for(c.event.primary_image.variant(resize: "100x100"))}
+              - if @c.event.images.any?
+                %img{alt: "Image of #{c.event.name}", src: url_for(c.event.primary_image.variant(resize: "100x100"))}
             %td
               %a{href: event_path(c.event)}
                 %h3= c.event.when
