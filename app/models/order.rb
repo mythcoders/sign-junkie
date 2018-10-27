@@ -21,18 +21,6 @@ class Order < ApplicationRecord
     order
   end
 
-  def cancel!
-    self.date_canceled = Time.now
-    was_successful = save!
-    OrderMailer.with(order: self).canceled.deliver_now if was_successful && placed?
-    was_successful
-  end
-
-  def close!
-    self.date_closed = Time.now
-    save!
-  end
-
   # the orders status in its lifecycle
   def status
     return :canceled if canceled?

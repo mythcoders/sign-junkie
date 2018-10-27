@@ -30,7 +30,8 @@ class OrdersController < ApplicationController
   end
 
   def cancel
-    if @order.cancel!
+    service = Ares::OrderService.new(@order)
+    if service.cancel
       flash[:success] = 'Order has been canceled'
       redirect_to order_path(@order)
     else

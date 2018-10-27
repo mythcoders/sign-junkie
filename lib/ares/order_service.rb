@@ -1,22 +1,37 @@
-module Ares
-  class OrderService
+# frozen_string_literal: true
 
+module Ares
+  # Handles communication with the Braintree API for processing card and PayPal payments.
+  class OrderService
     attr_reader :order
 
     def initialize(order)
       @order = order
     end
 
-    # created and places the order by removing the requested products from inventory
+    # marks the order as canceled and notifies the customer
+    def cancel
+      @order.date_canceled = Time.now
+      was_successful = @order.save!
+      OrderMailer.with(order: @order).canceled.deliver_now if was_successful && @order.placed?
+      was_successful
+    end
+
+    # marks the order as closed
+    def close
+      @order.date_closed = Time.now
+      @order.save!
+    end
+
+    # creates and places the order by removing the requested products from inventory
     def place(payment_nonce)
       return false unless @order.valid?
 
       ActiveRecord::Base.transaction do
-        initial_save_reload
-        if process_payment(payment_nonce) &&
-           remove_items_from_inventory &&
-           remove_items_from_cart &&
-           order_ready
+        if initial_save_reload! &&
+           process_payment(payment_nonce) &&
+           remove_items_from_inventory_and_cart &&
+           order_ready?
           mark_order_success
           return true
         else
@@ -47,7 +62,7 @@ module Ares
       end
     end
 
-    def order_ready
+    def order_ready?
       @order.paid_in_full? && @order.valid?
     end
 
@@ -59,19 +74,15 @@ module Ares
       true
     end
 
-    def initial_save_reload
+    def initial_save_reload!
       @order.save!
       @order.reload
     end
 
-    def remove_items_from_inventory
+    def remove_items_from_inventory_and_cart
       @order.items.each do |item|
         item.event.remove_stock(item.quantity)
       end
-      true
-    end
-
-    def remove_items_from_cart
       CartItem.for(@order.customer).as_of(@order.date_created).delete_all
       true
     end
