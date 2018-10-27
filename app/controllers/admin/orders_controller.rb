@@ -6,7 +6,10 @@ module Admin
     before_action :populate_addresses, only: %i[edit]
 
     def index
-      @orders = Order.includes(:customer).all
+      @orders = Order.includes(:customer)
+                     .order(:date_placed)
+                     .page(params[:page])
+                     .per(10)
     end
 
     def update
