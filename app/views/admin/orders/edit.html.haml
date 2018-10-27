@@ -34,12 +34,12 @@
           .form-group
             %label Payment Method
             .custom-control.custom-radio
-              = f.radio_button :payment_method, 'card', class: 'custom-control-input'
+              = f.radio_button :payment_method, 'card', class: 'custom-control-input', disabled: 'disabled'
               = f.label :payment_method, value: 'card', class: 'custom-control-label' do
                 = fa_light 'credit-card-front'
                 Card
             .custom-control.custom-radio
-              = f.radio_button :payment_method, 'paypal', class: 'custom-control-input'
+              = f.radio_button :payment_method, 'paypal', class: 'custom-control-input', disabled: 'disabled'
               = f.label :payment_method, value: 'paypal', class: 'custom-control-label' do
                 = fa_brands 'paypal'
                 PayPal
