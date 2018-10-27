@@ -21,7 +21,7 @@
         %hr
         %p.card-text= @event.description
       .card-footer
-        - if user_signed_in? && current_user.customer?
+        - if user_signed_in?
           - if @event.can_purchase?
             = form_for :cart, url: cart_index_path do |f|
               = f.hidden_field :event_id, value: @event.id
