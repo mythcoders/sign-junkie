@@ -10,6 +10,16 @@ class Payment < ApplicationRecord
 
   validates_presence_of :status, :amount, :method, :transaction_id
 
+  def self.build(order)
+    Payment.new(
+      status: :created,
+      date_created: Time.now,
+      method: order.payment_method,
+      amount: order.total_balance,
+      user_id: order.customer.id
+    )
+  end
+
   def paypal?
     method == 'paypal'
   end

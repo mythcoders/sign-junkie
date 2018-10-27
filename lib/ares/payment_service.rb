@@ -8,13 +8,7 @@ module Ares
     def initialize(order)
       env = Ares::PaymentService.env.to_sym
       @order = order
-      @payment = Payment.new(
-        status: :created,
-        date_created: Time.now,
-        method: order.payment_method,
-        amount: order.total_balance,
-        user_id: order.customer.id
-      )
+      @payment = Payment.build(@order)
       @gateway = Braintree::Gateway.new(
         environment: env,
         merchant_id: merchant_id(env),
@@ -38,8 +32,8 @@ module Ares
     def process(payment_nonce)
       result = post_payment(payment_nonce)
       if result.success?
-        @payment.date_cleared = Time.now
         @payment.status = :authorized
+        @payment.date_cleared = Time.now
         @payment.transaction_id = result.transaction.id
         return true
       else
