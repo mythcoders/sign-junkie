@@ -25,7 +25,7 @@
           - if @event.can_purchase?
             = form_for :cart, url: cart_index_path do |f|
               = f.hidden_field :event_id, value: @event.id
-              = ticket_dropdown f, @event              
+              = ticket_dropdown f, @event
           - else
             = link_to 'Go Back', events_path, class: 'btn btn-outline-secondary'
             .text-muted Sorry, but tickets for this event can't be purchased right now
@@ -34,8 +34,3 @@
           %a.btn.btn-primary(href=new_user_session_path)
             = fa_light 'sign-in'
             Log In or Sign up to add this to your cart
-= content_for :scripts do
-  :javascript
-    $(function() {
-      $('[data-js-change-size-style]').change()
-    });
