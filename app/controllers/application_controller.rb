@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   def convert_datetime(value)
     return nil if value.blank?
 
-    Time.strptime(value, t('time.formats.default'))
+    Time.zone.strptime(value, t('time.formats.default'))
   end
 
   def record_not_found
@@ -42,9 +42,7 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    if devise_controller?
-      'devise'
-    end
+    'devise' if devise_controller?
   end
 
   def after_sign_out_path_for(user)
