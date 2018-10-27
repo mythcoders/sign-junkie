@@ -8,13 +8,14 @@
     %thead
       %tr
         %th Name
-        %th Date        
+        %th Date
+        %th Tickets Available
     %tbody
       - @events.each do |e|
         %tr{data: { 'clickable-row': '', 'href': admin_event_path(e) }}
           %td= e.name
-          %td
-            = e.start_date
+          %td= e.when
+          %td= e.tickets_available
   .card-footer
     = paginate @events
     = page_entries_info @events
