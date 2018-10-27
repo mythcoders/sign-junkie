@@ -1,4 +1,4 @@
-#### 0.6 - 10-26-18
+#### 0.6 - 10-27-18
 
 - Features
   - Ability to checkout and pay for an order with Card or PayPal

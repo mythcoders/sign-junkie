@@ -5,7 +5,7 @@ module Admin
     before_action :populate_event, only: %i[edit update show destory]
 
     def index
-      @events = Event.order(:start_date).page(params[:page]).per(10)
+      @events = Event.order(start_date: :desc).page(params[:page]).per(10)
     end
 
     def new
@@ -43,7 +43,8 @@ module Admin
     private
 
     def event_params
-      params.require(:event).permit(:id, :name, :description, :posting_start_date, :start_date, :end_date, :tickets_available, :ticket_price, :is_for_sale)
+      params.require(:event).permit(:id, :name, :description, :posting_start_date, :start_date, :end_date,
+                                    :tickets_available, :ticket_price, :is_for_sale)
     end
 
     def populate_event

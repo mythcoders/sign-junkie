@@ -7,7 +7,7 @@ module Admin
 
     def index
       @orders = Order.includes(:customer)
-                     .order(:date_placed)
+                     .order(date_created: :desc)
                      .page(params[:page])
                      .per(10)
     end

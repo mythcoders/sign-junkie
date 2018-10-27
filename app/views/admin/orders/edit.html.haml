@@ -7,6 +7,13 @@
           = "Order ##{@order.order_number}"
         .card-body
           .form-group
+            %label Date Created
+            #placedpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+              = f.text_field :date_created, value: lifp(@order.date_placed), class: 'form-control', disabled: 'disabled'
+              .input-group-append
+                .input-group-text
+                  = fa_regular 'calendar'
+          .form-group
             %label Date Placed
             #placedpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
               = f.text_field :date_placed, value: lifp(@order.date_placed), class: 'form-control datetimepicker-input', 'data-target': '#placedpicker'
