@@ -5,15 +5,15 @@
     = f.text_field :name, class: 'form-control'
   .form-group.col-3
     = f.label :start_date, class: 'col-form-label'
-    #startpicker.input-group.date{"data-target-input": "nearest", 'data-future-date-time-picker': ''}
-      = f.text_field :start_date, class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
+    #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+      = f.text_field :start_date, value: lifp(@event.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
       .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
   .form-group.col-3
     = f.label :end_date, class: 'col-form-label'
-    #endpicker.input-group.date{"data-target-input": "nearest", 'data-future-date-time-picker': ''}
-      = f.text_field :end_date, class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
+    #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+      = f.text_field :end_date, value: lifp(@event.end_date), class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
       .input-group-append{"data-target": "#endpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
@@ -24,8 +24,8 @@
 .form-row
   .form-group.col-3
     = f.label :date_available_for_purchase, class: 'col-form-label'
-    #postingstartpicker.input-group.date{"data-target-input": "nearest", 'data-future-date-time-picker': ''}
-      = f.text_field :posting_start_date, class: 'form-control datetimepicker-input', 'data-target': '#postingstartpicker'
+    #postingstartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+      = f.text_field :posting_start_date, value: lifp(@event.posting_start_date), class: 'form-control datetimepicker-input', 'data-target': '#postingstartpicker'
       .input-group-append{"data-target": "#postingstartpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
