@@ -8,7 +8,7 @@ module Ares
       end
 
       def address_1
-        'Street'
+        '11235 Ridenour Rd'
       end
 
       def address_2
@@ -24,7 +24,7 @@ module Ares
       end
 
       def zip_code
-        '43701'
+        '43076'
       end
     end
   end
