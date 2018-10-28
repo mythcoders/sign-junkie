@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Admin
-  class CustomersController < ApplicationController
+  class CustomersController < AdminController
 
     before_action :get, only: %i[edit show update]
-    before_action :disable_roles, only: %i[edit update]
+    before_action :disabled_roles, only: %i[edit update]
 
     def index
       @customers = User.customer.order(:last_name).page(params[:page]).per(10)
@@ -43,7 +43,7 @@ module Admin
                                    :email, :password, :role, :phone_number)
     end
 
-    def disable_roles
+    def disabled_roles
       @disabled_roles = current_user.operator? ? %i[] : %i[employee admin operator]
     end
 

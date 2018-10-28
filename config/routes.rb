@@ -2,12 +2,9 @@
 
 Rails.application.routes.draw do
   root to: 'public#index', as: 'home'
-  devise_for :users,
-             path_prefix: 'security',
-             controllers: {
-               registrations: 'security/registrations'
-             }
   get 'admin', to: redirect('admin/dashboard/index'), as: 'admin'
+
+  devise_for :users
   concern :paginatable do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
@@ -17,24 +14,30 @@ Rails.application.routes.draw do
   resources :addresses
   resources :events, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
-  resources :orders, only: %i[index show edit create update] do
-    resources :payments, only: %i[new create edit update], as: 'payments'
-  end
+  resources :orders, only: %i[index show new create]
+  post 'orders/ui', to: 'orders#ui', as: 'order_ui_update'
   get 'orders/:id/receipt', to: 'orders#receipt', as: 'receipt'
+  post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
 
   namespace :admin do
     get 'dashboard/index', as: 'dashboard'
     get 'dashboard/about', as: 'about'
+    get 'reports/index', as: 'reports'
+    get 'reports/sales_tax', as: 'sales_tax_report'
+
     resources :audits, concerns: :paginatable, only: %i[index show]
     resources :events, concerns: :paginatable do
       post 'primary', as: 'set_primary'
       resources :images, only: %i[new create destroy]
     end
-    get 'orders/code/:order_number', to: 'orders#code', as: 'order_by_code'
+    post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
+    post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'
+    post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
     resources :orders, concerns: :paginatable do
       resources :order_items, as: 'items', path: 'items'
       resources :order_notes, as: 'notes', path: 'notes'
     end
+
     resources :users, as: 'customers', path: 'customers',
                       controller: 'customers', concerns: :paginatable do
       resources :notes, only: %i[edit new create update destroy]

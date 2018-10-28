@@ -2,9 +2,9 @@
 
 .bundle
 .idea
+.vscode
 .byebug_history
 .ds_store
-/coverage
 /log
 /tmp
 /doc
@@ -15,9 +15,9 @@
 
 !/log/.keep
 !/tmp/.keep
+/spec/examples.txt
 
-*.csv
+*env.*
+!env.development
 *.key
 *.pdf
-
-spec/examples.txt

@@ -1,10 +1,10 @@
-= render :partial => 'admin/orders/header'
+= render partial: 'admin/orders/header'
 
 - if @order.status == :open
   .alert.alert-info
     The customer has started this order but has yet to complete it!
 .row
-  .col-4
+  .col-5
     .card.card-primary
       %h5.card-header.bg-primary.text-white
         = fa_light 'shopping-bag'
@@ -20,10 +20,10 @@
         .form-group.row
           %label.col-form-label.col-6 Date Placed
           .form-control-plaintext.col= lifp(@order.date_placed, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Date Fulfilled
-          - if @order.date_fulfilled.present?
-            .form-control-plaintext.col= l @order.date_fulfilled, format: :short
+        - if @order.canceled?
+          .form-group.row
+            %label.col-form-label.col-6 Date Canceled
+            .form-control-plaintext.col= lifp(@order.date_canceled, :short)
 
         .form-group.row
           %label.col-form-label.col-6 Payment Method
@@ -34,16 +34,16 @@
             - if @order.address_id.present?
               %strong= @order.address.nickname
               %br= raw(@order.address.display_formatted(1))
-  .col-8
+  .col-7
     .card
       %h5.card-header.bg-primary.text-white
         = fa_light 'clipboard-list'
         Details
       .table-responsive-md
-        = render :partial => 'admin/order_items/show'
+        = render partial: 'admin/order_items/show'
     %br
     .card
       %h5.card-header.bg-primary.text-white
         = fa_light 'sticky-note'
         Notes
-      = render :partial => 'admin/order_notes/show'
+      = render partial: 'admin/order_notes/show'

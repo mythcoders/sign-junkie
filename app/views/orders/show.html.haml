@@ -1,50 +1,52 @@
 .row
-  .col-4
+  .col-md-5
     .card.card-primary
       %h4.card-header.bg-primary.text-white
         = fa_regular 'shopping-bag'
         = "Order ##{@order.order_number}"
       .card-body
-        .form-group
-          %label Date Placed
-          .form-control-plaintext= lifp(@order.date_placed, :short)
-        .form-group
-          %label Date Shipped
-          .form-control-plaintext= lifp(@order.date_shipped, :short)
-
-        %h5 Shipping
-
-        .form-group
-          %label Method
-          .form-control-plaintext= @order.delivery_method
-        .form-group
-          %label Address
-          .form-control-plaintext
-            - if @order.shipping_address_id.present?
-              %strong= @order.shipping_address.nickname
-              %br= raw(@order.shipping_address.display_formatted(1))
-
-        %h5 Billing
-
-        .form-group
-          %label Address
-          .form-control-plaintext
-            - if @order.billing_address_id.present?
-              %strong= @order.billing_address.nickname
-              %br= raw(@order.billing_address.display_formatted(1))
-        .form-group
-          %label Payment Method
-          .form-control-plaintext= @order.payment_method
-  .col-8
+        .form-group.row
+          %label.col-form-label.col-6 Date Created
+          .form-control-plaintext.col= lifp(@order.date_created, :short)
+        .form-group.row
+          %label.col-form-label.col-6 Date Placed
+          .form-control-plaintext.col= lifp(@order.date_placed, :short)
+        .form-group.row
+          %label.col-form-label.col-6 Date Fulfilled
+          - if @order.date_fulfilled.present?
+            .form-control-plaintext.col= lifp(@order.date_fulfilled, :short)
+        .form-group.row
+          %label.col-form-label.col-6 Date Closed
+          .form-control-plaintext.col= lifp(@order.date_closed, :short)
+        %hr
+        .form-group.row
+          %label.col-form-label.col-6 Payment Method
+          .form-control-plaintext.col= @order.payment_method
+        .form-group.row
+          %label.col-form-label.col-6 Address
+          .form-control-plaintext.col
+            - if @order.address_id.present?
+              %strong= @order.address.nickname
+              %br= raw(@order.address.display_formatted(1))
+        - if @order.can_be_canceled?
+          %hr
+          = form_for @order, url: order_mark_canceled_path, method: :post do |f|
+            = f.hidden_field :id
+            = button_tag(type: 'submit', class: 'btn btn-outline-danger btn-sm float-right') do
+              = fa_light 'ban'
+              Cancel Order
+      .card-footer
+        = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
+  .col-md-7
     .card
       %h4.card-header.bg-primary.text-white
         = fa_regular 'th-list'
-        Items
+        Summary
       .table-responsive-md
         %table.table.table-striped.table-bordered.table-border-fix
           %thead
             %tr.bg-primary.text-white
-              %th Product
+              %th Event
               %th.action-column Amount
               %th.action-column Quantity
               %th.action-column Price
@@ -58,15 +60,12 @@
                   %strong= number_to_currency(i.item_total)
             - if @order.taxed?
               %tr
-                %td{colspan: 3} Estimated tax to be collected
+                %td{colspan: 3}
+                  = "Sales Tax collected (#{@order.tax_percentage}%)"
                 %td.text-right
                   %strong= number_to_currency(@order.total_tax)
-            - if @order.shipping?
-              %tr
-                %td{colspan: 3} Shipping & handling
-                %td.text-right
-                  %strong= number_to_currency(@order.total_shipping)
           %tfoot
             %tr.bg-primary.text-white
-              %td.text-right{colspan: 4}
-                %strong.form-control-plaintext.text-warning= number_to_currency(@order.total_due)
+              %td{colspan: 3} Order total
+              %td.text-right
+                %strong= number_to_currency(@order.total_due)

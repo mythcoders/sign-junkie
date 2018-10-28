@@ -18,3 +18,6 @@
           %td= o.customer.full_name
           %td= lifp(o.date_created, :short)
           %td= o.status
+  .card-footer
+    = paginate @orders
+    = page_entries_info @orders

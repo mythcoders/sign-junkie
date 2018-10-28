@@ -1,29 +1,23 @@
 .row
   .col-12
-    .btn-toolbar{'aria-label' => 'Order toolbar', role: 'toolbar'}
-      .btn-group.mr-2{'aria-label' => 'First group', role: 'group'}
-        %a.btn.btn-outline-secondary{:href => admin_orders_path}
+    .btn-toolbar{'aria-label': 'Order toolbar', role: 'toolbar'}
+      .btn-group.mr-2{'aria-label': 'First group', role: 'group'}
+        %a.btn.btn-outline-secondary{href: admin_orders_path}
           = fa_regular 'arrow-left'
           Back to Search
-        %a.btn.btn-primary{:href => edit_admin_order_path(@order)} Edit
+        %a.btn.btn-primary{href: edit_admin_order_path(@order)} Edit
 
-      -# .btn-group
-      -#   - if @order.placed? && !@order.fulfilled?
-      -#     = form_for @order, url: admin_order_mark_fulfilled_path, method: :post do |f|
-      -#       = f.hidden_field :id
-      -#       = button_tag(type: 'submit', class: 'btn btn-success') do
-      -#         = fa_light 'box-check'
-      -#         Mark as Fulfilled
-      -#   - if @order.fulfilled? && !@order.shipped?
-      -#     = form_for @order, url: admin_order_mark_shipped_path, method: :post do |f|
-      -#       = f.hidden_field :id
-      -#       = button_tag(type: 'submit', class: 'btn btn-success') do
-      -#         = fa_light 'shipping-timed'
-      -#         Shipped
-      -#   - if @order.shipped? && !@order.picked_up?
-      -#     = form_for @order, url: admin_order_mark_picked_up_path, method: :post do |f|
-      -#       = f.hidden_field :id
-      -#       = button_tag(type: 'submit', class: 'btn btn-success') do
-      -#         = fa_light 'hand-holding-box'
-      -#         Mark as Picked-Up
+      .btn-group
+        - if @order.can_be_canceled?
+          = form_for @order, url: admin_order_mark_canceled_path, method: :post do |f|
+            = f.hidden_field :id
+            = button_tag(type: 'submit', class: 'btn btn-danger') do
+              = fa_light 'ban'
+              Cancel Order
+        - if @order.fulfilled? && !@order.closed?
+          = form_for @order, url: admin_order_mark_closed_path, method: :post do |f|
+            = f.hidden_field :id
+            = button_tag(type: 'submit', class: 'btn btn-success') do
+              = fa_light 'check'
+              Close Order
 %br

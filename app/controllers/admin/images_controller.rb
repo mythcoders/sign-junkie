@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class ImagesController < ApplicationController
+  class ImagesController < AdminController
 
     before_action :get, only: %i[new create destroy]
 

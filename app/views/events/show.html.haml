@@ -21,17 +21,11 @@
         %hr
         %p.card-text= @event.description
       .card-footer
-        - if user_signed_in? && current_user.customer?
+        - if user_signed_in?
           - if @event.can_purchase?
             = form_for :cart, url: cart_index_path do |f|
               = f.hidden_field :event_id, value: @event.id
-              .input-group
-                .input-group-prepend
-                  = link_to 'Go Back', events_path, class: 'btn btn-outline-secondary'
-                = f.select :quantity, add_cart_helper(@event.tickets_available), {}, { class: 'custom-select' }
-                .input-group-append
-                  %button.btn.btn-outline-success{type: 'submit', title: 'Add to cart', 'data-js-change-size-style-button': ''}
-                    = fa_solid 'cart-plus'
+              = ticket_dropdown f, @event
           - else
             = link_to 'Go Back', events_path, class: 'btn btn-outline-secondary'
             .text-muted Sorry, but tickets for this event can't be purchased right now
@@ -40,8 +34,3 @@
           %a.btn.btn-primary(href=new_user_session_path)
             = fa_light 'sign-in'
             Log In or Sign up to add this to your cart
-= content_for :scripts do
-  :javascript
-    $(function() {
-      $('[data-js-change-size-style]').change()
-    });

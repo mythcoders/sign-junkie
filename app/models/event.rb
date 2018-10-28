@@ -1,20 +1,29 @@
 # frozen_string_literal: true
 
+# Tickets for Events are purchased by customers
 class Event < ApplicationRecord
   audited
   has_many_attached :images
 
   scope :active, (lambda do
-      where('is_for_sale = ? AND posting_start_date <= ? AND end_date >= ?', true, Date.today, Date.today).distinct
-    end)
+    where('is_for_sale = ? AND posting_start_date <= CURRENT_TIMESTAMP AND end_date >= CURRENT_TIMESTAMP', true)
+    .distinct
+  end)
 
   validates_presence_of :name, :posting_start_date, :start_date, :is_for_sale
   # validates_length_of :description
 
+  def self.search(name, _sort = 'A')
+    event = Event.active
+    event = event.where('name like ?', "%#{name}%") unless name.blank?
+    event
+  end
+
   def can_purchase?
-    return false unless is_for_sale
-    return false unless tickets_available.positive?
-    return false unless posting_start_date <= Date.today
+    return false unless is_for_sale ||
+                        tickets_available.positive? ||
+                        posting_start_date <= Date.today
+
     true
   end
 
@@ -34,18 +43,18 @@ class Event < ApplicationRecord
     end
   end
 
-  def add_stock(amount, user_id)
-    self.stock_level += amount
+  def add_stock(amount, _user_id)
+    self.tickets_available += amount
     save
   end
 
   def return_stock(amount)
-    self.stock_level += amount
+    self.tickets_available += amount
     save
   end
 
   def remove_stock(amount)
-    self.stock_level -= amount
+    self.tickets_available -= amount
     save
   end
 end

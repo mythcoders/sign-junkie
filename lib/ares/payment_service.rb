@@ -1,60 +1,73 @@
 # frozen_string_literal: true
 
 module Ares
+  # Handles communication with the Braintree API for processing card and PayPal payments.
   class PaymentService
-    TRANSACTION_SUCCESS_STATUSES = [
-      Braintree::Transaction::Status::Authorizing,
-      Braintree::Transaction::Status::Authorized,
-      Braintree::Transaction::Status::Settled,
-      Braintree::Transaction::Status::SettlementConfirmed,
-      Braintree::Transaction::Status::SettlementPending,
-      Braintree::Transaction::Status::Settling,
-      Braintree::Transaction::Status::SubmittedForSettlement
-    ].freeze
+    attr_reader :payment, :order, :gateway
 
-    attr_reader :payment, :gateway
-
-    def initialize(payment)
-      @payment = payment
-      @gateway = new_braintree
-    end
-
-    def post(nonce)
-      gateway.transaction.sale(
-        amount: amount,
-        payment_method_nonce: nonce,
-        order_id: @payment.order.order_number,
-        options: { submit_for_settlement: true }
+    def initialize(order)
+      env = Ares::PaymentService.env.to_sym
+      @order = order
+      @payment = Payment.build(@order)
+      @gateway = Braintree::Gateway.new(
+        environment: env,
+        merchant_id: merchant_id(env),
+        public_key: public_key(env),
+        private_key: private_key(env)
       )
     end
 
-    def process(result)
-      if result.success?
-        true
-      else
-        logger.debug result.message
-        false
-      end
-    end
-
     def self.env
-      ENV['BT_ENVIRONMENT']
+      ENV['PAYMENT_ENV']
     end
 
-    def self.new_token
-      new_braintree.client_token.generate
+    def self.tax_rate
+      0.0725
+    end
+
+    def new_token
+      gateway.client_token.generate
+    end
+
+    def process(payment_nonce)
+      result = post_payment(payment_nonce)
+      if result.success?
+        @payment.status = :authorized
+        @payment.date_cleared = Time.now
+        @payment.transaction_id = result.transaction.id
+        return true
+      else
+        @payment.status = :failed
+        Raven.capture_exception(result.message, transaction: 'Post Payment')
+        return false
+      end
     end
 
     private
 
-    def new_braintree
-      env = PaymentService.env.to_sym
-      Braintree::Gateway.new(
-        environment: env,
-        merchant_id: Rails.application.credentials.braintree[env][:merchant_id],
-        public_key: Rails.application.credentials.braintree[env][:public_key],
-        private_key: Rails.application.credentials.braintree[env][:private_key]
+    def post_payment(payment_nonce)
+      @payment.date_posted = Time.now
+      gateway.transaction.sale(
+        payment_method_nonce: payment_nonce,
+        amount: @order.total_due,
+        tax_amount: @order.total_tax,
+        order_id: @order.order_number,
+        options: { submit_for_settlement: true }
       )
+    end
+
+    protected
+
+    def merchant_id(env)
+      Rails.application.credentials.payment[env][:merchant_id]
+    end
+
+    def public_key(env)
+      Rails.application.credentials.payment[env][:public_key]
+    end
+
+    def private_key(env)
+      Rails.application.credentials.payment[env][:private_key]
     end
   end
 end

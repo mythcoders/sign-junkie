@@ -5,11 +5,7 @@ class PublicController < ApplicationController
   def index
     @view = params[:view] || 'grid'
     @events = if params[:search]
-                # term = params[:terms]
-                # low_price = params[:low_price]
-                # high_price = params[:high_price]
-                # sort = params[:sort]
-                Event.all
+                Event.search(params[:terms], params[:sort])
               else
                 Event.active
               end

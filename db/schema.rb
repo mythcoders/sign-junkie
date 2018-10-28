@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_235427) do
+ActiveRecord::Schema.define(version: 2018_10_26_203816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,8 +90,8 @@ ActiveRecord::Schema.define(version: 2018_08_29_235427) do
     t.datetime "posting_start_date", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date"
-    t.integer "tickets_available"
-    t.decimal "ticket_price"
+    t.integer "tickets_available", default: 0, null: false
+    t.decimal "ticket_price", null: false
     t.boolean "is_for_sale", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 2018_08_29_235427) do
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "event_id"
+    t.index ["event_id"], name: "index_order_items_on_event_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
@@ -140,6 +142,7 @@ ActiveRecord::Schema.define(version: 2018_08_29_235427) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "payment_method"
+    t.datetime "date_closed"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -195,6 +198,7 @@ ActiveRecord::Schema.define(version: 2018_08_29_235427) do
   add_foreign_key "cart_items", "users"
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "users", column: "author_id"
+  add_foreign_key "order_items", "events"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_notes", "orders"
   add_foreign_key "order_notes", "users", column: "author_id"

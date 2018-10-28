@@ -1,0 +1,25 @@
+%table
+  %thead
+    %tr
+      %th{colspan: 3}
+        = raw("#{Ares::SystemInfo.app_name}<br/>Order ##{@order.order_number}")
+  %thead
+    %tr
+      %th Item
+      %th Quantity
+      %th.text-right Price
+  %tbody
+  - @order.items.each do |i|
+    %tr
+      %td= i.name
+      %td.text-right= i.quantity
+      %td.text-right= number_to_currency(i.price)
+  %tfoot
+    - if @order.taxed?
+      %tr
+        %th.text-right{colspan: 2}
+          %strong Sales Tax
+        %th.text-right= number_to_currency(@order.total_tax)
+    %tr
+      %th.text-right{colspan: 2} Total Due
+      %th.text-right= number_to_currency(@order.total_due)

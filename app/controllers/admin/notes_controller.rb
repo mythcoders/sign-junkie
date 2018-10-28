@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class NotesController < ApplicationController
+  class NotesController < AdminController
 
     before_action :get, only: %i[edit show update]
 

@@ -2,7 +2,7 @@
 
 require 'json'
 module Admin
-  class AuditsController < ApplicationController
+  class AuditsController < AdminController
     def index
       @audits = Audited::Audit.order(created_at: :desc).page(params[:page])
     end

@@ -6,7 +6,7 @@
       New Customer
     .card-body
       = error_messages_for 'customer'
-      = render :partial => 'admin/customers/form', locals: { f: f }
+      = render partial: 'admin/customers/form', locals: { f: f }
 
       %br
       %h4 Login Information

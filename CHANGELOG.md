@@ -1,3 +1,14 @@
+#### 0.6 - 10-27-18
+
+- Features
+  - Ability to checkout and pay for an order with Card or PayPal
+  - Added DateTime picker for easier entry of date and time fields
+- Improvements
+  - Security and Authorization checks for Customers
+  - Canceling orders as customers and employees
+  - Event search for customers
+  - Employees are automatically directed to the Admin Portal after logging in
+
 #### 0.4 - 08-19-18
 
 - Features

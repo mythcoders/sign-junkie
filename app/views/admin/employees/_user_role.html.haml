@@ -1,0 +1,43 @@
+%label Role
+.custom-control.custom-radio
+  = f.radio_button :role, 'customer', class: 'custom-control-input'
+  = f.label :role, value: 'customer', class: 'custom-control-label' do
+    %h4
+      Customer
+      = fa_light 'user'
+      %br
+      %small.text-muted
+        Add events to cart, checkout, and pay for orders
+
+.custom-control.custom-radio
+  = f.radio_button :role, 'employee', class: 'custom-control-input'
+  = f.label :role, value: 'employee', class: 'custom-control-label' do
+    %h4
+      Employee
+      = fa_light 'user-tie'
+      %br
+      %small.text-muted
+        Customer Permissions + Admin Protal access to view customers, events, gift certificates, and orders
+
+.custom-control.custom-radio
+  = f.radio_button :role, 'admin', class: 'custom-control-input'
+  = f.label :role, value: 'admin', class: 'custom-control-label' do
+    %h4
+      Administrator
+      = fa_light 'user-crown'
+      %br
+      %small.text-muted
+        Employee Permissions + editing abilities, data history and reports
+
+.custom-control.custom-radio
+  - if current_user.can_upgrade_operator?
+    = f.radio_button :role, 'operator', class: 'custom-control-input'
+  - else
+    = f.radio_button :role, 'operator', class: 'custom-control-input', 'disabled': 'disabled'
+  = f.label :role, value: 'operator', class: 'custom-control-label' do
+    %h4
+      IT Operator
+      = fa_light 'user-cog'
+      %br
+      %small.text-muted
+        Administrator Permissions + system maintenance

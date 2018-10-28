@@ -6,7 +6,7 @@
       = "Edit Note for #{@note.customer.full_name}"
     .card-body
       = error_messages_for 'note'
-      = render :partial => 'admin/notes/form', locals: { f: f }
+      = render partial: 'admin/notes/form', locals: { f: f }
     .card-footer
       = link_to 'Cancel', admin_customer_path(@note.customer), class: 'btn btn-outline-secondary'
       = f.submit 'Create', class: 'btn btn-success'

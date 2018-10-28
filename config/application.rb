@@ -1,19 +1,32 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
-require 'rails/all'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'action_mailer/railtie'
+require 'sprockets/railtie'
+require 'pinglish'
 
 Bundler.require(*Rails.groups)
 
 module SignJunkie
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 5.2 # Initialize generated Rails version
+
     config.encoding = 'utf-8'
     config.time_zone = 'Eastern Time (US & Canada)'
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
     config.require_master_key = true
+    config.force_ssl = true unless Rails.env.development?
+
+    # Logging
+    config.lograge.enabled = true
+
+    # Storage
+    config.active_storage.service = :amazon
 
     # Email
     config.action_mailer.delivery_method = :smtp

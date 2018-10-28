@@ -1,47 +1,68 @@
 # frozen_string_literal: true
 
 module Admin
-  class OrdersController < ApplicationController
-    before_action :get, only: %i[show edit fulfill ship pick_up]
+  class OrdersController < AdminController
+    before_action :get, only: %i[show edit update cancel close]
     before_action :populate_addresses, only: %i[edit]
 
     def index
-      @orders = Order.includes(:customer).all
+      @orders = Order.includes(:customer)
+                     .order(date_created: :desc)
+                     .page(params[:page])
+                     .per(10)
     end
 
-    def code
-      @order = Order.includes(:items, :payments, :customer).where(order_number: params[:order_number]).first
-      if @order.nil?
-        flash[:error] = 'Order not found'
-        redirect_to admin_path
+    def update
+      if @order.update(filtered_params)
+        flash[:success] = 'Yes!'
+        redirect_to admin_order_path(@order)
       else
+        populate_addresses
+        render 'edit'
+      end
+    end
+
+    def cancel
+      service = Ares::OrderService.new(@order)
+      if service.cancel
+        flash[:success] = 'Order has been canceled'
+        redirect_to admin_order_path(@order)
+      else
+        flash[:error] = t('order.update.failure')
         render 'show'
       end
     end
 
-    def update
-      if @order.update(update_params)
-        flash[:success] = 'Yes!'
-        redirect_to new_order_payment_path(@order)
+    def close
+      service = Ares::OrderService.new(@order)
+      if service.close
+        flash[:success] = 'Order has been closed!'
+        redirect_to admin_order_path(@order)
       else
-        set_addresses
-        render 'edit'
+        flash[:error] = t('order.update.failure')
+        render 'show'
       end
     end
 
     private
 
     def get
-      @order = Order.includes(:items, :payments, :customer)
-                    .find(params[:id])
+      @order = Order.includes(:items, :payments, :customer, :notes).find(params[:id])
     end
 
     def populate_addresses
       @addresses = @order.customer.addresses
     end
 
-    def update_params
-      params.require(:order).permit(:id, :payment_method, :address_id, :date_canceled)
+    def order_params
+      params.require(:order).permit(:id, :payment_method, :address_id, :date_canceled, :date_placed)
+    end
+
+    def filtered_params
+      parameters = order_params
+      parameters[:date_placed] = convert_datetime(parameters[:date_placed])
+      parameters[:date_canceled] = convert_datetime(parameters[:date_canceled])
+      parameters
     end
   end
 end

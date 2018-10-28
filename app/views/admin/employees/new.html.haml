@@ -5,12 +5,12 @@
     %h5.card-header.bg-primary.text-white
       New Employee
     .card-body
+      %h3 Personal Information
       = error_messages_for 'employee'
-      = render :partial => 'admin/employees/form', locals: { f: f }
+      = render partial: 'admin/employees/form', locals: { f: f }
 
-      %br
-      %h4 Login Information
-      .form-group.col-2
+      %h3 Login Information
+      .form-group
         = f.label :password, class: 'col-form-label'
         = f.password_field :password, class: 'form-control'
 

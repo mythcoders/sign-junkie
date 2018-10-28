@@ -4,10 +4,11 @@
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %script{src: "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js", type: "text/javascript"}
+    %script{src: "https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js", type: "text/javascript"}
+    %link{href: "https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css", rel: "stylesheet"}
     - if @client_token
-      %script{src: 'https://www.paypalobjects.com/api/checkout.js', 'data-version-4': ''}
-      %script{src: 'https://js.braintreegateway.com/web/3.34.0/js/client.min.js'}
-      %script{src: 'https://js.braintreegateway.com/web/3.34.0/js/paypal-checkout.min.js'}
+      %script{src: 'https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js'}
   %body
     %a#top
     = render partial: 'layouts/partials/navbar'
@@ -19,13 +20,8 @@
             %br
             %span.text-primary Loading ... Please wait...
       = render partial: 'layouts/partials/alerts'
-      = render partial: 'layouts/partials/screen_size'
+      -# = render partial: 'layouts/partials/screen_size'
       = yield :breadcrumbs
       = yield
     = render partial: 'layouts/partials/footer'
     = yield :scripts
-    :javascript
-      document.addEventListener("turbolinks:load", function() {
-        window.FontAwesome.dom.i2svg();
-        $.onmount()
-      });

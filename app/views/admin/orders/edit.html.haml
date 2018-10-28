@@ -1,96 +1,65 @@
 .row
-  .col-3
-    = form_for @order, url: order_path(@order), method: :patch do |f|
+  .col-5
+    = form_for @order, url: admin_order_path(@order), method: :patch do |f|
       .card.card-primary
         %h5.card-header.bg-primary.text-white
           = fa_light 'shopping-bag'
           = "Order ##{@order.order_number}"
         .card-body
           .form-group
+            %label Date Created
+            #placedpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+              = f.text_field :date_created, value: lifp(@order.date_placed), class: 'form-control', disabled: 'disabled'
+              .input-group-append
+                .input-group-text
+                  = fa_regular 'calendar'
+          .form-group
             %label Date Placed
-            = f.text_field :date_placed, class: 'form-control'
-          .form-group
-            %label Date Shipped
-            = f.text_field :date_shipped, class: 'form-control'
-          .form-group
-            %label Date Picked-up/Delivered
-            = f.text_field :date_picked_up, class: 'form-control'
-
-          %h5.text-primary Shipping
+            #placedpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+              = f.text_field :date_placed, value: lifp(@order.date_placed), class: 'form-control datetimepicker-input', 'data-target': '#placedpicker'
+              .input-group-append{"data-target" => "#placedpicker", "data-toggle" => "datetimepicker"}
+                .input-group-text
+                  = fa_regular 'calendar'
 
           .form-group
-            %label Method
-            = f.select(:delivery_method,
-              ApplicationHelper::SHIPMENT_METHODS.collect { |r| [ r[:name], r[:id] ] },
-              { prompt: ' - Select - ' },
-              { class: 'custom-select', 'data-js-shipping-method': '' })
-          .form-group{'data-js-shipping-address-section': ''}
-            %label Address
-            = f.select(:shipping_address_id,
-              @addresses.collect { |r| [ r[:nickname], r[:id] ] },
-              { include_blank: ' - Select - ' },
-              { class: 'custom-select', 'data-js-shipping-address': '' })
+            %label Date Canceled
+            #canceledpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+              = f.text_field :date_canceled, value: lifp(@order.date_canceled), class: 'form-control datetimepicker-input', 'data-target': '#canceledpicker'
+              .input-group-append{"data-target" => "#canceledpicker", "data-toggle" => "datetimepicker"}
+                .input-group-text
+                  = fa_regular 'calendar'
 
           %h5.text-primary Billing
 
-          .form-check.form-check-inline
-            = check_box_tag(:same_as_shipping, nil,
-              @order.shipping_address_id != nil && @order.shipping_address_id == @order.billing_address_id,
-              { class: 'form-check-input', 'data-js-addresses-match': '' })
-            %label.form-check-label{for: 'same_as_shipping'} Billing address the same as shipping
-
           .form-group
             %label Address
-            %br
-            = f.select(:billing_address_id,
+            = f.select(:address_id,
               @addresses.collect { |r| [ r[:nickname], r[:id] ] },
               { include_blank: ' - Select - ' },
-              { class: 'custom-select', 'data-js-billing-address': '' })
+              { class: 'custom-select', 'data-js-address': '' })
+
           .form-group
             %label Payment Method
-            = f.select(:payment_method,
-              ApplicationHelper::PAYMENT_METHODS.collect { |r| [ r[:name], r[:id] ] },
-              { include_blank: ' - Select - ' },
-              { class: 'custom-select', 'data-js-payment-method': ''  })
+            .custom-control.custom-radio
+              = f.radio_button :payment_method, 'card', class: 'custom-control-input', disabled: 'disabled'
+              = f.label :payment_method, value: 'card', class: 'custom-control-label' do
+                = fa_light 'credit-card-front'
+                Card
+            .custom-control.custom-radio
+              = f.radio_button :payment_method, 'paypal', class: 'custom-control-input', disabled: 'disabled'
+              = f.label :payment_method, value: 'paypal', class: 'custom-control-label' do
+                = fa_brands 'paypal'
+                PayPal
         .card-footer
-          = link_to 'Go Back', cp_order_path(@order), class: 'btn btn-outline-secondary btn-block'
+          = link_to 'Go Back', admin_order_path(@order), class: 'btn btn-outline-secondary btn-block'
           = button_tag(type: 'submit', class: 'btn btn-outline-success btn-block') do
             Save Changes
-  .col-9
+  .col-7
     = error_messages_for 'order'
 
     .card
       %h5.card-header.bg-primary.text-white
         = fa_light 'clipboard-list'
-        Items
+        Details
       .table-responsive-md
-        %table.table.table-striped.table-bordered.table-border-fix
-          %thead
-            %tr
-              %th Product
-              %th.action-column Amount
-              %th.action-column Quantity
-              %th.action-column Price
-          %tbody
-            - @order.items.order(:created_at).each do |i|
-              %tr
-                %td= i.name
-                %td= number_to_currency(i.amount)
-                %td= i.quantity
-                %td.text-right
-                  %strong= number_to_currency(i.item_total)
-            - if @order.taxed?
-              %tr
-                %td{colspan: 3} Estimated tax to be collected
-                %td.text-right
-                  %strong= number_to_currency(@order.total_tax)
-            - if @order.shipping?
-              %tr
-                %td{colspan: 3} Shipping & handling
-                %td.text-right
-                  %strong= number_to_currency(@order.total_shipping)
-          %tfoot
-            %tr
-              %td.text-right{colspan: 4}
-                %h6
-                  %strong= number_to_currency(@order.total_due)
+        = render :partial => 'admin/order_items/show'

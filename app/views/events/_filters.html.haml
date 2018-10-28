@@ -1,4 +1,4 @@
-= form_tag home_path, :method => 'get' do
+= form_tag home_path, method: 'get' do
   = hidden_field_tag :search
   .card
     %h5.card-header.bg-primary.text-white
@@ -8,27 +8,15 @@
       .form-group
         %label Name
         = text_field_tag :terms, params[:terms], class: 'form-control'
-      -#.form-group
-      -#  %label Price Range
-      -#  .input-group.mb-3
-      -#    .input-group-prepend
-      -#      %span.input-group-text= fa_regular 'dollar-sign'
-      -#    = text_field_tag :low, params[:low], class: 'form-control', placeholder: 'Low'
-      -#    .input-group-prepend
-      -#      %span.input-group-text= fa_regular 'dollar-sign'
-      -#    = text_field_tag :high, params[:high], class: 'form-control', placeholder: 'High'
-      .form-group
-        %label Sort By
-        = select_tag(:sort, options_for_select(PublicHelper::SORT_OPTIONS, params[:sort]), class: 'form-control custom-select')
       .form-group
         %label View Options
         .btn-group.btn-group-toggle{'data-toggle': 'buttons'}
           %label{class: ['btn btn-light', ('active' if @view == 'grid')]}
-            %input{checked_attr(@view, 'grid'), :name => "view", :value => 'grid', :type => "radio"}
+            %input{checked_attr(@view, 'grid'), name: "view", value: 'grid', type: "radio"}
             = fa_regular 'th'
             Grid
           %label{class: ['btn btn-light', ('active' if @view == 'list')]}
-            %input{checked_attr(@view, 'list'), :name => "view", :value => 'list', :type => "radio"}
+            %input{checked_attr(@view, 'list'), name: "view", value: 'list', type: "radio"}
             = fa_regular 'th-list'
             List
     .card-footer

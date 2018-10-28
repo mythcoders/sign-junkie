@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :notes
   has_many :orders
 
+  before_validation :strip_phone_number
   accepts_nested_attributes_for :addresses, allow_destroy: true
   validates_presence_of :first_name, :last_name, :role
 
@@ -29,5 +30,15 @@ class User < ApplicationRecord
 
   def can_cp?
     employee? || admin? || operator?
+  end
+
+  def can_upgrade_operator?
+    operator?
+  end
+
+  private
+
+  def strip_phone_number
+    phone_number.gsub!(/\D/, '') unless phone_number.blank?
   end
 end
