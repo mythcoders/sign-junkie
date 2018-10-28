@@ -1,12 +1,12 @@
 %nav.navbar.navbar-expand-md.navbar-light.bg-primary
   .container-fluid
+    = link_to home_path, class: 'navbar-brand text-white' do
+      Sign Junkie Workshop
+      - unless Rails.env.production?
+        %strong.text-warning.text-uppercase.ml-2= Ares::EnvironmentInfo.current
     %button.navbar-toggler{data: { target: '#navbarSupportedContent', toggle: 'collapse' }, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, type: 'button'}
       %span.navbar-toggler-icon
     .collapse.navbar-collapse#navbarSupportedContent
-      = link_to home_path, class: 'navbar-brand text-white' do
-        Sign Junkie Workshop
-        - unless Rails.env.production?
-          %strong.text-warning.text-uppercase.ml-2= Ares::EnvironmentInfo.current
       - if user_signed_in?
         = render partial: 'layouts/partials/user_menu'
       - else
