@@ -4,7 +4,7 @@ module Ares
   module ClientInfo
     class << self
       def owner
-        'Sign Junkie Workshop, LLC'
+        'Sign Junkie, LLC'
       end
 
       def address_1
