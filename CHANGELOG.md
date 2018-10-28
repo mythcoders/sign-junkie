@@ -1,3 +1,8 @@
+#### 0.6.1 - 10-27-18
+
+- Fixes
+  - Displaying of event details
+
 #### 0.6 - 10-27-18
 
 - Features
