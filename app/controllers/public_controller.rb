@@ -3,12 +3,20 @@ class PublicController < ApplicationController
   before_action :authenticate_user!, only: %i[my_account]
 
   def index
-    @view = params[:view] || 'grid'
-    @events = if params[:search]
-                Event.search(params[:terms], params[:sort])
-              else
-                Event.active
-              end
+    if show
+      render 'coming_soon'
+    else
+      @view = params[:view] || 'grid'
+      @events = if params[:search]
+                  Event.search(params[:terms], params[:sort])
+                else
+                  Event.active
+                end
+    end
+  end
+
+  def show
+    Rails.env.production? || params[:soon]
   end
 
   def my_account
