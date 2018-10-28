@@ -26,7 +26,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh './scripts/heroku_release.sh sign-junkie ${HEROKU_API_KEY}'
+                sh './scripts/heroku_release.sh sign-junkie-pd ${HEROKU_API_KEY}'
             }
         }
     }
