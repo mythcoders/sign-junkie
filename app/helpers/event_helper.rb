@@ -36,7 +36,7 @@ module EventHelper
 
   def ticket_dropdown_items(quantity)
     if quantity.positive?
-      ((1..product_qty).map { |i| [i, i] })
+      ((1..quantity).map { |i| [i, i] })
     else
       ['Sorry, this event is sold out.']
     end
