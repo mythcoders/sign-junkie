@@ -46,7 +46,7 @@ module Ares
     def build_items(user, as_of_date)
       value = []
       CartItem.for(user).as_of(as_of_date).each do |cart_item|
-        value << OrderItem.create(cart_item.event, cart_item.quantity)
+        value << OrderItem.create(cart_item.workshop, cart_item.quantity)
       end
       value
     end

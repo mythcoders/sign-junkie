@@ -21,7 +21,7 @@ class CartController < ApplicationController
   end
 
   def update
-    # TODO make sure not adding more than what's available
+    # TODO: make sure not adding more than what's available
     if @cart_item.update(cart_params)
       flash[:success] = t('cart.update.success')
     else

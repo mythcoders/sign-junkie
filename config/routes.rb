@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # customer accounts and order processing
   get 'my_account', to: 'public#my_account'
   resources :addresses
-  resources :events, only: %i[index show]
+  resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create]
   post 'orders/ui', to: 'orders#ui', as: 'order_ui_update'
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :audits, concerns: :paginatable, only: %i[index show]
-    resources :events, concerns: :paginatable do
+    resources :workshops, concerns: :paginatable do
       post 'primary', as: 'set_primary'
       resources :images, only: %i[new create destroy]
     end

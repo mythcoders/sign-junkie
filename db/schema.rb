@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_26_203816) do
+ActiveRecord::Schema.define(version: 2019_01_05_043839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,25 +76,25 @@ ActiveRecord::Schema.define(version: 2018_10_26_203816) do
   create_table "cart_items", id: :serial, force: :cascade do |t|
     t.string "session_id"
     t.integer "quantity", default: 1, null: false
-    t.bigint "event_id"
+    t.bigint "workshop_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_cart_items_on_event_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
+    t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
   end
 
-  create_table "events", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 50, null: false
-    t.string "description", limit: 500
-    t.datetime "posting_start_date", null: false
-    t.datetime "start_date", null: false
-    t.datetime "end_date"
-    t.integer "tickets_available", default: 0, null: false
-    t.decimal "ticket_price", null: false
-    t.boolean "is_for_sale", default: false, null: false
+  create_table "gifts", force: :cascade do |t|
+    t.bigint "order_id"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "phone_number", null: false
+    t.string "email"
+    t.string "gift_code", null: false
+    t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_gifts_on_order_id"
   end
 
   create_table "notes", id: :serial, force: :cascade do |t|
@@ -115,9 +115,9 @@ ActiveRecord::Schema.define(version: 2018_10_26_203816) do
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "event_id"
-    t.index ["event_id"], name: "index_order_items_on_event_id"
+    t.bigint "workshop_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["workshop_id"], name: "index_order_items_on_workshop_id"
   end
 
   create_table "order_notes", id: :serial, force: :cascade do |t|
@@ -193,13 +193,27 @@ ActiveRecord::Schema.define(version: 2018_10_26_203816) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workshops", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 50, null: false
+    t.string "description", limit: 500
+    t.datetime "posting_start_date", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date"
+    t.integer "tickets_available", default: 0, null: false
+    t.decimal "ticket_price", null: false
+    t.boolean "is_for_sale", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "addresses", "users"
-  add_foreign_key "cart_items", "events"
   add_foreign_key "cart_items", "users"
+  add_foreign_key "cart_items", "workshops"
+  add_foreign_key "gifts", "orders"
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "users", column: "author_id"
-  add_foreign_key "order_items", "events"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "workshops"
   add_foreign_key "order_notes", "orders"
   add_foreign_key "order_notes", "users", column: "author_id"
   add_foreign_key "orders", "addresses"

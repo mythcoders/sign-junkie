@@ -1,17 +1,17 @@
 class OrderItem < ApplicationRecord
   audited
   belongs_to :order
-  belongs_to :event, autosave: true
+  belongs_to :workshop, autosave: true
 
   validates :name, presence: true
   validates :price, presence: true
   validates :quantity, presence: true
 
-  def self.create(event, qty)
-    OrderItem.new(name: event.name,
-                  price: event.ticket_price,
+  def self.create(workshop, qty)
+    OrderItem.new(name: workshop.name,
+                  price: workshop.ticket_price,
                   quantity: qty,
-                  event: event)
+                  workshop: workshop)
   end
 
   def item_total

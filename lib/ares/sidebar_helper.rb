@@ -23,8 +23,8 @@ module Ares
     #   controller.class == Admin::ReportsController
     # end
     #
-    def events_controller?
-      controller.class == Admin::EventsController
+    def workshops_controller?
+      controller.class == Admin::WorkshopsController
     end
 
     def customers_controller?

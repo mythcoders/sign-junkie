@@ -1,12 +1,12 @@
-module EventHelper
-  def ticket_dropdown(form, event)
-    disabled = event.tickets_available.negative?
+module WorkshopHelper
+  def ticket_dropdown(form, workshop)
+    disabled = workshop.tickets_available.negative?
 
     content_tag :div, class: 'input-group' do
       concat(content_tag(:div, class: 'input-group-prepend') do
         ticket_go_back_button
       end)
-      concat(ticket_select(form, event, disabled))
+      concat(ticket_select(form, workshop, disabled))
       concat(content_tag(:div, class: 'input-group-append') do
         ticket_add_cart_button(disabled)
       end)
@@ -16,13 +16,13 @@ module EventHelper
   private
 
   def ticket_go_back_button
-    link_to 'Go Back', events_path, class: 'btn btn-outline-secondary'
+    link_to 'Go Back', workshops_path, class: 'btn btn-outline-secondary'
   end
 
-  def ticket_select(form, event, disabled)
+  def ticket_select(form, workshop, disabled)
     classes = { class: 'custom-select' }
     classes[:disabled] = 'disabled' if disabled
-    form.select(:quantity, ticket_dropdown_items(event.tickets_available), {}, classes)
+    form.select(:quantity, ticket_dropdown_items(workshop.tickets_available), {}, classes)
   end
 
   def ticket_add_cart_button(disabled)
@@ -38,7 +38,7 @@ module EventHelper
     if quantity.positive?
       ((1..quantity).map { |i| [i, i] })
     else
-      ['Sorry, this event is sold out.']
+      ['Sorry, this workshop is sold out.']
     end
   end
 end

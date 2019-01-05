@@ -1,9 +1,9 @@
-- page_title 'Event Search'
+- page_title 'Workshop Search'
 
 .card
   %h5.card-header.bg-primary.text-white
     = fa_regular 'sitemap'
-    Events
+    Workshops
   %table.table.table-bordered.table-striped.table-hover.table-border-fix
     %thead
       %tr
@@ -11,13 +11,13 @@
         %th Date
         %th Tickets Available
     %tbody
-      - @events.each do |e|
-        %tr{data: { 'clickable-row': '', 'href': admin_event_path(e) }}
+      - @workshops.each do |e|
+        %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(e) }}
           %td= e.name
           %td= e.when
           %td= e.tickets_available
   .card-footer
-    = paginate @events
-    = page_entries_info @events
+    = paginate @workshops
+    = page_entries_info @workshops
 %br
-= link_to 'New Event', new_admin_event_path, class: 'btn btn-primary'
+= link_to 'New workshop', new_admin_workshop_path, class: 'btn btn-primary'

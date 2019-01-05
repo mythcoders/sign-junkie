@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Tickets for Events are purchased by customers
-class Event < ApplicationRecord
+class Workshop < ApplicationRecord
   audited
   has_many_attached :images
 
@@ -14,7 +14,7 @@ class Event < ApplicationRecord
   # validates_length_of :description
 
   def self.search(name, _sort = 'A')
-    event = Event.active
+    event = Workshop.active
     event = event.where('name like ?', "%#{name}%") unless name.blank?
     event
   end

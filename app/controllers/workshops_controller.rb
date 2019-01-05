@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EventsController < ApplicationController
+class WorkshopsController < ApplicationController
   before_action :get, only: [:show]
   before_action :populate_cart
 
@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   private
 
   def get
-    @event = Event.find(params[:id])
+    @event = Workshop.find(params[:id])
     # redirect_to home_path unless @event.active?
   end
 

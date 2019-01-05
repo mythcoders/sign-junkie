@@ -2,7 +2,9 @@
 
 class User < ApplicationRecord
   include Nameable
-
+  audited except: %i[current_sign_in_at last_sign_in_at sign_in_count
+                     last_sign_in_ip current_sign_in_ip failed_attempts
+                     encrypted_password reset_password_token confirmation_token]
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :confirmable, :lockable, :timeoutable
 
