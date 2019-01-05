@@ -1,56 +1,37 @@
-.sidebar-sticky
-  %ul.nav.flex-column
-    %li.nav-item.my-30
-      %a.nav-link{sidebar_link(admin_dashboard_path, admin_home_action?('index'))}
-        = fa_regular 'home'
-        Dashboard
-    %li.nav-item
-      %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
-        = fa_regular 'users'
-        Customers
-    %li.nav-item
-      %a.nav-link{sidebar_link(admin_events_path, events_controller?)}
-        = fa_regular 'calendar-alt'
-        Events
-    %li.nav-item
-      %a.nav-link{disabled_link}
-        = fa_regular 'award'
-        Gift Certificates
-    %li.nav-item
-      %a.nav-link{sidebar_link(admin_orders_path, order_controller?)}
-        = fa_regular 'shopping-bag'
-        Orders
-
-    %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
-      %span Administration
-    %li.nav-item.mt-1
-      %a.nav-link{sidebar_link(admin_audits_path, audits_controller?)}
-        = fa_regular 'history'
-        Data History
-    %li.nav-item
-      %a.nav-link{sidebar_link(admin_employees_path, employees_controller?)}
-        = fa_regular 'users-class'
-        Employees
-    %li.nav-item
-      %a.nav-link{disabled_link}
-        = fa_regular 'chart-line'
-        Reports
-    %li.nav-item
-      %a.nav-link{sidebar_link(admin_about_path, admin_home_action?('about'))}
-        = fa_regular 'info-circle'
-        About
-
-    %h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
-      %span Actions
-    %li.nav-item.mt-1
-      %a.nav-link{href: home_path}
-        = fa_regular 'globe'
-        View Public Website
-    %li.nav-item
-      %a.nav-link{profile_link, target: '_blank'}
-        = fa_regular 'user-circle'
-        Manage Account
-    %li.nav-item
-      = link_to destroy_user_session_path, method:'delete', title: 'Sign out', class: 'nav-link', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
-        = fa_regular 'sign-out-alt'
-        Sign Out
+%ul.sidebar.navbar-nav
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_dashboard_path, admin_home_action?('index'))}
+      = fa_solid 'home', 'fa-fw'
+      %span Dashboard
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
+      = fa_solid 'users', 'fa-fw'
+      %span Customers
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_events_path, events_controller?)}
+      = fa_solid 'calendar-alt', 'fa-fw'
+      %span Workshops
+  %li.nav-item
+    %a.nav-link{disabled_link}
+      = fa_solid 'award', 'fa-fw'
+      %span Gift Certificates
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_orders_path, order_controller?)}
+      = fa_solid 'shopping-bag', 'fa-fw'
+      %span Orders
+  %li.nav-item.mt-1
+    %a.nav-link{sidebar_link(admin_audits_path, audits_controller?)}
+      = fa_solid 'history', 'fa-fw'
+      %span Data History
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_employees_path, employees_controller?)}
+      = fa_solid 'users-class', 'fa-fw'
+      %span Employees
+  %li.nav-item
+    %a.nav-link{disabled_link}
+      = fa_solid 'chart-line', 'fa-fw'
+      %span Reports
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_about_path, admin_home_action?('about'))}
+      = fa_solid 'info-circle', 'fa-fw'
+      %span About

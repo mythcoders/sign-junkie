@@ -4,24 +4,24 @@
 %ul.navbar-nav.ml-auto
   %li.nav-item
     = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
-      = fa_regular 'shopping-cart'
+      = fa_solid 'shopping-cart'
       %span.badge.badge-info= @cart_total
   %li.nav-item
     = link_to orders_path, title: 'Orders', class: 'nav-link text-white' do
-      = fa_regular 'shopping-bag'
+      = fa_solid 'shopping-bag'
       Orders
   - if current_user.can_cp?
     %li.nav-item
       = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do
-        = fa_regular 'wrench'
+        = fa_solid 'wrench'
   %li.nav-item.dropdown
     %a#navbarDropdown.nav-link.dropdown-toggle.text-white{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
-      = fa_light 'user-circle'
+      = fa_solid 'user-circle'
       My Account
     .dropdown-menu.dropdown-menu-right{"aria-labelledby": "navbarDropdown"}
       %a.dropdown-item{href: addresses_path} Addresses
       %a.dropdown-item{href: edit_user_registration_path} Security
       .dropdown-divider
-      = link_to destroy_user_session_path, method: 'delete', title: 'Sign out', class: 'dropdown-item', data: { confirm: 'Are you sure you want to sign out? Any unsaved changes will be lost.' } do
+      %a.dropdown-item{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
         = fa_regular 'sign-out-alt'
         Sign Out

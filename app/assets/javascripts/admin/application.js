@@ -6,4 +6,6 @@
 //= require popper
 //= require bootstrap
 //= require ../behaviors/clickable-row
+//= require jquery.easing.min
+//= require sb-admin.min
 //= require ../global

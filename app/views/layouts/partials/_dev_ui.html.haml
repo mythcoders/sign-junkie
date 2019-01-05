@@ -1,0 +1,13 @@
+- if Rails.env.development?
+  .alert.alert-info{style: 'margin-bottom: 0;'}
+    .d-block.d-sm-none
+      %span XS
+    .d-none.d-sm-block.d-md-none
+      %span SM
+    .d-none.d-md-block.d-lg-none
+      %span MD
+    .d-none.d-lg-block.d-xl-none
+      %span L
+    .d-none.d-xl-block
+      %span XL
+  %br
