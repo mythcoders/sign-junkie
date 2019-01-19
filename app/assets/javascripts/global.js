@@ -27,6 +27,7 @@ $(function() {
     format: "MM-DD-YYYY",
     minDate: moment(new Date())
   });
+  $("[data-multiselect]").select2();
 });
 function ShowLoader() {
   $("#pageLoading").fadeIn();
