@@ -14,7 +14,7 @@ module Ares
       end
 
       def support_url
-        'mailto:mythcoders_signjunkie@issues.zohoprojects.com'.freeze
+        'mailto:support@mythcoders.com'.freeze
       end
 
       def version
@@ -39,7 +39,7 @@ module Ares
 
       def license
         s = "#{Ares::ClientInfo.owner}\n"
-        s << "Trial\n"
+        s << "Licensed\n"
         s << '99/99/9999 - 99/99/9999'
         s
       end
