@@ -1,0 +1,12 @@
+- page_title 'New', 'Project'
+
+= form_for @project, url: admin_projects_path, local: true do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      New Project
+    .card-body
+      = error_messages_for 'project'
+      = render partial: 'admin/projects/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_projects_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Create', class: 'btn btn-success'

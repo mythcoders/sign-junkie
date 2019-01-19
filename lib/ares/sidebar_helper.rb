@@ -37,6 +37,14 @@ module Ares
       controller.class == Admin::EmployeesController
     end
 
+    def projects_controller?
+      controller.class == Admin::ProjectsController
+    end
+
+    def addons_controller?
+      controller.class == Admin::AddonsController
+    end
+
     def order_controller?
       controller.class == Admin::OrdersController
     end

@@ -1,0 +1,25 @@
+- page_title @project.name, 'Projects'
+
+.row
+  .col-4
+    .card
+      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
+        = @project.name
+      .card-body
+        .form-group
+          %label.col-form-label Description
+          .form-control-plaintext= @project.description
+      .card-footer
+        %a.btn.btn-outline-secondary.btn-sm{href: admin_projects_path}
+          = fa_regular 'arrow-left'
+          Search
+        %a.btn.btn-primary.btn-sm{href: edit_admin_project_path(@project)} Edit
+        %button.btn.btn-info.btn-sm{type: 'button', 'data-toggle': 'collapse', 'data-target': '#collapse-new-addon'} New Addon
+    .collapse#collapse-new-addon= render 'admin/addons/form'
+  .col-8
+    #addons-content
+      - if @project.addons.any?
+        = render partial: 'admin/addons/list', locals: { addons: @project.addons }
+      - else
+        No addons
+

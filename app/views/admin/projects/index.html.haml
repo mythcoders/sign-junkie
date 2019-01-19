@@ -1,0 +1,19 @@
+- page_title 'Project Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_regular 'paint-roller'
+    Projects
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Name
+    %tbody
+      - @projects.each do |p|
+        %tr{data: { 'clickable-row': '', 'href': admin_project_path(p) }}
+          %td= p.name
+  .card-footer
+    = paginate @projects
+    = page_entries_info @projects
+%br
+= link_to 'New Project', new_admin_project_path, class: 'btn btn-primary'
