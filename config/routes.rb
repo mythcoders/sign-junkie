@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :audits, concerns: :paginatable, only: %i[index show]
+    resources :projects
     resources :workshops, concerns: :paginatable do
       post 'primary', as: 'set_primary'
       resources :images, only: %i[new create destroy]

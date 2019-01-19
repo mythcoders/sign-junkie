@@ -4,14 +4,15 @@
 class Workshop < ApplicationRecord
   audited
   has_many_attached :images
+  has_many :project_workshops
+  has_many :projects, through: :project_workshops
 
   scope :active, (lambda do
-    where('is_for_sale = ? AND posting_start_date <= CURRENT_TIMESTAMP AND end_date >= CURRENT_TIMESTAMP', true)
+    where('is_for_sale = ? AND posting_start_date <= CURRENT_TIMESTAMP AND posting_end_date >= CURRENT_TIMESTAMP', true)
     .distinct
   end)
 
   validates_presence_of :name, :posting_start_date, :start_date, :is_for_sale
-  # validates_length_of :description
 
   def self.search(name, _sort = 'A')
     event = Workshop.active

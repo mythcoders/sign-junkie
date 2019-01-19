@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_05_043839) do
+ActiveRecord::Schema.define(version: 2019_01_05_162140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "addons", force: :cascade do |t|
+    t.bigint "project_id"
+    t.string "name"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_addons_on_project_id"
+  end
+
   create_table "addresses", id: :serial, force: :cascade do |t|
     t.string "nickname", limit: 25
     t.string "street", limit: 30, null: false
@@ -49,6 +58,16 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "attendees", force: :cascade do |t|
+    t.bigint "workshop_id"
+    t.string "name"
+    t.string "email_address"
+    t.string "project_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_attendees_on_workshop_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -84,19 +103,6 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
   end
 
-  create_table "gifts", force: :cascade do |t|
-    t.bigint "order_id"
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "phone_number", null: false
-    t.string "email"
-    t.string "gift_code", null: false
-    t.string "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_gifts_on_order_id"
-  end
-
   create_table "notes", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "author_id", null: false
@@ -110,12 +116,11 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.string "name", limit: 50, null: false
     t.decimal "price", default: "0.0", null: false
     t.integer "quantity", null: false
-    t.boolean "is_overridden", default: false, null: false
-    t.decimal "overridden_amount"
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "workshop_id"
+    t.string "identifier", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["workshop_id"], name: "index_order_items_on_workshop_id"
   end
@@ -164,6 +169,22 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "project_workshops", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "workshop_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_workshops_on_project_id"
+    t.index ["workshop_id"], name: "index_project_workshops_on_workshop_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", limit: 50, null: false
     t.string "middle_name", limit: 25
@@ -204,12 +225,13 @@ ActiveRecord::Schema.define(version: 2019_01_05_043839) do
     t.boolean "is_for_sale", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_public", default: true, null: false
+    t.datetime "posting_end_date"
   end
 
   add_foreign_key "addresses", "users"
   add_foreign_key "cart_items", "users"
   add_foreign_key "cart_items", "workshops"
-  add_foreign_key "gifts", "orders"
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "users", column: "author_id"
   add_foreign_key "order_items", "orders"
