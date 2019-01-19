@@ -398,7 +398,7 @@ DEPENDENCIES
   audited
   aws-sdk-s3
   bootsnap (>= 1.1.0)
-  bootstrap (~> 4.2)
+  bootstrap
   bootstrap4-datetime-picker-rails
   braintree
   byebug
