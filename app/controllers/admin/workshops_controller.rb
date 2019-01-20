@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destory]
+    before_action :populate_workshop, only: %i[edit update show destory projects]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
@@ -40,7 +40,19 @@ module Admin
       redirect_to admin_workshops_path
     end
 
+    def projects
+      if request.post?
+        add_projects_to_workshop
+      else
+        render 'projects'
+      end
+    end
+
     private
+
+    def add_projects_to_workshop
+
+    end
 
     def workshop_params
       params.require(:workshop).permit(:id, :name, :description, :posting_start_date,
@@ -50,7 +62,7 @@ module Admin
     end
 
     def populate_workshop
-      @workshop = Workshop.find(params[:id])
+      @workshop = Workshop.includes(:attendees, :projects).find(params[:id])
     end
 
     def filtered_params

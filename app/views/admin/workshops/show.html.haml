@@ -33,14 +33,20 @@
           = fa_regular 'arrow-left'
           Search
         %a.btn.btn-primary.btn-sm{href: edit_admin_workshop_path(@workshop)} Edit
+        %a.btn.btn-info.btn-sm{href: admin_workshop_path(@workshop)} Clone
   .col-8
     .card
       %h5.card-header.bg-primary.text-white
-        = fa_light 'users'
+        = fa_solid 'users'
         Attendees
       = render partial: 'admin/customers/attendees'
     .card.mt-2
       %h5.card-header.bg-primary.text-white
-        = fa_light 'images'
+        = fa_solid 'drafting-compass'
+        Available Projects
+      = render partial: 'admin/workshops/projects'
+    .card.mt-2
+      %h5.card-header.bg-primary.text-white
+        = fa_solid 'images'
         Images
       = render partial: 'admin/images/show'
