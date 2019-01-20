@@ -1,0 +1,21 @@
+- unless @workshop.attendees.any?
+  .card-body
+    .text-muted No customers have RSVPd to this workshop yet.
+- else
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Name
+        %th Project
+        %th Libality Waiver
+    %tbody
+      - @workshop.attendees.each do |a|
+        %tr
+          %td
+            = a.name
+            = a.email_address
+          %td= a.project_description
+          %td.text-danger
+            = fa_solid 'times'
+            Not signed
+

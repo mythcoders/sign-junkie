@@ -10,15 +10,12 @@
           %label.col-form-label Description
           .form-control-plaintext= @workshop.description
         .form-group
-          %label.col-form-label Start Date
-          .form-control-plaintext= lifp(@workshop.start_date, :long)
-        .form-group
-          %label.col-form-label End Date
-          .form-control-plaintext= lifp(@workshop.end_date, :long)
+          %label.col-form-label Scheduled
+          .form-control-plaintext= @workshop.when
         %hr
         .form-group
           %label.col-form-label Date available for purchase
-          .form-control-plaintext= lifp(@workshop.posting_start_date, :long)
+          .form-control-plaintext= @workshop.when_purchase
         .form-group
           %label.col-form-label Remaining tickets for sale
           .form-control-plaintext= @workshop.tickets_available
@@ -28,7 +25,9 @@
         .form-group
           %label.col-form-label Is this workshop ready for sale?
           .form-control-plaintext= @workshop.is_for_sale
-
+        .form-group
+          %label.col-form-label Is a public workshop?
+          .form-control-plaintext= @workshop.is_public
       .card-footer
         %a.btn.btn-outline-secondary.btn-sm{href: admin_workshops_path}
           = fa_regular 'arrow-left'
@@ -36,6 +35,11 @@
         %a.btn.btn-primary.btn-sm{href: edit_admin_workshop_path(@workshop)} Edit
   .col-8
     .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'users'
+        Attendees
+      = render partial: 'admin/customers/attendees'
+    .card.mt-2
       %h5.card-header.bg-primary.text-white
         = fa_light 'images'
         Images

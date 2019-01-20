@@ -2,10 +2,12 @@
 
 # Tickets for Events are purchased by customers
 class Workshop < ApplicationRecord
+  include ApplicationHelper
   audited
   has_many_attached :images
   has_many :project_workshops
   has_many :projects, through: :project_workshops
+  has_many :attendees
 
   scope :active, (lambda do
     where('is_for_sale = ? AND posting_start_date <= CURRENT_TIMESTAMP AND posting_end_date >= CURRENT_TIMESTAMP', true)
@@ -37,11 +39,11 @@ class Workshop < ApplicationRecord
   end
 
   def when
-    if start_date.day == end_date.day
-      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%I:%M %p')}"
-    else
-      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%b %d, %Y %I:%M %p')}"
-    end
+    date_out(start_date, end_date)
+  end
+
+  def when_purchase
+    date_out(posting_start_date, posting_end_date)
   end
 
   def add_stock(amount, _user_id)

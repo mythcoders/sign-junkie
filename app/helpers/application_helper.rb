@@ -32,6 +32,14 @@ module ApplicationHelper
     @page_title.join(" \u00b7 ") # Segments are separated by middot
   end
 
+  def date_out(start_date, end_date)
+    if start_date.day == end_date.day
+      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%I:%M %p')}"
+    else
+      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%b %d, %Y %I:%M %p')}"
+    end
+  end
+
   # Render the error messages for given objects
   def error_messages_for(*objects)
     objects = objects.map { |o| o.is_a?(String) ? instance_variable_get("@#{o}") : o }.compact

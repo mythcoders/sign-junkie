@@ -13,7 +13,12 @@
     %tbody
       - @workshops.each do |e|
         %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(e) }}
-          %td= e.name
+          %td
+            = e.name
+            - if e.is_public?
+              %span.badge.badge-primary Public
+            - else
+              %span.badge.badge-info Private
           %td= e.when
           %td= e.tickets_available
   .card-footer

@@ -16,7 +16,7 @@ module Admin
       @workshop = Workshop.new(filtered_params)
       if @workshop.save
         flash[:success] = t('CreateSuccess')
-        redirect_to admin_workshop_path @event
+        redirect_to admin_workshop_path @workshop
       else
         render 'new'
       end
@@ -25,7 +25,7 @@ module Admin
     def update
       if @workshop.update(filtered_params)
         flash[:success] = t('UpdateSuccess')
-        redirect_to admin_workshop_path @event
+        redirect_to admin_workshop_path @workshop
       else
         render 'edit'
       end
@@ -43,8 +43,10 @@ module Admin
     private
 
     def workshop_params
-      params.require(:workshop).permit(:id, :name, :description, :posting_start_date, :start_date, :end_date,
-                                    :tickets_available, :ticket_price, :is_for_sale)
+      params.require(:workshop).permit(:id, :name, :description, :posting_start_date,
+                                       :posting_end_date, :start_date, :end_date,
+                                       :tickets_available, :ticket_price, :is_for_sale,
+                                       :is_public)
     end
 
     def populate_workshop
@@ -54,6 +56,7 @@ module Admin
     def filtered_params
       parameters = workshop_params
       parameters[:posting_start_date] = convert_datetime(parameters[:posting_start_date])
+      parameters[:posting_end_date] = convert_datetime(parameters[:posting_end_date])
       parameters[:start_date] = convert_datetime(parameters[:start_date])
       parameters[:end_date] = convert_datetime(parameters[:end_date])
       parameters
