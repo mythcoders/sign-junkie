@@ -19,6 +19,6 @@ class CartItem < ApplicationRecord
   end
 
   def amount
-    event.ticket_price * quantity
+    workshop.ticket_price * quantity
   end
 end

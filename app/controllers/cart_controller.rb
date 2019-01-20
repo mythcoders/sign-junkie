@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CartController < ApplicationController
+  helper WorkshopHelper
   before_action :authenticate_user!
   before_action :get, only: %i[update destroy]
   before_action :check_cart_auth, only: %i[update destroy]
@@ -11,9 +12,11 @@ class CartController < ApplicationController
   end
 
   def create
-    event = Event.find(params[:cart][:event_id])
-    if event.can_purchase?
-      add_to_cart(event)
+    workshop = Workshop.find(params[:cart][:workshop_id])
+    if workshop_in_cart?(workshop)
+      flash[:error] = t('cart.add.already')
+    elsif workshop.can_purchase?
+      add_to_cart(workshop)
     else
       flash[:error] = t('cart.add.failure')
     end
@@ -22,9 +25,7 @@ class CartController < ApplicationController
 
   def update
     # TODO: make sure not adding more than what's available
-    if @cart_item.update(cart_params)
-      flash[:success] = t('cart.update.success')
-    else
+    unless @cart_item.update(cart_params)
       flash[:error] = t('cart.update.failure')
     end
     redirect_to cart_index_path
@@ -45,13 +46,17 @@ class CartController < ApplicationController
     @cart_item = CartItem.find(params[:id])
   end
 
-  def add_to_cart(event)
-    cart_item = CartItem.find_or_new(current_user.id, event, params[:cart][:quantity])
+  def add_to_cart(workshop)
+    cart_item = CartItem.find_or_new(current_user.id, workshop, params[:cart][:quantity])
     if cart_item.save
       flash[:success] = t('cart.add.success')
     else
       flash[:error] = t('cart.add.failure')
     end
+  end
+
+  def workshop_in_cart?(workshop)
+    CartItem.for(current_user).any? { |c| c.workshop.id == workshop.id }
   end
 
   def cart_params

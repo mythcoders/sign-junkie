@@ -15,7 +15,8 @@ $.onmount("[data-js-cart-quantity]", function() {
       );
     });
     $("#total-amt").text("$" + total.toFixed(2));
-    ShowLoader();
+    $("#checkout-button").hide()
+    $("#checkout-loading").show()
     return $("#edit_cart_item_" + cart_id).submit();
   });
 });

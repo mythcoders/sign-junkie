@@ -11,8 +11,8 @@ class WorkshopsController < ApplicationController
   private
 
   def get
-    @event = Workshop.find(params[:id])
-    # redirect_to home_path unless @event.active?
+    @workshop = Workshop.find(params[:id])
+    # redirect_to home_path unless @workshop.active?
   end
 
   def populate_cart

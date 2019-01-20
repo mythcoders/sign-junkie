@@ -16,7 +16,8 @@ class Order < ApplicationRecord
   def self.build(user, date_created = Time.now)
     order = Order.new(user_id: user.id, tax_rate: Ares::PaymentService.tax_rate, date_created: date_created)
     CartItem.for(user).as_of(order.date_created).each do |cart_item|
-      order.items << OrderItem.create(cart_item.event, cart_item.quantity)
+      order.items << OrderItem.create(cart_item.workshop, cart_item.quantity)
+      order.items << OrderItem.deposit(cart_item.workshop) if cart_item.workshop.is_private?
     end
     order
   end

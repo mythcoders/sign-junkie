@@ -46,6 +46,7 @@ en:
     add:
       success: "The item was placed in your cart!"
       failure: "An error occurred, the item must have been too big. Please try again in a few moments."
+      already: "That item is already present in your cart."
     update:
       success: "Cart updated!"
       failure: "Please try again."

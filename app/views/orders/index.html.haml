@@ -23,7 +23,7 @@
               %dt.col-6.col-lg-3.col-xl-2 Tickets
               %dd.col-6.col-lg-3.col-xl-4= o.total_tickets
               %dt.col-6.col-lg-3.col-xl-2 Created
-              %dd.col-6.col-lg-3.col-xl-4 lifp(o.date_created, :short)
+              %dd.col-6.col-lg-3.col-xl-4= lifp(o.date_created, :short)
               %dt.col-6.col-lg-3.col-xl-2 Ordered
               %dd.col-6.col-lg-3.col-xl-4= lifp(o.date_placed, :short)
 - else

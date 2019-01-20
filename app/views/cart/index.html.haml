@@ -8,35 +8,44 @@
     %table.table.table-bordered.table-striped.table-border-fix
       %thead
         %tr.bg-primary.text-white
-          %th{colspan: 2} Event
+          %th{colspan: 2} Workshop
           %th Quantity
           %th.text-right Price
       %tbody
         - @cart.each do |c|
           %tr
             %td.action-column
-              - if c.event.images.any?
-                %img{alt: "Image of #{c.event.name}", src: url_for(c.event.primary_image.variant(resize: "100x100"))}
+              - if c.workshop.images.any?
+                %img{alt: "Image of #{c.workshop.name}", src: url_for(c.workshop.primary_image.variant(resize: "100x100"))}
             %td
-              %a{href: event_path(c.event)}
-                %h3= c.event.when
-                = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
+              %a{href: workshop_path(c.workshop)}
+                %h3
+                  = c.workshop.name
+                  %small= c.workshop.when
+              - if c.workshop.is_private?
+                .card-text.text-info Deposit fee will be added during checkout
+              %br
+              = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
             %td.action-column
               = form_for c, url: cart_path(c), method: :patch do |f|
                 = f.hidden_field :id
-                = f.select(:quantity, options_for_select(((1..10).map { |i| [i,i] }), c.quantity), {}, { class: 'custom-select', 'data-js-cart-quantity': '', 'data-cart-id': c.id, 'data-price': c.event.ticket_price, })
+                = cart_dropdown f, c
             %td.action-column.text-right.text-primary
               = content_tag :span, number_to_currency(c.amount), id: "amt-#{c.id}"
       %tfoot
         %tr
-          %td.text-right.text-primary{colspan: 4}
+          %td.text-primary.text-right{colspan: 4}
             %strong
               Subtotal:
               = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
     .card-footer
-      = link_to new_order_path, class: 'btn btn-success float-right' do
+      = link_to new_order_path, class: 'btn btn-success float-right', id: 'checkout-button' do
         Proceed to Checkout
         = fa_regular 'money-bill'
+      %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}
+        %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
+        Loading...
+
   - else
     .card-body
       You haven't added anything to your cart yet!

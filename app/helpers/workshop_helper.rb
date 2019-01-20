@@ -1,4 +1,5 @@
 module WorkshopHelper
+
   def ticket_dropdown(form, workshop)
     disabled = workshop.tickets_available.negative?
 
@@ -13,6 +14,16 @@ module WorkshopHelper
     end
   end
 
+  def cart_dropdown(form, cart_item)
+    html_metadata = {
+      class: 'custom-select',
+      'data-js-cart-quantity': '',
+      'data-cart-id': cart_item.id,
+      'data-price': cart_item.workshop.ticket_price
+    }
+    form.select(:quantity, ticket_dropdown_items(cart_item.workshop), {}, html_metadata)
+  end
+
   private
 
   def ticket_go_back_button
@@ -22,7 +33,7 @@ module WorkshopHelper
   def ticket_select(form, workshop, disabled)
     classes = { class: 'custom-select' }
     classes[:disabled] = 'disabled' if disabled
-    form.select(:quantity, ticket_dropdown_items(workshop.tickets_available), {}, classes)
+    form.select(:quantity, ticket_dropdown_items(workshop), {}, classes)
   end
 
   def ticket_add_cart_button(disabled)
@@ -34,11 +45,18 @@ module WorkshopHelper
     end
   end
 
-  def ticket_dropdown_items(quantity)
-    if quantity.positive?
-      ((1..quantity).map { |i| [i, i] })
+  def ticket_dropdown_items(workshop)
+    if workshop.projects.count <= 0
+      Raven.capture_message('Workshop posted without any projects!',
+                            level: :warning,
+                            extra: { 'workshop_id': workshop.id })
+      ['Sorry, this workshop is unavailable at this time.']
+    elsif workshop.tickets_available <= 0
+      ['Sorry, this workshop has already sold out.']
+    elsif workshop.is_private?
+      ((Workshop.private_min..Workshop.private_max).map { |i| [i, i] })
     else
-      ['Sorry, this workshop is sold out.']
+      ((1..workshop.tickets_available).map { |i| [i, i] })
     end
   end
 end

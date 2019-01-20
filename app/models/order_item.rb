@@ -11,7 +11,16 @@ class OrderItem < ApplicationRecord
     OrderItem.new(name: workshop.name,
                   price: workshop.ticket_price,
                   quantity: qty,
-                  workshop: workshop)
+                  workshop: workshop,
+                  identifier: SecureRandom.uuid)
+  end
+
+  def self.deposit(workshop)
+    OrderItem.new(name: "Deposit for #{workshop.name}",
+                  price: Workshop.private_deposit,
+                  quantity: 1,
+                  workshop: workshop,
+                  identifier: SecureRandom.uuid)
   end
 
   def item_total
