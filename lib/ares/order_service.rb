@@ -33,6 +33,7 @@ module Ares
            remove_items_from_inventory_and_cart &&
            order_ready?
           mark_order_success
+          create_attendees
           return true
         else
           raise ActiveRecord::Rollback
@@ -43,14 +44,6 @@ module Ares
 
     private
 
-    def build_items(user, as_of_date)
-      value = []
-      CartItem.for(user).as_of(as_of_date).each do |cart_item|
-        value << OrderItem.create(cart_item.workshop, cart_item.quantity)
-      end
-      value
-    end
-
     def mark_order_success
       @order.date_placed = Time.now
       @order.date_fulfilled = Time.now
@@ -60,6 +53,10 @@ module Ares
       else
         false
       end
+    end
+
+    def create_attendees
+
     end
 
     def order_ready?
@@ -81,7 +78,7 @@ module Ares
 
     def remove_items_from_inventory_and_cart
       @order.items.each do |item|
-        item.event.remove_stock(item.quantity)
+        item.workshop.remove_stock(item.quantity)
       end
       CartItem.for(@order.customer).as_of(@order.date_created).delete_all
       true
