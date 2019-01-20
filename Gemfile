@@ -41,6 +41,8 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_magick', '~> 4.8'
 
 group :development, :test do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'
   gem 'debase'
