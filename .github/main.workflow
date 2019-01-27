@@ -14,9 +14,7 @@ action "build" {
 action "rspec" {
   needs = ["build"]
   uses = "actions/docker/cli@master"
-  args = [
-    "docker compose-run -e 'RAILS_ENV=test' bundle exec rails db:create db:seed && bundle exec rspec -f doc"
-  ]
+  args = ["./scripts/cibuild"]
 }
 
 # Login
