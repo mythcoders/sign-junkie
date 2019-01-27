@@ -1,0 +1,42 @@
+version: '3'
+services:
+  app:
+    build: .
+    image: sign-junkie-app
+    ports:
+      - "3000"
+    labels:
+      traefik.frontend.rule: "Host:sign-junkie.docker.localhost"
+    volumes:
+      - "./:/app"
+    environment:
+      RAILS_ENV: development
+      RACK_ENV: development
+      PAYMENT_SANDBOX: sandbox
+      LANG: "en_US.UTF-8"
+      RAILS_SERVE_STATIC_FILES: enabled
+      RAILS_LOG_TO_STDOUT: enabled
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/sign_junkie_dev"
+      STORAGE_BUCKET: "mcdig-dvstg-signjunkie"
+    depends_on:
+      - db
+      - net
+  db:
+    image: postgres:10.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - pgdata
+  net:
+    image: traefik:latest
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  pgdata:
