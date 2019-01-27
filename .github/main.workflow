@@ -12,13 +12,10 @@ action "build" {
 }
 
 action "rspec" {
+  needs = ["build"]
   uses = "actions/docker/cli@master"
   args = [
-    "docker compose-run",
-    "-e 'RAILS_ENV=test'",
-    "bundle exec rails db:create db:seed",
-    "&&",
-    "bundle exec rspec -f doc"
+    "docker compose-run -e 'RAILS_ENV=test' bundle exec rails db:create db:seed && bundle exec rspec -f doc"
   ]
 }
 
@@ -31,7 +28,7 @@ action "login" {
 
 # Push
 action "push-test" {
-  needs = ["login"]
+  needs = ["rspec", "login"]
   uses = "actions/heroku@master"
   args = ["container:push", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
@@ -40,20 +37,9 @@ action "push-test" {
   }
 }
 
-# Release
-action "release-test" {
-  needs = ["push-test"]
-  uses = "actions/heroku@master"
-  args = ["container:release", "--app", "$HEROKU_APP", "web"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-qa"
-  }
-}
-
 # Migrate
 action "db-test" {
-  needs = ["release-test"]
+  needs = ["rspec", "login"]
   uses = "actions/heroku@master"
   args = ["run", "bundle", "exec", "rails", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
@@ -62,9 +48,20 @@ action "db-test" {
   }
 }
 
+# Release
+action "release-test" {
+  needs = ["push-test", "db-test"]
+  uses = "actions/heroku@master"
+  args = ["container:release", "--app", "$HEROKU_APP", "web"]
+  secrets = ["HEROKU_API_KEY"]
+  env = {
+    HEROKU_APP = "sign-junkie-qa"
+  }
+}
+
 # Verify
 action "verify-test" {
-  needs = ["db-test"]
+  needs = ["release-test"]
   uses = "actions/heroku@master"
   args = ["apps:info", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
@@ -91,7 +88,7 @@ action "push-production" {
 }
 
 action "release-production" {
-  needs = ["push-production"]
+  needs = ["push-production", "db-production"]
   uses = "actions/heroku@master"
   args = ["container:release", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
@@ -101,7 +98,7 @@ action "release-production" {
 }
 
 action "db-production" {
-  needs = ["release-production"]
+  needs = ["master-branch-filter"]
   uses = "actions/heroku@master"
   args = ["run", "bundle", "exec", "rails", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
@@ -111,7 +108,7 @@ action "db-production" {
 }
 
 action "verify-production" {
-  needs = ["db-production"]
+  needs = ["release-production"]
   uses = "actions/heroku@master"
   args = ["apps:info", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
