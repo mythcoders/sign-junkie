@@ -11,11 +11,11 @@ action "build" {
   args = "build -t sign-junkie-app ."
 }
 
-action "rspec" {
-  needs = ["build"]
-  uses = "actions/docker/cli@master"
-  args = ["./scripts/cibuild"]
-}
+#action "rspec" {
+#  needs = ["build"]
+#  uses = "actions/bin/sh@master"
+#  args = ["./scripts/cibuild"]
+#}
 
 # Login
 action "login" {
@@ -26,7 +26,7 @@ action "login" {
 
 # Push
 action "push-test" {
-  needs = ["rspec", "login"]
+  needs = ["build", "login"]
   uses = "actions/heroku@master"
   args = ["container:push", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
@@ -37,7 +37,7 @@ action "push-test" {
 
 # Migrate
 action "db-test" {
-  needs = ["rspec", "login"]
+  needs = ["build", "login"]
   uses = "actions/heroku@master"
   args = ["run", "bundle", "exec", "rails", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
