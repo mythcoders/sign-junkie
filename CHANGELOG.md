@@ -1,3 +1,18 @@
+#### 0.7 - 1-9-19
+
+- Features
+  - Renamed `Events` to `Workshops`
+  - Added `Projects` that can be built by `Customers`
+  - Added `AddOns` an optional addition to a project
+  - Added Public and Private Workshops
+- Changes
+  - Disabled Sales Tax
+- Improvements
+  - More responsive UI for phone and tablet devices
+  - New Sidebar design for the Admin Portal
+- Fixes
+  - Something
+
 #### 0.6.1 - 10-27-18
 
 - Fixes
