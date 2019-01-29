@@ -5,12 +5,18 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
     true
   end
 
-  ping.check :app_name do
-    Ares::SystemInfo.name
+  unless Rails.env.production?
+    ping.check :deployer do
+      Ares::SystemInfo.deployer
+    end
   end
 
   ping.check :version do
     Ares::SystemInfo.version
+  end
+
+  ping.check :release do
+    Ares::SystemInfo.release
   end
 
   ping.check :branch do
@@ -21,5 +27,4 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
     ActiveRecord::Base.connection
     ActiveRecord::Base.connected?
   end
-  
 end
