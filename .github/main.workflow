@@ -16,7 +16,7 @@ action "login" {
 action "tag" {
   needs = ["login"]
   uses = "actions/bin/sh@master"
-  args = ["./scripts/cibuild"]
+  args = ["ls -ltr"]
 }
 
 # Push
