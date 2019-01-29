@@ -13,11 +13,17 @@ action "login" {
   secrets = ["HEROKU_API_KEY"]
 }
 
+action "tag" {
+  needs = ["login"]
+  uses = "actions/bin/sh@master"
+  args = ["./scripts/cibuild"]
+}
+
 # Push
 action "push-test" {
-  needs = ["login"]
+  needs = ["tag"]
   uses = "actions/heroku@master"
-  args = ["./scripts/cibuild"]
+  args = ["container:push", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-qa"
