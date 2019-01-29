@@ -6,7 +6,7 @@ WORKDIR /app
 ADD Gemfile Gemfile.lock /app/
 RUN bundle install
 
-RUN rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 ADD . .
 CMD ["puma"]

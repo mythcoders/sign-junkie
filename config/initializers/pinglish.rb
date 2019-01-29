@@ -24,7 +24,6 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   ping.check :database do
-    ActiveRecord::Base.connection
-    ActiveRecord::Base.connected?
+    ActiveRecord::Base.connection.select_value('SELECT 1').to_s == 1
   end
 end
