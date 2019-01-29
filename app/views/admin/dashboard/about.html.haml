@@ -13,11 +13,13 @@
 .row
   .col-6
     .form-group.row
-      %label.col-sm-3.col-form-label Version
+      %label.col-sm-3.col-form-label Release
       .col-sm-9
-        = Ares::SystemInfo.version
+        = Ares::SystemInfo.release
         - if Ares::SystemInfo.prerelease?
           %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
+        %br
+        = Ares::SystemInfo.version
     .form-group.row
       %label.col-sm-3.col-form-label Developed For
       .col-sm-9

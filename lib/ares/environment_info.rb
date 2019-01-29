@@ -20,6 +20,7 @@ module Ares
         [
           [nil, nil],
           ['Environment', Rails.env],
+          ['Deploy', Ares::SystemInfo.deployer],
           ['Platform', RUBY_PLATFORM.to_s],
           ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
           [nil, nil],
