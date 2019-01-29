@@ -2,8 +2,8 @@
 
 echo 'Running cibuild script'
 
-# gem install bundler --no-ri --no-rdoc
+ENV['GITHUB_REF'] > BRANCH
+ENV['GITHUB_ACTOR'] > DEPLOYER
+ENV['GITHUB_SHA'] > VERSION
 
-# bundle install -j --path vendor --without development:test
-
-# bundle exec rake
+container:push --app $HEROKU_APP web

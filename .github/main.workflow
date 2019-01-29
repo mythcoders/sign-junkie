@@ -6,17 +6,6 @@ workflow "Deploy to Heroku" {
   ]
 }
 
-action "build" {
-  uses = "actions/docker/cli@master"
-  args = "build -t sign-junkie-app ."
-}
-
-#action "rspec" {
-#  needs = ["build"]
-#  uses = "actions/bin/sh@master"
-#  args = ["./scripts/cibuild"]
-#}
-
 # Login
 action "login" {
   uses = "actions/heroku@master"
@@ -26,9 +15,9 @@ action "login" {
 
 # Push
 action "push-test" {
-  needs = ["build", "login"]
+  needs = ["login"]
   uses = "actions/heroku@master"
-  args = ["container:push", "--app", "$HEROKU_APP", "web"]
+  args = ["./scripts/cibuild"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-qa"
@@ -37,7 +26,7 @@ action "push-test" {
 
 # Migrate
 action "db-test" {
-  needs = ["build", "login"]
+  needs = ["push-test"]
   uses = "actions/heroku@master"
   args = ["run", "bundle", "exec", "rails", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
@@ -48,7 +37,7 @@ action "db-test" {
 
 # Release
 action "release-test" {
-  needs = ["push-test", "db-test"]
+  needs = ["db-test"]
   uses = "actions/heroku@master"
   args = ["container:release", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
@@ -78,17 +67,7 @@ action "master-branch-filter" {
 action "push-production" {
   needs = ["master-branch-filter"]
   uses = "actions/heroku@master"
-  args = ["container:push", "--app", "$HEROKU_APP", "web"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-pd"
-  }
-}
-
-action "release-production" {
-  needs = ["push-production", "db-production"]
-  uses = "actions/heroku@master"
-  args = ["container:release", "--app", "$HEROKU_APP", "web"]
+  args = ["./scripts/cibuild"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-pd"
@@ -99,6 +78,16 @@ action "db-production" {
   needs = ["master-branch-filter"]
   uses = "actions/heroku@master"
   args = ["run", "bundle", "exec", "rails", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
+  secrets = ["HEROKU_API_KEY"]
+  env = {
+    HEROKU_APP = "sign-junkie-pd"
+  }
+}
+
+action "release-production" {
+  needs = ["push-production", "db-production"]
+  uses = "actions/heroku@master"
+  args = ["container:release", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-pd"
