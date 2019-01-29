@@ -6,22 +6,25 @@ workflow "Deploy to Heroku" {
   ]
 }
 
-# Login
+action "tag" {
+  uses = "actions/bin/sh@master"
+  args = ["./scripts/cibuild.sh"]
+}
+
+action "build" {
+  needs = ["tag"]
+  uses = "actions/docker/cli@master"
+  args = "build -t sign-junkie-app ."
+}
+
 action "login" {
   uses = "actions/heroku@master"
   args = "container:login"
   secrets = ["HEROKU_API_KEY"]
 }
 
-action "tag" {
-  needs = ["login"]
-  uses = "actions/bin/sh@master"
-  args = ["./scripts/cibuild.sh"]
-}
-
-# Push
 action "push-test" {
-  needs = ["tag"]
+  needs = ["login", "build"]
   uses = "actions/heroku@master"
   args = ["container:push", "--app", "$HEROKU_APP", "web"]
   secrets = ["HEROKU_API_KEY"]
@@ -30,7 +33,6 @@ action "push-test" {
   }
 }
 
-# Migrate
 action "db-test" {
   needs = ["push-test"]
   uses = "actions/heroku@master"
@@ -41,7 +43,6 @@ action "db-test" {
   }
 }
 
-# Release
 action "release-test" {
   needs = ["db-test"]
   uses = "actions/heroku@master"
@@ -52,7 +53,6 @@ action "release-test" {
   }
 }
 
-# Verify
 action "verify-test" {
   needs = ["release-test"]
   uses = "actions/heroku@master"
@@ -63,7 +63,6 @@ action "verify-test" {
   }
 }
 
-# Push to master
 action "master-branch-filter" {
   needs = ["verify-test"]
   uses = "actions/bin/filter@master"
