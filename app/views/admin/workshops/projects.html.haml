@@ -1,6 +1,6 @@
 - page_title 'Add Projects', @workshop.name,'Workshops'
 
-= form_for @workshop do |f|
+= form_for @workshop, url: admin_workshop_projects_path(@workshop) do |f|
   .card
     .card-header
       Add Projects to Workshop

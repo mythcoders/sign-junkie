@@ -1,7 +1,7 @@
 - page_title @workshop.name, 'workshops'
 
 .row
-  .col-4
+  .col-12.col-md-4
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         = @workshop.name
@@ -34,19 +34,23 @@
           Search
         %a.btn.btn-primary.btn-sm{href: edit_admin_workshop_path(@workshop)} Edit
         %a.btn.btn-info.btn-sm{href: admin_workshop_path(@workshop)} Clone
-  .col-8
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'users'
-        Attendees
-      = render partial: 'admin/customers/attendees'
-    .card.mt-2
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'drafting-compass'
-        Available Projects
-      = render partial: 'admin/workshops/projects'
-    .card.mt-2
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'images'
-        Images
-      = render partial: 'admin/images/show'
+  .col-12.col-md-8
+    %ul#workshopTab.nav.nav-tabs{role: "tablist"}
+      %li.nav-item
+        %a#attendee-tab.nav-link.active{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#attendee", role: "tab"}
+          Attendees
+      %li.nav-item
+        %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
+          Projects
+      %li.nav-item
+        %a#image-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
+          Images
+
+    #workshopTabContent.tab-content
+      #attendee.tab-pane.fade.show.active{"aria-labelledby": "attendee-tab", role: "tabpanel"}
+        = render partial: 'admin/customers/attendees'
+      #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
+        = render partial: 'admin/workshops/projects'
+      #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+        = render partial: 'admin/images/show'
+

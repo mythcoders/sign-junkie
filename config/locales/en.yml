@@ -268,6 +268,15 @@ en:
         street2: "Address line 2"
         is_shipping: "This address can be used for shipping"
         is_billing: "This address can be used for billing"
+      workshop:
+        start_date: "Workshop Start Date/Time"
+        end_date: "Workshop End Date/Time"
+        is_for_sale: "Available for purchase?"
+        posting_start_date: "Date available for purhcase"
+        posting_end_date: "Last date to purchase"
+        tickets_available: "Tickets available"
+        ticket_price: "Price per ticket"
+        is_public: "Availablity type"
   failure:
     delete: "Unable to delete your record. Please try again."
     update: ""

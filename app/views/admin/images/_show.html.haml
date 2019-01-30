@@ -1,16 +1,20 @@
-- unless @workshop.images.any?
-  .card-body
-    .text-muted No images have been uploaded yet.
-- else
-  %table.table.table-bordered.table-striped.table-border-fix
-    %tbody
-      - @workshop.images.each do |img|
-        %tr
-          %td.action-column
-            - if img.id == @workshop.primary_image_attachment_id
-              %span.badge.badge-pill.badge-info.mb-2 Primary
-            = link_to "Delete", admin_workshop_image_path(@workshop, img), method: :delete, class: "btn btn-sm btn-outline-danger", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'}
-          %td
-            %img{height: 100, width: 100, src: url_for(img)}
-.card-footer
-  = link_to 'New Image', new_admin_workshop_image_path(@workshop), class: 'btn btn-info btn-sm'
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'images'
+    Images
+  - unless @workshop.images.any?
+    .card-body
+      .text-muted No images have been uploaded yet.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %tbody
+        - @workshop.images.each do |img|
+          %tr
+            %td.action-column
+              - if img.id == @workshop.primary_image_attachment_id
+                %span.badge.badge-pill.badge-info.mb-2 Primary
+              = link_to "Delete", admin_workshop_image_path(@workshop, img), method: :delete, class: "btn btn-sm btn-outline-danger", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'}
+            %td
+              %img{height: 100, width: 100, src: url_for(img)}
+  .card-footer
+    = link_to 'New Image', new_admin_workshop_image_path(@workshop), class: 'btn btn-info btn-sm'
