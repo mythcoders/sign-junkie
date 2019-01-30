@@ -262,6 +262,8 @@ en:
       submit: Save %{model}
       update: "Save changes"
     label:
+      order:
+        is_gift: "Order contains a gift"
       address:
         nickname: "Nickname to help identify this address during checkout"
         street: "Street address"
@@ -274,7 +276,7 @@ en:
         is_for_sale: "Available for purchase?"
         posting_start_date: "Date available for purhcase"
         posting_end_date: "Last date to purchase"
-        tickets_available: "Tickets available"
+        total_tickets: "Tickets for purhcasee"
         ticket_price: "Price per ticket"
         is_public: "Availablity type"
   failure:

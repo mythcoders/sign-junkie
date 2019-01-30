@@ -30,7 +30,7 @@ module Ares
       ActiveRecord::Base.transaction do
         if initial_save_reload! &&
            process_payment(payment_nonce) &&
-           remove_items_from_inventory_and_cart &&
+           empty_cart &&
            order_ready?
           mark_order_success
           create_attendees
@@ -56,7 +56,11 @@ module Ares
     end
 
     def create_attendees
-
+      @order.items.each do |item|
+        item.quantity.times do
+          Attendee.create(workshop_id: item.workshop_id)
+        end
+      end
     end
 
     def order_ready?
@@ -76,10 +80,7 @@ module Ares
       @order.reload
     end
 
-    def remove_items_from_inventory_and_cart
-      @order.items.each do |item|
-        item.workshop.remove_stock(item.quantity)
-      end
+    def empty_cart
       CartItem.for(@order.customer).as_of(@order.date_created).delete_all
       true
     end

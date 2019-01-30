@@ -57,7 +57,7 @@ module Admin
     def workshop_params
       params.require(:workshop).permit(:id, :name, :description, :posting_start_date,
                                        :posting_end_date, :start_date, :end_date,
-                                       :tickets_available, :ticket_price, :is_for_sale,
+                                       :total_tickets, :ticket_price, :is_for_sale,
                                        :is_public)
     end
 

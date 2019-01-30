@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_05_162140) do
+ActiveRecord::Schema.define(version: 2019_01_30_030558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -220,7 +220,7 @@ ActiveRecord::Schema.define(version: 2019_01_05_162140) do
     t.datetime "posting_start_date", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date"
-    t.integer "tickets_available", default: 0, null: false
+    t.integer "total_tickets", default: 0, null: false
     t.decimal "ticket_price", null: false
     t.boolean "is_for_sale", default: false, null: false
     t.datetime "created_at", null: false

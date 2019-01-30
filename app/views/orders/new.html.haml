@@ -17,15 +17,16 @@
               - @order.items.each do |i|
                 %tr
                   %td= i.name
+                  %td= i.quantity
                   %td.text-right
                     %strong= number_to_currency(i.item_total)
               - if @order.taxed?
                 %tr
-                  %td= "Estimated tax to be collected (#{@order.tax_percentage}%)"
+                  %td{colspan: 2}= "Estimated tax to be collected (#{@order.tax_percentage}%)"
                   %td.text-right
                     %strong#order_total_tax= number_to_currency(@order.total_tax)
             %tfoot
               %tr.bg-primary.text-white
-                %td Order total
+                %td{colspan: 2} Order total
                 %td.text-right
                   %strong#order_total_due= number_to_currency(@order.total_line_items)

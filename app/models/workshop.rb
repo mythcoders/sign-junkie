@@ -12,7 +12,6 @@ class Workshop < ApplicationRecord
   scope :active, (lambda do
     where(is_for_sale: true)
       .where('posting_start_date <= CURRENT_TIMESTAMP AND posting_end_date >= CURRENT_TIMESTAMP')
-      .where('tickets_available > 0')
       .distinct
   end)
 
@@ -22,6 +21,10 @@ class Workshop < ApplicationRecord
     event = Workshop.active
     event = event.where('name like ?', "%#{name}%") unless name.blank?
     event
+  end
+
+  def tickets_available
+    total_tickets - attendees.count
   end
 
   def can_purchase?
@@ -65,18 +68,19 @@ class Workshop < ApplicationRecord
     date_out(posting_start_date, posting_end_date)
   end
 
-  def add_stock(amount, _user_id)
-    self.tickets_available += amount
-    save
+  private
+
+  def check
+    if end_date_before_start || posting_during_event
+
+    end
   end
 
-  def return_stock(amount)
-    self.tickets_available += amount
-    save
+  def end_date_before_start
+    end_date > start_date
   end
 
-  def remove_stock(amount)
-    self.tickets_available -= amount
-    save
+  def posting_during_event
+    posting_start_date > start_date || posting_end_date > start_date
   end
 end

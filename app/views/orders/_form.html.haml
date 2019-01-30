@@ -17,6 +17,8 @@
       .input-group-append
         %a.btn.btn-outline-secondary{href: new_address_path, target: '_blank'}
           = fa_light 'plus'
+    %p.card-text
+      %strong Ticket and project information will be assigned after purchasing
   .form-group
     %label Choose a payment method
     .custom-control.custom-radio
@@ -31,6 +33,6 @@
         PayPal
   #payment-container{style: 'display: none;'}
 .card-footer
-  %button{type: 'submit', name: 'save', class: 'btn btn-sm btn-outline-success'}
+  %button{type: 'submit', name: 'save', class: 'btn btn-outline-success'}
     Place your order
-    = fa_regular 'shopping-cart'
+    = fa_solid 'cash-register'
