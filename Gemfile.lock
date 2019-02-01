@@ -422,7 +422,7 @@ DEPENDENCIES
   guard-rspec
   haml
   haml-rails
-  jbuilder (~> 2.5)
+  jbuilder
   jquery-rails
   jquery-turbolinks
   kaminari

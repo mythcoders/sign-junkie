@@ -13,7 +13,7 @@ gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
 gem 'devise'
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'logdna-rails' # Logging
 gem 'lograge'
