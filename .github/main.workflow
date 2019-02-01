@@ -26,7 +26,7 @@ action "login" {
 action "push-test" {
   needs = ["login", "build"]
   uses = "actions/heroku@master"
-  args = ["container:push", "--app", "$HEROKU_APP", "web"]
+  args = ["container:push", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-qa"
