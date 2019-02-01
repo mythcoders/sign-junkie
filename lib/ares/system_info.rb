@@ -33,8 +33,12 @@ module Ares
         Rails.root.join('DEPLOYER').read.chomp
       end
 
-      def version
+      def long_version
         Rails.root.join('VERSION').read.chomp
+      end
+
+      def version
+        long_version[0..6]
       end
 
       def branch
