@@ -15,7 +15,7 @@ Rails.application.configure do
   config.assets.js_compressor = :uglifier
   config.assets.css_compressor = :sass
 
-  config.assets.compile = false
+  # config.assets.compile = false
 
   config.log_level = :info
 
