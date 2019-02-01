@@ -46,7 +46,7 @@ action "db-test" {
 action "release-test" {
   needs = ["db-test"]
   uses = "actions/heroku@master"
-  args = ["container:release", "--app", "$HEROKU_APP", "web"]
+  args = ["container:release", "--app", "$HEROKU_APP", "web", "--recursive"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-qa"
