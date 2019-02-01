@@ -19,6 +19,10 @@ class PublicController < ApplicationController
     Rails.env.production? || params[:soon]
   end
 
+  def addons
+    @addons = Addon.where(project_id: params[:project_id])
+  end
+
   def my_account
     @orders = Order.current(current_user.id)
   end

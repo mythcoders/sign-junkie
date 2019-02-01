@@ -1,42 +1,32 @@
 .row
-  .col-sm-5
+  .col-6
     .card
       .card-body
         - @workshop.images.each do |img|
           %img.card-img{src: url_for(img)}
-  .col-sm-7
+  .col-6
     .card
       %h4.card-header.bg-primary.text-white
         = @workshop.name
-      .card-body
-        %p.card-text
-          = fa_regular 'calendar-alt'
-          = @workshop.when
-        - if @workshop.is_public?
-          %p.card-text
-            = fa_regular 'usd-circle'
-            = number_to_currency(@workshop.ticket_price)
-          %p.card-text
-            = fa_regular 'ticket-alt'
-            = "#{@workshop.tickets_available} tickets available"
-        - else
-          %p.card-text
-            = fa_regular 'usd-circle'
-            = "#{number_to_currency(Workshop.private_deposit)} deposit and #{number_to_currency(@workshop.ticket_price)} per ticket"
-          %p.card-text
-            = fa_regular 'ticket-alt'
-            = "#{Workshop.private_min} - #{Workshop.private_max} attendees"
-        %p.card-text= @workshop.description
-      .card-footer
-        - if user_signed_in?
-          - if @workshop.can_purchase?
-            = form_for :cart, url: cart_index_path do |f|
-              = f.hidden_field :workshop_id, value: @workshop.id
+      - if user_signed_in?
+        - if @workshop.can_purchase?
+          = form_for :cart, url: cart_index_path do |f|
+            = f.hidden_field :workshop_id, value: @workshop.id
+            .card-body
+              = render partial: 'body'
+              = render partial: 'form', locals: { f: f }
+            .card-footer
               = ticket_dropdown f, @workshop
-          - else
+        - else
+          .card-body
+            = render partial: 'body'
+          .card-footer
             = link_to 'Go Back', workshops_path, class: 'btn btn-outline-secondary'
             .text-muted Sorry, but tickets for this workshop can't be purchased right now
-        - else
+      - else
+        .card-body
+          = render partial: 'body'
+        .card-footer
           = link_to 'Go Back', workshops_path, class: 'btn btn-outline-secondary'
           %a.btn.btn-primary(href=new_user_session_path)
             = fa_light 'sign-in'

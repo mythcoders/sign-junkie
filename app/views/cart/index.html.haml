@@ -22,6 +22,7 @@
                 %h3
                   = c.workshop.name
                   %small= c.workshop.when
+                %p= c.project.name
               - if c.workshop.is_private?
                 .card-text.text-info Deposit fee will be added during checkout
               %br

@@ -20,6 +20,7 @@ class CartController < ApplicationController
     else
       flash[:error] = t('cart.add.failure')
     end
+
     redirect_back(fallback_location: home_path)
   end
 
@@ -28,6 +29,7 @@ class CartController < ApplicationController
     unless @cart_item.update(cart_params)
       flash[:error] = t('cart.update.failure')
     end
+
     redirect_to cart_index_path
   end
 
@@ -37,6 +39,7 @@ class CartController < ApplicationController
     else
       flash[:error] = t('failure.delete')
     end
+
     redirect_to cart_index_path
   end
 
@@ -47,7 +50,13 @@ class CartController < ApplicationController
   end
 
   def add_to_cart(workshop)
-    cart_item = CartItem.find_or_new(current_user.id, workshop, params[:cart][:quantity])
+    cart_item = CartItem.new(user_id: current_user.id,
+                             session_id: request.session_options[:id],
+                             workshop_id: workshop.id,
+                             quantity: params[:cart][:quantity],
+                             project_id: params[:cart][:project_id],
+                             addon_id: params[:cart][:addon_id])
+
     if cart_item.save
       flash[:success] = t('cart.add.success')
     else
@@ -60,7 +69,7 @@ class CartController < ApplicationController
   end
 
   def cart_params
-    params.require(:cart_item).permit(:id, :quantity)
+    params.require(:cart_item).permit(:id, :quantity, :project_id, :addon_id)
   end
 
   def check_cart_auth

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_30_030558) do
+ActiveRecord::Schema.define(version: 2019_01_30_034311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,12 +93,16 @@ ActiveRecord::Schema.define(version: 2019_01_30_030558) do
   end
 
   create_table "cart_items", id: :serial, force: :cascade do |t|
-    t.string "session_id"
+    t.string "session_id", null: false
     t.integer "quantity", default: 1, null: false
-    t.bigint "workshop_id"
-    t.bigint "user_id"
+    t.bigint "workshop_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "project_id", null: false
+    t.bigint "addon_id"
+    t.index ["addon_id"], name: "index_cart_items_on_addon_id"
+    t.index ["project_id"], name: "index_cart_items_on_project_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
     t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
   end
@@ -230,6 +234,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_030558) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "cart_items", "addons"
+  add_foreign_key "cart_items", "projects"
   add_foreign_key "cart_items", "users"
   add_foreign_key "cart_items", "workshops"
   add_foreign_key "notes", "users"

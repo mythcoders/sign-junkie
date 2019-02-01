@@ -1,0 +1,12 @@
+= f.hidden_field :workshop_id, value: @workshop.id
+.form-row
+  .form-group.col-6
+    = f.label :project
+    = f.select :project_id,
+        options_from_collection_for_select(@workshop.projects, 'id', 'name'),
+        { value: nil, prompt: '- Please Select -' }, { class: 'form-control custom-select', 'data-js-change-project': '' }
+  .form-group.col-6
+    = f.label :addons
+    = f.select :addon_id,
+        options_from_collection_for_select([], 'id', 'name'),
+        { value: nil, prompt: '- Select Project -' }, { class: 'form-control custom-select', 'data-js-change-addon': '' }

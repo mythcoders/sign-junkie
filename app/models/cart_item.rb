@@ -7,16 +7,8 @@ class CartItem < ApplicationRecord
 
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   belongs_to :workshop
-
-  def self.find_or_new(user_id, workshop, quantity)
-    item = CartItem.where(user_id: user_id, workshop_id: workshop.id).first
-    if item.nil?
-      item = CartItem.new(user_id: user_id, workshop_id: workshop.id, quantity: quantity)
-    else
-      item.quantity += quantity.to_i
-    end
-    item
-  end
+  belongs_to :addon
+  belongs_to :project
 
   def amount
     workshop.ticket_price * quantity
