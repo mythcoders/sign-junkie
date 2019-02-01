@@ -7,7 +7,7 @@ class Workshop < ApplicationRecord
   has_many_attached :images
   has_many :project_workshops
   has_many :projects, through: :project_workshops
-  has_many :attendees
+  has_many :order_items
 
   scope :active, (lambda do
     where(is_for_sale: true)
@@ -24,7 +24,8 @@ class Workshop < ApplicationRecord
   end
 
   def tickets_available
-    total_tickets - attendees.count
+    # todo: only get active order_items
+    total_tickets - order_items.count
   end
 
   def can_purchase?

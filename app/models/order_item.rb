@@ -3,20 +3,20 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :workshop, autosave: true
 
-  validates :name, presence: true
+  validates :description, presence: true
   validates :price, presence: true
   validates :quantity, presence: true
 
-  def self.create(workshop, qty)
-    OrderItem.new(name: workshop.name,
-                  price: workshop.ticket_price,
-                  quantity: qty,
-                  workshop: workshop,
+  def self.create(cart)
+    OrderItem.new(description: cart.display,
+                  price: cart.workshop.ticket_price,
+                  quantity: cart.quantity,
+                  workshop: cart.workshop,
                   identifier: SecureRandom.uuid)
   end
 
   def self.deposit(workshop)
-    OrderItem.new(name: "Deposit for #{workshop.name}",
+    OrderItem.new(description: "Deposit for #{workshop.name}",
                   price: Workshop.private_deposit,
                   quantity: 1,
                   workshop: workshop,

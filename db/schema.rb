@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_30_034311) do
+ActiveRecord::Schema.define(version: 2019_02_01_044515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,16 +60,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_034311) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
-  create_table "attendees", force: :cascade do |t|
-    t.bigint "workshop_id"
-    t.string "name"
-    t.string "email_address"
-    t.string "project_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["workshop_id"], name: "index_attendees_on_workshop_id"
-  end
-
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -117,7 +107,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_034311) do
   end
 
   create_table "order_items", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 50, null: false
+    t.string "description", limit: 50, null: false
     t.decimal "price", default: "0.0", null: false
     t.integer "quantity", null: false
     t.bigint "order_id"
@@ -125,6 +115,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_034311) do
     t.datetime "updated_at", null: false
     t.bigint "workshop_id"
     t.string "identifier", null: false
+    t.string "attendee"
+    t.string "email"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["workshop_id"], name: "index_order_items_on_workshop_id"
   end

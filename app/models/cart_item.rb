@@ -13,4 +13,11 @@ class CartItem < ApplicationRecord
   def amount
     workshop.ticket_price * quantity
   end
+
+  def display
+    value = workshop.name
+    value << " - #{project.name}" if project_id.present?
+    value << " w/ #{addon.name}" if addon_id.present?
+    value
+  end
 end

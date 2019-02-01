@@ -13,7 +13,7 @@
       %tbody
         - @order.items.each do |i|
           %tr
-            %td= i.name
+            %td= i.description
             %td= number_to_currency(i.price)
             %td= i.quantity
             %td.text-right

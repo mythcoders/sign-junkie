@@ -10,10 +10,10 @@
           .card-header.d-flex.justify-content-between.align-items-center
             %h4
               = link_to "# #{o.order_number}", order_path(o)
-            - if o.status == :canceled
-              %span.badge.badge-danger= o.status
-            - elsif o.status == :closed
+            - if o.status == :closed
               %span.badge.badge-success= o.status
+            - elsif o.status == :placed
+              %span.badge.badge-warning= o.status
             - else
               %span.badge.badge-info= o.status
           .card-body

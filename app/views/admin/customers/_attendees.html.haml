@@ -2,7 +2,7 @@
   %h5.card-header.bg-primary.text-white
     = fa_solid 'users'
     Attendees
-  - unless @workshop.attendees.any?
+  - unless @workshop.order_items.any?
     .card-body
       .text-muted No customers have RSVPd to this workshop yet.
   - else
@@ -13,12 +13,15 @@
           %th Project
           %th Libality Waiver
       %tbody
-        - @workshop.attendees.each do |a|
+        - @workshop.order_items.each do |a|
           %tr
             %td
-              = a.name
-              = a.email_address
-            %td= a.project_description
+              - if a.attendee.present?
+                = a.attendee
+                = a.email
+              - else
+                .text-muted No yet entered
+            %td= a.description
             %td.text-danger
               = fa_solid 'times'
               Not signed

@@ -12,6 +12,7 @@ module Ares
     # marks the order as canceled and notifies the customer
     def cancel
       @order.date_canceled = Time.now
+      # todo: issue refund
       was_successful = @order.save!
       OrderMailer.with(order: @order).canceled.deliver_now if was_successful && @order.placed?
       was_successful
@@ -33,7 +34,6 @@ module Ares
            empty_cart &&
            order_ready?
           mark_order_success
-          create_attendees
           return true
         else
           raise ActiveRecord::Rollback
@@ -46,20 +46,11 @@ module Ares
 
     def mark_order_success
       @order.date_placed = Time.now
-      @order.date_fulfilled = Time.now
       if @order.save
         OrderMailer.with(order: @order).placed.deliver_now
         true
       else
         false
-      end
-    end
-
-    def create_attendees
-      @order.items.each do |item|
-        item.quantity.times do
-          Attendee.create(workshop_id: item.workshop_id)
-        end
       end
     end
 

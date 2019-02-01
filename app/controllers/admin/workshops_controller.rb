@@ -62,7 +62,7 @@ module Admin
     end
 
     def populate_workshop
-      @workshop = Workshop.includes(:attendees, :projects).find(params[:id])
+      @workshop = Workshop.includes(:order_items, :projects).find(params[:id])
     end
 
     def filtered_params
