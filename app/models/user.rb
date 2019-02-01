@@ -26,6 +26,9 @@ class User < ApplicationRecord
   scope :recently_created, lambda {
     where('created_at > ? AND role = ?', Time.now - 24.hours, User.roles[:customer])
   }
+  scope :customers, -> do
+    where('role = ?', User.roles[:customer])
+  end
   scope :employees, -> do
     where('role <> ?', User.roles[:customer])
   end
