@@ -7,7 +7,7 @@ class CartItem < ApplicationRecord
 
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   belongs_to :workshop
-  belongs_to :addon
+  belongs_to :addon, required: false
   belongs_to :project, required: false
 
   validates_presence_of :workshop_id, :user_id
