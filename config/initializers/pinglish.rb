@@ -24,5 +24,9 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
     ping.check :deployer do
       Ares::SystemInfo.deployer
     end
+
+    ping.check :deployed_at do
+      Ares::SystemInfo.deploy_time
+    end
   end
 end

@@ -8,13 +8,23 @@ workflow "Deploy to Heroku" {
 
 action "tag" {
   uses = "actions/bin/sh@master"
-  args = ["./scripts/cibuild.sh"]
+  args = ["./scripts/ci_tag.sh"]
 }
 
 action "build" {
   needs = ["tag"]
   uses = "actions/docker/cli@master"
   args = "build -t sign-junkie-app ."
+}
+
+action "assets" {
+  needs = ["build"]
+  uses = "ruby:2.5.1-alpine"
+  args = ["./scripts/ci_assets.sh"]
+  env = {
+    RAILS_ENV = "qa"
+    ASSETS_BUCKET = "mcdig-qacdn-signjunkie.sfo2"
+  }
 }
 
 action "login" {

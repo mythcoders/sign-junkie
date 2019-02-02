@@ -33,6 +33,10 @@ module Ares
         Rails.root.join('DEPLOYER').read.chomp
       end
 
+      def deploy_time
+        Rails.root.join('DEPLOY_TIME').read.chomp
+      end
+
       def long_version
         Rails.root.join('VERSION').read.chomp
       end
