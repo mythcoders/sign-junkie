@@ -12,7 +12,7 @@ services:
     environment:
       RAILS_ENV: development
       RACK_ENV: development
-      PAYMENT_SANDBOX: sandbox
+      PAYMENT_ENV: sandbox
       LANG: "en_US.UTF-8"
       RAILS_SERVE_STATIC_FILES: enabled
       RAILS_LOG_TO_STDOUT: enabled

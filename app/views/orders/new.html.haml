@@ -27,6 +27,10 @@
                     %strong#order_total_tax= number_to_currency(@order.total_tax)
             %tfoot
               %tr.bg-primary.text-white
+                %td{colspan: 2} Total due
+                %td.text-right
+                  %strong#order_total_due= number_to_currency(@payment.amount)
+              %tr.bg-primary.text-white
                 %td{colspan: 2} Order total
                 %td.text-right
                   %strong#order_total_due= number_to_currency(@order.total_line_items)

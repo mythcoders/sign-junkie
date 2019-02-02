@@ -24,6 +24,13 @@
               = "Sales Tax collected (#{@order.tax_percentage}%)"
             %td.text-right
               %strong= number_to_currency(@order.total_tax)
+              Dave
+        - @order.payments.each do |i|
+          %tr
+            %td{colspan: 3}
+              = i.memo
+            %td.text-right
+              %strong= number_to_currency(i.amount)
       %tfoot
         %tr.bg-primary.text-white
           %td{colspan: 3} Order total

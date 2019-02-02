@@ -22,7 +22,7 @@
                 %h4= c.display
               %p= c.workshop.when
               - if c.workshop.is_private?
-                .card-text.text-info Deposit fee will be added during checkout
+                %p.text-info Deposit fee will be added during checkout
               = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
             %td.action-column
               = form_for c, url: cart_path(c), method: :patch do |f|

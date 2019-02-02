@@ -10,12 +10,12 @@ class Payment < ApplicationRecord
 
   validates_presence_of :status, :amount, :method, :transaction_id
 
-  def self.build(order)
+  def self.build(order, method, amount, user_id)
     Payment.new(
       status: :created,
       date_created: Time.now,
-      method: order.payment_method,
-      amount: order.total_balance,
+      method: method,
+      amount: amount,
       user_id: order.customer.id
     )
   end

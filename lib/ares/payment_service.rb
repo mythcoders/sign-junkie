@@ -5,10 +5,14 @@ module Ares
   class PaymentService
     attr_reader :payment, :order, :gateway
 
-    def initialize(order)
+    def initialize(order, order_item = nil)
       env = Ares::PaymentService.env.to_sym
       @order = order
-      @payment = Payment.build(@order)
+      @order_item = order_item
+      @payment = Payment.build(@order,
+                               @order.payment_method,
+                               @order.due_now(order_item),
+                               @order.user_id)
       @gateway = Braintree::Gateway.new(
         environment: env,
         merchant_id: merchant_id(env),

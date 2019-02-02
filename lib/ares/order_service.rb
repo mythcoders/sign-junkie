@@ -55,7 +55,7 @@ module Ares
     end
 
     def order_ready?
-      @order.paid_in_full? && @order.valid?
+      @order.valid?
     end
 
     def process_payment(payment_nonce)

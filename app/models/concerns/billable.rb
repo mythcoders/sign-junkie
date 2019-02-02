@@ -31,6 +31,37 @@ module Billable
     (total_due - total_paid).round(2)
   end
 
+  # total amount due as a deposit, only applicatble for certain workshops
+  def total_deposit
+    deposits = items.select { |i| i.description.include?('Deposit') }
+    (deposits.map(&:item_total).reduce(:+) || 0.00).round(2)
+  end
+
+  def total_public_shops
+    public = items.select { |i| i.workshop.is_public? }
+    (public.map(&:item_total).reduce(:+) || 0.00 ).round(2)
+  end
+
+  # The total amount due at the time of calling
+  #
+  # IF the order has yet to be placed
+  #   The amount for all line items that belong to a PUBLIC workshop
+  #   The deposits for all PRIVATE workshops
+  # ELSIF order has been placed and we're selecting a project/addon
+  #   Amount due for the project/addon only
+  # ELSE
+  #  Remaining balance
+  # END
+  def due_now(item = nil)
+    if !date_placed.present?
+      total_public_shops + total_deposit
+    elsif !item.nil?
+      item.total_due
+    else
+      total_balance
+    end
+  end
+
   # if the order has been paid for completely
   def paid_in_full?
     total_balance.zero?
