@@ -1,7 +1,7 @@
 module WorkshopHelper
 
   def ticket_dropdown(form, workshop)
-    disabled = workshop.tickets_available.negative?
+    disabled = !workshop.can_purchase?
 
     content_tag :div, class: 'input-group' do
       concat(content_tag(:div, class: 'input-group-prepend') do
@@ -53,6 +53,8 @@ module WorkshopHelper
       ['Sorry, this workshop is unavailable at this time.']
     elsif workshop.tickets_available <= 0
       ['Sorry, this workshop has already sold out.']
+    elsif !workshop.can_purchase?
+      ['Sorry, this workshop is unavailable at this time.']
     elsif workshop.is_private?
       ((Workshop.private_min..Workshop.private_max).map { |i| [i, i] })
     else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_01_044515) do
+ActiveRecord::Schema.define(version: 2019_02_02_025206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2019_02_01_044515) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id", null: false
+    t.bigint "project_id"
     t.bigint "addon_id"
     t.index ["addon_id"], name: "index_cart_items_on_addon_id"
     t.index ["project_id"], name: "index_cart_items_on_project_id"
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2019_02_01_044515) do
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
-    t.serial "order_number", limit: 10
+    t.serial "order_number", null: false
     t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_fulfilled"

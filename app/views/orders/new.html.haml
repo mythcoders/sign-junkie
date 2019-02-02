@@ -16,7 +16,7 @@
               %tr
               - @order.items.each do |i|
                 %tr
-                  %td= i.name
+                  %td= i.description
                   %td= i.quantity
                   %td.text-right
                     %strong= number_to_currency(i.item_total)

@@ -25,10 +25,10 @@
     = f.label :is_public, class: 'control-label'
     .custom-control.custom-radio
       = f.radio_button :is_public, 'true', class: 'custom-control-input'
-      %label.custom-control-label{for: "workshop_is_public_1"} Public Workshop
+      %label.custom-control-label{for: "workshop_is_public_true"} Public Workshop
     .custom-control.custom-radio
       = f.radio_button :is_public, 'false', class: 'custom-control-input'
-      %label.custom-control-label{for: "workshop_is_public_0"} Private Workshop
+      %label.custom-control-label{for: "workshop_is_public_false"} Private Workshop
 %hr
 %h2 Tickets
 .form-row
