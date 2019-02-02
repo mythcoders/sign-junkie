@@ -19,7 +19,7 @@ action "build" {
 
 action "assets" {
   needs = ["build"]
-  uses = "ruby:2.5.1-alpine"
+  uses = "docker://ruby:2.5.1-alpine"
   args = ["./scripts/ci_assets.sh"]
   env = {
     RAILS_ENV = "qa"
