@@ -6,5 +6,7 @@ WORKDIR /app
 ADD Gemfile Gemfile.lock /app/
 RUN bundle install
 
+RUN if [$GITHUB_WORKFLOW != ""]; then rake assets:precompile RAILS_ENV=production; fi
+
 ADD . .
 CMD ["puma"]
