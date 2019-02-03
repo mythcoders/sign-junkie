@@ -23,9 +23,12 @@ Rails.application.configure do
 
   config.i18n.fallbacks = true
 
-  config.log_level = :debug
   config.log_tags = [ :request_id ]
   config.log_formatter = ::Logger::Formatter.new
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api,
+                                          app: 'sign-junkie',
+                                          level: 'DEBUG',
+                                          env: Rails.env)
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

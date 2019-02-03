@@ -31,8 +31,8 @@ Rails.application.configure do
 
   config.log_formatter = ::Logger::Formatter.new
   config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api,
-                                          app: 'whiz_store',
-                                          level: 'INFO',
+                                          app: 'sign-junkie',
+                                          level: 'DEBUG',
                                           env: Rails.env)
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
