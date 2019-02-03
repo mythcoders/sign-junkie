@@ -16,8 +16,8 @@
         - @workshop.attendee.each do |a|
           %tr
             %td
-                = "#{a.first_name} #{a.last_name}"
-                = a.email
+              = "#{a.first_name} #{a.last_name}"
+              = a.email
             %td= a.description
             %td.text-danger
               = fa_solid 'times'
