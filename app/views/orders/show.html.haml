@@ -18,10 +18,6 @@
         .form-group.row
           %label.col-form-label.col-6 Date Closed
           .form-control-plaintext.col= lifp(@order.date_closed, :short)
-        %hr
-        .form-group.row
-          %label.col-form-label.col-6 Payment Method
-          .form-control-plaintext.col= @order.payment_method
         .form-group.row
           %label.col-form-label.col-6 Address
           .form-control-plaintext.col

@@ -10,7 +10,6 @@ module Ares
       @order = order
       @order_item = order_item
       @payment = Payment.build(@order,
-                               @order.payment_method,
                                @order.due_now(order_item),
                                @order.user_id)
       @gateway = Braintree::Gateway.new(

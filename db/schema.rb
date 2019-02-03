@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_025206) do
+ActiveRecord::Schema.define(version: 2019_02_03_033158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2019_02_02_025206) do
   end
 
   create_table "order_items", id: :serial, force: :cascade do |t|
-    t.string "description", limit: 50, null: false
+    t.string "description", null: false
     t.decimal "price", default: "0.0", null: false
     t.integer "quantity", null: false
     t.bigint "order_id"
@@ -115,9 +115,9 @@ ActiveRecord::Schema.define(version: 2019_02_02_025206) do
     t.datetime "updated_at", null: false
     t.bigint "workshop_id"
     t.string "identifier", null: false
-    t.string "attendee"
-    t.string "email"
+    t.bigint "user_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["user_id"], name: "index_order_items_on_user_id"
     t.index ["workshop_id"], name: "index_order_items_on_workshop_id"
   end
 
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2019_02_02_025206) do
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
-    t.serial "order_number", null: false
+    t.serial "order_number", limit: 10
     t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_fulfilled"

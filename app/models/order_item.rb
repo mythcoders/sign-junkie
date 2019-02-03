@@ -1,7 +1,7 @@
 class OrderItem < ApplicationRecord
   audited
   belongs_to :order
-  belongs_to :workshop, autosave: true
+  belongs_to :workshop
 
   validates :description, presence: true
   validates :price, presence: true
@@ -15,8 +15,8 @@ class OrderItem < ApplicationRecord
                   identifier: SecureRandom.uuid)
   end
 
-  def self.deposit(workshop)
-    OrderItem.new(description: "Deposit for #{workshop.name}",
+  def self.deposit(cart)
+    OrderItem.new(description: "Deposit for #{cart.workshop.name}",
                   price: Workshop.private_deposit,
                   quantity: 1,
                   workshop: workshop,
