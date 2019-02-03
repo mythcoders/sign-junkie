@@ -17,9 +17,10 @@ class CartItem < ApplicationRecord
   end
 
   def display
-    value = workshop.name
-    value << " - #{project.name}" if project_id.present?
-    value << " w/ #{addon.name}" if addon_id.present?
-    value
+    Rails.logger.debug "CartItem.display"
+    val = workshop.name
+    val << " - #{project.name}" if project_id.present?
+    val << " w/ #{addon.name}" if addon_id.present?
+    val
   end
 end
