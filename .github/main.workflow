@@ -46,7 +46,7 @@ action "push-test" {
 action "db-test" {
   needs = ["push-test"]
   uses = "actions/heroku@master"
-  args = ["run", "bundle", "exec", "rails", "db:seed", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
+  args = ["run", "bundle", "exec", "rails", "db:migrate", "db:seed", "--type", "web", "--app", "$HEROKU_APP"]
   secrets = ["HEROKU_API_KEY"]
   env = {
     HEROKU_APP = "sign-junkie-qa"

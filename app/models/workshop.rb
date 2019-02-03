@@ -9,6 +9,10 @@ class Workshop < ApplicationRecord
   has_many :projects, through: :project_workshops
   has_many :order_items
 
+  def attendees
+    order_items.map { |item| item.customer }
+  end
+
   scope :active, (lambda do
     where(is_for_sale: true)
       .where('posting_start_date <= CURRENT_TIMESTAMP AND posting_end_date >= CURRENT_TIMESTAMP')

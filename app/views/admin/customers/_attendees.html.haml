@@ -13,11 +13,10 @@
           %th Project
           %th Libality Waiver
       %tbody
-        - @workshop.order_items.each do |a|
+        - @workshop.attendee.each do |a|
           %tr
             %td
-              - if a.attendee.present?
-                = a.attendee
+                = "#{a.first_name} #{a.last_name}"
                 = a.email
               - else
                 .text-muted No yet entered

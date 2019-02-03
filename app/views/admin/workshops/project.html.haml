@@ -1,8 +1,8 @@
 - page_title 'Add Projects', @workshop.name,'Workshops'
 
-= form_for @workshop, url: admin_workshop_projects_path(@workshop) do |f|
+= form_for @workshop, url: admin_workshop_project_path(@workshop) do |f|
   .card
-    .card-header
+    %h5.card-header.bg-primary.text-white
       Add Projects to Workshop
     .card-body
       .card-text Select the Projects that your customers will be able to create at this workshop
