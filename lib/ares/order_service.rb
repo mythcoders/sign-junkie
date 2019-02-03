@@ -33,7 +33,8 @@ module Ares
            process_payment(payment_nonce) &&
            empty_cart &&
            order_ready?
-          mark_order_success
+          mark_success
+          mark_fulfilled
           return true
         else
           raise ActiveRecord::Rollback
@@ -44,7 +45,7 @@ module Ares
 
     private
 
-    def mark_order_success
+    def mark_success
       @order.date_placed = Time.now
       if @order.save
         OrderMailer.with(order: @order).placed.deliver_now
@@ -52,6 +53,24 @@ module Ares
       else
         false
       end
+    end
+
+    def mark_fulfilled
+      return true unless fulfillable?
+
+      @order.date_fulfilled = Time.now
+      if @order.save
+        true
+      else
+        false
+      end
+    end
+
+    def fulfillable?
+      @order.items.each do |item|
+      end
+
+      false
     end
 
     def order_ready?

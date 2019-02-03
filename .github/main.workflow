@@ -79,42 +79,42 @@ action "master-branch-filter" {
   args = "branch master"
 }
 
-action "push-production" {
-  needs = ["master-branch-filter"]
-  uses = "actions/heroku@master"
-  args = ["./scripts/cibuild"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-pd"
-  }
-}
+/* action "push-production" { */
+/*   needs = ["master-branch-filter"] */
+/*   uses = "actions/heroku@master" */
+/*   args = ["./scripts/cibuild"] */
+/*   secrets = ["HEROKU_API_KEY"] */
+/*   env = { */
+/*     HEROKU_APP = "sign-junkie-pd" */
+/*   } */
+/* } */
 
-action "db-production" {
-  needs = ["master-branch-filter"]
-  uses = "actions/heroku@master"
-  args = ["run", "bundle", "exec", "rails", "db:seed", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-pd"
-  }
-}
+/* action "db-production" { */
+/*   needs = ["master-branch-filter"] */
+/*   uses = "actions/heroku@master" */
+/*   args = ["run", "bundle", "exec", "rails", "db:seed", "db:migrate", "--type", "web", "--app", "$HEROKU_APP"] */
+/*   secrets = ["HEROKU_API_KEY"] */
+/*   env = { */
+/*     HEROKU_APP = "sign-junkie-pd" */
+/*   } */
+/* } */
 
-action "release-production" {
-  needs = ["push-production", "db-production"]
-  uses = "actions/heroku@master"
-  args = ["container:release", "--app", "$HEROKU_APP", "web"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-pd"
-  }
-}
+/* action "release-production" { */
+/*   needs = ["push-production", "db-production"] */
+/*   uses = "actions/heroku@master" */
+/*   args = ["container:release", "--app", "$HEROKU_APP", "web"] */
+/*   secrets = ["HEROKU_API_KEY"] */
+/*   env = { */
+/*     HEROKU_APP = "sign-junkie-pd" */
+/*   } */
+/* } */
 
-action "verify-production" {
-  needs = ["release-production"]
-  uses = "actions/heroku@master"
-  args = ["apps:info", "$HEROKU_APP"]
-  secrets = ["HEROKU_API_KEY"]
-  env = {
-    HEROKU_APP = "sign-junkie-pd"
-  }
-}
+/* action "verify-production" { */
+/*   needs = ["release-production"] */
+/*   uses = "actions/heroku@master" */
+/*   args = ["apps:info", "$HEROKU_APP"] */
+/*   secrets = ["HEROKU_API_KEY"] */
+/*   env = { */
+/*     HEROKU_APP = "sign-junkie-pd" */
+/*   } */
+/* } */

@@ -11,6 +11,14 @@ module Billable
     has_many :items, -> { order(:created_at) }, class_name: 'OrderItem', inverse_of: :order
   end
 
+  def items_deposit
+    items.select { |i| i.deposit }
+  end
+
+  def items_no_deposit
+    items.select { |i| !i.deposit }
+  end
+
   # entire amount due for the order, includes items, tax, and shipping
   def total_due
     (total_taxable + total_tax).round(2)
@@ -33,13 +41,18 @@ module Billable
 
   # total amount due as a deposit, only applicatble for certain workshops
   def total_deposit
-    deposits = items.select { |i| i.description.include?('Deposit') }
-    (deposits.map(&:item_total).reduce(:+) || 0.00).round(2)
+    (items_deposit.map(&:item_total).reduce(:+) || 0.00).round(2)
   end
 
   def total_public_shops
-    public = items.select { |i| i.workshop.is_public? }
-    (public.map(&:item_total).reduce(:+) || 0.00 ).round(2)
+    ## clean up
+    rv = 0.00
+    items_no_deposit.each do |i|
+      if i.tickets.any? { |t| t.workshop.is_public? }
+        rv += i.item_total
+      end
+    end
+    rv.round(2)
   end
 
   # The total amount due at the time of calling

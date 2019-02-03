@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destory projects]
+    before_action :populate_workshop, only: %i[edit update show destory]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
@@ -40,11 +40,10 @@ module Admin
       redirect_to admin_workshops_path
     end
 
-    def projects
+    def project
+      @workshop = Workshop.includes(:order_items, :projects).find(params[:workshop_id])
       if request.post?
-        add_projects_to_workshop
-      else
-        render 'projects'
+
       end
     end
 
@@ -62,7 +61,7 @@ module Admin
     end
 
     def populate_workshop
-      @workshop = Workshop.includes(:order_items, :projects).find(params[:id])
+      @workshop = Workshop.includes(:tickets, :projects).find(params[:id])
     end
 
     def filtered_params

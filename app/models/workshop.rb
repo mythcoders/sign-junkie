@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
-# Tickets for Events are purchased by customers
+# Customers purhcase tickets to Workshops to build Projects
 class Workshop < ApplicationRecord
   include ApplicationHelper
+
   audited
   has_many_attached :images
   has_many :project_workshops
   has_many :projects, through: :project_workshops
-  has_many :order_items
-
-  def attendees
-    order_items.map { |item| item.customer }
-  end
+  has_many :tickets
+  has_many :customers, through: :tickets
 
   scope :active, (lambda do
     where(is_for_sale: true)
@@ -28,8 +26,7 @@ class Workshop < ApplicationRecord
   end
 
   def tickets_available
-    # todo: only get active order_items
-    total_tickets - order_items.count
+    (is_private? ? Workshop.private_max : total_tickets) - tickets.count
   end
 
   def can_purchase?

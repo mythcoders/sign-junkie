@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :cart_items
   has_many :notes
   has_many :orders
+  has_many :tickets
 
   before_validation :strip_phone_number
   accepts_nested_attributes_for :addresses, allow_destroy: true
