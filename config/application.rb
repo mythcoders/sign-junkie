@@ -23,7 +23,7 @@ module SignJunkie
     config.force_ssl = true unless Rails.env.development?
 
     # Logging
-    config.lograge.enabled = true
+    config.lograge.enabled = false
 
     # Storage
     config.active_storage.service = :amazon
