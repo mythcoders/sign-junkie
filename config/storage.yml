@@ -7,5 +7,5 @@ amazon:
   access_key_id: <%= Rails.application.credentials.storage_key %>
   secret_access_key: <%= Rails.application.credentials.storage_secret %>
   region: nyc3
-  bucket: <%= ENV['STORAGE_BUCKET'] %>
+  bucket: <%= ENV.fetch('STORAGE_BUCKET') %>
   endpoint: "https://nyc3.digitaloceanspaces.com"
