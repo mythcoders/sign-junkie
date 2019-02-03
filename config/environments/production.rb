@@ -30,10 +30,13 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   config.log_formatter = ::Logger::Formatter.new
-  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api,
-                                          app: 'sign-junkie',
-                                          level: 'DEBUG',
-                                          env: Rails.env)
+  logger_options = {
+    app: 'sign-junkie',
+    hostname: 'mcdig-pdapp-signjunkie',
+    level: 'INFO',
+    env: Rails.env
+  }
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

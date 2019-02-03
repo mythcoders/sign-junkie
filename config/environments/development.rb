@@ -30,6 +30,13 @@ Rails.application.configure do
 
   config.active_record.migration_error = :page_load
 
+  logger_options = {
+    app: 'sign-junkie',
+    hostname: 'mcdig-dvapp-signjunkie',
+    level: 'DEBUG',
+    env: Rails.env
+  }
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
   config.assets.debug = false
 
   config.assets.quiet = true
