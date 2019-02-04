@@ -38,7 +38,6 @@ Rails.application.routes.draw do
       resources :order_notes, as: 'notes', path: 'notes'
     end
     resources :workshops, concerns: :pageable do
-      get 'project'
       post 'project'
       post 'primary', as: 'set_primary'
       resources :images, only: %i[new create destroy]

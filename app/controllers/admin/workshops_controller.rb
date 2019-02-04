@@ -3,6 +3,7 @@
 module Admin
   class WorkshopsController < AdminController
     before_action :populate_workshop, only: %i[edit update show destory]
+    before_action :populate_projects, only: %i[show]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
@@ -41,23 +42,32 @@ module Admin
     end
 
     def project
-      @workshop = Workshop.includes(:order_items, :projects).find(params[:workshop_id])
-      if request.post?
+      @project = ProjectWorkshop.new(project_params)
 
+      if @project.save
+        flash[:success] = t('CreateSuccess')
+      else
+        flash[:error] = 'Error'
       end
+
+      redirect_to admin_workshop_path @project.workshop_id
     end
 
     private
-
-    def add_projects_to_workshop
-
-    end
 
     def workshop_params
       params.require(:workshop).permit(:id, :name, :description, :posting_start_date,
                                        :posting_end_date, :start_date, :end_date,
                                        :total_tickets, :ticket_price, :is_for_sale,
                                        :is_public)
+    end
+
+    def project_params
+      params.require(:project_workshop).permit(:project_id, :workshop_id)
+    end
+
+    def populate_projects
+      @projects = Project.all
     end
 
     def populate_workshop

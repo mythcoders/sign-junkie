@@ -17,4 +17,10 @@
             %td
               = p.name
   .card-footer
-    = link_to 'Add Projects', admin_workshop_project_path(@workshop), class: 'btn btn-info btn-sm'
+    = form_for :project_workshop, url: admin_workshop_project_path(@workshop) do |f|
+      = f.hidden_field :workshop_id, value: @workshop.id
+      = f.select(:project_id,
+        @projects.collect { |r| [ r[:name], r[:id] ] },
+        { include_blank: ' - Select - ' },
+        { class: 'custom-select', })
+      = f.submit 'Add Projects', class: 'btn btn-info btn-sm'
