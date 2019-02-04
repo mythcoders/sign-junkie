@@ -1,17 +1,16 @@
-#### 1902 - 02-??-19
+#### 1902 - 02-03-19
 
 - Features
   - Renamed `Events` to `Workshops`
   - Added `Projects` that can be built by `Customers`
-  - Added `AddOns` an optional addition to a project
-  - Added Public and Private Workshops
+  - Added Public and option for Private Workshops
+  - Added Attendee list
 - Changes
   - Disabled Sales Tax
 - Improvements
   - More responsive UI for phone and tablet devices
   - New Sidebar design for the Admin Portal
-- Fixes
-  - Something
+  - Added Posting Ending Date
 
 #### 1810 - 10-27-18
 
