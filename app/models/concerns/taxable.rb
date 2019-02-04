@@ -5,7 +5,7 @@ module Taxable
 
   # if the order is taxable
   def taxed?
-    true
+    false
   end
 
   def total_taxable

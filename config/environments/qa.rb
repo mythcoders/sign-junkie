@@ -10,7 +10,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   config.assets.js_compressor = :uglifier
-  config.assets.compile = false
+  # config.assets.compile = true
 
   config.action_controller.perform_caching = true
   config.action_mailer.perform_caching = false
@@ -23,9 +23,15 @@ Rails.application.configure do
 
   config.i18n.fallbacks = true
 
-  config.log_level = :debug
   config.log_tags = [ :request_id ]
   config.log_formatter = ::Logger::Formatter.new
+  logger_options = {
+    app: 'sign-junkie',
+    hostname: 'mcdig-qaapp-signjunkie',
+    level: 'DEBUG',
+    env: Rails.env
+  }
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

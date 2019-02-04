@@ -18,6 +18,10 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = false
 
   config.action_controller.allow_forgery_protection = false
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api,
+                                          app: 'sign-junkie',
+                                          level: 'DEBUG',
+                                          env: Rails.env)
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = {

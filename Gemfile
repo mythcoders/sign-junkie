@@ -13,7 +13,7 @@ gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
 gem 'devise'
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'logdna-rails' # Logging
 gem 'lograge'
@@ -41,6 +41,8 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_magick', '~> 4.8'
 
 group :development, :test do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'
   gem 'debase'

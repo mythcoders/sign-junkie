@@ -9,8 +9,8 @@
     %link{href: "https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css", rel: "stylesheet"}
     - if @client_token
       %script{src: 'https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js'}
-  %body
-    %a#top
+  %body#page-top
+    = render partial: 'layouts/partials/logout'
     = render partial: 'layouts/partials/navbar'
     .container.padded-container
       #pageLoading
@@ -20,7 +20,7 @@
             %br
             %span.text-primary Loading ... Please wait...
       = render partial: 'layouts/partials/alerts'
-      -# = render partial: 'layouts/partials/screen_size'
+      = render partial: 'layouts/partials/dev_ui'
       = yield :breadcrumbs
       = yield
     = render partial: 'layouts/partials/footer'

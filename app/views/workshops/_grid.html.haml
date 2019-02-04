@@ -1,0 +1,17 @@
+- @workshops.each_slice(3) do |group|
+  .row
+    - group.each do |p|
+      .col-4
+        .card
+          - if p.images.any?
+            %img.card-img-top{alt: "Image of #{p.name}", src: url_for(p.primary_image)}
+          .card-body
+            %h4
+              = link_to p.name, workshop_path(p)
+            %p.card-text
+              = p.description
+            %h5.text-primary
+              = number_to_currency(p.ticket_price)
+              - if p.is_private?
+                %span.ml-2.badge.badge-info Private
+  %br

@@ -67,7 +67,9 @@ class OrdersController < ApplicationController
   end
 
   def prepare_payment
-    @client_token = Ares::PaymentService.new(@order).new_token
+    service = Ares::PaymentService.new(@order)
+    @payment = service.payment
+    @client_token = service.new_token
   end
 
   def assign_create_params

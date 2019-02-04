@@ -1,0 +1,23 @@
+= form_tag home_path, method: 'get' do
+  = hidden_field_tag :search
+  .card
+    %h5.card-header.bg-primary.text-white
+      = fa_light 'search'
+      Search for Workshops
+    .card-body
+      .form-group
+        %label Name
+        = text_field_tag :terms, params[:terms], class: 'form-control'
+      .form-group
+        %label View Options
+        .btn-group.btn-group-toggle{'data-toggle': 'buttons'}
+          %label{class: ['btn btn-light', ('active' if @view == 'grid')]}
+            %input{checked_attr(@view, 'grid'), name: "view", value: 'grid', type: "radio"}
+            = fa_regular 'th'
+            Grid
+          %label{class: ['btn btn-light', ('active' if @view == 'list')]}
+            %input{checked_attr(@view, 'list'), name: "view", value: 'list', type: "radio"}
+            = fa_regular 'th-list'
+            List
+    .card-footer
+      %button.btn.btn-primary.btn-block{type: 'submit'} Search

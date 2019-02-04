@@ -15,7 +15,7 @@ Rails.application.configure do
   config.assets.js_compressor = :uglifier
   config.assets.css_compressor = :sass
 
-  config.assets.compile = false
+  # config.assets.compile = false
 
   config.log_level = :info
 
@@ -30,10 +30,13 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   config.log_formatter = ::Logger::Formatter.new
-  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api,
-                                          app: 'whiz_store',
-                                          level: 'INFO',
-                                          env: Rails.env)
+  logger_options = {
+    app: 'sign-junkie',
+    hostname: 'mcdig-pdapp-signjunkie',
+    level: 'INFO',
+    env: Rails.env
+  }
+  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

@@ -1,0 +1,12 @@
+- page_title 'Edit', @workshop.name, 'workshops'
+
+= form_for @workshop, url: admin_workshop_path(@workshop), method: :patch do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      Edit Workshop
+    .card-body
+      = error_messages_for 'workshop'
+      = render partial: 'admin/workshops/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_workshop_path(@workshop), class: 'btn btn-outline-secondary'
+      = f.submit 'Save', class: 'btn btn-success'

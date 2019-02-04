@@ -14,32 +14,61 @@ module Ares
       end
 
       def support_url
-        'mailto:mythcoders_signjunkie@issues.zohoprojects.com'.freeze
+        'mailto:support@mythcoders.com'.freeze
       end
 
-      def version
+      def support_key
+        Rails.application.credentials[:support][:key]
+      end
+
+      def support_secret
+        Rails.application.credentials[:support][:secret]
+      end
+
+      def release
+        Rails.root.join('RELEASE').read.chomp
+      end
+
+      def deployer
+        Rails.root.join('DEPLOYER').read.chomp
+      end
+
+      def deploy_time
+        Rails.root.join('DEPLOY_TIME').read.chomp
+      end
+
+      def long_version
         Rails.root.join('VERSION').read.chomp
       end
 
+      def version
+        long_version[0..6]
+      end
+
       def branch
-        Rails.root.join('BRANCH').read.chomp
+        value = Rails.root.join('BRANCH').read.chomp
+        if value.include?('refs/')
+          value.sub!(/refs\/(heads\/|tags\/)/, '')
+        else
+          value
+        end
       end
 
       def versioned_name
-        "#{app_name} #{version}"
+        "#{app_name} #{release}"
       end
 
       def prerelease?
-        version.include? '-'
+        release.include? '-'
       end
 
       def phase
-        prerelease? ? version.split('-').last : 'release'
+        prerelease? ? release.split('-').last : 'release'
       end
 
       def license
         s = "#{Ares::ClientInfo.owner}\n"
-        s << "Trial\n"
+        s << "Licensed\n"
         s << '99/99/9999 - 99/99/9999'
         s
       end

@@ -1,0 +1,9 @@
+if ($('#addons').length) {
+  $("<%= escape_javascript(render @addon) %>").insertAfter('#addons > tr:last');
+} else {
+  $('#addons-content').html("<%= escape_javascript(render partial: 'admin/addons/list', locals: { addons: [@addon] }) %>")
+}
+
+$('#addon_name').val('')
+$('#addon_price').val('')
+$('#addon-error').html('')

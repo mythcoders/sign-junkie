@@ -1,0 +1,26 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'drafting-compass'
+    Projects
+  - unless @workshop.projects.any?
+    .card-body
+      %strong.text-danger You haven't added any projects to this workshop
+      .card-text Customers will be unable to purchase tickets to this workshop until you've added a project.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %thead
+        %tr
+          %th Name
+      %tbody
+        - @workshop.projects.each do |p|
+          %tr
+            %td
+              = p.name
+  .card-footer
+    = form_for :project_workshop, url: admin_workshop_project_path(@workshop) do |f|
+      = f.hidden_field :workshop_id, value: @workshop.id
+      = f.select(:project_id,
+        @projects.collect { |r| [ r[:name], r[:id] ] },
+        { include_blank: ' - Select - ' },
+        { class: 'custom-select', })
+      = f.submit 'Add Projects', class: 'btn btn-info btn-sm'

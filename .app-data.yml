@@ -1,0 +1,9 @@
+name: sign-junkie
+domain: signjunkieworkshop.com
+plan:
+  size: small
+  pods: 1
+dependencies:
+  - hermes
+services:
+  - db

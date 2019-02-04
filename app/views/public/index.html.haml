@@ -1,8 +1,8 @@
 .row
   .col-3
-    = render partial: 'events/filters'
+    = render partial: 'workshops/filters'
   .col-9
-    - if @events.any?
-      = render partial: "events/#{@view}"
+    - if @workshops.any?
+      = render partial: "workshops/#{@view}"
     - else
-      %h3 Looks like we didn't have any events that matched that criteria.
+      %h3 Looks like we didn't have any workshops that matched that criteria.

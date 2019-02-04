@@ -45,7 +45,8 @@ en:
       failure: ""
     add:
       success: "The item was placed in your cart!"
-      failure: "An error occurred, the item must have been too big. Please try again in a few moments."
+      failure: "An error occurred while adding that ticket to your cart. Please try again in a few moments."
+      already: "That item is already present in your cart."
     update:
       success: "Cart updated!"
       failure: "Please try again."
@@ -261,12 +262,23 @@ en:
       submit: Save %{model}
       update: "Save changes"
     label:
+      order:
+        is_gift: "Order contains a gift"
       address:
         nickname: "Nickname to help identify this address during checkout"
         street: "Street address"
         street2: "Address line 2"
         is_shipping: "This address can be used for shipping"
         is_billing: "This address can be used for billing"
+      workshop:
+        start_date: "Workshop Start Date/Time"
+        end_date: "Workshop End Date/Time"
+        is_for_sale: "Available for purchase?"
+        posting_start_date: "Date available for purhcase"
+        posting_end_date: "Last date to purchase"
+        total_tickets: "Tickets for purhcasee"
+        ticket_price: "Price per ticket"
+        is_public: "Availablity type"
   failure:
     delete: "Unable to delete your record. Please try again."
     update: ""

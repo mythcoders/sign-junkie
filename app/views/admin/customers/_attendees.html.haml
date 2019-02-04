@@ -1,0 +1,34 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'users'
+    Attendees
+  - unless @workshop.tickets.any?
+    .card-body
+      .text-muted No customers have RSVPd to this workshop yet.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %thead
+        %tr
+          %th Name
+          %th Project
+          %th Libality Waiver
+      %tbody
+        - @workshop.tickets.each do |t|
+          %tr
+            %td
+              - if t.customer.present?
+                = "#{t.customer.first_name} #{t.customer.last_name}"
+                = t.customer.email
+              - else
+                No assigned
+            %td
+              - if t.project.present?
+                = t.project.name
+              - else
+                None
+              - if t.addon.present?
+                = "w/ #{t.addon.name}"
+            %td.text-danger
+              = fa_solid 'times'
+              Not signed
+

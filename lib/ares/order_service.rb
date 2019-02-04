@@ -12,6 +12,7 @@ module Ares
     # marks the order as canceled and notifies the customer
     def cancel
       @order.date_canceled = Time.now
+      # todo: issue refund
       was_successful = @order.save!
       OrderMailer.with(order: @order).canceled.deliver_now if was_successful && @order.placed?
       was_successful
@@ -30,9 +31,10 @@ module Ares
       ActiveRecord::Base.transaction do
         if initial_save_reload! &&
            process_payment(payment_nonce) &&
-           remove_items_from_inventory_and_cart &&
+           empty_cart &&
            order_ready?
-          mark_order_success
+          mark_success
+          mark_fulfilled
           return true
         else
           raise ActiveRecord::Rollback
@@ -43,17 +45,8 @@ module Ares
 
     private
 
-    def build_items(user, as_of_date)
-      value = []
-      CartItem.for(user).as_of(as_of_date).each do |cart_item|
-        value << OrderItem.create(cart_item.event, cart_item.quantity)
-      end
-      value
-    end
-
-    def mark_order_success
+    def mark_success
       @order.date_placed = Time.now
-      @order.date_fulfilled = Time.now
       if @order.save
         OrderMailer.with(order: @order).placed.deliver_now
         true
@@ -62,8 +55,26 @@ module Ares
       end
     end
 
+    def mark_fulfilled
+      return true unless fulfillable?
+
+      @order.date_fulfilled = Time.now
+      if @order.save
+        true
+      else
+        false
+      end
+    end
+
+    def fulfillable?
+      @order.items.each do |item|
+      end
+
+      false
+    end
+
     def order_ready?
-      @order.paid_in_full? && @order.valid?
+      @order.valid?
     end
 
     def process_payment(payment_nonce)
@@ -79,10 +90,7 @@ module Ares
       @order.reload
     end
 
-    def remove_items_from_inventory_and_cart
-      @order.items.each do |item|
-        item.event.remove_stock(item.quantity)
-      end
+    def empty_cart
       CartItem.for(@order.customer).as_of(@order.date_created).delete_all
       true
     end

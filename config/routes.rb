@@ -5,45 +5,50 @@ Rails.application.routes.draw do
   get 'admin', to: redirect('admin/dashboard/index'), as: 'admin'
 
   devise_for :users
-  concern :paginatable do
+  concern :pageable do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
 
-  # customer accounts and order processing
+  # customer facing
   get 'my_account', to: 'public#my_account'
+  get 'addons/:project_id', to: 'public#addons'
   resources :addresses
-  resources :events, only: %i[index show]
+  resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create]
   post 'orders/ui', to: 'orders#ui', as: 'order_ui_update'
   get 'orders/:id/receipt', to: 'orders#receipt', as: 'receipt'
   post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
 
+  # administration portal
   namespace :admin do
     get 'dashboard/index', as: 'dashboard'
     get 'dashboard/about', as: 'about'
     get 'reports/index', as: 'reports'
     get 'reports/sales_tax', as: 'sales_tax_report'
 
-    resources :audits, concerns: :paginatable, only: %i[index show]
-    resources :events, concerns: :paginatable do
-      post 'primary', as: 'set_primary'
-      resources :images, only: %i[new create destroy]
-    end
+    resources :addons, concerns: :pageable
+    resources :audits, concerns: :pageable, only: %i[index show]
+    resources :projects, concerns: :pageable
     post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
     post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'
     post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
-    resources :orders, concerns: :paginatable do
+    resources :orders, concerns: :pageable do
       resources :order_items, as: 'items', path: 'items'
       resources :order_notes, as: 'notes', path: 'notes'
     end
+    resources :workshops, concerns: :pageable do
+      post 'project'
+      post 'primary', as: 'set_primary'
+      resources :images, only: %i[new create destroy]
+    end
 
     resources :users, as: 'customers', path: 'customers',
-                      controller: 'customers', concerns: :paginatable do
+                      controller: 'customers', concerns: :pageable do
       resources :notes, only: %i[edit new create update destroy]
       resources :addresses, only: %i[edit new create update destroy]
     end
     resources :users, as: 'employees', path: 'employees',
-                      controller: 'employees', concerns: :paginatable
+                       controller: 'employees', concerns: :pageable
   end
 end

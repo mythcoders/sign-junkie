@@ -1,0 +1,56 @@
+- page_title @workshop.name, 'workshops'
+
+.row
+  .col-12.col-md-4
+    .card
+      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
+        = @workshop.name
+      .card-body
+        .form-group
+          %label.col-form-label Description
+          .form-control-plaintext= @workshop.description
+        .form-group
+          %label.col-form-label Scheduled
+          .form-control-plaintext= @workshop.when
+        %hr
+        .form-group
+          %label.col-form-label Date available for purchase
+          .form-control-plaintext= @workshop.when_purchase
+        .form-group
+          %label.col-form-label Remaining tickets for sale
+          .form-control-plaintext= @workshop.tickets_available
+        .form-group
+          %label.col-form-label Ticket price
+          .form-control-plaintext= number_to_currency(@workshop.ticket_price)
+        .form-group
+          %label.col-form-label Is this workshop ready for sale?
+          .form-control-plaintext= @workshop.is_for_sale
+        .form-group
+          %label.col-form-label Is a public workshop?
+          .form-control-plaintext= @workshop.is_public
+      .card-footer
+        %a.btn.btn-outline-secondary.btn-sm{href: admin_workshops_path}
+          = fa_regular 'arrow-left'
+          Search
+        %a.btn.btn-primary.btn-sm{href: edit_admin_workshop_path(@workshop)} Edit
+        %a.btn.btn-info.btn-sm{href: admin_workshop_path(@workshop)} Clone
+  .col-12.col-md-8
+    %ul#workshopTab.nav.nav-tabs{role: "tablist"}
+      %li.nav-item
+        %a#attendee-tab.nav-link.active{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#attendee", role: "tab"}
+          Attendees
+      %li.nav-item
+        %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
+          Projects
+      %li.nav-item
+        %a#image-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
+          Images
+
+    #workshopTabContent.tab-content
+      #attendee.tab-pane.fade.show.active{"aria-labelledby": "attendee-tab", role: "tabpanel"}
+        = render partial: 'admin/customers/attendees'
+      #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
+        = render partial: 'admin/workshops/list'
+      #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+        = render partial: 'admin/images/show'
+

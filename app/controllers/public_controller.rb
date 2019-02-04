@@ -7,16 +7,20 @@ class PublicController < ApplicationController
       render 'coming_soon'
     else
       @view = params[:view] || 'grid'
-      @events = if params[:search]
-                  Event.search(params[:terms], params[:sort])
+      @workshops = if params[:search]
+                  Workshop.search(params[:terms], params[:sort])
                 else
-                  Event.active
+                  Workshop.active
                 end
     end
   end
 
   def show
     Rails.env.production? || params[:soon]
+  end
+
+  def addons
+    @addons = Addon.where(project_id: params[:project_id])
   end
 
   def my_account

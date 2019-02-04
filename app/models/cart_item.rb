@@ -6,19 +6,20 @@ class CartItem < ApplicationRecord
   scope :as_of, ->(date_created) { where('created_at <= ?', date_created) unless date_created.nil? }
 
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
-  belongs_to :event
+  belongs_to :workshop
+  belongs_to :addon, required: false
+  belongs_to :project, required: false
 
-  def self.find_or_new(user_id, event, quantity)
-    item = CartItem.where(user_id: user_id, event_id: event.id).first
-    if item.nil?
-      item = CartItem.new(user_id: user_id, event_id: event.id, quantity: quantity)
-    else
-      item.quantity += quantity.to_i
-    end
-    item
-  end
+  validates_presence_of :workshop_id, :user_id
 
   def amount
-    event.ticket_price * quantity
+    workshop.ticket_price * quantity
+  end
+
+  def display
+    val = workshop.name
+    val << " - #{project.name}" if project_id.present?
+    val << " w/ #{addon.name}" if addon_id.present?
+    val
   end
 end

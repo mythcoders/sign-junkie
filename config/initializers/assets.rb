@@ -14,4 +14,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w[admin/application.css
                                                  admin/application.js
                                                  fontawesome-all.min.js
-                                                 onmount.js]
+                                                 onmount.js
+                                                 jquery.easing.min.js
+                                                 sb-admin.min.js]

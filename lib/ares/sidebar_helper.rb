@@ -23,8 +23,8 @@ module Ares
     #   controller.class == Admin::ReportsController
     # end
     #
-    def events_controller?
-      controller.class == Admin::EventsController
+    def workshops_controller?
+      controller.class == Admin::WorkshopsController
     end
 
     def customers_controller?
@@ -35,6 +35,14 @@ module Ares
 
     def employees_controller?
       controller.class == Admin::EmployeesController
+    end
+
+    def projects_controller?
+      controller.class == Admin::ProjectsController
+    end
+
+    def addons_controller?
+      controller.class == Admin::AddonsController
     end
 
     def order_controller?

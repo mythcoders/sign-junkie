@@ -1,0 +1,12 @@
+- page_title 'Edit', @project.name, 'Projects'
+
+= form_for @project, url: admin_project_path(@project), method: :patch do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      Edit Project
+    .card-body
+      = error_messages_for 'project'
+      = render partial: 'admin/projects/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_project_path(@project), class: 'btn btn-outline-secondary'
+      = f.submit 'Save', class: 'btn btn-success'

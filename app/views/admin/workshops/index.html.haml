@@ -1,0 +1,28 @@
+- page_title 'Workshop Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'toolbox'
+    Workshops
+  %table.table.table-bordered.table-striped.table-hover.table-border-fix
+    %thead
+      %tr
+        %th Name
+        %th Date
+        %th Tickets Available
+    %tbody
+      - @workshops.each do |e|
+        %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(e) }}
+          %td
+            = e.name
+            - if e.is_public?
+              %span.badge.badge-primary Public
+            - else
+              %span.badge.badge-info Private
+          %td= e.when
+          %td= e.tickets_available
+  .card-footer
+    = paginate @workshops
+    = page_entries_info @workshops
+%br
+= link_to 'New workshop', new_admin_workshop_path, class: 'btn btn-primary'

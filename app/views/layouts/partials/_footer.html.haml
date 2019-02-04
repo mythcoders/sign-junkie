@@ -1,9 +1,9 @@
 %nav.navbar.fixed-bottom.whiz-footer
   .container
     %a.navbar-link{href: 'https://www.example.com', target: '_blank'}
-      = "\u00A9 #{Date.today.year} #{Ares::ClientInfo.owner}"
+      = "\u00A9 #{Date.today.year} #{Ares::ClientInfo.owner}. All Rights Reserved."
     %a.navbar-link.float-right.d-none.d-sm-block{href: 'https://www.mythcoders.com', target: '_blank'}
       - if Rails.env.production?
         = "Developed by #{Ares::SystemInfo.developer}"
       - else
-        = "#{Ares::SystemInfo.version} | Developed by #{Ares::SystemInfo.developer}"
+        = "#{Ares::SystemInfo.version} | Developed by #{Ares::SystemInfo.developer}."
