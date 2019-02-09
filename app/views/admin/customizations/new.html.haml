@@ -1,0 +1,11 @@
+- page_title 'New', 'Customization'
+
+= form_for @customization, url: admin_customizations_path do |f|
+  .card
+    %h5.card-header.bg-primary.text-white New customization
+    .card-body
+      = error_messages_for 'customization'
+      = render partial: 'admin/customizations/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_customizations_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Create', class: 'btn btn-success'

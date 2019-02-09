@@ -41,6 +41,10 @@ module Ares
       controller.class == Admin::ProjectsController
     end
 
+    def customizations_controller?
+      controller.class == Admin::CustomizationsController
+    end
+
     def addons_controller?
       controller.class == Admin::AddonsController
     end

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
     resources :addons, concerns: :pageable
     resources :audits, concerns: :pageable, only: %i[index show]
+    resources :customizations, concerns: :pageable
     resources :projects, concerns: :pageable
     post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
     post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'

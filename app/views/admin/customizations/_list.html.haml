@@ -1,0 +1,14 @@
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'swatchbook'
+    Customizations
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Name
+        %th Category
+    %tbody
+      - customizations.each do |c|
+        %tr
+          %td= c.name
+          %td= c.category

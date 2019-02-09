@@ -24,6 +24,10 @@
       = fa_solid 'drafting-compass', 'fa-fw'
       %span Projects
   %li.nav-item
+    %a.nav-link{sidebar_link(admin_customizations_path, customizations_controller?)}
+      = fa_solid 'swatchbook', 'fa-fw'
+      %span Project Customizations
+  %li.nav-item
     %a.nav-link{sidebar_link(admin_workshops_path, workshops_controller?)}
       = fa_solid 'pencil-ruler', 'fa-fw'
       %span Workshops
