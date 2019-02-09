@@ -9,6 +9,7 @@ unless User.where(email: Ares::SystemInfo.support_key).any?
 end
 
 if Rails.env.development? || ENV['DB_GEN']
+  @categories = [Faker::StarWars.call_squadron, Faker::StarWars.call_squadron]
 
   def build_addons
     items = Faker::Number.between(1, 5)
@@ -29,26 +30,36 @@ if Rails.env.development? || ENV['DB_GEN']
     ProjectWorkshop.new(project: Project.all.sample)
   end
 
-  if User.customers.count < 3
-    3.times do
-      User.create(first_name: Faker::Name.first_name,
-                 last_name: Faker::Name.last_name,
-                 role: 'customer',
-                 email: Faker::Internet.safe_email,
-                 password: 'test1234',
-                 confirmed_at: DateTime.now)
-    end
+  def new_customization
+    Customization.create(name: Faker::StarWars.call_number, category: @categories.sample)
   end
 
-  User.create(first_name: Faker::Name.first_name,
-              last_name: Faker::Name.last_name,
-              role: 'admin',
-              email: Faker::Internet.safe_email,
-              password: 'test12345',
-              confirmed_at: DateTime.now)
+  def build_customizations
+    items = Faker::Number.between(1, 5)
+    Array.new(items, new_customization)
+  end
+
+  def new_user(role)
+    User.create(first_name: Faker::Name.first_name,
+               last_name: Faker::Name.last_name,
+               email: Faker::Internet.safe_email,
+               password: 'test1234',
+               confirmed_at: DateTime.now,
+               role: role)
+  end
+
+  3.times do
+    new_user('customer')
+  end
+
+  new_user('admin')
+
+  10.times do
+    new_customization
+  end
 
   if Project.all.count < 15
-    25.times do
+    15.times do
       Project.create(name: Faker::StarWars.vehicle,
                      description: Faker::StarWars.wookiee_sentence,
                      addons: build_addons)

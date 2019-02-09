@@ -19,6 +19,7 @@ class CartItem < ApplicationRecord
   def display
     val = workshop.name
     val << " - #{project.name}" if project_id.present?
+    val << " (#{customization})" if customization.present?
     val << " w/ #{addon.name}" if addon_id.present?
     val
   end

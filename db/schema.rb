@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_044054) do
+ActiveRecord::Schema.define(version: 2019_02_05_223654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,12 +89,21 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id"
+    t.integer "project_id", null: false
     t.bigint "addon_id"
+    t.string "customization", default: "?", null: false
     t.index ["addon_id"], name: "index_cart_items_on_addon_id"
     t.index ["project_id"], name: "index_cart_items_on_project_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
     t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
+  end
+
+  create_table "customizations", force: :cascade do |t|
+    t.string "name"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "category"], name: "index_customizations_on_name_and_category", unique: true
   end
 
   create_table "notes", id: :serial, force: :cascade do |t|
@@ -161,6 +170,16 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "project_customizations", force: :cascade do |t|
+    t.bigint "customization_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customization_id", "project_id"], name: "index_project_customizations_on_customization_id_and_project_id", unique: true
+    t.index ["customization_id"], name: "index_project_customizations_on_customization_id"
+    t.index ["project_id"], name: "index_project_customizations_on_project_id"
+  end
+
   create_table "project_workshops", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "workshop_id"
@@ -187,6 +206,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.boolean "notified", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "customization"
     t.index ["addon_id"], name: "index_tickets_on_addon_id"
     t.index ["order_item_id"], name: "index_tickets_on_order_item_id"
     t.index ["project_id"], name: "index_tickets_on_project_id"
