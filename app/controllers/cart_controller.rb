@@ -13,9 +13,7 @@ class CartController < ApplicationController
 
   def create
     workshop = Workshop.find(params[:cart][:workshop_id])
-    if workshop_in_cart?(workshop)
-      flash[:error] = t('cart.add.already')
-    elsif workshop.can_purchase?
+    if workshop.can_purchase?
       add_to_cart(workshop)
     else
       flash[:error] = t('cart.add.failure')
@@ -55,6 +53,7 @@ class CartController < ApplicationController
                              workshop_id: workshop.id,
                              quantity: params[:cart][:quantity],
                              project_id: params[:cart][:project_id],
+                             customization: get_customization,
                              addon_id: params[:cart][:addon_id])
 
     if cart_item.save
@@ -64,12 +63,16 @@ class CartController < ApplicationController
     end
   end
 
-  def workshop_in_cart?(workshop)
-    CartItem.for(current_user).any? { |c| c.workshop.id == workshop.id }
+  def get_customization
+    if params[:cart][:customization_id].present?
+      Customization.find(params[:cart][:customization_id]).name
+    else
+      ''
+    end
   end
 
   def cart_params
-    params.require(:cart_item).permit(:id, :quantity, :project_id, :addon_id)
+    params.require(:cart_item).permit(:id, :quantity, :project_id, :addon_id, :customization_id)
   end
 
   def check_cart_auth

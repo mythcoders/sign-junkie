@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   # customer facing
   get 'my_account', to: 'public#my_account'
-  get 'addons/:project_id', to: 'public#addons'
+  get 'projects/:project_id', to: 'public#projects'
   resources :addresses
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
