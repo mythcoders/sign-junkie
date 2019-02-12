@@ -30,13 +30,17 @@ if Rails.env.development? || ENV['DB_GEN']
     ProjectWorkshop.new(project: Project.all.sample)
   end
 
-  def new_customization
-    Customization.create(name: Faker::StarWars.call_number, category: @categories.sample)
+  def new_category
+    DesignCategory.create!(name: Faker::StarWars.call_squadron)
   end
 
-  def build_customizations
+  def new_design
+    Design.create!(name: Faker::StarWars.call_number, category: @categories.sample)
+  end
+
+  def build_designs
     items = Faker::Number.between(1, 5)
-    Array.new(items, new_customization)
+    Array.new(items, new_design)
   end
 
   def new_user(role)
@@ -55,12 +59,12 @@ if Rails.env.development? || ENV['DB_GEN']
   new_user('admin')
 
   10.times do
-    new_customization
+    new_design
   end
 
   if Project.all.count < 15
     15.times do
-      Project.create(name: Faker::StarWars.vehicle,
+      Project.create!(name: Faker::StarWars.vehicle,
                      description: Faker::StarWars.wookiee_sentence,
                      addons: build_addons)
     end
@@ -68,10 +72,10 @@ if Rails.env.development? || ENV['DB_GEN']
 
   10.times do
     # Active Now
-    Workshop.create(name: Faker::StarWars.planet,
+    Workshop.create!(name: Faker::StarWars.planet,
                     description: Faker::Lorem.paragraph,
-                    posting_start_date: Faker::Time.between(8.days.ago, Date.today, :all),
-                    posting_end_date: Faker::Time.between(3.days.since,  7.days.since, :all),
+                    purchase_start_date: Faker::Time.between(8.days.ago, Date.today, :all),
+                    purchase_end_date: Faker::Time.between(3.days.since,  7.days.since, :all),
                     start_date: Faker::Time.between(8.days.since, 9.days.since, :afternoon),
                     end_date: Faker::Time.between(8.days.since, 9.days.since, :evening),
                     total_tickets: Faker::Number.between(12, 30),

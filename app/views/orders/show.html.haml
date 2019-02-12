@@ -25,13 +25,14 @@
               %strong= @order.address.nickname
               %br= raw(@order.address.display_formatted(1))
         - if @order.can_be_canceled?
-          %hr
           = form_for @order, url: order_mark_canceled_path, method: :post do |f|
             = f.hidden_field :id
-            = button_tag(type: 'submit', class: 'btn btn-outline-danger btn-sm float-right') do
+            = button_tag(type: 'submit', class: 'btn btn-outline-danger btn-sm') do
               = fa_light 'ban'
               Cancel Order
       .card-footer
         = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
   .col-md-7
+    = render partial: 'tickets'
     = render partial: 'summary'
+
