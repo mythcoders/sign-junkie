@@ -1,7 +1,7 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
   %h1.h2=welcome_message
 .row
-  .col-xl-2.col-sm-6.mb-3
+  .col-md-3.col-sm-6.mb-3
     .card
       %h5.card-header.bg-primary.text-white
         = fa_regular 'link'
@@ -15,24 +15,31 @@
           New Customer
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_employee_path }}
           New Employee
-  .col-xl-3.col-sm-6.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'shopping-bag', 'fa-fw'
-        .mr-5= "#{@new_customers} Orders Placed Today"
-      %a.card-footer.text-white.clearfix.small.z-1{href: admin_orders_path}
-        %span.float-left View Details
-        %span.float-right
-          = fa_solid 'angle-right'
-  .col-xl-3.col-sm-6.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'user', 'fa-fw'
-        .mr-5= "#{@new_customers} New Customers"
-      %a.card-footer.text-white.clearfix.small.z-1{href: admin_customers_path}
-        %span.float-left View Details
-        %span.float-right
-          = fa_solid 'angle-right'
+    %br
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_solid 'pencil-ruler'
+        Upcoming Workshops
+  .col-xl-9.col-sm-6.mb-3
+    .row
+      .col-xl-4.col-6
+        .card.text-white.bg-info.o-hidden.h-100
+          .card-body
+            .card-body-icon
+              = fa_solid 'shopping-bag', 'fa-fw'
+            .mr-5= "#{@new_customers} Orders Placed Today"
+          %a.card-footer.text-white.clearfix.small.z-1{href: admin_orders_path}
+            %span.float-left View Details
+            %span.float-right
+              = fa_solid 'angle-right'
+      .col-xl-4.col-6
+        .card.text-white.bg-info.o-hidden.h-100
+          .card-body
+            .card-body-icon
+              = fa_solid 'user', 'fa-fw'
+            .mr-5= "#{@new_customers} New Customers"
+          %a.card-footer.text-white.clearfix.small.z-1{href: admin_customers_path}
+            %span.float-left View Details
+            %span.float-right
+              = fa_solid 'angle-right'
 

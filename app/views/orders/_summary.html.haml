@@ -28,7 +28,7 @@
         - @order.payments.each do |i|
           %tr
             %td{colspan: 3}
-              = i.memo
+              = i.date_posted
             %td.text-right
               %strong= number_to_currency(i.amount)
       %tfoot
