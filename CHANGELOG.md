@@ -1,3 +1,13 @@
+#### 1902.2 - 02-16-19
+
+- Features
+  - Project Designs
+  - Private Workshops Ticket assignment and payment
+- Changes
+  - Enabled Sales Tax
+- Improvements
+  - Changes to better support tracking payments
+
 #### 1902 - 02-03-19
 
 - Features
