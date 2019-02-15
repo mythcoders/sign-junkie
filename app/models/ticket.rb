@@ -19,7 +19,7 @@ class Ticket < ApplicationRecord
     value = 0
     value += 1 if project.present?
     value += 1 if customer.present?
-    value += 1 if order_item.payments.any?
-    value / 3
+    # value += 1 if order_item.payments.any?
+    value / 2
   end
 end
