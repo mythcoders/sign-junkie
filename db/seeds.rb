@@ -58,9 +58,9 @@ if Rails.env.development? || ENV['DB_GEN']
 
   new_user('admin')
 
-  10.times do
-    new_design
-  end
+  #10.times do
+  #  new_design
+  #end
 
   if Project.all.count < 15
     15.times do
@@ -73,15 +73,15 @@ if Rails.env.development? || ENV['DB_GEN']
   10.times do
     # Active Now
     Workshop.create!(name: Faker::StarWars.planet,
-                    description: Faker::Lorem.paragraph,
-                    purchase_start_date: Faker::Time.between(8.days.ago, Date.today, :all),
-                    purchase_end_date: Faker::Time.between(3.days.since,  7.days.since, :all),
-                    start_date: Faker::Time.between(8.days.since, 9.days.since, :afternoon),
-                    end_date: Faker::Time.between(8.days.since, 9.days.since, :evening),
-                    total_tickets: Faker::Number.between(12, 30),
-                    ticket_price: Faker::Commerce.price(10.0..50.0, false),
-                    is_for_sale: Faker::Boolean.boolean,
-                    is_public: Faker::Boolean.boolean,
-                    project_workshops: build_project_workshops)
+                     description: Faker::Lorem.paragraph,
+                     purchase_start_date: Faker::Time.between(8.days.ago, Date.today, :all),
+                     purchase_end_date: Faker::Time.between(3.days.since,  7.days.since, :all),
+                     start_date: Faker::Time.between(8.days.since, 9.days.since, :afternoon),
+                     end_date: Faker::Time.between(8.days.since, 9.days.since, :evening),
+                     total_tickets: Faker::Number.between(12, 30),
+                     ticket_price: Faker::Commerce.price(10.0..50.0, false),
+                     is_for_sale: true,
+                     is_public: Faker::Boolean.boolean,
+                     project_workshops: build_project_workshops)
   end
 end

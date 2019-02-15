@@ -65,7 +65,7 @@ class Workshop < ApplicationRecord
   end
 
   def when_purchase
-    date_out(purhcase_start_date, purchase_end_date)
+    date_out(purchase_start_date, purchase_end_date)
   end
 
   private

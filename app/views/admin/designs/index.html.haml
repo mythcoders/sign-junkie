@@ -1,0 +1,21 @@
+- page_title 'Project Designs Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_regular 'swatchbook'
+    Project Designs
+  %table.table.table-bordered.table-striped.table-hover.table-border-fix
+    %thead
+      %tr
+        %th Name
+        %th Category
+    %tbody
+      - @designs.each do |c|
+        %tr{data: { 'clickable-row': '', 'href': edit_admin_design_path(c) }}
+          %td= c.name
+          %td= c.design_category.name
+  .card-footer
+    = paginate @designs
+    = page_entries_info @designs
+%br
+= link_to 'New Design', new_admin_design_path, class: 'btn btn-primary'
