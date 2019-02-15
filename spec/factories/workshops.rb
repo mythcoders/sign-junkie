@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :event do
+  factory :workshop do
 
   end
 end
