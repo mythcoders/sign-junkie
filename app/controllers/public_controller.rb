@@ -15,12 +15,12 @@ class PublicController < ApplicationController
     end
   end
 
-  def show
-    Rails.env.production? || params[:soon]
+  def projects
+    @project = Project.find(params[:project_id])
   end
 
-  def addons
-    @addons = Addon.where(project_id: params[:project_id])
+  def show
+    Rails.env.production? || params[:soon]
   end
 
   def my_account

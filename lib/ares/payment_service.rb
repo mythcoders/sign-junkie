@@ -24,14 +24,6 @@ module Ares
       ENV['PAYMENT_ENV']
     end
 
-    def self.tax_rate
-      0.0725
-    end
-
-    def self.taxed?
-      false
-    end
-
     def new_token
       gateway.client_token.generate
     end

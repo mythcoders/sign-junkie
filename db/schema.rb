@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_044054) do
+ActiveRecord::Schema.define(version: 2019_02_09_223123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,10 +91,27 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.datetime "updated_at", null: false
     t.bigint "project_id"
     t.bigint "addon_id"
+    t.string "design"
     t.index ["addon_id"], name: "index_cart_items_on_addon_id"
     t.index ["project_id"], name: "index_cart_items_on_project_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
     t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
+  end
+
+  create_table "design_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "designs", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "design_category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["design_category_id"], name: "index_designs_on_design_category_id"
+    t.index ["name", "design_category_id"], name: "index_designs_on_name_and_design_category_id", unique: true
   end
 
   create_table "notes", id: :serial, force: :cascade do |t|
@@ -161,6 +178,16 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "project_designs", force: :cascade do |t|
+    t.bigint "design_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["design_id", "project_id"], name: "index_project_designs_on_design_id_and_project_id", unique: true
+    t.index ["design_id"], name: "index_project_designs_on_design_id"
+    t.index ["project_id"], name: "index_project_designs_on_project_id"
+  end
+
   create_table "project_workshops", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "workshop_id"
@@ -187,6 +214,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.boolean "notified", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "design"
     t.index ["addon_id"], name: "index_tickets_on_addon_id"
     t.index ["order_item_id"], name: "index_tickets_on_order_item_id"
     t.index ["project_id"], name: "index_tickets_on_project_id"
@@ -226,7 +254,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "description", limit: 500
-    t.datetime "posting_start_date", null: false
+    t.datetime "purchase_start_date", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date"
     t.integer "total_tickets", default: 0, null: false
@@ -235,7 +263,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_public", default: true, null: false
-    t.datetime "posting_end_date"
+    t.datetime "purchase_end_date"
   end
 
   add_foreign_key "addresses", "users"
@@ -243,6 +271,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_044054) do
   add_foreign_key "cart_items", "projects"
   add_foreign_key "cart_items", "users"
   add_foreign_key "cart_items", "workshops"
+  add_foreign_key "design_categories", "design_categories", column: "parent_id"
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "users", column: "author_id"
   add_foreign_key "order_items", "orders"

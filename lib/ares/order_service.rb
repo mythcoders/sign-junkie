@@ -9,6 +9,14 @@ module Ares
       @order = order
     end
 
+    def self.tax_rate
+      0.0725
+    end
+
+    def self.taxed?
+      true
+    end
+
     # marks the order as canceled and notifies the customer
     def cancel
       @order.date_canceled = Time.now

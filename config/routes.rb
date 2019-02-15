@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   # customer facing
   get 'my_account', to: 'public#my_account'
-  get 'addons/:project_id', to: 'public#addons'
+  get 'projects/:project_id', to: 'public#projects'
   resources :addresses
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
     resources :addons, concerns: :pageable
     resources :audits, concerns: :pageable, only: %i[index show]
+    resources :design_categories, concerns: :pageable
+    resources :designs, concerns: :pageable
     resources :projects, concerns: :pageable
     post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
     post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'

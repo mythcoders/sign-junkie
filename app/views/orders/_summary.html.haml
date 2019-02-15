@@ -1,12 +1,12 @@
-.card
+.card.mt-2
   %h4.card-header.bg-primary.text-white
     = fa_regular 'th-list'
     Summary
   .table-responsive-md
-    %table.table.table-striped.table-bordered.table-border-fix
+    %table.table.table-striped.table-bordered.table-border-fix.table-sm
       %thead
         %tr.bg-primary.text-white
-          %th Workshop
+          %th Description
           %th.action-column Amount
           %th.action-column Quantity
           %th.action-column Price
@@ -28,7 +28,7 @@
         - @order.payments.each do |i|
           %tr
             %td{colspan: 3}
-              = i.memo
+              = i.date_posted
             %td.text-right
               %strong= number_to_currency(i.amount)
       %tfoot

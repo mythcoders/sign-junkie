@@ -11,13 +11,11 @@ class Workshop < ApplicationRecord
   has_many :tickets
   has_many :customers, through: :tickets
 
-  scope :active, (lambda do
-    where(is_for_sale: true)
-      .where('posting_start_date <= CURRENT_TIMESTAMP AND posting_end_date >= CURRENT_TIMESTAMP')
-      .distinct
-  end)
+  scope :upcoming, -> { where(is_for_sale: true) }
+  scope :active, -> { upcoming.where('end_date >= CURRENT_TIMESTAMP') }
 
-  validates_presence_of :name, :posting_start_date, :start_date, :end_date, :is_for_sale
+  validates_presence_of :name, :purchase_start_date, :purchase_end_date, :start_date,
+                        :end_date, :is_for_sale
 
   def self.search(name, _sort = 'A')
     event = Workshop.active
@@ -32,7 +30,7 @@ class Workshop < ApplicationRecord
   def can_purchase?
     return false unless is_for_sale ||
                         tickets_available.positive? ||
-                        (posting_start_date <= Date.today && posting_end_date >= Date.today) ||
+                        (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
                         projects.count.positive?
 
     true
@@ -43,7 +41,7 @@ class Workshop < ApplicationRecord
   end
 
   def self.private_max
-    18
+    24
   end
 
   def self.private_deposit
@@ -67,7 +65,7 @@ class Workshop < ApplicationRecord
   end
 
   def when_purchase
-    date_out(posting_start_date, posting_end_date)
+    date_out(purchase_start_date, purchase_end_date)
   end
 
   private
@@ -83,6 +81,6 @@ class Workshop < ApplicationRecord
   end
 
   def posting_during_event
-    posting_start_date > start_date || posting_end_date > start_date
+    purchase_start_date > start_date || purchase_end_date > start_date
   end
 end

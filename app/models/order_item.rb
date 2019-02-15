@@ -17,6 +17,7 @@ class OrderItem < ApplicationRecord
     item.quantity.times do
       item.tickets << Ticket.new(workshop: cart.workshop,
                                  project: cart.project,
+                                 customization: cart.customization,
                                  addon: cart.addon,
                                  notified: false,
                                  identifier: SecureRandom.uuid)

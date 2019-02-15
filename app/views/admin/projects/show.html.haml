@@ -17,6 +17,7 @@
         %button.btn.btn-info.btn-sm{type: 'button', 'data-toggle': 'collapse', 'data-target': '#collapse-new-addon'} New Addon
     .collapse#collapse-new-addon= render 'admin/addons/form'
   .col-8
+    = render partial: 'admin/designs/list', locals: { designs: @project.designs }
     #addons-content
       - if @project.addons.any?
         = render partial: 'admin/addons/list', locals: { addons: @project.addons }

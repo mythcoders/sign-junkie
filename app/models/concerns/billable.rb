@@ -9,6 +9,7 @@ module Billable
     belongs_to :address, optional: true
     has_many :payments
     has_many :items, -> { order(:created_at) }, class_name: 'OrderItem', inverse_of: :order
+    has_many :tickets, through: :items
   end
 
   def items_deposit
