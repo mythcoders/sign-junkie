@@ -9,6 +9,6 @@ class DesignCategory < ApplicationRecord
   private
 
   def check_parent_reference
-    errors.add(:parent_id, 'can not be itself') if parent_id == id
+    errors.add(:parent_id, 'can not be itself') if persisted? && parent_id == id
   end
 end
