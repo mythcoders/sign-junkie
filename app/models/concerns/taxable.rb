@@ -9,8 +9,8 @@ module Taxable
 
   # Total amount due for taxes. Returns 0.00 if the order isn't taxable
   def total_tax
-    return 0.00 unless Ares::OrderService.taxed?
+    return 0.00 unless OrderService.taxed?
 
-    (total_taxable * Ares::OrderService.tax_rate).round(2)
+    (total_taxable * OrderService.tax_rate).round(2)
   end
 end

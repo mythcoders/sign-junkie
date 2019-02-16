@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    service = Ares::OrderService.new(@order)
+    service = OrderService.new(@order)
     if service.place(params.fetch(:payment_method_nonce, nil))
       flash[:success] = t('order.placed.success')
       redirect_to order_path @order
@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def cancel
-    service = Ares::OrderService.new(@order)
+    service = OrderService.new(@order)
     if service.cancel
       flash[:success] = 'Order has been canceled'
       redirect_to order_path(@order)
@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
   end
 
   def prepare_payment
-    service = Ares::PaymentService.new(@order)
+    service = PaymentService.new(@order)
     @payment = service.payment
     @client_token = service.new_token
   end

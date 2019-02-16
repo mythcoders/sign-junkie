@@ -10,23 +10,23 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   ping.check :branch do
-    Ares::SystemInfo.branch
+    SystemInfo.branch
   end
   ping.check :version do
-    Ares::SystemInfo.long_version
+    SystemInfo.long_version
   end
 
   ping.check :release do
-    Ares::SystemInfo.release
+    SystemInfo.release
   end
 
   unless Rails.env.production?
     ping.check :deployer do
-      Ares::SystemInfo.deployer
+      SystemInfo.deployer
     end
 
     ping.check :deployed_at do
-      Ares::SystemInfo.deploy_time
+      SystemInfo.deploy_time
     end
   end
 end

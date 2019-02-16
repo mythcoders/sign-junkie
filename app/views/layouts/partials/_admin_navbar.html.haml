@@ -3,7 +3,7 @@
     = fa_solid 'wrench'
     Admin Portal
     - unless Rails.env.production?
-      %strong.text-warning.text-uppercase.ml-2= Ares::EnvironmentInfo.current
+      %strong.text-warning.text-uppercase.ml-2= EnvironmentInfo.current
   %button#sidebarToggle.btn.btn-link.btn-sm.text-white.order-1.order-sm-0{href: "#"}
     = fa_solid 'bars'
   %ul.navbar-nav.ml-auto

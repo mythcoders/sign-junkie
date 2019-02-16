@@ -22,7 +22,7 @@ module Admin
     end
 
     def cancel
-      service = Ares::OrderService.new(@order)
+      service = OrderService.new(@order)
       if service.cancel
         flash[:success] = 'Order has been canceled'
         redirect_to admin_order_path(@order)
@@ -33,7 +33,7 @@ module Admin
     end
 
     def close
-      service = Ares::OrderService.new(@order)
+      service = OrderService.new(@order)
       if service.close
         flash[:success] = 'Order has been closed!'
         redirect_to admin_order_path(@order)

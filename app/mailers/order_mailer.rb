@@ -2,7 +2,7 @@
 
 # Emails sent during the ordering experience
 class OrderMailer < ApplicationMailer
-  default from: "#{Ares::SystemInfo.app_name} <orders@signjunkieworkshop.com>"
+  default from: "#{SystemInfo.app_name} <orders@signjunkieworkshop.com>"
   helper :application
 
   before_action { @order = params[:order] }
