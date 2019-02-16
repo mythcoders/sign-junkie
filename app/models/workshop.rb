@@ -8,8 +8,9 @@ class Workshop < ApplicationRecord
   has_many_attached :images
   has_many :project_workshops
   has_many :projects, through: :project_workshops
-  has_many :tickets
-  has_many :customers, through: :tickets
+  has_many :project_designs
+  has_many :designs, through: :project_designs
+  has_many :tickets, -> { where(for_deposit: false)  }, class_name: 'OrderItem'
 
   scope :upcoming, -> { where(is_for_sale: true) }
   scope :active, -> { upcoming.where('end_date >= CURRENT_TIMESTAMP') }

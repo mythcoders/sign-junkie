@@ -6,7 +6,6 @@ class Order < ApplicationRecord
 
   audited
   scope :current, ->(user_id) { where(user_id: user_id).order(:id) if user_id.present? }
-  has_many :notes, class_name: 'OrderNote'
 
   attr_readonly :order_number
   attr_accessor :payment_method

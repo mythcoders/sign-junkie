@@ -28,9 +28,7 @@ module Ares
     end
 
     def customers_controller?
-      controller.class == Admin::CustomersController ||
-        controller.class == Admin::AddressesController ||
-        controller.class == Admin::NotesController
+      controller.class == Admin::CustomersController
     end
 
     def employees_controller?

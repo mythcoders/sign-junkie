@@ -14,14 +14,10 @@ class User < ApplicationRecord
     admin: 'admin',
     operator: 'operator'
   }
-  has_many :addresses
   has_many :cart_items
-  has_many :notes
   has_many :orders
-  has_many :tickets
 
   before_validation :strip_phone_number
-  accepts_nested_attributes_for :addresses, allow_destroy: true
   validates_presence_of :first_name, :last_name, :role
 
   scope :recently_created, lambda {

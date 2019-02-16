@@ -9,8 +9,9 @@ class CartItem < ApplicationRecord
   belongs_to :workshop
   belongs_to :addon, required: false
   belongs_to :project, required: false
+  belongs_to :design, required: false
 
-  validates_presence_of :workshop_id, :user_id
+  validates_presence_of :workshop_id, :user_id, :price
 
   def amount
     workshop.ticket_price * quantity

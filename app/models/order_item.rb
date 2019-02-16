@@ -1,13 +1,10 @@
 class OrderItem < ApplicationRecord
   audited
   belongs_to :order
-  has_many :tickets
+  belongs_to :payment
+  belongs_to :workshop
 
   validates :description, presence: true
-  validates :price, presence: true
-  validates :quantity, presence: true
-
-  accepts_nested_attributes_for :tickets
 
   def self.create(cart)
     item = OrderItem.new(description: cart.display,

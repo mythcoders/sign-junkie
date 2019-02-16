@@ -3,20 +3,17 @@
 # Debit given by the customer for an order
 class Payment < ApplicationRecord
   audited
-  belongs_to :order
-  enum status: %i[created authorized authorization_expired processor_declined
-                  gateway_reject failed voided submitted settling settled
-                  settlement_declined settlement_pending]
+  has_many :order_items
 
-  validates_presence_of :status, :amount, :method, :transaction_id
+  validates_presence_of :amount, :method, :identifier, :tax_rate, :tax_amount
 
-  def self.build(order, amount, user_id)
+  def self.build(amount, method, user_id)
     Payment.new(
       status: :created,
-      method: order.payment_method,
+      method: method,
       date_created: Time.now,
       amount: amount,
-      user_id: order.customer.id
+      user_id: user_id
     )
   end
 

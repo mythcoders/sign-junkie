@@ -48,7 +48,7 @@ module Admin
     end
 
     def get
-      @customer = User.includes(:notes, :addresses).find(params[:id])
+      @customer = User.includes(:orders).find(params[:id])
     end
   end
 end

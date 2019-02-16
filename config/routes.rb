@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   # customer facing
   get 'my_account', to: 'public#my_account'
   get 'projects/:project_id', to: 'public#projects'
-  resources :addresses
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create]
@@ -37,7 +36,6 @@ Rails.application.routes.draw do
     post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
     resources :orders, concerns: :pageable do
       resources :order_items, as: 'items', path: 'items'
-      resources :order_notes, as: 'notes', path: 'notes'
     end
     resources :workshops, concerns: :pageable do
       post 'project'
@@ -46,11 +44,8 @@ Rails.application.routes.draw do
     end
 
     resources :users, as: 'customers', path: 'customers',
-                      controller: 'customers', concerns: :pageable do
-      resources :notes, only: %i[edit new create update destroy]
-      resources :addresses, only: %i[edit new create update destroy]
-    end
+              controller: 'customers', concerns: :pageable
     resources :users, as: 'employees', path: 'employees',
-                       controller: 'employees', concerns: :pageable
+              controller: 'employees', concerns: :pageable
   end
 end

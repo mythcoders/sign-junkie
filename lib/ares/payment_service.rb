@@ -3,15 +3,17 @@
 module Ares
   # Handles communication with the Braintree API for processing card and PayPal payments.
   class PaymentService
-    attr_reader :payment, :order, :gateway
+    attr_reader :payment, :gateway
 
-    def initialize(order, order_item = nil)
+    def initialize(user_id, order_items, payment_method)
       env = Ares::PaymentService.env.to_sym
-      @order = order
-      @order_item = order_item
-      @payment = Payment.build(@order,
-                               @order.due_now(order_item),
-                               @order.user_id)
+      @payment = Payment.new(
+        status: :created,
+        date_created: Time.now,
+        amount: order_items.map(&:item_total).reduce(:+).round(2),
+        method: payment_method,
+        user_id: user_id
+      )
       @gateway = Braintree::Gateway.new(
         environment: env,
         merchant_id: merchant_id(env),

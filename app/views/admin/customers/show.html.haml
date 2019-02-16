@@ -20,12 +20,6 @@
               = fa_regular 'phone'
               %strong Phone
             %td= @customer.phone_number
-    %br
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_light 'map-marker-alt'
-        Addresses
-      = render partial: 'admin/addresses/show'
 
   .col-8
     .card
@@ -34,9 +28,3 @@
         Orders
       -#= render partial: 'admin/orders/list'
 
-    %br
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_light 'sticky-note'
-        Notes
-      = render partial: 'admin/notes/show'

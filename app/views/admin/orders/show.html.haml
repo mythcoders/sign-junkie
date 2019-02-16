@@ -16,7 +16,7 @@
             = link_to @order.customer.full_name, admin_customer_path(@order.customer)
         .form-group.row
           %label.col-form-label.col-6 Date Created
-          .form-control-plaintext.col= lifp(@order.date_created, :short)
+          .form-control-plaintext.col= lifp(@order.created_at, :short)
         .form-group.row
           %label.col-form-label.col-6 Date Placed
           .form-control-plaintext.col= lifp(@order.date_placed, :short)
@@ -24,16 +24,6 @@
           .form-group.row
             %label.col-form-label.col-6 Date Canceled
             .form-control-plaintext.col= lifp(@order.date_canceled, :short)
-
-        .form-group.row
-          %label.col-form-label.col-6 Payment Method
-          .form-control-plaintext.col= @order.payment_method
-        .form-group.row
-          %label.col-form-label.col-6 Billing Address
-          .form-control-plaintext.col
-            - if @order.address_id.present?
-              %strong= @order.address.nickname
-              %br= raw(@order.address.display_formatted(1))
   .col-7
     .card
       %h5.card-header.bg-primary.text-white
@@ -41,9 +31,3 @@
         Details
       .table-responsive-md
         = render partial: 'admin/order_items/show'
-    %br
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_light 'sticky-note'
-        Notes
-      = render partial: 'admin/order_notes/show'

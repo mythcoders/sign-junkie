@@ -3,11 +3,10 @@
 module Admin
   class OrdersController < AdminController
     before_action :get, only: %i[show edit update cancel close]
-    before_action :populate_addresses, only: %i[edit]
 
     def index
       @orders = Order.includes(:customer)
-                     .order(date_created: :desc)
+                     .order(created_at: :desc)
                      .page(params[:page])
                      .per(10)
     end
@@ -47,15 +46,11 @@ module Admin
     private
 
     def get
-      @order = Order.includes(:items, :payments, :customer, :notes).find(params[:id])
-    end
-
-    def populate_addresses
-      @addresses = @order.customer.addresses
+      @order = Order.includes(:items, :customer).find(params[:id])
     end
 
     def order_params
-      params.require(:order).permit(:id, :payment_method, :address_id, :date_canceled, :date_placed)
+      params.require(:order).permit(:id, :date_canceled, :date_placed)
     end
 
     def filtered_params
