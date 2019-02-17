@@ -24,26 +24,63 @@ class PaymentService
   end
 
   def process
-    result = post_payment
+    result = post_sale
     if result.success?
       @payment.method = result.transaction.type
       @payment.identifier = result.transaction.id
       return true
-    else
-      Raven.capture_exception(result.message, transaction: 'Post Payment')
-      return false
     end
+
+    Raven.capture_exception(result.message, transaction: 'Post Sale')
+    false
+  end
+
+  def refund
+    if fetch_status.include?('settled', 'settling')
+      result = post_refund
+      return true if result.success?
+      Raven.capture_exception(result.message, transaction: 'Post Refund')
+    else
+      return void
+    end
+    false
+  end
+
+  def void
+    if fetch_status.include?('authorized', 'submitted_for_settlement', 'settlement_pending')
+      result = post_void
+      return true if result.success?
+      Raven.capture_exception(result.message, transaction: 'Post Void')
+    end
+    false
   end
 
   private
 
-  def post_payment
+  def fetch_status
+    @fetch_status ||= gateway.transaction.find(@payment.identifier).status
+  end
+
+  def post_sale
     gateway.transaction.sale(
       payment_method_nonce: @payment.method_nonce,
       amount: @payment.amount,
       tax_amount: @payment.tax_amount,
-      options: { submit_for_settlement: true }
+      options: { submit_for_settlement: true },
+      descriptor: {
+        name: '',
+        phone: '',
+        url: ''
+      }
     )
+  end
+
+  def post_refund
+    gateway.transaction.refund(@payment.identifier)
+  end
+
+  def post_void
+    gateway.transaction.void(@payment.identifier)
   end
 
   protected
