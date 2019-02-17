@@ -13,16 +13,16 @@
         - @order.items_no_deposit.each do |i|
           %tr
             %td.action-column
-              - if i.score >= 1.0
-                = fa_solid 'check', 'text-success'
-              - elsif i.score <= 0.9 && i.score >= 0.1
-                = fa_solid 'exclamation', 'text-warning'
+              - if i.score == 1
+                = fa_solid 'check', 'text-success fa-fw'
+              - elsif i.score <= 0.9 && i.score >= 0.25
+                = fa_solid 'exclamation', 'text-warning fa-fw'
               - else
-                = fa_solid 'times', 'text-danger'
+                = fa_solid 'times', 'text-danger fa-fw'
             %td= i.description
             %td
               - if i.assignee.present?
-                = i.assignee.name
+                = i.assignee.full_name
               - else
                 %em Not assinged
 

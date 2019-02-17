@@ -37,18 +37,9 @@ class Order < ApplicationRecord
     :open
   end
 
-  def tax_percentage
-    tax_rate * 100
-  end
-
   # order has been paid for and is awaiting shipment and delivery
   def placed?
     date_placed.present?
-  end
-
-  # order is open and has yet to be paid, shipped, or delivered
-  def open?
-    persisted? && !closed? && !canceled?
   end
 
   def canceled?
@@ -63,22 +54,9 @@ class Order < ApplicationRecord
     # TODO: Calculat
   end
 
-  # if the order is able to be edited
-  def editable?
-    return true if status == :open
-
-    false
-  end
-
   def can_be_canceled?
     return false if canceled? || closed?
 
     true
-  end
-
-  private
-
-  def create_payload_valid?(params)
-    params[:payment_method_nonce].present?
   end
 end

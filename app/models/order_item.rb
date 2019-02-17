@@ -8,8 +8,7 @@ class OrderItem < ApplicationRecord
   validates :description, presence: true
 
   def self.create(cart)
-    OrderItem.new(
-      description: cart.display,
+    item = OrderItem.new(
       price: cart.price,
       for_deposit: false,
       workshop: cart.workshop,
@@ -17,13 +16,16 @@ class OrderItem < ApplicationRecord
       prepped: false,
       seating: nil,
       design: cart.design.present? ? cart.design.name : nil,
+      addon: cart.addon.present? ? cart.addon.name : nil,
+      project: cart.project.present? ? cart.project.name : nil,
       identifier: SecureRandom.uuid
     )
+    item.assignee = cart.customer if item.workshop.is_public?
+    item
   end
 
   def self.deposit(cart)
     OrderItem.new(
-      description: "Deposit for #{cart.workshop.name}",
       price: Workshop.private_deposit,
       for_deposit: true,
       workshop: cart.workshop,
@@ -37,6 +39,22 @@ class OrderItem < ApplicationRecord
   end
 
   def score
-    0
+    value = 0.0
+    value += 1 if assignee.present?
+    value += 1 if project.present? && design.present?
+    value += 1 if payment.present?
+    value / 3
+  end
+
+  def description
+    if for_deposit
+      "Deposit for #{workshop.name}"
+    else
+      val = workshop.name
+      val << " - #{project}" if project.present?
+      val << " (#{design})" if design.present?
+      val << " w/ #{addon}" if addon.present?
+      val
+    end
   end
 end

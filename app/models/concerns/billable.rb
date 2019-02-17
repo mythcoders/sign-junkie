@@ -73,32 +73,4 @@ module Billable
       items.where.not(payment_id: nil)
     end
   end
-
-  # if the order has been paid for completely
-  def paid_in_full?
-    total_balance.zero?
-  end
-
-  # checks if a payment can be applied to the order
-  def can_make_payment?
-    return false unless open?
-
-    !paid_in_full?
-  end
-
-  def paid_with_card?
-    payment_method == 'card'
-  end
-
-  def paid_with_paypal?
-    payment_method == 'paypal'
-  end
-
-  def ready_for_payment?
-    if !placed? && payment_method.present?
-      return true if address_id.present?
-    end
-
-    false
-  end
 end

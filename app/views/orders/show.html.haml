@@ -1,5 +1,5 @@
 .row
-  .col-md-5
+  .col-md-3
     .card.card-primary
       %h4.card-header.bg-primary.text-white
         = fa_regular 'shopping-bag'
@@ -19,6 +19,6 @@
               Cancel Order
       .card-footer
         = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
-  .col-md-7
+  .col-md-9
     = render partial: 'summary'
 
