@@ -10,6 +10,10 @@
     = link_to orders_path, title: 'Orders', class: 'nav-link text-white' do
       = fa_solid 'shopping-bag'
       Orders
+  %li.nav-item
+    = link_to tickets_path, title: 'Orders', class: 'nav-link text-white' do
+      = fa_solid 'ticket-alt'
+      Tickets
   - if current_user.can_cp?
     %li.nav-item
       = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do

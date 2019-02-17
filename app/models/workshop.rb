@@ -10,7 +10,7 @@ class Workshop < ApplicationRecord
   has_many :projects, through: :project_workshops
   has_many :designs, through: :projects
   has_many :addons, through: :projects
-  has_many :tickets, -> { where(for_deposit: false)  }, class_name: 'OrderItem'
+  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
 
   scope :upcoming, -> { where(is_for_sale: true) }
   scope :active, -> { upcoming.where('end_date >= CURRENT_TIMESTAMP') }

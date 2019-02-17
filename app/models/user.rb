@@ -16,6 +16,7 @@ class User < ApplicationRecord
   }
   has_many :cart_items
   has_many :orders
+  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
 
   before_validation :strip_phone_number
   validates_presence_of :first_name, :last_name, :role
