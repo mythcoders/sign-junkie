@@ -102,13 +102,13 @@ ActiveRecord::Schema.define(version: 2019_02_15_231800) do
 
   create_table "order_items", id: :serial, force: :cascade do |t|
     t.string "description", null: false
+    t.decimal "price", default: "0.0", null: false
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "deposit", default: false, null: false
+    t.boolean "for_deposit", default: false, null: false
     t.bigint "payment_id"
     t.bigint "workshop_id", null: false
-    t.boolean "for_deposit", null: false
     t.boolean "notified"
     t.boolean "prepped"
     t.string "identifier"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 2019_02_15_231800) do
 
   create_table "orders", id: :serial, force: :cascade do |t|
     t.serial "order_number", limit: 10
+    t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_canceled"
     t.bigint "user_id"
@@ -137,8 +138,8 @@ ActiveRecord::Schema.define(version: 2019_02_15_231800) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tax_rate", null: false
-    t.integer "tax_amount", null: false
+    t.decimal "tax_rate", null: false
+    t.decimal "tax_amount", null: false
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 

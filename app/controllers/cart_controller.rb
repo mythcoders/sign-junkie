@@ -3,7 +3,7 @@
 class CartController < ApplicationController
   helper WorkshopHelper
   before_action :authenticate_user!
-  before_action :get, only: %i[update destroy]
+  before_action :set_cart, only: %i[update destroy]
   before_action :check_cart_auth, only: %i[update destroy]
 
   def index
@@ -12,9 +12,13 @@ class CartController < ApplicationController
   end
 
   def create
-    workshop = Workshop.find(params[:cart][:workshop_id])
+    workshop = Workshop.includes(:projects, :designs, :addons).find(params[:cart_item][:workshop_id])
     if workshop.can_purchase?
-      add_to_cart(workshop)
+      if CartItem.build(current_user, workshop, cart_params).save
+        flash[:success] = t('cart.add.success')
+      else
+        flash[:error] = t('cart.add.failure')
+      end
     else
       flash[:error] = t('cart.add.failure')
     end
@@ -24,6 +28,7 @@ class CartController < ApplicationController
 
   def update
     # TODO: make sure not adding more than what's available
+    # TODO: only update the quantity
     unless @cart_item.update(cart_params)
       flash[:error] = t('cart.update.failure')
     end
@@ -43,36 +48,13 @@ class CartController < ApplicationController
 
   private
 
-  def get
+  def set_cart
     @cart_item = CartItem.find(params[:id])
   end
 
-  def add_to_cart(workshop)
-    cart_item = CartItem.new(user_id: current_user.id,
-                             session_id: request.session_options[:id],
-                             workshop_id: workshop.id,
-                             quantity: params[:cart][:quantity],
-                             project_id: params[:cart][:project_id],
-                             customization: get_customization,
-                             addon_id: params[:cart][:addon_id])
-
-    if cart_item.save
-      flash[:success] = t('cart.add.success')
-    else
-      flash[:error] = t('cart.add.failure')
-    end
-  end
-
-  def get_customization
-    if params[:cart][:customization_id].present?
-      Customization.find(params[:cart][:customization_id]).name
-    else
-      ''
-    end
-  end
-
   def cart_params
-    params.require(:cart_item).permit(:id, :quantity, :project_id, :addon_id, :customization_id)
+    params.require(:cart_item).permit(:id, :quantity, :workshop_id,
+                                      :project_id, :addon_id, :design_id)
   end
 
   def check_cart_auth

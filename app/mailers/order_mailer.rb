@@ -8,7 +8,8 @@ class OrderMailer < ApplicationMailer
   before_action { @order = params[:order] }
 
   def placed
-    mail(to: "#{@order.customer.full_name} <#{@order.customer.email}>",
+    @payment = @params[:payment]
+    mail(to: "#{@payment.customer.full_name} <#{@payment.customer.email}>",
          subject: 'Your order has been placed!',
          template_name: 'placed')
   end

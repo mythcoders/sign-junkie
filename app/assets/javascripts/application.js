@@ -6,6 +6,5 @@
 //= require bootstrap
 //= require behaviors/clickable-row
 //= require behaviors/cart-change-quantity
-//= require behaviors/order-payment
 //= require behaviors/workshop-selection
 //= require global

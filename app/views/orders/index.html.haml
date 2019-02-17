@@ -18,10 +18,8 @@
               %span.badge.badge-info= o.status
           .card-body
             %dl.row
-              %dt.col-6.col-lg-3.col-xl-2 Total
-              %dd.col-6.col-lg-3.col-xl-4= number_to_currency(o.total_due)
               %dt.col-6.col-lg-3.col-xl-2 Tickets
-              %dd.col-6.col-lg-3.col-xl-4= o.total_tickets
+              %dd.col-6.col-lg-3.col-xl-4= o.items_no_deposit.length
               %dt.col-6.col-lg-3.col-xl-2 Created
               %dd.col-6.col-lg-3.col-xl-4= lifp(o.date_created, :short)
               %dt.col-6.col-lg-3.col-xl-2 Ordered

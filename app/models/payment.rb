@@ -2,34 +2,44 @@
 
 # Debit given by the customer for an order
 class Payment < ApplicationRecord
+
+  SALES_TAX_ENABLED = true
+  SALES_TAX_RATE = 0,0725
+
   audited
   has_many :order_items
+  belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
+  attr_accessor :method_nonce
   validates_presence_of :amount, :method, :identifier, :tax_rate, :tax_amount
 
-  def self.build(amount, method, user_id)
-    Payment.new(
-      status: :created,
-      method: method,
-      date_created: Time.now,
-      amount: amount,
-      user_id: user_id
+  def self.build(user_id, order)
+    payment = Payment.new(
+      user_id: user_id,
+      order_items: order.due_now(user_id),
+      tax_rate: 0,
+      tax_amount: 0
     )
+    sub_total = payment.order_items.map(&:price).reduce(:+).round(2)
+
+    if SALES_TAX_ENABLED
+      payment.tax_rate = SALES_TAX_RATE
+      payment.tax_amount = (sub_total * payment.tax_rate).round(2)
+    end
+
+    payment.amount = (sub_total + payment.tax_amount).round(2)
+    payment
   end
 
   def paypal?
     method == 'paypal'
   end
 
-  def in_progress?
-    status == 'created'
+  def taxed?
+    tax_rate.present? && tax_rate > 0.00
   end
 
-  def posted?
-    date_posted.present?
-  end
-
-  def editable?
-    status == :created
+  def tax_percentage
+    tax_rate * 100
   end
 end

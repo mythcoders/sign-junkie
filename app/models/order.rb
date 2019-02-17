@@ -1,22 +1,27 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
-  include Taxable
   include Billable
 
   audited
   scope :current, ->(user_id) { where(user_id: user_id).order(:id) if user_id.present? }
 
+  enum status: {
+    created: 'created',
+    placed: 'placed'
+  }
+
   attr_readonly :order_number
-  attr_accessor :payment_method
   accepts_nested_attributes_for :items
-  validates_presence_of :address_id, :payment_method, :user_id
+  validates_presence_of :user_id
 
   # builds an order for the user based on the contents of their cart
   def self.build(user, date_created = Time.now)
-    order = Order.new(user_id: user.id, tax_rate: OrderService.tax_rate, date_created: date_created)
+    order = Order.new(date_created: date_created, status: 'created', user_id: user.id)
     CartItem.for(user).as_of(order.date_created).each do |cart_item|
-      order.items << OrderItem.create(cart_item)
+      cart_item.quantity.times do
+        order.items << OrderItem.create(cart_item)
+      end
       order.items << OrderItem.deposit(cart_item) if cart_item.workshop.is_private?
     end
     order
@@ -43,7 +48,7 @@ class Order < ApplicationRecord
 
   # order is open and has yet to be paid, shipped, or delivered
   def open?
-    date_created.present? && !closed? && !canceled?
+    persisted? && !closed? && !canceled?
   end
 
   def canceled?
@@ -51,15 +56,11 @@ class Order < ApplicationRecord
   end
 
   def fulfilled?
-    date_fulfilled.present?
-  end
-
-  def total_tickets
-    items.map(&:quantity).reduce(:+) || 0
+    # TODO: Calculate
   end
 
   def closed?
-    date_closed.present?
+    # TODO: Calculat
   end
 
   # if the order is able to be edited

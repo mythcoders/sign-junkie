@@ -1,11 +1,11 @@
 = form_for @order, url: orders_path do |f|
   .row
-    .col-12.col-sm-7
+    .col-12.col-sm-5
       .card.card-primary
         %h4.card-header.bg-primary.text-white
           Checkout
         = render partial: 'orders/form', locals: { f: f }
-    .col-12.col-sm-5
+    .col-12.col-sm-7
       .card
         %h4.card-header.bg-primary.text-white
           = fa_regular 'shopping-bag'
@@ -14,23 +14,20 @@
           %table.table.table-striped.table-bordered.table-border-fix
             %tbody
               %tr
-              - @order.items.each do |i|
+              - @payment.order_items.each do |i|
                 %tr
                   %td= i.description
-                  %td= i.quantity
                   %td.text-right
-                    %strong= number_to_currency(i.item_total)
-              - if @order.taxed?
+                    %strong= number_to_currency(i.price)
+              - if @payment.taxed?
                 %tr
-                  %td{colspan: 2}= "Estimated tax to be collected (#{@order.tax_percentage}%)"
+                  %td= "Estimated tax to be collected (#{@payment.tax_percentage}%)"
                   %td.text-right
-                    %strong#order_total_tax= number_to_currency(@order.total_tax)
+                    %strong#order_total_tax= number_to_currency(@payment.tax_amount)
             %tfoot
               %tr.bg-primary.text-white
-                %td{colspan: 2} Total due
+                %td Total due today
                 %td.text-right
                   %strong#order_total_due= number_to_currency(@payment.amount)
-              %tr.bg-primary.text-white
-                %td{colspan: 2} Order total
-                %td.text-right
-                  %strong#order_total_due= number_to_currency(@order.total_line_items)
+
+= render partial: 'checkout'

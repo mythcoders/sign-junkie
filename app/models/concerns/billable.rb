@@ -6,18 +6,16 @@ module Billable
 
   included do
     belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
-    belongs_to :address, optional: true
-    has_many :payments
-    has_many :items, -> { order(:created_at) }, class_name: 'OrderItem', inverse_of: :order
-    has_many :tickets, through: :items
+    has_many :items, -> { order(:created_at) }, class_name: 'OrderItem'
+    has_many :payments, through: :items
   end
 
   def items_deposit
-    items.select { |i| i.deposit }
+    items.select { |i| i.for_deposit }
   end
 
   def items_no_deposit
-    items.select { |i| !i.deposit }
+    items.select { |i| !i.for_deposit }
   end
 
   # entire amount due for the order, includes items, tax, and shipping
@@ -27,12 +25,12 @@ module Billable
 
   # total of all the items in the order, does not include tax or shipping
   def total_line_items
-    (items.map(&:item_total).reduce(:+) || 0.00).round(2)
+    (items.map(&:price).reduce(:+) || 0.00).round(2)
   end
 
   # total of all payments made by the customer
   def total_paid
-    (payments.select(&:posted?).map(&:amount).reduce(:+) || 0.00).round(2)
+    (payments.map(&:amount).reduce(:+) || 0.00).round(2)
   end
 
   # total amount due for the entire invoice
@@ -42,7 +40,7 @@ module Billable
 
   # total amount due as a deposit, only applicatble for certain workshops
   def total_deposit
-    (items_deposit.map(&:item_total).reduce(:+) || 0.00).round(2)
+    (items_deposit.map(&:price).reduce(:+) || 0.00).round(2)
   end
 
   def total_public_shops
@@ -50,13 +48,13 @@ module Billable
     rv = 0.00
     items_no_deposit.each do |i|
       if i.tickets.any? { |t| t.workshop.is_public? }
-        rv += i.item_total
+        rv += i.price
       end
     end
     rv.round(2)
   end
 
-  # The total amount due at the time of calling
+  # Items that are due for payment
   #
   # IF the order has yet to be placed
   #   The amount for all line items that belong to a PUBLIC workshop
@@ -66,13 +64,13 @@ module Billable
   # ELSE
   #  Remaining balance
   # END
-  def due_now(item = nil)
-    if !date_placed.present?
-      total_public_shops + total_deposit
-    elsif !item.nil?
-      item.total_due
+  def due_now(user_id = nil)
+    if !persisted?
+      items.select { |i| i.workshop.is_public? || i.for_deposit? }
+    elsif user_id.present?
+      items.where(user_id: user_id)
     else
-      total_balance
+      items.where.not(payment_id: nil)
     end
   end
 

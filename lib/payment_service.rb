@@ -4,15 +4,9 @@
 class PaymentService
   attr_reader :payment, :gateway
 
-  def initialize(user_id, order_items, payment_method)
+  def initialize(payment)
+    @payment = payment
     env = PaymentService.env.to_sym
-    @payment = Payment.new(
-      status: :created,
-      date_created: Time.now,
-      amount: order_items.map(&:item_total).reduce(:+).round(2),
-      method: payment_method,
-      user_id: user_id
-    )
     @gateway = Braintree::Gateway.new(
       environment: env,
       merchant_id: merchant_id(env),
@@ -29,15 +23,13 @@ class PaymentService
     gateway.client_token.generate
   end
 
-  def process(payment_nonce)
-    result = post_payment(payment_nonce)
+  def process
+    result = post_payment
     if result.success?
-      @payment.status = :authorized
-      @payment.date_cleared = Time.now
-      @payment.transaction_id = result.transaction.id
+      @payment.method = result.transaction.type
+      @payment.identifier = result.transaction.id
       return true
     else
-      @payment.status = :failed
       Raven.capture_exception(result.message, transaction: 'Post Payment')
       return false
     end
@@ -45,13 +37,11 @@ class PaymentService
 
   private
 
-  def post_payment(payment_nonce)
-    @payment.date_posted = Time.now
+  def post_payment
     gateway.transaction.sale(
-      payment_method_nonce: payment_nonce,
-      amount: @order.total_due,
-      tax_amount: @order.total_tax,
-      order_id: @order.order_number,
+      payment_method_nonce: @payment.method_nonce,
+      amount: @payment.amount,
+      tax_amount: @payment.tax_amount,
       options: { submit_for_settlement: true }
     )
   end

@@ -1,38 +1,28 @@
-.card.mt-2
+.card
   %h4.card-header.bg-primary.text-white
-    = fa_regular 'th-list'
-    Summary
+    = fa_regular 'ticket'
+    Tickets
   .table-responsive-md
     %table.table.table-striped.table-bordered.table-border-fix.table-sm
       %thead
         %tr.bg-primary.text-white
-          %th Description
-          %th.action-column Amount
-          %th.action-column Quantity
-          %th.action-column Price
+          %th.action-column
+          %th Workshop
+          %th Assigned To
       %tbody
-        - @order.items.each do |i|
+        - @order.items_no_deposit.each do |i|
           %tr
+            %td.action-column
+              - if i.score >= 1.0
+                = fa_solid 'check', 'text-success'
+              - elsif i.score <= 0.9 && i.score >= 0.1
+                = fa_solid 'exclamation', 'text-warning'
+              - else
+                = fa_solid 'times', 'text-danger'
             %td= i.description
-            %td= number_to_currency(i.price)
-            %td= i.quantity
-            %td.text-right
-              %strong= number_to_currency(i.item_total)
-        - if @order.taxed?
-          %tr
-            %td{colspan: 3}
-              = "Sales Tax collected (#{@order.tax_percentage}%)"
-            %td.text-right
-              %strong= number_to_currency(@order.total_tax)
-              Dave
-        - @order.payments.each do |i|
-          %tr
-            %td{colspan: 3}
-              = i.date_posted
-            %td.text-right
-              %strong= number_to_currency(i.amount)
-      %tfoot
-        %tr.bg-primary.text-white
-          %td{colspan: 3} Order total
-          %td.text-right
-            %strong= number_to_currency(@order.total_due)
+            %td
+              - if i.assignee.present?
+                = i.assignee.name
+              - else
+                %em Not assinged
+

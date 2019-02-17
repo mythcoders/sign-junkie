@@ -8,8 +8,6 @@ en:
   CreateSuccess: "Record created successfully!"
   DeleteSuccess: "Record deleted successfully!"
   UploadSuccess: "Image was uploaded successfully!"
-  CartSuccess: "Your item was added to the cart successfully!"
-  CartFailure: "An error occurred when adding your item to the cart. Please try again."
   feature_un: "This feature will be available in a future release!"
   unauthorized: "You're not authorized to perform this action."
   success:
@@ -40,12 +38,9 @@ en:
     placed:
       success: "Your order has been placed!"
   cart:
-    delete:
-      success: ""
-      failure: ""
     add:
       success: "The item was placed in your cart!"
-      failure: "An error occurred while adding that ticket to your cart. Please try again in a few moments."
+      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
       already: "That item is already present in your cart."
     update:
       success: "Cart updated!"
@@ -264,12 +259,6 @@ en:
     label:
       order:
         is_gift: "Order contains a gift"
-      address:
-        nickname: "Nickname to help identify this address during checkout"
-        street: "Street address"
-        street2: "Address line 2"
-        is_shipping: "This address can be used for shipping"
-        is_billing: "This address can be used for billing"
       workshop:
         start_date: "Workshop Start Date/Time"
         end_date: "Workshop End Date/Time"

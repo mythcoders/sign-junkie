@@ -11,19 +11,6 @@
         .form-group.row
           %label.col-form-label.col-6 Date Placed
           .form-control-plaintext.col= lifp(@order.date_placed, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Date Fulfilled
-          - if @order.date_fulfilled.present?
-            .form-control-plaintext.col= lifp(@order.date_fulfilled, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Date Closed
-          .form-control-plaintext.col= lifp(@order.date_closed, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Address
-          .form-control-plaintext.col
-            - if @order.address_id.present?
-              %strong= @order.address.nickname
-              %br= raw(@order.address.display_formatted(1))
         - if @order.can_be_canceled?
           = form_for @order, url: order_mark_canceled_path, method: :post do |f|
             = f.hidden_field :id
@@ -33,6 +20,5 @@
       .card-footer
         = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
   .col-md-7
-    = render partial: 'tickets'
     = render partial: 'summary'
 

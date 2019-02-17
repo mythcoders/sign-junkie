@@ -1,5 +1,28 @@
-%h3= "#{@order.customer.full_name},"
+%h3= "#{@payment.customer.full_name},"
 
 %p Thanks for placing your order! We'll get started on it right away and notify you about any updates.
 
-= render partial: 'orders/receipt'
+%table
+  %thead
+    %tr
+      %th{colspan: 3}
+        = raw("#{SystemInfo.app_name}")
+  %thead
+    %tr
+      %th Item
+      %th.text-right Price
+  %tbody
+  - @payment.order_items.each do |i|
+    %tr
+      %td
+        %strong= i.description
+      %td.text-right= number_to_currency(i.price)
+  %tfoot
+    - if @payment.taxed?
+      %tr
+        %th.text-right
+          %strong Sales Tax
+        %th.text-right= number_to_currency(@payment.tax_amount)
+    %tr
+      %th.text-right Total Due
+      %th.text-right= number_to_currency(@payment.amount)

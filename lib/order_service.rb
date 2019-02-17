@@ -2,18 +2,11 @@
 
 # Handles communication with the Braintree API for processing card and PayPal payments.
 class OrderService
-  attr_reader :order
+  attr_reader :order, :user
 
-  def initialize(order)
+  def initialize(order, user)
     @order = order
-  end
-
-  def self.tax_rate
-    0.0725
-  end
-
-  def self.taxed?
-    true
+    @user = user
   end
 
   # marks the order as canceled and notifies the customer
@@ -25,25 +18,17 @@ class OrderService
     was_successful
   end
 
-  # marks the order as closed
-  def close
-    @order.date_closed = Time.now
-    @order.save!
-  end
-
   # creates and places the order by removing the requested products from inventory
-  def place(payment_nonce)
-    return false unless @order.valid?
-
+  def place(payment)
     ActiveRecord::Base.transaction do
       if initial_save_reload! &&
-          process_payment(payment_nonce) &&
+          process_payment(payment) &&
           empty_cart &&
           order_ready?
-        mark_success
-        mark_fulfilled
+        mark_placed_and_notify(payment)
         return true
       else
+        Rails.logger.warn 'order place failed!'
         raise ActiveRecord::Rollback
       end
     end
@@ -52,43 +37,25 @@ class OrderService
 
   private
 
-  def mark_success
+  def mark_placed_and_notify(payment)
+    @order.placed!
     @order.date_placed = Time.now
-    if @order.save
-      OrderMailer.with(order: @order).placed.deliver_now
+    if payment.save! && @order.save!
+      OrderMailer.with(payment: payment).placed.deliver_now
       true
     else
       false
     end
-  end
-
-  def mark_fulfilled
-    return true unless fulfillable?
-
-    @order.date_fulfilled = Time.now
-    if @order.save
-      true
-    else
-      false
-    end
-  end
-
-  def fulfillable?
-    @order.items.each do |item|
-    end
-
-    false
   end
 
   def order_ready?
     @order.valid?
   end
 
-  def process_payment(payment_nonce)
-    service = PaymentService.new(@order)
-    return false unless service.process(payment_nonce)
+  def process_payment(payment)
+    service = PaymentService.new(payment)
+    return false unless service.process
 
-    @order.payments << service.payment
     true
   end
 
@@ -98,7 +65,7 @@ class OrderService
   end
 
   def empty_cart
-    CartItem.for(@order.customer).as_of(@order.date_created).delete_all
+    CartItem.for(@user).as_of(@order.created_at).delete_all
     true
   end
 end
