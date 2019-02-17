@@ -50,8 +50,8 @@ class OrderItem < ApplicationRecord
     if for_deposit
       "Deposit for #{workshop.name}"
     else
-      val = workshop.name
-      val << " - #{project}" if project.present?
+      val = ''
+      val << " #{project}" if project.present?
       val << " (#{design})" if design.present?
       val << " w/ #{addon}" if addon.present?
       val

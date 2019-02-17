@@ -69,6 +69,10 @@ class Workshop < ApplicationRecord
     date_out(purchase_start_date, purchase_end_date)
   end
 
+  def book_by_date
+    (start_date - 48.hours).beginning_of_day
+  end
+
   private
 
   def check

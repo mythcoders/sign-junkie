@@ -14,5 +14,5 @@
     = "#{number_to_currency(Workshop.private_deposit)} deposit and #{number_to_currency(@workshop.ticket_price)} per ticket"
   %p.card-text
     = fa_regular 'ticket-alt'
-    = "#{Workshop.private_min} - #{Workshop.private_max} attendees"
+    = "#{Workshop.private_min} - #{@workshop.total_tickets} attendees"
 %p.card-text= @workshop.description

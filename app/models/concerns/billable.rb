@@ -18,6 +18,10 @@ module Billable
     items.select { |i| !i.for_deposit }
   end
 
+  def tickets_grouped
+    items_no_deposit.group_by { |i| i.workshop }
+  end
+
   # entire amount due for the order, includes items, tax, and shipping
   def total_due
     (total_taxable + total_tax).round(2)
