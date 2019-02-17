@@ -7,6 +7,9 @@
       %small
         = fa_solid 'calendar-alt', 'fa-fw'
         = workshop.when
+        - if workshop.is_private?
+          %br
+          Private Workshop
     %ul.list-group
       - if workshop.is_private?
         %li.list-group-item.list-group-item-info= "All tickets must be payed for by #{l(workshop.book_by_date)}"
@@ -21,14 +24,21 @@
                   = fa_solid 'exclamation', 'text-warning fa-fw'
                 - else
                   = fa_solid 'times', 'text-danger fa-fw'
+
                 - if ticket.assignee.present?
-                  ="#{ticket.assignee.full_name},"
-                  - if ticket.description.present?
-                    %em= ticket.description
-                  - else
-                    %em awaiting project selection and payment
+                  %strong= ticket.assignee.full_name
+                  %ul.fa-ul
+                    %li
+                      %span.fa-li= fa_regular 'envelope'
+                      = ticket.assignee.email
+                    %li
+                      %span.fa-li= fa_regular 'swatchbook'
+                      - if ticket.description.present?
+                        %em= ticket.description
+                      - else
+                        %em No project selected
                 - else
-                  %em Not assigned
+                  %strong Not assigned
     .card-footer
       = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
         = fa_light 'pencil'

@@ -9,7 +9,7 @@
             %h4
               = link_to p.name, workshop_path(p)
             %p.card-text
-              = p.description
+              = p.when
             %h5.text-primary
               = number_to_currency(p.ticket_price)
               - if p.is_private?
