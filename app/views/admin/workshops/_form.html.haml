@@ -40,8 +40,8 @@
   .form-group.col-3
     = f.label :purchase_start_date, class: 'col-form-label'
     #purchasestartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-      = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasetartpicker'
-      .input-group-append{"data-target": "#postingstartpicker", "data-toggle": "datetimepicker"}
+      = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasestartpicker'
+      .input-group-append{"data-target": "#purchasestartpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
   .form-group.col-3
