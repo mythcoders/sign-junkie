@@ -29,7 +29,6 @@ class TheGreatRefactoring < ActiveRecord::Migration[5.2]
     add_column :order_items, :design, :string
 
     add_reference :cart_items, :design
-    remove_column :cart_items, :design, :string
     remove_column :cart_items, :session_id, :string, null: false
     add_column :cart_items, :price, :decimal, null: false
 
