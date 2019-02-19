@@ -19,7 +19,7 @@ function update_ui() {
             success: function(data, textStatus, jQxhr) {
                 if (data.addons !== null && data.addons.length > 0) {
                     $("[data-js-change-addon]").find('option').remove()
-                    $("[data-js-change-addon]").append("<option value=''>-Select an optional addon -</option>")
+                    $("[data-js-change-addon]").append("<option value=''>- Select an optional addon -</option>")
                     for(var i = 0; i < data.addons.length; i++) {
                         $("[data-js-change-addon]").append($('<option>', {
                             value: data.addons[i].id,
@@ -30,18 +30,18 @@ function update_ui() {
                 } else {
                     disable_addons("No addons for project");
                 }
-                if (data.customizations !== null && data.customizations.length > 0) {
-                    $("[data-js-change-customization]").find('option').remove()
-                    $("[data-js-change-customization]").append("<option value=''>-Select customization -</option>")
-                    for(var i = 0; i < data.customizations.length; i++) {
-                        $("[data-js-change-customization]").append($('<option>', {
-                            value: data.customizations[i].id,
-                            text: data.customizations[i].name
+                if (data.designs !== null && data.designs.length > 0) {
+                    $("[data-js-change-design]").find('option').remove()
+                    $("[data-js-change-design]").append("<option value=''>- Select design -</option>")
+                    for(var i = 0; i < data.designs.length; i++) {
+                        $("[data-js-change-design]").append($('<option>', {
+                            value: data.designs[i].id,
+                            text: data.designs[i].name
                         }));
                     }
-                    $("[data-js-change-customization]").removeAttr("disabled");
+                    $("[data-js-change-design]").removeAttr("disabled");
                 } else {
-                    disable_customizations("No customizations for project");
+                    disable_designs("No designs for project");
                 }
             },
             error: function(data, textStatus, jQxhr) {
@@ -49,15 +49,15 @@ function update_ui() {
             }
         });
     } else {
-        disable_customizations("- Select Project -");
+        disable_designs("- Select Project -");
         disable_addons("- Select Project -");
     }
 }
 
-function disable_customizations(message) {
-    $("[data-js-change-customization]").find('option').remove()
-    $("[data-js-change-customization]").append("<option value=''>"+ message + "</option>")
-    $("[data-js-change-customization]").attr("disabled", "disabled");
+function disable_designs(message) {
+    $("[data-js-change-design]").find('option').remove()
+    $("[data-js-change-design]").append("<option value=''>"+ message + "</option>")
+    $("[data-js-change-design]").attr("disabled", "disabled");
 }
 
 function disable_addons(message) {

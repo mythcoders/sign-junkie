@@ -18,7 +18,7 @@ module Admin
 
     def create
       @project = Project.new(project_params)
-      @project.design_ids = Design.find(project_params[:design_ids])
+      # project.design_ids = Design.find(project_params[:design_ids])
       if @project.save
         flash[:success] = t('CreateSuccess')
         redirect_to admin_project_path @project
@@ -49,7 +49,7 @@ module Admin
     end
 
     def set_project
-      @project = Project.find(params[:id])
+      @project = Project.includes(:addons, :designs).find(params[:id])
     end
 
     def set_addons

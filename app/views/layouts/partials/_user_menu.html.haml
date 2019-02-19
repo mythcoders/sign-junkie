@@ -10,6 +10,10 @@
     = link_to orders_path, title: 'Orders', class: 'nav-link text-white' do
       = fa_solid 'shopping-bag'
       Orders
+  %li.nav-item
+    = link_to tickets_path, title: 'Orders', class: 'nav-link text-white' do
+      = fa_solid 'ticket-alt'
+      Tickets
   - if current_user.can_cp?
     %li.nav-item
       = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do
@@ -19,7 +23,6 @@
       = fa_solid 'user-circle'
       My Account
     .dropdown-menu.dropdown-menu-right{"aria-labelledby": "navbarDropdown"}
-      %a.dropdown-item{href: addresses_path} Addresses
       %a.dropdown-item{href: edit_user_registration_path} Security
       .dropdown-divider
       %a.dropdown-item{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}

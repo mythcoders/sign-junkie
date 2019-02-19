@@ -56,8 +56,8 @@ module Admin
     private
 
     def workshop_params
-      params.require(:workshop).permit(:id, :name, :description, :purhcase_start_date,
-                                       :purhcase_end_date, :start_date, :end_date,
+      params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
+                                       :purchase_end_date, :start_date, :end_date,
                                        :total_tickets, :ticket_price, :is_for_sale,
                                        :is_public)
     end
@@ -76,7 +76,7 @@ module Admin
 
     def filtered_params
       parameters = workshop_params
-      parameters[:purchase_start_date] = convert_datetime(parameters[:purhcase_start_date])
+      parameters[:purchase_start_date] = convert_datetime(parameters[:purchase_start_date])
       parameters[:purchase_end_date] = convert_datetime(parameters[:purchase_end_date])
       parameters[:start_date] = convert_datetime(parameters[:start_date])
       parameters[:end_date] = convert_datetime(parameters[:end_date])

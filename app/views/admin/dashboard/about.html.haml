@@ -1,10 +1,10 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
   %h1.h2
     = fa_light 'info-circle'
-    = "About #{Ares::SystemInfo::app_name}"
+    = "About #{SystemInfo::app_name}"
   .btn-toolbar.mb-2.mb-md-0
     .btn-group.mr-2
-      %a.btn.btn-outline-secondary{href: Ares::SystemInfo.support_url}
+      %a.btn.btn-outline-secondary{href: SystemInfo.support_url}
         = fa_light 'life-ring'
         Support
       %a.btn.btn-outline-info{href: '../../_ping', target: '_blank'}
@@ -15,26 +15,26 @@
     .form-group.row
       %label.col-sm-3.col-form-label Release
       .col-sm-9
-        = Ares::SystemInfo.release
-        - if Ares::SystemInfo.prerelease?
+        = SystemInfo.release
+        - if SystemInfo.prerelease?
           %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
         %br
-        = Ares::SystemInfo.long_version
+        = SystemInfo.long_version
     .form-group.row
       %label.col-sm-3.col-form-label Developed For
       .col-sm-9
-        %a{href: 'https://www.signjunkieworkshop.com'}= Ares::ClientInfo.owner
+        %a{href: 'https://www.signjunkieworkshop.com'}= ClientInfo.owner
         %br= "\u00A9 Copyright #{Date.today.year}"
     .form-group.row
       %label.col-sm-3.col-form-label Developed By
       .col-sm-9
-        %a{href: 'https://www.mythcoders.com'}= Ares::SystemInfo.developer
+        %a{href: 'https://www.mythcoders.com'}= SystemInfo.developer
         %br
           Made with
           = fa_solid 'heart', 'text-warning'
           in Ohio
   .col-6
-    %pre= Ares::EnvironmentInfo.instance
+    %pre= EnvironmentInfo.instance
 %hr
 
 .row

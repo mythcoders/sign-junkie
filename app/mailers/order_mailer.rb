@@ -2,13 +2,14 @@
 
 # Emails sent during the ordering experience
 class OrderMailer < ApplicationMailer
-  default from: "#{Ares::SystemInfo.app_name} <orders@signjunkieworkshop.com>"
+  default from: "#{SystemInfo.app_name} <orders@signjunkieworkshop.com>"
   helper :application
 
   before_action { @order = params[:order] }
 
   def placed
-    mail(to: "#{@order.customer.full_name} <#{@order.customer.email}>",
+    @payment = @params[:payment]
+    mail(to: "#{@payment.customer.full_name} <#{@payment.customer.email}>",
          subject: 'Your order has been placed!',
          template_name: 'placed')
   end

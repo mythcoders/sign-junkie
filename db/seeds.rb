@@ -1,10 +1,10 @@
-unless User.where(email: Ares::SystemInfo.support_key).any?
+unless User.where(email: SystemInfo.support_key).any?
   User.create(first_name: 'MythCoders',
               last_name: 'Support',
               role: 'operator',
               phone_number: '8336842377',
-              email: Ares::SystemInfo.support_key,
-              password: Ares::SystemInfo.support_secret,
+              email: SystemInfo.support_key,
+              password: SystemInfo.support_secret,
               confirmed_at: DateTime.now)
 end
 

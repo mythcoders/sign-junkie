@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  include Ares::IconHelper
-  include Ares::SidebarHelper
+  include IconHelper
+  include SidebarHelper
 
   USER_ROLES = [
     { name: 'Customer', id: 1 },

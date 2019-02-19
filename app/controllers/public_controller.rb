@@ -26,4 +26,8 @@ class PublicController < ApplicationController
   def my_account
     @orders = Order.current(current_user.id)
   end
+
+  def tickets
+    @tickets = current_user.tickets
+  end
 end

@@ -8,8 +8,9 @@ class Workshop < ApplicationRecord
   has_many_attached :images
   has_many :project_workshops
   has_many :projects, through: :project_workshops
-  has_many :tickets
-  has_many :customers, through: :tickets
+  has_many :designs, through: :projects
+  has_many :addons, through: :projects
+  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
 
   scope :upcoming, -> { where(is_for_sale: true) }
   scope :active, -> { upcoming.where('end_date >= CURRENT_TIMESTAMP') }
@@ -66,6 +67,10 @@ class Workshop < ApplicationRecord
 
   def when_purchase
     date_out(purchase_start_date, purchase_end_date)
+  end
+
+  def book_by_date
+    (start_date - 48.hours).beginning_of_day
   end
 
   private

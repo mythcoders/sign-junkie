@@ -1,38 +1,60 @@
-.card.mt-2
-  %h4.card-header.bg-primary.text-white
-    = fa_regular 'th-list'
-    Summary
-  .table-responsive-md
-    %table.table.table-striped.table-bordered.table-border-fix.table-sm
-      %thead
-        %tr.bg-primary.text-white
-          %th Description
-          %th.action-column Amount
-          %th.action-column Quantity
-          %th.action-column Price
-      %tbody
-        - @order.items.each do |i|
-          %tr
-            %td= i.description
-            %td= number_to_currency(i.price)
-            %td= i.quantity
-            %td.text-right
-              %strong= number_to_currency(i.item_total)
-        - if @order.taxed?
-          %tr
-            %td{colspan: 3}
-              = "Sales Tax collected (#{@order.tax_percentage}%)"
-            %td.text-right
-              %strong= number_to_currency(@order.total_tax)
-              Dave
-        - @order.payments.each do |i|
-          %tr
-            %td{colspan: 3}
-              = i.date_posted
-            %td.text-right
-              %strong= number_to_currency(i.amount)
-      %tfoot
-        %tr.bg-primary.text-white
-          %td{colspan: 3} Order total
-          %td.text-right
-            %strong= number_to_currency(@order.total_due)
+- @order.tickets_grouped.each do |workshop, tickets|
+  .card.mb-2
+    %h4.card-header.bg-primary.text-white
+      = fa_solid 'ticket-alt'
+      = workshop.name
+      %br
+      %small
+        = fa_solid 'calendar-alt', 'fa-fw'
+        = workshop.when
+        - if workshop.is_private?
+          %br
+          Private Workshop
+    %ul.list-group
+      - if workshop.is_private?
+        %li.list-group-item.list-group-item-info= "All tickets must be payed for by #{l(workshop.book_by_date)}"
+      - tickets.sort_by{ |t| t.created_at }.each_slice(2) do |slice|
+        %li.list-group-item
+          .row
+            - slice.each do |ticket|
+              .col
+                - if ticket.score == 1
+                  = fa_solid 'check', 'text-success fa-fw'
+                - elsif ticket.score <= 0.9 && ticket.score >= 0.25
+                  = fa_solid 'exclamation', 'text-warning fa-fw'
+                - else
+                  = fa_solid 'times', 'text-danger fa-fw'
+
+                - if ticket.assignee.present?
+                  %strong= ticket.assignee.full_name
+                  %ul.fa-ul
+                    %li
+                      %span.fa-li= fa_regular 'envelope'
+                      = ticket.assignee.email
+                    %li
+                      %span.fa-li= fa_regular 'swatchbook'
+                      - if ticket.description.present?
+                        %em= ticket.description
+                      - else
+                        %em No project selected
+                - else
+                  %strong Not assigned
+    .card-footer
+      = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+        = fa_light 'pencil'
+        Assign tickets
+      - if workshop.is_private?
+        = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+          = fa_light 'user-plus'
+          Invite Additional Guests
+        - if workshop.tickets_available.positive?
+          = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+            = fa_light 'cash-register'
+            Pay for tickets
+      - else
+        = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+          = fa_light 'plus'
+          Purchase Additional
+      = button_tag(type: 'submit', class: 'btn btn-outline-danger btn-sm mr-1') do
+        = fa_light 'ban'
+        Cancel Ticket(s)

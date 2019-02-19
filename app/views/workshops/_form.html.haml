@@ -10,11 +10,11 @@
         { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private? }
 .form-row
   .form-group.col-6
-    = f.label :customization
-    = f.select :customization_id,
+    = f.label :design
+    = f.select :design_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, prompt: '- Select Project -' },
-        { class: 'form-control custom-select', 'data-js-change-customization': '', disabled: @workshop.is_private? }
+        { class: 'form-control custom-select', 'data-js-change-design': '', disabled: @workshop.is_private? }
   .form-group.col-6
     = f.label :addons
     = f.select :addon_id,
