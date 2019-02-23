@@ -1,28 +1,19 @@
-%h1
-  = fa_light 'shopping-bag'
-  Orders
-
-- if @orders.any?
-  .row
-    - @orders.each do |o|
-      .col-12.col-sm-6.mb-2
-        .card
-          .card-header.d-flex.justify-content-between.align-items-center
-            %h4
-              = link_to "# #{o.order_number}", order_path(o)
-            - if o.status == :closed
-              %span.badge.badge-success= o.status
-            - elsif o.status == :placed
-              %span.badge.badge-warning= o.status
-            - else
-              %span.badge.badge-info= o.status
-          .card-body
-            %dl.row
-              %dt.col-6.col-lg-3.col-xl-2 Tickets
-              %dd.col-6.col-lg-3.col-xl-4= o.items_no_deposit.length
-              %dt.col-6.col-lg-3.col-xl-2 Created
-              %dd.col-6.col-lg-3.col-xl-4= lifp(o.date_created, :short)
-              %dt.col-6.col-lg-3.col-xl-2 Ordered
-              %dd.col-6.col-lg-3.col-xl-4= lifp(o.date_placed, :short)
-- else
-  You haven't placed any orders yet!
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_solid'shopping-bag'
+    My Orders
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Number
+        %th Date
+        %th Status
+    %tbody
+      - @orders.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': order_path(o) }}
+          %td= o.order_number
+          %td= lifp(o.date_created, :short)
+          %td= o.status
+  .card-footer
+    = paginate @orders
+    = page_entries_info @orders
