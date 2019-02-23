@@ -5,8 +5,6 @@ class OrderItem < ApplicationRecord
   belongs_to :workshop
   belongs_to :assignee, class_name: 'User', foreign_key: 'user_id', required: false
 
-  validates :description, presence: true
-
   def self.create(cart)
     item = OrderItem.new(
       price: cart.price,
@@ -20,7 +18,7 @@ class OrderItem < ApplicationRecord
       project: cart.project.present? ? cart.project.name : nil,
       identifier: SecureRandom.uuid
     )
-    item.assignee = cart.customer if item.workshop.is_public?
+    item.assignee = cart.customer if !cart.gift? && item.workshop.is_public?
     item
   end
 
@@ -56,5 +54,9 @@ class OrderItem < ApplicationRecord
       val << " w/ #{addon}" if addon.present?
       val
     end
+  end
+
+  def short_id
+    identifier[0..2].upcase
   end
 end
