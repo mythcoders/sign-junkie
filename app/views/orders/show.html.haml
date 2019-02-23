@@ -1,5 +1,6 @@
-= render partial: 'new_ticket'
-= render partial: 'cancel_tickets'
+= render partial: 'order_items/new_ticket'
+= render partial: 'order_items/assign_ticket'
+= render partial: 'order_items/cancel_tickets'
 
 .row
   .col-md-3
@@ -14,5 +15,5 @@
       .card-footer
         = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
   .col-md-9
-    = render partial: 'summary'
+    = render partial: 'order_items/summary'
 

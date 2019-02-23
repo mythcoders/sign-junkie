@@ -62,6 +62,6 @@
           = fa_light 'plus'
           Purchase Additional
 
-      %button.btn.btn-outline-danger.btn-sm.mr-1{"data-target": "#cancel-ticket-modal", "data-toggle": "modal", type: "button", 'data-workshop-id': workshop.id}
+      %button.btn.btn-outline-danger.btn-sm.mr-1{"data-target": "#cancel-ticket-modal", "data-toggle": "modal", type: "button", 'data-workshop-id': workshop.id, 'data-order-id': @order.id}
         = fa_light 'ban'
         Cancel seat(s)

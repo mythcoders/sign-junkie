@@ -30,3 +30,16 @@
     .form-group.col
       = f.label :seating
       = f.text_field :seating, class: 'form-control'
+  .form-row
+    .form-group.col
+      %label Is this a gift?
+      .custom-control.custom-radio
+        = f.radio_button :gift, 'true', class: 'custom-control-input', 'data-js-payment-method': ''
+        = f.label :gift, value: 'true', class: 'custom-control-label' do
+          = fa_solid 'gift'
+          Yes, it's a gift
+      .custom-control.custom-radio
+        = f.radio_button :gift, 'false', class: 'custom-control-input', 'data-js-payment-method': ''
+        = f.label :gift, value: 'false', class: 'custom-control-label' do
+          = fa_solid 'user'
+          No, it's for myself

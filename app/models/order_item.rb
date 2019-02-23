@@ -45,18 +45,41 @@ class OrderItem < ApplicationRecord
   end
 
   def description
+    val = ''
     if for_deposit
-      "Deposit for #{workshop.name}"
+      val = "Deposit for #{workshop.name}"
     else
-      val = ''
       val << " #{project}" if project.present?
       val << " (#{design})" if design.present?
       val << " w/ #{addon}" if addon.present?
-      val
     end
+    val = 'Not selected' if val == ''
+    val
   end
 
   def short_id
     identifier[0..2].upcase
+  end
+
+  def unassigned?
+    !assigned?
+  end
+
+  def assigned?
+    assignee.present?
+  end
+
+  def refunded?
+    false
+  end
+
+  def paid?
+    payment.present?
+  end
+
+  def amount_refundable
+    return 0.00 if payment.nil?
+
+    price
   end
 end

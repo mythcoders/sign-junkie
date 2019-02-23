@@ -54,6 +54,10 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:date_created)
   end
 
+  def cancel_params
+    params.require(:order).permit(order_item_ids: [])
+  end
+
   def prepare_payment
     @payment = Payment.build(current_user.id, @order)
   end
