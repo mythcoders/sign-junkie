@@ -4,7 +4,7 @@
 class Payment < ApplicationRecord
 
   SALES_TAX_ENABLED = true
-  SALES_TAX_RATE = 0,0725
+  SALES_TAX_RATE = BigDecimal.new("0.0725")
 
   audited
   has_many :order_items
