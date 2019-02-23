@@ -1,17 +1,19 @@
 %p.card-text
-  = fa_regular 'calendar-alt'
+  = fa_solid 'calendar-alt'
   = @workshop.when
 - if @workshop.is_public?
   %p.card-text
-    = fa_regular 'usd-circle'
+    = fa_solid 'usd-circle'
     = number_to_currency(@workshop.ticket_price)
   %p.card-text
-    = fa_regular 'ticket-alt'
-    = "#{@workshop.tickets_available} tickets available"
+    = fa_solid 'chair'
+    = "#{@workshop.tickets_available} seats available"
 - else
   %p.card-text
     = fa_regular 'usd-circle'
-    = "#{number_to_currency(Workshop.private_deposit)} deposit and #{number_to_currency(@workshop.ticket_price)} per ticket"
+    %p
+      = "#{number_to_currency(Workshop.private_deposit)} deposit, due today"
+      = "#{number_to_currency(@workshop.ticket_price)} per ticket, paid later"
   %p.card-text
     = fa_regular 'ticket-alt'
     = "#{Workshop.private_min} - #{@workshop.total_tickets} attendees"
