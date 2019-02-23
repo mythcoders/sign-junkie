@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create edit update] do
-    post 'tickets/:ticket_id/cancel'
+    resources :order_items, only: %i[create update]
+    get 'items/by_workshop/:workshop_id', to: 'order_items#by_workshop'
+    # cancel order_items'
   end
 
   # administration portal
@@ -30,8 +32,6 @@ Rails.application.routes.draw do
     resources :design_categories, concerns: :pageable
     resources :designs, concerns: :pageable
     resources :projects, concerns: :pageable
-    post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
-    post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'
     post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
     resources :orders, concerns: :pageable do
       resources :order_items, as: 'items', path: 'items'

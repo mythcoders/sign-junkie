@@ -11,7 +11,9 @@
           .form-group
             %label.col-form-label Date Placed
             .form-control-plaintext= lifp(@order.date_placed, :short)
-        .card-footer
-          = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
+      .card-footer
+        = link_to 'Go Back', order_path(@order), class: 'btn btn-outline-secondary btn-sm'
+        = f.submit class: 'btn btn-outline-success btn-sm' do
+          Save Changes
     .col-md-9
       = render partial: 'tickets', locals: { f: f }
