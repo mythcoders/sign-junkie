@@ -3,7 +3,7 @@
     .col-12.col-sm-5
       .card.card-primary
         %h4.card-header.bg-primary.text-white
-          Checkout
+          Payment
         = render partial: 'orders/form', locals: { f: f }
     .col-12.col-sm-7
       .card
@@ -17,12 +17,12 @@
               - @payment.order_items.each do |i|
                 %tr
                   %td= i.description
-                  %td.text-right
+                  %td.text-right.action-column
                     %strong= number_to_currency(i.price)
               - if @payment.taxed?
                 %tr
                   %td= "Estimated tax to be collected (#{@payment.tax_percentage}%)"
-                  %td.text-right
+                  %td.text-right.action-column
                     %strong#order_total_tax= number_to_currency(@payment.tax_amount)
             %tfoot
               %tr.bg-primary.text-white
