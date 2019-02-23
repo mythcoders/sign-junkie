@@ -26,6 +26,27 @@ class OrderService
     true
   end
 
+  def assign(item, params)
+    user = User.find_by_email(params[:email])
+    if user.nil?
+      user = User.create!(first_name: params[:first_name],
+                          last_name: params[:last_name],
+                          role: 'customer',
+                          password: 'Temp1234!',
+                          email: params[:email])
+    end
+    # send email
+    item.update(user_id: user.id)
+  end
+
+  def addon(item, params)
+
+  end
+
+  def modify(item)
+
+  end
+
   # creates and places the order by removing the requested products from inventory
   def place(payment)
     ActiveRecord::Base.transaction do

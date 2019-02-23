@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create edit update] do
-    resources :order_items, path: 'items', only: %i[create update]
+    resources :order_items, path: 'items', only: %i[show create update] do
+      post 'assign', to: 'order_items#assign'
+    end
     get 'items_by_workshop/:workshop_id', to: 'order_items#by_workshop'
     post 'items/cancel', to: 'order_items#cancel', as: 'cancel_items'
   end

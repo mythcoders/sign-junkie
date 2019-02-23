@@ -1,8 +1,26 @@
 class OrderItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_order_item, only: %i[update]
+
+  def show
+    @order_item = OrderItem.includes(:order).find(params[:id])
+  end
+
+  def assign
+    order_item = OrderItem.includes(:order).find(params[:order_item_id])
+    service = OrderService.new(order_item.order, current_user)
+    if service.assign(order_item, assign_params)
+      flash[:success] = 'Seat was assigned and person has been notified!'
+    else
+      flash[:error] = 'Sorry, error'
+    end
+    redirect_to order_path service.order
+  end
 
   def create
+
+  end
+
+  def update
 
   end
 
@@ -14,7 +32,7 @@ class OrderItemsController < ApplicationController
     else
       flash[:error] = 'Sorry, error'
     end
-    redirect_to order_path service.order
+    redirect_to orders_path service.order
   end
 
   def by_workshop
@@ -26,15 +44,11 @@ class OrderItemsController < ApplicationController
 
   private
 
-  def get_order_item
-    @order_item = OrderItem.find(params[:id])
-  end
-
   def cancel_params
     params.require(:cancel).permit(:order_item_ids)
   end
 
-  def item_params
-
+  def assign_params
+    params.require(:order_item).permit(:id, :first_name, :last_name, :email)
   end
 end

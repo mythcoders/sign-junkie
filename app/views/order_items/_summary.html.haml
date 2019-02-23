@@ -42,7 +42,9 @@
                         %span.fa-li= fa_solid 'chair'
                         = ticket.seating
                 - else
-                  %strong Not assigned
+                  %button.btn.btn-outline-info.btn-sm.ml-2{"data-target": "#assign-ticket-modal", "data-toggle": "modal", type: "button", 'data-order-item-id': ticket.id, 'data-order-id': @order.id}
+                    = fa_solid 'tag'
+                    Assign
 
     .card-footer
       = link_to edit_order_path(@order), class: 'btn btn-outline-primary btn-sm mr-1' do
@@ -53,10 +55,6 @@
         %button.btn.btn-outline-primary.btn-sm.mr-1{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button", 'data-workshop-id': workshop.id}
           = fa_light 'user-plus'
           Reserve additional seats
-        -# - if workshop.tickets_available.positive?
-        -#   = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
-        -#     = fa_light 'cash-register'
-        -#     Pay for seats
       - else
         %button.btn.btn-outline-primary.btn-sm.mr-1{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button", 'data-workshop-id': workshop.id}
           = fa_light 'plus'
