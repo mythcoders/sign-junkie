@@ -11,8 +11,7 @@
           %br
           Private Workshop
     %ul.list-group
-      - if workshop.is_private?
-        %li.list-group-item.list-group-item-info= "All tickets must be payed for by #{l(workshop.book_by_date)}"
+      %li.list-group-item.list-group-item-info= "Choose project and make payment by #{l(workshop.book_by_date)}"
       - tickets.sort_by{ |t| t.created_at }.each_slice(2) do |slice|
         %li.list-group-item
           .row
@@ -29,32 +28,37 @@
                   %strong= ticket.assignee.full_name
                   %ul.fa-ul
                     %li
-                      %span.fa-li= fa_regular 'envelope'
+                      %span.fa-li= fa_solid 'envelope'
                       = ticket.assignee.email
                     %li
-                      %span.fa-li= fa_regular 'swatchbook'
+                      %span.fa-li= fa_solid 'swatchbook'
                       - if ticket.description.present?
                         %em= ticket.description
                       - else
                         %em No project selected
+                    - if ticket.seating.present?
+                      %li
+                        %span.fa-li= fa_solid 'chair'
+                        = ticket.seating
                 - else
                   %strong Not assigned
+
+                %button.btn.btn-outline-danger.btn-sm.float-right{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button"}
+                  = fa_light 'ban'
+                  Cancel
     .card-footer
-      = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+      = link_to edit_order_path(@order), class: 'btn btn-outline-primary btn-sm mr-1' do
         = fa_light 'pencil'
-        Assign tickets
+        Assign seats
       - if workshop.is_private?
-        = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+        %button.btn.btn-outline-primary.btn-sm.mr-1{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button"}
           = fa_light 'user-plus'
           Invite Additional Guests
         - if workshop.tickets_available.positive?
           = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
             = fa_light 'cash-register'
-            Pay for tickets
+            Pay for seats
       - else
-        = button_tag(type: 'submit', class: 'btn btn-outline-primary btn-sm mr-1') do
+        %button.btn.btn-outline-primary.btn-sm.mr-1{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button"}
           = fa_light 'plus'
           Purchase Additional
-      = button_tag(type: 'submit', class: 'btn btn-outline-danger btn-sm mr-1') do
-        = fa_light 'ban'
-        Cancel Ticket(s)

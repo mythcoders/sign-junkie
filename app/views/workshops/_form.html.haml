@@ -1,6 +1,6 @@
 - if @workshop.is_private?
   %p.card-text.text-warning
-    Tickets and projects can be assigned after workshop booking.
+    Seats and projects can be assigned and selected after workshop booking.
 .form-row
   .form-group.col
     = f.label :project
@@ -21,3 +21,12 @@
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, prompt: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-addon': '', disabled: @workshop.is_private? }
+.form-row{style: 'display: none', 'data-js-custom-design': ''}
+  .form-group.col
+    = f.label :custom_design
+    = f.text_field :design, class: 'form-control'
+- if @workshop.is_public?
+  .form-row
+    .form-group.col
+      = f.label :seating
+      = f.text_field :seating, class: 'form-control'

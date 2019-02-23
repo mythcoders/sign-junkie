@@ -14,8 +14,8 @@ class OrderItem < ApplicationRecord
       workshop: cart.workshop,
       notified: false,
       prepped: false,
-      seating: nil,
-      design: cart.design.present? ? cart.design.name : nil,
+      seating: cart.seating,
+      design: cart.design,
       addon: cart.addon.present? ? cart.addon.name : nil,
       project: cart.project.present? ? cart.project.name : nil,
       identifier: SecureRandom.uuid

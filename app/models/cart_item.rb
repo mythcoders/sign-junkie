@@ -5,11 +5,12 @@ class CartItem < ApplicationRecord
   scope :as_of, -> { where('created_at <= CURRENT_TIMESTAMP') }
   scope :as_of, ->(date_created) { where('created_at <= ?', date_created) unless date_created.nil? }
 
+  attr_accessor :design_id
+
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   belongs_to :workshop
   belongs_to :addon, required: false
   belongs_to :project, required: false
-  belongs_to :design, required: false
 
   validates_presence_of :workshop_id, :user_id, :price
   before_validation :project_design_required_public_workshops
@@ -20,7 +21,13 @@ class CartItem < ApplicationRecord
 
     if item.workshop.is_public?
       item.project = workshop.projects.where(id: params[:project_id]).first
-      item.design = workshop.designs.where(id: params[:design_id]).first
+      item.seating = params[:seating]
+
+      if params[:design_id] != '$custom'
+        item.design = workshop.designs.where(id: params[:design_id]).first
+      else
+        item.design = params[:design]
+      end
 
       if params[:addon_id].present?
         item.addon = item.project.addons.where(id: params[:addon_id]).first
@@ -38,7 +45,7 @@ class CartItem < ApplicationRecord
   def display
     val = workshop.name
     val << " - #{project.name}" if project_id.present?
-    val << " (#{design.name})" if design_id.present?
+    val << " (#{design})" if design.present?
     val << " w/ #{addon.name}" if addon_id.present?
     val
   end

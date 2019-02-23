@@ -8,6 +8,16 @@ $.onmount("[data-js-change-project]", function() {
     })
 });
 
+$.onmount("[data-js-change-design]", function() {
+    $(this).on("change", function() {
+        if ($(this).val() === '$custom') {
+            $('[data-js-custom-design]').show();
+        } else {
+            $('[data-js-custom-design]').hide();
+        }
+    })
+});
+
 function update_ui() {
     var project = get_project();
     if (project !== null) {
@@ -30,19 +40,17 @@ function update_ui() {
                 } else {
                     disable_addons("No addons for project");
                 }
-                if (data.designs !== null && data.designs.length > 0) {
-                    $("[data-js-change-design]").find('option').remove()
-                    $("[data-js-change-design]").append("<option value=''>- Select design -</option>")
-                    for(var i = 0; i < data.designs.length; i++) {
-                        $("[data-js-change-design]").append($('<option>', {
-                            value: data.designs[i].id,
-                            text: data.designs[i].name
-                        }));
-                    }
-                    $("[data-js-change-design]").removeAttr("disabled");
-                } else {
-                    disable_designs("No designs for project");
+
+                $("[data-js-change-design]").find('option').remove()
+                $("[data-js-change-design]").append("<option value=''>- Select design -</option>")
+                for(var i = 0; i < data.designs.length; i++) {
+                    $("[data-js-change-design]").append($('<option>', {
+                        value: data.designs[i].id,
+                        text: data.designs[i].name
+                    }));
                 }
+                $("[data-js-change-design]").removeAttr("disabled");
+                $("[data-js-change-design]").append("<option value='$custom'>- Custom design -</option>")
             },
             error: function(data, textStatus, jQxhr) {
                 alert('error');

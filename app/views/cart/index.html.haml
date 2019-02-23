@@ -20,7 +20,14 @@
             %td
               %a{href: workshop_path(c.workshop)}
                 %h4= c.display
-              %p= c.workshop.when
+              %ul.list-inline
+                %li.list-inline-item
+                  = fa_regular 'calendar-alt'
+                  = c.workshop.when
+                - if c.seating.present?
+                  %li.list-inline-item
+                    = fa_regular 'chair'
+                    = c.seating
               - if c.workshop.is_private?
                 %p.text-info Deposit fee will be added during checkout
               = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
@@ -37,9 +44,9 @@
               Subtotal:
               = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
     .card-footer
-      = link_to new_order_path, class: 'btn btn-success float-right', id: 'checkout-button' do
+      = link_to new_order_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
         Proceed to Checkout
-        = fa_regular 'money-bill'
+        = fa_regular 'cash-register'
       %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}
         %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
         Loading...

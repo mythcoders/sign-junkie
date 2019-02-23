@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_17_053623) do
+ActiveRecord::Schema.define(version: 2019_02_22_225152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,10 +75,10 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
     t.datetime "updated_at", null: false
     t.bigint "project_id"
     t.bigint "addon_id"
-    t.bigint "design_id"
+    t.string "design"
     t.decimal "price", null: false
+    t.string "seating"
     t.index ["addon_id"], name: "index_cart_items_on_addon_id"
-    t.index ["design_id"], name: "index_cart_items_on_design_id"
     t.index ["project_id"], name: "index_cart_items_on_project_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
     t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
@@ -102,19 +102,19 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
 
   create_table "order_items", id: :serial, force: :cascade do |t|
     t.string "addon"
+    t.decimal "price", default: "0.0", null: false
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "for_deposit", default: false, null: false
     t.bigint "payment_id"
     t.bigint "workshop_id", null: false
+    t.bigint "user_id"
     t.boolean "notified"
     t.boolean "prepped"
     t.string "identifier"
     t.string "seating"
     t.string "design"
-    t.decimal "price", default: "0.0", null: false
-    t.bigint "user_id"
     t.string "project"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["payment_id"], name: "index_order_items_on_payment_id"
@@ -124,13 +124,13 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
 
   create_table "orders", id: :serial, force: :cascade do |t|
     t.serial "order_number", limit: 10
+    t.datetime "date_created", default: -> { "clock_timestamp()" }, null: false
     t.datetime "date_placed"
     t.datetime "date_canceled"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", null: false
-    t.datetime "date_created", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -222,7 +222,6 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
   add_foreign_key "cart_items", "workshops"
   add_foreign_key "design_categories", "design_categories", column: "parent_id"
   add_foreign_key "order_items", "orders"
-  add_foreign_key "order_items", "users", name: "order_items_user_id_fkey"
   add_foreign_key "orders", "users"
   add_foreign_key "payments", "users"
 end
