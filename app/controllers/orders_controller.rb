@@ -3,10 +3,10 @@
 # Controller for root/orders
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: %i[show receipt cancel]
-  before_action :check_order_auth, only: %i[show receipt cancel]
+  before_action :set_order, only: %i[show edit receipt cancel]
+  before_action :check_order_auth, only: %i[show edit receipt cancel]
   before_action :build_order, only: %i[new create]
-  before_action :set_cart_total, only: %i[index show new]
+  before_action :set_cart_total, only: %i[index show new edit]
   before_action :check_cart_total, only: %i[new]
   before_action :prepare_payment, only: %i[new create]
 

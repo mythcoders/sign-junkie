@@ -1,3 +1,4 @@
+= render partial: 'new_ticket'
 .row
   .col-md-3
     .card.card-primary
@@ -5,12 +6,9 @@
         = fa_regular 'shopping-bag'
         = "Order ##{@order.order_number}"
       .card-body
-        .form-group.row
-          %label.col-form-label.col-6 Date Created
-          .form-control-plaintext.col= lifp(@order.date_created, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Date Placed
-          .form-control-plaintext.col= lifp(@order.date_placed, :short)
+        .form-group
+          %label.col-form-label Date Placed
+          .form-control-plaintext= lifp(@order.date_placed, :short)
       .card-footer
         = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
   .col-md-9

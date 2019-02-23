@@ -10,13 +10,11 @@ Rails.application.routes.draw do
   end
 
   # customer facing
-  get 'my_account', to: 'public#my_account'
   get 'tickets', to: 'public#tickets'
   get 'projects/:project_id', to: 'public#projects'
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
-  resources :orders, only: %i[index show new create]
-  post 'orders/ui', to: 'orders#ui', as: 'order_ui_update'
+  resources :orders, only: %i[index show new create edit update]
   get 'orders/:id/receipt', to: 'orders#receipt', as: 'receipt'
   post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
 

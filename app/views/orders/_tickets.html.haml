@@ -1,0 +1,46 @@
+- @order.tickets_grouped.each do |workshop, tickets|
+  .card.mb-2
+    %h4.card-header.bg-primary.text-white
+      = fa_solid 'ticket-alt'
+      = workshop.name
+      %br
+      %small
+        = fa_solid 'calendar-alt', 'fa-fw'
+        = workshop.when
+        - if workshop.is_private?
+          %br
+          Private Workshop
+    %ul.list-group
+      %li.list-group-item.list-group-item-info= "Choose project and make payment by #{l(workshop.book_by_date)}"
+    %table.table.table-bordered.table-striped.table-border-fix.table-sm
+      %tbody
+        - tickets.sort_by { |t| t.created_at }.each do |ticket|
+          = f.fields_for ticket, index: ticket.id do |ff|
+            %tr
+              %td.action-column ?
+              %td
+                .form-row
+                  .form-group.col
+                    %label Attendee
+                    %input.form-control-plaintext{value: ticket.assignee.full_name}
+                - if workshop.is_public?
+                  .form-row
+                    .form-group.col
+                      = ff.label :requested_seating
+                      = ff.text_field :seating, class: 'form-control'
+              %td
+                .form-row
+                  .form-group.col
+                    = ff.label :project
+                    = ff.text_field :project, class: 'form-control'
+                .form-row
+                  .form-group.col-6
+                    = ff.label :design
+                    = ff.text_field :design, class: 'form-control'
+                  .form-group.col-6
+                    = ff.label :addon
+                    = ff.text_field :addon, class: 'form-control'
+    .card-footer
+      = link_to 'Go Back', order_path(@order), class: 'btn btn-outline-secondary btn-sm'
+      = f.submit class: 'btn btn-outline-success btn-sm' do
+        Save Changes
