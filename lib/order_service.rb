@@ -43,8 +43,23 @@ class OrderService
 
   end
 
-  def modify(item)
+  def modify(item, params)
+    item.price = item.workshop.ticket_price
+    item.project = workshop.projects.where(id: params[:project_id]).first
+    item.seating = params[:seating]
 
+    if params[:design_id] != '$custom'
+      item.design = workshop.designs.where(id: params[:design_id]).first.name
+    else
+      item.design = params[:design]
+    end
+
+    if params[:addon_id].present?
+      item.addon = item.project.addons.where(id: params[:addon_id]).first
+      item.price += item.addon.price
+    end
+
+    item.save!
   end
 
   # creates and places the order by removing the requested products from inventory

@@ -4,7 +4,8 @@
 - if @workshop.is_public?
   %p.card-text
     = fa_solid 'usd-circle'
-    = number_to_currency(@workshop.ticket_price)
+    %span#total-price= number_to_currency(@workshop.ticket_price)
+    %input{id: 'ticket-price', value: @workshop.ticket_price, type: 'hidden'}
   %p.card-text
     = fa_solid 'chair'
     = "#{@workshop.tickets_available} seats available"

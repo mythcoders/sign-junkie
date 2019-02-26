@@ -24,7 +24,7 @@ class CartItem < ApplicationRecord
       item.seating = params[:seating]
 
       if params[:design_id] != '$custom'
-        item.design = workshop.designs.where(id: params[:design_id]).first
+        item.design = workshop.designs.where(id: params[:design_id]).first.name
       else
         item.design = params[:design]
       end

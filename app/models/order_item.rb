@@ -5,6 +5,8 @@ class OrderItem < ApplicationRecord
   belongs_to :workshop
   belongs_to :assignee, class_name: 'User', foreign_key: 'user_id', required: false
 
+  attr_accessor :project_id, :design_id, :addon_id
+
   def self.create(cart)
     item = OrderItem.new(
       price: cart.price,
@@ -75,6 +77,10 @@ class OrderItem < ApplicationRecord
 
   def paid?
     payment.present?
+  end
+
+  def can_pay?
+    assigned? && project.present? && design.present?
   end
 
   def amount_refundable

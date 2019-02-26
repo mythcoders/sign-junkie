@@ -16,19 +16,19 @@
         - @workshop.tickets.each do |t|
           %tr
             %td
-              - if t.customer.present?
-                = "#{t.customer.first_name} #{t.customer.last_name}"
-                = t.customer.email
-              - else
-                No assigned
-            %td
-              - if t.project.present?
-                = t.project.name
-              - else
-                None
-              - if t.addon.present?
-                = "w/ #{t.addon.name}"
-            %td.text-danger
-              = fa_solid 'times'
-              Not signed
+              -# - if t.attendee.present?
+              -#   = "#{t.customer.first_name} #{t.customer.last_name}"
+              -#   = t.attendee.email
+              -# - else
+              -#   No assigned
+            -# %td
+              -# - if t.project.present?
+              -#   = t.project.name
+              -# - else
+              -#   None
+              -# - if t.addon.present?
+              -#   = "w/ #{t.addon.name}"
+            -# %td.text-danger
+              -# = fa_solid 'times'
+              -# Not signed
 

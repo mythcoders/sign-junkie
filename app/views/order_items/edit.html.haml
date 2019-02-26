@@ -1,0 +1,71 @@
+.row
+  .col-6
+    .card
+      .card-body
+        - @order_item.workshop.images.each do |img|
+          %img.card-img{src: url_for(img)}
+  .col-6
+    .card
+      %h4.card-header.bg-primary.text-white
+        = @order_item.workshop.name
+      = form_for @order_item, url: {action: 'update'} do |f|
+        = f.hidden_field :id, value: @order_item.id
+        .card-body
+          = error_messages_for 'order_item'
+          = error_messages_for 'payment'
+          %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+          %p.card-text
+            = fa_solid 'calendar-alt'
+            = @order_item.workshop.when
+          %p.card-text
+            = fa_solid 'usd-circle'
+            %span#total-price= number_to_currency(@order_item.price)
+            %input{id: 'ticket-price', value: @order_item.workshop.ticket_price, type: 'hidden'}
+          %p.card-text= @order_item.workshop.description
+          .form-row
+            .form-group.col
+              = f.label :project
+              = f.select :project_id,
+                options_from_collection_for_select(@order_item.workshop.projects, 'id', 'name'),
+                  { prompt: '- Please Select -' },
+                  { class: 'form-control custom-select', 'data-js-change-project': '' }
+          .form-row
+            .form-group.col-lg-6
+              = f.label :design
+              = f.select :design_id,
+                options_from_collection_for_select([], 'id', 'name'),
+                  { include_blank: '- Select Project -' },
+                  { class: 'form-control custom-select', 'data-js-change-design': '', disabled: true }
+            .form-group.col-lg-6
+              = f.label :addons
+              = f.select :addon_id,
+                options_from_collection_for_select([], 'id', 'name'),
+                  { include_blank: '- Select Project -' },
+                  { class: 'form-control custom-select', 'data-js-change-addon': '', disabled: true }
+          .form-row{style: 'display: none', 'data-js-custom-design': ''}
+            .form-group.col
+              = f.label :custom_design
+              = f.text_field :design, class: 'form-control', 'data-js-custom-design-input': ''
+          - if @order_item.workshop.is_public?
+            .form-row
+              .form-group.col
+                = f.label :seating
+                = f.text_field :seating, class: 'form-control'
+          #payment-container
+        .card-footer
+          = f.submit 'Save Changes', class: 'btn btn-success'
+          - if @client_token
+            %button.btn.btn-success.float-right{type: "button", id: 'checkout-button', onclick: 'checkout'}
+              Proceed to Checkout
+              = fa_regular 'cash-register'
+            %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading-button', style: 'display:none;'}
+              %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
+              Loading...
+
+- content_for :scripts do
+  :javascript
+    function dave() {
+      submitButton = document.getElementById('checkout-button')
+      loadingButton = document.getElementById('checkout-loading-button')
+    }
+

@@ -6,25 +6,25 @@
     = f.label :project
     = f.select :project_id,
         options_from_collection_for_select(@workshop.projects, 'id', 'name'),
-        { value: nil, prompt: '- Please Select -' },
+        { value: nil, include_blank: '- Please Select -' },
         { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private? }
 .form-row
   .form-group.col-6
     = f.label :design
     = f.select :design_id,
         options_from_collection_for_select([], 'id', 'name'),
-        { value: nil, prompt: '- Select Project -' },
+        { value: nil, include_blank: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-design': '', disabled: @workshop.is_private? }
   .form-group.col-6
     = f.label :addons
     = f.select :addon_id,
         options_from_collection_for_select([], 'id', 'name'),
-        { value: nil, prompt: '- Select Project -' },
+        { value: nil, include_blank: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-addon': '', disabled: @workshop.is_private? }
 .form-row{style: 'display: none', 'data-js-custom-design': ''}
   .form-group.col
     = f.label :custom_design
-    = f.text_field :design, class: 'form-control'
+    = f.text_field :design, class: 'form-control', 'data-js-custom-design-input': ''
 - if @workshop.is_public?
   .form-row
     .form-group.col

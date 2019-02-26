@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :orders, only: %i[index show new create edit update] do
-    resources :order_items, path: 'items', only: %i[show create update] do
+    resources :order_items, path: 'items', only: %i[show create edit update] do
       post 'assign', to: 'order_items#assign'
     end
     get 'items_by_workshop/:workshop_id', to: 'order_items#by_workshop'
@@ -24,9 +24,11 @@ Rails.application.routes.draw do
 
   # administration portal
   namespace :admin do
-    get 'dashboard/index', as: 'dashboard'
-    get 'dashboard/about', as: 'about'
-    get 'reports/index', as: 'reports'
+    get 'dashboard', as: 'dashboard', to: 'dashboard#index'
+    get 'about', as: 'about', to: 'dashboard#about'
+    get 'settings', as: 'settings', to: 'dashboard#settings'
+    get 'finances', as: 'finances', to: 'dashboard#finances'
+    get 'reports', as: 'reports', to: 'reports#index'
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :addons, concerns: :pageable

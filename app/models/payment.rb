@@ -13,10 +13,10 @@ class Payment < ApplicationRecord
   attr_accessor :method_nonce
   validates_presence_of :amount, :method, :identifier, :tax_rate, :tax_amount
 
-  def self.build(user_id, order)
+  def self.build(user_id, items)
     payment = Payment.new(
       user_id: user_id,
-      order_items: order.due_now(user_id),
+      order_items: items,
       tax_rate: 0,
       tax_amount: 0
     )
@@ -29,10 +29,6 @@ class Payment < ApplicationRecord
 
     payment.amount = (sub_total + payment.tax_amount).round(2)
     payment
-  end
-
-  def paypal?
-    method == 'paypal'
   end
 
   def taxed?
