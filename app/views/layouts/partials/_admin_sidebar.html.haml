@@ -4,45 +4,41 @@
       = fa_solid 'home', 'fa-fw'
       %span Dashboard
   %li.nav-item
-    %a.nav-link{disabled_link}
-      = fa_solid 'ticket-alt', 'fa-fw'
-      %span Certificates
-  %li.nav-item
     %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
       = fa_solid 'users', 'fa-fw'
       %span Customers
-  %li.nav-item
-    %a.nav-link{sidebar_link(admin_design_categories_path, categories_controller?)}
-      = fa_solid 'ruler-combined', 'fa-fw'
-      %span Design Categoires
   %li.nav-item
     %a.nav-link{sidebar_link(admin_employees_path, employees_controller?)}
       = fa_solid 'users-class', 'fa-fw'
       %span Employees
   %li.nav-item
+    %a.nav-link{sidebar_link(admin_finances_path, audits_controller?)}
+      = fa_solid 'sack-dollar', 'fa-fw'
+      %span Finances
+  %li.nav-item
     %a.nav-link{sidebar_link(admin_orders_path, order_controller?)}
-      = fa_solid 'shopping-bag', 'fa-fw'
+      = fa_solid 'file-invoice-dollar', 'fa-fw'
       %span Orders
   %li.nav-item
     %a.nav-link{sidebar_link(admin_projects_path, projects_controller?)}
       = fa_solid 'drafting-compass', 'fa-fw'
       %span Projects
   %li.nav-item
+    %a.nav-link{disabled_link}
+      = fa_solid 'analytics', 'fa-fw'
+      %span Reports
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_settings_path, audits_controller?)}
+      = fa_solid 'cogs', 'fa-fw'
+      %span Settings
+  %li.nav-item
     %a.nav-link{sidebar_link(admin_designs_path, designs_controller?)}
       = fa_solid 'swatchbook', 'fa-fw'
-      %span Project Designs
+      %span Stencils
   %li.nav-item
     %a.nav-link{sidebar_link(admin_workshops_path, workshops_controller?)}
       = fa_solid 'pencil-ruler', 'fa-fw'
       %span Workshops
-  %li.nav-item
-    %a.nav-link{disabled_link}
-      = fa_solid 'chart-line', 'fa-fw'
-      %span Reports
-  %li.nav-item
-    %a.nav-link{sidebar_link(admin_audits_path, audits_controller?)}
-      = fa_solid 'history', 'fa-fw'
-      %span Data History
   %li.nav-item
     %a.nav-link{sidebar_link(admin_about_path, admin_home_action?('about'))}
       = fa_solid 'info-circle', 'fa-fw'

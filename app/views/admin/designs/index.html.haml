@@ -1,9 +1,9 @@
-- page_title 'Project Designs Search'
+- page_title 'Senctil Search'
 
 .card
   %h5.card-header.bg-primary.text-white
     = fa_regular 'swatchbook'
-    Project Designs
+    Stencils
   %table.table.table-bordered.table-striped.table-hover.table-border-fix
     %thead
       %tr
@@ -18,4 +18,4 @@
     = paginate @designs
     = page_entries_info @designs
 %br
-= link_to 'New Design', new_admin_design_path, class: 'btn btn-primary'
+= link_to 'New Stencil', new_admin_design_path, class: 'btn btn-primary'

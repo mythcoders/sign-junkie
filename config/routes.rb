@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root to: 'public#index', as: 'home'
-  get 'admin', to: redirect('admin/dashboard/index'), as: 'admin'
+  get 'admin', to: redirect('admin/dashboard'), as: 'admin'
 
   devise_for :users
   concern :pageable do
