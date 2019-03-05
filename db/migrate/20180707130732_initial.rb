@@ -2,13 +2,12 @@
 
 class Initial < ActiveRecord::Migration[5.2]
   def change
+    # Core module
     create_table :users do |t|
-      t.string :first_name, null: false, limit: 50
-      t.string :middle_name, limit: 25
-      t.string :last_name, null: false, limit: 50
-      t.string :phone_number, limit: 10
-      t.string :role, null: false, default: 'customer'
-      t.string   :email,              null: false, default: ''
+      t.string   :first_name, null: false, limit: 50
+      t.string   :last_name, null: false, limit: 50
+      t.string   :role, null: false, default: 'customer'
+      t.string   :email, null: false, default: ''
       t.string   :encrypted_password, null: false, default: ''
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -31,91 +30,158 @@ class Initial < ActiveRecord::Migration[5.2]
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token, unique: true
 
-    create_table :events, id: :serial do |t|
-      t.string :name, null: false, limit: 50
-      t.string :description, limit: 500
-      t.datetime :posting_start_date, null: false
+    create_table :tax_rates, id: :serial do |t|
+      t.decimal :rate, null: false
+      t.datetime :effective_date, null: false
+      t.timestamps
+    end
+
+    create_table :tax_periods, id: :serial do |t|
       t.datetime :start_date, null: false
-      t.datetime :end_date
-      t.integer :tickets_available
-      t.decimal :ticket_price
-      t.boolean :is_for_sale, null: false, default: false
+      t.datetime :due_date, null: false
+      t.decimal :estimated_due
+      t.decimal :amount_paid, null: false
       t.timestamps
     end
 
-    create_table :addresses, id: :serial do |t|
-      t.string :nickname, limit: 25
-      t.string :street, null: false, limit: 30
-      t.string :street2, limit: 30
-      t.string :city, null: false, limit: 25
-      t.string :state, null: false, limit: 2
-      t.string :zip_code, null: false, limit: 9
-      t.string :country, null: false, limit: 3
-      t.boolean :is_default, null: false
-      t.references :user, index: true, foreign_key: true
-      t.timestamps
-    end
-
-    create_table :notes, id: :serial do |t|
-      t.integer :user_id, null: false
-      t.integer :author_id, null: false
-      t.string :content, limit: 500
-      t.boolean :is_flagged
-      t.foreign_key :users, column: :author_id, index: true
-      t.foreign_key :users, column: :user_id, index: true
-      t.timestamps
-    end
-
-    create_table :cart_items, id: :serial do |t|
-      t.string :session_id, null: true
-      t.integer :quantity, null: false, default: 1
-      t.references :event, index: true, foreign_key: true
-      t.references :user, index: true, foreign_key: true
-      t.timestamps
-    end
-
-    create_table :orders, id: :serial do |t|
-      t.string :order_number, limit: 10
-      t.datetime :date_created, null: false, default: -> { 'CLOCK_TIMESTAMP()' }
-      t.datetime :date_placed
-      t.datetime :date_fulfilled
-      t.datetime :date_canceled
-      t.decimal :tax_rate, default: 0.00, null: false
-      t.references :user, index: true, foreign_key: true
-      t.references :address, index: true, foreign_key: true
-      t.timestamps
-    end
-
-    create_table :order_items, id: :serial do |t|
+    create_table :workshops, id: :serial do |t|
       t.string :name, null: false, limit: 50
-      t.decimal :price, default: 0.00, null: false
-      t.integer :quantity, null: false
-      t.boolean :is_overridden, default: false, null: false
-      t.decimal :overridden_amount, null: true
-      t.references :order, index: true, foreign_key: true
+      t.string :description, limit: 1000
+      t.datetime :purchase_start_date
+      t.datetime :purchase_end_date
+      t.datetime :start_date
+      t.datetime :end_date
+      t.integer :total_tickets
+      t.decimal :ticket_price
+      t.decimal :deposit_price
+      t.boolean :is_for_sale, null: false, default: false
+      t.boolean :is_public, null: false, default: true
+      t.boolean :allow_custom_projects, null: false, default: false
       t.timestamps
     end
 
-    create_table :order_notes, id: :serial do |t|
-      t.integer :author_id, null: false
-      t.string :content, null: false, limit: 500
-      t.boolean :is_printed, null: false
-      t.references :order, index: true, foreign_key: true
-      t.foreign_key :users, column: :author_id, index: true
+    create_table :stencil_categories, id: :serial do |t|
+      t.string :name, null: false
+      t.integer :parent_id, null: true
+      t.foreign_key :stencil_categories, column: :parent_id
+      t.timestamps
+    end
+
+    create_table :stencils, id: :serial do |t|
+      t.string :name, null: false
+      t.references :stencil_category, foreign_key: true, null: false
+      t.index [:name, :stencil_category_id], unique: true
+      t.timestamps
+    end
+
+    create_table :projects, id: :serial do |t|
+      t.string :name
+      t.string :description
+      t.decimal :price
+      t.timestamps
+    end
+
+    add_index :projects, :name, unique: true
+
+    create_table :project_addons, id: :serial do |t|
+      t.references :project, foreign_key: true
+      t.string :name
+      t.decimal :price
+      t.index [:project_id, :name], unique: true
+      t.timestamps
+    end
+
+    create_table :project_stencils, id: :serial do |t|
+      t.references :stencil, foreign_key: true, null: false
+      t.references :project, foreign_key: true, null: false
+      t.index [:stencil_id, :project_id], unique: true
+      t.timestamps
+    end
+
+    create_table :project_workshops, id: :serial do |t|
+      t.references :project, foreign_key: true, null: false
+      t.references :workshop, foreign_key: true, null: false
+      t.index [:project_id, :workshop_id], unique: true
+      t.timestamps
+    end
+
+    create_table :carts, id: :serial do |t|
+      t.references :user, index: true, foreign_key: true
+      t.string :item, null: false
+      t.integer :quantity, null: false, default: 1
+      t.decimal :price, null: false
+      t.timestamps
+    end
+
+    create_table :invoices, id: :serial do |t|
+      t.references :user, index: true, foreign_key: true
+      t.string :invoice_number, limit: 10
+      t.timestamps
+    end
+
+    create_table :invoice_items, id: :serial do |t|
+      t.references :invoice, index: true, foreign_key: true
+      t.string :memo, null: false, limit: 50
+      t.decimal :pre_tax_amount, default: 0.00, null: false
+      t.integer :quantity, null: false
+      t.decimal :tax_rate
+      t.decimal :tax_amount
       t.timestamps
     end
 
     create_table :payments, id: :serial do |t|
-      t.string :memo, limit: 100
-      t.string :transaction_id, limit: 25
-      t.string :method, null: false
-      t.decimal :amount
-      t.datetime :date_created, null: false, default: -> { 'CLOCK_TIMESTAMP()' }
-      t.datetime :date_posted
-      t.datetime :date_cleared
-      t.integer :status, null: false, default: 0
+      t.references :invoice, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
-      t.references :order, index: true, foreign_key: true
+      t.string :identifier, limit: 25
+      t.string :method, null: false
+      t.decimal :amount, null: false
+      t.timestamps
+    end
+
+    create_table :refund_reasons, id: :serial do |t|
+      t.string :name
+      t.boolean :is_active
+      t.timestamps
+    end
+
+    create_table :customer_credits, id: :serial do |t|
+      t.references :user, index: true, foreign_key: true
+      t.decimal :amount, null: false
+      t.datetime :expiration_date
+      t.timestamps
+    end
+
+    create_table :refunds, id: :serial do |t|
+      t.references :payment, foreign_key: true
+      t.references :customer_credit, foreign_key: true
+      t.references :refund_reason, foreign_key: true
+      t.decimal :amount
+      t.timestamps
+    end
+
+    create_table :reservations, id: :serial do |t|
+      t.references :workshop, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+      t.datetime :void_date
+      t.datetime :cancel_date
+      t.timestamps
+    end
+
+    create_table :seats, id: :serial do |t|
+      t.references :workshop, index: true, foreign_key: true
+      t.references :reservation, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+      t.references :invoice, foreign_key: true
+      t.string :identifier
+      t.string :description
+      t.boolean :prepped
+      t.boolean :notified
+      t.timestamps
+    end
+
+    create_table :system_settings, id: :serial do |t|
+      t.string :key
+      t.string :value
       t.timestamps
     end
   end

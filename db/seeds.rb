@@ -2,7 +2,6 @@ unless User.where(email: SystemInfo.support_key).any?
   User.create(first_name: 'MythCoders',
               last_name: 'Support',
               role: 'operator',
-              phone_number: '8336842377',
               email: SystemInfo.support_key,
               password: SystemInfo.support_secret,
               confirmed_at: DateTime.now)
