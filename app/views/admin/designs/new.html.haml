@@ -1,8 +1,8 @@
-- page_title 'New', 'Project Designs'
+- page_title 'New', 'Stencils'
 
 = form_for @design, url: admin_designs_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white New Project Design
+    %h5.card-header.bg-primary.text-white New Stencil
     .card-body
       = error_messages_for 'design'
       = render partial: 'admin/designs/form', locals: { f: f }

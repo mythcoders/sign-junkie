@@ -3,17 +3,17 @@
 # Controller for root/orders
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: %i[show receipt cancel]
-  before_action :check_order_auth, only: %i[show receipt cancel]
+  before_action :set_order, only: %i[show edit]
+  before_action :check_order_auth, only: %i[show edit]
   before_action :build_order, only: %i[new create]
-  before_action :set_cart_total, only: %i[index show new]
+  before_action :set_cart_total, only: %i[index show new edit]
   before_action :check_cart_total, only: %i[new]
   before_action :prepare_payment, only: %i[new create]
 
   layout 'mailer', only: %i[receipt]
 
   def index
-    @orders = Order.current(current_user.id).order(date_created: :desc)
+    @orders = Order.current(current_user.id).page(params[:page])
   end
 
   def create
@@ -30,17 +30,6 @@ class OrdersController < ApplicationController
 
   def new
     @client_token = PaymentService.new(@payment).new_token
-  end
-
-  def cancel
-    service = OrderService.new(@order, current_user)
-    if service.cancel
-      flash[:success] = 'Order has been canceled'
-      redirect_to order_path service.order
-    else
-      flash[:error] = 'Sorry, error'
-      render 'show'
-    end
   end
 
   private
@@ -65,8 +54,13 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:date_created)
   end
 
+  def cancel_params
+    params.require(:order).permit(order_item_ids: [])
+  end
+
   def prepare_payment
-    @payment = Payment.build(current_user.id, @order)
+    items = @order.due_now(current_user.id)
+    @payment = Payment.build(current_user.id, items)
   end
 
   def order_create_error

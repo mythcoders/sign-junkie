@@ -1,0 +1,19 @@
+- page_title 'Edit', 'Order'
+
+= form_for @order, url: order_path(@order), method: :patch do |f|
+  .row
+    .col-md-3
+      .card.card-primary
+        %h4.card-header.bg-primary.text-white
+          = fa_regular 'shopping-bag'
+          = "Order ##{@order.order_number}"
+        .card-body
+          .form-group
+            %label.col-form-label Date Placed
+            .form-control-plaintext= lifp(@order.date_placed, :short)
+      .card-footer
+        = link_to 'Go Back', order_path(@order), class: 'btn btn-outline-secondary btn-sm'
+        = f.submit class: 'btn btn-outline-success btn-sm' do
+          Save Changes
+    .col-md-9
+      = render partial: 'order_items/tickets', locals: { f: f }

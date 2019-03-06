@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root to: 'public#index', as: 'home'
-  get 'admin', to: redirect('admin/dashboard/index'), as: 'admin'
+  get 'admin', to: redirect('admin/dashboard'), as: 'admin'
 
   devise_for :users
   concern :pageable do
@@ -10,21 +10,25 @@ Rails.application.routes.draw do
   end
 
   # customer facing
-  get 'my_account', to: 'public#my_account'
   get 'tickets', to: 'public#tickets'
   get 'projects/:project_id', to: 'public#projects'
   resources :workshops, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
-  resources :orders, only: %i[index show new create]
-  post 'orders/ui', to: 'orders#ui', as: 'order_ui_update'
-  get 'orders/:id/receipt', to: 'orders#receipt', as: 'receipt'
-  post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
+  resources :orders, only: %i[index show new create edit update] do
+    resources :order_items, path: 'items', only: %i[show create edit update] do
+      post 'assign', to: 'order_items#assign'
+    end
+    get 'items_by_workshop/:workshop_id', to: 'order_items#by_workshop'
+    post 'items/cancel', to: 'order_items#cancel', as: 'cancel_items'
+  end
 
   # administration portal
   namespace :admin do
-    get 'dashboard/index', as: 'dashboard'
-    get 'dashboard/about', as: 'about'
-    get 'reports/index', as: 'reports'
+    get 'dashboard', as: 'dashboard', to: 'dashboard#index'
+    get 'about', as: 'about', to: 'dashboard#about'
+    get 'settings', as: 'settings', to: 'dashboard#settings'
+    get 'finances', as: 'finances', to: 'dashboard#finances'
+    get 'reports', as: 'reports', to: 'reports#index'
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :addons, concerns: :pageable
@@ -32,8 +36,6 @@ Rails.application.routes.draw do
     resources :design_categories, concerns: :pageable
     resources :designs, concerns: :pageable
     resources :projects, concerns: :pageable
-    post 'orders/:id/fulfill', to: 'orders#fulfill', as: 'order_mark_fulfilled'
-    post 'orders/:id/close', to: 'orders#close', as: 'order_mark_closed'
     post 'orders/:id/cancel', to: 'orders#cancel', as: 'order_mark_canceled'
     resources :orders, concerns: :pageable do
       resources :order_items, as: 'items', path: 'items'

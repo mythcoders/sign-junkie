@@ -1,3 +1,39 @@
-My Tickets
+%h1
+  = fa_solid 'ticket-alt'
+  My Tickets
 
-= @tickets.length
+.row
+  - @upcoming_tickets.each do |ticket|
+    .col-12.col-sm-6.mb-2
+      .card
+        .card-body
+          %h5.card-title.text-primary
+            - if ticket.score == 1
+              = fa_solid 'check', 'text-success fa-fw'
+            - elsif ticket.score <= 0.9 && ticket.score >= 0.25
+              = fa_solid 'exclamation', 'text-warning fa-fw'
+            - else
+              = fa_solid 'times', 'text-danger fa-fw'
+            = ticket.workshop.name
+          %ul.fa-ul
+            %li
+              %span.fa-li= fa_solid 'calendar-alt'
+              %strong When
+              = ticket.workshop.when
+            %li
+              %span.fa-li= fa_solid 'swatchbook'
+              %strong Project
+              - if ticket.description.present?
+                %em= ticket.description
+              - else
+                %em None selected
+            - if ticket.seating.present?
+              %li
+                %span.fa-li= fa_solid 'chair'
+                %strong Requested seating
+                = ticket.seating
+        .card-footer
+          = link_to 'Edit', edit_order_order_item_path(ticket.order, ticket), class: 'card-link'
+          - if ticket.order.user_id == current_user.id
+            = link_to 'View Order', order_path(ticket.order), class: 'card-link'
+

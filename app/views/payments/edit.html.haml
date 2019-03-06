@@ -1,9 +1,0 @@
-= form_for @payment, url: order_payment_path(@payment.order, @payment), method: :patch do |f|
-  .row
-    .col-sm-8.offset-sm-2
-      .card
-        %h4.card-header.bg-primary.text-white
-          = fa_regular 'shopping-bag'
-          = "Order ##{@payment.order.order_number} - Payment Information"
-        = f.hidden_field :id
-        = render partial: @payment.order.payment_method, locals: { f: f }

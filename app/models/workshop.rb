@@ -24,29 +24,45 @@ class Workshop < ApplicationRecord
     event
   end
 
+  # Tickets that are still available for purchase
+  # @return [Integer] number of tickets
   def tickets_available
     (is_private? ? Workshop.private_max : total_tickets) - tickets.count
   end
 
+  # Wether tickets to the workshop are available for purchase
+  # @return [Boolean] True if the workshop can be purchased, otherwise false
   def can_purchase?
     return false unless is_for_sale ||
                         tickets_available.positive? ||
                         (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
-                        projects.count.positive?
+                        projects.select { |p| p.addons.count.positive?  }.count.positive?
 
     true
   end
 
+  # Minimum seats for a private workshop
+  # @return [Integer] number of seats
   def self.private_min
     12
   end
 
+  # Maximum seats for a private workshop
+  # @return [Integer] number of seats
   def self.private_max
     24
   end
 
+  # Deposit for private workshops
+  # @return [Integer] USD amount
   def self.private_deposit
     100
+  end
+
+  # Time period
+  # @return [Time]
+  def self.booking_deadline
+    48.hours
   end
 
   def is_private?
@@ -70,7 +86,7 @@ class Workshop < ApplicationRecord
   end
 
   def book_by_date
-    (start_date - 48.hours).beginning_of_day
+    (start_date - Workshop.booking_deadline).beginning_of_day
   end
 
   private

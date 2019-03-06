@@ -1,9 +1,9 @@
-- page_title 'Edit', 'Project Designs'
+- page_title 'Edit', 'Stencils'
 
 = form_for @design, url: admin_design_path(@design), method: :patch do |f|
   .card
     %h5.card-header.bg-primary.text-white
-      Edit Project Design
+      Edit Stencil
     .card-body
       = error_messages_for 'design'
       = render partial: 'admin/designs/form', locals: { f: f }

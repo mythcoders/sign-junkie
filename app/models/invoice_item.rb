@@ -1,26 +1,21 @@
-class OrderItem < ApplicationRecord
+class InvoiceItem < ApplicationRecord
   audited
-  belongs_to :order, required: false
-  belongs_to :payment, required: false
-  belongs_to :workshop
-  belongs_to :assignee, class_name: 'User', foreign_key: 'user_id', required: false
-
-  validates :description, presence: true
+  belongs_to :invoice, required: false
 
   def self.create(cart)
-    item = OrderItem.new(
+    item = InvoiceItem.new(
       price: cart.price,
       for_deposit: false,
       workshop: cart.workshop,
       notified: false,
       prepped: false,
-      seating: nil,
-      design: cart.design.present? ? cart.design.name : nil,
+      seating: cart.seating,
+      design: cart.design,
       addon: cart.addon.present? ? cart.addon.name : nil,
       project: cart.project.present? ? cart.project.name : nil,
       identifier: SecureRandom.uuid
     )
-    item.assignee = cart.customer if item.workshop.is_public?
+    item.assignee = cart.customer if !cart.gift? && item.workshop.is_public?
     item
   end
 
@@ -47,14 +42,45 @@ class OrderItem < ApplicationRecord
   end
 
   def description
+    val = ''
     if for_deposit
-      "Deposit for #{workshop.name}"
+      val = "Deposit for #{workshop.name}"
     else
-      val = ''
       val << " #{project}" if project.present?
       val << " (#{design})" if design.present?
       val << " w/ #{addon}" if addon.present?
-      val
     end
+    val = 'Not selected' if val == ''
+    val
+  end
+
+  def short_id
+    identifier[0..2].upcase
+  end
+
+  def unassigned?
+    !assigned?
+  end
+
+  def assigned?
+    assignee.present?
+  end
+
+  def refunded?
+    false
+  end
+
+  def paid?
+    payment.present?
+  end
+
+  def can_pay?
+    assigned? && project.present? && design.present?
+  end
+
+  def amount_refundable
+    return 0.00 if payment.nil?
+
+    price
   end
 end

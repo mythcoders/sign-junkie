@@ -1,6 +1,5 @@
 class PublicController < ApplicationController
   before_action :set_cart_total
-  before_action :authenticate_user!, only: %i[my_account]
 
   def index
     if show
@@ -23,11 +22,8 @@ class PublicController < ApplicationController
     Rails.env.production? || params[:soon]
   end
 
-  def my_account
-    @orders = Order.current(current_user.id)
-  end
-
   def tickets
-    @tickets = current_user.tickets
+    @upcoming_tickets = current_user.tickets.select { |t| t.workshop.start_date.future? }
+    @past_tickets = current_user.tickets.select { |t| !t.workshop.start_date.future? }
   end
 end

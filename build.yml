@@ -1,0 +1,10 @@
+---
+- name: build image
+  hosts: localhost
+  tasks:
+    - name: Build an image and push it to a private repo
+      docker_image:
+        path: .
+        name: registry.mythcoders.net/sign-junkie-app
+        tag: 1903-pre
+        push: yes

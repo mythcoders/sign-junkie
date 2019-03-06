@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Order < ApplicationRecord
+class Invoice < ApplicationRecord
   include Billable
 
   audited
@@ -17,12 +17,12 @@ class Order < ApplicationRecord
 
   # builds an order for the user based on the contents of their cart
   def self.build(user, date_created = Time.now)
-    order = Order.new(date_created: date_created, status: 'created', user_id: user.id)
-    CartItem.for(user).as_of(order.date_created).each do |cart_item|
+    order = Invoice.new(date_created: date_created, status: 'created', user_id: user.id)
+    Cart.for(user).as_of(order.date_created).each do |cart_item|
       cart_item.quantity.times do
-        order.items << OrderItem.create(cart_item)
+        order.items << InvoiceItem.create(cart_item)
       end
-      order.items << OrderItem.deposit(cart_item) if cart_item.workshop.is_private?
+      order.items << InvoiceItem.deposit(cart_item) if cart_item.workshop.is_private?
     end
     order
   end
@@ -35,28 +35,5 @@ class Order < ApplicationRecord
     return :placed if placed?
 
     :open
-  end
-
-  # order has been paid for and is awaiting shipment and delivery
-  def placed?
-    date_placed.present?
-  end
-
-  def canceled?
-    date_canceled.present?
-  end
-
-  def fulfilled?
-    # TODO: Calculate
-  end
-
-  def closed?
-    # TODO: Calculat
-  end
-
-  def can_be_canceled?
-    return false if canceled? || closed?
-
-    true
   end
 end

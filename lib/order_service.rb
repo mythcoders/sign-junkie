@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Handles communication with the Braintree API for processing card and PayPal payments.
+# Workflow
 class OrderService
   attr_reader :order, :user
 
@@ -10,12 +10,56 @@ class OrderService
   end
 
   # marks the order as canceled and notifies the customer
-  def cancel
-    @order.date_canceled = Time.now
-    # todo: issue refund
-    was_successful = @order.save!
-    OrderMailer.with(order: @order).canceled.deliver_now if was_successful && @order.placed?
-    was_successful
+  def cancel(params)
+    return false if cancel_params_valid?(params)
+
+    ids = params.split(',')
+    order_items = @order.items.select { |i| ids.includes?(i.id) }
+
+    ActiveRecord::Base.transaction do
+      order_items.each do |order_item|
+        cancel_item order_item
+      end
+      process_refund order_items
+    end
+
+    true
+  end
+
+  def assign(item, params)
+    user = User.find_by_email(params[:email])
+    if user.nil?
+      user = User.create!(first_name: params[:first_name],
+                          last_name: params[:last_name],
+                          role: 'customer',
+                          password: 'Temp1234!',
+                          email: params[:email])
+    end
+    # send email
+    item.update(user_id: user.id)
+  end
+
+  def addon(item, params)
+
+  end
+
+  def modify(item, params)
+    item.price = item.workshop.ticket_price
+    item.project = workshop.projects.where(id: params[:project_id]).first
+    item.seating = params[:seating]
+
+    if params[:design_id] != '$custom'
+      item.design = workshop.designs.where(id: params[:design_id]).first.name
+    else
+      item.design = params[:design]
+    end
+
+    if params[:addon_id].present?
+      item.addon = item.project.addons.where(id: params[:addon_id]).first
+      item.price += item.addon.price
+    end
+
+    item.save!
   end
 
   # creates and places the order by removing the requested products from inventory
@@ -36,6 +80,22 @@ class OrderService
   end
 
   private
+
+  def cancel_item(item)
+    if !item.paid? && item.unassigned?
+      item.delete
+    elsif item.assigned?
+      # email email
+    end
+    # send emaili
+  end
+
+  def process_refund(items)
+    return true
+
+    refund = Refund.build(items)
+    PaymentService.new(refund).refund
+  end
 
   def mark_placed_and_notify(payment)
     @order.placed!

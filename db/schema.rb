@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_17_053623) do
+ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,15 +36,6 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "addons", force: :cascade do |t|
-    t.bigint "project_id"
-    t.string "name"
-    t.decimal "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_addons_on_project_id"
-  end
-
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -67,116 +58,185 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "cart_items", id: :serial, force: :cascade do |t|
+  create_table "carts", id: :serial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "item", null: false
     t.integer "quantity", default: 1, null: false
-    t.bigint "workshop_id", null: false
-    t.bigint "user_id", null: false
+    t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id"
-    t.bigint "addon_id"
-    t.bigint "design_id"
-    t.decimal "price", null: false
-    t.index ["addon_id"], name: "index_cart_items_on_addon_id"
-    t.index ["design_id"], name: "index_cart_items_on_design_id"
-    t.index ["project_id"], name: "index_cart_items_on_project_id"
-    t.index ["user_id"], name: "index_cart_items_on_user_id"
-    t.index ["workshop_id"], name: "index_cart_items_on_workshop_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
-  create_table "design_categories", force: :cascade do |t|
+  create_table "customer_credits", id: :serial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.decimal "amount", null: false
+    t.datetime "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_customer_credits_on_user_id"
+  end
+
+  create_table "invoice_items", id: :serial, force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.string "memo", limit: 50, null: false
+    t.decimal "pre_tax_amount", default: "0.0", null: false
+    t.integer "quantity", null: false
+    t.decimal "tax_rate"
+    t.decimal "tax_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+  end
+
+  create_table "invoices", id: :serial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.serial "invoice_number", limit: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
+
+  create_table "payments", id: :serial, force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.bigint "user_id"
+    t.string "identifier", limit: 25
+    t.string "method", null: false
+    t.decimal "amount", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
+  create_table "project_addons", id: :serial, force: :cascade do |t|
+    t.bigint "project_id"
+    t.string "name"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "name"], name: "index_project_addons_on_project_id_and_name", unique: true
+    t.index ["project_id"], name: "index_project_addons_on_project_id"
+  end
+
+  create_table "project_stencils", id: :serial, force: :cascade do |t|
+    t.bigint "stencil_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_stencils_on_project_id"
+    t.index ["stencil_id", "project_id"], name: "index_project_stencils_on_stencil_id_and_project_id", unique: true
+    t.index ["stencil_id"], name: "index_project_stencils_on_stencil_id"
+  end
+
+  create_table "project_workshops", id: :serial, force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "workshop_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "workshop_id"], name: "index_project_workshops_on_project_id_and_workshop_id", unique: true
+    t.index ["project_id"], name: "index_project_workshops_on_project_id"
+    t.index ["workshop_id"], name: "index_project_workshops_on_workshop_id"
+  end
+
+  create_table "projects", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_projects_on_name", unique: true
+  end
+
+  create_table "refund_reasons", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "refunds", id: :serial, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.bigint "customer_credit_id"
+    t.bigint "refund_reason_id"
+    t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_credit_id"], name: "index_refunds_on_customer_credit_id"
+    t.index ["payment_id"], name: "index_refunds_on_payment_id"
+    t.index ["refund_reason_id"], name: "index_refunds_on_refund_reason_id"
+  end
+
+  create_table "reservations", id: :serial, force: :cascade do |t|
+    t.bigint "workshop_id"
+    t.bigint "user_id"
+    t.datetime "void_date"
+    t.datetime "cancel_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+    t.index ["workshop_id"], name: "index_reservations_on_workshop_id"
+  end
+
+  create_table "seats", id: :serial, force: :cascade do |t|
+    t.bigint "workshop_id"
+    t.bigint "reservation_id"
+    t.bigint "user_id"
+    t.bigint "invoice_id"
+    t.string "identifier"
+    t.string "description"
+    t.boolean "prepped"
+    t.boolean "notified"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_seats_on_invoice_id"
+    t.index ["reservation_id"], name: "index_seats_on_reservation_id"
+    t.index ["user_id"], name: "index_seats_on_user_id"
+    t.index ["workshop_id"], name: "index_seats_on_workshop_id"
+  end
+
+  create_table "stencil_categories", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "designs", force: :cascade do |t|
+  create_table "stencils", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "design_category_id", null: false
+    t.bigint "stencil_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["design_category_id"], name: "index_designs_on_design_category_id"
-    t.index ["name", "design_category_id"], name: "index_designs_on_name_and_design_category_id", unique: true
+    t.index ["name", "stencil_category_id"], name: "index_stencils_on_name_and_stencil_category_id", unique: true
+    t.index ["stencil_category_id"], name: "index_stencils_on_stencil_category_id"
   end
 
-  create_table "order_items", id: :serial, force: :cascade do |t|
-    t.string "addon"
-    t.bigint "order_id"
+  create_table "system_settings", id: :serial, force: :cascade do |t|
+    t.string "key"
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "for_deposit", default: false, null: false
-    t.bigint "payment_id"
-    t.bigint "workshop_id", null: false
-    t.boolean "notified"
-    t.boolean "prepped"
-    t.string "identifier"
-    t.string "seating"
-    t.string "design"
-    t.decimal "price", default: "0.0", null: false
-    t.bigint "user_id"
-    t.string "project"
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-    t.index ["payment_id"], name: "index_order_items_on_payment_id"
-    t.index ["user_id"], name: "index_order_items_on_user_id"
-    t.index ["workshop_id"], name: "index_order_items_on_workshop_id"
   end
 
-  create_table "orders", id: :serial, force: :cascade do |t|
-    t.serial "order_number", limit: 10
-    t.datetime "date_placed"
-    t.datetime "date_canceled"
-    t.bigint "user_id"
+  create_table "tax_periods", id: :serial, force: :cascade do |t|
+    t.datetime "start_date", null: false
+    t.datetime "due_date", null: false
+    t.decimal "estimated_due"
+    t.decimal "amount_paid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", null: false
-    t.datetime "date_created", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "payments", id: :serial, force: :cascade do |t|
-    t.string "identifier", limit: 25
-    t.string "method", null: false
-    t.decimal "amount"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "tax_rate", null: false
-    t.decimal "tax_amount", null: false
-    t.index ["user_id"], name: "index_payments_on_user_id"
-  end
-
-  create_table "project_designs", force: :cascade do |t|
-    t.bigint "design_id", null: false
-    t.bigint "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["design_id", "project_id"], name: "index_project_designs_on_design_id_and_project_id", unique: true
-    t.index ["design_id"], name: "index_project_designs_on_design_id"
-    t.index ["project_id"], name: "index_project_designs_on_project_id"
-  end
-
-  create_table "project_workshops", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "workshop_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_workshops_on_project_id"
-    t.index ["workshop_id"], name: "index_project_workshops_on_workshop_id"
-  end
-
-  create_table "projects", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
+  create_table "tax_rates", id: :serial, force: :cascade do |t|
+    t.decimal "rate", null: false
+    t.datetime "effective_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name", limit: 50, null: false
-    t.string "middle_name", limit: 25
     t.string "last_name", limit: 50, null: false
-    t.string "phone_number", limit: 10
     t.string "role", default: "customer", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -203,26 +263,41 @@ ActiveRecord::Schema.define(version: 2019_02_17_053623) do
 
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
-    t.string "description", limit: 500
-    t.datetime "purchase_start_date", null: false
-    t.datetime "start_date", null: false
+    t.string "description", limit: 1000
+    t.datetime "purchase_start_date"
+    t.datetime "purchase_end_date"
+    t.datetime "start_date"
     t.datetime "end_date"
-    t.integer "total_tickets", default: 0, null: false
-    t.decimal "ticket_price", null: false
+    t.integer "total_tickets"
+    t.decimal "ticket_price"
+    t.decimal "deposit_price"
     t.boolean "is_for_sale", default: false, null: false
+    t.boolean "is_public", default: true, null: false
+    t.boolean "allow_custom_projects", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_public", default: true, null: false
-    t.datetime "purchase_end_date"
   end
 
-  add_foreign_key "cart_items", "addons"
-  add_foreign_key "cart_items", "projects"
-  add_foreign_key "cart_items", "users"
-  add_foreign_key "cart_items", "workshops"
-  add_foreign_key "design_categories", "design_categories", column: "parent_id"
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "order_items", "users", name: "order_items_user_id_fkey"
-  add_foreign_key "orders", "users"
+  add_foreign_key "carts", "users"
+  add_foreign_key "customer_credits", "users"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoices", "users"
+  add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "users"
+  add_foreign_key "project_addons", "projects"
+  add_foreign_key "project_stencils", "projects"
+  add_foreign_key "project_stencils", "stencils"
+  add_foreign_key "project_workshops", "projects"
+  add_foreign_key "project_workshops", "workshops"
+  add_foreign_key "refunds", "customer_credits"
+  add_foreign_key "refunds", "payments"
+  add_foreign_key "refunds", "refund_reasons"
+  add_foreign_key "reservations", "users"
+  add_foreign_key "reservations", "workshops"
+  add_foreign_key "seats", "invoices"
+  add_foreign_key "seats", "reservations"
+  add_foreign_key "seats", "users"
+  add_foreign_key "seats", "workshops"
+  add_foreign_key "stencil_categories", "stencil_categories", column: "parent_id"
+  add_foreign_key "stencils", "stencil_categories"
 end
