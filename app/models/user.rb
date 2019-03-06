@@ -14,9 +14,9 @@ class User < ApplicationRecord
     admin: 'admin',
     operator: 'operator'
   }
-  has_many :cart_items
-  has_many :orders
-  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
+  has_many :carts
+  has_many :invoices
+  has_many :seats
 
   validates_presence_of :first_name, :last_name, :role
 

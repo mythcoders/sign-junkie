@@ -1,3 +1,3 @@
-class Addon < ApplicationRecord
+class ProjectAddon < ApplicationRecord
   belongs_to :project
 end
