@@ -1,14 +1,9 @@
-class OrderItem < ApplicationRecord
+class InvoiceItem < ApplicationRecord
   audited
-  belongs_to :order, required: false
-  belongs_to :payment, required: false
-  belongs_to :workshop
-  belongs_to :assignee, class_name: 'User', foreign_key: 'user_id', required: false
-
-  attr_accessor :project_id, :design_id, :addon_id
+  belongs_to :invoice, required: false
 
   def self.create(cart)
-    item = OrderItem.new(
+    item = InvoiceItem.new(
       price: cart.price,
       for_deposit: false,
       workshop: cart.workshop,

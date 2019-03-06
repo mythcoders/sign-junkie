@@ -59,7 +59,8 @@ class OrdersController < ApplicationController
   end
 
   def prepare_payment
-    @payment = Payment.build(current_user.id, @order)
+    items = @order.due_now(current_user.id)
+    @payment = Payment.build(current_user.id, items)
   end
 
   def order_create_error

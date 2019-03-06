@@ -2,6 +2,11 @@
 
 # Helpers with the sidebar
 module SidebarHelper
+
+  ITEMS = [
+    {name: 'Dashboard', icon: '', controllers: ''}
+  ]
+
   def profile_link
     { href: edit_user_registration_path }
   end

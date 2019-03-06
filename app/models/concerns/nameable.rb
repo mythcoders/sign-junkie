@@ -9,15 +9,9 @@ module Nameable
 
     validates_presence_of :first_name, :last_name
     validates_length_of :first_name, :last_name, maximum: 50
-    validates_length_of :middle_name, maximum: 25
-    validates_length_of :phone_number, maximum: 10
   end
 
   def full_name
-    if middle_name.blank?
-      "#{first_name} #{last_name}"
-    else
-      "#{first_name} #{middle_name}. #{last_name}"
-    end
+    "#{first_name} #{last_name}"
   end
 end

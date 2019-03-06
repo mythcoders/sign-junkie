@@ -18,7 +18,6 @@ class User < ApplicationRecord
   has_many :orders
   has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
 
-  before_validation :strip_phone_number
   validates_presence_of :first_name, :last_name, :role
 
   scope :recently_created, lambda {
@@ -37,11 +36,5 @@ class User < ApplicationRecord
 
   def can_upgrade_operator?
     operator?
-  end
-
-  private
-
-  def strip_phone_number
-    phone_number.gsub!(/\D/, '') unless phone_number.blank?
   end
 end

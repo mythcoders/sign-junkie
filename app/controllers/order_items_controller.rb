@@ -5,6 +5,18 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.includes(:order).find(params[:id])
   end
 
+  def create
+
+  end
+
+  def edit
+    @order_item = OrderItem.includes(:order).find(params[:id])
+    #@order_item.project_id = @order_item.workshop.projects.detect { |i| i.name == @order_item.project }.id
+    #@order_item.design_id = @order_item.workshop.designs.detect { |i| i.name == @order_item.design }.id
+    #@order_item.addon_id = @order_item.workshop.addons.detect { |i| i.name == @order_item.addon }.id
+    build_payment if @order_item.can_pay?
+  end
+
   def assign
     order_item = OrderItem.includes(:order).find(params[:order_item_id])
     service = OrderService.new(order_item.order, current_user)
@@ -16,12 +28,16 @@ class OrderItemsController < ApplicationController
     redirect_to order_path service.order
   end
 
-  def create
-
-  end
-
   def update
-
+    @order_item = OrderItem.includes(:order).find(params[:id])
+    service = OrderService.new(@order_tem.order, current_user)
+    if service.modify(@order_item, update_params)
+      flash['success'] = t('UpdateSuccess')
+      redirect_to edit_order_order_item_path @order_item
+    else
+      flash['success'] = t('UpdateFailure')
+      render 'edit'
+    end
   end
 
   def cancel
@@ -43,6 +59,15 @@ class OrderItemsController < ApplicationController
   end
 
   private
+
+  def build_payment
+    @payment = Payment.build(current_user.id, [@order_item])
+    @client_token = PaymentService.new(@payment).new_token
+  end
+
+  def update_params
+    params.require(:order_item).permit(:id, :project_id, :design_id, :design, :addon_id, :seating)
+  end
 
   def cancel_params
     params.require(:cancel).permit(:order_item_ids)
