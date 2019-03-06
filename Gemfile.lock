@@ -44,7 +44,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    archive-zip (0.11.0)
+    archive-zip (0.12.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
     audited (4.8.0)
@@ -74,12 +74,12 @@ GEM
     bindex (0.5.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.3.2)
+    bootsnap (1.4.1)
       msgpack (~> 1.0)
-    bootstrap (4.3.1)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
+    bootstrap (4.1.3)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     bootstrap4-datetime-picker-rails (0.3.1)
       jquery-rails (~> 4.2, >= 4.2.0)
       moment-timezone-rails (~> 1.0)
@@ -87,8 +87,8 @@ GEM
     braintree (2.93.0)
       builder (>= 2.0.0)
     builder (3.2.3)
-    byebug (10.0.2)
-    capybara (3.12.0)
+    byebug (11.0.0)
+    capybara (3.14.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -102,13 +102,6 @@ GEM
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     coderay (1.1.2)
-    coffee-rails (4.2.2)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.4)
     crass (1.0.4)
     debase (0.2.2)
@@ -138,7 +131,7 @@ GEM
       i18n (>= 0.7)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.25)
+    ffi (1.10.0)
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -170,7 +163,7 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    i18n (1.5.3)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.8.0)
@@ -207,11 +200,6 @@ GEM
       require_all (~> 1.4)
     logdna-rails (1.2.0)
       logdna (~> 1.2.0)
-    lograge (0.10.0)
-      actionpack (>= 4)
-      activesupport (>= 4)
-      railties (>= 4)
-      request_store (~> 1.0)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -230,7 +218,7 @@ GEM
       momentjs-rails (>= 2.10.5, <= 3.0.0)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
-    msgpack (1.2.6)
+    msgpack (1.2.7)
     multi_json (1.13.1)
     multipart-post (2.0.0)
     mustermann (1.0.3)
@@ -290,8 +278,6 @@ GEM
       ffi (~> 1.0)
     redcarpet (3.4.0)
     regexp_parser (1.3.0)
-    request_store (1.4.1)
-      rack (>= 1.4)
     require_all (1.5.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -335,15 +321,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sassc (2.0.0)
-      ffi (~> 1.9.6)
-      rake
-    sassc-rails (2.1.0)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -413,7 +390,6 @@ DEPENDENCIES
   byebug
   capybara
   chromedriver-helper
-  coffee-rails
   debase
   devise
   dotenv-rails
@@ -428,7 +404,6 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   logdna-rails
-  lograge
   mini_magick
   pg
   pinglish

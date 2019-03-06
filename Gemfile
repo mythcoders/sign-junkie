@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-ruby '2.5.1'
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
-  "https://github.com/#{repo_name}.git"
-end
+ruby '2.5.1'
 
 gem 'audited' # data audits
 gem 'aws-sdk-s3', require: false
@@ -16,7 +13,6 @@ gem 'devise'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'logdna-rails' # Logging
-gem 'lograge'
 gem 'mini_magick'
 gem 'pg'
 gem 'pinglish'
@@ -28,7 +24,6 @@ gem 'sentry-raven' # Exceptions
 # UI
 gem 'bootstrap'
 gem 'bootstrap4-datetime-picker-rails'
-gem 'coffee-rails'
 gem 'haml'
 gem 'haml-rails'
 gem 'jquery-rails'
@@ -36,9 +31,6 @@ gem 'jquery-turbolinks'
 gem 'redcarpet' # Markdown rendering
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
 
 group :development, :test do
   gem 'better_errors'

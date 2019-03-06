@@ -11,7 +11,7 @@ require 'pinglish'
 
 Bundler.require(*Rails.groups)
 
-module SignJunkie
+module Ares
   class Application < Rails::Application
     config.load_defaults 5.2 # Initialize generated Rails version
 
