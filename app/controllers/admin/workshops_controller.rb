@@ -58,8 +58,8 @@ module Admin
     def workshop_params
       params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
                                        :purchase_end_date, :start_date, :end_date,
-                                       :total_tickets, :ticket_price, :is_for_sale,
-                                       :is_public)
+                                       :total_tickets, :ticket_price, :deposit_price, :is_for_sale,
+                                       :is_public, :allow_custom_projects)
     end
 
     def project_params

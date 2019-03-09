@@ -7,14 +7,14 @@ class CartController < ApplicationController
   before_action :check_cart_auth, only: %i[update destroy]
 
   def index
-    @cart = CartItem.for(current_user)
+    @cart = Cart.for(current_user)
     @cart_total = @cart.count
   end
 
   def create
     workshop = Workshop.includes(:projects, :designs, :addons).find(params[:cart_item][:workshop_id])
     if workshop.can_purchase?
-      if CartItem.build(current_user, workshop, cart_params).save
+      if Cart.build(current_user, workshop, cart_params).save
         flash[:success] = t('cart.add.success')
       else
         flash[:error] = t('cart.add.failure')
@@ -49,7 +49,7 @@ class CartController < ApplicationController
   private
 
   def set_cart
-    @cart_item = CartItem.find(params[:id])
+    @cart_item = Cart.find(params[:id])
   end
 
   def cart_params

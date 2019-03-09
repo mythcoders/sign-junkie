@@ -9,11 +9,6 @@ module Admin
 
     def new
       @project = Project.new
-      @project.designs.build
-    end
-
-    def show
-      @addon = Addon.new(project: @project)
     end
 
     def create
@@ -28,7 +23,7 @@ module Admin
     end
 
     def update
-      @project.design_ids = Design.find(project_params[:design_ids])
+      @project.design_ids = Stencil.find(project_params[:design_ids])
       if @project.update(project_params)
         flash[:success] = t('CreateSuccess')
         redirect_to admin_project_path @project
@@ -40,8 +35,7 @@ module Admin
     private
 
     def project_params
-      params.require(:project).permit(:id, :name, :description, design_ids: [],
-                                      project_addon_attributes: [:id, :addon_id])
+      params.require(:project).permit(:id, :name, :description, :price)
     end
 
     def set_designs
@@ -50,10 +44,6 @@ module Admin
 
     def set_project
       @project = Project.includes(:addons, :designs).find(params[:id])
-    end
-
-    def set_addons
-      @addons = AddOns.all
     end
   end
 end

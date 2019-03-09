@@ -9,7 +9,7 @@ class PublicController < ApplicationController
       @workshops = if params[:search]
                   Workshop.search(params[:terms], params[:sort])
                 else
-                  Workshop.active
+                  Workshop.upcoming
                 end
     end
   end

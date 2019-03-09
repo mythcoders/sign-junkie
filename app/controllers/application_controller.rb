@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    additional_fields = %i[first_name middle_name last_name phone_number].freeze
+    additional_fields = %i[first_name last_name].freeze
     devise_parameter_sanitizer.permit(:sign_up, keys: additional_fields)
     devise_parameter_sanitizer.permit(:account_update, keys: additional_fields)
 
@@ -68,6 +68,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cart_total
-    @cart_total = CartItem.for(current_user).count
+    @cart_total = Cart.for(current_user).count
   end
 end
