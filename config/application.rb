@@ -22,9 +22,6 @@ module Ares
     config.require_master_key = true
     config.force_ssl = true unless Rails.env.development?
 
-    # Logging
-    config.lograge.enabled = false
-
     # Storage
     config.active_storage.service = :amazon
 
