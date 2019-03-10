@@ -115,7 +115,8 @@ class Initial < ActiveRecord::Migration[5.2]
 
     create_table :invoices, id: :serial do |t|
       t.references :user, index: true, foreign_key: true
-      t.string :invoice_number, limit: 10
+      t.string :identifier, limit: 10
+      t.datetime :due_date, null: false
       t.timestamps
     end
 
@@ -131,10 +132,10 @@ class Initial < ActiveRecord::Migration[5.2]
 
     create_table :payments, id: :serial do |t|
       t.references :invoice, index: true, foreign_key: true
-      t.references :user, index: true, foreign_key: true
       t.string :identifier, limit: 25
       t.string :method, null: false
       t.decimal :amount, null: false
+      t.decimal :amount_refunded, default: nil
       t.timestamps
     end
 
@@ -152,7 +153,7 @@ class Initial < ActiveRecord::Migration[5.2]
     end
 
     create_table :refunds, id: :serial do |t|
-      t.references :payment, foreign_key: true
+      t.references :invoice, index: true, foreign_key: true
       t.references :customer_credit, foreign_key: true
       t.references :refund_reason, foreign_key: true
       t.decimal :amount
@@ -162,6 +163,7 @@ class Initial < ActiveRecord::Migration[5.2]
     create_table :reservations, id: :serial do |t|
       t.references :workshop, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
+      t.string :identifier, limit: 10
       t.datetime :void_date
       t.datetime :cancel_date
       t.timestamps
@@ -182,6 +184,14 @@ class Initial < ActiveRecord::Migration[5.2]
     create_table :system_settings, id: :serial do |t|
       t.string :key
       t.string :value
+      t.timestamps
+    end
+
+    create_table :notifiications, id: :serial do |t|
+      t.references :user, index: true, foreign_key: true
+      t.string :title
+      t.string :memo
+      t.datetime :read_date
       t.timestamps
     end
   end

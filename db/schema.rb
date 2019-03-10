@@ -91,22 +91,32 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.serial "invoice_number", limit: 10
+    t.serial "identifier", limit: 10
+    t.datetime "due_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
+  create_table "notifiications", id: :serial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.string "memo"
+    t.datetime "read_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifiications_on_user_id"
+  end
+
   create_table "payments", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
-    t.bigint "user_id"
     t.string "identifier", limit: 25
     t.string "method", null: false
     t.decimal "amount", null: false
+    t.decimal "amount_refunded"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
-    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "project_addons", id: :serial, force: :cascade do |t|
@@ -156,20 +166,21 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   end
 
   create_table "refunds", id: :serial, force: :cascade do |t|
-    t.bigint "payment_id"
+    t.bigint "invoice_id"
     t.bigint "customer_credit_id"
     t.bigint "refund_reason_id"
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_credit_id"], name: "index_refunds_on_customer_credit_id"
-    t.index ["payment_id"], name: "index_refunds_on_payment_id"
+    t.index ["invoice_id"], name: "index_refunds_on_invoice_id"
     t.index ["refund_reason_id"], name: "index_refunds_on_refund_reason_id"
   end
 
   create_table "reservations", id: :serial, force: :cascade do |t|
     t.bigint "workshop_id"
     t.bigint "user_id"
+    t.serial "identifier", limit: 10
     t.datetime "void_date"
     t.datetime "cancel_date"
     t.datetime "created_at", null: false
@@ -282,15 +293,15 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   add_foreign_key "customer_credits", "users"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "users"
+  add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
-  add_foreign_key "payments", "users"
   add_foreign_key "project_addons", "projects"
   add_foreign_key "project_stencils", "projects"
   add_foreign_key "project_stencils", "stencils"
   add_foreign_key "project_workshops", "projects"
   add_foreign_key "project_workshops", "workshops"
   add_foreign_key "refunds", "customer_credits"
-  add_foreign_key "refunds", "payments"
+  add_foreign_key "refunds", "invoices"
   add_foreign_key "refunds", "refund_reasons"
   add_foreign_key "reservations", "users"
   add_foreign_key "reservations", "workshops"

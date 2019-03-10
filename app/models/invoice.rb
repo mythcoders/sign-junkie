@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   has_many :items, class_name: 'InvoiceItem'
   has_many :payments
+  has_many :refunds
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   belongs_to :seat, optional: true
 
