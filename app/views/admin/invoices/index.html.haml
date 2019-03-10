@@ -1,9 +1,9 @@
-- page_title 'Order Search'
+- page_title 'Invoice Search'
 
 .card
   %h5.card-header.bg-primary.text-white
     = fa_regular 'shopping-bag'
-    Orders
+    Invoices
   %table.table.table-bordered.table-striped.table-border-fix
     %thead
       %tr
@@ -12,12 +12,12 @@
         %th Date
         %th Status
     %tbody
-      - @orders.each do |o|
-        %tr{data: { 'clickable-row': '', 'href': admin_order_path(o) }}
+      - @invoices.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
           %td= o.order_number
           %td= o.customer.full_name
           %td= lifp(o.date_created, :short)
           %td= o.status
   .card-footer
-    = paginate @orders
-    = page_entries_info @orders
+    = paginate @invoices
+    = page_entries_info @invoices

@@ -7,7 +7,7 @@
       = fa_solid 'shopping-cart'
       %span.badge.badge-info= @cart_total
   %li.nav-item
-    = link_to orders_path, title: 'Orders', class: 'nav-link text-white' do
+    = link_to invoices_path, title: 'Orders', class: 'nav-link text-white' do
       = fa_solid 'shopping-bag'
       Orders
   %li.nav-item
@@ -16,7 +16,7 @@
       Tickets
   - if current_user.can_cp?
     %li.nav-item
-      = link_to admin_path, title: 'Control Panel', class: 'nav-link text-white' do
+      = link_to admin_dashboard_path, title: 'Admin Portal', class: 'nav-link text-white' do
         = fa_solid 'wrench'
   %li.nav-item.dropdown
     %a#navbarDropdown.nav-link.dropdown-toggle.text-white{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
