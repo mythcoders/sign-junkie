@@ -10,18 +10,17 @@
     - if @client_token
       %script{src: 'https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js'}
   %body#page-top
+    #pageLoading
+      #pageLoadingContent
+        %p#pageLoadingSpinner
+          = fa_spin 'spinner', 'fa-5x'
+          %br
+          %span.text-primary Loading ... Please wait...
     = render partial: 'layouts/partials/logout'
     = render partial: 'layouts/partials/navbar'
     .container.padded-container
-      #pageLoading
-        #pageLoadingContent
-          %p#pageLoadingSpinner
-            = fa_spin 'spinner', 'fa-5x'
-            %br
-            %span.text-primary Loading ... Please wait...
       = render partial: 'layouts/partials/alerts'
       = render partial: 'layouts/partials/dev_ui'
       = yield :breadcrumbs
       = yield
-    = render partial: 'layouts/partials/footer'
     = yield :scripts

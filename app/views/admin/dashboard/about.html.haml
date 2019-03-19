@@ -1,15 +1,7 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
   %h1.h2
-    = fa_light 'info-circle'
+    = fa_solid 'info-circle'
     = "About #{SystemInfo::app_name}"
-  .btn-toolbar.mb-2.mb-md-0
-    .btn-group.mr-2
-      %a.btn.btn-outline-secondary{href: SystemInfo.support_url}
-        = fa_light 'life-ring'
-        Support
-      %a.btn.btn-outline-info{href: '../../_ping', target: '_blank'}
-        = fa_light 'heartbeat'
-        System Health
 .row
   .col-6
     .form-group.row
@@ -18,26 +10,24 @@
         = SystemInfo.release
         - if SystemInfo.prerelease?
           %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
-        %br
-        = SystemInfo.long_version
     .form-group.row
-      %label.col-sm-3.col-form-label Developed For
+      %label.col-sm-3.col-form-label Licensed To
       .col-sm-9
         %a{href: 'https://www.signjunkieworkshop.com'}= ClientInfo.owner
-        %br= "\u00A9 Copyright #{Date.today.year}"
     .form-group.row
       %label.col-sm-3.col-form-label Developed By
       .col-sm-9
         %a{href: 'https://www.mythcoders.com'}= SystemInfo.developer
-        %br
-          Made with
-          = fa_solid 'heart', 'text-warning'
-          in Ohio
+        %br= "\u00A9 Copyright #{Date.today.year}"
+        Made with
+        = fa_solid 'heart', 'text-warning'
+        in Ohio
+    - if current_user.operator?
+      %hr
+      .form-group.row
+        .col
+          %strong Instance
+          %pre= EnvironmentInfo.instance
   .col-6
-    %pre= EnvironmentInfo.instance
-%hr
-
-.row
-  .col
     %h3 Release Notes
     = raw @markdown

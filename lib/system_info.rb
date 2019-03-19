@@ -1,11 +1,11 @@
 module SystemInfo
   class << self
     def name
-      Rails.application.class.parent_name.underscore
+      'Ares'
     end
 
     def app_name
-      name.humanize.titleize
+      'Ares CRM'
     end
 
     def developer

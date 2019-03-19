@@ -1,7 +1,10 @@
 #### 1903 - 03-02-19
 
 - Features
+  - Added `Refund` and `CustomerCredit`
 - Changes
+  - `Design` is now `Stencil`
+  - `Order` is now `Invoice`
 - Improvements
 
 #### 1902.2 - 02-16-19
