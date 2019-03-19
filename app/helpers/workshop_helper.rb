@@ -51,14 +51,14 @@ module WorkshopHelper
                             level: :warning,
                             extra: { 'workshop_id': workshop.id })
       ['Sorry, this workshop is unavailable at this time.']
-    elsif workshop.tickets_available <= 0
+    elsif workshop.seats_available <= 0
       ['Sorry, this workshop has already sold out.']
     elsif !workshop.can_purchase?
       ['Sorry, this workshop is unavailable at this time.']
     elsif workshop.is_private?
       ((Workshop.private_min..Workshop.private_max).map { |i| [i, i] })
     else
-      ((1..workshop.tickets_available).map { |i| [i, i] })
+      ((1..workshop.seats_available).map { |i| [i, i] })
     end
   end
 end

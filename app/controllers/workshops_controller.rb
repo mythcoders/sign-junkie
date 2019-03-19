@@ -1,21 +1,17 @@
 # frozen_string_literal: true
 
 class WorkshopsController < ApplicationController
-  before_action :get, only: [:show]
-  before_action :populate_cart
-
-  def index
-    redirect_to home_path
-  end
+  before_action :set_workshop, only: %i[show project]
+  before_action :set_project, only: %i[project]
+  before_action :set_cart_total, only: %i[show]
 
   private
 
-  def get
+  def set_workshop
     @workshop = Workshop.find(params[:id])
-    # redirect_to home_path unless @workshop.active?
   end
 
-  def populate_cart
-    @cart_total = CartItem.for(current_user).count
+  def set_project
+    @project = Project.find(params[:project_id])
   end
 end

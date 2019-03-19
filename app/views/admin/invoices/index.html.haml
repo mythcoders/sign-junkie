@@ -1,11 +1,13 @@
 - page_title 'Invoice Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
-    = fa_regular 'shopping-bag'
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'file-invoice-dollar'
     Invoices
-  %table.table.table-bordered.table-striped.table-border-fix
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
       %tr
         %th Number
         %th Customer
@@ -18,6 +20,8 @@
           %td= o.customer.full_name
           %td= lifp(o.date_created, :short)
           %td= o.status
-  .card-footer
-    = paginate @invoices
-    = page_entries_info @invoices
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @invoices
+          = page_entries_info @invoices

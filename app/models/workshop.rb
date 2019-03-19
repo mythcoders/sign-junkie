@@ -1,9 +1,13 @@
 class Workshop < ApplicationRecord
-  has_many :projects
+  include ApplicationHelper
+
+  has_many :project_workshops
+  has_many :projects, through: :project_workshops
   has_many :seats
+  has_many_attached :workshop_images
 
   scope :for_sale, -> { where(is_for_sale: true) }
-  scope :upcoming, -> { for_sale.where('start_date >= CURRENT_TIMESTAMP') }
+  scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP') }
 
   validates_presence_of :name, :is_for_sale, :is_public, :allow_custom_projects
 
@@ -37,6 +41,19 @@ class Workshop < ApplicationRecord
   # @return [Time]
   def self.booking_deadline
     48.hours
+  end
+
+  def images
+    workshop_images
+  end
+
+  def can_purchase?
+    return false unless is_for_sale ||
+                        seats_available.positive? ||
+                        (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
+                        projects.count.positive?
+
+    true
   end
 
   def seats_available

@@ -10,7 +10,7 @@
         = @workshop.name
       - if user_signed_in?
         - if @workshop.can_purchase?
-          = form_for :cart_item, url: cart_index_path do |f|
+          = form_for :cart, url: cart_index_path do |f|
             = f.hidden_field :workshop_id, value: @workshop.id
             .card-body
               = render partial: 'body'

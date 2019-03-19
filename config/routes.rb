@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
 
-  # administration portal
+  # admin portal
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
     get 'about', as: 'about', to: 'dashboard#about'
@@ -37,11 +37,11 @@ Rails.application.routes.draw do
   # customer facing
   get 'tickets', to: 'public#tickets'
   resources :cart, only: %i[index create update destroy]
-  resources :projects, only: %i[show]
   resources :invoices, only: %i[index show]
   resources :reservations
-  resources :workshops, only: %i[index show]
+  resources :workshops, only: %i[index show] do
+    get 'projects/:project_id', to: 'workshops#project'
+  end
 
   root to: 'public#index', as: 'home'
-  # get 'admin', to: redirect('admin/dashboard'), as: 'admin'
 end

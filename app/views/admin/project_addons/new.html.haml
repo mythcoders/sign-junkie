@@ -1,0 +1,11 @@
+- page_title 'New', 'Design Categories'
+
+= form_for @category, url: admin_design_categories_path do |f|
+  .card
+    %h5.card-header.bg-primary.text-white New Design Category
+    .card-body
+      = error_messages_for 'category'
+      = render partial: 'admin/design_categories/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_design_categories_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Create', class: 'btn btn-success'

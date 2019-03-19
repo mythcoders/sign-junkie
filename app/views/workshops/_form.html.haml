@@ -10,36 +10,23 @@
         { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private? }
 .form-row
   .form-group.col-6
-    = f.label :design
-    = f.select :design_id,
+    = f.label :stencil
+    = f.select :stencil_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
-        { class: 'form-control custom-select', 'data-js-change-design': '', disabled: @workshop.is_private? }
+        { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private? }
   .form-group.col-6
     = f.label :addons
     = f.select :addon_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-addon': '', disabled: @workshop.is_private? }
-.form-row{style: 'display: none', 'data-js-custom-design': ''}
+.form-row{style: 'display: none', 'data-js-custom-stencil': ''}
   .form-group.col
-    = f.label :custom_design
-    = f.text_field :design, class: 'form-control', 'data-js-custom-design-input': ''
+    = f.label :custom_stencil
+    = f.text_field :stencil, class: 'form-control', 'data-js-custom-stencil-input': ''
 - if @workshop.is_public?
   .form-row
     .form-group.col
-      = f.label :seating
+      = f.label :seating_preference
       = f.text_field :seating, class: 'form-control'
-  .form-row
-    .form-group.col
-      %label Is this a gift?
-      .custom-control.custom-radio
-        = f.radio_button :gift, 'true', class: 'custom-control-input', 'data-js-payment-method': ''
-        = f.label :gift, value: 'true', class: 'custom-control-label' do
-          = fa_solid 'gift'
-          Yes, it's a gift
-      .custom-control.custom-radio
-        = f.radio_button :gift, 'false', class: 'custom-control-input', 'data-js-payment-method': ''
-        = f.label :gift, value: 'false', class: 'custom-control-label' do
-          = fa_solid 'user'
-          No, it's for myself

@@ -6,13 +6,5 @@ class Cart < ApplicationRecord
   scope :as_of, ->(date_created) { where('created_at <= ?', date_created) unless date_created.nil? }
 
   serialize :item, ItemDescription
-
-  def self.build(user, params)
-    return if params[:workshop].nil?
-
-    cart = Cart.new(user_id: user.id, quantity: params[:quantity])
-    cart.item = ItemDescription.new(params)
-    cart
-  end
 end
 

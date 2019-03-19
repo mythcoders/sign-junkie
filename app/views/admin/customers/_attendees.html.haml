@@ -2,7 +2,7 @@
   %h5.card-header.bg-primary.text-white
     = fa_solid 'users'
     Attendees
-  - unless @workshop.tickets.any?
+  - unless @workshop.seats.any?
     .card-body
       .text-muted No customers have RSVPd to this workshop yet.
   - else

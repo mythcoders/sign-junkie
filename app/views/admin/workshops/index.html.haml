@@ -1,15 +1,17 @@
 - page_title 'Workshop Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
     = fa_solid 'toolbox'
     Workshops
-  %table.table.table-bordered.table-striped.table-hover.table-border-fix
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
       %tr
         %th Name
         %th Date
-        %th Tickets Available
+        %th Seats Available
     %tbody
       - @workshops.each do |e|
         %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(e) }}
@@ -21,9 +23,11 @@
               - else
                 %span.badge.badge-info Private
           %td= e.when
-          %td= e.tickets_available
-  .card-footer
-    = paginate @workshops
-    = page_entries_info @workshops
+          %td= e.seats_available
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @workshops
+          = page_entries_info @workshops
 %br
 = link_to 'New workshop', new_admin_workshop_path, class: 'btn btn-primary'

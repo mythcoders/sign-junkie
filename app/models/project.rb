@@ -4,4 +4,5 @@ class Project < ApplicationRecord
   has_many :project_workshops
   has_many :stencils, through: :project_stencils
   has_many :workshops, through: :project_workshops
+  has_many_attached :project_images
 end

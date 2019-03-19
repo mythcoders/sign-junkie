@@ -1,0 +1,26 @@
+- page_title 'Stencils Search'
+
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'swatchbook'
+    Stencils
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
+      %tr
+        %th Name
+        %th Category
+    %tbody
+      - @stencils.each do |c|
+        %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_path(c) }}
+          %td= c.name
+          %td= c.category
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @stencils
+          = page_entries_info @stencils
+
+%br
+= link_to 'New Stencil', new_admin_stencil_path, class: 'btn btn-primary'

@@ -12,13 +12,9 @@ class CartController < ApplicationController
   end
 
   def create
-    workshop = Workshop.includes(:projects, :designs, :addons).find(params[:cart_item][:workshop_id])
-    if workshop.can_purchase?
-      if Cart.build(current_user, workshop, cart_params).save
-        flash[:success] = t('cart.add.success')
-      else
-        flash[:error] = t('cart.add.failure')
-      end
+    service = CartService.new
+    if service.add(current_user, cart_params)
+      flash[:success] = t('cart.add.success')
     else
       flash[:error] = t('cart.add.failure')
     end
@@ -54,7 +50,7 @@ class CartController < ApplicationController
 
   def cart_params
     params.require(:cart_item).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
-                                      :design_id, :design, :seating)
+                                      :stencil_id, :stencil, :seating)
   end
 
   def check_cart_auth

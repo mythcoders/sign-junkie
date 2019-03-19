@@ -17,8 +17,8 @@
           %label.col-form-label Date available for purchase
           .form-control-plaintext= @workshop.when_purchase
         .form-group
-          %label.col-form-label Remaining tickets for sale
-          .form-control-plaintext= @workshop.tickets_available
+          %label.col-form-label Remaining seats for sale
+          .form-control-plaintext= @workshop.seats_available
         .form-group
           %label.col-form-label Ticket price
           .form-control-plaintext= number_to_currency(@workshop.ticket_price)

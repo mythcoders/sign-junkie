@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "carts", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.string "item", null: false
+    t.string "description", null: false
     t.integer "quantity", default: 1, null: false
     t.decimal "price", null: false
     t.datetime "created_at", null: false
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "invoice_items", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
-    t.string "memo", limit: 50, null: false
+    t.string "description", null: false
     t.decimal "pre_tax_amount", default: "0.0", null: false
     t.integer "quantity", null: false
     t.decimal "tax_rate"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
     t.serial "identifier", limit: 10
+    t.string "status"
     t.datetime "due_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -181,6 +182,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.bigint "workshop_id"
     t.bigint "user_id"
     t.serial "identifier", limit: 10
+    t.string "payment_plan", null: false
     t.datetime "void_date"
     t.datetime "cancel_date"
     t.datetime "created_at", null: false
@@ -198,6 +200,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.string "description"
     t.boolean "prepped"
     t.boolean "notified"
+    t.datetime "void_date"
+    t.datetime "cancel_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_seats_on_invoice_id"

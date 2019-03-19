@@ -8,7 +8,7 @@
     %input{id: 'ticket-price', value: @workshop.ticket_price, type: 'hidden'}
   %p.card-text
     = fa_solid 'chair'
-    = "#{@workshop.tickets_available} seats available"
+    = "#{@workshop.seats_available} seats available"
 - else
   %p.card-text
     = fa_regular 'usd-circle'

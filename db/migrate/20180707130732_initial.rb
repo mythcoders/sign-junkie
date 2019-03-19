@@ -107,7 +107,7 @@ class Initial < ActiveRecord::Migration[5.2]
 
     create_table :carts, id: :serial do |t|
       t.references :user, index: true, foreign_key: true
-      t.string :item, null: false
+      t.string :description, null: false
       t.integer :quantity, null: false, default: 1
       t.decimal :price, null: false
       t.timestamps
@@ -116,13 +116,14 @@ class Initial < ActiveRecord::Migration[5.2]
     create_table :invoices, id: :serial do |t|
       t.references :user, index: true, foreign_key: true
       t.string :identifier, limit: 10
+      t.string :status
       t.datetime :due_date, null: false
       t.timestamps
     end
 
     create_table :invoice_items, id: :serial do |t|
       t.references :invoice, index: true, foreign_key: true
-      t.string :memo, null: false, limit: 50
+      t.string :description, null: false
       t.decimal :pre_tax_amount, default: 0.00, null: false
       t.integer :quantity, null: false
       t.decimal :tax_rate
@@ -164,6 +165,7 @@ class Initial < ActiveRecord::Migration[5.2]
       t.references :workshop, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
       t.string :identifier, limit: 10
+      t.string :payment_plan, null: false
       t.datetime :void_date
       t.datetime :cancel_date
       t.timestamps
@@ -173,11 +175,13 @@ class Initial < ActiveRecord::Migration[5.2]
       t.references :workshop, index: true, foreign_key: true
       t.references :reservation, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
-      t.references :invoice, foreign_key: true
+      t.references :invoice, index: true, foreign_key: true
       t.string :identifier
       t.string :description
       t.boolean :prepped
       t.boolean :notified
+      t.datetime :void_date
+      t.datetime :cancel_date
       t.timestamps
     end
 

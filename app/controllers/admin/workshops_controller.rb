@@ -71,7 +71,7 @@ module Admin
     end
 
     def populate_workshop
-      @workshop = Workshop.includes(:tickets, :projects).find(params[:id])
+      @workshop = Workshop.includes(:seats, :projects).find(params[:id])
     end
 
     def filtered_params
