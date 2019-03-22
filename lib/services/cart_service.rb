@@ -1,5 +1,5 @@
 module Services
-  class Cart
+  class CartService
     def add(user, cart_params)
       workshop = Workshop.includes(:projects).find(cart_params[:workshop_id])
       return false unless workshop.can_purchase?
@@ -35,13 +35,11 @@ module Services
       project = workshop.projects.where(id: params[:project_id]).first
       cart = Cart.new(user: user,
                       quantity: params[:quantity],
-                      price: workshop.ticket_price + project.price,
-                      description: ItemDescription.seat(workshop,
-                                                        project,
-                                                        params[:seating]))
+                      price: workshop.ticket_price + project.price)
+      cart.description = ItemDescription.seat(workshop, project, params[:seating])
 
-      set_stencil(cart, params[:stencil_id], params[:stencil])
-      set_addon(cart, params[:addon_id]) if params[:addon_id].present?
+      set_stencil(cart, project, params[:stencil_id], params[:stencil])
+      set_addon(cart, project, params[:addon_id]) if params[:addon_id].present?
 
       cart
     end
@@ -50,20 +48,19 @@ module Services
     def new_reservation(user, workshop, params)
       cart = Cart.new(user: user,
                       price: workshop.deposit_price,
-                      quantity: 1,
-                      description: ItemDescription.reservation(workshop,
-                                                               params[:quantity]))
+                      quantity: 1)
+      cart.description = ItemDescription.reservation(workshop, params[:quantity])
       cart
     end
 
-    def set_addon(cart, addon_id)
+    def set_addon(cart, project, addon_id)
       addon = project.addons.where(id: addon_id).first
       cart.description.addon_id = addon.id
       cart.description.addon = addon.name
       cart.price += addon.price
     end
 
-    def set_stencil(cart, stencil_id, custom_stencil)
+    def set_stencil(cart, project, stencil_id, custom_stencil)
       if stencil_id == '$custom'
         cart.description.stencil = custom_stencil
       else

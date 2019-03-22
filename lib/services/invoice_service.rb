@@ -1,9 +1,8 @@
 module Services
-  class Invoice
+  class InvoiceService
 
     def from_cart(user)
-
-      tax_service = Service::Tax.new
+      tax_service = TaxService.new
       invoice = Invoice.new(user_id: user.id,
                             identifier: SecureRandom.uuid,
                             status: :draft,
@@ -20,23 +19,6 @@ module Services
       end
 
       invoice
-    end
-
-    def place(invoice)
-      ActiveRecord::Base.transaction do
-        item.
-        if initial_save_reload! &&
-            process_payment(payment) &&
-            empty_cart &&
-            order_ready?
-          mark_placed_and_notify(payment)
-          return true
-        else
-          Rails.logger.warn 'order place failed!'
-          raise ActiveRecord::Rollback
-        end
-      end
-      false
     end
 
     private

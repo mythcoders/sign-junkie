@@ -1,5 +1,5 @@
 module Services
-  class Tax
+  class TaxService
     SALES_TAX_ENABLED = true
 
     def self.current_rate
@@ -7,13 +7,13 @@ module Services
     end
 
     def self.enabled?
-      Tax.current_rate.positive?
+      TaxService.current_rate.positive?
     end
 
     def apply_tax!(item)
-      amount_taxable = calc_taxable(item)
+      amount_taxable = calc_taxable(item.description)
       if amount_taxable.positive?
-        item.tax_rate = Tax.current_rate
+        item.tax_rate = TaxService.current_rate
         item.tax_amount = (amount_taxable * item.tax_rate).round(2)
       else
         item.tax_rate = nil
@@ -22,7 +22,7 @@ module Services
     end
 
     def calc_taxable(item)
-      return 0.00 unless Tax.enabled?
+      return 0.00 unless TaxService.enabled?
       return 0.00 if item.reservation?
 
       taxable = Project.find(item.project_id).price

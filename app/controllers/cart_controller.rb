@@ -42,7 +42,7 @@ class CartController < ApplicationController
   private
 
   def set_cart_service
-    @service = Services::Cart.new
+    @service = Services::CartService.new
   end
 
   def cart_params

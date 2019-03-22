@@ -1,6 +1,5 @@
 module Services
-  class Billing
-
+  class BillingService
     def process
       result = gateway.post_sale
       if result.success?
@@ -35,7 +34,7 @@ module Services
     private
 
     def gateway
-      @gateway ||= Services.Braintree.new
+      @gateway ||= Services::BraintreeService.new
     end
 
     def calc_refund(purchase_amount, start_date)

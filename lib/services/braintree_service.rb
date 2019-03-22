@@ -1,5 +1,5 @@
 module Services
-  class Braintree
+  class BraintreeService
     def self.env
       ENV['PAYMENT_ENV']
     end
@@ -31,7 +31,7 @@ module Services
     protected
 
     def gateway
-      env = Services::Braintree.env.to_sym
+      env = BraintreeService.env.to_sym
       @gateway ||= Braintree::Gateway.new(
         environment: env,
         merchant_id: merchant_id(env),
