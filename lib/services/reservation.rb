@@ -1,4 +1,5 @@
 # Assists with booking reservations and notifying customers
-class ReservationService
-
+module Services
+  class Reservation
+  end
 end

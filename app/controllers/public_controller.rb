@@ -14,7 +14,8 @@ class PublicController < ApplicationController
     end
   end
 
-  def projects
+  def project
+    @workshop = Workshop.find(params[:workshop_id])
     @project = Project.find(params[:project_id])
   end
 

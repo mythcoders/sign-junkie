@@ -40,7 +40,7 @@ function update_ui() {
     var project = get_project();
     if (workshop != null && project !== null) {
         $.ajax({
-            url: "/workshops/" + workshop +  "/projects/" + project,
+            url: "/project?workshop_id=" + workshop +  "&project_id=" + project,
             method: "GET",
             dataType: "json",
             cache: "false",
@@ -78,10 +78,8 @@ function update_ui() {
                     currentStencils.add(option)
                 }
 
-                if (value !== '' && currentStencils.selectedIndex === 0) {
-                    document.querySelector('[data-js-custom-stencil]').style.display = 'block'
-                }
-
+                document.querySelector('[data-js-custom-stencil]').style.display = 'none'
+                currentStencils.selectedValue = null;
                 currentStencils.disabled = false;
             },
             error: function(data, textStatus, jQxhr) {

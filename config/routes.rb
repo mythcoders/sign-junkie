@@ -36,12 +36,11 @@ Rails.application.routes.draw do
 
   # customer facing
   get 'tickets', to: 'public#tickets'
+  get 'project', to: 'public#project'
   resources :cart, only: %i[index create update destroy]
-  resources :invoices, only: %i[index show]
+  resources :invoices, only: %i[index show new]
   resources :reservations
-  resources :workshops, only: %i[index show] do
-    get 'projects/:project_id', to: 'workshops#project'
-  end
+  resources :workshops, only: %i[index show]
 
   root to: 'public#index', as: 'home'
 end

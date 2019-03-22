@@ -117,7 +117,7 @@ class Initial < ActiveRecord::Migration[5.2]
       t.references :user, index: true, foreign_key: true
       t.string :identifier, limit: 10
       t.string :status
-      t.datetime :due_date, null: false
+      t.date :due_date, null: false
       t.timestamps
     end
 
