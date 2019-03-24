@@ -1,10 +1,10 @@
-= form_for @order, url: orders_path do |f|
+= form_for @invoice, url: invoices_path do |f|
   .row
     .col-12.col-sm-5
       .card.card-primary
         %h4.card-header.bg-primary.text-white
           Payment
-        = render partial: 'orders/form', locals: { f: f }
+        = render partial: 'invoices/form', locals: { f: f }
     .col-12.col-sm-7
       .card
         %h4.card-header.bg-primary.text-white
@@ -14,20 +14,21 @@
           %table.table.table-striped.table-bordered.table-border-fix
             %tbody
               %tr
-              - @payment.order_items.each do |i|
+              - @invoice.items.each do |i|
                 %tr
-                  %td= i.description
+                  %td
+                    = i.description.title
                   %td.text-right.action-column
-                    %strong= number_to_currency(i.price)
-              - if @payment.taxed?
+                    %strong= number_to_currency(i.pre_tax_total)
+              - if @invoice.taxed?
                 %tr
-                  %td= "Estimated tax to be collected (#{@payment.tax_percentage}%)"
+                  %td Estimated tax to be collected
                   %td.text-right.action-column
-                    %strong#order_total_tax= number_to_currency(@payment.tax_amount)
+                    %strong#order_total_tax= number_to_currency(@invoice.tax_total)
             %tfoot
               %tr.bg-primary.text-white
                 %td Total due today
                 %td.text-right
-                  %strong#order_total_due= number_to_currency(@payment.amount)
+                  %strong#order_total_due= number_to_currency(@invoice.grand_total)
 
 = render partial: 'checkout'

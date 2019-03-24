@@ -1,9 +1,15 @@
 module Services
   class BillingService
-    def process
-      result = gateway.post_sale
+    def build(amount, tax_amount)
+      Payment.new(
+        amount: amount
+      )
+    end
+
+    def process!(payment)
+      result = gateway.post_sale payment
       if result.success?
-        @payment.identifier = result.transaction.id
+        payment.identifier = result.transaction.id
         return true
       end
 

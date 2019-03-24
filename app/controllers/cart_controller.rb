@@ -4,7 +4,6 @@ class CartController < ApplicationController
   helper WorkshopHelper
   before_action :authenticate_user!
   before_action :set_cart_service, only: %i[create update destroy]
-  before_action :check_cart_auth, only: %i[update destroy]
 
   def index
     @cart = Cart.for(current_user)
@@ -48,9 +47,5 @@ class CartController < ApplicationController
   def cart_params
     params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
                                       :stencil_id, :stencil, :seating)
-  end
-
-  def check_cart_auth
-    unauthorized if @cart.user_id != current_user.id
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :design_category do
+  factory :stencil_category do
     name { Faker::Lorem.word }
   end
 end

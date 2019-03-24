@@ -4,13 +4,13 @@ module Services
       ENV['PAYMENT_ENV']
     end
 
-    def self.new_token
-      gateway.client_token.generate
+    def token
+      @token ||= gateway.client_token.generate
     end
 
-    def post_payment(payment, payment_token)
+    def post_sale(payment)
       gateway.transaction.sale(
-        payment_method_nonce: payment_token,
+        payment_method_nonce: payment.auth_token,
         amount: payment.amount,
         options: { submit_for_settlement: true }
       )

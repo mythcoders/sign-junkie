@@ -19,7 +19,7 @@ module WorkshopHelper
       class: 'custom-select',
       'data-js-cart-quantity': '',
       'data-cart-id': cart_item.id,
-      'data-price': cart_item.workshop.ticket_price
+      'data-price': cart_item.price
     }
     form.select(:quantity, ticket_dropdown_items(cart_item.workshop), {}, html_metadata)
   end

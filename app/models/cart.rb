@@ -7,5 +7,9 @@ class Cart < ApplicationRecord
 
   serialize :description, ItemDescription
   delegate :workshop, to: :description
+
+  def total
+    price * quantity
+  end
 end
 

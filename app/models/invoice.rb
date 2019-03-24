@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
 
   # total of all line items before tax
   def sub_total
-    (items.map(&:pre_tax_amount).reduce(:+) || 0.00).round(2)
+    (items.map(&:pre_tax_total).reduce(:+) || 0.00).round(2)
   end
 
   # total amount of tax due for the invoice
@@ -22,11 +22,15 @@ class Invoice < ApplicationRecord
 
   # total due for the invoice
   def grand_total
-    (subtotal + tax_total).round(2)
+    (sub_total + tax_total).round(2)
   end
 
   # total balance remaining that needs paid
   def balance
     (grand_total - amount_paid).round(2)
+  end
+
+  def taxed?
+    items.where.not(tax_rate: nil).any?
   end
 end

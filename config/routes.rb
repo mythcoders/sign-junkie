@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get 'tickets', to: 'public#tickets'
   get 'project', to: 'public#project'
   resources :cart, only: %i[index create update destroy]
-  resources :invoices, only: %i[index show new]
+  resources :invoices, only: %i[index show new create]
   resources :reservations
   resources :workshops, only: %i[index show]
 

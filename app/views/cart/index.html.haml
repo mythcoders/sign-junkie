@@ -33,13 +33,13 @@
                 = f.hidden_field :id
                 = cart_dropdown f, c
             %td.action-column.text-right.text-primary
-              = content_tag :span, number_to_currency(c.price), id: "amt-#{c.id}"
+              = content_tag :span, number_to_currency(c.total), id: "amt-#{c.id}"
       %tfoot
         %tr
           %td.text-primary.text-right{colspan: 4}
             %strong
               Subtotal:
-              = content_tag :span, number_to_currency(@cart.map(&:price).inject(0, :+)), id: "total-amt"
+              = content_tag :span, number_to_currency(@cart.map(&:total).inject(0, :+)), id: "total-amt"
     .card-footer
       = link_to new_invoice_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
         Proceed to Checkout

@@ -3,7 +3,11 @@ class InvoiceItem < ApplicationRecord
 
   serialize :description, ItemDescription
 
-  def item_total
-    (pre_tax_amount + tax_amount) * quantity
+  def pre_tax_total
+    pre_tax_amount * quantity
+  end
+
+  def line_total
+    pre_tax_total + tax_total
   end
 end

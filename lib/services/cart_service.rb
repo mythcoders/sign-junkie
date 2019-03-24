@@ -1,5 +1,6 @@
 module Services
   class CartService
+
     def add(user, cart_params)
       workshop = Workshop.includes(:projects).find(cart_params[:workshop_id])
       return false unless workshop.can_purchase?
@@ -15,17 +16,21 @@ module Services
 
     def update(user, cart_params)
       cart = Cart.find(cart_params[:id])
-      cart.quantity = cart_params[:quantity]
+      return false if user.id != cart.user_id
+
       # TODO: make sure not adding more than what's available
 
-      cart.update!
+      cart.update!(quantity: cart_params[:quantity])
     end
 
     def remove
+      cart = Cart.find(cart_params[:id])
+      return false if user.id != cart.user_id
 
+      cart.delete!
     end
 
-    def empty(user, as_of = Time.now)
+    def empty!(user, as_of = Time.now)
       Cart.for(user).as_of(as_of).delete_all
     end
 
@@ -47,8 +52,8 @@ module Services
 
     def new_reservation(user, workshop, params)
       cart = Cart.new(user: user,
-                      price: workshop.deposit_price,
-                      quantity: 1)
+                      quantity: 1,
+                      price: workshop.deposit_price)
       cart.description = ItemDescription.reservation(workshop, params[:quantity])
       cart
     end
