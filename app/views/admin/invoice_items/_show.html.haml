@@ -4,32 +4,33 @@
       %th EVENTS
       %th.action-column PRICE
       %th.action-column QUANTITY
-      %th.action-column.text-right AMOUNT
+      %th.action-column TAX
+      %th.action-column.text-right TOTAL
   %tbody
-    - @order.items.each do |i|
+    - @invoice.items.each do |i|
       %tr
-        %td= i.description
-        %td= number_to_currency(i.price)
+        %td= i.description.title
+        %td= number_to_currency(i.pre_tax_amount)
         %td= i.quantity
-        %td.text-right= number_to_currency(i.item_total)
+        %td
+          - if i.taxed?
+            = number_to_currency(i.tax_amount)
+          - else
+            N/A
+        %td.text-right= number_to_currency(i.line_total)
   %thead
-    - if @order.taxed?
-      %tr
-        %td.text-right{colspan: 3}
-          %strong= "SALES TAX (#{@order.tax_percentage}%)"
-        %td.text-right= number_to_currency(@order.total_tax)
     %tr.bg-primary.text-white
-      %th{colspan: 3} PAYMENTS
+      %th{colspan: 4} PAYMENTS
       %th.action-column.text-right AMOUNT
 
   %tbody
-    - @order.payments.each do |p|
+    - @invoice.payments.each do |p|
       %tr
-        %td{colspan: 3}
-          %pre= "Method: #{p.method}\nProcessed on: #{l p.date_posted, format: :short}\nTransaction ID: #{p.transaction_id}"
+        %td{colspan: 4}
+          %pre= "Method: #{p.method}\nProcessed on: #{l p.created_at, format: :short}\nTransaction ID: #{p.identifier}"
         %td.text-right= number_to_currency(p.amount)
   %tfoot
     %tr.bg-primary.text-white
-      %td.text-right{colspan: 3}
+      %td.text-right{colspan: 4}
         %strong BALANCE
-        %td.text-right= number_to_currency(@order.total_balance)
+        %td.text-right= number_to_currency(@invoice.balance)

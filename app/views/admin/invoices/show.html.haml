@@ -1,6 +1,6 @@
-= render partial: 'admin/orders/header'
+= render partial: 'admin/invoices/header'
 
-- if @order.status == :open
+- if @invoice.status == :draft
   .alert.alert-info
     The customer has started this order but has yet to complete it!
 .row
@@ -8,26 +8,19 @@
     .card.card-primary
       %h5.card-header.bg-primary.text-white
         = fa_light 'shopping-bag'
-        = "Order ##{@order.order_number} - #{@order.status}"
+        = "Invoice ##{@invoice.identifier} - #{@invoice.status}"
       .card-body
         .form-group.row
           %label.col-form-label.col-6 Customer
           .form-control-plaintext.col
-            = link_to @order.customer.full_name, admin_customer_path(@order.customer)
+            = link_to @invoice.customer.full_name, admin_customer_path(@invoice.customer)
         .form-group.row
           %label.col-form-label.col-6 Date Created
-          .form-control-plaintext.col= lifp(@order.created_at, :short)
-        .form-group.row
-          %label.col-form-label.col-6 Date Placed
-          .form-control-plaintext.col= lifp(@order.date_placed, :short)
-        - if @order.canceled?
-          .form-group.row
-            %label.col-form-label.col-6 Date Canceled
-            .form-control-plaintext.col= lifp(@order.date_canceled, :short)
+          .form-control-plaintext.col= lifp(@invoice.created_at, :short)
   .col-7
     .card
       %h5.card-header.bg-primary.text-white
         = fa_light 'clipboard-list'
         Details
       .table-responsive-md
-        = render partial: 'admin/order_items/show'
+        = render partial: 'admin/invoice_items/show'

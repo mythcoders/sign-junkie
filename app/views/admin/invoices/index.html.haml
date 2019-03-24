@@ -16,9 +16,9 @@
     %tbody
       - @invoices.each do |o|
         %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
-          %td= o.order_number
+          %td= o.identifier
           %td= o.customer.full_name
-          %td= lifp(o.date_created, :short)
+          %td= lifp(o.created_at, :short)
           %td= o.status
     %tfoot
       %tr

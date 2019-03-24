@@ -8,6 +8,10 @@ class InvoiceItem < ApplicationRecord
   end
 
   def line_total
-    pre_tax_total + tax_total
+    pre_tax_total + tax_amount
+  end
+
+  def taxed?
+    tax_rate.present?
   end
 end
