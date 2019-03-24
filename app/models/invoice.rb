@@ -31,6 +31,6 @@ class Invoice < ApplicationRecord
   end
 
   def taxed?
-    items.where.not(tax_rate: nil).any?
+    items.any? { |i| i.taxed? }
   end
 end

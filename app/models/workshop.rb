@@ -44,7 +44,11 @@ class Workshop < ApplicationRecord
   end
 
   def images
-    workshop_images
+    rv = workshop_images
+    projects.each do |p|
+      rv << p.project_images
+    end
+    rv
   end
 
   def can_purchase?

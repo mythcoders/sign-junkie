@@ -4,7 +4,7 @@
       .col-4
         .card
           - if p.images.any?
-            %img.card-img-top{alt: "Image of #{p.name}", src: url_for(p.primary_image)}
+            %img.card-img-top{alt: "Image of #{p.name}", src: url_for(p.images.first)}
           .card-body
             %h4
               = link_to p.name, workshop_path(p)

@@ -9,11 +9,11 @@
         %th Date
         %th Status
     %tbody
-      - @orders.each do |o|
-        %tr{data: { 'clickable-row': '', 'href': order_path(o) }}
-          %td= o.order_number
-          %td= lifp(o.date_created, :short)
+      - @invoices.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
+          %td= o.identifier
+          %td= lifp(o.created_at, :short)
           %td= o.status
   .card-footer
-    = paginate @orders
-    = page_entries_info @orders
+    = paginate @invoices
+    = page_entries_info @invoices

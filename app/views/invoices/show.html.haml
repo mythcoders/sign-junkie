@@ -1,19 +1,15 @@
-= render partial: 'order_items/new_ticket'
-= render partial: 'order_items/assign_ticket'
-= render partial: 'order_items/cancel_tickets'
-
 .row
   .col-md-3
     .card.card-primary
       %h4.card-header.bg-primary.text-white
         = fa_regular 'shopping-bag'
-        = "Order ##{@order.order_number}"
+        = "Order ##{@invoice.identifier}"
       .card-body
         .form-group
           %label.col-form-label Date Placed
-          .form-control-plaintext= lifp(@order.date_placed, :short)
+          .form-control-plaintext= lifp(@invoice.created_at, :short)
       .card-footer
-        = link_to 'Go Back', orders_path, class: 'btn btn-outline-secondary'
+        = link_to 'Go Back', invoices_path, class: 'btn btn-outline-secondary'
   .col-md-9
-    = render partial: 'order_items/summary'
+    = render partial: 'summary'
 

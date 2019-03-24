@@ -6,7 +6,7 @@
         %button.close{"aria-label": "Close", "data-dismiss": "modal", type: "button"}
           %span{"aria-hidden": "true"} ×
       .modal-body
-        = form_for :cancel, url: order_cancel_items_path(@order), html: { id: :cancel_tickets } do |f|
+        = form_for :cancel, url: invoice_cancel_items_path(@invoice), html: { id: :cancel_tickets } do |f|
           = f.hidden_field :order_item_ids
         %table#tickets-table.table.table-sm.table-bordered.table-striped
           %thead

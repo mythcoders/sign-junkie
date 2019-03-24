@@ -8,7 +8,8 @@ end
 
 stencils = @project.stencils.map { |s| { id: s.id, name: s.name } }
 
-if @workshop.allow_custom_projects?
+if @workshop.allow_custom_projects
+  Rails.logger.debug 'custom!'
   stencils << { id: '$custom', name: '- Custom -' }
 end
 

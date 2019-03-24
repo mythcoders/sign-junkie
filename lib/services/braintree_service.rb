@@ -9,6 +9,7 @@ module Services
     end
 
     def post_sale(payment)
+      Rails.logger.debug payment.auth_token.inspect
       gateway.transaction.sale(
         payment_method_nonce: payment.auth_token,
         amount: payment.amount,

@@ -1,6 +1,6 @@
 .card.mt-2
   %h5.card-header.bg-primary.text-white
-    = fa_solid 'drafting-compass'
+    = fa_solid 'sign'
     Projects
   - unless @workshop.projects.any?
     .card-body
@@ -12,15 +12,7 @@
         %tr
           %th Name
       %tbody
-        - @workshop.projects.each do |p|
+        - @workshop.projects.order(:name).each do |p|
           %tr
             %td
               = p.name
-  .card-footer
-    = form_for :project_workshop, url: admin_workshop_project_path(@workshop) do |f|
-      = f.hidden_field :workshop_id, value: @workshop.id
-      = f.select(:project_id,
-        @projects.collect { |r| [ r[:name], r[:id] ] },
-        { include_blank: ' - Select - ' },
-        { class: 'custom-select', })
-      = f.submit 'Add Projects', class: 'btn btn-info btn-sm'

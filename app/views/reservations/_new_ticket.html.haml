@@ -1,7 +1,7 @@
 #new-ticket-modal.modal.fade{"aria-hidden": "true", "aria-labelledby": "exampleModalLabel", role: "dialog", tabindex: "-1"}
   .modal-dialog{role: "document"}
     .modal-content
-      = form_for :order_item, url: orders_path do |f|
+      = form_for :order_item, url: invoices_path do |f|
         .modal-header
           %h5.modal-title Add Tickets
           %button.close{"aria-label": "Close", "data-dismiss": "modal", type: "button"}

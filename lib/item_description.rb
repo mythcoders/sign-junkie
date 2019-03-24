@@ -37,6 +37,16 @@ class ItemDescription
     end
   end
 
+  def seat_info
+    return unless seat?
+
+    val = project
+    val << " (#{stencil})" if stencil.present?
+    val << " w/ #{addon}" if addon.present?
+    val << "\nSeat: #{seat_preference}" if seat_preference.present?
+    val
+  end
+
   def workshop
     @workshop ||= Workshop.find workshop_id
   end

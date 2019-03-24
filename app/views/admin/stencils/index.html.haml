@@ -15,7 +15,7 @@
       - @stencils.each do |c|
         %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_path(c) }}
           %td= c.name
-          %td= c.category
+          %td= c.category.name
     %tfoot
       %tr
         %td{colspan: '100%'}

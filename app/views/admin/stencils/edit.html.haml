@@ -1,12 +1,12 @@
 - page_title 'Edit', 'Design Categories'
 
-= form_for @category, url: admin_design_category_path(@category), method: :patch do |f|
+= form_for @stencil, url: admin_stencil_path(@stencil), method: :patch do |f|
   .card
     %h5.card-header.bg-primary.text-white
-      Edit Design Category
+      Edit Stencil
     .card-body
-      = error_messages_for 'category'
-      = render partial: 'admin/design_categories/form', locals: { f: f }
+      = error_messages_for 'stenci'
+      = render partial: 'admin/stencils/form', locals: { f: f }
     .card-footer
-      = link_to 'Cancel', admin_design_categories_path, class: 'btn btn-outline-secondary'
-      = f.submit 'Create', class: 'btn btn-success'
+      = link_to 'Cancel', admin_stencil_path(@stencil), class: 'btn btn-outline-secondary'
+      = f.submit 'Save Changes', class: 'btn btn-success'

@@ -18,10 +18,14 @@
           %td
             = e.name
             .float-right
+              - if e.is_for_sale?
+                %span.badge.badge-primary For Sale
               - if e.is_public?
-                %span.badge.badge-primary Public
+                %span.badge.badge-success Public
+                - if e.allow_custom_projects
+                  %span.badge.badge-info Custom Projects
               - else
-                %span.badge.badge-info Private
+                %span.badge.badge-warning Private
           %td= e.when
           %td= e.seats_available
     %tfoot

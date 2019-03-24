@@ -15,16 +15,11 @@
               %strong Email
             %td
               %a{href: "mailto:#{@customer.email}"}= @customer.email
-          %tr
-            %td
-              = fa_regular 'phone'
-              %strong Phone
-            %td= @customer.phone_number
 
   .col-8
     .card
       %h5.card-header.bg-primary.text-white
-        = fa_light 'shopping-cart'
-        Orders
+        = fa_solid 'file-invoice-dollar'
+        Invoices
       -#= render partial: 'admin/orders/list'
 

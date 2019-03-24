@@ -1,5 +1,3 @@
-= render partial: 'admin/invoices/header'
-
 - if @invoice.status == :draft
   .alert.alert-info
     The customer has started this order but has yet to complete it!
@@ -17,6 +15,10 @@
         .form-group.row
           %label.col-form-label.col-6 Date Created
           .form-control-plaintext.col= lifp(@invoice.created_at, :short)
+      .card-footer
+        %a.btn.btn-outline-secondary{href: admin_invoices_path}
+          = fa_regular 'arrow-left'
+          Back to Search
   .col-7
     .card
       %h5.card-header.bg-primary.text-white

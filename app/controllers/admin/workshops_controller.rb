@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destory]
+    before_action :populate_workshop, only: %i[edit update show destory images]
     before_action :populate_projects, only: %i[show]
 
     def index
@@ -53,6 +53,13 @@ module Admin
       redirect_to admin_workshop_path @project.workshop_id
     end
 
+    def images
+      Rails.logger.debug 'Yep'
+      @workshop.workshop_images.attach(file_params)
+      flash[:success] = t('UploadSuccess')
+      redirect_to admin_workshop_path(@workshop)
+    end
+
     private
 
     def workshop_params
@@ -64,6 +71,10 @@ module Admin
 
     def project_params
       params.require(:project_workshop).permit(:project_id, :workshop_id)
+    end
+
+    def file_params
+      params[:workshop][:images]
     end
 
     def populate_projects

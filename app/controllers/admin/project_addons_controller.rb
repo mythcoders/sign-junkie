@@ -1,7 +1,7 @@
 module Admin
-  class AddonsController < AdminController
+  class ProjectAddonsController < AdminController
     def create
-      @addon = Addon.new(addon_params)
+      @addon = ProjectAddon.new(addon_params)
 
       if @addon.save
         respond_to do |format|
@@ -17,7 +17,7 @@ module Admin
     private
 
     def addon_params
-      params.require(:addon).permit(:project_id, :name, :price)
+      params.require(:project_addon).permit(:project_id, :name, :price)
     end
   end
 end

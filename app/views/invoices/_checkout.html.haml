@@ -1,14 +1,14 @@
 - content_for :scripts do
   :javascript
     $(function() {
-      var form = document.querySelector(".new_order");
+      var form = document.querySelector(".new_invoice");
       var nonceInput = document.querySelector("#payment_method_nonce");
       braintree.dropin.create({
         authorization: "#{@client_token}",
         container: "#payment-container",
         paypal: {
           flow: "checkout",
-          amount: "#{number_to_currency(@payment.amount)}",
+          amount: "#{number_to_currency(@invoice.grand_total)}",
           currency: "USD"
         }
       }, function(err, dropinInstance) {

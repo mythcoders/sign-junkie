@@ -1,0 +1,29 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'users'
+    Attendees
+  - unless @workshop.seats.any?
+    .card-body
+      .text-muted No customers have RSVPd to this workshop yet.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %thead
+        %tr
+          %th Name
+          %th Project
+          %th Libality Waiver
+      %tbody
+        - @workshop.seats.each do |t|
+          %tr
+            %td
+              - if t.customer.present?
+                = t.customer.full_name
+                = t.customer.email
+              - else
+                No assigned
+            %td
+              %pre= t.description.seat_info
+            %td.text-danger
+              = fa_solid 'times'
+              Not signed
+

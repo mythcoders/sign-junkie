@@ -39,8 +39,8 @@ module Admin
     private
 
     def customer_params
-      params.require(:user).permit(:id, :first_name, :middle_name, :last_name,
-                                   :email, :password, :role, :phone_number)
+      params.require(:user).permit(:id, :first_name, :last_name,
+                                   :email, :password, :role)
     end
 
     def disabled_roles
@@ -48,7 +48,7 @@ module Admin
     end
 
     def get
-      @customer = User.includes(:orders).find(params[:id])
+      @customer = User.includes(:invoices).find(params[:id])
     end
   end
 end

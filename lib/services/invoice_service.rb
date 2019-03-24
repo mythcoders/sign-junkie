@@ -24,8 +24,8 @@ module Services
       ActiveRecord::Base.transaction do
         if invoice.save! &&
             invoice.reload &&
-            empty_cart!(invoice) &&
-            post_payment(invoice, payment)
+            post_payment(invoice, payment) &&
+            empty_cart(invoice)
           invoice.status = :paid
           return invoice.save!
         else
@@ -43,6 +43,7 @@ module Services
     end
 
     def post_payment(invoice, payment)
+      payment.method = 'braintree'
       payment.invoice = invoice
       payment.amount = invoice.grand_total
       Services::BillingService.new.process! payment

@@ -10,10 +10,13 @@ module Services
       result = gateway.post_sale payment
       if result.success?
         payment.identifier = result.transaction.id
+        payment.save!
         return true
+
+        # todo: send receipt
       end
 
-      Raven.capture_exception(result.message, transaction: 'Post Sale')
+      Raven.capture_exception(result.message, transaction: 'Post Payment')
       false
     end
 

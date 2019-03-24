@@ -2,8 +2,12 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :prepare_payment, only: %i[new create]
 
+  def index
+    @invoices = current_user.invoices.page(params[:page])
+  end
+
   def show
-    @invoice = Invoice.includes(:items, :user).find(params[:id])
+    @invoice = Invoice.includes(:items, :customer).find(params[:id])
   end
 
   def new
