@@ -11,10 +11,14 @@ class CartController < ApplicationController
   end
 
   def create
-    if @service.add(current_user, cart_params)
-      flash[:success] = t('cart.add.success')
-    else
-      flash[:error] = t('cart.add.failure')
+    begin
+      if @service.add(current_user, cart_params)
+        flash[:success] = t('cart.add.success')
+      else
+        raise Services::ProcessError, t('cart.add.failure')
+      end
+    rescue Services::ProcessError => e
+      flash[:error] = e.message
     end
 
     redirect_back(fallback_location: home_path)
@@ -29,7 +33,7 @@ class CartController < ApplicationController
   end
 
   def destroy
-    if @service.remove
+    if @service.remove(current_user, params)
       flash[:success] = t('cart.update.success')
     else
       flash[:error] = t('failure.delete')
@@ -46,6 +50,7 @@ class CartController < ApplicationController
 
   def cart_params
     params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
-                                      :stencil_id, :stencil, :seating)
+                                 :stencil_id, :stencil, :seating, :design_confirmation,
+                                 :policy_agreement)
   end
 end

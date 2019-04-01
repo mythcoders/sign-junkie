@@ -10,7 +10,6 @@ module Services
              else
                new_reservation user, workshop, cart_params
              end
-
       cart.save!
     end
 
@@ -23,11 +22,11 @@ module Services
       cart.update!(quantity: cart_params[:quantity])
     end
 
-    def remove
+    def remove(user, cart_params)
       cart = Cart.find(cart_params[:id])
       return false if user.id != cart.user_id
 
-      cart.delete!
+      cart.delete
     end
 
     def empty!(user, as_of = Time.now)
@@ -38,6 +37,9 @@ module Services
 
     def new_seat(user, workshop, params)
       project = workshop.projects.where(id: params[:project_id]).first
+      raise ProcessError, 'No project selected' if project.nil?
+      raise ProcessError, 'Please select all confirmations' unless agreements_checked?(params)
+
       cart = Cart.new(user: user,
                       quantity: params[:quantity],
                       price: workshop.ticket_price + project.price)
@@ -48,7 +50,6 @@ module Services
 
       cart
     end
-
 
     def new_reservation(user, workshop, params)
       cart = Cart.new(user: user,
@@ -73,6 +74,13 @@ module Services
         cart.description.stencil_id = stencil.id
         cart.description.stencil = stencil.name
       end
+    end
+
+    def agreements_checked?(params)
+      return false if params[:design_confirmation].nil? || params[:policy_agreement].nil?
+      return false if params[:design_confirmation] == "0" || params[:policy_agreement] == "0"
+
+      true
     end
   end
 end

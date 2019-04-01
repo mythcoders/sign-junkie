@@ -1,9 +1,10 @@
 class ItemDescription
   ITEM_TYPES = %i[seat reservation]
   attr_accessor :type, :workshop_name, :workshop_id, :project, :project_id, :stencil, :stencil_id,
-                :addon, :addon_id, :seat_quantity, :seat_preference
+                :addon, :addon_id, :seat_quantity, :seat_preference, :design_agreement,
+                :policy_agreement
 
-  def self.seat(workshop, project, seat_preference)
+  def self.seat(workshop, project = nil, seat_preference = nil)
     item = ItemDescription.new
     item.type = :seat
     item.workshop_name = workshop.name

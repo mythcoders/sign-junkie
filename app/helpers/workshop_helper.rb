@@ -41,7 +41,8 @@ module WorkshopHelper
                 title: 'Add to cart', 'data-js-change-quantity-button': '' }
     classes[:disabled] = 'disabled' if disabled
     content_tag(:button, classes) do
-      fa_solid 'cart-plus'
+      concat(fa_solid 'cart-plus')
+      concat(content_tag :span, ' Add to Cart')
     end
   end
 

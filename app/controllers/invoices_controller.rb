@@ -11,19 +11,26 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = Services::InvoiceService.new.from_cart(current_user)
+    @invoice = Services::InvoiceService.new.build_from_cart(current_user)
     @client_token = Services::BraintreeService.new.token
   end
 
   def create
     service = Services::InvoiceService.new
-    @invoice = service.from_cart(current_user, create_params[:created_at])
+    @invoice = service.build_from_cart(current_user, create_params[:created_at])
     @payment.auth_token = params.fetch(:payment_method_nonce, nil)
-    if service.place(@invoice, @payment)
-      flash[:success] = t('order.placed.success')
-      redirect_to invoice_path @invoice
-    else
-      invoice_create_error
+
+    begin
+      if service.place(@invoice, @payment)
+        flash[:success] = t('order.placed.success')
+        redirect_to invoice_path @invoice
+      else
+        raise Services::ProcessError, t('order.create.failure')
+      end
+    rescue Services::ProcessError => e
+      flash[:error] = e.message
+      prepare_payment
+      render 'new'
     end
   end
 
@@ -39,12 +46,5 @@ class InvoicesController < ApplicationController
 
   def prepare_payment
     @payment = Payment.new
-  end
-
-  def invoice_create_error
-    flash[:error] = t('order.create.failure')
-    set_cart_total
-    prepare_payment
-    render 'new'
   end
 end

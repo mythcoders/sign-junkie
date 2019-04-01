@@ -1,7 +1,7 @@
 module Services
   class InvoiceService
 
-    def from_cart(user, created_at = Time.now)
+    def build_from_cart(user, created_at = Time.now)
       tax_service = TaxService.new
       invoice = Invoice.new(user_id: user.id,
                             status: :draft,
@@ -27,7 +27,8 @@ module Services
             post_payment(invoice, payment) &&
             empty_cart(invoice)
           invoice.status = :paid
-          return invoice.save!
+
+          return invoice.save! && ReservationService.new.process!(invoice)
         else
           Rails.logger.warn 'Invoice creation failed!'
           raise ActiveRecord::Rollback
@@ -39,7 +40,7 @@ module Services
     private
 
     def empty_cart(invoice)
-      Services::CartService.new.empty! invoice.customer, invoice.created_at
+      CartService.new.empty! invoice.customer, invoice.created_at
     end
 
     def post_payment(invoice, payment)
