@@ -1,8 +1,6 @@
 .row
-  .col-3
-    = render partial: 'workshops/filters'
-  .col-9
+  .col
     - if @workshops.any?
-      = render partial: "workshops/#{@view}"
+      = render partial: "workshops/grid"
     - else
       %h3 Looks like we didn't have any workshops that matched that criteria.

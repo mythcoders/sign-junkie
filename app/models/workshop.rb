@@ -7,9 +7,10 @@ class Workshop < ApplicationRecord
   has_many_attached :workshop_images
 
   scope :for_sale, -> { where(is_for_sale: true) }
-  scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP') }
+  scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP AND
+                                        purchase_end_date >= CURRENT_TIMESTAMP')}
 
-  validates_presence_of :name, :is_for_sale, :is_public, :allow_custom_projects
+  validates_presence_of :name
 
     # Searches workshops on a variety of factors
   # @return [Array] returns of the search
@@ -44,11 +45,14 @@ class Workshop < ApplicationRecord
   end
 
   def images
-    rv = workshop_images
-    projects.each do |p|
-      rv << p.project_images
-    end
-    rv
+    workshop_images # + project_images
+  end
+
+  def project_images
+    projects
+      .collect(&:project_images)
+      .select(&:attached?)
+      .collect(&:attachments)
   end
 
   def can_purchase?
@@ -62,6 +66,10 @@ class Workshop < ApplicationRecord
 
   def seats_available
     (is_private? ? Workshop.private_max : total_tickets) - seats.count
+  end
+
+  def display
+    "#{start_date.strftime('%B %d, %I:%M %p')} #{name}"
   end
 
   def when

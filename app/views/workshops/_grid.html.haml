@@ -1,17 +1,20 @@
 - @workshops.each_slice(3) do |group|
   .row
-    - group.each do |p|
-      .col-4
+    - group.each do |workshop|
+      .col.col-md-6.col-lg-4
         .card
-          - if p.images.any?
-            %img.card-img-top{alt: "Image of #{p.name}", src: url_for(p.images.first)}
+          - if workshop.images.any?
+            %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first), height: 350}
+          .card-footer
+            %h6 Only 2 left!
           .card-body
             %h4
-              = link_to p.name, workshop_path(p)
-            %p.card-text
-              = p.when
+              %a{href: workshop_path(workshop)}
+                = workshop.start_date.strftime('%B %d, %I:%M %p')
+                %br
+                = workshop.name
             %h5.text-primary
-              = number_to_currency(p.ticket_price)
-              - if p.is_private?
+              = number_to_currency(workshop.ticket_price)
+              - if workshop.is_private?
                 %span.ml-2.badge.badge-info Private
   %br

@@ -37,4 +37,8 @@ class User < ApplicationRecord
   def can_upgrade_operator?
     operator?
   end
+
+  def cart_total
+    Cart.for(self).count
+  end
 end

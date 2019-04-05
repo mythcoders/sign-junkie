@@ -68,6 +68,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cart_total
-    @cart_total = Cart.for(current_user).count
+    @cart_total = current_user.nil? ? 0 : current_user.cart_total
   end
 end

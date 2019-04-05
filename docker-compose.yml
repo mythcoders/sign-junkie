@@ -21,6 +21,8 @@ services:
     depends_on:
       - db
       - net
+    stdin_open: true
+    tty: true
   db:
     image: postgres:10.6
     ports:

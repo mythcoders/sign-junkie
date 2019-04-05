@@ -10,10 +10,10 @@ gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
 gem 'devise'
+gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'logdna-rails' # Logging
-gem 'mini_magick'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'

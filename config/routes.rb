@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   end
 
   # customer facing
-  get 'tickets', to: 'public#tickets'
+  get 'my_account', to: 'public#my_account'
   get 'project', to: 'public#project'
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do

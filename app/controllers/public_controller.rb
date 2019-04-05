@@ -5,12 +5,8 @@ class PublicController < ApplicationController
     if show
       render 'coming_soon'
     else
-      @view = params[:view] || 'grid'
-      @workshops = if params[:search]
-                  Workshop.search(params[:terms], params[:sort])
-                else
-                  Workshop.upcoming
-                end
+      @view = 'grid'
+      @workshops = Workshop.upcoming
     end
   end
 
@@ -23,8 +19,8 @@ class PublicController < ApplicationController
     Rails.env.production? || params[:soon]
   end
 
-  def tickets
-    @upcoming_tickets = current_user.tickets.select { |t| t.workshop.start_date.future? }
-    @past_tickets = current_user.tickets.select { |t| !t.workshop.start_date.future? }
+  def my_account
+    # @upcoming_tickets = current_user.tickets.select { |t| t.workshop.start_date.future? }
+    # @past_tickets = current_user.tickets.select { |t| !t.workshop.start_date.future? }
   end
 end

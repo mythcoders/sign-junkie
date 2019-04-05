@@ -1,9 +1,9 @@
 .row
   .col-md-3
-    .card.card-primary
+    .card.card-primary.mb-2
       %h4.card-header.bg-primary.text-white
-        = fa_regular 'shopping-bag'
-        = "Order ##{@invoice.identifier}"
+        = fa_solid 'file-invoice'
+        = "Invoice ##{@invoice.identifier}"
       .card-body
         .form-group
           %label.col-form-label Date Placed

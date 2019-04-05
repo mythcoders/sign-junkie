@@ -1,5 +1,7 @@
 $(function() {
-    update_ui();
+    if (document.getElementById('cart_workshop_id')) {
+        update_ui();
+    }
 });
 
 $.onmount("[data-js-change-project]", function() {
