@@ -1,13 +1,13 @@
 %ul.navbar-nav
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'Home', home_path, class: 'nav-link text-white'
+    = link_to 'Home', home_path, class: 'nav-link'
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'How It Works', home_path, class: 'nav-link text-white'
+    = link_to 'How It Works', home_path, class: 'nav-link'
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'Gallery', home_path, class: 'nav-link text-white'
+    = link_to 'Gallery', home_path, class: 'nav-link'
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'About', home_path, class: 'nav-link text-white'
+    = link_to 'About', home_path, class: 'nav-link'
   %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'Contact Us', home_path, class: 'nav-link text-white'
-  %li.nav-item{class: ('active' if current_page?(home_path))}
-    = link_to 'Gift Cards', home_path, class: 'nav-link text-white'
+    = link_to 'Contact Us', home_path, class: 'nav-link'
+  %li.nav-item{class: ('active' if current_page?(gift_cards_path))}
+    = link_to 'Gift Cards', gift_cards_path, class: 'nav-link'

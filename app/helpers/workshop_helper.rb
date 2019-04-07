@@ -4,9 +4,6 @@ module WorkshopHelper
     disabled = !workshop.can_purchase?
 
     content_tag :div, class: 'input-group' do
-      concat(content_tag(:div, class: 'input-group-prepend') do
-        ticket_go_back_button
-      end)
       concat(ticket_select(form, workshop, disabled))
       concat(content_tag(:div, class: 'input-group-append') do
         ticket_add_cart_button(disabled)
@@ -25,10 +22,6 @@ module WorkshopHelper
   end
 
   private
-
-  def ticket_go_back_button
-    link_to 'Go Back', workshops_path, class: 'btn btn-outline-secondary'
-  end
 
   def ticket_select(form, workshop, disabled)
     classes = { class: 'custom-select' }

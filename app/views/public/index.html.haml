@@ -3,4 +3,4 @@
     - if @workshops.any?
       = render partial: "workshops/grid"
     - else
-      %h3 Looks like we didn't have any workshops that matched that criteria.
+      = render partial: "workshops/no_workshops"

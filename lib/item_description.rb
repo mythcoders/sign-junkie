@@ -1,5 +1,5 @@
 class ItemDescription
-  ITEM_TYPES = %i[seat reservation]
+  ITEM_TYPES = %i[seat reservation credit]
   attr_accessor :type, :workshop_name, :workshop_id, :project, :project_id, :stencil, :stencil_id,
                 :addon, :addon_id, :seat_quantity, :seat_preference, :design_agreement,
                 :policy_agreement
@@ -24,6 +24,14 @@ class ItemDescription
     item
   end
 
+  def self.credit(name, email)
+    item = ItemDescription.new
+    item.type = :credit
+    item.name = name
+    item.email = email
+    item
+  end
+
   def title
     if seat?
       val = workshop_name
@@ -33,6 +41,8 @@ class ItemDescription
       val
     elsif reservation?
       "Reservation for #{workshop_name}"
+    elsif credit?
+      'Gift Card'
     else
       workshop_name
     end

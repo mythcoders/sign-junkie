@@ -9,16 +9,6 @@
         .card.text-white.bg-success.o-hidden.h-100
           .card-body
             .card-body-icon
-              = fa_solid 'shopping-cart', 'fa-fw'
-            %h3.mr-5= "#{@cart_total} items in your cart"
-          %a.card-footer.text-white.clearfix.small.z-1{href: cart_index_path}
-            %span.float-left View
-            %span.float-right
-              = fa_solid 'angle-right'
-      .col.col-md-6.mb-3
-        .card.text-white.bg-primary.o-hidden.h-100
-          .card-body
-            .card-body-icon
               = fa_solid 'file-invoice', 'fa-fw'
             %h3.mr-5 Past Orders
           %a.card-footer.text-white.clearfix.small.z-1{href: invoices_path}
@@ -29,11 +19,21 @@
         .card.text-white.bg-info.o-hidden.h-100
           .card-body
             .card-body-icon
-              = fa_solid 'lock-alt', 'fa-fw'
-            %h3.mr-5 Account management
-          %a.card-footer.text-white.clearfix.small.z-1{href: edit_user_registration_path}
+              = fa_solid 'shopping-cart', 'fa-fw'
+            %h3.mr-5= "#{@cart_total} items in your cart"
+          %a.card-footer.text-white.clearfix.small.z-1{href: cart_index_path}
             %span.float-left View
             %span.float-right
               = fa_solid 'angle-right'
   .col-xl-4
-    Hello
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_regular 'link'
+        Account Options
+      %ul.list-group.list-group-flush
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href:edit_user_registration_path }}
+          Change email or password
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: '' }}
+          $0.00 in gift cards available
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: 'mailto:something@you.com' }}
+          Contact Support

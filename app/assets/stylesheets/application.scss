@@ -19,20 +19,9 @@
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
-.whiz-footer {
-  background-color: black;
-  color: white;
-  padding: 0;
-
-  a {
-    color: white;
-  }
-}
-
 .bd-footer {
-  font-size: 85%;
   text-align: center;
-  background-color: $black;
+  background-color: #f7f7f7;
 
   a {
     font-weight: 500;

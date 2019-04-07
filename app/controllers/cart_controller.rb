@@ -14,6 +14,7 @@ class CartController < ApplicationController
     begin
       if @service.add(current_user, cart_params)
         flash[:success] = t('cart.add.success')
+        return redirect_to cart_index_path
       else
         raise Services::ProcessError, t('cart.add.failure')
       end

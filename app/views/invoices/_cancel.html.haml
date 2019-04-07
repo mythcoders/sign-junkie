@@ -1,0 +1,15 @@
+#cancelOrderModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "cancelOrderModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#cancelOrderModalLabel.modal-title Are you sure?
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        Your order will be cancelled. A refund or credit will be issued per the refund policy.
+        This can not be undone.
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Nevermind
+        = link_to destroy_user_session_path, class: 'btn btn-danger' do
+          Process cancellation
+

@@ -1,26 +1,24 @@
-%ul.navbar-nav.ml-auto
+%ul.navbar-nav.ml-auto.d-none.d-lg-flex
   - if user_signed_in?
-    %li.nav-item
-      = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link text-white' do
-        = fa_solid 'shopping-cart'
-        Cart
-        %span.badge.badge-info= @cart_total
-    %li.nav-item
-      = link_to my_account_path, title: 'My Acount', class: 'nav-link text-white' do
+    %li.nav-item{class: ('active' if current_page?(my_account_path))}
+      = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
         = fa_solid 'user-circle'
         My Account
-    - if current_user.can_cp?
-      %li.nav-item
-        = link_to admin_dashboard_path, title: 'Admin Portal', class: 'nav-link text-white' do
-          = fa_solid 'wrench'
-          Admin Portal
     %li.nav-item
-      %a.nav-link.text-white{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
+      %a.nav-link{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
         = fa_solid 'sign-out-alt'
         Sign Out
+    %li.nav-item{class: ('active' if current_page?(cart_index_path))}
+      = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do
+        = fa_solid 'shopping-cart'
+        = "Cart - #{@cart_total}"
+    - if current_user.can_cp?
+      %li.nav-item
+        = link_to admin_dashboard_path, title: 'Admin Portal', class: 'nav-link' do
+          = fa_solid 'wrench'
   - else
     %li.nav-item
-      = link_to new_user_session_path, class: 'nav-link text-white' do
+      = link_to new_user_session_path, class: 'nav-link' do
         = fa_solid 'sign-in'
         Log In
 

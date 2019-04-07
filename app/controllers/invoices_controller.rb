@@ -1,9 +1,10 @@
 class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :prepare_payment, only: %i[new create]
+  before_action :set_cart_total, only: %i[index show new]
 
   def index
-    @invoices = current_user.invoices.page(params[:page])
+    @invoices = current_user.invoices.page(params[:page]).order(created_at: :desc)
   end
 
   def show

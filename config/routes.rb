@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   # customer facing
   get 'my_account', to: 'public#my_account'
   get 'project', to: 'public#project'
+  get 'gift_cards', to: 'public#gift_cards'
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
     resources :invoice_items, path: 'items', only: %i[show create edit update] do
@@ -51,7 +52,10 @@ Rails.application.routes.draw do
     post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
   end
   resources :reservations
-  resources :workshops, only: %i[index show]
+  resources :workshops, only: %i[index show] do
+    get 'public'
+    get 'private'
+  end
 
   root to: 'public#index', as: 'home'
 end

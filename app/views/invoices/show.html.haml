@@ -1,3 +1,5 @@
+= render partial: 'cancel'
+
 .row
   .col-md-3
     .card.card-primary.mb-2
@@ -8,8 +10,9 @@
         .form-group
           %label.col-form-label Date Placed
           .form-control-plaintext= lifp(@invoice.created_at, :short)
-      .card-footer
-        = link_to 'Go Back', invoices_path, class: 'btn btn-outline-secondary'
+        %a.btn.btn-outline-danger{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
+          = fa_solid 'ban'
+          Cancel Order
   .col-md-9
     = render partial: 'summary'
 
