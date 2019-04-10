@@ -6,6 +6,8 @@ class Workshop < ApplicationRecord
   has_many :seats
   has_many_attached :workshop_images
 
+  scope :public_shops, -> { where(is_public: true) }
+  scope :private_shops, -> { where(is_public: false) }
   scope :for_sale, -> { where(is_for_sale: true) }
   scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP AND
                                         purchase_end_date >= CURRENT_TIMESTAMP')}
@@ -39,7 +41,7 @@ class Workshop < ApplicationRecord
   # Deposit for private workshops
   # @return [Integer] USD amount
   def self.private_deposit
-    100
+    BigDecimal.new("100.00")
   end
 
   # Time period

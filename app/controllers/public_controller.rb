@@ -1,15 +1,6 @@
 class PublicController < ApplicationController
   before_action :set_cart_total
 
-  def index
-    if show
-      render 'coming_soon'
-    else
-      @view = 'grid'
-      @workshops = Workshop.upcoming
-    end
-  end
-
   def project
     @workshop = Workshop.find(params[:workshop_id])
     @project = Project.find(params[:project_id])

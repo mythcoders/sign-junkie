@@ -1,6 +1,28 @@
+%h1 Book a Workshop
+
 .row
   .col
-    - if @workshops.any?
-      = render partial: "workshops/grid"
-    - else
-      = render partial: "workshops/no_workshops"
+    .card
+      %h5.card-header.bg-primary.text-white
+        Public Workshops
+      .card-body
+        .card-text
+          Register to come alone or with family or friends!
+          Indicate your seating preference at checkout, and we will do our best to seat you together.
+      .card-footer.text-center
+        %a.card-link(href=workshops_public_path)
+          View our PUBLIC Workshop Dates
+
+  .col
+    .card
+      %h5.card-header.bg-primary.text-white
+        Private Workshops
+      .card-body
+        .card-text
+          Want the place to yourself? If you have a large group
+          = "(minimum #{Workshop.private_min} guests and maximum #{Workshop.private_max}"
+          depending on the size of the project), you can reserve the entire space. Can't meet our minimum?
+          Request a group table at a public workshops.
+      .card-footer.text-center
+        %a.card-link(href=workshops_private_path)
+          View our PRIVATE Workshop Dates
