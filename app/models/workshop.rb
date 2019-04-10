@@ -1,8 +1,8 @@
 class Workshop < ApplicationRecord
   include ApplicationHelper
 
-  has_many :project_workshops
-  has_many :projects, through: :project_workshops
+  has_many :workshop_projects
+  has_many :projects, through: :workshop_projects
   has_many :seats
   has_many_attached :workshop_images
 
@@ -12,12 +12,16 @@ class Workshop < ApplicationRecord
 
   validates_presence_of :name
 
-    # Searches workshops on a variety of factors
+  # Searches workshops on a variety of factors
   # @return [Array] returns of the search
   def self.search(name, _sort = 'A')
     results = Workshop.upcoming
     results = event.where('name like ?', "%#{name}%") unless name.blank?
     results
+  end
+
+  def starting_price
+    10.00
   end
 
   # Minimum seats for a private workshop
@@ -56,8 +60,8 @@ class Workshop < ApplicationRecord
   end
 
   def can_purchase?
+    return false unless seats_available.positive?
     return false unless is_for_sale ||
-                        seats_available.positive? ||
                         (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
                         projects.count.positive?
 

@@ -18,10 +18,11 @@
           %span.text-primary Loading ... Please wait...
     = render partial: 'layouts/partials/logout'
     .container.padded-container
-      %img.center-img.d-none.d-sm-block{src: '/SJWlogo.jpeg'}
+      %a{href: home_path}
+        %img.center-img.d-none.d-sm-block{src: '/SJWlogo.jpeg'}
       = render partial: 'layouts/partials/navbar'
       = render partial: 'layouts/partials/alerts'
-      = render partial: 'layouts/partials/dev_ui'
+      -# = render partial: 'layouts/partials/dev_ui'
       = yield :breadcrumbs
       = yield
     = render partial: 'layouts/partials/footer'

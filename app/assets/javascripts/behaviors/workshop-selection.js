@@ -7,7 +7,6 @@ $(function() {
 $.onmount("[data-js-change-project]", function() {
     $(this).on("change", function() {
         update_ui();
-        update_price();
     })
 });
 
@@ -15,38 +14,41 @@ $.onmount("[data-js-change-stencil]", function() {
     $(this).on("change", function() {
         if ($(this).val() === '$custom') {
             $('[data-js-custom-stencil]').show();
+            $("[data-js-custom-stencil-input]").attr("required", "required");
         } else {
             $('[data-js-custom-stencil]').hide();
+            $("[data-js-custom-stencil-input]").removeAttr("required");
         }
     })
 });
 
 $.onmount("[data-js-change-addon]", function() {
     $(this).on("change", function() {
-        update_price()
+        price = parseFloat(document.getElementById('base-price').value);
+        select = document.querySelectorAll('[data-js-change-addon]')[0]
+        if (select.selectedIndex > 0) {
+            addon = select[select.selectedIndex];
+            price += parseFloat(addon.getAttribute('price'));
+        }
+        document.getElementById('total-price').innerHTML = '$' + price.toFixed(2);
     })
 });
-
-function update_price() {
-    price = parseFloat(document.getElementById('ticket-price').value)
-    select = document.querySelectorAll('[data-js-change-addon]')[0]
-    if (select.selectedIndex > 0) {
-        addon = select[select.selectedIndex]
-        price += parseFloat(addon.getAttribute('price'))
-    }
-    document.getElementById('total-price').innerHTML = '$' + price.toFixed(2)
-}
 
 function update_ui() {
     var workshop = get_workshop();
     var project = get_project();
-    if (workshop != null && project !== null) {
+
+    if (workshop !== null && project !== null) {
         $.ajax({
             url: "/project?workshop_id=" + workshop +  "&project_id=" + project,
             method: "GET",
             dataType: "json",
             cache: "false",
             success: function(data, textStatus, jQxhr) {
+                var total_price = Number(data.instructional_price) + Number(data.material_price);
+                document.getElementById('base-price').value = total_price.toFixed(2);
+                document.getElementById('total-price').innerHTML = '$' + total_price.toFixed(2);
+
                 if (data.addons !== null && data.addons.length > 0) {
                     $("[data-js-change-addon]").find('option').remove()
                     $("[data-js-change-addon]").append("<option value=''>- Select an optional addon -</option>")
@@ -117,4 +119,8 @@ function get_stencil() {
 
 function get_workshop() {
     return document.getElementById('cart_workshop_id').value || null;
+}
+
+function get_addon() {
+    return document.querySelector('[data-js-change-addon]').value || null;
 }

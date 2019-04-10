@@ -12,18 +12,20 @@
           %th Name
           %th Project
           %th Libality Waiver
+          %th Prepped
       %tbody
         - @workshop.seats.each do |t|
           %tr
             %td
               - if t.customer.present?
                 = t.customer.full_name
-                = t.customer.email
+                %a{href: "mailto:#{t.customer.email}"}= t.customer.email
               - else
                 No assigned
             %td
               %pre= t.description.seat_info
-            %td.text-danger
+            %td.text-danger.text-center
               = fa_solid 'times'
-              Not signed
+            %td.text-danger.text-center
+              = fa_solid 'times'
 

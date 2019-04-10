@@ -1,3 +1,14 @@
+#### 1904 - 04-??-19
+
+- Features
+  - ?
+- Changes
+  - Seat calculation is now done based entirely on the project selected
+- Improvements
+  - Front end UI
+- Fixes
+  - Seat price being updated on workshop selection page
+
 #### 1903 - 03-02-19
 
 - Features
@@ -5,7 +16,6 @@
 - Changes
   - `Design` is now `Stencil`
   - `Order` is now `Invoice`
-- Improvements
 
 #### 1902.2 - 02-16-19
 

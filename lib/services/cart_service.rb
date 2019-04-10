@@ -42,7 +42,7 @@ module Services
 
       cart = Cart.new(user: user,
                       quantity: params[:quantity],
-                      price: workshop.ticket_price + project.price)
+                      price: project.instructional_price + project.material_price)
       cart.description = ItemDescription.seat(workshop, project, params[:seating])
 
       set_stencil(cart, project, params[:stencil_id], params[:stencil])
@@ -54,7 +54,7 @@ module Services
     def new_reservation(user, workshop, params)
       cart = Cart.new(user: user,
                       quantity: 1,
-                      price: workshop.deposit_price)
+                      price: workshop.reservation_price)
       cart.description = ItemDescription.reservation(workshop, params[:quantity])
       cart
     end

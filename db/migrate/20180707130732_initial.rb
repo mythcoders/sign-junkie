@@ -52,11 +52,10 @@ class Initial < ActiveRecord::Migration[5.2]
       t.datetime :start_date
       t.datetime :end_date
       t.integer :total_tickets
-      t.decimal :ticket_price
-      t.decimal :deposit_price
+      t.decimal :reservation_price
       t.boolean :is_for_sale, null: false, default: false
       t.boolean :is_public, null: false, default: true
-      t.boolean :allow_custom_projects, null: false, default: false
+      t.boolean :allow_custom_stencils, null: false, default: false
       t.timestamps
     end
 
@@ -74,20 +73,26 @@ class Initial < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :projects, id: :serial do |t|
+    create_table :addons, id: :serial do |t|
       t.string :name
-      t.string :description
       t.decimal :price
+      t.index [:name], unique: true
       t.timestamps
     end
 
-    add_index :projects, :name, unique: true
+    create_table :projects, id: :serial do |t|
+      t.string :name
+      t.string :description
+      t.decimal :instructional_price
+      t.decimal :material_price
+      t.index [:name], unique: true
+      t.timestamps
+    end
 
     create_table :project_addons, id: :serial do |t|
       t.references :project, foreign_key: true
-      t.string :name
-      t.decimal :price
-      t.index [:project_id, :name], unique: true
+      t.references :addon, foreign_key: true
+      t.index [:project_id, :addon_id], unique: true
       t.timestamps
     end
 
@@ -98,10 +103,10 @@ class Initial < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :project_workshops, id: :serial do |t|
-      t.references :project, foreign_key: true, null: false
+    create_table :workshop_projects, id: :serial do |t|
       t.references :workshop, foreign_key: true, null: false
-      t.index [:project_id, :workshop_id], unique: true
+      t.references :project, foreign_key: true, null: false
+      t.index [:workshop_id, :project_id], unique: true
       t.timestamps
     end
 

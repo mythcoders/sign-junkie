@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "addons", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_addons_on_name", unique: true
+  end
+
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -122,11 +130,11 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "project_addons", id: :serial, force: :cascade do |t|
     t.bigint "project_id"
-    t.string "name"
-    t.decimal "price"
+    t.bigint "addon_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id", "name"], name: "index_project_addons_on_project_id_and_name", unique: true
+    t.index ["addon_id"], name: "index_project_addons_on_addon_id"
+    t.index ["project_id", "addon_id"], name: "index_project_addons_on_project_id_and_addon_id", unique: true
     t.index ["project_id"], name: "index_project_addons_on_project_id"
   end
 
@@ -140,20 +148,11 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.index ["stencil_id"], name: "index_project_stencils_on_stencil_id"
   end
 
-  create_table "project_workshops", id: :serial, force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.bigint "workshop_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id", "workshop_id"], name: "index_project_workshops_on_project_id_and_workshop_id", unique: true
-    t.index ["project_id"], name: "index_project_workshops_on_project_id"
-    t.index ["workshop_id"], name: "index_project_workshops_on_workshop_id"
-  end
-
   create_table "projects", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.decimal "price"
+    t.decimal "instructional_price"
+    t.decimal "material_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_projects_on_name", unique: true
@@ -276,6 +275,16 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workshop_projects", id: :serial, force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_workshop_projects_on_project_id"
+    t.index ["workshop_id", "project_id"], name: "index_workshop_projects_on_workshop_id_and_project_id", unique: true
+    t.index ["workshop_id"], name: "index_workshop_projects_on_workshop_id"
+  end
+
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "description", limit: 1000
@@ -284,11 +293,10 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer "total_tickets"
-    t.decimal "ticket_price"
-    t.decimal "deposit_price"
+    t.decimal "reservation_price"
     t.boolean "is_for_sale", default: false, null: false
     t.boolean "is_public", default: true, null: false
-    t.boolean "allow_custom_projects", default: false, null: false
+    t.boolean "allow_custom_stencils", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -299,11 +307,10 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   add_foreign_key "invoices", "users"
   add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
+  add_foreign_key "project_addons", "addons"
   add_foreign_key "project_addons", "projects"
   add_foreign_key "project_stencils", "projects"
   add_foreign_key "project_stencils", "stencils"
-  add_foreign_key "project_workshops", "projects"
-  add_foreign_key "project_workshops", "workshops"
   add_foreign_key "refunds", "customer_credits"
   add_foreign_key "refunds", "invoices"
   add_foreign_key "refunds", "refund_reasons"
@@ -315,4 +322,6 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   add_foreign_key "seats", "workshops"
   add_foreign_key "stencil_categories", "stencil_categories", column: "parent_id"
   add_foreign_key "stencils", "stencil_categories"
+  add_foreign_key "workshop_projects", "projects"
+  add_foreign_key "workshop_projects", "workshops"
 end

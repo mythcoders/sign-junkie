@@ -7,7 +7,7 @@
             %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first), height: 350}
           - else
             %img.card-img-top{alt: "Image of #{workshop.name}", src: '/cover.jpg', height: 350}
-          - if workshop.seats_available.between?(1, 10)
+          - if workshop.seats_available.positive?
             %h5.card-header
               = "Only #{workshop.seats_available} left!"
           - elsif workshop.seats_available.zero?
@@ -20,7 +20,7 @@
                 %br
                 = workshop.name
             %h5.text-primary
-              = number_to_currency(workshop.ticket_price)
+              = "Starting at #{number_to_currency(workshop.starting_price)}"
               - if workshop.is_private?
                 %span.ml-2.badge.badge-info Private
   %br

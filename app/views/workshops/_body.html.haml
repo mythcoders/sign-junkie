@@ -3,18 +3,17 @@
   = @workshop.when
 - if @workshop.is_public?
   %p.card-text
-    = fa_solid 'usd-circle'
-    %span#total-price= number_to_currency(@workshop.ticket_price)
-    %input{id: 'ticket-price', value: @workshop.ticket_price, type: 'hidden'}
-  %p.card-text
     = fa_solid 'chair'
     = "#{@workshop.seats_available} seats available"
+  %p.card-text
+    = fa_solid 'usd-circle'
+    %span#total-price Select a project
+    %input{id: 'base-price', value: '0.00', type: 'hidden'}
 - else
   %p.card-text
     = fa_regular 'usd-circle'
     %p
-      = "#{number_to_currency(Workshop.private_deposit)} deposit, due today"
-      = "#{number_to_currency(@workshop.ticket_price)} per ticket, paid later"
+      = "#{number_to_currency(Workshop.reservation_price)} deposit, due today"
   %p.card-text
     = fa_regular 'ticket-alt'
     = "#{Workshop.private_min} - #{@workshop.total_tickets} attendees"

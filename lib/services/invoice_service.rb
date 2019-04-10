@@ -8,10 +8,10 @@ module Services
                             due_date: Date.today,
                             created_at: created_at)
 
-      Cart.for(user).as_of(invoice.created_at).each do |item|
-        item = InvoiceItem.new(description: item.description,
-                               quantity: item.quantity,
-                               pre_tax_amount: item.price)
+      Cart.for(user).as_of(invoice.created_at).each do |cart|
+        item = InvoiceItem.new(description: cart.description,
+                               quantity: cart.quantity,
+                               pre_tax_amount: cart.price)
 
         tax_service.apply_tax! item
         invoice.items << item

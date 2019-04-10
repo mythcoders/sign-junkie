@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   get 'my_account', to: 'public#my_account'
   get 'project', to: 'public#project'
   get 'gift_cards', to: 'public#gift_cards'
+  get 'policies', to: 'public#policies'
+  get 'about', to: 'public#about'
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
     resources :invoice_items, path: 'items', only: %i[show create edit update] do

@@ -7,14 +7,14 @@
     = f.select :project_id,
         options_from_collection_for_select(@workshop.projects, 'id', 'name'),
         { value: nil, include_blank: '- Please Select -' },
-        { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private? }
+        { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private?, required: 'required' }
 .form-row
   .form-group.col-md-6
     = f.label :stencil_design
     = f.select :stencil_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
-        { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private? }
+        { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private?, required: 'required' }
   .form-group.col-md-6
     = f.label :addons
     = f.select :addon_id,
@@ -33,7 +33,7 @@
   .form-row
     .form-group.col
       .custom-switch.custom-control
-        = f.check_box :design_confirmation, class: 'custom-control-input'
+        = f.check_box :design_confirmation, class: 'custom-control-input', required: 'required'
         = f.label :design_confirmation, class: 'custom-control-label'
       %p.form-control-plaintext
         I have entered the correct design and/or customization info. I userstand that NO CHANGES
@@ -41,7 +41,7 @@
   .form-row
     .form-group.col
       .custom-switch.custom-control
-        = f.check_box :policy_agreement, class: 'custom-control-input'
+        = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
         = f.label :policy_agreement, class: 'custom-control-label'
       %p.form-control-plaintext
         I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
