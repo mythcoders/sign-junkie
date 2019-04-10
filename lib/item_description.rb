@@ -1,8 +1,8 @@
 class ItemDescription
-  ITEM_TYPES = %i[seat reservation credit]
+  ITEM_TYPES = %i[seat reservation gift_card]
   attr_accessor :type, :workshop_name, :workshop_id, :project, :project_id, :stencil, :stencil_id,
                 :addon, :addon_id, :seat_quantity, :seat_preference, :design_agreement,
-                :policy_agreement
+                :policy_agreement, :first_name, :last_name, :email
 
   def self.seat(workshop, project = nil, seat_preference = nil)
     item = ItemDescription.new
@@ -24,10 +24,11 @@ class ItemDescription
     item
   end
 
-  def self.credit(name, email)
+  def self.gift_card(first_name, last_name, email)
     item = ItemDescription.new
-    item.type = :credit
-    item.name = name
+    item.type = :gift_card
+    item.first_name = first_name
+    item.last_name = last_name
     item.email = email
     item
   end
@@ -41,8 +42,8 @@ class ItemDescription
       val
     elsif reservation?
       "Reservation for #{workshop_name}"
-    elsif credit?
-      'Gift Card'
+    elsif gift_card?
+      "Gift Card for #{first_name} #{last_name}"
     else
       workshop_name
     end

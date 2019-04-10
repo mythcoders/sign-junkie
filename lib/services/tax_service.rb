@@ -23,7 +23,7 @@ module Services
 
     def calc_taxable(item)
       return 0.00 unless TaxService.enabled?
-      return 0.00 if item.reservation? || item.credit?
+      return 0.00 if item.reservation? || item.gift_card?
 
       taxable = Project.find(item.project_id).material_price
 

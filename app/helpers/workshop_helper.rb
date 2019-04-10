@@ -18,7 +18,11 @@ module WorkshopHelper
       'data-cart-id': cart_item.id,
       'data-price': cart_item.price
     }
-    form.select(:quantity, ticket_dropdown_items(cart_item.workshop), {}, html_metadata)
+    if cart_item.description.gift_card?
+      form.select(:quantity, 1..5, {}, html_metadata)
+    else
+      form.select(:quantity, ticket_dropdown_items(cart_item.workshop), {}, html_metadata)
+    end
   end
 
   private

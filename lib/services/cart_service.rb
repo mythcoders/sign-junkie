@@ -2,13 +2,10 @@ module Services
   class CartService
 
     def add(user, cart_params)
-      workshop = Workshop.includes(:projects).find(cart_params[:workshop_id])
-      return false unless workshop.can_purchase?
-
-      cart = if workshop.is_public?
-               new_seat user, workshop, cart_params
+      cart = if cart_params[:type] == 'gift_card'
+               new_gift_card user, cart_params
              else
-               new_reservation user, workshop, cart_params
+               add_item user, cart_params
              end
       cart.save!
     end
@@ -35,6 +32,17 @@ module Services
 
     private
 
+    def add_item(user, cart_params)
+      workshop = Workshop.includes(:projects).find(cart_params[:workshop_id])
+      raise ProcessError, 'Workshop is not available for purhcase' unless workshop.can_purchase?
+
+      if workshop.is_public?
+        new_seat user, workshop, cart_params
+      else
+        new_reservation user, workshop, cart_params
+      end
+    end
+
     def new_seat(user, workshop, params)
       project = workshop.projects.where(id: params[:project_id]).first
       raise ProcessError, 'No project selected' if project.nil?
@@ -56,6 +64,16 @@ module Services
                       quantity: 1,
                       price: workshop.reservation_price)
       cart.description = ItemDescription.reservation(workshop, params[:quantity])
+      cart
+    end
+
+    def new_gift_card(user, params)
+      cart = Cart.new(user: user,
+                      quantity: 1,
+                      price: params[:amount])
+      cart.description = ItemDescription.gift_card(params[:first_name],
+                                                   params[:last_name],
+                                                   params[:email])
       cart
     end
 

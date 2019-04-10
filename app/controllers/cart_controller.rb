@@ -52,6 +52,7 @@ class CartController < ApplicationController
   def cart_params
     params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
                                  :stencil_id, :stencil, :seating, :design_confirmation,
-                                 :policy_agreement)
+                                 :policy_agreement, :first_name, :last_name, :email,
+                                 :amount, :type)
   end
 end

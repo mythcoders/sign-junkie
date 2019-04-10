@@ -28,7 +28,7 @@ module Services
             empty_cart(invoice)
           invoice.status = :paid
 
-          return invoice.save! && ReservationService.new.process!(invoice)
+          return invoice.save! && OrderService.new.process!(invoice)
         else
           Rails.logger.warn 'Invoice creation failed!'
           raise ActiveRecord::Rollback

@@ -1,5 +1,3 @@
-= error_messages_for 'order'
-
 .card
   %h4.card-header.bg-primary.text-white
     = fa_solid 'shopping-cart'
@@ -18,15 +16,16 @@
               %a{href: ''}
                 %h4= c.description.title
               %ul.list-inline
-                %li.list-inline-item
-                  = fa_regular 'calendar-alt'
-                  = c.workshop.when
-                -# - if c.seating.present?
-                -#   %li.list-inline-item
-                -#     = fa_regular 'chair'
-                -#     = c.seating
-              - if c.workshop.is_private?
-                %p.text-info Deposit fee will be added during checkout
+                - unless c.description.gift_card?
+                  %li.list-inline-item
+                    = fa_solid 'calendar-alt'
+                    = c.workshop.when
+                  -# - if c.seating.present?
+                  -#   %li.list-inline-item
+                  -#     = fa_regular 'chair'
+                  -#     = c.seating
+                  - if c.workshop.is_private?
+                    %p.text-info Deposit fee will be added during checkout
               = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
             %td.action-column
               = form_for c, url: cart_path(c), method: :patch do |f|

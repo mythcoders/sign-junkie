@@ -1,9 +1,11 @@
 # Assists with booking reservations and notifying customers
 module Services
-  class ReservationService
+  class OrderService
     def process!(invoice)
       invoice.items.each do |item|
-        if item.description.reservation?
+        if item.description.gift_card?
+          create_credit item, invoice.customer
+        elsif item.description.reservation?
           book_reservation item, invoice.customer
         else
           reserve_seat item, invoice.customer, invoice
@@ -38,6 +40,20 @@ module Services
         customer: user,
         invoice: invoice
       )
+    end
+
+    def create_credit(item, user)
+      recipient = User.where(email: item.description.email).first_or_initialize
+      recipient.credits << CustomerCredit.new(amount: item.pre_tax_amount)
+
+      unless recipient.persisted?
+        recipient.role = 'customer'
+        recipient.first_name = item.description.first_name
+        recipient.last_name = item.description.last_name
+        recipient.password = 'changeme'
+      end
+
+      recipient.save!
     end
   end
 end

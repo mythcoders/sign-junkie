@@ -14,6 +14,7 @@ class User < ApplicationRecord
     admin: 'admin',
     operator: 'operator'
   }
+  has_many :credits, class_name: 'CustomerCredit'
   has_many :carts
   has_many :invoices
   has_many :seats
