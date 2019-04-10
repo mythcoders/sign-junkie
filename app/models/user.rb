@@ -6,7 +6,7 @@ class User < ApplicationRecord
                      last_sign_in_ip current_sign_in_ip failed_attempts
                      encrypted_password reset_password_token confirmation_token]
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :trackable, :validatable, :confirmable, :lockable, :timeoutable
+         :trackable, :validatable, :confirmable, :lockable, :timeoutable, :invitable
 
   enum role: {
     customer: 'customer',

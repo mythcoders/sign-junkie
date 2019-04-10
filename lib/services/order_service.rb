@@ -43,16 +43,16 @@ module Services
     end
 
     def create_credit(item, user)
-      recipient = User.where(email: item.description.email).first_or_initialize
-      recipient.credits << CustomerCredit.new(amount: item.pre_tax_amount)
+      recipient = User.find_by_email(item.description.email)
 
-      unless recipient.persisted?
-        recipient.role = 'customer'
-        recipient.first_name = item.description.first_name
-        recipient.last_name = item.description.last_name
-        recipient.password = 'changeme'
+      if recipient.nil?
+        recipient = User.invite!(email: item.description.email,
+                                 first_name: item.description.first_name,
+                                 last_name: item.description.last_name,
+                                 role: 'customer')
       end
 
+      recipient.credits << CustomerCredit.new(amount: item.pre_tax_amount)
       recipient.save!
     end
   end

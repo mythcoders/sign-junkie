@@ -10,7 +10,6 @@
             %tr
               %td
                 = i.description.title
-                %br= i.description.workshop.when
               %td.text-right.action-column
                 %strong= number_to_currency(i.pre_tax_total)
             - if @invoice.taxed?

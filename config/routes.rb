@@ -59,5 +59,5 @@ Rails.application.routes.draw do
     get 'private'
   end
 
-  root to: 'public#index', as: 'home'
+  root to: 'public#index'
 end

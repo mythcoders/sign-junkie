@@ -30,8 +30,7 @@ class InvoicesController < ApplicationController
       end
     rescue Services::ProcessError => e
       flash[:error] = e.message
-      prepare_payment
-      render 'new'
+      return redirect_to cart_index_path
     end
   end
 

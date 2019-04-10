@@ -10,6 +10,7 @@ gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
 gem 'devise'
+gem 'devise_invitable'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
