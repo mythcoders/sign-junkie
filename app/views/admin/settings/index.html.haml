@@ -26,3 +26,11 @@
       #v-pills-stencils.tab-pane.fade{"aria-labelledby" => "v-pills-messages-tab", :role => "tabpanel"}
         = render 'stencil_categories'
 
+= content_for :styles do
+  %style{src: "https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"}
+
+= content_for :scripts do
+  %script{src: "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"}
+  %script{src: "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"}
+  :javascript
+    $('#refund_table').DataTable();
