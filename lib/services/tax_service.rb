@@ -1,9 +1,12 @@
 module Services
   class TaxService
-    SALES_TAX_ENABLED = true
-
     def self.current_rate
-      BigDecimal.new("0.0725")
+      tax = TaxRate.where('effective_date <= CURRENT_TIMESTAMP')
+                   .order(effective_date: :desc)
+                   .first
+      return 0 if tax.nil?
+
+      tax.rate
     end
 
     def self.enabled?
@@ -21,9 +24,11 @@ module Services
       end
     end
 
+    private
+
     def calc_taxable(item)
       return 0.00 unless TaxService.enabled?
-      return 0.00 if item.reservation? || item.gift_card?
+      return 0.00 unless item.seat?
 
       taxable = Project.find(item.project_id).material_price
 
