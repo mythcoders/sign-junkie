@@ -10,26 +10,31 @@
       %ul.navbar-nav.nav-fill.w-100
         %li.nav-item{class: ('active' if current_page?(root_path))}
           = link_to 'Home', root_path, class: 'nav-link'
-        %li.nav-item.dropdown.no-arrow
-          %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
-            About
-          .dropdown-menu{"aria-labelledby": "userDropdown"}
-            %a.dropdown-item{href: policies_path} Policy
-            %a.dropdown-item{href: waiver_path} Waiver
-            %a.dropdown-item{href: contact_path} Contact Us
-            %a.dropdown-item{href: faq_path} Frequenty Asked Questions
+        %li.nav-item{class: ('active' if current_page?(how_it_works_path))}
+          = link_to 'How It Works', how_it_works_path, class: 'nav-link'
         %li.nav-item.dropdown.no-arrow
           %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
             Projects
           .dropdown-menu{"aria-labelledby": "userDropdown"}
             %a.dropdown-item{href: projects_path} Projects & Designs
-            %a.dropdown-item{href: addons_path} Addons
-            %a.dropdown-item{href: they_made_path} Look what they made
+            %a.dropdown-item{href: addons_path} Project Addons
+            %a.dropdown-item{href: gallery_path} Photo Gallery
         %li.nav-item.dropdown.no-arrow
           %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
             Private Workshops
           .dropdown-menu{"aria-labelledby": "userDropdown"}
-            %a.dropdown-item{href: workshops_private_path} Something
+            %a.dropdown-item{href: private_policies_path} Private Workshop Policies
+            %a.dropdown-item{href: private_hostess_path} Hostess
+            %a.dropdown-item{href: private_workshops_path} Available Dates
+        %li.nav-item.dropdown.no-arrow
+          %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+            About
+          .dropdown-menu{"aria-labelledby": "userDropdown"}
+            %a.dropdown-item{href: about_path} About Us
+            %a.dropdown-item{href: contact_path} Contact Us
+            %a.dropdown-item{href: policies_path} Policies
+            %a.dropdown-item{href: waiver_path} Waiver
+            %a.dropdown-item{href: faq_path} FAQs
         %li.nav-item{class: ('active' if current_page?(gift_cards_path))}
           = link_to 'Gift Cards', gift_cards_path, class: 'nav-link'
 

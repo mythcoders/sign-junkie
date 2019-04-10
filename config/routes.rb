@@ -49,9 +49,12 @@ Rails.application.routes.draw do
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
   get 'waiver', to: 'public#waiver'
-  get 'they_made', to: 'public#they_made'
-  get 'workshops/public', to: 'workshops#public'
-  get 'workshops/private', to: 'workshops#private'
+  get 'gallery', to: 'public#gallery'
+  get 'how_it_works', to: 'public#how_it_works'
+  get 'public_workshops', to: 'workshops#public'
+  get 'private_workshops', to: 'workshops#private'
+  get 'private_policies', to: 'public#private_policies'
+  get 'private_hostess', to: 'public#private_hostess'
 
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
