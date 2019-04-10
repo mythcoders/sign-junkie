@@ -27,14 +27,14 @@
                     #btnGroupAddon.input-group-text $
                   = f.text_field :amount, class: 'form-control', required: 'required', value: '25', type: 'number'
                 %br
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $25
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $30
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $40
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $50
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $75
-                %button.btn.btn-success{type: "button", 'data-js-amount-change': ''} $100
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $25
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $30
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $40
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $50
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $75
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $100
           .card-footer
-            %button.btn.btn-outline-success{title: "Add to cart", type: "submit"}
+            %button.btn.btn-outline-success.btn-block{title: "Add to cart", type: "submit"}
               %i.fas.fa-cart-plus
               %span Add to Cart
       - else
