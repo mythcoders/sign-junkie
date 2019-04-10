@@ -1,11 +1,12 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
   %h1.h2
     = fa_solid 'cogs'
-    System Settings
+    Settings
 .row
   .col-3
     #v-pills-tab.nav.flex-column.nav-pills{"aria-orientation" => "vertical", :role => "tablist"}
       %a#v-pills-settings-tab.nav-link.active{"aria-controls" => "v-pills-settings", "aria-selected" => "true", "data-toggle" => "pill", :href => "#v-pills-settings", role: "tab"} General
+      %a#v-pills-addons-tab.nav-link{"aria-controls" => "v-pills-addons", "aria-selected" => "false", "data-toggle" => "pill", :href => "#v-pills-addons", role: "tab"} Project Addons
       %a#v-pills-refundss-tab.nav-link{"aria-controls" => "v-pills-refunds", "aria-selected" => "false", "data-toggle" => "pill", :href => "#v-pills-refunds", role: "tab"} Refund Reasons
       %a#v-pills-stencils-tab.nav-link{"aria-controls" => "v-pills-stencils", "aria-selected" => "false", "data-toggle" => "pill", :href => "#v-pills-stencils", role: "tab"} Stencil Categories
       %a#v-pills-taxperiods-tab.nav-link{"aria-controls" => "v-pills-taxperiods", "aria-selected" => "false", "data-toggle" => "pill", :href => "#v-pills-taxperiods", role: "tab"} Tax Periods
@@ -14,6 +15,8 @@
     #v-pills-tabContent.tab-content
       #v-pills-settings.tab-pane.fade.show.active{"aria-labelledby" => "v-pills-settings-tab", :role => "tabpanel"}
         = render 'general'
+      #v-pills-addons.tab-pane.fade{"aria-labelledby" => "v-pills-addons-tab", :role => "tabpanel"}
+        = render 'addons'
       #v-pills-refunds.tab-pane.fade{"aria-labelledby" => "v-pills-settings-tab", :role => "tabpanel"}
         = render 'refund_reasons'
       #v-pills-taxperiods.tab-pane.fade{"aria-labelledby" => "v-pills-home-tab", :role => "tabpanel"}

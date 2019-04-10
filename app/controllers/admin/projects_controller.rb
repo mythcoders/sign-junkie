@@ -52,7 +52,7 @@ module Admin
     end
 
     def set_designs
-      @designs = Design.all.collect { |opt| [opt.name, opt.id] }
+      @designs = Stencil.all.collect { |opt| [opt.name, opt.id] }
     end
 
     def set_project

@@ -22,8 +22,8 @@
                 %span.badge.badge-primary For Sale
               - if e.is_public?
                 %span.badge.badge-success Public
-                - if e.allow_custom_projects
-                  %span.badge.badge-info Custom Projects
+                - if e.allow_custom_stencils
+                  %span.badge.badge-info Custom Stencils
               - else
                 %span.badge.badge-warning Private
           %td= e.when

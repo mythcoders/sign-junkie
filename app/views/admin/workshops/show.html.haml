@@ -12,8 +12,8 @@
               %span.badge.badge-primary For Sale
             - if @workshop.is_public?
               %span.badge.badge-success Public
-              - if @workshop.allow_custom_projects
-                %span.badge.badge-info Custom Projects
+              - if @workshop.allow_custom_stencils
+                %span.badge.badge-info Custom Stencils
             - else
               %span.badge.badge-warning Private
         .form-group
@@ -29,9 +29,6 @@
         .form-group
           %label.col-form-label Remaining seats for sale
           .form-control-plaintext= @workshop.seats_available
-        .form-group
-          %label.col-form-label Ticket price
-          .form-control-plaintext= number_to_currency(@workshop.ticket_price)
       .card-footer
         %a.btn.btn-outline-secondary.btn-sm{href: admin_workshops_path}
           = fa_regular 'arrow-left'
