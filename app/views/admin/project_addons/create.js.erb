@@ -1,0 +1,9 @@
+if ($('#addons').length) {
+  $("<%= escape_javascript(render partial: 'admin/project_addons/row', locals: {addon: @addon}) %>").insertAfter('#addons > tr:last');
+} else {
+  $('#addons-content').html("<%= escape_javascript(render partial: 'admin/project_addons/list', locals: { addons: [@addon] }) %>")
+}
+
+$('#project_addon_name').val('')
+$('#project_addon_price').val('')
+$('#project_addon-error').html('')

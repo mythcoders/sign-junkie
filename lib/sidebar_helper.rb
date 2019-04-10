@@ -22,11 +22,11 @@ module SidebarHelper
   def audits_controller?
     controller.class == Admin::AuditsController
   end
-  #
-  # def reports_controller?
-  #   controller.class == Admin::ReportsController
-  # end
-  #
+
+   def reports_controller?
+     controller.class == Admin::ReportsController
+   end
+
   def workshops_controller?
     controller.class == Admin::WorkshopsController
   end
@@ -44,19 +44,11 @@ module SidebarHelper
   end
 
   def designs_controller?
-    controller.class == Admin::DesignsController
+    controller.class == Admin::StencilsController
   end
 
-  def categories_controller?
-    controller.class == Admin::DesignCategoriesController
-  end
-
-  def addons_controller?
-    controller.class == Admin::AddonsController
-  end
-
-  def order_controller?
-    controller.class == Admin::OrdersController
+  def invoices_controller?
+    controller.class == Admin::InvoicesController
   end
 
   def admin_home_action?(action)

@@ -19,15 +19,17 @@ module EnvironmentInfo
       [
         [nil, nil],
         ['Environment', Rails.env],
+        ['Branch', SystemInfo.branch],
+        ['Deploy time', SystemInfo.deploy_time],
         ['Deployer', SystemInfo.deployer],
-        ['Deployed', SystemInfo.deploy_time],
         [nil, nil],
         ['Platform', RUBY_PLATFORM.to_s],
-        ['DB Adapter', ActiveRecord::Base.connection.adapter_name],
-        ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"],
+        ['Database adapter', ActiveRecord::Base.connection.adapter_name],
+        ['Ares version', SystemInfo.long_version],
+        ['Bundler version', Bundler::VERSION],
         ['Rails version', Rails::VERSION::STRING],
-        ['Bundler version', Bundler::VERSION]
-      ].map { |info| '%-19s %s' % info }.join("\n") + "\n"
+        ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
+      ].map { |info| '%-26s %s' % info }.join("\n") + "\n"
     end
   end
 end

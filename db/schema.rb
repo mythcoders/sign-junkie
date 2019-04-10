@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_232913) do
+ActiveRecord::Schema.define(version: 2019_04_10_193135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "addons", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_addons_on_name", unique: true
   end
 
   create_table "audits", force: :cascade do |t|
@@ -60,7 +68,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "carts", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.string "item", null: false
+    t.string "description", null: false
     t.integer "quantity", default: 1, null: false
     t.decimal "price", null: false
     t.datetime "created_at", null: false
@@ -79,7 +87,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "invoice_items", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
-    t.string "memo", limit: 50, null: false
+    t.string "description", null: false
     t.decimal "pre_tax_amount", default: "0.0", null: false
     t.integer "quantity", null: false
     t.decimal "tax_rate"
@@ -91,31 +99,42 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
 
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.serial "invoice_number", limit: 10
+    t.serial "identifier", limit: 10
+    t.string "status"
+    t.date "due_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
+  create_table "notifiications", id: :serial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.string "memo"
+    t.datetime "read_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifiications_on_user_id"
+  end
+
   create_table "payments", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
-    t.bigint "user_id"
     t.string "identifier", limit: 25
     t.string "method", null: false
     t.decimal "amount", null: false
+    t.decimal "amount_refunded"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
-    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "project_addons", id: :serial, force: :cascade do |t|
     t.bigint "project_id"
-    t.string "name"
-    t.decimal "price"
+    t.bigint "addon_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id", "name"], name: "index_project_addons_on_project_id_and_name", unique: true
+    t.index ["addon_id"], name: "index_project_addons_on_addon_id"
+    t.index ["project_id", "addon_id"], name: "index_project_addons_on_project_id_and_addon_id", unique: true
     t.index ["project_id"], name: "index_project_addons_on_project_id"
   end
 
@@ -129,20 +148,11 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.index ["stencil_id"], name: "index_project_stencils_on_stencil_id"
   end
 
-  create_table "project_workshops", id: :serial, force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.bigint "workshop_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id", "workshop_id"], name: "index_project_workshops_on_project_id_and_workshop_id", unique: true
-    t.index ["project_id"], name: "index_project_workshops_on_project_id"
-    t.index ["workshop_id"], name: "index_project_workshops_on_workshop_id"
-  end
-
   create_table "projects", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.decimal "price"
+    t.decimal "instructional_price"
+    t.decimal "material_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_projects_on_name", unique: true
@@ -156,20 +166,22 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   end
 
   create_table "refunds", id: :serial, force: :cascade do |t|
-    t.bigint "payment_id"
+    t.bigint "invoice_id"
     t.bigint "customer_credit_id"
     t.bigint "refund_reason_id"
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_credit_id"], name: "index_refunds_on_customer_credit_id"
-    t.index ["payment_id"], name: "index_refunds_on_payment_id"
+    t.index ["invoice_id"], name: "index_refunds_on_invoice_id"
     t.index ["refund_reason_id"], name: "index_refunds_on_refund_reason_id"
   end
 
   create_table "reservations", id: :serial, force: :cascade do |t|
     t.bigint "workshop_id"
     t.bigint "user_id"
+    t.serial "identifier", limit: 10
+    t.string "payment_plan", null: false
     t.datetime "void_date"
     t.datetime "cancel_date"
     t.datetime "created_at", null: false
@@ -187,6 +199,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.string "description"
     t.boolean "prepped"
     t.boolean "notified"
+    t.datetime "void_date"
+    t.datetime "cancel_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_seats_on_invoice_id"
@@ -256,9 +270,27 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.integer "invited_by_id"
+    t.string "invited_by_type"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "workshop_projects", id: :serial, force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_workshop_projects_on_project_id"
+    t.index ["workshop_id", "project_id"], name: "index_workshop_projects_on_workshop_id_and_project_id", unique: true
+    t.index ["workshop_id"], name: "index_workshop_projects_on_workshop_id"
   end
 
   create_table "workshops", id: :serial, force: :cascade do |t|
@@ -269,11 +301,10 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer "total_tickets"
-    t.decimal "ticket_price"
-    t.decimal "deposit_price"
+    t.decimal "reservation_price"
     t.boolean "is_for_sale", default: false, null: false
     t.boolean "is_public", default: true, null: false
-    t.boolean "allow_custom_projects", default: false, null: false
+    t.boolean "allow_custom_stencils", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -282,15 +313,14 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   add_foreign_key "customer_credits", "users"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "users"
+  add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
-  add_foreign_key "payments", "users"
+  add_foreign_key "project_addons", "addons"
   add_foreign_key "project_addons", "projects"
   add_foreign_key "project_stencils", "projects"
   add_foreign_key "project_stencils", "stencils"
-  add_foreign_key "project_workshops", "projects"
-  add_foreign_key "project_workshops", "workshops"
   add_foreign_key "refunds", "customer_credits"
-  add_foreign_key "refunds", "payments"
+  add_foreign_key "refunds", "invoices"
   add_foreign_key "refunds", "refund_reasons"
   add_foreign_key "reservations", "users"
   add_foreign_key "reservations", "workshops"
@@ -300,4 +330,6 @@ ActiveRecord::Schema.define(version: 2018_08_14_232913) do
   add_foreign_key "seats", "workshops"
   add_foreign_key "stencil_categories", "stencil_categories", column: "parent_id"
   add_foreign_key "stencils", "stencil_categories"
+  add_foreign_key "workshop_projects", "projects"
+  add_foreign_key "workshop_projects", "workshops"
 end

@@ -1,0 +1,34 @@
+= form_for @invoice, url: invoices_path do |f|
+  .row
+    .col.col-sm-5
+      .card.card-primary.mb-2
+        %h4.card-header.bg-primary.text-white
+          Checkout
+        = render partial: 'invoices/form', locals: { f: f }
+    .col.col-sm-7
+      .card
+        %h4.card-header.bg-primary.text-white
+          = fa_solid 'shopping-bag'
+          Summary
+        .table-responsive-md
+          %table.table.table-striped.table-bordered.table-border-fix
+            %tbody
+              %tr
+              - @invoice.items.each do |i|
+                %tr
+                  %td
+                    = i.description.title
+                  %td.text-right.action-column
+                    %strong= number_to_currency(i.pre_tax_total)
+              - if @invoice.taxed?
+                %tr
+                  %td Estimated tax to be collected
+                  %td.text-right.action-column
+                    %strong#order_total_tax= number_to_currency(@invoice.tax_total)
+            %tfoot
+              %tr.bg-primary.text-white
+                %td Total due today
+                %td.text-right
+                  %strong#order_total_due= number_to_currency(@invoice.grand_total)
+
+= render partial: 'checkout'

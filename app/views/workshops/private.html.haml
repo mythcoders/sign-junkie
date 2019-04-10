@@ -1,0 +1,6 @@
+.row
+  .col
+    - if @workshops.any?
+      = render partial: "workshops/grid"
+    - else
+      = render partial: "workshops/no_workshops"

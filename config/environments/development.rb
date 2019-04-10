@@ -33,6 +33,6 @@ Rails.application.configure do
   config.assets.debug = false
 
   config.assets.quiet = true
-
+  config.web_console.whiny_requests = false
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

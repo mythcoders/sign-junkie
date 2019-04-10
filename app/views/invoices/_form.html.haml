@@ -1,0 +1,19 @@
+.card-body
+  = error_messages_for 'order'
+  = error_messages_for 'payment'
+  = f.hidden_field :created_at
+  %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+  #payment-container
+
+  %p.card-text
+    Seats and projects can be assigned to individuals after purchasing
+
+  - unless Rails.env.production?
+    %p.card-text.text-warning
+      %strong Test Credit Card Information
+      %br
+      %samp 4111-1111-1111-1111     01/23
+.card-footer
+  %button{type: 'submit', name: 'save', class: 'btn btn-outline-success btn-block'}
+    Place your order
+    = fa_solid 'cash-register'

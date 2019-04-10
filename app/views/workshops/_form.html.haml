@@ -7,39 +7,44 @@
     = f.select :project_id,
         options_from_collection_for_select(@workshop.projects, 'id', 'name'),
         { value: nil, include_blank: '- Please Select -' },
-        { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private? }
+        { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private?, required: 'required' }
 .form-row
-  .form-group.col-6
-    = f.label :design
-    = f.select :design_id,
+  .form-group.col-md-6
+    = f.label :stencil_design
+    = f.select :stencil_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
-        { class: 'form-control custom-select', 'data-js-change-design': '', disabled: @workshop.is_private? }
-  .form-group.col-6
+        { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private?, required: 'required' }
+  .form-group.col-md-6
     = f.label :addons
     = f.select :addon_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-addon': '', disabled: @workshop.is_private? }
-.form-row{style: 'display: none', 'data-js-custom-design': ''}
+.form-row{style: 'display: none', 'data-js-custom-stencil': ''}
   .form-group.col
-    = f.label :custom_design
-    = f.text_field :design, class: 'form-control', 'data-js-custom-design-input': ''
+    = f.label :custom_stencil
+    = f.text_field :stencil, class: 'form-control', 'data-js-custom-stencil-input': ''
 - if @workshop.is_public?
   .form-row
     .form-group.col
-      = f.label :seating
+      = f.label :seating_preference
       = f.text_field :seating, class: 'form-control'
   .form-row
     .form-group.col
-      %label Is this a gift?
-      .custom-control.custom-radio
-        = f.radio_button :gift, 'true', class: 'custom-control-input', 'data-js-payment-method': ''
-        = f.label :gift, value: 'true', class: 'custom-control-label' do
-          = fa_solid 'gift'
-          Yes, it's a gift
-      .custom-control.custom-radio
-        = f.radio_button :gift, 'false', class: 'custom-control-input', 'data-js-payment-method': ''
-        = f.label :gift, value: 'false', class: 'custom-control-label' do
-          = fa_solid 'user'
-          No, it's for myself
+      .custom-switch.custom-control
+        = f.check_box :design_confirmation, class: 'custom-control-input', required: 'required'
+        = f.label :design_confirmation, class: 'custom-control-label'
+      %p.form-control-plaintext
+        I have entered the correct design and/or customization info. I userstand that NO CHANGES
+        can be made to my design choice OR any personalization once my reservation is submitted.
+  .form-row
+    .form-group.col
+      .custom-switch.custom-control
+        = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
+        = f.label :policy_agreement, class: 'custom-control-label'
+      %p.form-control-plaintext
+        I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
+        in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
+        later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
+        I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.

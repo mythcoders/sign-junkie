@@ -8,4 +8,5 @@
 //= require ../behaviors/clickable-row
 //= require jquery.easing.min
 //= require sb-admin.min
+//= require bs-custom-file-input.min
 //= require ../global

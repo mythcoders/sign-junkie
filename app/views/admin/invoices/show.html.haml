@@ -1,0 +1,28 @@
+- if @invoice.status == :draft
+  .alert.alert-info
+    The customer has started this order but has yet to complete it!
+.row
+  .col-5
+    .card.card-primary
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'shopping-bag'
+        = "Invoice ##{@invoice.identifier} - #{@invoice.status}"
+      .card-body
+        .form-group.row
+          %label.col-form-label.col-6 Customer
+          .form-control-plaintext.col
+            = link_to @invoice.customer.full_name, admin_customer_path(@invoice.customer)
+        .form-group.row
+          %label.col-form-label.col-6 Date Created
+          .form-control-plaintext.col= lifp(@invoice.created_at, :short)
+      .card-footer
+        %a.btn.btn-outline-secondary{href: admin_invoices_path}
+          = fa_regular 'arrow-left'
+          Back to Search
+  .col-7
+    .card
+      %h5.card-header.bg-primary.text-white
+        = fa_light 'clipboard-list'
+        Details
+      .table-responsive-md
+        = render partial: 'admin/invoice_items/show'

@@ -1,9 +1,29 @@
-%nav.navbar.fixed-bottom.whiz-footer
+%footer.bd-footer.text-muted
   .container
-    %a.navbar-link{href: 'https://www.example.com', target: '_blank'}
-      = "\u00A9 #{Date.today.year} #{ClientInfo.owner}. All Rights Reserved."
-    %a.navbar-link.float-right.d-none.d-sm-block{href: 'https://www.mythcoders.com', target: '_blank'}
-      - if Rails.env.production?
-        = "Developed by #{SystemInfo.developer}"
-      - else
-        = "#{SystemInfo.version} | Developed by #{SystemInfo.developer}."
+    .row.justify-content-around
+      .col
+        %ul.bd-footer-links
+          %li
+            %a{href: ''}
+              = fa_brands 'facebook'
+              Facebook
+          %li= link_to 'Contact Us', root_path
+          %li= link_to 'About', root_path
+        .address
+          %strong
+            %br 11235 Ridenour Rd
+            Thornville, OH 43076
+
+        .text-muted
+          %br
+          = "\u00A9 #{Date.today.year} #{ClientInfo.owner}."
+
+-# %nav.navbar.fixed-bottom.whiz-footer
+-#   .container
+-#     %a.navbar-link{href: 'https://www.example.com', target: '_blank'}
+-#       = "\u00A9 #{Date.today.year} #{ClientInfo.owner}. "
+-#     %a.navbar-link.float-right.d-none.d-sm-block{href: 'https://www.mythcoders.com', target: '_blank'}
+-#       - if Rails.env.production?
+-#         = "Developed by #{SystemInfo.developer}"
+-#       - else
+-#         = "#{SystemInfo.version} | Developed by #{SystemInfo.developer}."

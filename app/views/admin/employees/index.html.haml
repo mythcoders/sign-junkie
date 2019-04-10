@@ -1,11 +1,13 @@
 - page_title 'Employee Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
-    = fa_regular 'users-class'
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'users-class'
     Employees
-  %table.table.table-bordered.table-striped.table-hover.table-border-fix
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
       %tr
         %th First Name
         %th Last Name
@@ -16,8 +18,10 @@
           %td= e.first_name
           %td= e.last_name
           %td= e.role
-  .card-footer
-    = paginate @employees
-    = page_entries_info @employees
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @employees
+          = page_entries_info @employees
 %br
 = link_to 'New Employee', new_admin_employee_path, class: 'btn btn-primary'

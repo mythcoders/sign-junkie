@@ -1,11 +1,13 @@
 - page_title 'Customer Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
-    = fa_regular 'users'
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'users'
     Customers
-  %table.table.table-bordered.table-striped.table-border-fix.table-hover
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
       %tr
         %th First Name
         %th Last Name
@@ -14,9 +16,11 @@
         %tr{data: { 'clickable-row': '', 'href': admin_customer_path(c) }}
           %td= c.first_name
           %td= c.last_name
-  .card-footer
-    = paginate @customers
-    = page_entries_info @customers
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @customers
+          = page_entries_info @customers
 
 %br
 = link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary'

@@ -1,0 +1,19 @@
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_solid'file-invoice'
+    My Orders
+  %table.table.table-bordered.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Number
+        %th Date
+        %th Status
+    %tbody
+      - @invoices.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
+          %td= o.identifier
+          %td= lifp(o.created_at, :short)
+          %td= o.status
+  .card-footer
+    = paginate @invoices
+    = page_entries_info @invoices

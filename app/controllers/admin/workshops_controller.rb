@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destory]
+    before_action :populate_workshop, only: %i[edit update show destory images]
     before_action :populate_projects, only: %i[show]
 
     def index
@@ -53,17 +53,28 @@ module Admin
       redirect_to admin_workshop_path @project.workshop_id
     end
 
+    def images
+      Rails.logger.debug 'Yep'
+      @workshop.workshop_images.attach(file_params)
+      flash[:success] = t('UploadSuccess')
+      redirect_to admin_workshop_path(@workshop)
+    end
+
     private
 
     def workshop_params
       params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
                                        :purchase_end_date, :start_date, :end_date,
-                                       :total_tickets, :ticket_price, :is_for_sale,
-                                       :is_public)
+                                       :total_tickets, :ticket_price, :deposit_price, :is_for_sale,
+                                       :is_public, :allow_custom_projects)
     end
 
     def project_params
       params.require(:project_workshop).permit(:project_id, :workshop_id)
+    end
+
+    def file_params
+      params[:workshop][:images]
     end
 
     def populate_projects
@@ -71,7 +82,7 @@ module Admin
     end
 
     def populate_workshop
-      @workshop = Workshop.includes(:tickets, :projects).find(params[:id])
+      @workshop = Workshop.includes(:seats, :projects).find(params[:id])
     end
 
     def filtered_params

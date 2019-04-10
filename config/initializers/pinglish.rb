@@ -21,12 +21,12 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   unless Rails.env.production?
-    ping.check :deployer do
-      SystemInfo.deployer
-    end
-
     ping.check :deployed_at do
       SystemInfo.deploy_time
+    end
+
+    ping.check :deployer do
+      SystemInfo.deployer
     end
   end
 end

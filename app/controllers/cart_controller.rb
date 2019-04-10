@@ -3,33 +3,30 @@
 class CartController < ApplicationController
   helper WorkshopHelper
   before_action :authenticate_user!
-  before_action :set_cart, only: %i[update destroy]
-  before_action :check_cart_auth, only: %i[update destroy]
+  before_action :set_cart_service, only: %i[create update destroy]
 
   def index
-    @cart = CartItem.for(current_user)
+    @cart = Cart.for(current_user)
     @cart_total = @cart.count
   end
 
   def create
-    workshop = Workshop.includes(:projects, :designs, :addons).find(params[:cart_item][:workshop_id])
-    if workshop.can_purchase?
-      if CartItem.build(current_user, workshop, cart_params).save
+    begin
+      if @service.add(current_user, cart_params)
         flash[:success] = t('cart.add.success')
+        return redirect_to cart_index_path
       else
-        flash[:error] = t('cart.add.failure')
+        raise Services::ProcessError, t('cart.add.failure')
       end
-    else
-      flash[:error] = t('cart.add.failure')
+    rescue Services::ProcessError => e
+      flash[:error] = e.message
     end
 
     redirect_back(fallback_location: home_path)
   end
 
   def update
-    # TODO: make sure not adding more than what's available
-    # TODO: only update the quantity
-    unless @cart_item.update(cart_params)
+    unless @service.update(current_user, cart_params)
       flash[:error] = t('cart.update.failure')
     end
 
@@ -37,7 +34,7 @@ class CartController < ApplicationController
   end
 
   def destroy
-    if @cart_item.delete
+    if @service.remove(current_user, params)
       flash[:success] = t('cart.update.success')
     else
       flash[:error] = t('failure.delete')
@@ -48,16 +45,14 @@ class CartController < ApplicationController
 
   private
 
-  def set_cart
-    @cart_item = CartItem.find(params[:id])
+  def set_cart_service
+    @service = Services::CartService.new
   end
 
   def cart_params
-    params.require(:cart_item).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
-                                      :design_id, :design, :seating)
-  end
-
-  def check_cart_auth
-    unauthorized if @cart_item.user_id != current_user.id
+    params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
+                                 :stencil_id, :stencil, :seating, :design_confirmation,
+                                 :policy_agreement, :first_name, :last_name, :email,
+                                 :amount, :type)
   end
 end

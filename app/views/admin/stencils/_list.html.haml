@@ -1,0 +1,18 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'swatchbook'
+    Stencils
+  - if stencils.any?
+    %table.table.table-bordered.table-striped.table-border-fix
+      %thead
+        %tr
+          %th Name
+          %th Category
+      %tbody
+        - stencils.each do |c|
+          %tr
+            %td= c.name
+            %td= c.category.name
+  - else
+    .card-body
+      No stencils

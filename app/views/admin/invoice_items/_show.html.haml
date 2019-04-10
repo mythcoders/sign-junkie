@@ -1,0 +1,36 @@
+%table.table.table-striped.table-bordered.table-border-fix
+  %thead
+    %tr.bg-primary.text-white
+      %th EVENTS
+      %th.action-column PRICE
+      %th.action-column QUANTITY
+      %th.action-column TAX
+      %th.action-column.text-right TOTAL
+  %tbody
+    - @invoice.items.each do |i|
+      %tr
+        %td= i.description.title
+        %td= number_to_currency(i.pre_tax_amount)
+        %td= i.quantity
+        %td
+          - if i.taxed?
+            = number_to_currency(i.tax_amount)
+          - else
+            N/A
+        %td.text-right= number_to_currency(i.line_total)
+  %thead
+    %tr.bg-primary.text-white
+      %th{colspan: 4} PAYMENTS
+      %th.action-column.text-right AMOUNT
+
+  %tbody
+    - @invoice.payments.each do |p|
+      %tr
+        %td{colspan: 4}
+          %pre= "Method: #{p.method}\nProcessed on: #{l p.created_at, format: :short}\nTransaction ID: #{p.identifier}"
+        %td.text-right= number_to_currency(p.amount)
+  %tfoot
+    %tr.bg-primary.text-white
+      %td.text-right{colspan: 4}
+        %strong BALANCE
+        %td.text-right= number_to_currency(@invoice.balance)

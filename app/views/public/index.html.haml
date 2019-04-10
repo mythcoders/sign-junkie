@@ -1,8 +1,44 @@
 .row
-  .col-3
-    = render partial: 'workshops/filters'
-  .col-9
-    - if @workshops.any?
-      = render partial: "workshops/#{@view}"
-    - else
-      %h3 Looks like we didn't have any workshops that matched that criteria.
+  .col
+    .card-group
+      .card
+        %img.card-img-top{:alt => "...", :src => "/cover.jpg", height: 250, width: 150}
+      .card
+        %img.card-img-top{:alt => "...", :src => "/cover.jpg", height: 250, width: 150}
+      .card
+        %img.card-img-top{:alt => "...", :src => "/cover.jpg", height: 250, width: 150}
+      .card
+        %img.card-img-top{:alt => "...", :src => "/cover.jpg", height: 250, width: 150}
+
+.row.justify-content-center.mt-3
+  .col
+    %h1.bordered-banner Book a Workshop
+
+.row
+  .col
+    .card
+      %h5.card-header.bg-primary.text-white
+        Public Workshops
+      %img.card-img-top{:alt => "...", :src => "/cover.jpg"}
+      .card-body
+        .card-text
+          Register to come alone or with family or friends!
+          Indicate your seating preference at checkout, and we will do our best to seat you together.
+      .card-footer.text-center
+        %a.card-link(href=public_workshops_path)
+          View our PUBLIC Workshop dates
+
+  .col
+    .card
+      %h5.card-header.bg-primary.text-white
+        Private Workshops
+      %img.card-img-top{:alt => "...", :src => "/cover.jpg"}
+      .card-body
+        .card-text
+          Want the place to yourself? If you have a large group
+          = "(minimum #{Workshop.private_min} guests and maximum #{Workshop.private_max}"
+          depending on the size of the project), you can reserve the entire space.
+          -# Can't meet our minimum? Request a group table at a public workshops.
+      .card-footer.text-center
+        %a.card-link(href=private_workshops_path)
+          View our PRIVATE Workshop dates

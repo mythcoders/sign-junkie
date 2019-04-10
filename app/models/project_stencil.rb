@@ -1,4 +1,4 @@
-class ProjectDesign < ApplicationRecord
+class ProjectStencil < ApplicationRecord
   belongs_to :project
-  belongs_to :design
+  belongs_to :stencil
 end

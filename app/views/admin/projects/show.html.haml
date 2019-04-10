@@ -1,5 +1,7 @@
 - page_title @project.name, 'Projects'
 
+= render partial: 'header'
+
 .row
   .col-4
     .card
@@ -7,20 +9,24 @@
         = @project.name
       .card-body
         .form-group
-          %label.col-form-label Description
-          .form-control-plaintext= @project.description
-      .card-footer
-        %a.btn.btn-outline-secondary.btn-sm{href: admin_projects_path}
-          = fa_regular 'arrow-left'
-          Search
-        %a.btn.btn-primary.btn-sm{href: edit_admin_project_path(@project)} Edit
-        %button.btn.btn-info.btn-sm{type: 'button', 'data-toggle': 'collapse', 'data-target': '#collapse-new-addon'} New Addon
-    .collapse#collapse-new-addon= render 'admin/addons/form'
+          %label.col-form-label Material price
+          .form-control-plaintext= @project.material_price
+        .form-group
+          %label.col-form-label Instructional price
+          .form-control-plaintext= @project.instructional_price
   .col-8
-    = render partial: 'admin/designs/list', locals: { designs: @project.designs }
-    #addons-content
-      - if @project.addons.any?
-        = render partial: 'admin/addons/list', locals: { addons: @project.addons }
-      - else
-        No addons
+    %ul#projectTab.nav.nav-tabs{role: "tablist"}
+      %li.nav-item
+        %a#project-tab.nav-link.active{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab", href: "#stencil", role: "tab"}
+          Addons & Stencils
+      %li.nav-item
+        %a#image-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
+          Images
+
+    #projectTabContent.tab-content
+      #stencil.tab-pane.show.active{"aria-labelledby": "stencil-tab", role: "tabpanel"}
+        = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils }
+        = render partial: 'admin/project_addons/list', locals: { addons: @project.addons }
+      #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+        = render partial: 'admin/images/list', locals: { images: @project.project_images }
 

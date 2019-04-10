@@ -27,7 +27,9 @@ $(function() {
     format: "MM-DD-YYYY",
     minDate: moment(new Date())
   });
-  $('[data-js-multi-select2]').select2();
+  if ($('[data-js-multi-select2]').length > 0) {
+    $('[data-js-multi-select2]').select2();
+  }
 });
 function ShowLoader() {
   $("#pageLoading").fadeIn();

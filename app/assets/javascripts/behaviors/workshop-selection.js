@@ -1,49 +1,54 @@
 $(function() {
-    update_ui();
+    if (document.getElementById('cart_workshop_id')) {
+        update_ui();
+    }
 });
 
 $.onmount("[data-js-change-project]", function() {
     $(this).on("change", function() {
         update_ui();
-        update_price();
     })
 });
 
-$.onmount("[data-js-change-design]", function() {
+$.onmount("[data-js-change-stencil]", function() {
     $(this).on("change", function() {
         if ($(this).val() === '$custom') {
-            $('[data-js-custom-design]').show();
+            $('[data-js-custom-stencil]').show();
+            $("[data-js-custom-stencil-input]").attr("required", "required");
         } else {
-            $('[data-js-custom-design]').hide();
+            $('[data-js-custom-stencil]').hide();
+            $("[data-js-custom-stencil-input]").removeAttr("required");
         }
     })
 });
 
 $.onmount("[data-js-change-addon]", function() {
     $(this).on("change", function() {
-        update_price()
+        price = parseFloat(document.getElementById('base-price').value);
+        select = document.querySelectorAll('[data-js-change-addon]')[0]
+        if (select.selectedIndex > 0) {
+            addon = select[select.selectedIndex];
+            price += parseFloat(addon.getAttribute('price'));
+        }
+        document.getElementById('total-price').innerHTML = '$' + price.toFixed(2);
     })
 });
 
-function update_price() {
-    price = parseFloat(document.getElementById('ticket-price').value)
-    select = document.querySelectorAll('[data-js-change-addon]')[0]
-    if (select.selectedIndex > 0) {
-        addon = select[select.selectedIndex]
-        price += parseFloat(addon.getAttribute('price'))
-    }
-    document.getElementById('total-price').innerHTML = '$' + price.toFixed(2)
-}
-
 function update_ui() {
+    var workshop = get_workshop();
     var project = get_project();
-    if (project !== null) {
+
+    if (workshop !== null && project !== null) {
         $.ajax({
-            url: "/projects/" + project,
+            url: "/project?workshop_id=" + workshop +  "&project_id=" + project,
             method: "GET",
             dataType: "json",
             cache: "false",
             success: function(data, textStatus, jQxhr) {
+                var total_price = Number(data.instructional_price) + Number(data.material_price);
+                document.getElementById('base-price').value = total_price.toFixed(2);
+                document.getElementById('total-price').innerHTML = '$' + total_price.toFixed(2);
+
                 if (data.addons !== null && data.addons.length > 0) {
                     $("[data-js-change-addon]").find('option').remove()
                     $("[data-js-change-addon]").append("<option value=''>- Select an optional addon -</option>")
@@ -59,52 +64,43 @@ function update_ui() {
                     disable_addons("No addons for project");
                 }
 
-                var currentDesigns = document.querySelector('[data-js-change-design]')
-                while (currentDesigns.options.length > 1) {
-                    currentDesigns.remove(currentDesigns.options.length - 1)
+                var currentStencils = document.querySelector('[data-js-change-stencil]')
+                while (currentStencils.options.length > 1) {
+                    currentStencils.remove(currentStencils.options.length - 1)
                 }
 
-                var value = get_design()
-                console.log(value)
-                for (var i = 0; i < data.designs.length; i++) {
+                var value = get_stencil()
+                for (var i = 0; i < data.stencils.length; i++) {
                     var option = document.createElement('option')
-                    option.text = data.designs[i].name
-                    option.value = data.designs[i].id
+                    option.text = data.stencils[i].name
+                    option.value = data.stencils[i].id
 
                     if (option.text === value) {
                         option.selected = true;
                     }
 
-                    currentDesigns.add(option)
+                    currentStencils.add(option)
                 }
 
-                var customOption = document.createElement('option')
-                customOption.text = '- Custom design -'
-                customOption.value = '$custom'
-
-                console.log(currentDesigns.selectedIndex)
-                if (value !== '' && currentDesigns.selectedIndex === 0) {
-                    customOption.selected = true
-                    document.querySelector('[data-js-custom-design]').style.display = 'block'
-                }
-
-                currentDesigns.add(customOption)
-                currentDesigns.disabled = false;
+                document.querySelector('[data-js-custom-stencil]').style.display = 'none'
+                currentStencils.selectedValue = null;
+                currentStencils.disabled = false;
             },
             error: function(data, textStatus, jQxhr) {
-                alert('error');
+                console.log(data);
+                alert('An error occured. Please try again.');
             }
         });
     } else {
-        disable_designs("- Select Project -");
+        disable_stencils("- Select Project -");
         disable_addons("- Select Project -");
     }
 }
 
-function disable_designs(message) {
-    $("[data-js-change-design]").find('option').remove()
-    $("[data-js-change-design]").append("<option value=''>"+ message + "</option>")
-    $("[data-js-change-design]").attr("disabled", "disabled");
+function disable_stencils(message) {
+    $("[data-js-change-stencil]").find('option').remove()
+    $("[data-js-change-stencil]").append("<option value=''>"+ message + "</option>")
+    $("[data-js-change-stencil]").attr("disabled", "disabled");
 }
 
 function disable_addons(message) {
@@ -117,6 +113,14 @@ function get_project() {
     return document.querySelector('[data-js-change-project]').value || null;
 }
 
-function get_design() {
-    return document.querySelector('[data-js-custom-design-input]').value || null;
+function get_stencil() {
+    return document.querySelector('[data-js-custom-stencil-input]').value || null;
+}
+
+function get_workshop() {
+    return document.getElementById('cart_workshop_id').value || null;
+}
+
+function get_addon() {
+    return document.querySelector('[data-js-change-addon]').value || null;
 }

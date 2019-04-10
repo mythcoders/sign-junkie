@@ -1,13 +1,62 @@
-%nav.navbar.navbar-expand-md.navbar-light.bg-primary
+%nav.navbar.navbar-expand-md.navbar-dark.bg-primary.mb-5
   .container-fluid
-    = link_to home_path, class: 'navbar-brand text-white' do
-      Sign Junkie
+    = link_to root_path, class: 'navbar-brand d-block d-sm-none' do
+      = ClientInfo.name
       - unless Rails.env.production?
         %strong.text-warning.text-uppercase.ml-2= EnvironmentInfo.current
     %button.navbar-toggler{data: { target: '#navbarSupportedContent', toggle: 'collapse' }, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, type: 'button'}
       %span.navbar-toggler-icon
     .collapse.navbar-collapse#navbarSupportedContent
-      - if user_signed_in?
-        = render partial: 'layouts/partials/user_menu'
-      - else
-        = render partial: 'layouts/partials/public_menu'
+      %ul.navbar-nav.nav-fill.w-100
+        %li.nav-item{class: ('active' if current_page?(root_path))}
+          = link_to 'Home', root_path, class: 'nav-link'
+        %li.nav-item{class: ('active' if current_page?(how_it_works_path))}
+          = link_to 'How It Works', how_it_works_path, class: 'nav-link'
+        %li.nav-item.dropdown.no-arrow
+          %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+            Projects
+          .dropdown-menu{"aria-labelledby": "userDropdown"}
+            %a.dropdown-item{href: projects_path} Projects & Designs
+            %a.dropdown-item{href: addons_path} Project Addons
+            %a.dropdown-item{href: gallery_path} Photo Gallery
+        %li.nav-item.dropdown.no-arrow
+          %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+            Private Workshops
+          .dropdown-menu{"aria-labelledby": "userDropdown"}
+            %a.dropdown-item{href: private_policies_path} Private Workshop Policies
+            %a.dropdown-item{href: private_hostess_path} Hostess
+            %a.dropdown-item{href: private_workshops_path} Available Dates
+        %li.nav-item.dropdown.no-arrow
+          %a#userDropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+            About
+          .dropdown-menu{"aria-labelledby": "userDropdown"}
+            %a.dropdown-item{href: about_path} About Us
+            %a.dropdown-item{href: contact_path} Contact Us
+            %a.dropdown-item{href: policies_path} Policies
+            %a.dropdown-item{href: waiver_path} Waiver
+            %a.dropdown-item{href: faq_path} FAQs
+        %li.nav-item{class: ('active' if current_page?(gift_cards_path))}
+          = link_to 'Gift Cards', gift_cards_path, class: 'nav-link'
+
+        - if user_signed_in?
+          %li.nav-item{class: ('active' if current_page?(my_account_path))}
+            = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
+              = fa_solid 'user-circle'
+              My Account
+          %li.nav-item{class: ('active' if current_page?(cart_index_path))}
+            = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do
+              = fa_solid 'shopping-cart'
+              = "Cart - #{@cart_total}"
+          -# %li.nav-item
+          -#   %a.nav-link{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
+          -#     = fa_solid 'sign-out-alt'
+          -#     Log Out
+          - if current_user.can_cp?
+            %li.nav-item
+              = link_to admin_dashboard_path, title: 'Admin Portal', class: 'nav-link' do
+                = fa_solid 'wrench'
+        - else
+          %li.nav-item
+            = link_to new_user_session_path, class: 'nav-link' do
+              = fa_solid 'sign-in'
+              Log In

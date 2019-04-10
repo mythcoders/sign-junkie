@@ -1,50 +1,46 @@
-= error_messages_for 'order'
-
 .card
   %h4.card-header.bg-primary.text-white
-    = fa_regular 'shopping-cart'
+    = fa_solid 'shopping-cart'
     Shopping Cart
   - if @cart.any?
     %table.table.table-bordered.table-striped.table-border-fix
       %thead
         %tr.bg-primary.text-white
-          %th{colspan: 2} Workshop
+          %th Workshop
           %th Quantity
           %th.text-right Price
       %tbody
         - @cart.each do |c|
           %tr
-            %td.action-column
-              - if c.workshop.images.any?
-                %img{alt: "Image of #{c.workshop.name}", src: url_for(c.workshop.primary_image.variant(resize: "100x100"))}
             %td
-              %a{href: workshop_path(c.workshop)}
-                %h4= c.display
+              %a{href: ''}
+                %h4= c.description.title
               %ul.list-inline
-                %li.list-inline-item
-                  = fa_regular 'calendar-alt'
-                  = c.workshop.when
-                - if c.seating.present?
+                - unless c.description.gift_card?
                   %li.list-inline-item
-                    = fa_regular 'chair'
-                    = c.seating
-              - if c.workshop.is_private?
-                %p.text-info Deposit fee will be added during checkout
+                    = fa_solid 'calendar-alt'
+                    = c.workshop.when
+                  -# - if c.seating.present?
+                  -#   %li.list-inline-item
+                  -#     = fa_regular 'chair'
+                  -#     = c.seating
+                  - if c.workshop.is_private?
+                    %p.text-info Deposit fee will be added during checkout
               = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
             %td.action-column
               = form_for c, url: cart_path(c), method: :patch do |f|
                 = f.hidden_field :id
                 = cart_dropdown f, c
             %td.action-column.text-right.text-primary
-              = content_tag :span, number_to_currency(c.amount), id: "amt-#{c.id}"
+              = content_tag :span, number_to_currency(c.total), id: "amt-#{c.id}"
       %tfoot
         %tr
           %td.text-primary.text-right{colspan: 4}
             %strong
               Subtotal:
-              = content_tag :span, number_to_currency(@cart.map(&:amount).inject(0, :+)), id: "total-amt"
+              = content_tag :span, number_to_currency(@cart.map(&:total).inject(0, :+)), id: "total-amt"
     .card-footer
-      = link_to new_order_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
+      = link_to new_invoice_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
         Proceed to Checkout
         = fa_regular 'cash-register'
       %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}

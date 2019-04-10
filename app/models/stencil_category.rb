@@ -1,14 +1,19 @@
-class DesignCategory < ApplicationRecord
-  has_many :designs
-  has_many :design_categories
-  belongs_to :parent_category, required: false,
-             class_name: 'DesignCategory', foreign_key: 'parent_id'
+class StencilCategory < ApplicationRecord
+  has_many :stencils
+  has_many :stencil_categories, foreign_key: 'parent_id'
+  belongs_to :stencil_category, optional: true
 
-  before_validation :check_parent_reference
+  scope :for_tree, -> { where(parent_id: nil).order(:name) }
 
-  private
+  def to_builder
+    Jbuilder.new do |node|
+      node.title name
+      node.key id
+      break unless stencil_categories.any?
 
-  def check_parent_reference
-    errors.add(:parent_id, 'can not be itself') if persisted? && parent_id == id
+      node.children stencil_categories do |stencil|
+        stencil.to_builder
+      end
+    end
   end
 end

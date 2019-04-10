@@ -1,3 +1,8 @@
+$navbar-base-height: 56px;
+$sidebar-base-width: 225px;
+$sidebar-collapsed-width: 100px;
+$sticky-footer-height: 80px;
+
 // Cosmo 4.2.1
 // Bootswatch
 
@@ -25,10 +30,10 @@ $red:     #FF0039 !default;
 $orange:  #f0ad4e !default;
 $yellow:  #FF7518 !default;
 $green:   #3FB618 !default;
-$teal:    #20c997 !default;
+$teal:    #008080 !default;
 $cyan:    #9954BB !default;
 
-$primary:       $blue !default;
+$primary:       $teal !default;
 $secondary:     $gray-800 !default;
 $success:       $green !default;
 $info:          $cyan !default;

@@ -1,0 +1,16 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'images'
+    Images
+  - unless images.any?
+    .card-body
+      .text-muted No images have been uploaded yet.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %tbody
+        - images.each do |img|
+          %tr
+            %td.action-column
+              = link_to "Delete", admin_delete_image_path(img), method: :delete, class: "btn btn-sm btn-outline-danger", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'}
+            %td
+              %img{height: 100, width: 100, src: url_for(img)}

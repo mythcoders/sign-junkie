@@ -1,16 +1,16 @@
 = f.hidden_field :id
+.form-group
+  = f.label :name, class: 'col-form-label'
+  = f.text_field :name, class: 'form-control'
 .form-row
-  .form-group.col-6
-    = f.label :name, class: 'col-form-label'
-    = f.text_field :name, class: 'form-control'
-  .form-group.col-3
+  .form-group.col
     = f.label :start_date, class: 'col-form-label'
     #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
       = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
       .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
-  .form-group.col-3
+  .form-group.col
     = f.label :end_date, class: 'col-form-label'
     #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
       = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
@@ -21,7 +21,14 @@
   = f.label :description, class: 'col-form-label'
   = f.text_area :description, class: 'form-control', rows: 3
 .form-row
-  .form-group.col-lg-2
+  .form-group.col-lg-6
+    = f.label :total_seats, class: 'col-form-label'
+    = f.text_field :total_tickets, class: 'form-control'
+    %br
+    .custom-switch.custom-control
+      = f.check_box :allow_custom_stencils, class: 'custom-control-input'
+      = f.label :allow_custom_stencils, class: 'custom-control-label'
+  .form-group.col-lg-6
     = f.label :is_public, class: 'control-label'
     .custom-control.custom-radio
       = f.radio_button :is_public, 'true', class: 'custom-control-input'
@@ -30,34 +37,24 @@
       = f.radio_button :is_public, 'false', class: 'custom-control-input'
       %label.custom-control-label{for: "workshop_is_public_false"} Private Workshop
 %hr
-%h2 Tickets
+%h2 Purchasing
+.form-group
+  .custom-switch.custom-control
+    = f.check_box :is_for_sale, class: 'custom-control-input'
+    = f.label :is_for_sale, class: 'custom-control-label'
 .form-row
-  .form-group.col-3
-    .custom-switch.custom-control
-      = f.check_box :is_for_sale, class: 'custom-control-input'
-      = f.label :is_for_sale, class: 'custom-control-label'
-.form-row
-  .form-group.col-3
+  .form-group.col
     = f.label :purchase_start_date, class: 'col-form-label'
     #purchasestartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
       = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasestartpicker'
       .input-group-append{"data-target": "#purchasestartpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
-  .form-group.col-3
+  .form-group.col
     = f.label :purchase_end_date, class: 'col-form-label'
     #purchaseendpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
       = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control datetimepicker-input', 'data-target': '#purchaseendpicker'
       .input-group-append{"data-target": "#purchaseendpicker", "data-toggle": "datetimepicker"}
         .input-group-text
           = fa_regular 'calendar'
-  .form-group.col-2
-    = f.label :total_tickets, class: 'col-form-label'
-    = f.text_field :total_tickets, class: 'form-control'
-  .form-group.col-2
-    = f.label :ticket_price, class: 'col-form-label'
-    .input-group
-      .input-group-prepend
-        %span.input-group-text= fa_regular 'dollar-sign'
-      = f.text_field :ticket_price, class: 'form-control'
 

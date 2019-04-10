@@ -11,7 +11,7 @@ require 'pinglish'
 
 Bundler.require(*Rails.groups)
 
-module SignJunkie
+module Ares
   class Application < Rails::Application
     config.load_defaults 5.2 # Initialize generated Rails version
 
@@ -21,9 +21,6 @@ module SignJunkie
     config.eager_load_paths += %W[#{config.root}/lib]
     config.require_master_key = true
     config.force_ssl = true unless Rails.env.development?
-
-    # Logging
-    config.lograge.enabled = false
 
     # Storage
     config.active_storage.service = :amazon

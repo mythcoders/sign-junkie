@@ -2,9 +2,14 @@
 
 module ClientInfo
   class << self
+    def name
+      'Sign Junkie'
+    end
+
     def owner
       'Sign Junkie, LLC'
     end
+
     def address_1
       '11235 Ridenour Rd'
     end

@@ -1,29 +1,20 @@
-# frozen_string_literal: true
-
 module Admin
   class ImagesController < AdminController
-    before_action :get, only: %i[new create destroy]
+    before_action :set_workshop, only: %i[workshop]
+    before_action :set_project, only: %i[project]
 
-    def create
-      @workshop.images.attach(file_params)
-      flash['success'] = t('UploadSuccess')
-      redirect_to admin_workshop_path(@workshop)
-    end
+    def destory
 
-    def destroy
-      @workshop.images.find(params[:id]).purge
-      flash['success'] = t('DeleteSuccess')
-      redirect_to admin_workshop_path(@workshop)
     end
 
     private
 
-    def get
-      @workshop = Workshop.find(params[:workshop_id])
+    def set_workshop
+      @workshop = Workshop.find params[:id]
     end
 
-    def file_params
-      params[:workshop][:images]
+    def set_project
+      @project = Project.find params[:id]
     end
   end
 end

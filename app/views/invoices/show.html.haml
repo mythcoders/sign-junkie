@@ -1,0 +1,18 @@
+= render partial: 'cancel'
+
+.row
+  .col-md-3
+    .card.card-primary.mb-2
+      %h4.card-header.bg-primary.text-white
+        = fa_solid 'file-invoice'
+        = "Invoice ##{@invoice.identifier}"
+      .card-body
+        .form-group
+          %label.col-form-label Date Placed
+          .form-control-plaintext= lifp(@invoice.created_at, :short)
+        %a.btn.btn-outline-danger{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
+          = fa_solid 'ban'
+          Cancel Order
+  .col-md-9
+    = render partial: 'summary'
+

@@ -1,0 +1,23 @@
+.card.mt-2
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'sign'
+    Projects
+  - unless @workshop.projects.any?
+    .card-body
+      %strong.text-danger You haven't added any projects to this workshop
+      .card-text Customers will be unable to purchase tickets to this workshop until you've added a project.
+  - else
+    %table.table.table-bordered.table-striped.table-border-fix
+      %thead
+        %tr
+          %th Name
+          %th Material Price
+          %th Instructional Price
+          %th Total
+      %tbody
+        - @workshop.projects.order(:name).each do |p|
+          %tr
+            %td= p.name
+            %td= number_to_currency(p.material_price)
+            %td= number_to_currency(p.instructional_price)
+            %td= number_to_currency(p.total_price)

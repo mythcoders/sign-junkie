@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build: .
-    image: sign-junkie-app
+    image: ares-sign-junkie-app
     ports:
       - "3000"
     labels:
@@ -16,11 +16,13 @@ services:
       LANG: "en_US.UTF-8"
       RAILS_SERVE_STATIC_FILES: enabled
       RAILS_LOG_TO_STDOUT: enabled
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/sign_junkie_dev"
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_sign_junkie_dev"
       STORAGE_BUCKET: "mcdoc-dvstg-signjunkie"
     depends_on:
       - db
       - net
+    stdin_open: true
+    tty: true
   db:
     image: postgres:10.6
     ports:

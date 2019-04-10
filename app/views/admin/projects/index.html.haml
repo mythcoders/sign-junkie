@@ -1,19 +1,23 @@
 - page_title 'Project Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
-    = fa_regular 'paint-roller'
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'sign'
     Projects
-  %table.table.table-bordered.table-striped.table-border-fix
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.thead-gray
       %tr
         %th Name
     %tbody
       - @projects.each do |p|
         %tr{data: { 'clickable-row': '', 'href': admin_project_path(p) }}
           %td= p.name
-  .card-footer
-    = paginate @projects
-    = page_entries_info @projects
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @projects
+          = page_entries_info @projects
 %br
 = link_to 'New Project', new_admin_project_path, class: 'btn btn-primary'

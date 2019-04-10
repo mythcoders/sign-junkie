@@ -1,0 +1,44 @@
+.row
+  .col.col-lg-6.mb-2
+  .col.col-lg-6.mb-2
+    .card
+      %h4.card-header.bg-primary.text-white
+        Gift Card
+      - if user_signed_in?
+        = form_for :cart, url: cart_index_path do |f|
+          .card-body
+            = f.hidden_field :type, value: 'gift_card'
+            .form-row
+              .form-group.col-md-6
+                = f.label :first_name
+                = f.text_field :first_name, class: 'form-control', required: 'required'
+              .form-group.col-md-6
+                = f.label :last_name
+                = f.text_field :last_name, class: 'form-control', required: 'required'
+            .form-row
+              .form-group.col
+                = f.label :email
+                = f.text_field :email, class: 'form-control', required: 'required'
+            .form-row
+              .form-group.col
+                %label{for: "cart_amount"} Gift card amount
+                .input-group
+                  .input-group-prepend
+                    #btnGroupAddon.input-group-text $
+                  = f.text_field :amount, class: 'form-control', required: 'required', value: '25', type: 'number'
+                %br
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $25
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $30
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $40
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $50
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $75
+                %button.btn.btn-primary{type: "button", 'data-js-amount-change': ''} $100
+          .card-footer
+            %button.btn.btn-outline-success.btn-block{title: "Add to cart", type: "submit"}
+              %i.fas.fa-cart-plus
+              %span Add to Cart
+      - else
+        .card-footer
+          %a.btn.btn-primary(href=new_user_session_path)
+            = fa_light 'sign-in'
+            Log In or Sign up to add this to your cart

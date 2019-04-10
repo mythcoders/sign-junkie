@@ -1,44 +1,29 @@
-# frozen_string_literal: true
-
-# Customers purhcase tickets to Workshops to build Projects
 class Workshop < ApplicationRecord
   include ApplicationHelper
 
-  audited
-  has_many_attached :images
-  has_many :project_workshops
-  has_many :projects, through: :project_workshops
-  has_many :designs, through: :projects
-  has_many :addons, through: :projects
-  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
+  has_many :workshop_projects
+  has_many :projects, through: :workshop_projects
+  has_many :seats
+  has_many_attached :workshop_images
 
-  scope :upcoming, -> { where(is_for_sale: true) }
-  scope :active, -> { upcoming.where('end_date >= CURRENT_TIMESTAMP') }
+  scope :public_shops, -> { where(is_public: true) }
+  scope :private_shops, -> { where(is_public: false) }
+  scope :for_sale, -> { where(is_for_sale: true) }
+  scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP AND
+                                        purchase_end_date >= CURRENT_TIMESTAMP')}
 
-  validates_presence_of :name, :purchase_start_date, :purchase_end_date, :start_date,
-                        :end_date, :is_for_sale
+  validates_presence_of :name
 
+  # Searches workshops on a variety of factors
+  # @return [Array] returns of the search
   def self.search(name, _sort = 'A')
-    event = Workshop.active
-    event = event.where('name like ?', "%#{name}%") unless name.blank?
-    event
+    results = Workshop.upcoming
+    results = event.where('name like ?', "%#{name}%") unless name.blank?
+    results
   end
 
-  # Tickets that are still available for purchase
-  # @return [Integer] number of tickets
-  def tickets_available
-    (is_private? ? Workshop.private_max : total_tickets) - tickets.count
-  end
-
-  # Wether tickets to the workshop are available for purchase
-  # @return [Boolean] True if the workshop can be purchased, otherwise false
-  def can_purchase?
-    return false unless is_for_sale ||
-                        tickets_available.positive? ||
-                        (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
-                        projects.select { |p| p.addons.count.positive?  }.count.positive?
-
-    true
+  def starting_price
+    10.00
   end
 
   # Minimum seats for a private workshop
@@ -56,7 +41,7 @@ class Workshop < ApplicationRecord
   # Deposit for private workshops
   # @return [Integer] USD amount
   def self.private_deposit
-    100
+    BigDecimal.new("100.00")
   end
 
   # Time period
@@ -65,16 +50,32 @@ class Workshop < ApplicationRecord
     48.hours
   end
 
-  def is_private?
-    !is_public?
+  def images
+    workshop_images # + project_images
   end
 
-  def primary_image_attachment_id
-    primary_image.id
+  def project_images
+    projects
+      .collect(&:project_images)
+      .select(&:attached?)
+      .collect(&:attachments)
   end
 
-  def primary_image
-    images.order(:id).first if images.any?
+  def can_purchase?
+    return false unless seats_available.positive?
+    return false unless is_for_sale ||
+                        (purchase_start_date <= Date.today && purchase_end_date >= Date.today) ||
+                        projects.count.positive?
+
+    true
+  end
+
+  def seats_available
+    (is_private? ? Workshop.private_max : total_tickets) - seats.count
+  end
+
+  def display
+    "#{start_date.strftime('%B %d, %I:%M %p')} #{name}"
   end
 
   def when
@@ -89,19 +90,7 @@ class Workshop < ApplicationRecord
     (start_date - Workshop.booking_deadline).beginning_of_day
   end
 
-  private
-
-  def check
-    if end_date_before_start || posting_during_event
-
-    end
-  end
-
-  def end_date_before_start
-    end_date > start_date
-  end
-
-  def posting_during_event
-    purchase_start_date > start_date || purchase_end_date > start_date
+  def is_private?
+    !is_public?
   end
 end

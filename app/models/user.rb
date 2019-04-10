@@ -6,7 +6,7 @@ class User < ApplicationRecord
                      last_sign_in_ip current_sign_in_ip failed_attempts
                      encrypted_password reset_password_token confirmation_token]
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :trackable, :validatable, :confirmable, :lockable, :timeoutable
+         :trackable, :validatable, :confirmable, :lockable, :timeoutable, :invitable
 
   enum role: {
     customer: 'customer',
@@ -14,9 +14,10 @@ class User < ApplicationRecord
     admin: 'admin',
     operator: 'operator'
   }
-  has_many :cart_items
-  has_many :orders
-  has_many :tickets, -> { where(for_deposit: false) }, class_name: 'OrderItem'
+  has_many :credits, class_name: 'CustomerCredit'
+  has_many :carts
+  has_many :invoices
+  has_many :seats
 
   validates_presence_of :first_name, :last_name, :role
 
@@ -36,5 +37,9 @@ class User < ApplicationRecord
 
   def can_upgrade_operator?
     operator?
+  end
+
+  def cart_total
+    Cart.for(self).count
   end
 end

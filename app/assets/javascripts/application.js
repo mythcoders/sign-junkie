@@ -7,4 +7,5 @@
 //= require behaviors/clickable-row
 //= require behaviors/cart-change-quantity
 //= require behaviors/workshop-selection
+//= require behaviors/giftcard-selection
 //= require global
