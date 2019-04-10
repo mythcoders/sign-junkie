@@ -2,6 +2,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
 
   serialize :description, ItemDescription
+  delegate_missing_to :description
 
   def pre_tax_total
     pre_tax_amount * quantity

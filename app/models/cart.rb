@@ -6,7 +6,7 @@ class Cart < ApplicationRecord
   scope :as_of, ->(date_created) { where('created_at <= ?', date_created) }
 
   serialize :description, ItemDescription
-  delegate :workshop, to: :description
+  delegate_missing_to :description
 
   def total
     price * quantity
