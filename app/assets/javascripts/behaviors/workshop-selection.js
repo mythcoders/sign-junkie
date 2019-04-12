@@ -40,7 +40,7 @@ function update_ui() {
 
     if (workshop !== null && project !== null) {
         $.ajax({
-            url: "/project?workshop_id=" + workshop +  "&project_id=" + project,
+            url: "/workshops/" + workshop +  "?project_id=" + project,
             method: "GET",
             dataType: "json",
             cache: "false",

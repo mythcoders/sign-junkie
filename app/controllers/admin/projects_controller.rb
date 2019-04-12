@@ -1,7 +1,6 @@
 module Admin
   class ProjectsController < AdminController
     before_action :set_project, only: %i[edit update show images]
-    before_action :set_designs, only: %i[edit update]
 
     def index
       @projects = Project.page(params[:page]).per(10)
@@ -17,6 +16,7 @@ module Admin
 
     def create
       @project = Project.new(project_params)
+
       if @project.save
         flash[:success] = t('CreateSuccess')
         redirect_to admin_project_path @project
@@ -26,7 +26,6 @@ module Admin
     end
 
     def update
-      @project.design_ids = Stencil.find(project_params[:design_ids])
       if @project.update(project_params)
         flash[:success] = t('CreateSuccess')
         redirect_to admin_project_path @project
@@ -44,15 +43,12 @@ module Admin
     private
 
     def project_params
-      params.require(:project).permit(:id, :name, :description, :price)
+      params.require(:project)
+            .permit(:id, :name, :description, :price, :workshop_project_ids => [])
     end
 
     def file_params
       params[:project][:images]
-    end
-
-    def set_designs
-      @designs = Stencil.all.collect { |opt| [opt.name, opt.id] }
     end
 
     def set_project

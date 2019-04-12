@@ -1,0 +1,11 @@
+%h1 Projects
+
+- @projects.each_slice(3) do |group|
+  .row
+    - group.each do |project|
+      .col.col-md-6.col-lg-4
+        .card.mb-3
+          %h5.card-header
+            = project.name
+          .card-body
+            Dave

@@ -4,6 +4,10 @@
       = fa_solid 'home', 'fa-fw'
       %span Dashboard
   %li.nav-item
+    %a.nav-link{sidebar_link(admin_addons_path, customers_controller?)}
+      = fa_solid 'stamp', 'fa-fw'
+      %span Addons
+  %li.nav-item
     %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
       = fa_solid 'users', 'fa-fw'
       %span Customers

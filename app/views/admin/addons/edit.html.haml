@@ -1,0 +1,12 @@
+- page_title 'Edit', 'Addons'
+
+= form_for @addon, url: admin_addon_path(@addon), method: :patch do |f|
+  .card
+    %h5.card-header.bg-primary.text-white
+      Edit Addon
+    .card-body
+      = error_messages_for 'addon'
+      = render partial: 'admin/addons/form', locals: { f: f }
+    .card-footer
+      = link_to 'Cancel', admin_addons_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Save Changes', class: 'btn btn-success'

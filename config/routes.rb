@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :audits, concerns: :pageable, only: %i[index show]
+    resources :addons, concerns: :pageable
     resources :stencils, concerns: :pageable
     resources :projects, concerns: :pageable do
       resources :project_addons, path: 'addons', as: 'addons'
@@ -36,25 +37,23 @@ Rails.application.routes.draw do
     resources :tax_rates
 
     get 'settings', as: 'settings', to: 'settings#index'
-    get 'settings/stencil_categories', to: 'settings#stencil_categories'
   end
 
   # customer facing
   get 'my_account', to: 'public#my_account'
-  get 'projects', to: 'public#projects'
-  get 'addons', to: 'public#addons'
   get 'gift_cards', to: 'public#gift_cards'
   get 'policies', to: 'public#policies'
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
   get 'waiver', to: 'public#waiver'
-  get 'gallery', to: 'public#gallery'
   get 'how_it_works', to: 'public#how_it_works'
-  get 'public_workshops', to: 'workshops#public'
-  get 'private_workshops', to: 'workshops#private'
   get 'private_policies', to: 'public#private_policies'
   get 'private_hostess', to: 'public#private_hostess'
+  get 'projects/addons', to: 'projects#addons', as: 'addons'
+  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
+  get 'workshops/public', to: 'workshops#public'
+  get 'workshops/private', to: 'workshops#private'
 
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
@@ -65,7 +64,10 @@ Rails.application.routes.draw do
     post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
   end
   resources :reservations
-  resources :workshops, only: %i[index show]
+  resources :projects, only: %i[index shoe]
+  resources :workshops, only: %i[index show] do
+    get 'project', to: 'workshops#project'
+  end
 
   root to: 'public#index'
 end

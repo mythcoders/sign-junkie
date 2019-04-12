@@ -1,13 +1,23 @@
 #### 1904 - 04-??-19
 
 - Features
-  - Added `Refund` and `CustomerCredit`
+  - Gift Cards
+  - Refunds and Credits
+  - My Account for customers
+  - Acknowledgement for public seats
+  - Customer invites
+  - Added Finances and Settings to Admin Portal
 - Changes
-  - `Design` is now `Stencil`
-  - `Order` is now `Invoice`
+  - Designs are now Stencils
+  - Tax Rates are stored in the database
+  - Addons are managed independently and associated to Projects
+  - Orders are now Invoices
+  - Projects now have material and instructional prices
   - Seat calculation is now done based entirely on the project selected
 - Improvements
   - Front end UI
+  - Projects, Stencils, and Addons are viewable by customers
+  - Multiple backend services
 - Fixes
   - Seat price being updated on workshop selection page
 
@@ -24,8 +34,8 @@
 #### 1902 - 02-03-19
 
 - Features
-  - Renamed `Events` to `Workshops`
-  - Added `Projects` that can be built by `Customers`
+  - Renamed Events to Workshops
+  - Added Projects that can be built by Customers
   - Added Public and option for Private Workshops
   - Added Attendee list
 - Changes

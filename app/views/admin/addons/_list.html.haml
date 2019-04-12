@@ -1,5 +1,6 @@
 .card.mt-2
   %h5.card-header.bg-primary.text-white
+    = fa_solid 'stamp'
     Addons
   - if addons.any?
     %table.table.table-bordered.table-striped.table-border-fix
@@ -8,8 +9,10 @@
           %th Name
           %th Price
       %tbody#addons
-        - addons.each do |item|
-          = render partial: 'admin/project_addons/row', locals: { addon: item }
+        - addons.each do |addon|
+          %tr
+            %td= addon.name
+            %td= number_to_currency(addon.price)
   - else
     .card-body
       No addons

@@ -14,6 +14,7 @@ class Workshop < ApplicationRecord
 
   validates_presence_of :name
 
+
   # Searches workshops on a variety of factors
   # @return [Array] returns of the search
   def self.search(name, _sort = 'A')
@@ -88,6 +89,10 @@ class Workshop < ApplicationRecord
 
   def book_by_date
     (start_date - Workshop.booking_deadline).beginning_of_day
+  end
+
+  def cancel_by_date
+    (start_date - Workshop.booking_deadline)
   end
 
   def is_private?

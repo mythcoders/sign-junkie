@@ -17,22 +17,22 @@
 .row
   .col
     .card
-      %h5.card-header.bg-primary.text-white
-        Public Workshops
       %img.card-img-top{:alt => "...", :src => "/cover.jpg"}
+      %h5.card-header.bg-primary.text-white.text-center
+        Public Workshops
       .card-body
         .card-text
           Register to come alone or with family or friends!
           Indicate your seating preference at checkout, and we will do our best to seat you together.
       .card-footer.text-center
-        %a.card-link(href=public_workshops_path)
+        %a.card-link(href=workshops_public_path)
           View our PUBLIC Workshop dates
 
   .col
     .card
-      %h5.card-header.bg-primary.text-white
-        Private Workshops
       %img.card-img-top{:alt => "...", :src => "/cover.jpg"}
+      %h5.card-header.bg-primary.text-white.text-center
+        Private Workshops
       .card-body
         .card-text
           Want the place to yourself? If you have a large group
@@ -40,5 +40,5 @@
           depending on the size of the project), you can reserve the entire space.
           -# Can't meet our minimum? Request a group table at a public workshops.
       .card-footer.text-center
-        %a.card-link(href=private_workshops_path)
+        %a.card-link(href=workshops_private_path)
           View our PRIVATE Workshop dates

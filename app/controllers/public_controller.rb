@@ -1,11 +1,6 @@
 class PublicController < ApplicationController
   before_action :set_cart_total
 
-  def project
-    @workshop = Workshop.find(params[:workshop_id])
-    @project = Project.find(params[:project_id])
-  end
-
   def show
     Rails.env.production? || params[:soon]
   end
