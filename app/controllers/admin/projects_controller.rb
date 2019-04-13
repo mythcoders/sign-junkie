@@ -44,7 +44,8 @@ module Admin
 
     def project_params
       params.require(:project)
-            .permit(:id, :name, :description, :price, :workshop_project_ids => [])
+            .permit(:id, :name, :description, :material_price,
+                    :instructional_price, :workshop_project_ids => [])
     end
 
     def file_params
