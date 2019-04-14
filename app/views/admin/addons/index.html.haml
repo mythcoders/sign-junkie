@@ -13,7 +13,7 @@
         %th Price
     %tbody
       - @addons.each do |c|
-        %tr{data: { 'clickable-row': '', 'href': edit_admin_addon_path(c) }}
+        %tr{data: { 'clickable-row': '', 'href': admin_addon_path(c) }}
           %td= c.name
           %td= number_to_currency(c.price)
     %tfoot

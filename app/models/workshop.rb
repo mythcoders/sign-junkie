@@ -14,6 +14,12 @@ class Workshop < ApplicationRecord
 
   validates_presence_of :name
 
+  def self.clone(id)
+    original = Workshop.find id
+    clone = original.deep_clone
+    clone.for_sale = false
+    clone.save!
+  end
 
   # Searches workshops on a variety of factors
   # @return [Array] returns of the search

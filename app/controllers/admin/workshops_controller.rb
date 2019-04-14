@@ -3,7 +3,6 @@
 module Admin
   class WorkshopsController < AdminController
     before_action :populate_workshop, only: %i[edit update show destory images]
-    before_action :populate_projects, only: %i[show]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
@@ -41,23 +40,14 @@ module Admin
       redirect_to admin_workshops_path
     end
 
-    def project
-      @project = ProjectWorkshop.new(project_params)
-
-      if @project.save
-        flash[:success] = t('CreateSuccess')
-      else
-        flash[:error] = 'Error'
-      end
-
-      redirect_to admin_workshop_path @project.workshop_id
-    end
-
     def images
-      Rails.logger.debug 'Yep'
       @workshop.workshop_images.attach(file_params)
       flash[:success] = t('UploadSuccess')
       redirect_to admin_workshop_path(@workshop)
+    end
+
+    def clone
+      Workshop.clone params[:id]
     end
 
     private
@@ -75,10 +65,6 @@ module Admin
 
     def file_params
       params[:workshop][:images]
-    end
-
-    def populate_projects
-      @projects = Project.all
     end
 
     def populate_workshop

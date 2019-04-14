@@ -1,8 +1,9 @@
 class PublicController < ApplicationController
   before_action :set_cart_total
 
-  def show
-    Rails.env.production? || params[:soon]
+  def project_info
+    @project = Project.find(params[:project_id])
+    @workshop = Workshop.find(params[:workshop_id])
   end
 
   def my_account
