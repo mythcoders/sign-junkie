@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
     resources :invoices, concerns: :pageable
     resources :workshops, concerns: :pageable do
-      post 'clone'
+      post 'clone', to: 'workshops#clone'
     end
 
     get 'workshops/:id/image', to: 'images#workshop', as: 'new_workshop_image'
@@ -69,8 +69,7 @@ Rails.application.routes.draw do
     # post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
   end
   resources :projects, only: %i[index show]
-  resources :workshops, only: %i[index show] do
-  end
+  resources :workshops, only: %i[index show]
 
   root to: 'public#index'
 end
