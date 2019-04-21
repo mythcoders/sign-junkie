@@ -1,1 +1,7 @@
 %h1 FAQ
+
+%ul.list-group
+  - @questions.each do |item|
+    %li.list-group-item
+      %h5= item['question']
+      = item['answer']
