@@ -1,11 +1,18 @@
-%h1 Projects
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h1.card-header.bg-primary.text-white.text-center
+        Our Projects
 
 - @projects.each_slice(3) do |group|
   .row
     - group.each do |project|
       .col.col-md-6.col-lg-4
         .card.mb-3
-          %h5.card-header
+          %h5.card-header.bg-primary.text-white
             = project.name
-          .card-body
-            = project.description
+          - if project.project_images.any?
+
+          - else
+          %img.card-img-top{alt: "Image of #{project.name}", src: '/cover.jpg', height: 300}
+
