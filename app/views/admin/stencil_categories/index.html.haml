@@ -1,0 +1,24 @@
+- page_title 'stencil Categoriess Search'
+
+.card
+  %h5.card-header.bg-primary.text-white
+    = fa_solid 'ruler-combined'
+    Stencil Categories
+  %table.table.table-bordered.table-striped.table-hover.table-border-fix
+    %thead
+      %tr
+        %th Name
+        %th Parent
+    %tbody
+      - @categories.each do |c|
+        %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_category_path(c) }}
+          %td= c.name
+          %td
+            - if c.parent_category.present?
+              = c.parent_category.name
+  .card-footer
+    = paginate @categories
+    = page_entries_info @categories
+%br
+= link_to 'New Stencil Category', new_admin_stencil_category_path, class: 'btn btn-primary'
+

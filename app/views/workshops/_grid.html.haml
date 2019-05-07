@@ -1,26 +1,20 @@
 - @workshops.each_slice(3) do |group|
   .row
     - group.each do |workshop|
-      .col.col-md-6.col-lg-4
+      .col.col-md-6.col-lg-4.mb-3
         .card
           - if workshop.images.any?
             %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first), height: 350}
           - else
             %img.card-img-top{alt: "Image of #{workshop.name}", src: '/cover.jpg', height: 350}
-          - if workshop.seats_available.positive?
-            %h5.card-header
-              = "Only #{workshop.seats_available} left!"
-          - elsif workshop.seats_available.zero?
-            %h5.card-header.bg-info.text-white
-              Sold out!
-          .card-body
+          .card-body.text-center
             %h4.card-title
               %a{href: workshop_path(workshop)}
-                = workshop.start_date.strftime('%B %d, %I:%M %p')
+                = workshop.start_date.strftime("%-l:%M%p %a %B #{workshop.start_date.day.ordinalize}")
                 %br
                 = workshop.name
             %h5.text-primary
               = "Starting at #{number_to_currency(workshop.starting_price)}"
-              - if workshop.is_private?
-                %span.ml-2.badge.badge-info Private
-  %br
+            %h5
+              %span.text-warning= workshop.seats_available
+              %span.text-primary seats left!

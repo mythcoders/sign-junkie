@@ -1,25 +1,26 @@
-# Ares
-Business Management System
+# Ares Business Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Built on the Rails platform, Ares is a customizable system to help you run your business.
 
-Things you may want to cover:
+## Services Used
 
-* Ruby version
+- SendGrid
+- LogDNA
+- Sentry
+- Braintree (with client credentials)
+- PostgreSQL
+- Heroku
 
-* System dependencies
+## Getting Started
 
-* Configuration
+- Get the encryption key file from a fellow developer. Without it, you will not be able to launch the application. It must be placed in `/config/master.key`
 
-* Database creation
+### Running RSpec
 
-* Database initialization
+From the root directory: `bundle exec rspec`
 
-* How to run the test suite
+If you receive an error about a database not existing, you may also need to run: `RAILS_ENV=test bundle exec rails db:create`
 
-* Services (job queues, cache servers, search engines, etc.)
+## Popular Links
 
-* Deployment instructions
-
-* ...
+- [Datetime picker docs](https://tempusdominus.github.io/bootstrap-4/)

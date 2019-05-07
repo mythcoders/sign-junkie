@@ -9,13 +9,14 @@
         { value: nil, include_blank: '- Please Select -' },
         { class: 'form-control custom-select', 'data-js-change-project': '', disabled: @workshop.is_private?, required: 'required' }
 .form-row
-  .form-group.col-md-6
+  .form-group.col
     = f.label :stencil_design
     = f.select :stencil_id,
         options_from_collection_for_select([], 'id', 'name'),
         { value: nil, include_blank: '- Select Project -' },
         { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private?, required: 'required' }
-  .form-group.col-md-6
+.form-row
+  .form-group.col
     = f.label :addons
     = f.select :addon_id,
         options_from_collection_for_select([], 'id', 'name'),

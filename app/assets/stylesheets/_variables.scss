@@ -52,9 +52,12 @@ $body-color:    $gray-800 !default;
 
 // Fonts
 
-$font-family-sans-serif: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif !default;
+@font-face {
+  font-family: AbrilFatface;
+  src:font-url('AbrilFatface.otf');
+}
 
-$font-size-base: 0.9375rem !default;
+$font-family-sans-serif: "AbrilFatface", "Source Sans Pro", Calibri, Candara, Arial, sans-serif !default;
 
 $headings-font-weight:   300 !default;
 

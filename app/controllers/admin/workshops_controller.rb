@@ -3,7 +3,6 @@
 module Admin
   class WorkshopsController < AdminController
     before_action :populate_workshop, only: %i[edit update show destory images]
-    before_action :populate_projects, only: %i[show]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
@@ -41,23 +40,14 @@ module Admin
       redirect_to admin_workshops_path
     end
 
-    def project
-      @project = ProjectWorkshop.new(project_params)
-
-      if @project.save
-        flash[:success] = t('CreateSuccess')
-      else
-        flash[:error] = 'Error'
-      end
-
-      redirect_to admin_workshop_path @project.workshop_id
-    end
-
     def images
-      Rails.logger.debug 'Yep'
       @workshop.workshop_images.attach(file_params)
       flash[:success] = t('UploadSuccess')
       redirect_to admin_workshop_path(@workshop)
+    end
+
+    def clone
+      Workshop.clone params[:id]
     end
 
     private
@@ -66,7 +56,7 @@ module Admin
       params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
                                        :purchase_end_date, :start_date, :end_date,
                                        :total_tickets, :ticket_price, :deposit_price, :is_for_sale,
-                                       :is_public, :allow_custom_projects)
+                                       :is_public, :allow_custom_stencils, :workshop_project_ids => [])
     end
 
     def project_params
@@ -77,16 +67,13 @@ module Admin
       params[:workshop][:images]
     end
 
-    def populate_projects
-      @projects = Project.all
-    end
-
     def populate_workshop
       @workshop = Workshop.includes(:seats, :projects).find(params[:id])
     end
 
     def filtered_params
       parameters = workshop_params
+      parameters[:workshop_project_ids].reject!(&:blank?)
       parameters[:purchase_start_date] = convert_datetime(parameters[:purchase_start_date])
       parameters[:purchase_end_date] = convert_datetime(parameters[:purchase_end_date])
       parameters[:start_date] = convert_datetime(parameters[:start_date])

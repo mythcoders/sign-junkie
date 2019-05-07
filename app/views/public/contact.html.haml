@@ -1,1 +1,36 @@
-%h1 Contact
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h1.card-header.bg-primary.text-white.text-center
+        Contact Us
+.row
+  .col
+    %div#googleMap{style: "width:100%;height:400px;"}
+  .col
+    %h4 Address
+    .address
+      %strong
+        11235 Ridenour Rd
+        %br Thornville, OH 43076
+    %br
+    %h4 Email
+    %p
+      %a{href: 'mailto:signjunkie@columbus.rr.com'} signjunkie@columbus.rr.com
+
+= content_for :scripts do
+  :javascript
+    function renderMap() {
+      var location = new google.maps.LatLng(39.8644078,-82.434);
+      var props = {
+        center: location,
+        zoom: 17,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      };
+      var map = new google.maps.Map(document.getElementById('googleMap'), props);
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        title: 'Sign Junkie'
+      });
+    }
+  %script{src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBMAZg6UEdBTJCgUqgneFCeiDZdDs0uBYA&callback=renderMap"}

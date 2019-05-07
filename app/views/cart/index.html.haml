@@ -20,10 +20,6 @@
                   %li.list-inline-item
                     = fa_solid 'calendar-alt'
                     = c.workshop.when
-                  -# - if c.seating.present?
-                  -#   %li.list-inline-item
-                  -#     = fa_regular 'chair'
-                  -#     = c.seating
                   - if c.workshop.is_private?
                     %p.text-info Deposit fee will be added during checkout
               = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
@@ -39,14 +35,23 @@
             %strong
               Subtotal:
               = content_tag :span, number_to_currency(@cart.map(&:total).inject(0, :+)), id: "total-amt"
-    .card-footer
+    .card-body
+      = form_with url: new_invoice_path, method: 'get' do |f|
+        - if current_user.credit_balance.positive?
+          .custom-control.custom-checkbox
+            %input.custom-control-input{type: 'checkbox', id: 'gift'}
+            %label.custom-control-label{for: 'gift'}= "Apply #{number_to_currency current_user.credit_balance} in gift cards towards this purchase"
+
+        -# = button_tag(type: 'submit', class: 'btn btn-outline-success float-right', id: 'checkout-button') do
+        -#   = fa_regular 'cash-register'
+        -#   Proceed to Checkout
+
+        -# %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}
+        -#   %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
+        -#     Loading...
       = link_to new_invoice_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
         Proceed to Checkout
         = fa_regular 'cash-register'
-      %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}
-        %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
-        Loading...
-
   - else
     .card-body
       You haven't added anything to your cart yet!

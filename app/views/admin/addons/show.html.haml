@@ -1,0 +1,26 @@
+- page_title @addon.name, 'Addons'
+
+.row
+  .col-4
+    .card
+      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
+        = @addon.name
+      .card-body
+        .form-group
+          %label.col-form-label Price
+          .form-control-plaintext= @addon.price
+      .card-footer
+        %a.btn.btn-outline-secondary.btn-sm{href: admin_addons_path}
+          = fa_regular 'arrow-left'
+          Search
+        %a.btn.btn-primary.btn-sm{href: edit_admin_addon_path(@addon)} Edit
+        = link_to 'New Image', admin_new_addon_image_path(@addon), class: 'btn btn-info btn-sm'
+  .col-8
+    %ul#addonTab.nav.nav-tabs{role: "tablist"}
+      %li.nav-item
+        %a#image-tab.nav-link.active{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
+          Images
+
+    #addonTabContent.tab-content
+      #image.tab-pane.fade.show.active{"aria-labelledby": "image-tab", role: "tabpanel"}
+        = render partial: 'admin/images/list', locals: { images: @addon.addon_images }

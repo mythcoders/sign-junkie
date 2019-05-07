@@ -10,10 +10,10 @@
       .card-body
         .form-group
           %label.col-form-label Material price
-          .form-control-plaintext= @project.material_price
+          .form-control-plaintext= number_to_currency @project.material_price
         .form-group
           %label.col-form-label Instructional price
-          .form-control-plaintext= @project.instructional_price
+          .form-control-plaintext= number_to_currency @project.instructional_price
   .col-8
     %ul#projectTab.nav.nav-tabs{role: "tablist"}
       %li.nav-item
@@ -25,8 +25,8 @@
 
     #projectTabContent.tab-content
       #stencil.tab-pane.show.active{"aria-labelledby": "stencil-tab", role: "tabpanel"}
+        = render partial: 'admin/addons/list', locals: { addons: @project.addons }
         = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils }
-        = render partial: 'admin/project_addons/list', locals: { addons: @project.addons }
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/images/list', locals: { images: @project.project_images }
 

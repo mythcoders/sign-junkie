@@ -37,6 +37,12 @@ module Services
       false
     end
 
+    def cancel(invoice)
+      raise ProcessError, "Can't cancel" if invoice.items.any? { |i| !i.cancelable? }
+
+      # todo: process refund based on amount paid and time in hours when
+    end
+
     private
 
     def empty_cart(invoice)

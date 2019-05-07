@@ -22,8 +22,7 @@
                 %a{href: "mailto:#{t.customer.email}"}= t.customer.email
               - else
                 No assigned
-            %td
-              %pre= t.description.seat_info
+            %td= t.description.seat_info
             %td.text-danger.text-center
               = fa_solid 'times'
             %td.text-danger.text-center
