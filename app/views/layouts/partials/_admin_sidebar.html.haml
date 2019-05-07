@@ -4,6 +4,10 @@
       = fa_solid 'home', 'fa-fw'
       %span Dashboard
   %li.nav-item
+    %a.nav-link{sidebar_link(admin_addons_path, customers_controller?)}
+      = fa_solid 'stamp', 'fa-fw'
+      %span Addons
+  %li.nav-item
     %a.nav-link{sidebar_link(admin_customers_path, customers_controller?)}
       = fa_solid 'users', 'fa-fw'
       %span Customers
@@ -11,10 +15,10 @@
     %a.nav-link{sidebar_link(admin_employees_path, employees_controller?)}
       = fa_solid 'users-class', 'fa-fw'
       %span Employees
-  %li.nav-item
-    %a.nav-link{sidebar_link(admin_finances_path, audits_controller?)}
-      = fa_solid 'sack-dollar', 'fa-fw'
-      %span Finances
+  -# %li.nav-item
+  -#   %a.nav-link{sidebar_link(admin_finances_path, audits_controller?)}
+  -#     = fa_solid 'sack-dollar', 'fa-fw'
+  -#     %span Finances
   %li.nav-item
     %a.nav-link{sidebar_link(admin_invoices_path, invoices_controller?)}
       = fa_solid 'file-invoice-dollar', 'fa-fw'
@@ -23,18 +27,22 @@
     %a.nav-link{sidebar_link(admin_projects_path, projects_controller?)}
       = fa_solid 'sign', 'fa-fw'
       %span Projects
-  %li.nav-item
-    %a.nav-link{sidebar_link(admin_reports_path, reports_controller?)}
-      = fa_solid 'analytics', 'fa-fw'
-      %span Reports
-  %li.nav-item
-    %a.nav-link{sidebar_link(admin_settings_path, audits_controller?)}
-      = fa_solid 'cogs', 'fa-fw'
-      %span Settings
+  -# %li.nav-item
+  -#   %a.nav-link{sidebar_link(admin_reports_path, reports_controller?)}
+  -#     = fa_solid 'analytics', 'fa-fw'
+  -#     %span Reports
+  -# %li.nav-item
+  -#   %a.nav-link{sidebar_link(admin_settings_path, audits_controller?)}
+  -#     = fa_solid 'cogs', 'fa-fw'
+  -#     %span Settings
   %li.nav-item
     %a.nav-link{sidebar_link(admin_stencils_path, designs_controller?)}
       = fa_solid 'swatchbook', 'fa-fw'
       %span Stencils
+  %li.nav-item
+    %a.nav-link{sidebar_link(admin_stencil_categories_path, designs_controller?)}
+      = fa_solid 'swatchbook', 'fa-fw'
+      %span Stencil Categories
   %li.nav-item
     %a.nav-link{sidebar_link(admin_workshops_path, workshops_controller?)}
       = fa_solid 'toolbox', 'fa-fw'

@@ -15,17 +15,23 @@ Rails.application.routes.draw do
     get 'reports/sales_tax', as: 'sales_tax_report'
 
     resources :audits, concerns: :pageable, only: %i[index show]
+    resources :addons, concerns: :pageable
     resources :stencils, concerns: :pageable
+    resources :stencil_categories, concerns: :pageable
     resources :projects, concerns: :pageable do
       resources :project_addons, path: 'addons', as: 'addons'
     end
     resources :invoices, concerns: :pageable
-    resources :workshops, concerns: :pageable
+    resources :workshops, concerns: :pageable do
+      post 'clone', to: 'workshops#clone'
+    end
 
     get 'workshops/:id/image', to: 'images#workshop', as: 'new_workshop_image'
     get 'projects/:id/image', to: 'images#project', as: 'new_project_image'
+    get 'addons/:id/image', to: 'images#addon', as: 'new_addon_image'
     post 'workshops/:id/image', to: 'workshops#images', as: 'upload_workshop_image'
     post 'projects/:id/image', to: 'projects#images', as: 'upload_project_image'
+    post 'addons/:id/image', to: 'addons#images', as: 'upload_addon_image'
     delete 'images/:id', to: 'images#destroy', as: 'delete_image'
 
     resources :users, as: 'customers', path: 'customers', controller: 'customers',
@@ -36,35 +42,34 @@ Rails.application.routes.draw do
     resources :tax_rates
 
     get 'settings', as: 'settings', to: 'settings#index'
-    get 'settings/stencil_categories', to: 'settings#stencil_categories'
   end
 
   # customer facing
   get 'my_account', to: 'public#my_account'
-  get 'projects', to: 'public#projects'
-  get 'addons', to: 'public#addons'
   get 'gift_cards', to: 'public#gift_cards'
   get 'policies', to: 'public#policies'
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
   get 'waiver', to: 'public#waiver'
-  get 'gallery', to: 'public#gallery'
   get 'how_it_works', to: 'public#how_it_works'
-  get 'public_workshops', to: 'workshops#public'
-  get 'private_workshops', to: 'workshops#private'
   get 'private_policies', to: 'public#private_policies'
   get 'private_hostess', to: 'public#private_hostess'
+  get 'projects/addons', to: 'projects#addons', as: 'addons'
+  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
+  get 'workshops/public', to: 'workshops#public'
+  get 'workshops/private', to: 'workshops#private'
+  get 'project', to: 'public#project_info'
 
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
-    resources :invoice_items, path: 'items', only: %i[show create edit update] do
-      post 'assign', to: 'order_items#assign'
-    end
-    get 'items_by_workshop/:workshop_id', to: 'invoice_items#by_workshop'
-    post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
+    # resources :invoice_items, path: 'items', only: %i[show create edit update] do
+    #   post 'assign', to: 'order_items#assign'
+    # end
+    # get 'items_by_workshop/:workshop_id', to: 'invoice_items#by_workshop'
+    # post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
   end
-  resources :reservations
+  resources :projects, only: %i[index show]
   resources :workshops, only: %i[index show]
 
   root to: 'public#index'

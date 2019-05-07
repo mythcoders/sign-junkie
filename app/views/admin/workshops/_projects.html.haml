@@ -17,7 +17,7 @@
       %tbody
         - @workshop.projects.order(:name).each do |p|
           %tr
-            %td= p.name
+            %td= link_to p.name, admin_project_path(p)
             %td= number_to_currency(p.material_price)
             %td= number_to_currency(p.instructional_price)
             %td= number_to_currency(p.total_price)

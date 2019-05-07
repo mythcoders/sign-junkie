@@ -1,14 +1,14 @@
-%footer.bd-footer.text-muted
+%footer.bd-footer
   .container
     .row.justify-content-around
       .col
         %ul.bd-footer-links
           %li
-            %a{href: ''}
+            %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
               = fa_brands 'facebook'
               Facebook
-          %li= link_to 'Contact Us', root_path
-          %li= link_to 'About', root_path
+          %li= link_to 'Contact Us', contact_path
+          %li= link_to 'About', about_path
         .address
           %strong
             %br 11235 Ridenour Rd
@@ -16,8 +16,9 @@
 
         .text-muted
           %br
-          = "\u00A9 #{Date.today.year} #{ClientInfo.owner}."
-
+          %a{href: root_path}= "\u00A9 #{Date.today.year} #{ClientInfo.owner}"
+          |
+          %a{href: 'https://www.mythcoders.com', target: '_blank'} Powered by MythCoders, LLC
 -# %nav.navbar.fixed-bottom.whiz-footer
 -#   .container
 -#     %a.navbar-link{href: 'https://www.example.com', target: '_blank'}

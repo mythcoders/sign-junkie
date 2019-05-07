@@ -28,12 +28,8 @@ module SystemInfo
       Rails.root.join('RELEASE').read.chomp
     end
 
-    def deployer
-      Rails.root.join('DEPLOYER').read.chomp
-    end
-
-    def deploy_time
-      Rails.root.join('DEPLOY_TIME').read.chomp
+    def build_time
+      Rails.root.join('BUILD_TIME').read.chomp
     end
 
     def long_version

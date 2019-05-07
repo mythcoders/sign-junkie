@@ -3,7 +3,7 @@ module Services
   class OrderService
     def process!(invoice)
       invoice.items.each do |item|
-        if item..gift_card?
+        if item.gift_card?
           create_credit item, invoice.customer
         elsif item.reservation?
           book_reservation item, invoice.customer

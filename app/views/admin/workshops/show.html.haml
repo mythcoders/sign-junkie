@@ -34,8 +34,11 @@
           = fa_regular 'arrow-left'
           Search
         %a.btn.btn-primary.btn-sm{href: edit_admin_workshop_path(@workshop)} Edit
-        %a.btn.btn-info.btn-sm{href: admin_workshop_path(@workshop)} Clone
         = link_to 'New Image', admin_new_workshop_image_path(@workshop), class: 'btn btn-info btn-sm'
+        = form_for @workshop, url: admin_workshop_clone_path(@workshop), method: :post do |f|
+          = f.hidden_field :id
+          = button_tag(type: 'submit', class: 'btn btn-info btn-sm') do
+            Clone
   .col-12.col-md-8
     %ul#workshopTab.nav.nav-tabs{role: "tablist"}
       %li.nav-item

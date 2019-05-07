@@ -9,7 +9,11 @@
   %tbody
     - @invoice.items.each do |i|
       %tr
-        %td= i.description.title
+        %td
+          - if i.gift_card?
+            = i.description.title
+          - else
+            %a{href: admin_workshop_path(i.workshop)}= i.description.title
         %td= number_to_currency(i.pre_tax_amount)
         %td= i.quantity
         %td

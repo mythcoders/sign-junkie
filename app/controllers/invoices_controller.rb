@@ -34,6 +34,22 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def cancel
+    service = Services::InvoiceService.new
+    invoice = Invoice.find params[:id]
+    begin
+      if service.cancel(invoice)
+        flash[:success] = t('order.placed.success')
+        redirect_to invoice_path invoice
+      else
+        raise Services::ProcessError, t('order.create.failure')
+      end
+    rescue Services::ProcessError => e
+      flash[:error] = e.message
+      return redirect_to invoice_path invoice
+    end
+  end
+
   private
 
   def create_params

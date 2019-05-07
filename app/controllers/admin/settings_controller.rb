@@ -1,6 +1,7 @@
 module Admin
   class SettingsController < AdminController
-    def stencil_categories
+    def index
+      @addons = Addon.all
       @data = StencilCategory.for_tree
     end
   end

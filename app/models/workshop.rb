@@ -14,6 +14,13 @@ class Workshop < ApplicationRecord
 
   validates_presence_of :name
 
+  def self.clone(id)
+    original = Workshop.find id
+    clone = original.deep_clone
+    clone.for_sale = false
+    clone.save!
+  end
+
   # Searches workshops on a variety of factors
   # @return [Array] returns of the search
   def self.search(name, _sort = 'A')
@@ -88,6 +95,10 @@ class Workshop < ApplicationRecord
 
   def book_by_date
     (start_date - Workshop.booking_deadline).beginning_of_day
+  end
+
+  def cancel_by_date
+    (start_date - Workshop.booking_deadline)
   end
 
   def is_private?

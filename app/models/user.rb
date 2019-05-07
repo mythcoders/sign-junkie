@@ -42,4 +42,8 @@ class User < ApplicationRecord
   def cart_total
     Cart.for(self).count
   end
+
+  def credit_balance
+    (credits.active.map(&:amount).reduce(:+) || 0.00).round(2)
+  end
 end

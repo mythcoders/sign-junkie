@@ -1,0 +1,54 @@
+image: docker:latest
+
+services:
+  - docker:dind
+  - postgres:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  CONTAINER_IMAGE: registry.gitlab.com/mythcoders/sign-junkie/web
+  CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
+  HEROKU_REGISTRY: registry.heroku.com
+  QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
+  PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie/web:latest
+
+before_script:
+  - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - echo $CI_BUILD_REF_NAME > BRANCH
+    - echo $CI_COMMIT_SHA > VERSION
+    - echo $(date +%s) > BUILD_TIME
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test:
+  stage: test
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+
+push_qa:
+  stage: deploy
+  script:
+    - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $QA_IMAGE
+    - docker push $QA_IMAGE
+
+release_qa:
+  image: node:latest
+  stage: deploy
+  environment:
+    name: qa
+    url: https://qa.signjunkieworkshop.com
+  before_script:
+    - npm install -g heroku
+  script:
+    - heroku container:release web --app sign-junkie-qa
+

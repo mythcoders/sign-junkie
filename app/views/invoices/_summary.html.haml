@@ -12,11 +12,11 @@
                 = i.description.title
               %td.text-right.action-column
                 %strong= number_to_currency(i.pre_tax_total)
-            - if @invoice.taxed?
-              %tr
-                %td Sales Tax
-                %td.text-right.action-column
-                  %strong#order_total_tax= number_to_currency(@invoice.tax_total)
+          - if @invoice.taxed?
+            %tr
+              %td Sales Tax
+              %td.text-right.action-column
+                %strong#order_total_tax= number_to_currency(@invoice.tax_total)
       %tfoot
         %tr.bg-primary.text-white
           %td Total

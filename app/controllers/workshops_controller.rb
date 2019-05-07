@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: %i[show]
+  before_action :set_workshop, only: %i[show project_info]
   before_action :set_cart_total, only: %i[show]
 
   def public
@@ -10,6 +10,11 @@ class WorkshopsController < ApplicationController
 
   def private
     @workshops = Workshop.upcoming.private_shops
+  end
+
+  def project_info
+    Rails.logger.debug @workshop.inspect
+    @project = Project.find(params[:project_id])
   end
 
   private

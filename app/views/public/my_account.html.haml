@@ -34,6 +34,6 @@
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href:edit_user_registration_path }}
           Change email or password
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: '' }}
-          $0.00 in gift cards available
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: 'mailto:something@you.com' }}
+          = "#{number_to_currency current_user.credit_balance} in gift cards available for use"
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: 'mailto:signjunkie@columbus.rr.com' }}
           Contact Support

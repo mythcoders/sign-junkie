@@ -6,7 +6,7 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   ping.check :database do
-    ActiveRecord::Base.connection.select_value('SELECT 1').to_s == "1"
+    ActiveRecord::Base.connection.active?
   end
 
   ping.check :branch do
@@ -21,12 +21,8 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   end
 
   unless Rails.env.production?
-    ping.check :deployed_at do
-      SystemInfo.deploy_time
-    end
-
-    ping.check :deployer do
-      SystemInfo.deployer
+    ping.check :build_time do
+      SystemInfo.build_time
     end
   end
 end

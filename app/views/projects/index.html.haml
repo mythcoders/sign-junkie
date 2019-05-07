@@ -1,0 +1,18 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h1.card-header.bg-primary.text-white.text-center
+        Available Projects
+
+- @projects.each_slice(3) do |group|
+  .row
+    - group.each do |project|
+      .col.col-md-6.col-lg-4
+        .card.mb-3
+          %h5.card-header.bg-primary.text-white
+            = project.name
+          - if project.project_images.any?
+            %img.card-img-top{alt: "Image of #{project.name}", src: url_for(project.project_images.first) , height: 300}
+          - else
+            %img.card-img-top{alt: "Image of #{project.name}", src: '/cover.jpg', height: 300}
+
