@@ -1,6 +1,6 @@
 .thead-gray {
   color: $table-dark-color;
-  background-color: $gray-800;
+  background-color: $gray-700;
   border-color: $table-dark-border-color;
 }
 
@@ -15,10 +15,6 @@
 .table-border-fix {
   margin-bottom: 0;
   border-bottom-style: none;
-}
-
-.form-group > label {
-  font-weight: bold;
 }
 
 @include media-breakpoint-only(xs) {

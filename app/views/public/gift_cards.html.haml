@@ -1,6 +1,6 @@
 .row
   .col.col-lg-6.d-none.d-md-block
-    %img.card-img-top{alt: 'Gift card', src: asset_path('GiftCard.jpg')}
+    %img.card-img-top{alt: 'Gift card', src: 'GiftCard.jpg'}
   .col.col-lg-6.mb-2
     .card
       %h4.card-header.bg-primary.text-white
@@ -40,6 +40,6 @@
               %span Add to Cart
       - else
         .card-footer
-          %a.btn.btn-primary(href=new_user_session_path)
+          %a.btn.btn-secondary(href=new_user_session_path)
             = fa_light 'sign-in'
             Log In or Sign up to add this to your cart

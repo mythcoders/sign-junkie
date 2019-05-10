@@ -1,11 +1,11 @@
 .row.justify-content-center.mt-3
   .col
     .card.mb-3
-      %h1.card-header.bg-primary.text-white.text-center
+      %h2.card-header.bg-primary.text-white.text-center
         Project Add-ons
 
 - @addons.each do |addon|
-  %h3.text-primary= addon.name
+  %h3.text-primary= "#{addon.name} - #{number_to_currency addon.price}"
   .row
     - addon.addon_images.each do |img|
       .col.text-center

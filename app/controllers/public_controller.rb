@@ -1,5 +1,6 @@
 class PublicController < ApplicationController
   before_action :set_cart_total
+  before_action :authenticate_user!, only: %i(my_account)
 
   def project_info
     @project = Project.find(params[:project_id])
