@@ -7,12 +7,16 @@
             %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
               = fa_brands 'facebook'
               Facebook
+          %li
+            %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
+              = fa_brands 'instagram'
+              Instagram
           %li= link_to 'Contact Us', contact_path
           %li= link_to 'About', about_path
-        .address
-          %strong
-            %br 11235 Ridenour Rd
-            Thornville, OH 43076
+        = link_to contact_path do
+          .address
+            11235 Ridenour Rd
+            %br Thornville, OH 43076
 
         .text-muted
           %br

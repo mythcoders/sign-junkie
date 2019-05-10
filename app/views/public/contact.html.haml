@@ -1,21 +1,28 @@
 .row.justify-content-center.mt-3
   .col
     .card.mb-3
-      %h1.card-header.bg-primary.text-white.text-center
+      %h2.card-header.bg-primary.text-white.text-center
         Contact Us
 .row
   .col
     %div#googleMap{style: "width:100%;height:400px;"}
   .col
     %h4 Address
-    .address
+    .address.mb-2
       %strong
         11235 Ridenour Rd
         %br Thornville, OH 43076
-    %br
     %h4 Email
     %p
       %a{href: 'mailto:signjunkie@columbus.rr.com'} signjunkie@columbus.rr.com
+    %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
+      %h4
+        = fa_brands 'facebook'
+        Facebook
+    %a{href: 'https://www.instagram.com/signjunkiediy/'}
+      %h4
+        = fa_brands 'instagram'
+        Instagram
 
 = content_for :scripts do
   :javascript

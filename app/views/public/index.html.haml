@@ -1,12 +1,22 @@
-.row.justify-content-center
+.row.justify-content-center.mb-3
   .col
     .card
       %h1.card-header.bg-primary.text-white.text-center Book a Workshop
 
 .row.mt-3
+  .col-6.col-lg-3
+    %img.card-img-top{:alt => 'A group of DIY-ers making their projects', :src => "/Landing1.jpeg", height: 250}
+  .col-6.col-lg-3
+    %img.card-img-top{:alt => 'Customers using our provided tools to build their projects', :src => "/Landing2.jpeg", height: 250}
+  .col-6.col-lg-3
+    %img.card-img-top{:alt => '', :src => "/Landing3.jpeg", height: 250}
+  .col-6.col-lg-3
+    %img.card-img-top{:alt => '', :src => "/Landing4.jpeg", height: 250}
+
+.row.mt-3
   .col
     .card
-      %img.card-img-top{:alt => "...", :src => "/Public.jpeg"}
+      %img.card-img-top{:alt => "A group of DIY-ers with their creations", :src => "/Public.jpeg"}
       %h5.card-header.text-center
         Public Workshops
       .card-body
@@ -19,7 +29,7 @@
 
   .col
     .card
-      %img.card-img-top{:alt => "...", :src => "/Private.jpeg"}
+      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', :src => "/Private.jpeg"}
       %h5.card-header.text-center
         Private Workshops
       .card-body
