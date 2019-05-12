@@ -3,7 +3,7 @@
 module ClientInfo
   class << self
     def name
-      'Sign Junkie'
+      'Sign Junkie Workshop'
     end
 
     def owner
