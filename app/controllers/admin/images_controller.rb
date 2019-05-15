@@ -4,8 +4,11 @@ module Admin
     before_action :set_project, only: %i[project]
     before_action :set_addon, only: %i[addon]
 
-    def destory
-
+    def destroy
+      image = ActiveStorage::Attachment.find(params[:id])
+      image.purge
+      flash[:success] = 'Image deleted successfully!'
+      redirect_back(fallback_location: admin_dashboard_path)
     end
 
     private

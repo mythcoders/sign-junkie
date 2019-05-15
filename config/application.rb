@@ -24,6 +24,7 @@ module Ares
 
     # Storage
     config.active_storage.service = :amazon
+    config.active_storage.variant_processor = :mini_magick
 
     # Email
     config.action_mailer.delivery_method = :smtp

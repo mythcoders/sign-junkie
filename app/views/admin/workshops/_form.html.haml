@@ -22,9 +22,6 @@
   = f.text_area :description, class: 'form-control', rows: 3
 .form-row
   .form-group.col
-    = f.label :total_seats, class: 'col-form-label'
-    = f.text_field :total_tickets, class: 'form-control'
-  .form-group.col
     = f.label :is_public, class: 'control-label'
     .custom-control.custom-radio
       = f.radio_button :is_public, 'true', class: 'custom-control-input'
@@ -32,6 +29,10 @@
     .custom-control.custom-radio
       = f.radio_button :is_public, 'false', class: 'custom-control-input'
       %label.custom-control-label{for: "workshop_is_public_false"} Private Workshop
+  .form-group.col
+    = f.label :total_seats, class: 'col-form-label'
+    = f.text_field :total_tickets, class: 'form-control'
+.form-row
   .form-group.col
     = f.label :options, class: 'control-label'
     .custom-switch.custom-control

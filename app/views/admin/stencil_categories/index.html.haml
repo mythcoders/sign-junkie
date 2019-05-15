@@ -1,11 +1,13 @@
-- page_title 'stencil Categoriess Search'
+- page_title 'Stencil Category Search'
 
-.card
-  %h5.card-header.bg-primary.text-white
-    = fa_solid 'ruler-combined'
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
+  %h1.h2
+    = fa_solid 'swatchbook'
     Stencil Categories
-  %table.table.table-bordered.table-striped.table-hover.table-border-fix
-    %thead
+
+.table-responsive
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.bg-primary.text-white
       %tr
         %th Name
         %th Parent
@@ -16,9 +18,11 @@
           %td
             - if c.parent_category.present?
               = c.parent_category.name
-  .card-footer
-    = paginate @categories
-    = page_entries_info @categories
-%br
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @categories
+          = page_entries_info @categories
+
 = link_to 'New Stencil Category', new_admin_stencil_category_path, class: 'btn btn-primary'
 

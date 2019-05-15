@@ -1,6 +1,7 @@
 module Admin
   class StencilsController < AdminController
-    before_action :set_stencil, only: %i(edit)
+    before_action :set_stencil, only: %i(show edit update)
+    before_action :set_values_for_dropdown, only: %i(new edit)
 
     def index
       @stencils = Stencil.page(params[:page]).per(10)
@@ -8,7 +9,6 @@ module Admin
 
     def new
       @stencil = Stencil.new
-      set_values_for_dropdown
     end
 
     def create
@@ -16,7 +16,7 @@ module Admin
 
       if @stencil.save
         flash[:success] = t('CreateSuccess')
-        redirect_to admin_stencils_path
+        redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
         render 'new'
@@ -26,7 +26,7 @@ module Admin
     def update
       if @stencil.update(stencil_params)
         flash[:success] = t('CreateSuccess')
-        redirect_to admin_stencils_path
+        redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
         render 'edit'
@@ -36,7 +36,7 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil).permit(:id, :name, :stencil_category_id)
+      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image)
     end
 
     def set_stencil
@@ -44,7 +44,7 @@ module Admin
     end
 
     def set_values_for_dropdown
-      @categories = StencilCategory.all
+      @categories = StencilCategory.all.order(name: :asc)
     end
   end
 end

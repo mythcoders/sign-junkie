@@ -7,13 +7,13 @@
 
 .table-responsive
   %table.table.table-bordered.table-striped.table-hover
-    %thead.thead-gray
+    %thead.bg-primary.text-white
       %tr
         %th Name
         %th Category
     %tbody
       - @stencils.each do |c|
-        %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_path(c) }}
+        %tr{data: { 'clickable-row': '', 'href': admin_stencil_path(c) }}
           %td= c.name
           %td= c.category.name
     %tfoot
@@ -22,5 +22,4 @@
           = paginate @stencils
           = page_entries_info @stencils
 
-%br
 = link_to 'New Stencil', new_admin_stencil_path, class: 'btn btn-primary'
