@@ -1,6 +1,6 @@
 FROM ruby:2.5.1-alpine
 
-RUN apk add --update build-base postgresql-dev tzdata nodejs
+RUN apk add --update build-base postgresql-dev tzdata nodejs imagemagick
 
 WORKDIR /app
 ADD Gemfile Gemfile.lock /app/

@@ -47,20 +47,20 @@ Rails.application.routes.draw do
   # customer facing
   get 'my_account', to: 'public#my_account'
   get 'gift_cards', to: 'public#gift_cards'
-  get 'policies', to: 'public#policies'
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
   get 'waiver', to: 'public#waiver'
   get 'how_it_works', to: 'public#how_it_works'
-  get 'private_policies', to: 'public#private_policies'
-  get 'private_hostess', to: 'public#private_hostess'
-  get 'projects/addons', to: 'projects#addons', as: 'addons'
+  get 'policies', to: 'workshops#public_policies'
+  get 'private_policies', to: 'workshops#private_policies'
+  get 'private_hostess', to: 'workshops#hostess_policies'
   get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
   get 'project', to: 'public#project_info'
 
+  resources :addons, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
   resources :invoices, only: %i[index show new create], path: 'orders' do
     # resources :invoice_items, path: 'items', only: %i[show create edit update] do
@@ -69,7 +69,10 @@ Rails.application.routes.draw do
     # get 'items_by_workshop/:workshop_id', to: 'invoice_items#by_workshop'
     # post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
   end
-  resources :projects, only: %i[index show]
+  resources :projects, only: %i[index show] do
+    get 'stencils'
+  end
+  resources :stencils, only: %i[index show]
   resources :workshops, only: %i[index show]
 
   root to: 'public#index'

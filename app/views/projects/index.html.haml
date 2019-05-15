@@ -10,7 +10,7 @@
       .col.col-md-6.col-lg-4
         .card.mb-3
           %h5.card-header.bg-primary.text-white
-            = project.name
+            = link_to project.name, projects_path(project)
           - if project.project_images.any?
             %img.card-img-top{alt: "Image of #{project.name}", src: url_for(project.project_images.first) , height: 300}
           - else

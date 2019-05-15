@@ -8,7 +8,7 @@
       .card-body
         .form-group
           %label.col-form-label Price
-          .form-control-plaintext= @addon.price
+          .form-control-plaintext= number_to_currency @addon.price
       .card-footer
         %a.btn.btn-outline-secondary.btn-sm{href: admin_addons_path}
           = fa_regular 'arrow-left'

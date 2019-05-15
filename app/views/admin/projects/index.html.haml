@@ -7,7 +7,7 @@
 
 .table-responsive
   %table.table.table-bordered.table-striped.table-hover
-    %thead.thead-gray
+    %thead.bg-primary.text-white
       %tr
         %th Name
     %tbody
@@ -17,7 +17,7 @@
     %tfoot
       %tr
         %td{colspan: '100%'}
-          = paginate @projects
+          = paginate @projects, remote: true
           = page_entries_info @projects
 %br
 = link_to 'New Project', new_admin_project_path, class: 'btn btn-primary'
