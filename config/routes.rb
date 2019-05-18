@@ -53,25 +53,16 @@ Rails.application.routes.draw do
   get 'waiver', to: 'public#waiver'
   get 'how_it_works', to: 'public#how_it_works'
   get 'policies', to: 'workshops#public_policies'
+  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
   get 'private_policies', to: 'workshops#private_policies'
   get 'private_hostess', to: 'workshops#hostess_policies'
-  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
-  get 'project', to: 'public#project_info'
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create update destroy]
-  resources :invoices, only: %i[index show new create], path: 'orders' do
-    # resources :invoice_items, path: 'items', only: %i[show create edit update] do
-    #   post 'assign', to: 'order_items#assign'
-    # end
-    # get 'items_by_workshop/:workshop_id', to: 'invoice_items#by_workshop'
-    # post 'items/cancel', to: 'invoice_items#cancel', as: 'cancel_items'
-  end
-  resources :projects, only: %i[index show] do
-    get 'stencils'
-  end
+  resources :invoices, only: %i[index show new create], path: 'orders'
+  resources :projects, only: %i[index show]
   resources :stencils, only: %i[index show]
   resources :workshops, only: %i[index show]
 

@@ -11,10 +11,13 @@
 .form-row
   .form-group.col
     = f.label :stencil_design
-    = f.select :stencil_id,
-        options_from_collection_for_select([], 'id', 'name'),
-        { value: nil, include_blank: '- Select Project -' },
-        { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private?, required: 'required' }
+    .input-group
+      = f.select :stencil_id,
+          options_from_collection_for_select([], 'id', 'name'),
+          { value: nil, include_blank: '- Select Project -' },
+          { class: 'form-control custom-select', 'data-js-change-stencil': '', disabled: @workshop.is_private?, required: 'required' }
+      .input-group-append
+        %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
 .form-row
   .form-group.col
     = f.label :addons

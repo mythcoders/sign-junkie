@@ -1,7 +1,7 @@
 module Services
   class InvoiceService
 
-    def build_from_cart(user, created_at = Time.now)
+    def build_from_cart(user, gift_card, created_at = Time.now)
       tax_service = TaxService.new
       invoice = Invoice.new(user_id: user.id,
                             status: :draft,

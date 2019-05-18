@@ -2,7 +2,6 @@
 
 class WorkshopsController < ApplicationController
   before_action :set_workshop, only: %i[show project_info]
-  before_action :set_cart_total, only: %i[show]
 
   def public
     @workshops = Workshop.upcoming.public_shops
@@ -13,7 +12,6 @@ class WorkshopsController < ApplicationController
   end
 
   def project_info
-    Rails.logger.debug @workshop.inspect
     @project = Project.find(params[:project_id])
   end
 

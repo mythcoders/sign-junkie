@@ -20,15 +20,13 @@ module Services
         item.tax_amount = (amount_taxable * item.tax_rate).round(2)
       else
         item.tax_rate = nil
-        item.tax_amount = nil
+        item.tax_amount = 0.00
       end
     end
 
-    private
-
     def calc_taxable(item)
       return 0.00 unless TaxService.enabled?
-      return 0.00 unless item.seat?
+      return 0.00 unless item.taxable?
 
       taxable = Project.find(item.project_id).material_price
 

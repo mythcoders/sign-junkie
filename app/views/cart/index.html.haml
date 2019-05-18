@@ -1,57 +1,85 @@
-.card
-  %h4.card-header.bg-primary.text-white
-    = fa_solid 'shopping-cart'
-    Shopping Cart
-  - if @cart.any?
-    %table.table.table-bordered.table-striped.table-border-fix
-      %thead
-        %tr.bg-primary.text-white
-          %th Workshop
-          %th Quantity
-          %th.text-right Price
-      %tbody
-        - @cart.each do |c|
-          %tr
-            %td
-              %a{href: ''}
-                %h4= c.description.title
-              %ul.list-inline
-                - unless c.description.gift_card?
-                  %li.list-inline-item
-                    = fa_solid 'calendar-alt'
-                    = c.workshop.when
-                  - if c.workshop.is_private?
-                    %p.text-info Deposit fee will be added during checkout
-              = link_to 'Remove', cart_path(c), method: :delete, class: 'btn btn-outline-danger btn-sm', data: {confirm: 'Are you sure want to remove this item from your cart?'}
-            %td.action-column
-              = form_for c, url: cart_path(c), method: :patch do |f|
-                = f.hidden_field :id
-                = cart_dropdown f, c
-            %td.action-column.text-right.text-primary
-              = content_tag :span, number_to_currency(c.total), id: "amt-#{c.id}"
-      %tfoot
-        %tr
-          %td.text-primary.text-right{colspan: 4}
-            %strong
-              Subtotal:
-              = content_tag :span, number_to_currency(@cart.map(&:total).inject(0, :+)), id: "total-amt"
-    .card-body
-      = form_with url: new_invoice_path, method: 'get' do |f|
-        - if current_user.credit_balance.positive?
-          .custom-control.custom-checkbox
-            %input.custom-control-input{type: 'checkbox', id: 'gift'}
-            %label.custom-control-label{for: 'gift'}= "Apply #{number_to_currency current_user.credit_balance} in gift cards towards this purchase"
+.row
+  .col-12.col-lg-8
+    .row.justify-content-center
+      .col
+        .card
+          %h3.card-header.bg-primary.text-white
+            = fa_solid 'shopping-cart'
+            Shopping cart
+        %ul.list-group
+          - if @cart.any?
+            - @cart.each do |item|
+              %li.list-group-item
+                .row
+                  .col-md-6.mb-3.mb-md-0
+                    .media
+                      - if item.gift_card?
+                        .media-body
+                          %h5.card-title= item.title
+                          .font-size-1.mb-1
+                            = fa_solid 'user'
+                            = "#{item.first_name} #{item.last_name}"
+                      - else
+                        .media-body
+                          %h5.card-title= item.title
+                          .font-size-1.mb-1
+                            = fa_solid 'calendar-alt'
+                            = item.workshop.start_date.strftime("%-l:%M%p %a %B #{item.workshop.start_date.day.ordinalize}")
+                  .col-5.col-md-3.offset-md-1
+                    - if item.gift_card?
+                      1
+                    - else
+                      = form_for item, url: cart_path(item), method: :patch do |f|
+                        = f.hidden_field :id
+                        = cart_dropdown f, item
+                    %a.d-block.text-secondary.font-size-1.mb-1{href: cart_path(item), method: :delete, data: {confirm: 'Are you sure want to remove this item from your cart?'}}
+                      %span.far.fa-trash-alt.mr-1
+                      %span Remove
+                  .col-6.col-md-2.text-md-right
+                    %span.font-weight-medium
+                      = content_tag :span, number_to_currency(item.total), id: "amt-#{item.id}"
+          - else
+            %li.list-group-item
+              %a.btn.btn-link(href=workshops_public_path)
+                View PUBLIC Workshop dates
+              %a.btn.btn-link(href=workshops_private_path)
+                View PRIVATE Workshop dates
 
-        -# = button_tag(type: 'submit', class: 'btn btn-outline-success float-right', id: 'checkout-button') do
-        -#   = fa_regular 'cash-register'
-        -#   Proceed to Checkout
-
-        -# %button.btn.btn-success.float-right{disabled: "disabled", type: "button", id: 'checkout-loading', style: 'display:none;'}
-        -#   %span.spinner-border.spinner-border-sm{"aria-hidden":"true", role: "status"}
-        -#     Loading...
-      = link_to new_invoice_path, class: 'btn btn-outline-success float-right', id: 'checkout-button' do
-        Proceed to Checkout
-        = fa_regular 'cash-register'
-  - else
-    .card-body
-      You haven't added anything to your cart yet!
+  .col-12.col-lg-4
+    .card
+      %h5.card-header.bg-primary.text-white Order summary
+      .card-body
+        .media.align-items-center.mb-3
+          .font-size-1.font-weight-normal.mb-0.mr-3= "Item subtotal (#{@cart_count})"
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @cart_subtotal.positive?
+                = content_tag :span, number_to_currency(@cart_subtotal), id: "total-amt"
+              - else
+                .span --
+        .media.align-items-center.mb-3
+          .font-size-1.font-weight-normal.mb-0.mr-3 Estimated tax
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @estimated_tax.positive?
+                = number_to_currency @estimated_tax
+              - else
+                .span --
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Total
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @cart_total.positive?
+                = number_to_currency @cart_total
+              - else
+                .span --
+        - if @cart.any?
+          = form_tag new_invoice_path, method: 'get' do
+            - if current_user.credit_balance.positive?
+              .card.border-0.mb-3
+                .card-body.p-0
+                  .custom-control.custom-checkbox.small
+                    = check_box_tag :gift_cards, 'true', false, class: 'custom-control-input'
+                    %label.custom-control-label{for: 'gift_cards'}
+                      = "Apply #{number_to_currency current_user.credit_balance} in gift cards towards this purchase"
+            = submit_tag 'Proceed to Checkout', class: 'btn btn-primary'

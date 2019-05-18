@@ -3,3 +3,14 @@
     .card.mb-3
       %h2.card-header.bg-primary.text-white.text-center
         Stencil Designs
+
+- @categories.each do |category|
+  %h3.text-primary= category.name
+  .row.mb-3
+    - category.stencils.each do |stencil|
+      .col-12.col-md-4.col-lg-3.text-center
+        - if stencil.image.attached?
+          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image) , height: 300}
+        - else
+          %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg', height: 300}
+        .text-secondary= stencil.name

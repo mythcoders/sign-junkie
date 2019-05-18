@@ -7,7 +7,12 @@ class CartController < ApplicationController
 
   def index
     @cart = Cart.for(current_user)
-    @cart_total = @cart.count
+    @cart_subtotal = @cart.map(&:total).inject(0, :+)
+    @cart_count = @cart.count
+
+    @reservation_fee = calc_reservation_fee
+    @estimated_tax = calc_est_tax
+    @cart_total = @cart_subtotal + @reservation_fee + @estimated_tax
   end
 
   def create
@@ -54,5 +59,24 @@ class CartController < ApplicationController
                                  :stencil_id, :stencil, :seating, :design_confirmation,
                                  :policy_agreement, :first_name, :last_name, :email,
                                  :amount, :type)
+  end
+
+  def calc_est_tax
+    taxable = @cart.select { |item| item.taxable? }
+    if taxable.any?
+      service = Services::TaxService.new
+      taxable.collect { |item| service.calc_taxable(item) }.first
+    else
+      0.00
+    end
+  end
+
+  def calc_reservation_fee
+    reservations = @cart.select { |item| item.reservation? }
+    if reservations.any?
+      0.00
+    else
+      0.00
+    end
   end
 end

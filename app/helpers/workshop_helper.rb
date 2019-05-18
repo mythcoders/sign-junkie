@@ -13,7 +13,7 @@ module WorkshopHelper
 
   def cart_dropdown(form, cart_item)
     html_metadata = {
-      class: 'custom-select',
+      class: 'custom-select w-auto mb-3',
       'data-js-cart-quantity': '',
       'data-cart-id': cart_item.id,
       'data-price': cart_item.price
