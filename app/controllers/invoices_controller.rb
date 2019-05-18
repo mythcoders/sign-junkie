@@ -1,7 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :prepare_payment, only: %i[new create]
-  before_action :set_cart_total, only: %i[index show new]
 
   def index
     @invoices = current_user.invoices.page(params[:page]).order(created_at: :desc)
@@ -12,7 +11,12 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = Services::InvoiceService.new.build_from_cart(current_user)
+    @invoice = Services::InvoiceService.new.build_from_cart(current_user, params[:gift_cards])
+    if @invoice.items.empty?
+      flash[:error] = 'No items to checkout'
+      redirect_to cart_index_path
+    end
+
     @client_token = Services::BraintreeService.new.token
   end
 

@@ -43,7 +43,7 @@ class ItemDescription
     elsif reservation?
       "Reservation for #{workshop_name}"
     elsif gift_card?
-      "Gift Card for #{first_name} #{last_name}"
+      'Gift Card'
     else
       workshop_name
     end
@@ -61,6 +61,19 @@ class ItemDescription
 
   def workshop
     @workshop ||= Workshop.find workshop_id
+  end
+
+  def taxable?
+    return true if seat?
+
+    false
+  end
+
+  def cancelable?
+    return false if gift_card?
+    return false if workshop.start_date <= DateTime.now
+
+    true
   end
 
   ITEM_TYPES.each do |item_type|

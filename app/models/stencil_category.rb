@@ -5,6 +5,7 @@ class StencilCategory < ApplicationRecord
              class_name: 'StencilCategory', foreign_key: 'parent_id'
 
   scope :for_tree, -> { where(parent_id: nil).order(:name) }
+  scope :with_stencils, -> { joins(:stencils).group('stencil_categories.id') }
 
   def to_builder
     Jbuilder.new do |node|

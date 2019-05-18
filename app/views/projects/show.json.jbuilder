@@ -8,10 +8,23 @@ json.addons @project.addons do |addon|
   json.price addon.price
 end
 
-stencils = @project.stencils.map { |s| { id: s.id, name: s.name } }
+stencils = []
+
+@project.stencils.group_by(&:category).each do |cat, items|
+  stencils << {
+    name: cat.name,
+    stencils: items.map { |s| { id: s.id, name: s.name  } }
+  }
+end
 
 if @workshop.allow_custom_stencils
-  stencils << { id: '$custom', name: '- Custom -' }
+  stencils << {
+    name: '',
+    stencils: {
+      id: '$custom',
+      name: '- Custom -'
+    }
+  }
 end
 
 json.stencils stencils

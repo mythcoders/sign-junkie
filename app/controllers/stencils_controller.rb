@@ -1,5 +1,5 @@
 class StencilsController < ApplicationController
   def index
-    @stencils = Stencil.order(name: :asc).all
+    @categories = StencilCategory.with_stencils
   end
 end

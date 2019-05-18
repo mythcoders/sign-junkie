@@ -40,7 +40,7 @@ function update_ui() {
 
     if (workshop !== null && project !== null) {
         $.ajax({
-            url: "/project?workshop_id=" + workshop +  "&project_id=" + project,
+            url: "/projects/" + project + "?workshop_id=" + workshop,
             method: "GET",
             dataType: "json",
             cache: "false",
@@ -71,16 +71,28 @@ function update_ui() {
 
                 var value = get_stencil()
                 for (var i = 0; i < data.stencils.length; i++) {
-                    var option = document.createElement('option')
-                    option.text = data.stencils[i].name
-                    option.value = data.stencils[i].id
+                    var category = data.stencils[i]
+                    var group = document.createElement('optgroup')
+                    group.label = category.name
 
-                    if (option.text === value) {
-                        option.selected = true;
+                    for (var j = 0; j < category.stencils.length; j++) {
+                        var option = document.createElement('option')
+                        option.text = category.stencils[i].name
+                        option.value = category.stencils[i].id
+
+                        if (option.text === value) {
+                            option.selected = true;
+                        }
+
+                        group.append(option)
                     }
 
-                    currentStencils.add(option)
+                    currentStencils.append(group)
                 }
+
+                preview = document.querySelector('[data-js-project-preview]')
+                preview.classList.remove('disabled')
+                preview.href = '/projects/' + project
 
                 document.querySelector('[data-js-custom-stencil]').style.display = 'none'
                 currentStencils.selectedValue = null;
