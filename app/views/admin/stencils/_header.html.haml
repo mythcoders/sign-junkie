@@ -1,0 +1,10 @@
+.row
+  .col-12
+    .btn-toolbar
+      .btn-group.mr-2
+        %a.btn.btn-outline-secondary{href: admin_stencils_path}
+          = fa_regular 'arrow-left'
+          Back to Search
+        = link_to 'Edit', edit_admin_stencil_path(@stencil), class: 'btn btn-primary'
+
+%br

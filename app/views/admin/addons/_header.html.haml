@@ -1,0 +1,15 @@
+.row
+  .col-12
+    .btn-toolbar{"aria-label": "Toolbar with button groups", role: "toolbar"}
+      .btn-group.mr-2{"aria-label": "First group", role: "group"}
+        %a.btn.btn-outline-secondary{href: admin_addons_path}
+          = fa_regular 'arrow-left'
+          Back to Search
+        %a.btn.btn-primary{href: edit_admin_addon_path(@addon)} Edit
+        .btn-group
+          %button#btnGroupDrop1.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_regular 'plus'
+            New
+          .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+            %a.dropdown-item{href: admin_new_addon_image_path(@addon)} Image
+%br

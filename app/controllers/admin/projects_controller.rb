@@ -43,9 +43,12 @@ module Admin
     private
 
     def project_params
-      params.require(:project)
-            .permit(:id, :name, :description, :material_price,
-                    :instructional_price, :workshop_project_ids => [])
+      parameters= params.require(:project)
+                        .permit(:id, :name, :description, :material_price,
+                                :instructional_price, :addon_ids => [], :stencil_ids => [])
+      parameters[:addon_ids].reject!(&:blank?)
+      parameters[:stencil_ids].reject!(&:blank?)
+      parameters
     end
 
     def file_params

@@ -16,10 +16,7 @@ class InvoiceItem < ApplicationRecord
     tax_rate.present?
   end
 
-  def cancelable?
-    return false if gift_card?
-    return false if workshop.cancel_by_date <= Time.now
+  def refundable_total(as_of = DateTime.now)
 
-    true
   end
 end

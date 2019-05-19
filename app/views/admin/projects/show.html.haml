@@ -14,18 +14,26 @@
         .form-group
           %label.col-form-label Instructional price
           .form-control-plaintext= number_to_currency @project.instructional_price
+        - if @project.addons.any?
+          .form-group
+            %label.col-form-label Addons
+            %ul.list-inline
+              - @project.addons.each do |addon|
+                %li.list-inline-item= addon.name
+
   .col-8
     %ul#projectTab.nav.nav-tabs{role: "tablist"}
       %li.nav-item
         %a#project-tab.nav-link.active{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab", href: "#stencil", role: "tab"}
-          Addons & Stencils
+          = fa_solid 'swatchbook'
+          Stencils
       %li.nav-item
         %a#image-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
+          = fa_solid 'images'
           Images
 
     #projectTabContent.tab-content
       #stencil.tab-pane.show.active{"aria-labelledby": "stencil-tab", role: "tabpanel"}
-        = render partial: 'admin/addons/list', locals: { addons: @project.addons }
         = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils }
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/images/list', locals: { images: @project.project_images }

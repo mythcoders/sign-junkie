@@ -3,7 +3,7 @@
 class CartController < ApplicationController
   helper WorkshopHelper
   before_action :authenticate_user!
-  before_action :set_cart_service, only: %i[create update destroy]
+  before_action :set_cart_service, only: %i[create destroy]
 
   def index
     @cart = Cart.for(current_user)
@@ -28,14 +28,6 @@ class CartController < ApplicationController
     end
 
     redirect_back(fallback_location: home_path)
-  end
-
-  def update
-    unless @service.update(current_user, cart_params)
-      flash[:error] = t('cart.update.failure')
-    end
-
-    redirect_to cart_index_path
   end
 
   def destroy
@@ -65,7 +57,7 @@ class CartController < ApplicationController
     taxable = @cart.select { |item| item.taxable? }
     if taxable.any?
       service = Services::TaxService.new
-      taxable.collect { |item| service.calc_taxable(item) }.first
+      taxable.collect { |item| service.calc_tax(item.description) }.first
     else
       0.00
     end

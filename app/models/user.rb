@@ -44,6 +44,6 @@ class User < ApplicationRecord
   end
 
   def credit_balance
-    (credits.active.map(&:amount).reduce(:+) || 0.00).round(2)
+    (credits.active.map(&:balance).reduce(:+) || 0.00).round(2)
   end
 end

@@ -2,7 +2,6 @@
 
 module Admin
   class CustomersController < AdminController
-
     before_action :get, only: %i[edit show update]
     before_action :disabled_roles, only: %i[edit update]
 

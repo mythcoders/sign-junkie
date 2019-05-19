@@ -1,3 +1,6 @@
+
+= render partial: 'admin/stencils/header'
+
 .row
   .col-4
     .card
@@ -8,14 +11,12 @@
           %label.col-form-label Category
           .form-control-plaintext
             = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
-      .card-footer
-        = link_to 'Edit', edit_admin_stencil_path(@stencil), class: 'btn btn-primary'
   .col-8
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         Stencil Image
       .card-body
         - if @stencil.image.attached?
-          = image_tag @stencil.image
+          = image_tag @stencil.image, class: 'img-fluid img-thumbnail'
         - else
           .card-text No image has been uploaded

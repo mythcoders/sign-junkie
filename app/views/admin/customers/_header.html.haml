@@ -6,4 +6,10 @@
           = fa_regular 'arrow-left'
           Back to Search
         %a.btn.btn-primary{href: edit_admin_customer_path(@customer)} Edit
+        .btn-group
+          %button.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_regular 'plus'
+            New
+          .dropdown-menu
+            %a.dropdown-item{href: new_admin_customer_credit_path(@customer)} Credit
 %br

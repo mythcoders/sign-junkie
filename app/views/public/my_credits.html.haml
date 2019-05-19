@@ -1,0 +1,19 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center
+        = fa_solid 'gift-card'
+        My Credits
+
+%table.table.table-bordered.table-striped.table-border-fix
+  %thead.bg-primary.text-white
+    %tr
+      %th Balance
+      %th Issue Date
+      %th Expiration Date
+  %tbody
+    - @credits.each do |o|
+      %tr
+        %td= number_to_currency o.balance
+        %td= o.created_at.strftime("%B %-d, %Y")
+        %td= o.expiration_date

@@ -26,13 +26,8 @@
                             = fa_solid 'calendar-alt'
                             = item.workshop.start_date.strftime("%-l:%M%p %a %B #{item.workshop.start_date.day.ordinalize}")
                   .col-5.col-md-3.offset-md-1
-                    - if item.gift_card?
-                      1
-                    - else
-                      = form_for item, url: cart_path(item), method: :patch do |f|
-                        = f.hidden_field :id
-                        = cart_dropdown f, item
-                    %a.d-block.text-secondary.font-size-1.mb-1{href: cart_path(item), method: :delete, data: {confirm: 'Are you sure want to remove this item from your cart?'}}
+                    = item.quantity
+                    = link_to cart_path(item), method: :delete, class: "d-block text-secondary font-size-1 mb-1", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'} do
                       %span.far.fa-trash-alt.mr-1
                       %span Remove
                   .col-6.col-md-2.text-md-right

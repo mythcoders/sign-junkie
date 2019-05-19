@@ -10,9 +10,10 @@
         .form-group
           %label.col-form-label Date Placed
           .form-control-plaintext= lifp(@invoice.created_at, :short)
-        %a.btn.btn-outline-danger{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
-          = fa_solid 'ban'
-          Cancel Order
+        - if @invoice.items.any? { |i| i.cancelable? }
+          %a.btn.btn-outline-danger{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
+            = fa_solid 'ban'
+            Cancel Order
   .col-md-9
     = render partial: 'summary'
 

@@ -1,30 +1,21 @@
-.card.mt-2
-  %h5.card-header.bg-primary.text-white
-    = fa_solid 'users'
-    Attendees
-  - unless @workshop.seats.any?
+- unless @workshop.seats.any?
+  .card.mt-3
     .card-body
       .text-muted No customers have RSVPd to this workshop yet.
-  - else
-    %table.table.table-bordered.table-striped.table-border-fix
-      %thead
+- else
+  %table.table.table-bordered.table-striped.mt-3
+    %thead.bg-primary.text-white
+      %tr
+        %th Name
+        %th Project
+    %tbody
+      - @workshop.seats.each do |t|
         %tr
-          %th Name
-          %th Project
-          %th Libality Waiver
-          %th Prepped
-      %tbody
-        - @workshop.seats.each do |t|
-          %tr
-            %td
-              - if t.customer.present?
-                = t.customer.full_name
-                %a{href: "mailto:#{t.customer.email}"}= t.customer.email
-              - else
-                No assigned
-            %td= t.description.seat_info
-            %td.text-danger.text-center
-              = fa_solid 'times'
-            %td.text-danger.text-center
-              = fa_solid 'times'
-
+          %td
+            - if t.customer.present?
+              = t.customer.full_name
+              %br
+              %a{href: "mailto:#{t.customer.email}"}= t.customer.email
+            - else
+              No assigned
+          %td= t.description.seat_info
