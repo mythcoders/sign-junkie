@@ -21,5 +21,10 @@
       %h5.card-header.bg-primary.text-white
         = fa_solid 'file-invoice-dollar'
         Invoices
-      -#= render partial: 'admin/orders/list'
+      = render partial: 'admin/invoices/list'
 
+    .card.mt-3
+      %h5.card-header.bg-primary.text-white
+        = fa_solid 'gift-card'
+        Credits
+      = render partial: 'admin/customer_credits/list'

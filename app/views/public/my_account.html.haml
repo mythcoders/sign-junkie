@@ -6,45 +6,43 @@
         My Account
 
 .row
-  .col-xl-8
-    .row
-      .col.col-md-6.mb-3
-        .card.text-white.bg-info.o-hidden.h-100
-          .card-body
-            .card-body-icon
-              = fa_solid 'file-invoice', 'fa-fw'
-            %h3.mr-5 Past orders
-          %a.card-footer.text-white.clearfix.small.z-1{href: invoices_path}
-            %span.float-left View
-            %span.float-right
-              = fa_solid 'angle-right'
-      .col.col-md-6.mb-3
-        .card.text-white.bg-info.o-hidden.h-100
-          .card-body
-            .card-body-icon
-              = fa_solid 'shopping-cart', 'fa-fw'
-            %h3.mr-5 Shopping cart
-          %a.card-footer.text-white.clearfix.small.z-1{href: cart_index_path}
-            %span.float-left view
-            %span.float-right
-              = fa_solid 'angle-right'
-      .col.col-md-6.mb-3
-        .card.text-white.bg-info.o-hidden.h-100
-          .card-body
-            .card-body-icon
-              = fa_solid 'gift-card', 'fa-fw'
-            %h3.mr-5= "#{number_to_currency(current_user.credit_balance)} credit for use"
-          %a.card-footer.text-white.clearfix.small.z-1{href: ''}
-            %span.float-left View
-            %span.float-right
-              = fa_solid 'angle-right'
-  .col-xl-4
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_regular 'link'
-        Account Options
-      %ul.list-group.list-group-flush
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href:edit_user_registration_path }}
-          Change email or password
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: 'mailto:signjunkie@columbus.rr.com' }}
-          Contact Support
+  .col-12.col-md-6.col-lg-4.mb-3
+    .card.text-white.bg-info.o-hidden.h-100
+      .card-body
+        .card-body-icon
+          = fa_solid 'file-invoice', 'fa-fw'
+        %h3.mr-5 Your Orders
+      %a.card-footer.text-white.clearfix.small.z-1{href: invoices_path}
+        %span.float-left Review or cancel past orders
+        %span.float-right
+          = fa_solid 'angle-right'
+  .col-12.col-md-6.col-lg-4.mb-3
+    .card.text-white.bg-info.o-hidden.h-100
+      .card-body
+        .card-body-icon
+          = fa_solid 'gift-card', 'fa-fw'
+        %h3.mr-5= "#{number_to_currency(current_user.credit_balance)} credit for use"
+      %a.card-footer.text-white.clearfix.small.z-1{href: my_credits_path}
+        %span.float-left View
+        %span.float-right
+          = fa_solid 'angle-right'
+  .col-12.col-md-6.col-lg-4.mb-3
+    .card.text-white.bg-info.o-hidden.h-100
+      .card-body
+        .card-body-icon
+          = fa_solid 'user-circle', 'fa-fw'
+        %h3.mr-5 Account information
+      %a.card-footer.text-white.clearfix.small.z-1{href: edit_user_registration_path}
+        %span.float-left Update email or password
+        %span.float-right
+          = fa_solid 'angle-right'
+  .col-12.col-md-6.col-lg-4.mb-3
+    .card.text-white.bg-info.o-hidden.h-100
+      .card-body
+        .card-body-icon
+          = fa_solid 'info-square', 'fa-fw'
+        %h3.mr-5 Contact support
+      %a.card-footer.text-white.clearfix.small.z-1{href: 'mailto:signjunkie@columbus.rr.com'}
+        %span.float-left Email
+        %span.float-right
+          = fa_solid 'angle-right'

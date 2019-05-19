@@ -1,12 +1,12 @@
 - @workshops.each_slice(3) do |group|
-  .row
+  .row.mt-2
     - group.each do |workshop|
       .col.col-md-6.col-lg-4.mb-3
         .card
           - if workshop.images.any?
-            %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first), height: 350}
+            %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first)}
           - else
-            %img.card-img-top{alt: "Image of #{workshop.name}", src: '/cover.jpg', height: 350}
+            %img.card-img-top{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
           .card-body.text-center
             %h4.card-title
               %a{href: workshop_path(workshop)}

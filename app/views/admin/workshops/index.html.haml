@@ -20,6 +20,8 @@
             .float-right
               - if e.is_for_sale?
                 %span.badge.badge-success For Sale
+              - else
+                %span.badge.badge-warning Not for Sale
               - if e.is_public?
                 %span.badge.badge-info Public
                 - if e.allow_custom_stencils

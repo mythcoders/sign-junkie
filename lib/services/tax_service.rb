@@ -14,17 +14,17 @@ module Services
     end
 
     def apply_tax!(item)
-      amount_taxable = calc_taxable(item.description)
-      if amount_taxable.positive?
+      taxable = calc_amount_taxable(item.description)
+      if taxable.positive?
         item.tax_rate = TaxService.current_rate
-        item.tax_amount = (amount_taxable * item.tax_rate).round(2)
+        item.tax_amount = (taxable * item.tax_rate).round(2)
       else
         item.tax_rate = nil
         item.tax_amount = 0.00
       end
     end
 
-    def calc_taxable(item)
+    def calc_amount_taxable(item)
       return 0.00 unless TaxService.enabled?
       return 0.00 unless item.taxable?
 
@@ -36,6 +36,10 @@ module Services
       end
 
       taxable
+    end
+
+    def calc_tax(item)
+      (calc_amount_taxable(item) * TaxService.current_rate).round(2)
     end
   end
 end

@@ -11,20 +11,6 @@ module WorkshopHelper
     end
   end
 
-  def cart_dropdown(form, cart_item)
-    html_metadata = {
-      class: 'custom-select w-auto mb-3',
-      'data-js-cart-quantity': '',
-      'data-cart-id': cart_item.id,
-      'data-price': cart_item.price
-    }
-    if cart_item.description.gift_card?
-      form.select(:quantity, 1..5, {}, html_metadata)
-    else
-      form.select(:quantity, ticket_dropdown_items(cart_item.workshop), {}, html_metadata)
-    end
-  end
-
   private
 
   def ticket_select(form, workshop, disabled)

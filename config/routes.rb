@@ -35,7 +35,10 @@ Rails.application.routes.draw do
     delete 'images/:id', to: 'images#destroy', as: 'delete_image'
 
     resources :users, as: 'customers', path: 'customers', controller: 'customers',
-                      concerns: :pageable
+                      concerns: :pageable do
+      resources :customer_credits, only: %i[new edit create update destroy],
+                                   as: 'credits', path: 'credits'
+    end
     resources :users, as: 'employees', path: 'employees', controller: 'employees',
                       concerns: :pageable
     resources :tax_periods
@@ -46,6 +49,7 @@ Rails.application.routes.draw do
 
   # customer facing
   get 'my_account', to: 'public#my_account'
+  get 'my_credits', to: 'public#my_credits'
   get 'gift_cards', to: 'public#gift_cards'
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
@@ -60,7 +64,7 @@ Rails.application.routes.draw do
   get 'workshops/private', to: 'workshops#private'
 
   resources :addons, only: %i[index show]
-  resources :cart, only: %i[index create update destroy]
+  resources :cart, only: %i[index create destroy]
   resources :invoices, only: %i[index show new create], path: 'orders'
   resources :projects, only: %i[index show]
   resources :stencils, only: %i[index show]

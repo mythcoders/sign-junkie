@@ -33,6 +33,12 @@ class ApplicationController < ActionController::Base
     Time.zone.strptime(value, t('time.formats.default'))
   end
 
+  def convert_date(value)
+    return nil if value.blank?
+
+    Date.strptime(value, "%m-%d-%Y")
+  end
+
   def record_not_found
     render file: 'public/404.html', status: :not_found
   end

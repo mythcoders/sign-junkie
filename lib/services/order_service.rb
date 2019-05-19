@@ -31,15 +31,17 @@ module Services
     end
 
     def reserve_seat(item, user = nil, invoice = nil)
-      Seat.create!(
-        workshop_id: item.description.workshop_id,
-        description: item.description,
-        identifier: SecureRandom.uuid,
-        prepped: false,
-        notified: false,
-        customer: user,
-        invoice: invoice
-      )
+      item.description.seat_quantity.times do
+        Seat.create!(
+          workshop_id: item.description.workshop_id,
+          description: item.description,
+          identifier: SecureRandom.uuid,
+          prepped: false,
+          notified: false,
+          customer: user,
+          invoice: invoice
+        )
+      end
     end
 
     def create_credit(item, user)
@@ -52,7 +54,8 @@ module Services
                                  role: 'customer')
       end
 
-      recipient.credits << CustomerCredit.new(amount: item.pre_tax_amount)
+      recipient.credits << CustomerCredit.new(starting_amount: item.pre_tax_amount,
+                                              balance: item.pre_tax_amount)
       recipient.save!
     end
   end

@@ -65,9 +65,12 @@ function update_ui() {
                 }
 
                 var currentStencils = document.querySelector('[data-js-change-stencil]')
-                while (currentStencils.options.length > 1) {
-                    currentStencils.remove(currentStencils.options.length - 1)
+                var blankoption = document.createElement('option')
+                blankoption.text = '- Select a stencil design -'
+                while (currentStencils.hasChildNodes()) {
+                    currentStencils.removeChild(currentStencils.lastChild);
                 }
+                currentStencils.appendChild(blankoption)
 
                 var value = get_stencil()
                 for (var i = 0; i < data.stencils.length; i++) {

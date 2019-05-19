@@ -1,0 +1,20 @@
+.row
+  .col-12
+    .btn-toolbar
+      .btn-group.mr-2
+        %a.btn.btn-outline-secondary{href: admin_workshops_path}
+          = fa_regular 'arrow-left'
+          Back to Search
+        %a.btn.btn-primary{href: edit_admin_workshop_path(@workshop)} Edit
+        .btn-group
+          %button.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_regular 'plus'
+            New
+          .dropdown-menu
+            %a.dropdown-item{href: admin_new_workshop_image_path(@workshop)} Image
+      .btn-group
+        = form_for @workshop, url: admin_workshop_clone_path(@workshop), method: :post do |f|
+          = f.hidden_field :id
+          = button_tag(type: 'submit', class: 'btn btn-info') do
+            Clone
+%br

@@ -1,6 +1,6 @@
-- unless @customer.orders.any?
+- unless @customer.invoices.any?
   .card-footer
-    .text-muted Customer has not yet placed an order.
+    .text-muted Customer has no invoices
 - else
   %table.table.table-striped.table-bordered.table-border-fix
     %thead
@@ -8,13 +8,9 @@
         %th Order Number
         %th Status
         %th Date Placed
-        %th Delivery
-        %th Billing
     %tbody
-      - @customer.orders.each do |o|
-        %tr{data: { 'clickable-row': '', 'href': cp_order_path(o) }}
-          %td= o.order_number
+      - @customer.invoices.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
+          %td= o.identifier
           %td= o.status
-          %td= l o.date_placed, format: :short if o.date_placed
-          %td= o.shipping_address.nickname if o.shipping_address_id.present?
-          %td= o.billing_address.nickname if o.billing_address_id.present?
+          %td= l o.created_at, format: :short
