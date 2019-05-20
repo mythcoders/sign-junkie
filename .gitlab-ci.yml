@@ -10,8 +10,7 @@ stages:
   - deploy
 
 variables:
-  CONTAINER_IMAGE: registry.gitlab.com/mythcoders/sign-junkie/web
-  CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_IMAGE: registry.gitlab.com/mythcoders/sign-junkie/web:$CI_BUILD_REF_NAME  
   HEROKU_REGISTRY: registry.heroku.com
   QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
   PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie/web:latest
@@ -25,20 +24,20 @@ build:
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
     - echo $(date +%s) > BUILD_TIME
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    - docker build -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
 
 test:
   stage: test
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
+    - docker pull $CONTAINER_IMAGE
 
 push_qa:
   stage: deploy
   script:
     - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $QA_IMAGE
+    - docker pull $CONTAINER_IMAGE
+    - docker tag $CONTAINER_IMAGE $QA_IMAGE
     - docker push $QA_IMAGE
   only:
     - branches
