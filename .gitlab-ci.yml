@@ -13,7 +13,7 @@ variables:
   CONTAINER_IMAGE: registry.gitlab.com/mythcoders/sign-junkie/web:$CI_BUILD_REF_NAME  
   HEROKU_REGISTRY: registry.heroku.com
   QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
-  PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie/web:latest
+  PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie-pd/web:latest
 
 before_script:
   - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -78,6 +78,6 @@ release_pd:
   before_script:
     - npm install -g heroku
   script:
-    - heroku container:release web --app sign-junkie
+    - heroku container:release web --app sign-junkie-pd
   only:
     - master
