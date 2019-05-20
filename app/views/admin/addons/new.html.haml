@@ -1,8 +1,8 @@
-- page_title 'New', 'Addons'
+- page_title 'New', 'Add-ons'
 
 = form_for @addon, url: admin_addons_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white New Addon
+    %h5.card-header.bg-primary.text-white New Add-on
     .card-body
       = error_messages_for 'addon'
       = render partial: 'admin/addons/form', locals: { f: f }

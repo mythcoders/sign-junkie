@@ -1,9 +1,9 @@
-- page_title 'Edit', 'Addons'
+- page_title 'Edit', 'Add-ons'
 
 = form_for @addon, url: admin_addon_path(@addon), method: :patch do |f|
   .card
     %h5.card-header.bg-primary.text-white
-      Edit Addon
+      Edit Add-on
     .card-body
       = error_messages_for 'addon'
       = render partial: 'admin/addons/form', locals: { f: f }

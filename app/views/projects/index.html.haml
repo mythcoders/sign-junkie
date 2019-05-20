@@ -9,9 +9,9 @@
     .col-12.col-md-6.col-lg-4
       .card.mb-3
         - if project.project_images.any?
-          %img.card-img-top{alt: "Image of #{project.name}", src: url_for(project.project_images.first) , height: 300}
+          %img.card-img-top{alt: "Image of #{project.name}", src: url_for(project.project_images.first)}
         - else
-          %img.card-img-top{alt: "Image of #{project.name}", src: '/cover.jpg', height: 300}
+          %img.card-img-top{alt: "Image of #{project.name}", src: '/cover.jpg'}
         %h5.card-header
           = link_to project.name, project_path(project.id), class: 'card-link'
 

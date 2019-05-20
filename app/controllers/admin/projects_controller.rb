@@ -3,7 +3,7 @@ module Admin
     before_action :set_project, only: %i[edit update show images]
 
     def index
-      @projects = Project.page(params[:page]).per(10)
+      @projects = Project.order(:name).page(params[:page])
     end
 
     def show

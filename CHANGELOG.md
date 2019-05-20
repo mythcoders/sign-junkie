@@ -10,13 +10,13 @@
 - Changes
   - Designs are now Stencils
   - Tax Rates are stored in the database
-  - Addons are managed independently and associated to Projects
+  - Add-ons are managed independently and associated to Projects
   - Orders are now Invoices
   - Projects now have material and instructional prices
   - Seat calculation is now done based entirely on the project selected
 - Improvements
   - Front end UI
-  - Projects, Stencils, and Addons are viewable by customers
+  - Projects, Stencils, and Add-ons are viewable by customers
   - Multiple backend services
 - Fixes
   - Seat price being updated on workshop selection page
