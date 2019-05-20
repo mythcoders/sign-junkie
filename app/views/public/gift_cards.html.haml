@@ -1,12 +1,15 @@
 .row
+  .col-12.mb-3
+    %h4.text-danger.text-center
+      A gift card to Sign Junkie makes a wonderful present for that someone special in your life!
   .col.col-lg-6.d-none.d-md-block
     %img.card-img-top{alt: 'Gift card', src: 'GiftCard.jpg'}
   .col.col-lg-6.mb-2
-    .card
-      %h4.card-header.bg-primary.text-white
-        Gift Card
-      - if user_signed_in?
-        = form_for :cart, url: cart_index_path do |f|
+    - if user_signed_in?
+      = form_for :cart, url: cart_index_path do |f|
+        .card
+          %h4.card-header.bg-primary.text-white
+            Gift Card
           .card-body
             = f.hidden_field :type, value: 'gift_card'
             .form-row
@@ -38,8 +41,7 @@
             %button.btn.btn-outline-success.btn-block{title: "Add to cart", type: "submit"}
               %i.fas.fa-cart-plus
               %span Add to Cart
-      - else
-        .card-footer
-          %a.btn.btn-secondary(href=new_user_session_path)
-            = fa_light 'sign-in'
-            Log In or Sign up to add this to your cart
+    - else
+      %a.btn.btn-primary.btn-block.btn-lg(href=new_user_session_path)
+        = fa_solid 'sign-in'
+        Log In or Sign up to add this to your cart

@@ -4,11 +4,11 @@ class WorkshopsController < ApplicationController
   before_action :set_workshop, only: %i[show project_info]
 
   def public
-    @workshops = Workshop.upcoming.public_shops
+    @workshops = Workshop.upcoming.public_shops.order(:start_date)
   end
 
   def private
-    @workshops = Workshop.upcoming.private_shops
+    @workshops = Workshop.upcoming.private_shops.order(:start_date)
   end
 
   def project_info

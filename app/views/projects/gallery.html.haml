@@ -3,9 +3,18 @@
     .card.mb-3
       %h2.card-header.bg-primary.text-white.text-center
         Photo Gallery
-
+.row
+  .col-12.mb-3
+    %h4.text-center.text-danger
+      Take a look at the AMAZING project our guests (people just like you!) have made!
+      %br
+      We guarantee you'll create a wall worthy project you will be proud to display!
+      %br
+      What are you waiting for?
+      = link_to 'Book your next DIY project!', root_path
 .row.text-center.text-lg-left
   - for i in 1..13
-    .col-12.col-md-6.col-lg-4
-      %img.img-fluid.img-thumbnail{alt: '', src: "/gallery/#{i}.jpeg"}
+    .col-12.col-md-6.col-lg-2
+      %a{href: "/gallery/#{i}.jpeg", target: '_blank'}
+        %img.img-fluid.img-thumbnail{alt: '', src: "/gallery/#{i}.jpeg"}
 

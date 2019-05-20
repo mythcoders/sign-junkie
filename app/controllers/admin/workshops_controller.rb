@@ -5,7 +5,7 @@ module Admin
     before_action :populate_workshop, only: %i[edit update show destory images]
 
     def index
-      @workshops = Workshop.order(start_date: :desc).page(params[:page]).per(10)
+      @workshops = Workshop.order(start_date: :desc).page(params[:page])
     end
 
     def new

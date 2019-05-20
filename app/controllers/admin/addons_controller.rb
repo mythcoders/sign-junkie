@@ -3,7 +3,7 @@ module Admin
     before_action :set_addon, only: %i(show edit update images)
 
     def index
-      @addons = Addon.page(params[:page]).per(10)
+      @addons = Addon.order(:name).page(params[:page])
     end
 
     def new

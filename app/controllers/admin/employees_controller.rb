@@ -6,7 +6,7 @@ module Admin
     before_action :disable_roles, only: %i[edit update]
 
     def index
-      @employees = User.employees.order(:last_name).page(params[:page]).per(10)
+      @employees = User.employees.order(:last_name).page(params[:page])
     end
 
     def new

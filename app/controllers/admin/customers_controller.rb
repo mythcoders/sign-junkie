@@ -6,7 +6,7 @@ module Admin
     before_action :disabled_roles, only: %i[edit update]
 
     def index
-      @customers = User.customer.order(:last_name).page(params[:page]).per(10)
+      @customers = User.customer.order(:last_name).page(params[:page])
     end
 
     def new

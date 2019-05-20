@@ -1,7 +1,7 @@
 module Admin
   class InvoicesController < AdminController
     def index
-      @invoices = Invoice.page(params[:page]).per(10)
+      @invoices = Invoice.order(created_at: :desc).page(params[:page]).per(10)
     end
 
     def show
