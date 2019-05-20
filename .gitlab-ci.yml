@@ -40,6 +40,10 @@ push_qa:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $QA_IMAGE
     - docker push $QA_IMAGE
+  only:
+    - branches
+  except:
+    - master
 
 release_qa:
   image: node:latest
@@ -51,4 +55,30 @@ release_qa:
     - npm install -g heroku
   script:
     - heroku container:release web --app sign-junkie-qa
+  only:
+    - branches
+  except:
+    - master
 
+push_pd:
+  stage: deploy
+  script:
+    - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
+    - docker pull $CONTAINER_IMAGE
+    - docker tag $CONTAINER_IMAGE $PROD_IMAGE
+    - docker push $PROD_IMAGE
+  only:
+    - master
+
+release_pd:
+  image: node:latest
+  stage: deploy
+  environment:
+    name: prod
+    url: https://signjunkieworkshop.com
+  before_script:
+    - npm install -g heroku
+  script:
+    - heroku container:release web --app sign-junkie
+  only:
+    - master
