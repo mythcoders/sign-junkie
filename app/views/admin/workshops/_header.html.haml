@@ -1,3 +1,5 @@
+= render partial: 'destory_confirmation'
+
 .row
   .col-12
     .btn-toolbar
@@ -5,15 +7,19 @@
         %a.btn.btn-outline-secondary{href: admin_workshops_path}
           = fa_regular 'arrow-left'
           Back to Search
-        %a.btn.btn-primary{href: edit_admin_workshop_path(@workshop)} Edit
         .btn-group
-          %button.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %button.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             = fa_regular 'plus'
             New
           .dropdown-menu
             %a.dropdown-item{href: admin_new_workshop_image_path(@workshop)} Image
       .btn-group
-        = form_for @workshop, url: admin_workshop_clone_path(@workshop), method: :post do |f|
+        %a.btn.btn-primary{href: edit_admin_workshop_path(@workshop)} Edit
+        - if @workshop.deleteable?
+          %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+            Delete
+      .btn-group.ml-2
+        = form_for @workshop, url: admin_workshops_clone_path, method: :post do |f|
           = f.hidden_field :id
           = button_tag(type: 'submit', class: 'btn btn-info') do
             Clone

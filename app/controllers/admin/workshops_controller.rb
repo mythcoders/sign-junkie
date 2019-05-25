@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destory images]
+    before_action :populate_workshop, only: %i[edit update show destroy images]
 
     def index
       @workshops = Workshop.order(start_date: :desc).page(params[:page])
@@ -31,13 +31,14 @@ module Admin
       end
     end
 
-    def destory
-      if @workshop.destory!
-        flash[:success] = t('DeleteSuccess')
+    def destroy
+      if @workshop.destroy
+        flash[:success] = t('destroy.success')
+        redirect_to admin_workshops_path
       else
-        flash[:error] = t('DeleteFailure')
+        flash[:error] = t('destroy.failure')
+        redirect_to admin_workshop_path @workshop
       end
-      redirect_to admin_workshops_path
     end
 
     def images
@@ -47,7 +48,15 @@ module Admin
     end
 
     def clone
-      Workshop.clone params[:id]
+      workshop = Workshop.find(filtered_params[:id])
+      clone = workshop.deep_clone include: [ :workshop_projects ], exclude: [ :is_for_sale ]
+      if clone.save!
+        flash[:success] = 'Project was successfully cloned!'
+        redirect_to admin_workshop_path(clone)
+      else
+        flash[:error] = 'Sorry, an error occured.'
+        redirect_to admin_workshop_path @workshop
+      end
     end
 
     private
@@ -73,7 +82,7 @@ module Admin
 
     def filtered_params
       parameters = workshop_params
-      parameters[:project_ids].reject!(&:blank?)
+      parameters[:project_ids].reject!(&:blank?) if parameters[:project_ids]
       parameters[:purchase_start_date] = convert_datetime(parameters[:purchase_start_date])
       parameters[:purchase_end_date] = convert_datetime(parameters[:purchase_end_date])
       parameters[:start_date] = convert_datetime(parameters[:start_date])

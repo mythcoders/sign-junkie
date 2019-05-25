@@ -1,4 +1,4 @@
-- unless @workshop.projects.any?
+- unless projects.any?
   .card.mt-3
     .card-body
       %strong.text-danger You haven't added any projects to this workshop
@@ -12,7 +12,7 @@
         %th.text-right Material (Taxable)
         %th.text-right Instructional
     %tbody
-      - @workshop.projects.order(:name).each do |p|
+      - projects.order(:name).each do |p|
         %tr
           %td= link_to p.name, admin_project_path(p)
           %td.text-right= number_to_currency(p.total_price)

@@ -1,4 +1,5 @@
 class Invoice < ApplicationRecord
+  has_paper_trail
   has_many :items, class_name: 'InvoiceItem'
   has_many :payments
   has_many :refunds

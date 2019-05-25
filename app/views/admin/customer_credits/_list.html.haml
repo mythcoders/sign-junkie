@@ -10,7 +10,7 @@
         %th Issue Date
         %th Exp. Date
     %tbody
-      - @customer.credits.with_balance.each do |o|
+      - @customer.credits.with_balance.order(:created_at).each do |o|
         %tr
           %td= link_to 'Edit', edit_admin_customer_credit_path(o.customer, o)
           %td= number_to_currency o.balance

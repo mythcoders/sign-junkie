@@ -1,6 +1,6 @@
 module Admin
   class AddonsController < AdminController
-    before_action :set_addon, only: %i(show edit update images)
+    before_action :set_addon, only: %i(show edit update images destroy)
 
     def index
       @addons = Addon.order(:name).page(params[:page])
@@ -34,6 +34,16 @@ module Admin
       @addon.addon_images.attach(file_params)
       flash['success'] = t('UploadSuccess')
       redirect_to admin_addon_path(@addon)
+    end
+
+    def destroy
+      if @addon.destroy
+        flash[:success] = t('destroy.success')
+        redirect_to admin_addons_path
+      else
+        flash[:error] = t('destroy.failure')
+        redirect_to admin_addon_path(@addon)
+      end
     end
 
     private

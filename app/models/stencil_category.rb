@@ -1,4 +1,5 @@
 class StencilCategory < ApplicationRecord
+  has_paper_trail
   has_many :stencils
   has_many :stencil_categories, foreign_key: 'parent_id'
   belongs_to :parent_category, optional: true,

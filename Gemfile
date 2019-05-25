@@ -5,16 +5,17 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'audited' # data audits
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
+gem 'deep_cloneable'
 gem 'devise'
 gem 'devise_invitable'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'logdna-rails' # Logging
+gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'

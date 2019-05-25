@@ -1,3 +1,4 @@
+= render partial: 'destory_confirmation'
 .row
   .col-12
     .btn-toolbar{'aria-label': 'Order toolbar', role: 'toolbar'}
@@ -5,11 +6,19 @@
         %a.btn.btn-outline-secondary{href: admin_projects_path}
           = fa_regular 'arrow-left'
           Back to Search
-        %a.btn.btn-primary{href: edit_admin_project_path(@project)} Edit
         .btn-group
-          %button#btnGroupDrop1.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %button#btnGroupDrop1.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             = fa_regular 'plus'
             New
           .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
             %a.dropdown-item{href: admin_new_project_image_path(@project)} Image
+      .btn-group
+        %a.btn.btn-primary{href: edit_admin_project_path(@project)} Edit
+        %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+          Delete
+      .btn-group.ml-2
+        = form_for @project, url: admin_projects_clone_path, method: :post do |f|
+          = f.hidden_field :id
+          = button_tag(type: 'submit', class: 'btn btn-info') do
+            Clone
 %br

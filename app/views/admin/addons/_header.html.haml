@@ -1,3 +1,5 @@
+= render partial: 'destory_confirmation'
+
 .row
   .col-12
     .btn-toolbar{"aria-label": "Toolbar with button groups", role: "toolbar"}
@@ -5,11 +7,14 @@
         %a.btn.btn-outline-secondary{href: admin_addons_path}
           = fa_regular 'arrow-left'
           Back to Search
-        %a.btn.btn-primary{href: edit_admin_addon_path(@addon)} Edit
         .btn-group
-          %button#btnGroupDrop1.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %button#btnGroupDrop1.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             = fa_regular 'plus'
             New
           .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
             %a.dropdown-item{href: admin_new_addon_image_path(@addon)} Image
+      .btn-group
+        %a.btn.btn-primary{href: edit_admin_addon_path(@addon)} Edit
+        %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+          Delete
 %br

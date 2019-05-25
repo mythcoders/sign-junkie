@@ -89,6 +89,8 @@ module Services
         cart.description.stencil = custom_stencil
       else
         stencil = project.stencils.where(id: stencil_id).first
+        raise ProcessError, 'No stencil selected' if stencil.nil?
+
         cart.description.stencil_id = stencil.id
         cart.description.stencil = stencil.name
       end

@@ -1,10 +1,11 @@
 class Workshop < ApplicationRecord
   include ApplicationHelper
 
-  has_many :workshop_projects
+  has_paper_trail
+  has_many :workshop_projects, :dependent => :destroy
   has_many :projects, through: :workshop_projects
   has_many :seats
-  has_many_attached :workshop_images
+  has_many_attached :workshop_images, :dependent => :destroy
 
   accepts_nested_attributes_for :projects
 
@@ -15,13 +16,6 @@ class Workshop < ApplicationRecord
                                         purchase_end_date >= CURRENT_TIMESTAMP')}
 
   validates_presence_of :name
-
-  def self.clone(id)
-    original = Workshop.find id
-    clone = original.deep_clone
-    clone.for_sale = false
-    clone.save!
-  end
 
   # Searches workshops on a variety of factors
   # @return [Array] returns of the search
@@ -105,5 +99,11 @@ class Workshop < ApplicationRecord
 
   def is_private?
     !is_public?
+  end
+
+  def deleteable?
+    return false if seats.any?
+
+    true
   end
 end

@@ -52,7 +52,7 @@
       #attendee.tab-pane.fade.show.active{"aria-labelledby": "attendee-tab", role: "tabpanel"}
         = render partial: 'seats'
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
-        = render partial: 'projects'
+        = render partial: 'admin/projects/list', locals: {projects: @workshop.projects}
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/images/list', locals: {images: @workshop.workshop_images}
 
