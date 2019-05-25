@@ -26,4 +26,8 @@
       = yield :breadcrumbs
       = yield
     = render partial: 'layouts/partials/footer'
+    :javascript
+      $(function() {
+        Raven.config("#{Rails.application.credentials.errors_dsn}").install();
+      });
     = yield :scripts

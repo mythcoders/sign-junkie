@@ -102,7 +102,7 @@ function update_ui() {
                 currentStencils.disabled = false;
             },
             error: function(data, textStatus, jQxhr) {
-                console.log(data);
+                Raven.captureException(data);
                 alert('An error occured. Please try again.');
             }
         });

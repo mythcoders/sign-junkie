@@ -8,7 +8,7 @@
               = fa_brands 'facebook'
               Facebook
           %li
-            %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
+            %a{href: 'https://www.instagram.com/signjunkiediy/'}
               = fa_brands 'instagram'
               Instagram
           %li= link_to 'Contact Us', contact_path
@@ -17,18 +17,8 @@
           .address
             11235 Ridenour Rd
             %br Thornville, OH 43076
-
         .text-muted
           %br
           %a{href: root_path}= "\u00A9 #{Date.today.year} #{ClientInfo.owner}"
           |
           %a{href: 'https://www.mythcoders.com', target: '_blank'} Powered by MythCoders, LLC
--# %nav.navbar.fixed-bottom.whiz-footer
--#   .container
--#     %a.navbar-link{href: 'https://www.example.com', target: '_blank'}
--#       = "\u00A9 #{Date.today.year} #{ClientInfo.owner}. "
--#     %a.navbar-link.float-right.d-none.d-sm-block{href: 'https://www.mythcoders.com', target: '_blank'}
--#       - if Rails.env.production?
--#         = "Developed by #{SystemInfo.developer}"
--#       - else
--#         = "#{SystemInfo.version} | Developed by #{SystemInfo.developer}."

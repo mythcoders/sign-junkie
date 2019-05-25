@@ -1,4 +1,5 @@
 class Stencil < ApplicationRecord
+  has_paper_trail
   belongs_to :category, class_name: 'StencilCategory', foreign_key: 'stencil_category_id'
   has_one_attached :image
 

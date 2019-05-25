@@ -14,17 +14,16 @@ Rails.application.routes.draw do
     get 'reports', as: 'reports', to: 'reports#index'
     get 'reports/sales_tax', as: 'sales_tax_report'
 
-    resources :audits, concerns: :pageable, only: %i[index show]
     resources :addons, concerns: :pageable
     resources :stencils, concerns: :pageable
     resources :stencil_categories, concerns: :pageable
     resources :projects, concerns: :pageable do
       resources :project_addons, path: 'addons', as: 'addons'
     end
+    post 'projects/clone', to: 'projects#clone'
     resources :invoices, concerns: :pageable
-    resources :workshops, concerns: :pageable do
-      post 'clone', to: 'workshops#clone'
-    end
+    resources :workshops, concerns: :pageable
+    post 'workshops/clone', to: 'workshops#clone'
 
     get 'workshops/:id/image', to: 'images#workshop', as: 'new_workshop_image'
     get 'projects/:id/image', to: 'images#project', as: 'new_project_image'

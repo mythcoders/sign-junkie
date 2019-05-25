@@ -5,7 +5,7 @@
         %th Name
         %th Category
     %tbody
-      - stencils.each do |c|
+      - stencils.order(:name).each do |c|
         %tr
           %td= link_to c.name, admin_stencil_path(c)
           %td= c.category.name

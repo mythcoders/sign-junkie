@@ -2,14 +2,14 @@
   .container-fluid{style: 'padding: 0;'}
     = link_to root_path, class: 'navbar-brand d-block d-sm-none' do
       Sign Junkie Workshop
+      - unless Rails.env.production?
+        .text-warning= EnvironmentInfo.current.upcase
     %button.navbar-toggler{data: { target: '#navbarSupportedContent', toggle: 'collapse' }, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, type: 'button'}
-      %span.navbar-toggler-icon
+      = fa_solid 'bars'
     .collapse.navbar-collapse#navbarSupportedContent
       %ul.navbar-nav.nav-fill.w-100
         %li.nav-item
           = link_to 'Home', root_path, class: 'nav-link'
-        %li.nav-item
-          = link_to 'How It Works', how_it_works_path, class: 'nav-link'
         %li.nav-item.dropdown.no-arrow
           %a.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
             Projects
@@ -20,7 +20,16 @@
             %a.dropdown-item{href: gallery_path} Photo Gallery
         %li.nav-item.dropdown.no-arrow
           %a.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
-            Private Workshops
+            %span.d-md-none.d-lg-inline Public Workshops
+            %span.d-none.d-md-inline.d-lg-none Public
+          .dropdown-menu{"aria-labelledby": "userDropdown"}
+            %a.dropdown-item{href: policies_path} Public Workshop Policies
+            %a.dropdown-item{href: ''} Group Bookings
+            %a.dropdown-item{href: workshops_public_path} Available Dates
+        %li.nav-item.dropdown.no-arrow
+          %a.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+            %span.d-md-none.d-lg-inline Private Workshops
+            %span.d-none.d-md-inline.d-lg-none Private
           .dropdown-menu{"aria-labelledby": "userDropdown"}
             %a.dropdown-item{href: private_policies_path} Private Workshop Policies
             %a.dropdown-item{href: private_hostess_path} Hostess Guidelines
@@ -31,21 +40,21 @@
           .dropdown-menu{"aria-labelledby": "userDropdown"}
             %a.dropdown-item{href: about_path} About Us
             %a.dropdown-item{href: contact_path} Contact Us
-            %a.dropdown-item{href: policies_path} Public Workshop Policies
+            %a.dropdown-item{href: how_it_works_path} How It Works
             %a.dropdown-item{href: waiver_path} Waiver of Liability
             %a.dropdown-item{href: faq_path} FAQs
         %li.nav-item
-          = link_to 'Gift Cards', gift_cards_path, class: 'nav-link'
-
+          %a.nav-link{href: gift_cards_path}
+            Gift Cards
         - if user_signed_in?
-          %li.nav-item
-            = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
-              = fa_solid 'user-circle'
-              My Account
           %li.nav-item
             = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do
               = fa_solid 'shopping-cart'
               Cart
+          %li.nav-item
+            = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
+              = fa_solid 'user-circle'
+              %span.d-none.d-lg-inline My Account
           - if current_user.can_cp?
             %li.nav-item
               = link_to admin_dashboard_path, title: 'Admin Portal', class: 'nav-link' do

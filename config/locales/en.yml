@@ -2,25 +2,32 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  UselessPriceWarning: "Warning, this new price will not take effect until you list the product for sale."
-  ProductUnavailable: "The product you requested is unavailable for purchase at this time."
   UpdateSuccess: "Record updated successfully!"
   CreateSuccess: "Record created successfully!"
   DeleteSuccess: "Record deleted successfully!"
   UploadSuccess: "Image was uploaded successfully!"
   feature_un: "This feature will be available in a future release!"
   unauthorized: "You're not authorized to perform this action."
-  success:
-    create: "The record was created successfully!"
-    update: "The record has been updated"
-    delete: "The record has been deleted"
-    upload: "Images was uploaded successfully!"
-  user:
-    need_addresses: "Unless your order is being picked up, you'll need to add an address to your account!"
-  product:
-    useless: ""
-    unavailable: ""
-    future_price: "Price changes must start tomorrow or on a later date."
+  addon:
+    delete:
+      confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
+  cart:
+    add:
+      success: "The item was placed in your cart!"
+      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
+      already: "That item is already present in your cart."
+    update:
+      success: "Cart updated!"
+      failure: "Please try again."
+  destroy:
+    failure: "Record couldn't be deleted. Please try again or contact your system administrator."
+    success: "Record has been deleted successfully!"
+  create:
+    failure: ""
+    success: "The record couldn't be deleted. Please try again."
+  update:
+    failure: ""
+    success: ""
   order:
     tampered: "We're sorry. But the prices for some items in your cart have recently changed. Please try again."
     payment:
@@ -37,14 +44,23 @@ en:
       failure: "Your order couldn't be created. Please try again."
     placed:
       success: "Your order has been placed!"
-  cart:
-    add:
-      success: "The item was placed in your cart!"
-      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
-      already: "That item is already present in your cart."
-    update:
-      success: "Cart updated!"
-      failure: "Please try again."
+  product:
+    useless: ""
+    unavailable: ""
+    future_price: "Price changes must start tomorrow or on a later date."
+  project:
+    delete:
+      confirmation: "This will delete the project, it's images, and will remove it from any workshops it's associated with."
+  success:
+    create: "The record was created successfully!"
+    update: "The record has been updated"
+    destory: "The record has been deleted"
+    upload: "Images was uploaded successfully!"
+  user:
+    need_addresses: "Unless your order is being picked up, you'll need to add an address to your account!"
+  workshop:
+    destroy:
+      confirmation: "This will delete the workshop and it's images."
   activerecord:
     errors:
       messages:

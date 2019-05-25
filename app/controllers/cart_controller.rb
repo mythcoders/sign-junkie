@@ -27,7 +27,7 @@ class CartController < ApplicationController
       flash[:error] = e.message
     end
 
-    redirect_back(fallback_location: home_path)
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy

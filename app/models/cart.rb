@@ -1,5 +1,5 @@
 class Cart < ApplicationRecord
-  audited
+  has_paper_trail
   belongs_to :user
   scope :for, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
   scope :as_of, -> { where('created_at <= CURRENT_TIMESTAMP') }

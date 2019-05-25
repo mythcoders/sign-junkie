@@ -8,15 +8,17 @@
     .col-12.col-md-6.col-lg-4
       %img.img-fluid.img-thumbnail{alt: "Image of #{@project.name}", src: url_for(image)}
 
-%h3.text-primary Available Stencils
-.row.mb-3
-  - @project.stencils.each do |stencil|
-    .col-12.col-md-4.col-lg-3.text-center
-      - if stencil.image.attached?
-        %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image) , height: 300}
-      - else
-        %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg', height: 300}
-      .text-secondary= stencil.name
+%h3.text-danger Available Stencils
+- @project.stencils.group_by(&:category).each do |category, stencils|
+  %h4.text-danger= category.name
+  .d-flex.flex-wrap.mb-3
+    - stencils.each do |stencil|
+      .stencil-item.text-center
+        - if stencil.image.attached?
+          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image) , height: 300}
+        - else
+          %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg', height: 300}
+        .text-secondary= stencil.name
 
 -# - if @project.addons.any?
 -#   %h3.text-primary Available Add-ons

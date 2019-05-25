@@ -20,7 +20,7 @@ module WorkshopHelper
   end
 
   def ticket_add_cart_button(disabled)
-    classes = { class: 'btn btn-outline-success', type: 'submit',
+    classes = { class: 'btn btn-success', type: 'submit',
                 title: 'Add to cart', 'data-js-change-quantity-button': '' }
     classes[:disabled] = 'disabled' if disabled
     content_tag(:button, classes) do
