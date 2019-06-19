@@ -29,6 +29,18 @@ module ClientInfo
     def zip_code
       '43076'
     end
+
+    def contact_email
+      'signjunkie@columbus.rr.com'
+    end
+
+    def instagram_link
+      'https://www.instagram.com/signjunkiediy/'
+    end
+
+    def facebook_link
+      'https://www.facebook.com/signjunkieworkshop/'
+    end
   end
 end
 

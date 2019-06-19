@@ -1,25 +1,12 @@
 class StencilCategory < ApplicationRecord
   has_paper_trail
-  has_many :stencils
+  has_many :stencils, dependent: :restrict_with_error
   has_many :stencil_categories, foreign_key: 'parent_id'
   belongs_to :parent_category, optional: true,
-             class_name: 'StencilCategory', foreign_key: 'parent_id'
+                               class_name: 'StencilCategory',
+                               foreign_key: 'parent_id'
 
-  scope :for_tree, -> { where(parent_id: nil).order(:name) }
   scope :with_stencils, -> { joins(:stencils).group('stencil_categories.id') }
-
-  def to_builder
-    Jbuilder.new do |node|
-      node.label name
-      node.value id
-
-      node.children stencil_categories do |category|
-        cateogry.to_builder
-      end
-
-      node.children stencils do |stencil|
-        stencil.to_builder
-      end
-    end
-  end
+  default_scope { order(name: :asc) }
 end
+

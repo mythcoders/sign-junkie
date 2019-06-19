@@ -1,6 +1,5 @@
 class InvoicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :prepare_payment, only: %i[new create]
 
   def index
     @invoices = current_user.invoices.page(params[:page]).order(created_at: :desc)
@@ -11,44 +10,38 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = Services::InvoiceService.new.build_from_cart(current_user, params[:gift_cards])
+    @invoice = Invoice.new_from_cart(current_user, params[:gift_cards])
     if @invoice.items.empty?
       flash[:error] = 'No items to checkout'
       redirect_to cart_index_path
     end
 
-    @client_token = Services::BraintreeService.new.token
+    return process_invoice @invoice unless @invoice.balance.positive?
+    @payment = Payment.new
+    @client_token = BraintreeService.new.token
   end
 
   def create
-    service = Services::InvoiceService.new
-    @invoice = service.build_from_cart(current_user, create_params[:created_at])
+    @invoice = Invoice.new_from_cart(current_user, invoice_params[:created_at])
+    @payment = Payment.new
     @payment.auth_token = params.fetch(:payment_method_nonce, nil)
+    @payment.amount = @invoice.grand_total unless params[:gift_cards].present?
+    @invoice.payments << @payment
 
-    begin
-      if service.place(@invoice, @payment)
-        flash[:success] = t('order.placed.success')
-        redirect_to invoice_path @invoice
-      else
-        raise Services::ProcessError, t('order.create.failure')
-      end
-    rescue Services::ProcessError => e
-      flash[:error] = e.message
-      return redirect_to cart_index_path
-    end
+    process_invoice @invoice
   end
 
   def cancel
-    service = Services::InvoiceService.new
     invoice = Invoice.find params[:id]
     begin
-      if service.cancel(invoice)
-        flash[:success] = t('order.placed.success')
+      if InvoiceService.new.cancel(invoice)
+        flash[:success] = t('order.cancel.success')
         redirect_to invoice_path invoice
       else
-        raise Services::ProcessError, t('order.create.failure')
+        raise ProcessError, t('order.cancel.failure')
       end
-    rescue Services::ProcessError => e
+    rescue ProcessError => e
+      Raven.capture_exception(e.message, transaction: 'Cancel order')
       flash[:error] = e.message
       return redirect_to invoice_path invoice
     end
@@ -56,15 +49,22 @@ class InvoicesController < ApplicationController
 
   private
 
-  def create_params
+  def invoice_params
     params.require(:invoice).permit(:created_at)
   end
 
-  def cancel_params
-    params.require(:invoice).permit(order_item_ids: [])
-  end
-
-  def prepare_payment
-    @payment = Payment.new
+  def process_invoice(invoice)
+    begin
+      if InvoiceService.new.place(invoice)
+        flash[:success] = t('order.placed.success')
+        redirect_to invoice_path invoice
+      else
+        raise ProcessError, t('order.create.failure')
+      end
+    rescue ProcessError => e
+      Raven.capture_exception(e.message, transaction: 'Place order')
+      flash[:error] = e.message
+      return redirect_to cart_index_path
+    end
   end
 end

@@ -12,27 +12,14 @@
               %li.list-group-item
                 .row
                   .col-md-6.mb-3.mb-md-0
-                    .media
-                      - if item.gift_card?
-                        .media-body
-                          %h5.card-title= item.title
-                          .font-size-1.mb-1
-                            = fa_solid 'user'
-                            = "#{item.first_name} #{item.last_name}"
-                      - else
-                        .media-body
-                          %h5.card-title= item.title
-                          .font-size-1.mb-1
-                            = fa_solid 'calendar-alt'
-                            = item.workshop.start_date.strftime("%-l:%M%p %a %B #{item.workshop.start_date.day.ordinalize}")
+                    = render partial: 'item_descriptions/show', locals: {item: item}
                   .col-5.col-md-3.offset-md-1
-                    = item.quantity
                     = link_to cart_path(item), method: :delete, class: "d-block text-secondary font-size-1 mb-1", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'} do
                       %span.far.fa-trash-alt.mr-1
                       %span Remove
-                  .col-6.col-md-2.text-md-right
+                  .col-6.col-md-2.text-right
                     %span.font-weight-medium
-                      = content_tag :span, number_to_currency(item.total), id: "amt-#{item.id}"
+                      = content_tag :span, number_to_currency(item.item_amount), id: "amt-#{item.id}"
           - else
             %li.list-group-item
               %a.btn.btn-link(href=workshops_public_path)
@@ -77,4 +64,4 @@
                     = check_box_tag :gift_cards, 'true', false, class: 'custom-control-input'
                     %label.custom-control-label{for: 'gift_cards'}
                       = "Apply #{number_to_currency current_user.credit_balance} in gift cards towards this purchase"
-            = submit_tag 'Proceed to Checkout', class: 'btn btn-primary'
+            = submit_tag 'Proceed to Checkout', class: 'btn btn-success btn-block'

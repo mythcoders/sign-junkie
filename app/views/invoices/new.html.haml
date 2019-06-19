@@ -13,7 +13,7 @@
             .media.align-items-center.mb-3
               .font-size-1.font-weight-normal.mb-0.mr-3= i.title
               .media-body.text-right
-                %span.font-weight-medium= number_to_currency(i.pre_tax_total)
+                %span.font-weight-medium= number_to_currency(i.item_amount)
           .media.align-items-center.mb-3
             .font-size-1.font-weight-normal.mb-0.mr-3 Sales tax
             .media-body.text-right
@@ -26,6 +26,6 @@
             .font-size-1.font-weight-normal.mb-0.mr-3 Total due today
             .media-body.text-right
               %span.font-weight-medium
-                = content_tag :span, number_to_currency(@invoice.grand_total)
+                = content_tag :span, number_to_currency(@invoice.balance)
 
 = render partial: 'checkout'

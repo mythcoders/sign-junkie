@@ -7,7 +7,7 @@ class CartController < ApplicationController
 
   def index
     @cart = Cart.for(current_user)
-    @cart_subtotal = @cart.map(&:total).inject(0, :+)
+    @cart_subtotal = (@cart.map(&:item_amount).reduce(:+) || 0.00).round(2)
     @cart_count = @cart.count
 
     @reservation_fee = calc_reservation_fee
@@ -21,9 +21,9 @@ class CartController < ApplicationController
         flash[:success] = t('cart.add.success')
         return redirect_to cart_index_path
       else
-        raise Services::ProcessError, t('cart.add.failure')
+        raise ProcessError, t('cart.add.failure')
       end
-    rescue Services::ProcessError => e
+    rescue ProcessError => e
       flash[:error] = e.message
     end
 
@@ -43,21 +43,20 @@ class CartController < ApplicationController
   private
 
   def set_cart_service
-    @service = Services::CartService.new
+    @service = CartService.new
   end
 
   def cart_params
     params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
                                  :stencil_id, :stencil, :seating, :design_confirmation,
                                  :policy_agreement, :first_name, :last_name, :email,
-                                 :amount, :type)
+                                 :amount, :type, :acknowledgment, :gift_seat)
   end
 
   def calc_est_tax
     taxable = @cart.select { |item| item.taxable? }
     if taxable.any?
-      service = Services::TaxService.new
-      taxable.collect { |item| service.calc_tax(item.description) }.first
+      (taxable.map(&:tax_amount).reduce(:+) || 0.00).round(2)
     else
       0.00
     end
@@ -66,7 +65,7 @@ class CartController < ApplicationController
   def calc_reservation_fee
     reservations = @cart.select { |item| item.reservation? }
     if reservations.any?
-      0.00
+      (reservations.map(&:item_amount).reduce(:+) || 0.00).round(2)
     else
       0.00
     end

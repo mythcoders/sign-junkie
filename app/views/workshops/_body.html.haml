@@ -1,20 +1,20 @@
 %p.card-text
-  = fa_solid 'calendar-alt'
+  = fa_solid 'calendar-alt', 'text-primary fa-fw'
   = @workshop.when
 - if @workshop.is_public?
   %p.card-text
-    = fa_solid 'chair'
+    = fa_solid 'ticket-alt', 'text-primary fa-fw'
     = "#{@workshop.seats_available} seats available"
   %p.card-text
-    = fa_solid 'usd-circle'
-    %span#total-price Select a project for pricing
+    = fa_solid 'usd-circle', 'text-primary fa-fw'
+    %span#total-price Select a project to see pricing
     %input{id: 'base-price', value: '0.00', type: 'hidden'}
 - else
   %p.card-text
-    = fa_regular 'usd-circle'
+    = fa_regular 'usd-circle', 'text-primary fa-fw'
     %p
       = "#{number_to_currency(Workshop.reservation_price)} deposit, due today"
   %p.card-text
-    = fa_regular 'ticket-alt'
+    = fa_regular 'ticket-alt', 'text-primary fa-fw'
     = "#{Workshop.private_min} - #{@workshop.total_tickets} attendees"
 %p.card-text= @workshop.description

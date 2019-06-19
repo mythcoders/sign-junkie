@@ -5,8 +5,6 @@ class Addon < ApplicationRecord
   validates_presence_of :name, :price
 
   def self.active
-    Addon
-      .order(name: :asc)
-      .find(ProjectAddon.distinct.pluck(:addon_id))
+    Addon.order(name: :asc)
   end
 end

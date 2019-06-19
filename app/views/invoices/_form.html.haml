@@ -4,9 +4,8 @@
   = f.hidden_field :created_at
   %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
   %p.card-text
-    Seats and projects can be assigned to individuals after purchasing. If they don't have an account
-    with Sign Junkie, we'll send them an email letting them know you bought them a seat. We'll do the same
-    if you purhcased a gift card for someone.
+    If you're purchasing seats or a gift card for someone else we'll send them an email letting them know about your purchase
+    We'll also invite them to create an account if they don't already have one.
 
   - unless Rails.env.production?
     %p.card-text.text-warning
@@ -16,6 +15,6 @@
 
   #payment-container
 
-  %button{type: 'submit', name: 'save', class: 'btn btn-primary'}
-    Place your order
-    = fa_regular 'cash-register'
+  %button{type: 'submit', name: 'save', class: 'btn btn-success btn-block mt-3'}
+    Place order
+    = fa_solid 'cash-register'

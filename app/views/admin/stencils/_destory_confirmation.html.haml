@@ -1,0 +1,12 @@
+#destroymodal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#exampleModalLabel.modal-title Are you sure?
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body= t('stencil.destroy.confirmation')
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Cancel
+        = link_to admin_stencil_path(@stencil), method: 'delete', class: 'btn btn-danger' do
+          Delete

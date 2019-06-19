@@ -1,19 +1,46 @@
 = render partial: 'cancel'
 
 .row
-  .col-md-3
-    .card.card-primary.mb-2
+  .col-9
+    .card
       %h4.card-header.bg-primary.text-white
-        = fa_solid 'file-invoice'
+        = fa_solid 'shopping-bag'
         = "Order ##{@invoice.identifier}"
+      %ul.list-group
+        - @invoice.items.each do |i|
+          %li.list-group-item
+            .row
+              .col-md-9.mb-3.mb-md-0
+                = render partial: 'item_descriptions/show', locals: {item: i}
+              .col-3.text-right
+                %span.font-weight-medium
+                  = content_tag :span, number_to_currency(i.item_amount), id: "amt-#{i.id}"
+  .col-3
+    .card
+      %h5.card-header.bg-primary.text-white Order summary
       .card-body
         .form-group
           %label.col-form-label Date Placed
           .form-control-plaintext= lifp(@invoice.created_at, :short)
-        - if @invoice.items.any? { |i| i.cancelable? }
-          %a.btn.btn-outline-danger{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
+        %hr
+        .media.align-items-center.mb-3.mt-3
+          .font-size-1.font-weight-normal.mb-0.mr-3 Sales tax
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @invoice.tax_total.positive?
+                = number_to_currency @invoice.tax_total
+              - else
+                .span --
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Total
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @invoice.grand_total.positive?
+                = number_to_currency @invoice.grand_total
+              - else
+                .span --
+      - if @invoice.items.any? { |i| i.refundable? }
+        .card-footer
+          %a.btn.btn-outline-danger.btn-block{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
             = fa_solid 'ban'
             Cancel Order
-  .col-md-9
-    = render partial: 'summary'
-

@@ -44,6 +44,9 @@ en:
       failure: "Your order couldn't be created. Please try again."
     placed:
       success: "Your order has been placed!"
+    cancel:
+      success: "We're processing your order cancelation. Any credits or refunds will be issued within 48 hours."
+      failure: "We couldn't cancel your order at this time. Please try again."
   product:
     useless: ""
     unavailable: ""
@@ -51,6 +54,12 @@ en:
   project:
     delete:
       confirmation: "This will delete the project, it's images, and will remove it from any workshops it's associated with."
+  stencil:
+    destroy:
+      confirmation: "This will delete the stencil, it's image, and any projects it's associated with."
+  stencil_category:
+    destroy:
+      confirmation: "This will delete the stencil category and any stencils it's associated with."
   success:
     create: "The record was created successfully!"
     update: "The record has been updated"
@@ -61,6 +70,14 @@ en:
   workshop:
     destroy:
       confirmation: "This will delete the workshop and it's images."
+  cart:
+    add:
+      success: "The item was placed in your cart!"
+      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
+      already: "That item is already present in your cart."
+    update:
+      success: "Cart updated!"
+      failure: "Please try again."
   activerecord:
     errors:
       messages:

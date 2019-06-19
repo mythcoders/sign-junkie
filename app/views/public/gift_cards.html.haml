@@ -12,6 +12,9 @@
             Gift Card
           .card-body
             = f.hidden_field :type, value: 'gift_card'
+            %p.card-text
+              Please enter the information of the person you're giving the gift card to.
+              We'll send them an email and invite them to Sign Junkie.
             .form-row
               .form-group.col-md-6
                 = f.label :first_name

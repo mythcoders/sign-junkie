@@ -10,7 +10,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
-gem 'devise_invitable'
+gem 'devise_invitable', '~> 2.0'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
@@ -19,9 +19,10 @@ gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 5.2.3'
 gem 'sendgrid-ruby' # ActiveMailer
 gem 'sentry-raven' # Exceptions
+gem 'sidekiq'
 
 # UI
 gem 'bootstrap'

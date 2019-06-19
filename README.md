@@ -1,15 +1,13 @@
-# Ares Business Management System
+# Ares CRM
 
-Built on the Rails platform, Ares is a customizable system to help you run your business.
+Ares is an open-source Customer Relationship Management System that is built on the ails platform. Originally built for WHIZ Media and Sign Junkie, it can be customized to help you manage almost every aspect of your business!
 
 ## Services Used
 
-- SendGrid
 - LogDNA
 - Sentry
 - Braintree (with client credentials)
 - PostgreSQL
-- Heroku
 
 ## Getting Started
 

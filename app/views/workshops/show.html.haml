@@ -1,18 +1,23 @@
 .row
-  .col.col-lg-6.mb-2
+  .col-12.col-lg-6.mb-2
     - if @workshop.images.any?
+      .col
+        %img.mb-2.center-img.img-fluid.img-thumbnail{alt: "Image of #{@workshop.name}",
+          src: url_for(@workshop.images.first), 'data-js-img-gallery-preview': ''}
+      - @workshop.images.each do |img|
+        .col-12.col-md-6.text-center
+          %img.img-fluid.img-thumbnail{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+    - else
       .row
-        .col
+        .col.text-center
           %img.mb-2.center-img.img-fluid.img-thumbnail{alt: "Image of #{@workshop.name}",
-            src: url_for(@workshop.images.first),
-            'data-js-img-gallery-preview': ''}
-      .row
-        - @workshop.images.each do |img|
+            src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
+    .row
+      - @workshop.projects.each do |project|
+        - project.project_images.each do |img|
           .col-12.col-md-6.text-center
             %img.img-fluid.img-thumbnail{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
-    - else
-      %img.mb-2.center-img.img-fluid.img-thumbnail{alt: "Image of #{@workshop.name}", src: '/cover.jpg'}
-  .col.col-lg-6.mb-2
+  .col-12.col-lg-6.mb-2
     .card
       %h4.card-header.bg-primary.text-white
         = @workshop.name
@@ -23,8 +28,9 @@
             .card-body
               = render partial: 'body'
               = render partial: 'form', locals: { f: f }
-            .card-footer
-              = ticket_dropdown f, @workshop
+              %button{type: 'submit', name: 'save', class: 'btn btn-success btn-block'}
+                = fa_solid 'cart-plus'
+                Add to Cart
         - else
           .card-body
             = render partial: 'body'
@@ -32,6 +38,6 @@
       - else
         .card-body
           = render partial: 'body'
-          %a.btn.btn-primary(href=new_user_session_path)
+          %a.btn.btn-primary.btn-block(href=new_user_session_path)
             = fa_light 'sign-in'
             Log In or Sign up to add this to your cart

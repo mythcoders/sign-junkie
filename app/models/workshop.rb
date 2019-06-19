@@ -16,6 +16,9 @@ class Workshop < ApplicationRecord
                                         purchase_end_date >= CURRENT_TIMESTAMP')}
 
   validates_presence_of :name
+  validates_presence_of :purchase_start_date, :purchase_end_date, :start_date, :end_date,
+                        :total_tickets, :is_public, if: :is_for_sale
+  validates_presence_of :reservation_price, unless: :is_public
 
   # Searches workshops on a variety of factors
   # @return [Array] returns of the search
@@ -23,10 +26,6 @@ class Workshop < ApplicationRecord
     results = Workshop.upcoming
     results = event.where('name like ?', "%#{name}%") unless name.blank?
     results
-  end
-
-  def starting_price
-    10.00
   end
 
   # Minimum seats for a private workshop
@@ -51,6 +50,14 @@ class Workshop < ApplicationRecord
   # @return [Time]
   def self.booking_deadline
     48.hours
+  end
+
+  def starting_price
+    if projects.any?
+      projects.pluck(:material_price, :instructional_price).map(&:sum).sort.first
+    else
+      0.00
+    end
   end
 
   def images
@@ -82,7 +89,7 @@ class Workshop < ApplicationRecord
   end
 
   def when
-    date_out(start_date, end_date)
+    start_date.strftime("%a, %B #{start_date.day.ordinalize}, %-l:%M%p")
   end
 
   def when_purchase

@@ -14,12 +14,12 @@
         %br Thornville, OH 43076
     %h5.text-danger Email
     %p
-      %a{href: 'mailto:signjunkie@columbus.rr.com'} signjunkie@columbus.rr.com
-    %a{href: 'https://www.facebook.com/signjunkieworkshop/'}
+      %a{href: "mailto:#{ClientInfo.contact_email}"}= ClientInfo.contact_email
+    %a{href: ClientInfo.facebook_link}
       %h4
         = fa_brands 'facebook'
         Facebook
-    %a{href: 'https://www.instagram.com/signjunkiediy/'}
+    %a{href: ClientInfo.instagram_link}
       %h4
         = fa_brands 'instagram'
         Instagram

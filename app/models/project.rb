@@ -12,6 +12,8 @@ class Project < ApplicationRecord
 
   validates_presence_of :name, :material_price, :instructional_price
 
+  default_scope { order(name: :asc) }
+
   def total_price
     material_price + instructional_price
   end

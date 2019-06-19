@@ -10,7 +10,7 @@
           .card-body.text-center
             %h4.card-title
               %a{href: workshop_path(workshop)}
-                = workshop.start_date.strftime("%-l:%M%p %a %B #{workshop.start_date.day.ordinalize}")
+                = workshop.when
                 %br
                 = workshop.name
             %h5.text-primary

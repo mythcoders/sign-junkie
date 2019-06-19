@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_24_222329) do
+ActiveRecord::Schema.define(version: 2019_06_08_212039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,11 +46,9 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
 
   create_table "carts", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.string "description", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "item_description_id", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -66,13 +64,9 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
 
   create_table "invoice_items", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
-    t.string "description", null: false
-    t.decimal "pre_tax_amount", default: "0.0", null: false
-    t.integer "quantity", null: false
-    t.decimal "tax_rate"
-    t.decimal "tax_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "item_description_id", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
   end
 
@@ -84,6 +78,33 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
+
+  create_table "item_descriptions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.string "identifier", null: false
+    t.decimal "taxable_amount", null: false
+    t.decimal "nontaxable_amount", null: false
+    t.decimal "tax_amount", null: false
+    t.decimal "tax_rate"
+    t.datetime "cancel_date"
+    t.datetime "void_date"
+    t.integer "workshop_id"
+    t.string "workshop_name"
+    t.integer "project_id"
+    t.string "project_name"
+    t.integer "stencil_id"
+    t.string "stencil_name"
+    t.string "stencil_personalization"
+    t.integer "addon_id"
+    t.string "addon_name"
+    t.string "seat_preference"
+    t.integer "seats_booked"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifiications", id: :serial, force: :cascade do |t|
@@ -159,12 +180,10 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
   create_table "reservations", id: :serial, force: :cascade do |t|
     t.bigint "workshop_id"
     t.bigint "user_id"
-    t.serial "identifier", limit: 10
     t.string "payment_plan", null: false
-    t.datetime "void_date"
-    t.datetime "cancel_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "item_description_id", null: false
     t.index ["user_id"], name: "index_reservations_on_user_id"
     t.index ["workshop_id"], name: "index_reservations_on_workshop_id"
   end
@@ -173,18 +192,14 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
     t.bigint "workshop_id"
     t.bigint "reservation_id"
     t.bigint "user_id"
-    t.bigint "invoice_id"
-    t.string "identifier"
-    t.string "description"
     t.boolean "prepped"
     t.boolean "notified"
-    t.datetime "void_date"
-    t.datetime "cancel_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["invoice_id"], name: "index_seats_on_invoice_id"
+    t.integer "item_description_id", null: false
     t.index ["reservation_id"], name: "index_seats_on_reservation_id"
     t.index ["user_id"], name: "index_seats_on_user_id"
+    t.index ["workshop_id", "user_id"], name: "index_seats_on_workshop_id_and_user_id", unique: true
     t.index ["workshop_id"], name: "index_seats_on_workshop_id"
   end
 
@@ -300,9 +315,11 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
     t.datetime "cancel_date"
   end
 
+  add_foreign_key "carts", "item_descriptions"
   add_foreign_key "carts", "users"
   add_foreign_key "customer_credits", "users"
   add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "item_descriptions"
   add_foreign_key "invoices", "users"
   add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
@@ -313,9 +330,10 @@ ActiveRecord::Schema.define(version: 2019_05_24_222329) do
   add_foreign_key "refunds", "customer_credits"
   add_foreign_key "refunds", "invoices"
   add_foreign_key "refunds", "refund_reasons"
+  add_foreign_key "reservations", "item_descriptions"
   add_foreign_key "reservations", "users"
   add_foreign_key "reservations", "workshops"
-  add_foreign_key "seats", "invoices"
+  add_foreign_key "seats", "item_descriptions"
   add_foreign_key "seats", "reservations"
   add_foreign_key "seats", "users"
   add_foreign_key "seats", "workshops"
