@@ -10,15 +10,16 @@ $.onmount("[data-js-change-project]", function() {
     })
 });
 
-$.onmount("[data-js-change-stencil]", function() {
-    $(this).on("change", function() {
-        if ($(this).val() === '$custom') {
-            $('[data-js-custom-stencil]').show();
-            $("[data-js-custom-stencil-input]").attr("required", "required");
+$.onmount("[data-js-gift-seat]", function() {
+    $(this).on("change", function(event) {
+        if (event.target.checked) {
+            $("[data-js-seat-info]").show();
         } else {
-            $('[data-js-custom-stencil]').hide();
-            $("[data-js-custom-stencil-input]").removeAttr("required");
+            $("[data-js-seat-info]").hide();
         }
+        $("#cart_first_name").attr("required", event.target.checked);
+        $("#cart_last_name").attr("required", event.target.checked);
+        $("#cart_email").attr("required", event.target.checked);
     })
 });
 
@@ -67,6 +68,7 @@ function update_ui() {
                 var currentStencils = document.querySelector('[data-js-change-stencil]')
                 var blankoption = document.createElement('option')
                 blankoption.text = '- Select a stencil design -'
+                blankoption.value = ''
                 while (currentStencils.hasChildNodes()) {
                     currentStencils.removeChild(currentStencils.lastChild);
                 }
@@ -75,34 +77,27 @@ function update_ui() {
                 var value = get_stencil()
                 for (var i = 0; i < data.stencils.length; i++) {
                     var category = data.stencils[i]
-                    var group = document.createElement('optgroup')
-                    group.label = category.name
 
-                    for (var j = 0; j < category.stencils.length; j++) {
-                        var option = document.createElement('option')
-                        option.text = category.stencils[i].name
-                        option.value = category.stencils[i].id
-
-                        if (option.text === value) {
-                            option.selected = true;
-                        }
-
-                        group.append(option)
+                    if (category.name === '') {
+                        append_stencils(category, currentStencils, value)
+                    } else {
+                        var group = document.createElement('optgroup')
+                        group.label = category.name
+                        append_stencils(category, group, value)
+                        currentStencils.append(group)
                     }
-
-                    currentStencils.append(group)
                 }
 
                 preview = document.querySelector('[data-js-project-preview]')
                 preview.classList.remove('disabled')
                 preview.href = '/projects/' + project
 
-                document.querySelector('[data-js-custom-stencil]').style.display = 'none'
+                $("[data-js-custom-stencil-input]").removeAttr("disabled");
                 currentStencils.selectedValue = null;
                 currentStencils.disabled = false;
             },
             error: function(data, textStatus, jQxhr) {
-                Raven.captureException(data);
+                Raven.captureException(jQxhr);
                 alert('An error occured. Please try again.');
             }
         });
@@ -112,10 +107,25 @@ function update_ui() {
     }
 }
 
+function append_stencils(category, group, selected_stencil) {
+    for (var j = 0; j < category.stencils.length; j++) {
+        var option = document.createElement('option')
+        option.text = category.stencils[j].name
+        option.value = category.stencils[j].id
+
+        if (option.text === selected_stencil) {
+            option.selected = true;
+        }
+
+        group.append(option)
+    }
+}
+
 function disable_stencils(message) {
     $("[data-js-change-stencil]").find('option').remove()
     $("[data-js-change-stencil]").append("<option value=''>"+ message + "</option>")
     $("[data-js-change-stencil]").attr("disabled", "disabled");
+    $("[data-js-custom-stencil-input]").attr("disabled", "disabled");
 }
 
 function disable_addons(message) {

@@ -32,15 +32,6 @@
   .form-group.col
     = f.label :total_seats, class: 'col-form-label'
     = f.text_field :total_tickets, class: 'form-control'
-.form-row
-  .form-group.col
-    = f.label :options, class: 'control-label'
-    .custom-switch.custom-control
-      = f.check_box :allow_custom_stencils, class: 'custom-control-input'
-      = f.label :allow_custom_stencils, class: 'custom-control-label'
-    -# .custom-switch.custom-control
-    -#   = f.check_box :allow_pick_your_project, class: 'custom-control-input'
-    -#   = f.label :allow_custom_stencils, class: 'custom-control-label'
 %hr
 %h2 Purchasing
 .form-group

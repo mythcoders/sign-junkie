@@ -10,20 +10,10 @@ end
 
 stencils = []
 
-@project.stencils.group_by(&:category).each do |cat, items|
+@project.stencils.group_by(&:category).sort.each do |cat, items|
   stencils << {
     name: cat.name,
-    stencils: items.map { |s| { id: s.id, name: s.name  } }
-  }
-end
-
-if @workshop.allow_custom_stencils
-  stencils << {
-    name: '',
-    stencils: {
-      id: '$custom',
-      name: '- Custom -'
-    }
+    stencils: items.sort.map { |s| { id: s.id, name: s.name  } }
   }
 end
 

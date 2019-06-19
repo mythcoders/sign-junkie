@@ -1,6 +1,6 @@
 module Admin
   class StencilCategoriesController < AdminController
-    before_action :set_category, only: %i[update edit]
+    before_action :set_category, only: %i[update edit destroy]
     before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
@@ -30,6 +30,16 @@ module Admin
       else
         set_values_for_dropdown
         render 'edit'
+      end
+    end
+
+    def destroy
+      if @category.destroy
+        flash[:success] = t('destroy.success')
+        redirect_to admin_stencil_categories_path
+      else
+        flash[:error] = t('destroy.failure')
+        redirect_to edit_admin_stencil_category_path(@category)
       end
     end
 

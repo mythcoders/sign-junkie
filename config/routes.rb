@@ -61,10 +61,12 @@ Rails.application.routes.draw do
   get 'private_hostess', to: 'workshops#hostess_policies'
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
+  get 'workshops/bookings', to: 'workshops#coming_soon'
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]
   resources :invoices, only: %i[index show new create], path: 'orders'
+  post 'invoices/:id/cancel', to: 'invoices#cancel', as: 'cancel_invoice'
   resources :projects, only: %i[index show]
   resources :stencils, only: %i[index show]
   resources :workshops, only: %i[index show]

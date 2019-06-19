@@ -14,7 +14,7 @@
       }, function(err, dropinInstance) {
         HideLoader();
         if (err) {
-          console.error(err);
+          Raven.captureException(err);
           return;
         }
         form.addEventListener("submit", function(event) {
@@ -22,7 +22,7 @@
           dropinInstance.requestPaymentMethod(function(err, payload) {
             if (err) {
               dropinInstance.clearSelectedPaymentMethod();
-              console.error(err);
+              Raven.captureException(err);
               return;
             }
             nonceInput.value = payload.nonce;

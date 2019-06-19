@@ -5,16 +5,18 @@
         = fa_solid 'file-invoice'
         My Orders
 
-%table.table.table-bordered.table-striped
+%table.table.table-bordered.table-striped.table-hover
   %thead.bg-primary.text-white
     %tr
-      %th Number
-      %th Date
+      %th Order Number
+      %th Total Price
+      %th Date Created
       %th Status
   %tbody
     - @invoices.each do |o|
       %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
         %td= o.identifier
+        %td= number_to_currency o.grand_total
         %td= lifp(o.created_at, :short)
         %td= o.status
   %tfoot

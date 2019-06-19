@@ -1,4 +1,4 @@
-- unless @customer.credits.any?
+- unless @customer.credits.with_balance.any?
   .card-footer
     .text-muted Customer has no credits
 - else

@@ -1,12 +1,26 @@
 - page_title 'Edit', 'Stencil Categories'
+= render partial: 'destory_confirmation'
 
 = form_for @category, url: admin_stencil_category_path(@category), method: :patch do |f|
-  .card
-    %h5.card-header.bg-primary.text-white
-      Edit Category
-    .card-body
-      = error_messages_for 'category'
-      = render partial: 'admin/stencil_categories/form', locals: { f: f }
-    .card-footer
-      = link_to 'Cancel', admin_stencil_categories_path(@stencil), class: 'btn btn-outline-secondary'
-      = f.submit 'Save Changes', class: 'btn btn-success'
+  .row
+    .col-5
+      .card
+        %h5.card-header.bg-primary.text-white
+          Edit Category
+        .card-body
+          = error_messages_for 'category'
+          = render partial: 'admin/stencil_categories/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', admin_stencil_categories_path(@stencil), class: 'btn btn-outline-secondary'
+          = f.submit 'Save Changes', class: 'btn btn-success'
+          %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+            Delete
+    .col-7
+      .card
+        %h5.card-header.bg-primary.text-white
+          Stencils
+        .card-body
+          %ul
+            - @category.stencils.each do |stencil|
+              %li
+                %a{href: admin_stencil_path(stencil)}= stencil.name

@@ -1,25 +1,32 @@
 image: docker:latest
 
+include:
+  - template: Container-Scanning.gitlab-ci.yml
+  - template: DAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: License-Management.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+
 services:
   - docker:dind
-  - postgres:latest
 
 stages:
   - build
   - test
   - deploy
+  - release
+  - dast
 
 variables:
-  CONTAINER_IMAGE: registry.gitlab.com/mythcoders/sign-junkie/web:$CI_BUILD_REF_NAME  
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
   HEROKU_REGISTRY: registry.heroku.com
-  QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
   PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie-pd/web:latest
-
-before_script:
-  - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
+  QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
 
 build:
   stage: build
+  before_script:
+    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
@@ -29,13 +36,20 @@ build:
 
 test:
   stage: test
+  services:
+  - docker:dind
+  - postgres:latest
+  before_script:
+    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker pull $CONTAINER_IMAGE
 
 push_qa:
   stage: deploy
-  script:
+  before_script:
+    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
+  script:
     - docker pull $CONTAINER_IMAGE
     - docker tag $CONTAINER_IMAGE $QA_IMAGE
     - docker push $QA_IMAGE
@@ -46,7 +60,7 @@ push_qa:
 
 release_qa:
   image: node:latest
-  stage: deploy
+  stage: release
   environment:
     name: qa
     url: https://qa.signjunkieworkshop.com
@@ -61,8 +75,10 @@ release_qa:
 
 push_pd:
   stage: deploy
-  script:
+  before_script:
+    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
+  script:
     - docker pull $CONTAINER_IMAGE
     - docker tag $CONTAINER_IMAGE $PROD_IMAGE
     - docker push $PROD_IMAGE
@@ -71,7 +87,7 @@ push_pd:
 
 release_pd:
   image: node:latest
-  stage: deploy
+  stage: release
   environment:
     name: prod
     url: https://signjunkieworkshop.com
@@ -79,5 +95,12 @@ release_pd:
     - npm install -g heroku
   script:
     - heroku container:release web --app sign-junkie-pd
+  only:
+    - master
+
+dast:
+  stage: dast
+  variables:
+    DAST_WEBSITE: https://signjunkieworkshop.com
   only:
     - master

@@ -19,6 +19,7 @@ module Ares
     config.time_zone = 'Eastern Time (US & Canada)'
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
+    config.eager_load_paths += %W[#{config.root}/app/services]
     config.require_master_key = true
     config.force_ssl = true unless Rails.env.development?
 

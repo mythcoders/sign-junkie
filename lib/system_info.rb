@@ -13,7 +13,7 @@ module SystemInfo
     end
 
     def support_url
-      'mailto:support@mythcoders.com'.freeze
+      'mailto:incoming+mythcoders-sign-junkie-12022372-issue-@incoming.gitlab.com'.freeze
     end
 
     def support_key
