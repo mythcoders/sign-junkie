@@ -6,11 +6,11 @@
     %thead
       %tr
         %th Order Number
-        %th Status
         %th Date Placed
+        %th Amount
     %tbody
       - @customer.invoices.each do |o|
         %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
           %td= o.identifier
-          %td= o.status
           %td= l o.created_at, format: :short
+          %td= number_to_currency o.grand_total

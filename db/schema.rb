@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_08_212039) do
+ActiveRecord::Schema.define(version: 2019_06_27_204447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_212039) do
     t.string "identifier", limit: 25
     t.string "method", null: false
     t.decimal "amount", null: false
-    t.decimal "amount_refunded"
+    t.decimal "amount_refunded", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_212039) do
     t.integer "item_description_id", null: false
     t.index ["reservation_id"], name: "index_seats_on_reservation_id"
     t.index ["user_id"], name: "index_seats_on_user_id"
-    t.index ["workshop_id", "user_id"], name: "index_seats_on_workshop_id_and_user_id", unique: true
+    t.index ["workshop_id", "user_id", "item_description_id"], name: "index_seats_on_workshop_id_and_user_id_and_item_description_id", unique: true
     t.index ["workshop_id"], name: "index_seats_on_workshop_id"
   end
 

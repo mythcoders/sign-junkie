@@ -2,7 +2,7 @@
 
 = form_for @project, url: admin_projects_path, local: true do |f|
   .row
-    .col-5
+    .col-12.col-md-5
       .card
         %h5.card-header.bg-primary.text-white
           New Project
@@ -12,7 +12,7 @@
         .card-footer
           = link_to 'Cancel', admin_projects_path, class: 'btn btn-outline-secondary'
           = f.submit 'Create', class: 'btn btn-success'
-    .col-7
+    .col-12.col-md-7
       .card
         %h5.card-header.bg-primary.text-white
           Stencils

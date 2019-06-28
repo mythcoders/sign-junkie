@@ -9,6 +9,14 @@
   .media
     .media-body
       %h5.card-title= item.title
+      - if item.cancel_date.present?
+        .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+          = fa_solid 'ban', 'fa-fw'
+          CANCELED
+      - if item.void_date.present?
+        .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+          = fa_solid 'ban', 'fa-fw'
+          VOIDED
       .font-size-1.mb-1{title: 'Scheduled time'}
         = fa_solid 'calendar-alt', 'text-primary fa-fw'
         = item.workshop.when

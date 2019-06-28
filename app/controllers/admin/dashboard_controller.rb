@@ -7,6 +7,7 @@ module Admin
 
     def get_new_customers
       @new_customers = User.recently_created.count
+      @new_invoices = Invoice.recently_created.count
     end
 
     def populate_changelog

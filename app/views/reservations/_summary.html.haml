@@ -7,7 +7,7 @@
       %small
         = fa_solid 'calendar-alt', 'fa-fw'
         = workshop.when
-        - if workshop.is_private?
+        - if workshop.private?
           %br
           Private Workshop
     %ul.list-group
@@ -51,7 +51,7 @@
         = fa_light 'pencil'
         Edit seats
 
-      - if workshop.is_private?
+      - if workshop.private?
         %button.btn.btn-outline-primary.btn-sm.mr-1{"data-target": "#new-ticket-modal", "data-toggle": "modal", type: "button", 'data-workshop-id': workshop.id}
           = fa_light 'user-plus'
           Reserve additional seats

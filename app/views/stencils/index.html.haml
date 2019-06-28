@@ -8,7 +8,7 @@
   %h3.text-danger= category.name
   .d-flex.flex-wrap.mb-3
     - category.stencils.each do |stencil|
-      .stencil-item.text-center
+      .row-item.text-center
         - if stencil.image.attached?
           %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image) , height: 300}
         - else

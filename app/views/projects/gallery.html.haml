@@ -14,7 +14,7 @@
       = link_to 'Book your next DIY project!', root_path
 .row.text-center.text-lg-left
   - for i in 1..13
-    .col-12.col-md-6.col-lg-2
+    .row-item.text-center
       %a{href: "/gallery/#{i}.jpeg", target: '_blank'}
         %img.img-fluid.img-thumbnail{alt: '', src: "/gallery/#{i}.jpeg"}
 

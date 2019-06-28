@@ -13,10 +13,12 @@ Rails.application.configure do
   # config.assets.compile = true
 
   config.action_controller.perform_caching = true
+  config.action_controller.asset_host = 'https://qa.signjunkieworkshop.com'
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.asset_host = 'https://qa.signjunkieworkshop.com'
   config.action_mailer.default_url_options = {
-    host: 'https://qa.signjunkieworkshop.com/'
+    host: 'https://qa.signjunkieworkshop.com'
   }
   config.active_storage.service = :amazon
   config.active_support.deprecation = :notify

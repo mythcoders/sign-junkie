@@ -1,9 +1,9 @@
 %nav.navbar.navbar-expand-md.mb-3{style: 'font-size: 1.3rem; padding: 0;'}
   .container-fluid{style: 'padding: 0;'}
-    = link_to root_path, class: 'navbar-brand d-block d-sm-none' do
+    = link_to root_path, class: 'navbar-brand d-inline d-sm-none' do
       Sign Junkie Workshop
       - unless Rails.env.production?
-        .text-warning= EnvironmentInfo.current.upcase
+        %span.text-warning= "- #{EnvironmentInfo.current.upcase}"
     %button.navbar-toggler{data: { target: '#navbarSupportedContent', toggle: 'collapse' }, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, type: 'button'}
       = fa_solid 'bars'
     .collapse.navbar-collapse#navbarSupportedContent

@@ -11,21 +11,21 @@ class OrderService
         reserve_seat item, recipient
       end
     end
-    # InvoiceMailer.with(invoice: invoice).placed.deliver_now
+    InvoiceMailer.with(invoice: invoice).paid.deliver_now
     true
   end
 
   def cancel!(invoice)
-    invoice.cancelable_items.each do |item|
-      if item.reservation?
+    invoice.cancelable_items.each do |invoice_item|
+      if invoice_item.reservation?
       else
-        # TODO: Change this
-        seat = Seat.find_by_invoice_item_id(item.id)
-        seat.cancel_date = DateTime.now
-        seat.save!
+        invoice_item.description.cancel_date = DateTime.now
+        invoice_item.description.save!
+
+        InvoiceMailer.with(invoice: invoice).canceled.deliver_now
+        InvoiceMailer.with(invoice: invoice).canceled_admin.deliver_now
       end
     end
-    # InvoiceMailer.with(invoice: invoice).canceled.deliver_now
     true
   end
 
@@ -61,12 +61,13 @@ class OrderService
     recipient.credits << CustomerCredit.new(starting_amount: item.item_amount,
                                             balance: item.item_amount)
     recipient.save!
+
+    InvoiceMailer.with(gift: item, customer: recipient).gift_card.deliver_now
   end
 
   def find_or_create_recipient(item, action = :reserve_seat)
     recipient = User.find_by_email(item.email)
     if recipient.nil?
-      # TODO: Invite customer with seat/workshop
       recipient = User.invite!(email: item.email,
                                first_name: item.first_name,
                                last_name: item.last_name,

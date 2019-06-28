@@ -1,7 +1,7 @@
 %table.table.table-striped.table-bordered.table-border-fix
   %thead
     %tr.bg-primary.text-white
-      %th EVENTS
+      %th DETAIL
       %th.action-column PRICE
       %th.action-column TAX
       %th.action-column.text-right TOTAL
@@ -18,16 +18,6 @@
           - else
             %span.font-weight-medium --
         %td.text-right= number_to_currency(i.line_total)
-  %thead
-    %tr.bg-primary.text-white
-      %th{colspan: 3} PAYMENTS
-      %th.action-column.text-right AMOUNT
-  %tbody
-    - @invoice.payments.each do |p|
-      %tr
-        %td{colspan: 3}
-          %pre= "Method: #{p.method}\nProcessed on: #{l p.created_at, format: :short}\nTransaction ID: #{p.identifier}"
-        %td.text-right= number_to_currency(p.amount)
   %tfoot
     %tr.bg-primary.text-white
       %td.text-right{colspan: 3}

@@ -31,6 +31,11 @@ class User < ApplicationRecord
     where('role <> ?', User.roles[:customer])
   end
 
+  def self.system_admin
+    email = Rails.env.development? ? SystemInfo.support_key : ClientInfo.contact_email
+    User.where(email: email).first
+  end
+
   def can_cp?
     employee? || admin? || operator?
   end

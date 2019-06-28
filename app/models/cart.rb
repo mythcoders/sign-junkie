@@ -67,7 +67,7 @@ class Cart < ApplicationRecord
 
   def validate_can_book
     if seat?
-      existing_seats = Seat.for(seat_owner).for_shop(workshop_id).any?
+      existing_seats = Seat.already_booked?(seat_owner, workshop_id)
       existing_cart_items = Cart.for(seat_owner).for_shop(workshop_id).non_gift_seat.any?
       existing_gifts = Cart.gifted_seats(seat_owner.email).any?
       raise ProcessError, 'Workshop has already been booked or added to cart' if existing_cart_items || existing_seats || existing_gifts

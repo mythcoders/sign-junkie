@@ -12,6 +12,7 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
   ping.check :branch do
     SystemInfo.branch
   end
+
   ping.check :version do
     SystemInfo.long_version
   end

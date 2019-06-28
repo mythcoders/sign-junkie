@@ -3,8 +3,8 @@
 = render partial: 'admin/customers/header'
 
 .row
-  .col-4
-    .card
+  .col-12.col-lg-4
+    .card.mb-2
       %h5.card-header.bg-primary.text-white
         = @customer.full_name
       %table.table.table-border-fix.table-sm
@@ -16,14 +16,14 @@
             %td
               %a{href: "mailto:#{@customer.email}"}= @customer.email
 
-  .col-8
+  .col-12.col-lg-8
     .card
       %h5.card-header.bg-primary.text-white
         = fa_solid 'file-invoice-dollar'
         Invoices
       = render partial: 'admin/invoices/list'
 
-    .card.mt-3
+    .card.mt-2
       %h5.card-header.bg-primary.text-white
         = fa_solid 'gift-card'
         Credits

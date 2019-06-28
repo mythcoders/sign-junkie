@@ -3,12 +3,18 @@
     = fa_solid 'home'
     = welcome_message
 .row
-  .col-6.col-md-3.mb-3
+  .col-12.col-lg-3.mb-3
     .card
       %h5.card-header.bg-primary.text-white
         = fa_regular 'link'
         Quick Links
       %ul.list-group.list-group-flush
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_stencil_category_path }}
+          New Stencil Category
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_stencil_path }}
+          New Stencil
+        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_addon_path }}
+          New Add-on
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_project_path }}
           New Project
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_workshop_path }}
@@ -17,24 +23,19 @@
           New Customer
         %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_employee_path }}
           New Employee
-    %br
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'pencil-ruler'
-        Upcoming Workshops
-  .col-xl-9.col-sm-6.mb-3
+  .col-12.col-lg-9
     .row
-      .col.col-xl-4.col-md-6.mb-2
+      .col-12.col-xl-4.col-md-6.mb-2
         .card.text-white.bg-info.o-hidden.h-100
           .card-body
             .card-body-icon
               = fa_solid 'shopping-bag', 'fa-fw'
-            .mr-5= "#{@new_customers} Orders Placed Today"
+            .mr-5= "#{@new_invoices} Invoices Today"
           %a.card-footer.text-white.clearfix.small.z-1{href: admin_invoices_path}
             %span.float-left View Details
             %span.float-right
               = fa_solid 'angle-right'
-      .col.col-xl-4.col-md-6.mb-2
+      .col-12.col-xl-4.col-md-6.mb-2
         .card.text-white.bg-info.o-hidden.h-100
           .card-body
             .card-body-icon

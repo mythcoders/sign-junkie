@@ -2,7 +2,7 @@
 
 = form_for @project, url: admin_project_path(@project), method: :patch do |f|
   .row
-    .col-5
+    .col-12.col-md-5
       .card
         %h5.card-header.bg-primary.text-white
           Edit Project
@@ -12,7 +12,7 @@
         .card-footer
           = link_to 'Cancel', admin_project_path(@project), class: 'btn btn-outline-secondary'
           = f.submit 'Save', class: 'btn btn-success'
-    .col-7
+    .col-12.col-md-7
       .card
         %h5.card-header.bg-primary.text-white
           Stencils

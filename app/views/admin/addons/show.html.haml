@@ -3,7 +3,7 @@
 = render partial: 'admin/addons/header'
 
 .row
-  .col-4
+  .col-12.col-lg-4
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         = @addon.name
@@ -11,5 +11,5 @@
         .form-group
           %label.col-form-label Price
           .form-control-plaintext= number_to_currency @addon.price
-  .col-8
+  .col-12.col-lg-8
     = render partial: 'admin/images/list', locals: { images: @addon.addon_images }

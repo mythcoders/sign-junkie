@@ -38,6 +38,8 @@ class ItemDescription < ApplicationRecord
   def title
     if reservation?
       "Reservation for #{workshop_name}"
+    # elsif gifted_seat?
+    #   "#{workshop_name} for #{item.first_name} #{item.last_name}"
     elsif gift_card?
       'Gift Card'
     else

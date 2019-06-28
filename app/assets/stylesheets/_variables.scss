@@ -9,7 +9,7 @@ $sticky-footer-height: 80px;
 //
 // Color system
 //
-$white:    #fff !default;
+$white: #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
@@ -19,47 +19,42 @@ $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
-$black:    #000 !default;
+$black: #000 !default;
 
-$blue:    #2780E3 !default;
-$indigo:  #6610f2 !default;
-$purple:  #613d7c !default;
-$pink:    #e83e8c !default;
-$red:     #FF0039 !default;
-$orange:  #f0ad4e !default;
-$yellow:  #FF7518 !default;
-$green:   #28a745 !default;
-$teal:    #008080 !default;
-$cyan:    #9954BB !default;
+$blue: #2780e3 !default;
+$indigo: #6610f2 !default;
+$purple: #613d7c !default;
+$pink: #e83e8c !default;
+$red: #ff0039 !default;
+$orange: #f0ad4e !default;
+$yellow: #ff7518 !default;
+$green: #28a745 !default;
+$teal: #008080 !default;
+$cyan: #9954bb !default;
 
-$primary:       $teal !default;
-$secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
-$danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-800 !default;
+$primary: $teal !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
 
 // Fonts
 
-@font-face {
-  font-family: AbrilFatface;
-  src:font-url('AbrilFatface.otf');
-}
-
-$font-family-sans-serif: "AbrilFatface", "Source Sans Pro", Calibri, Candara, Arial, sans-serif !default;
+$font-family-sans-serif: "Abril Fatface", Calibri, Candara, Arial, sans-serif !default;
 
 // Navbar
 
-$navbar-dark-hover-color:           rgba($white,1) !default;
+$navbar-dark-hover-color: rgba($white, 1) !default;
 
-$navbar-light-hover-color:          rgba($black,.9) !default;
+$navbar-light-hover-color: rgba($black, 0.9) !default;
 
 // Alerts
 
-$alert-border-width:                0 !default;
+$alert-border-width: 0 !default;
 
 // Progress bars
 
-$progress-height:               0.5rem !default;
+$progress-height: 0.5rem !default;

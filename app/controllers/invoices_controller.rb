@@ -22,11 +22,9 @@ class InvoicesController < ApplicationController
   end
 
   def create
-    @invoice = Invoice.new_from_cart(current_user, invoice_params[:created_at])
-    @payment = Payment.new
-    @payment.auth_token = params.fetch(:payment_method_nonce, nil)
-    @payment.amount = @invoice.grand_total unless params[:gift_cards].present?
-    @invoice.payments << @payment
+    @invoice = Invoice.new_from_cart(current_user, params[:gift_cards], invoice_params[:created_at])
+    @invoice.payments << Payment.new(amount: @invoice.balance,
+                                     auth_token: params.fetch(:payment_method_nonce, nil))
 
     process_invoice @invoice
   end
