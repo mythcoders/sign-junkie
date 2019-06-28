@@ -1,34 +1,14 @@
-- unless @workshop.seats.any?
+- unless seats.any?
   .card.mt-3
     .card-body
       .text-muted No customers have RSVPd to this workshop yet.
 - else
   %ul.list-group
-    - @workshop.seats.each do |item|
+    - seats.each do |item|
       %li.list-group-item
         .row
           .col-12.col-md-9.mb-3.mb-md-0
-            .media
-              .media-body
-                %h5.card-title= item.customer.full_name
-                - if item.seat_preference.present?
-                  .font-size-1.mb-1{title: 'Seating preference'}
-                    = fa_solid 'chair', 'text-primary fa-fw'
-                    = item.seat_preference
-                .font-size-1.mb-1{title: 'Project'}
-                  = fa_solid 'sign', 'text-primary fa-fw'
-                  = item.project_name
-                .card-text.mb-1{title: 'Stencil'}
-                  = fa_solid 'swatchbook', 'text-primary fa-fw'
-                  = item.stencil_name
-                - if item.stencil_personalization.present?
-                  .font-size-1.mb-1{title: 'Add-on'}
-                    = fa_solid 'palette', 'text-primary fa-fw'
-                    = item.stencil_personalization
-                - if item.addon_id.present?
-                  .font-size-1.mb-1{title: 'Add-on'}
-                    = fa_solid 'stamp', 'text-primary fa-fw'
-                    = item.addon_name
+            = render partial: 'item_descriptions/show', locals: {item: item.description}
           .col-12.col-md-3.text-right
             = link_to admin_invoice_path(item.invoice), class: "btn btn-secondary" do
               %span.fas.fa-file-invoice

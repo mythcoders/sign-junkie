@@ -2,7 +2,7 @@
 = render partial: 'admin/stencils/header'
 
 .row
-  .col-4
+  .col-12.col-lg-4
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         = @stencil.name
@@ -11,7 +11,7 @@
           %label.col-form-label Category
           .form-control-plaintext
             = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
-  .col-8
+  .col-12.col-lg-8
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         Stencil Image

@@ -2,18 +2,20 @@
   = error_messages_for 'order'
   = error_messages_for 'payment'
   = f.hidden_field :created_at
+  %input{type: :hidden, id: :gift_cards, name: :gift_cards, value: params[:gift_cards]}
   %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+
   %p.card-text
     If you're purchasing seats or a gift card for someone else we'll send them an email letting them know about your purchase
     We'll also invite them to create an account if they don't already have one.
+
+  #payment-container
 
   - unless Rails.env.production?
     %p.card-text.text-warning
       %strong Test Credit Card Information
       %br
       %samp 4111-1111-1111-1111     01/23
-
-  #payment-container
 
   %button{type: 'submit', name: 'save', class: 'btn btn-success btn-block mt-3'}
     Place order

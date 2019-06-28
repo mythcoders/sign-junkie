@@ -3,7 +3,7 @@ class InvoiceService
     ActiveRecord::Base.transaction do
       if post_payments(invoice) && empty_cart(invoice)
         invoice.status = :paid
-        invoice.save!
+        invoice.save! && invoice.reload
         return OrderService.new.process!(invoice)
       else
         Raven.capture_exception(invoice, transaction: 'Invoice creation failed')

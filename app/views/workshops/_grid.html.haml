@@ -1,20 +1,14 @@
-- @workshops.each_slice(3) do |group|
-  .row.mt-2
-    - group.each do |workshop|
-      .col.col-md-6.col-lg-4.mb-3
-        .card
-          - if workshop.images.any?
-            %img.card-img-top{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first)}
-          - else
-            %img.card-img-top{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
-          .card-body.text-center
-            %h4.card-title
-              %a{href: workshop_path(workshop)}
-                = workshop.when
-                %br
-                = workshop.name
-            %h5.text-primary
-              = "Starting at #{number_to_currency(workshop.starting_price)}"
-            %h5
-              %span.text-warning= workshop.seats_available
-              %span.text-primary seats left!
+- @workshops.each do |workshop|
+  .workshop-row-item.text-center
+    - if workshop.images.any?
+      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first)}
+    - else
+      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
+    %a{href: workshop_path(workshop)}
+      = workshop.when
+      %br
+      = workshop.name
+    .text-primary
+      = "Starting at #{number_to_currency(workshop.starting_price)}"
+    %span.text-warning= workshop.seats_available
+    %span.text-primary seats left!

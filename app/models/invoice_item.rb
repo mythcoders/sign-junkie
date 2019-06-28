@@ -5,4 +5,3 @@ class InvoiceItem < ApplicationRecord
 
   delegate_missing_to :description
 end
-

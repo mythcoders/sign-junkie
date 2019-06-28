@@ -18,10 +18,10 @@
           %td
             = e.name
             .float-right
-              - if e.is_for_sale?
-                %span.badge.badge-success For Sale
-              - else
+              - if !e.is_for_sale? || e.start_date < DateTime.now
                 %span.badge.badge-warning Not for Sale
+              - else
+                %span.badge.badge-success For Sale
               - if e.is_public?
                 %span.badge.badge-info Public
                 - if e.allow_custom_stencils

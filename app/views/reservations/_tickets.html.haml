@@ -7,7 +7,7 @@
       %small
         = fa_solid 'calendar-alt', 'fa-fw'
         = workshop.when
-        - if workshop.is_private?
+        - if workshop.private?
           %br
           Private Workshop
     %ul.list-group

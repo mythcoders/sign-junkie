@@ -1,3 +1,15 @@
+#### v1906.1 - June 27, 2019
+
+- Features
+  - Receipts for orders placed
+  - Email notifications for gift card recipients
+  - Email notifications for orders canceled to admins and the customer
+- Improvements
+  - Multiple screens properly formatted for tablets and mobile devices
+  - Checkout experience with gift cards
+- Fixes
+  - Customers were unable to book another seat for themselves if they had cancel a prior order
+
 #### v1906 - June 18, 2019
 
 - Features

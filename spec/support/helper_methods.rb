@@ -9,17 +9,15 @@ def random_integer
 end
 
 def create_and_login_user
-  logout_user
-  current_user = FactoryBot.create(:user)
-  login_user current_user
+  sign_out :user
+  current_user = create(:user)
+  sign_in current_user
   current_user
 end
 
-def login_user(user)
-  @request.env["devise.mapping"] = Devise.mappings[:user]
-  sign_in user
-end
-
-def logout_user
+def create_and_login_admin
   sign_out :user
+  current_user = create(:user, :admin)
+  sign_in current_user
+  current_user
 end

@@ -6,7 +6,7 @@ services:
     ports:
       - "3000"
     labels:
-      traefik.frontend.rule: "Host:sign-junkie.docker.localhost"
+      traefik.frontend.rule: "Host:ares.localhost"
     volumes:
       - "./:/app"
     environment:
@@ -16,8 +16,24 @@ services:
       LANG: "en_US.UTF-8"
       RAILS_SERVE_STATIC_FILES: enabled
       RAILS_LOG_TO_STDOUT: enabled
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_sign_junkie_dev"
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_dev"
       STORAGE_BUCKET: "mcdoc-dvstg-signjunkie"
+    depends_on:
+      - db
+      - net
+    stdin_open: true
+    tty: true
+  test:
+    build: .
+    image: ares-sign-junkie-app
+    volumes:
+      - "./:/app"
+    environment:
+      RAILS_ENV: test
+      RACK_ENV: test
+      PAYMENT_ENV: sandbox
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_test"
+      STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
     depends_on:
       - db
       - net

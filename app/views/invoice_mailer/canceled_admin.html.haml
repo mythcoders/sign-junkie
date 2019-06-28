@@ -1,0 +1,29 @@
+%p= "Order ##{@invoice.identifier} was canceled."
+
+%table{style: 'width: 100%;'}
+  %tbody
+    - @invoice.items.each do |item|
+      %tr
+        %td{style: 'padding: 1px; border-top: 1px solid black;'}
+          - if item.gift_card?
+            %h4= item.title
+            = "#{item.first_name} #{item.last_name}"
+          - else
+            %h4.card-title= item.title
+            = item.workshop.when
+            - if item.gifted_seat?
+              %br
+              = "#{item.first_name} #{item.last_name}"
+            - if item.seat_preference.present?
+              %br
+              = item.seat_preference
+            %br
+            = item.project_name
+            %br
+            = item.stencil_name
+            - if item.stencil_personalization.present?
+              %br
+              = item.stencil_personalization
+            - if item.addon_id.present?
+              %br
+              = item.addon_name

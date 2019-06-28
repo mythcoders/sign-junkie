@@ -4,7 +4,7 @@
   .alert.alert-info
     The customer has started this order but has yet to complete it!
 .row
-  .col-5
+  .col-12.col-lg-5
     .card.card-primary
       %h5.card-header.bg-primary.text-white
         = fa_solid 'file-invoice'
@@ -17,10 +17,51 @@
         .form-group.row
           %label.col-form-label.col-6 Date Created
           .form-control-plaintext.col= lifp(@invoice.created_at, :short)
-  .col-7
+        .form-group.row
+          %label.col-form-label.col-6 Sales Tax
+          .form-control-plaintext.col= number_to_currency @invoice.tax_total
+
+  .col-12.col-lg-7
     .card
-      %h5.card-header.bg-primary.text-white
-        = fa_light 'clipboard-list'
-        Details
-      .table-responsive-md
-        = render partial: 'admin/invoice_items/show'
+      %h4.card-header.bg-primary.text-white
+        = fa_solid 'list'
+        Summary
+      %ul.list-group
+        - @invoice.items.each do |i|
+          %li.list-group-item
+            .row
+              .col-7.mb-3.mb-md-0
+                = render partial: 'item_descriptions/show', locals: {item: i}
+              .col-5.text-right
+                %span.font-weight-medium
+                  = content_tag :span, number_to_currency(i.line_total)
+    .card.mt-2
+      %h4.card-header.bg-primary.text-white
+        = fa_solid 'money-check'
+        Payments
+      %ul.list-group
+        - @invoice.payments.each do |p|
+          %li.list-group-item
+            .row
+              .col-8.mb-3.mb-md-0
+                %pre= "Method: #{p.method}\nProcessed on: #{l p.created_at, format: :short}\nTransaction ID: #{p.identifier}"
+              .col-4.text-right
+                %span.font-weight-medium
+                  = content_tag :span, number_to_currency(p.amount)
+
+    .card.mt-2
+      %h4.card-header.bg-primary.text-white
+        = fa_solid 'gift-card'
+        Refunds
+      %ul.list-group
+        - @invoice.refunds.each do |r|
+          %li.list-group-item
+            .row
+              .col-8.mb-3.mb-md-0
+                - if r.customer_credit.present?
+                  Credit
+                - else
+                  BrainTree
+              .col-4.text-right
+                %span.font-weight-medium
+                  = content_tag :span, number_to_currency(r.amount)

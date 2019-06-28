@@ -10,9 +10,9 @@
       Host a private DIY workshop with friends, family, or co-workers!
       %br
       Great for birthday celebrations, girl’s night out, bachelorette party or team building!
+
 .row
-  .col
-    - if @workshops.any?
-      = render partial: "workshops/grid"
-    - else
-      = render partial: "workshops/no_workshops"
+  - if @workshops.any?
+    = render partial: "workshops/grid"
+  - else
+    = render partial: "workshops/no_workshops"

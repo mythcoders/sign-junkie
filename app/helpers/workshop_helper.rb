@@ -1,5 +1,6 @@
-module WorkshopHelper
+# frozen_string_literal: true
 
+module WorkshopHelper
   def ticket_dropdown(form, workshop)
     disabled = !workshop.can_purchase?
 
@@ -24,8 +25,8 @@ module WorkshopHelper
                 title: 'Add to cart', 'data-js-change-quantity-button': '' }
     classes[:disabled] = 'disabled' if disabled
     content_tag(:button, classes) do
-      concat(fa_solid 'cart-plus')
-      concat(content_tag :span, ' Add to Cart')
+      concat(fa_solid('cart-plus'))
+      concat(content_tag(:span, ' Add to Cart'))
     end
   end
 
@@ -39,7 +40,7 @@ module WorkshopHelper
       ['Sorry, this workshop has already sold out.']
     elsif !workshop.can_purchase?
       ['Sorry, this workshop is unavailable at this time.']
-    elsif workshop.is_private?
+    elsif workshop.private?
       ((Workshop.private_min..Workshop.private_max).map { |i| [i, i] })
     else
       ((1..workshop.seats_available).map { |i| [i, i] })

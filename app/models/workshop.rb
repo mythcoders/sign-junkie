@@ -1,19 +1,23 @@
+# frozen_string_literal: true
+
 class Workshop < ApplicationRecord
   include ApplicationHelper
 
   has_paper_trail
-  has_many :workshop_projects, :dependent => :destroy
+  has_many :workshop_projects, dependent: :destroy
   has_many :projects, through: :workshop_projects
   has_many :seats
-  has_many_attached :workshop_images, :dependent => :destroy
+  has_many_attached :workshop_images, dependent: :destroy
 
   accepts_nested_attributes_for :projects
 
   scope :public_shops, -> { where(is_public: true) }
   scope :private_shops, -> { where(is_public: false) }
   scope :for_sale, -> { where(is_for_sale: true) }
-  scope :upcoming, -> { for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP AND
-                                        purchase_end_date >= CURRENT_TIMESTAMP')}
+  scope :upcoming, lambda {
+    for_sale.where('purchase_start_date <= CURRENT_TIMESTAMP AND
+                    purchase_end_date >= CURRENT_TIMESTAMP')
+  }
 
   validates_presence_of :name
   validates_presence_of :purchase_start_date, :purchase_end_date, :start_date, :end_date,
@@ -43,7 +47,7 @@ class Workshop < ApplicationRecord
   # Deposit for private workshops
   # @return [Integer] USD amount
   def self.private_deposit
-    BigDecimal.new("100.00")
+    BigDecimal('100.00')
   end
 
   # Time period
@@ -54,7 +58,7 @@ class Workshop < ApplicationRecord
 
   def starting_price
     if projects.any?
-      projects.pluck(:material_price, :instructional_price).map(&:sum).sort.first
+      projects.pluck(:material_price, :instructional_price).map(&:sum).min
     else
       0.00
     end
@@ -81,7 +85,7 @@ class Workshop < ApplicationRecord
   end
 
   def seats_available
-    (is_private? ? Workshop.private_max : total_tickets) - seats.count
+    (private? ? Workshop.private_max : total_tickets) - seats.count
   end
 
   def display
@@ -104,7 +108,7 @@ class Workshop < ApplicationRecord
     (start_date - Workshop.booking_deadline)
   end
 
-  def is_private?
+  def private?
     !is_public?
   end
 

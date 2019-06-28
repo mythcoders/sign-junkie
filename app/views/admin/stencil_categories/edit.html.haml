@@ -3,7 +3,7 @@
 
 = form_for @category, url: admin_stencil_category_path(@category), method: :patch do |f|
   .row
-    .col-5
+    .col-12.col-lg-5
       .card
         %h5.card-header.bg-primary.text-white
           Edit Category
@@ -15,7 +15,7 @@
           = f.submit 'Save Changes', class: 'btn btn-success'
           %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
             Delete
-    .col-7
+    .col-12.col-lg-7
       .card
         %h5.card-header.bg-primary.text-white
           Stencils

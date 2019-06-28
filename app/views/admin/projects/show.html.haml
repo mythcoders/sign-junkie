@@ -3,7 +3,7 @@
 = render partial: 'header'
 
 .row
-  .col-4
+  .col-12.col-lg-4
     .card
       %h5.card-header.d-flex.align-items-center.bg-primary.text-white
         = @project.name
@@ -20,8 +20,7 @@
             %ul.list-inline
               - @project.addons.each do |addon|
                 %li.list-inline-item= addon.name
-
-  .col-8
+  .col-12.col-lg-8
     %ul#projectTab.nav.nav-tabs{role: "tablist"}
       %li.nav-item
         %a#project-tab.nav-link.active{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab", href: "#stencil", role: "tab"}

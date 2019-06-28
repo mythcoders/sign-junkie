@@ -1,0 +1,5 @@
+---
+authentication: <%= Rails.application.credentials.skylight_secret %>
+deploy:
+  git_sha: <%= SystemInfo.long_version %>
+  description: <%= SystemInfo.release %>

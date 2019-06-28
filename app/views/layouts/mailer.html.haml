@@ -2,10 +2,11 @@
 %html
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
-    = render partial: 'layouts/partials/mailer_css'
-  %body
+    :css
+      @import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+  %body{style: "font-family: 'Abril Fatface'"}
     = yield
     %hr
-    %strong= ClientInfo.owner
+    = link_to ClientInfo.owner, root_url
     %br 11235 Ridenour Rd
     Thornville, OH 43076

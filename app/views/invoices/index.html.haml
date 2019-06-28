@@ -5,22 +5,21 @@
         = fa_solid 'file-invoice'
         My Orders
 
-%table.table.table-bordered.table-striped.table-hover
-  %thead.bg-primary.text-white
-    %tr
-      %th Order Number
-      %th Total Price
-      %th Date Created
-      %th Status
-  %tbody
-    - @invoices.each do |o|
-      %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
-        %td= o.identifier
-        %td= number_to_currency o.grand_total
-        %td= lifp(o.created_at, :short)
-        %td= o.status
-  %tfoot
-    %tr
-      %td{colspan: '100%'}
-        = paginate @invoices
-        = page_entries_info @invoices, entry_name: 'order'
+.table-responsive-md
+  %table.table.table-bordered.table-striped.table-hover
+    %thead.bg-primary.text-white
+      %tr
+        %th Order Number
+        %th Total Price
+        %th Date Created
+    %tbody
+      - @invoices.each do |o|
+        %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
+          %td= o.identifier
+          %td= number_to_currency o.grand_total
+          %td= lifp(o.created_at, :short)
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @invoices
+          = page_entries_info @invoices, entry_name: 'order'

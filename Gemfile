@@ -23,6 +23,7 @@ gem 'rails', '~> 5.2.3'
 gem 'sendgrid-ruby' # ActiveMailer
 gem 'sentry-raven' # Exceptions
 gem 'sidekiq'
+gem 'skylight'
 
 # UI
 gem 'bootstrap'
@@ -49,6 +50,7 @@ group :development, :test do
   gem 'rspec-rails', '3.7.2'
   gem 'ruby-debug-ide'
   gem 'shoulda-matchers'
+  gem 'rspec_junit_formatter'
 end
 
 group :development do

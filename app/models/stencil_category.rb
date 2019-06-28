@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StencilCategory < ApplicationRecord
   has_paper_trail
   has_many :stencils, dependent: :restrict_with_error
@@ -8,5 +10,6 @@ class StencilCategory < ApplicationRecord
 
   scope :with_stencils, -> { joins(:stencils).group('stencil_categories.id') }
   default_scope { order(name: :asc) }
-end
 
+  validates_presence_of :name
+end

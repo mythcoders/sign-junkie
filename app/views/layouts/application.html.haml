@@ -8,7 +8,7 @@
     %script{src: "https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js", type: "text/javascript"}
     %link{href: "https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css", rel: "stylesheet"}
     - if @client_token
-      %script{src: 'https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js'}
+      %script{src: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'}
   %body#page-top
     #pageLoading
       #pageLoadingContent
@@ -19,7 +19,7 @@
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}
-        %img.center-img.d-none.d-sm-block{src: '/SJWlogo.jpeg'}
+        %img.img-system-logo.d-none.d-sm-block{src: '/SJWlogo.jpeg'}
       = render partial: 'layouts/partials/navbar'
       = render partial: 'layouts/partials/alerts'
       -# = render partial: 'layouts/partials/dev_ui'

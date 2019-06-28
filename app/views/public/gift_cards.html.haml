@@ -2,9 +2,9 @@
   .col-12.mb-3
     %h4.text-danger.text-center
       A gift card to Sign Junkie makes a wonderful present for that someone special in your life!
-  .col.col-lg-6.d-none.d-md-block
+  .col-12.col-lg-6.mb-2
     %img.card-img-top{alt: 'Gift card', src: 'GiftCard.jpg'}
-  .col.col-lg-6.mb-2
+  .col-12.col-lg-6
     - if user_signed_in?
       = form_for :cart, url: cart_index_path do |f|
         .card

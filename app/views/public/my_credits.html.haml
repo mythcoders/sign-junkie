@@ -5,15 +5,16 @@
         = fa_solid 'gift-card'
         My Credits
 
-%table.table.table-bordered.table-striped.table-border-fix
-  %thead.bg-primary.text-white
-    %tr
-      %th Balance
-      %th Issue Date
-      %th Expiration Date
-  %tbody
-    - @credits.each do |o|
+.table-responsive-md
+  %table.table.table-bordered.table-striped
+    %thead.bg-primary.text-white
       %tr
-        %td= number_to_currency o.balance
-        %td= o.created_at.strftime("%B %-d, %Y")
-        %td= o.expiration_date
+        %th Balance
+        %th Issue Date
+        %th Expiration Date
+    %tbody
+      - @credits.each do |o|
+        %tr
+          %td= number_to_currency o.balance
+          %td= o.created_at.strftime("%B %-d, %Y")
+          %td= o.expiration_date

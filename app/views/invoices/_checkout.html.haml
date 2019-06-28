@@ -3,9 +3,8 @@
     $(function() {
       var form = document.querySelector(".new_invoice");
       var nonceInput = document.querySelector("#payment_method_nonce");
-      braintree.dropin.create({
-        authorization: "#{@client_token}",
-        container: "#payment-container",
+      braintree.setup("#{@client_token}", "dropin", {
+        container: "payment-container",
         paypal: {
           flow: "checkout",
           amount: "#{number_to_currency(@invoice.grand_total)}",

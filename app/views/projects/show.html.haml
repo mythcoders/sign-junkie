@@ -13,11 +13,11 @@
   %h4.text-danger= category.name
   .d-flex.flex-wrap.mb-3
     - stencils.each do |stencil|
-      .stencil-item.text-center
+      .row-item.text-center
         - if stencil.image.attached?
-          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image) , height: 300}
+          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image)}
         - else
-          %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg', height: 300}
+          %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg'}
         .text-secondary= stencil.name
 
 -# - if @project.addons.any?

@@ -1,6 +1,7 @@
 image: docker:latest
 
 include:
+  - template: Code-Quality.gitlab-ci.yml
   - template: Container-Scanning.gitlab-ci.yml
   - template: DAST.gitlab-ci.yml
   - template: Dependency-Scanning.gitlab-ci.yml
@@ -34,15 +35,26 @@ build:
     - docker build -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
 
-test:
+rspec:
   stage: test
+  image: $CONTAINER_IMAGE
   services:
-  - docker:dind
   - postgres:latest
-  before_script:
-    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
+  variables:
+    POSTGRES_DB: ares
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    RAILS_ENV: test
+    PAYMENT_ENV: sandbox
+    STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
+    DATABASE_URL: "postgres://postgres:postgres@postgres:5432/ares"
   script:
-    - docker pull $CONTAINER_IMAGE
+    - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
+  artifacts:
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
 
 push_qa:
   stage: deploy
@@ -101,6 +113,6 @@ release_pd:
 dast:
   stage: dast
   variables:
-    DAST_WEBSITE: https://signjunkieworkshop.com
+    DAST_WEBSITE: https://www.signjunkieworkshop.com
   only:
     - master

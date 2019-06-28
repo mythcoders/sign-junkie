@@ -16,7 +16,7 @@
   text-transform: uppercase;
 }
 
-.stencil-item {
+.row-item {
   @include media-breakpoint-up(md) {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 20%;
@@ -32,8 +32,35 @@
   }
 }
 
-.border-top { border-top: 1px solid #e5e5e5; }
-.border-bottom { border-bottom: 1px solid #e5e5e5; }
+.workshop-row-item {
+  @include media-breakpoint-up(md) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.workshop-img-item {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
 
 .bordered-banner {
   text-align: center;

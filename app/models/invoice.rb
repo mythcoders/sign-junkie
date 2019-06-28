@@ -5,6 +5,10 @@ class Invoice < ApplicationRecord
   has_many :refunds
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
+  scope :recently_created, lambda {
+    where('created_at > ?', Time.now - 24.hours)
+  }
+
   def self.new_from_cart(user, pay_with_gift_card, created_at = Time.now)
     invoice = Invoice.new(user_id: user.id,
                           status: :draft,

@@ -23,6 +23,9 @@ module Ares
     config.require_master_key = true
     config.force_ssl = true unless Rails.env.development?
 
+    config.skylight.probes += %w(active_model_serializers)
+    config.skylight.environments += ['qa']
+
     # Storage
     config.active_storage.service = :amazon
     config.active_storage.variant_processor = :mini_magick
