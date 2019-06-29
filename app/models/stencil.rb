@@ -9,5 +9,5 @@ class Stencil < ApplicationRecord
   default_scope { order(name: :asc) }
 
   validates_presence_of :name, :category
-  validates_uniqueness_of [:name, :category]
+  validates_uniqueness_of :name, scope: :stencil_category_id
 end

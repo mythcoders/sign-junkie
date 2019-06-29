@@ -5,20 +5,27 @@ FactoryBot.define do
 
     trait :for_sale do
       is_for_sale { true }
-      purchase_start_date { Faker::Date.between(2.days.ago, Date.today) }
       purchase_end_date { Date.today }
-      start_date { Date.today }
-      end_date { Date.today }
-      total_tickets { 1 }
+      purchase_start_date { purchase_end_date - 5.days }
+      start_date { Faker::Date.forward(23) }
+      end_date { start_date + 3.hours }
+      total_tickets { Faker::Number.between(Workshop.private_min, Workshop.private_max) }
     end
 
     trait :private do
       is_public { false }
-      reservation_price { Faker::Number.decimal(2) }
+      total_tickets { Faker::Number.between(Workshop.private_min, Workshop.private_max) }
+      reservation_price { Workshop.private_deposit }
     end
 
     trait :not_for_sale do
       is_for_sale { false }
+    end
+
+    trait :with_projects do
+      after(:create) do |workshop|
+        create_list :workshop_project, 3, workshop: workshop
+      end
     end
   end
 end

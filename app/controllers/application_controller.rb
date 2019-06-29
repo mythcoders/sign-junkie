@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_paper_trail_whodunnit
+  before_action :raven_context
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -14,6 +15,16 @@ class ApplicationController < ActionController::Base
     payload[:request_id] = request.uuid
     payload[:user_id] = current_user.id if current_user
     payload[:host] = request.host
+  end
+
+  def raven_context
+    return unless current_user
+
+    Raven.user_context(
+      id: current_user.id,
+      email: current_user.email,
+      ip_address: request.ip
+    )
   end
 
   private

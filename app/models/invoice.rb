@@ -5,6 +5,8 @@ class Invoice < ApplicationRecord
   has_many :refunds
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
+  validates_presence_of :due_date
+
   scope :recently_created, lambda {
     where('created_at > ?', Time.now - 24.hours)
   }
@@ -19,7 +21,7 @@ class Invoice < ApplicationRecord
       invoice.items << InvoiceItem.new(item_description_id: cart.description.id)
     end
 
-    if pay_with_gift_card && user.credit_balance.positive?
+    if pay_with_gift_card == 'true' && user.credit_balance.positive?
       if invoice.grand_total <= user.credit_balance
         invoice.payments << Payment.new(amount: invoice.grand_total, method: 'gift_card')
       else

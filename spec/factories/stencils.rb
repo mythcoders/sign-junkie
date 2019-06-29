@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :stencil do
     name { Faker::Lorem.word }
-    category { stencil_category }
+    category { create(:stencil_category) }
   end
 end

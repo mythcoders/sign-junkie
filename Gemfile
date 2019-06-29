@@ -47,7 +47,7 @@ group :development, :test do
   gem 'faker'
   gem 'guard-rspec'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '3.7.2'
+  gem 'rspec-rails'
   gem 'ruby-debug-ide'
   gem 'shoulda-matchers'
   gem 'rspec_junit_formatter'

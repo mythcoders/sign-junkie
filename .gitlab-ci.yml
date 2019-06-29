@@ -1,5 +1,6 @@
 image: docker:latest
-
+services:
+  - docker:dind
 include:
   - template: Code-Quality.gitlab-ci.yml
   - template: Container-Scanning.gitlab-ci.yml
@@ -7,22 +8,40 @@ include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: License-Management.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
-
-services:
-  - docker:dind
-
 stages:
   - build
   - test
   - deploy
   - release
   - dast
-
+  - performance
 variables:
   CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-  HEROKU_REGISTRY: registry.heroku.com
-  PROD_IMAGE: $HEROKU_REGISTRY/sign-junkie-pd/web:latest
-  QA_IMAGE: $HEROKU_REGISTRY/sign-junkie-qa/web:latest
+  POSTGRES_DB: ares
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+.release:
+  image: node:latest
+  stage: release
+  environment:
+    name: $APP_ENV
+    url: $APP_URL
+  before_script:
+    - npm install -g heroku
+  script:
+    - heroku container:release web --app $APP_NAME
+    - heroku run bundle exec rails db:migrate --app $APP_NAME
+
+.heroku_deploy:
+  stage: deploy
+  before_script:
+    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u=_ -p=$HEROKU_API_KEY registry.heroku.com
+  script:
+    - docker pull $CONTAINER_IMAGE
+    - docker tag $CONTAINER_IMAGE $DEPLOY_IMAGE
+    - docker push $DEPLOY_IMAGE
 
 build:
   stage: build
@@ -34,20 +53,16 @@ build:
     - echo $(date +%s) > BUILD_TIME
     - docker build -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
-
 rspec:
   stage: test
   image: $CONTAINER_IMAGE
   services:
   - postgres:latest
   variables:
-    POSTGRES_DB: ares
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: postgres
     RAILS_ENV: test
     PAYMENT_ENV: sandbox
     STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
-    DATABASE_URL: "postgres://postgres:postgres@postgres:5432/ares"
+    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
   script:
     - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
   artifacts:
@@ -55,61 +70,38 @@ rspec:
       - rspec.xml
     reports:
       junit: rspec.xml
-
-push_qa:
-  stage: deploy
-  before_script:
-    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
-  script:
-    - docker pull $CONTAINER_IMAGE
-    - docker tag $CONTAINER_IMAGE $QA_IMAGE
-    - docker push $QA_IMAGE
+push_staging:
+  extends: .heroku_deploy
+  variables:
+    DEPLOY_IMAGE: registry.heroku.com/sign-junkie-qa/web:latest
   only:
     - branches
   except:
     - master
-
-release_qa:
-  image: node:latest
-  stage: release
-  environment:
-    name: qa
-    url: https://qa.signjunkieworkshop.com
-  before_script:
-    - npm install -g heroku
-  script:
-    - heroku container:release web --app sign-junkie-qa
+release_staging:
+  extends: .release
+  variables:
+    APP_NAME: 'sign-junkie-qa'
+    APP_URL: 'https://qa.signjunkieworkshop.com'
+    APP_ENV: 'staging'
   only:
     - branches
   except:
     - master
-
-push_pd:
-  stage: deploy
-  before_script:
-    - docker login -u=$CI_REGISTRY_USER -p=$CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker login -u=_ -p=$HEROKU_API_KEY $HEROKU_REGISTRY
-  script:
-    - docker pull $CONTAINER_IMAGE
-    - docker tag $CONTAINER_IMAGE $PROD_IMAGE
-    - docker push $PROD_IMAGE
+push_prod:
+  extends: .heroku_deploy
+  variables:
+    DEPLOY_IMAGE: registry.heroku.com/sign-junkie-pd/web:latest
   only:
     - master
-
-release_pd:
-  image: node:latest
-  stage: release
-  environment:
-    name: prod
-    url: https://signjunkieworkshop.com
-  before_script:
-    - npm install -g heroku
-  script:
-    - heroku container:release web --app sign-junkie-pd
+release_prod:
+  extends: .release
+  variables:
+    APP_NAME: 'sign-junkie-pd'
+    APP_URL: 'https://www.signjunkieworkshop.com'
+    APP_ENV: 'production'
   only:
     - master
-
 dast:
   stage: dast
   variables:
