@@ -17,7 +17,7 @@ end
 
 def create_and_login_admin
   sign_out :user
-  current_user = create(:user, :admin)
+  current_user = create(:admin)
   sign_in current_user
   current_user
 end

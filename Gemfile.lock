@@ -440,7 +440,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   rails-controller-testing
   redcarpet
-  rspec-rails (= 3.7.2)
+  rspec-rails
   rspec_junit_formatter
   ruby-debug-ide
   sass-rails (~> 5.0)

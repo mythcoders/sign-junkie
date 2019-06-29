@@ -1,3 +1,11 @@
+#### v1906.2 - June 29, 2019
+
+- Improvements
+  - More formating for tablets and mobile devices
+  - Increased logging to help with debugging issues
+- Fixes
+  - Issue that prevented the creation of Stencils
+
 #### v1906.1 - June 27, 2019
 
 - Features

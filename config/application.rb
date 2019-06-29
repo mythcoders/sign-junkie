@@ -21,7 +21,7 @@ module Ares
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/app/services]
     config.require_master_key = true
-    config.force_ssl = true unless Rails.env.development?
+    config.force_ssl = true if Rails.env.qa? || Rails.env.production?
 
     config.skylight.probes += %w(active_model_serializers)
     config.skylight.environments += ['qa']

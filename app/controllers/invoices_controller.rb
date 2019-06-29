@@ -23,9 +23,10 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new_from_cart(current_user, params[:gift_cards], invoice_params[:created_at])
-    @invoice.payments << Payment.new(amount: @invoice.balance,
-                                     auth_token: params.fetch(:payment_method_nonce, nil))
-
+    if @invoice.balance.positive?
+      @invoice.payments << Payment.new(amount: @invoice.balance,
+                                       auth_token: params.fetch(:payment_method_nonce, nil))
+    end
     process_invoice @invoice
   end
 
@@ -39,7 +40,6 @@ class InvoicesController < ApplicationController
         raise ProcessError, t('order.cancel.failure')
       end
     rescue ProcessError => e
-      Raven.capture_exception(e.message, transaction: 'Cancel order')
       flash[:error] = e.message
       return redirect_to invoice_path invoice
     end
@@ -60,7 +60,6 @@ class InvoicesController < ApplicationController
         raise ProcessError, t('order.create.failure')
       end
     rescue ProcessError => e
-      Raven.capture_exception(e.message, transaction: 'Place order')
       flash[:error] = e.message
       return redirect_to cart_index_path
     end
