@@ -1,3 +1,10 @@
+#### v1906.3 - June 29, 2019
+
+- Fixes
+  - Small font color change
+  - Emails were not being sent properly in all environments
+  - Skylight integration is now working properly
+
 #### v1906.2 - June 29, 2019
 
 - Improvements
