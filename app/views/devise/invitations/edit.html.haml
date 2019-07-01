@@ -1,0 +1,19 @@
+- content_for :header do
+  = t 'devise.invitations.edit.header'
+
+= form_for resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put } do |f|
+  = devise_error_messages!
+  = f.hidden_field :invitation_token, readonly: true
+  - if f.object.class.require_password_on_accepting
+    .form-group
+      = f.label :password, 'New password'
+      = f.password_field :password, autofocus: true, class: 'form-control', autocomplete: 'off'
+      - if @minimum_password_length
+        .form-text.text-muted="#{@minimum_password_length} characters minimum"
+    .form-group
+      = f.label :password_confirmation, 'Confirm new password'
+      = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+  .form-group
+    = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn-primary btn-block btn-login'
+  .login-bottom-links
+    = render 'devise/shared/links'

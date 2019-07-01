@@ -46,3 +46,13 @@
         %span.float-left Email
         %span.float-right
           = fa_solid 'angle-right'
+  .col-12.col-md-6.col-lg-4.mb-3
+    .card.text-white.bg-info.o-hidden.h-100
+      .card-body
+        .card-body-icon
+          = fa_solid 'sign-out', 'fa-fw'
+        %h3.mr-5 Sign out
+      %a.card-footer.text-white.clearfix.small.z-1{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
+        %span.float-left Sign out of your account
+        %span.float-right
+          = fa_solid 'angle-right'

@@ -1,3 +1,11 @@
+#### v1906.4 - June 30, 2019
+
+- Improvements
+  - The experience when creating an account for the first time
+  - Text for gift card notification emails
+- Fixes
+  - Accept link in user invitations was an invalid link
+
 #### v1906.3 - June 29, 2019
 
 - Fixes
