@@ -6,9 +6,9 @@
   = f.hidden_field :reset_password_token
   .form-group
     = f.label :password, 'New password'
-    - if @minimum_password_length
-      %em="#{@minimum_password_length} characters minimum"
     = f.password_field :password, autofocus: true, class: 'form-control', autocomplete: 'off'
+    - if @minimum_password_length
+      .form-text.text-muted="#{@minimum_password_length} characters minimum"
   .form-group
     = f.label :password_confirmation, 'Confirm new password'
     = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'

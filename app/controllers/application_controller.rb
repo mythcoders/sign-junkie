@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
-    user.can_cp? ? admin_dashboard_path : home_path
+    user.can_cp? ? admin_dashboard_path : root_path
   end
 
   # Its important that the location is NOT stored if:
