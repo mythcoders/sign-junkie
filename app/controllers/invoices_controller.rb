@@ -6,7 +6,7 @@ class InvoicesController < ApplicationController
   end
 
   def show
-    @invoice = Invoice.includes(:items, :customer).find(params[:id])
+    @invoice = current_user.invoices.includes(:items, :customer).find(params[:id])
   end
 
   def new

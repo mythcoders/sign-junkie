@@ -15,8 +15,8 @@ module Admin
     end
 
     def create
-      @employee = User.new(employee_params)
-      if @employee.save
+      @employee = User.invite!(employee_params.except(:id))
+      if @employee
         flash['success'] = t('CreateSuccess')
         redirect_to admin_employee_path @employee
       else
@@ -38,8 +38,7 @@ module Admin
     private
 
     def employee_params
-      params.require(:user).permit(:id, :first_name, :middle_name, :last_name,
-                                   :phone_number, :role, :email, :password)
+      params.require(:user).permit(:id, :first_name, :last_name, :role, :email)
     end
 
     def disable_roles
@@ -50,5 +49,4 @@ module Admin
       @employee = User.find(params[:id])
     end
   end
-
 end

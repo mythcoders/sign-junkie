@@ -7,13 +7,6 @@
     .card-body
       = error_messages_for 'customer'
       = render partial: 'admin/customers/form', locals: { f: f }
-
-      %br
-      %h4 Login Information
-      .form-group
-        = f.label :password, class: 'col-form-label'
-        = f.password_field :password, class: 'form-control'
-
     .card-footer
       = link_to 'Cancel', admin_customers_path, class: 'btn btn-outline-secondary'
       = f.submit 'Create', class: 'btn btn-success'

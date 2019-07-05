@@ -14,9 +14,8 @@ module Admin
     end
 
     def create
-      @customer = User.new(customer_params)
-
-      if @customer.save
+      @customer = User.invite!(customer_params.except(:id))
+      if @customer
         flash['success'] = t('CreateSuccess')
         redirect_to admin_customer_path @customer
       else
@@ -38,8 +37,7 @@ module Admin
     private
 
     def customer_params
-      params.require(:user).permit(:id, :first_name, :last_name,
-                                   :email, :password, :role)
+      params.require(:user).permit(:first_name, :last_name, :role, :email)
     end
 
     def disabled_roles

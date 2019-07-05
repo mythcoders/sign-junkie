@@ -8,7 +8,7 @@ RSpec.describe 'OrdersController', type: :request do
       end
 
       it 'redirects to login' do
-        get '/orders'
+        get invoices_path
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -19,8 +19,31 @@ RSpec.describe 'OrdersController', type: :request do
       end
 
       it 'renders' do
-        get '/orders'
+        get invoices_path
         expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'get show' do
+    before do
+      @current_user = create_and_login_user
+    end
+
+    let(:invoice) { create(:invoice, customer: @current_user) }
+
+    it 'renders' do
+      get invoice_path invoice
+      expect(response).to have_http_status(:ok)
+    end
+
+    context 'on another users invoice' do
+      let(:customer) { create(:customer) }
+      let(:other_invoice) { create(:invoice, customer: customer) }
+
+      it 'results in a 401' do
+        get invoice_path other_invoice
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

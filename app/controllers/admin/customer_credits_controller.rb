@@ -13,6 +13,7 @@ module Admin
 
       if @credit.save
         flash['success'] = t('CreateSuccess')
+        InvoiceMailer.with(customer: @credit.customer, gift_amount: @credit.balance).gift_card.deliver_now
         redirect_to admin_customer_path @credit.customer
       else
         render 'new'
@@ -37,6 +38,7 @@ module Admin
     def create_params
       parameters = params.require(:customer_credit).permit(:id, :user_id, :starting_amount, :expiration_date)
       parameters[:expiration_date] = convert_date(parameters[:expiration_date])
+      parameters[:balance] = parameters[:starting_amount]
       parameters
     end
 
