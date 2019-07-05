@@ -8,12 +8,6 @@
       %h3 Personal Information
       = error_messages_for 'employee'
       = render partial: 'admin/employees/form', locals: { f: f }
-
-      %h3 Login Information
-      .form-group
-        = f.label :password, class: 'col-form-label'
-        = f.password_field :password, class: 'form-control'
-
     .card-footer
       = link_to 'Cancel', admin_employees_path, class: 'btn btn-outline-secondary'
       = f.submit 'Create', class: 'btn btn-success'

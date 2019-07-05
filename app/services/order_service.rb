@@ -62,7 +62,7 @@ class OrderService
                                             balance: item.item_amount)
     recipient.save!
 
-    InvoiceMailer.with(gift: item, customer: recipient).gift_card.deliver_now
+    InvoiceMailer.with(customer: recipient, gift_amount: item.nontaxable_amount).gift_card.deliver_now
   end
 
   def find_or_create_recipient(item, action = :reserve_seat)

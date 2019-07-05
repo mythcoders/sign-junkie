@@ -1,3 +1,17 @@
+#### v1906.6 - July 4, 2019
+
+- Improvements
+  - Creating Customers and Employees in the Admin Portal
+  - When a customer credit is created in the Admin Portal, the customer will now receive the same email that they would have received if a gift card had been purchased for them
+  - Security enhancements
+
+#### v1906.5 - July 3, 2019
+
+- Improvements
+  - HTML properties that appear when site links are shared
+- Fixes
+  - Grammar for text that appears when checking out
+
 #### v1906.4 - June 30, 2019
 
 - Improvements
