@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PublicController < ApplicationController
-  before_action :authenticate_user!, only: %i(my_account my_credits)
+  before_action :authenticate_user!, only: %i[my_account my_credits]
 
   def faq
     @questions = YAML.load_file(faq_file_path)

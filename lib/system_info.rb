@@ -1,19 +1,17 @@
+# frozen_string_literal: true
+
 module SystemInfo
   class << self
-    def name
-      'Ares'
-    end
-
     def app_name
       'Ares CRM'
     end
 
     def developer
-      'MythCoders, LLC'.freeze
+      'MythCoders, LLC'
     end
 
     def support_url
-      'mailto:incoming+mythcoders-sign-junkie-12022372-issue-@incoming.gitlab.com'.freeze
+      'mailto:incoming+mythcoders-sign-junkie-12022372-issue-@incoming.gitlab.com'
     end
 
     def support_key
@@ -43,7 +41,7 @@ module SystemInfo
     def branch
       value = Rails.root.join('BRANCH').read.chomp
       if value.include?('refs/')
-        value.sub!(/refs\/(heads\/|tags\/)/, '')
+        value.sub!(%r{refs/(heads/|tags/)}, '')
       else
         value
       end

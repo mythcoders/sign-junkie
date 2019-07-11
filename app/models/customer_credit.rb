@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomerCredit < ApplicationRecord
   has_paper_trail
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
@@ -7,8 +9,8 @@ class CustomerCredit < ApplicationRecord
     where(expiration_date: nil)
       .or(CustomerCredit.where('expiration_date >= current_timestamp'))
   }
-  scope :with_balance, lambda { where('balance > 0') }
-  scope :active, lambda { with_balance.not_expired }
+  scope :with_balance, -> { where('balance > 0') }
+  scope :active, -> { with_balance.not_expired }
 
   validates_presence_of :starting_amount, :balance, :user_id
 
@@ -27,6 +29,6 @@ class CustomerCredit < ApplicationRecord
       break if remaining.zero?
     end
 
-    return true
+    true
   end
 end

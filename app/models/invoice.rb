@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Invoice < ApplicationRecord
   has_paper_trail
   has_many :items, class_name: 'InvoiceItem'
@@ -22,11 +24,11 @@ class Invoice < ApplicationRecord
     end
 
     if pay_with_gift_card == 'true' && user.credit_balance.positive?
-      if invoice.grand_total <= user.credit_balance
-        invoice.payments << Payment.new(amount: invoice.grand_total, method: 'gift_card')
-      else
-        invoice.payments << Payment.new(amount: user.credit_balance, method: 'gift_card')
-      end
+      invoice.payments << if invoice.grand_total <= user.credit_balance
+                            Payment.new(amount: invoice.grand_total, method: 'gift_card')
+                          else
+                            Payment.new(amount: user.credit_balance, method: 'gift_card')
+                          end
     end
 
     invoice
@@ -58,10 +60,10 @@ class Invoice < ApplicationRecord
   end
 
   def taxed?
-    items.any? { |i| i.taxed? }
+    items.any?(&:taxed?)
   end
 
   def cancelable_items
-    items.select { |i| i.refundable? }
+    items.select(&:refundable?)
   end
 end

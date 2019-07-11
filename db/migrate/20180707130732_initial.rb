@@ -69,7 +69,7 @@ class Initial < ActiveRecord::Migration[5.2]
     create_table :stencils, id: :serial do |t|
       t.string :name, null: false
       t.references :stencil_category, foreign_key: true, null: false
-      t.index [:name, :stencil_category_id], unique: true
+      t.index %i[name stencil_category_id], unique: true
       t.timestamps
     end
 
@@ -92,21 +92,21 @@ class Initial < ActiveRecord::Migration[5.2]
     create_table :project_addons, id: :serial do |t|
       t.references :project, foreign_key: true
       t.references :addon, foreign_key: true
-      t.index [:project_id, :addon_id], unique: true
+      t.index %i[project_id addon_id], unique: true
       t.timestamps
     end
 
     create_table :project_stencils, id: :serial do |t|
       t.references :stencil, foreign_key: true, null: false
       t.references :project, foreign_key: true, null: false
-      t.index [:stencil_id, :project_id], unique: true
+      t.index %i[stencil_id project_id], unique: true
       t.timestamps
     end
 
     create_table :workshop_projects, id: :serial do |t|
       t.references :workshop, foreign_key: true, null: false
       t.references :project, foreign_key: true, null: false
-      t.index [:workshop_id, :project_id], unique: true
+      t.index %i[workshop_id project_id], unique: true
       t.timestamps
     end
 

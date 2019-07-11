@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemDescription < ApplicationRecord
   include Refundable
   include Taxable
@@ -7,32 +9,32 @@ class ItemDescription < ApplicationRecord
   has_many :invoice_items
   has_many :seats
 
-  ITEM_TYPES = %i[seat reservation gift_card]
+  ITEM_TYPES = %i[seat reservation gift_card].freeze
 
   def self.seat(workshop)
-    self.new(item_type: :seat,
-             identifier: SecureRandom.uuid,
-             workshop_name: workshop.name,
-             workshop_id: workshop.id)
+    new(item_type: :seat,
+        identifier: SecureRandom.uuid,
+        workshop_name: workshop.name,
+        workshop_id: workshop.id)
   end
 
   def self.reservation(workshop)
-    self.new(item_type: :reservation,
-             identifier: SecureRandom.uuid,
-             workshop_name: workshop.name,
-             workshop_id: workshop.id)
+    new(item_type: :reservation,
+        identifier: SecureRandom.uuid,
+        workshop_name: workshop.name,
+        workshop_id: workshop.id)
   end
 
   def self.gift_card(params)
-    self.new(item_type: :gift_card,
-             identifier: SecureRandom.uuid,
-             first_name: params[:first_name],
-             last_name: params[:last_name],
-             email: params[:email])
+    new(item_type: :gift_card,
+        identifier: SecureRandom.uuid,
+        first_name: params[:first_name],
+        last_name: params[:last_name],
+        email: params[:email])
   end
 
   def ==(other)
-    return self.identifier == other.identifier
+    identifier == other.identifier
   end
 
   def title
@@ -65,8 +67,7 @@ class ItemDescription < ApplicationRecord
 
   ITEM_TYPES.each do |type|
     define_method "#{type}?" do
-      self.item_type == "#{type}"
+      item_type == type.to_s
     end
   end
 end
-

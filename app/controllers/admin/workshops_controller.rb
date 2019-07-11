@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # fronzen_string_literal: true
 
 module Admin
@@ -49,7 +51,7 @@ module Admin
 
     def clone
       workshop = Workshop.find(filtered_params[:id])
-      clone = workshop.deep_clone include: [ :workshop_projects ], exclude: [ :is_for_sale ]
+      clone = workshop.deep_clone include: [:workshop_projects], exclude: [:is_for_sale]
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_workshop_path(clone)
@@ -65,7 +67,7 @@ module Admin
       params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
                                        :purchase_end_date, :start_date, :end_date,
                                        :total_tickets, :ticket_price, :deposit_price, :is_for_sale,
-                                       :is_public, :project_ids => [])
+                                       :is_public, project_ids: [])
     end
 
     def project_params
@@ -82,7 +84,7 @@ module Admin
 
     def filtered_params
       parameters = workshop_params
-      parameters[:project_ids].reject!(&:blank?) if parameters[:project_ids]
+      parameters[:project_ids]&.reject!(&:blank?)
       parameters[:purchase_start_date] = convert_datetime(parameters[:purchase_start_date])
       parameters[:purchase_end_date] = convert_datetime(parameters[:purchase_end_date])
       parameters[:start_date] = convert_datetime(parameters[:start_date])

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.(@project, :instructional_price, :material_price)
+json.call(@project, :instructional_price, :material_price)
 
 json.addons @project.addons do |addon|
   json.id addon.id
@@ -13,9 +13,8 @@ stencils = []
 @project.stencils.group_by(&:category).sort.each do |cat, items|
   stencils << {
     name: cat.name,
-    stencils: items.sort.map { |s| { id: s.id, name: s.name  } }
+    stencils: items.sort.map { |s| { id: s.id, name: s.name } }
   }
 end
 
 json.stencils stencils
-

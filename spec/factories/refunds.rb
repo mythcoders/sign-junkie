@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :refund do
     invoice
     customer_credit
-    amount { Faker::Number.decimal(2)  }
+    amount { Faker::Number.decimal(2) }
   end
 end

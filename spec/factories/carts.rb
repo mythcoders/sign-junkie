@@ -2,17 +2,22 @@
 
 FactoryBot.define do
   factory :cart_seat, class: Cart do
-    customer
-    seat_item
+    user
+    association :description, factory: :seat_item
   end
 
   factory :cart_reservation, class: Cart do
-    customer
-    reservation_item
+    user
+    association :description, factory: :reservation_item
   end
 
   factory :cart_gift_card, class: Cart do
-    customer
-    gift_card_item
+    user
+    association :description, factory: :gift_card_item
+  end
+
+  factory :gifted_cart_seat, class: Cart do
+    user
+    association :description, factory: :gifted_seat_item
   end
 end

@@ -1,4 +1,6 @@
-json.(@workshop, :name, :when)
+# frozen_string_literal: true
+
+json.call(@workshop, :name, :when)
 json.tickets @order_items do |item|
   json.id item.id
   json.identifier item.short_id

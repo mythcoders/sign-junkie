@@ -1,56 +1,58 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'PublicController', type: :request do
-  describe 'get index' do
+  describe 'GET index' do
     it 'renders' do
       get root_path
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get about' do
+  describe 'GET about' do
     it 'renders' do
       get '/about'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get contact' do
+  describe 'GET contact' do
     it 'renders' do
       get '/contact'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get faq' do
+  describe 'GET faq' do
     it 'renders' do
       get '/faq'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get waiver' do
+  describe 'GET waiver' do
     it 'renders' do
       get '/waiver'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get how_it_works' do
+  describe 'GET how_it_works' do
     it 'renders' do
       get '/how_it_works'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get gift_cards' do
+  describe 'GET gift_cards' do
     it 'renders' do
       get '/gift_cards'
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe 'get my_account' do
+  describe 'GET my_account' do
     context 'when not authenticated' do
       it 'redirects to login' do
         get '/my_account'
@@ -70,7 +72,7 @@ RSpec.describe 'PublicController', type: :request do
     end
   end
 
-  describe 'get my_credits' do
+  describe 'GET my_credits' do
     context 'when not authenticated' do
       it 'redirects to login' do
         get '/my_credits'
@@ -90,7 +92,7 @@ RSpec.describe 'PublicController', type: :request do
     end
   end
 
-  describe 'get policies' do
+  describe 'GET policies' do
     it 'render' do
       get '/policies'
       expect(response).to have_http_status(:ok)

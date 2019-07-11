@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   config.force_ssl = true
 
@@ -25,7 +28,7 @@ Rails.application.configure do
 
   config.i18n.fallbacks = true
 
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
   config.log_formatter = ::Logger::Formatter.new
   logger_options = {
     app: 'sign-junkie',
@@ -35,7 +38,7 @@ Rails.application.configure do
   }
   config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -43,3 +46,4 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 end
+# rubocop:enable Metrics/BlockLength

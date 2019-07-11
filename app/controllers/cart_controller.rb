@@ -17,12 +17,10 @@ class CartController < ApplicationController
 
   def create
     begin
-      if @service.add(current_user, cart_params)
-        flash[:success] = t('cart.add.success')
-        return redirect_to cart_index_path
-      else
-        raise ProcessError, t('cart.add.failure')
-      end
+      raise ProcessError, t('cart.add.failure') unless @service.add(current_user, cart_params)
+
+      flash[:success] = t('cart.add.success')
+      return redirect_to cart_index_path
     rescue ProcessError => e
       flash[:error] = e.message
     end
@@ -54,7 +52,7 @@ class CartController < ApplicationController
   end
 
   def calc_est_tax
-    taxable = @cart.select { |item| item.taxable? }
+    taxable = @cart.select(&:taxable?)
     if taxable.any?
       (taxable.map(&:tax_amount).reduce(:+) || 0.00).round(2)
     else
@@ -63,7 +61,7 @@ class CartController < ApplicationController
   end
 
   def calc_reservation_fee
-    reservations = @cart.select { |item| item.reservation? }
+    reservations = @cart.select(&:reservation?)
     if reservations.any?
       (reservations.map(&:item_amount).reduce(:+) || 0.00).round(2)
     else

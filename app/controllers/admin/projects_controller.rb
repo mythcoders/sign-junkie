@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ProjectsController < AdminController
     before_action :set_project, only: %i[edit update show images destroy]
@@ -42,7 +44,7 @@ module Admin
 
     def clone
       project = Project.find(project_params[:id])
-      clone = project.deep_clone include: [ :project_addons, :project_stencils ]
+      clone = project.deep_clone include: %i[project_addons project_stencils]
       clone.name += ' Clone'
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
@@ -66,11 +68,11 @@ module Admin
     private
 
     def project_params
-      parameters= params.require(:project)
-                        .permit(:id, :name, :description, :material_price,
-                                :instructional_price, :addon_ids => [], :stencil_ids => [])
-      parameters[:addon_ids].reject!(&:blank?) if parameters[:addon_ids]
-      parameters[:stencil_ids].reject!(&:blank?) if parameters[:stencil_ids]
+      parameters = params.require(:project)
+                         .permit(:id, :name, :description, :material_price,
+                                 :instructional_price, addon_ids: [], stencil_ids: [])
+      parameters[:addon_ids]&.reject!(&:blank?)
+      parameters[:stencil_ids]&.reject!(&:blank?)
       parameters
     end
 

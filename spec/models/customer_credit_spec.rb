@@ -3,5 +3,4 @@
 require 'rails_helper'
 
 RSpec.describe CustomerCredit, type: :model do
-
 end

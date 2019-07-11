@@ -15,8 +15,8 @@
           %li= link_to 'About', about_path
         = link_to contact_path do
           .address
-            11235 Ridenour Rd
-            %br Thornville, OH 43076
+            = ClientInfo.address_1
+            %br= "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
         .text-muted
           %br
           %a{href: root_path}= "\u00A9 #{Date.today.year} #{ClientInfo.owner}"

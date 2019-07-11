@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   config.cache_classes = true
 
@@ -51,3 +52,4 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 end
+# rubocop:enable Metrics/BlockLength

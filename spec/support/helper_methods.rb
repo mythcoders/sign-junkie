@@ -8,6 +8,14 @@ def random_integer
   rand(1_000_000)
 end
 
+def random_person
+  {
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email
+  }
+end
+
 def create_and_login_user
   sign_out :user
   current_user = create(:user)

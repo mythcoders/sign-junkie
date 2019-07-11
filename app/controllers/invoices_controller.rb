@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoicesController < ApplicationController
   before_action :authenticate_user!
 
@@ -17,6 +19,7 @@ class InvoicesController < ApplicationController
     end
 
     return process_invoice @invoice unless @invoice.balance.positive?
+
     @payment = Payment.new
     @client_token = BraintreeService.new.token
   end
@@ -33,12 +36,10 @@ class InvoicesController < ApplicationController
   def cancel
     invoice = Invoice.find params[:id]
     begin
-      if InvoiceService.new.cancel(invoice)
-        flash[:success] = t('order.cancel.success')
-        redirect_to invoice_path invoice
-      else
-        raise ProcessError, t('order.cancel.failure')
-      end
+      raise ProcessError, t('order.cancel.failure') unless InvoiceService.new.cancel(invoice)
+
+      flash[:success] = t('order.cancel.success')
+      redirect_to invoice_path invoice
     rescue ProcessError => e
       flash[:error] = e.message
       return redirect_to invoice_path invoice
@@ -52,16 +53,12 @@ class InvoicesController < ApplicationController
   end
 
   def process_invoice(invoice)
-    begin
-      if InvoiceService.new.place(invoice)
-        flash[:success] = t('order.placed.success')
-        redirect_to invoice_path invoice
-      else
-        raise ProcessError, t('order.create.failure')
-      end
-    rescue ProcessError => e
-      flash[:error] = e.message
-      return redirect_to cart_index_path
-    end
+    raise ProcessError, t('order.create.failure') unless InvoiceService.new.place(invoice)
+
+    flash[:success] = t('order.placed.success')
+    redirect_to invoice_path invoice
+  rescue ProcessError => e
+    flash[:error] = e.message
+    redirect_to cart_index_path
   end
 end

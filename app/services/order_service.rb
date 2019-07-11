@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Assists with booking reservations and notifying customers
 class OrderService
   def process!(invoice)
@@ -56,7 +58,7 @@ class OrderService
     )
   end
 
-  def create_credit(item, user)
+  def create_credit(item, _user)
     recipient = find_or_create_recipient(item, :gift_card)
     recipient.credits << CustomerCredit.new(starting_amount: item.item_amount,
                                             balance: item.item_amount)
@@ -65,7 +67,7 @@ class OrderService
     InvoiceMailer.with(customer: recipient, gift_amount: item.nontaxable_amount).gift_card.deliver_now
   end
 
-  def find_or_create_recipient(item, action = :reserve_seat)
+  def find_or_create_recipient(item, _action = :reserve_seat)
     recipient = User.find_by_email(item.email)
     if recipient.nil?
       recipient = User.invite!(email: item.email,

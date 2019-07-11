@@ -3,5 +3,4 @@
 require 'rails_helper'
 
 RSpec.describe TaxPeriod, type: :model do
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Refund < ApplicationRecord
   has_paper_trail
   belongs_to :invoice
@@ -5,14 +7,14 @@ class Refund < ApplicationRecord
   belongs_to :customer_credit, required: false
 
   def self.new_from_invoice(invoice)
-    self.new(invoice: invoice,
-             amount: invoice.cancelable_items.collect { |i| i.amount_refundable }.first)
+    new(invoice: invoice,
+        amount: invoice.cancelable_items.collect(&:amount_refundable).first)
   end
 
   def deduct!
     return false if persisted?
 
-    remaining = self.amount
+    remaining = amount
     invoice.payments.each do |payment|
       refundable = payment.amount_refundable
       if refundable >= remaining
@@ -27,6 +29,6 @@ class Refund < ApplicationRecord
       break if remaining.zero?
     end
 
-    self.save!
+    save!
   end
 end

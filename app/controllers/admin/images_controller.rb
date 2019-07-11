@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ImagesController < AdminController
     before_action :set_workshop, only: %i[workshop]
