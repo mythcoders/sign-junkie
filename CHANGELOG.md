@@ -1,3 +1,10 @@
+#### v1906.7 - July 10, 2019
+
+- Changes
+  - Email configuration
+- Fixes
+  - Grammar for text that appears when reserving a seat for someone else
+
 #### v1906.6 - July 4, 2019
 
 - Improvements
