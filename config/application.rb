@@ -36,10 +36,10 @@ module Ares
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.perform_caching = false
     ActionMailer::Base.smtp_settings = {
-      user_name: 'apikey',
-      password: Rails.application.credentials.email_api,
-      domain: 'mythcoders.com',
-      address: 'smtp.sendgrid.net',
+      user_name: Rails.application.credentials.email[:username],
+      password: Rails.application.credentials.email[:password],
+      domain: 'columbus.rr.com',
+      address: 'email-smtp.us-east-1.amazonaws.com',
       port: 587,
       authentication: :plain,
       enable_starttls_auto: true
