@@ -1,2 +1,3 @@
+# frozen_string_literal: true
 
-json.(@workshop, :name, :tickets_available)
+json.call(@workshop, :name, :tickets_available)

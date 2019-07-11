@@ -3,8 +3,8 @@
 class User < ApplicationRecord
   include Nameable
   has_paper_trail ignore: %i[current_sign_in_at last_sign_in_at sign_in_count
-                     last_sign_in_ip current_sign_in_ip failed_attempts
-                     encrypted_password reset_password_token confirmation_token]
+                             last_sign_in_ip current_sign_in_ip failed_attempts
+                             encrypted_password reset_password_token confirmation_token]
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :confirmable, :lockable, :timeoutable, :invitable
 
@@ -24,12 +24,12 @@ class User < ApplicationRecord
   scope :recently_created, lambda {
     where('created_at > ? AND role = ?', Time.now - 24.hours, User.roles[:customer])
   }
-  scope :customers, -> do
+  scope :customers, lambda {
     where('role = ?', User.roles[:customer])
-  end
-  scope :employees, -> do
+  }
+  scope :employees, lambda {
     where('role <> ?', User.roles[:customer])
-  end
+  }
 
   def self.system_admin
     email = Rails.env.development? ? SystemInfo.support_key : ClientInfo.contact_email

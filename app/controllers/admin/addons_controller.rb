@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Admin
   class AddonsController < AdminController
-    before_action :set_addon, only: %i(show edit update images destroy)
+    before_action :set_addon, only: %i[show edit update images destroy]
 
     def index
       @addons = Addon.order(:name).page(params[:page])

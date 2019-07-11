@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIdentifierSequences < ActiveRecord::Migration[5.2]
   def up
     execute 'CREATE SEQUENCE IF NOT EXISTS invoices_identifier_seq INCREMENT BY 1 START WITH 1000 OWNED BY invoices.identifier'

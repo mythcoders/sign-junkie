@@ -3,5 +3,4 @@
 require 'rails_helper'
 
 RSpec.describe WorkshopProject, type: :model do
-
 end

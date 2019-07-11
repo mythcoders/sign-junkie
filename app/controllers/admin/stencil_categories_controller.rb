@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class StencilCategoriesController < AdminController
     before_action :set_category, only: %i[update edit destroy]
@@ -58,4 +60,3 @@ module Admin
     end
   end
 end
-

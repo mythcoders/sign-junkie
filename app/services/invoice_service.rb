@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoiceService
   def place(invoice)
     ActiveRecord::Base.transaction do

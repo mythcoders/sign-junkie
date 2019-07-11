@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :workshop do
     name { Faker::Lorem.sentence(3) }
@@ -24,8 +26,16 @@ FactoryBot.define do
 
     trait :with_projects do
       after(:create) do |workshop|
+        create_list :workshop_project, 1, workshop: workshop, project: create(:project, :with_stencils, :with_addons)
+      end
+    end
+
+    trait :with_projects_and_stencils do
+      after(:create) do |workshop|
         create_list :workshop_project, 3, workshop: workshop
       end
     end
+
+    factory :bookable_workshop, traits: %i[for_sale with_projects]
   end
 end

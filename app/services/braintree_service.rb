@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BraintreeService
   def self.env
     ENV['PAYMENT_ENV']

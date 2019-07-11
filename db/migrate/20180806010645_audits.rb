@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Audits < ActiveRecord::Migration[5.2]
   def change
     create_table :audits, force: true do |t|

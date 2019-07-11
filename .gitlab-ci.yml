@@ -63,6 +63,8 @@ rspec:
     PAYMENT_ENV: sandbox
     STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
     DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
+  before_script:
+    - bundle exec rails db:setup
   script:
     - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
   artifacts:
@@ -94,6 +96,8 @@ push_prod:
     DEPLOY_IMAGE: registry.heroku.com/sign-junkie-pd/web:latest
   only:
     - master
+  except:
+    - tags
 release_prod:
   extends: .release
   variables:
@@ -102,9 +106,13 @@ release_prod:
     APP_ENV: 'production'
   only:
     - master
+  except:
+    - tags
 dast:
   stage: dast
   variables:
     DAST_WEBSITE: https://www.signjunkieworkshop.com
   only:
     - master
+  except:
+    - tags

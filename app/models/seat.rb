@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Seat < ApplicationRecord
   has_paper_trail
   belongs_to :reservation, optional: true

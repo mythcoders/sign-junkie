@@ -5,6 +5,7 @@
 .vscode
 .byebug_history
 .ds_store
+/coverage/*
 /log
 /tmp
 /doc
@@ -17,7 +18,7 @@
 !/tmp/.keep
 /spec/examples.txt
 
-*env.*
+env.*
 !env.development
 *.key
 *.pdf

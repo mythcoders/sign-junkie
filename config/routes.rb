@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   devise_for :users
   concern :pageable do
@@ -73,3 +74,4 @@ Rails.application.routes.draw do
 
   root to: 'public#index'
 end
+# rubocop:enable Metrics/BlockLength

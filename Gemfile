@@ -39,6 +39,7 @@ gem 'uglifier', '>= 1.3.0'
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'bundler-audit'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'
   gem 'debase'
@@ -48,9 +49,13 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rspec'
   gem 'ruby-debug-ide'
   gem 'shoulda-matchers'
-  gem 'rspec_junit_formatter'
+  gem 'simplecov', require: false
 end
 
 group :development do

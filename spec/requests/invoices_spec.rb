@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'OrdersController', type: :request do
-  describe 'get index' do
+  describe 'GET index' do
     context 'when not authenticated' do
       before do
         sign_out :user
@@ -25,7 +27,7 @@ RSpec.describe 'OrdersController', type: :request do
     end
   end
 
-  describe 'get show' do
+  describe 'GET show' do
     before do
       @current_user = create_and_login_user
     end

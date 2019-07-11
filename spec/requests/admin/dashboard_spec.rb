@@ -9,19 +9,19 @@ RSpec.describe 'AdminDashboardController', type: :request do
         create_and_login_admin
       end
 
-      describe 'get admin' do
+      describe 'GET admin' do
         it 'renders' do
           get '/admin'
           expect(response).to have_http_status(:ok)
         end
 
-        it 'should use admin layout' do
+        it 'uses admin layout' do
           get '/admin'
           expect(response).to render_template(:admin)
         end
       end
 
-      describe 'get about' do
+      describe 'GET about' do
         it 'renders' do
           get '/admin/about'
           expect(response).to have_http_status(:ok)
@@ -34,7 +34,7 @@ RSpec.describe 'AdminDashboardController', type: :request do
         create_and_login_user
       end
 
-      describe 'get index' do
+      describe 'GET index' do
         it 'redirects to login' do
           get '/admin'
           expect(response).to redirect_to(new_user_session_path)

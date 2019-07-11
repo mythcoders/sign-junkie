@@ -43,4 +43,3 @@ module ClientInfo
     end
   end
 end
-

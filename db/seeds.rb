@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 unless User.where(email: SystemInfo.support_key).any?
   User.create(first_name: 'MythCoders',
               last_name: 'Support',
@@ -7,9 +9,7 @@ unless User.where(email: SystemInfo.support_key).any?
               confirmed_at: DateTime.now)
 end
 
-unless TaxRate.all.any?
-  TaxRate.create!(rate: BigDecimal.new("0.0725"), effective_date: DateTime.now)
-end
+TaxRate.create!(rate: BigDecimal('0.0725'), effective_date: DateTime.now) unless TaxRate.all.any?
 
 if Rails.env.development?
   def new_user(role)
@@ -24,4 +24,3 @@ if Rails.env.development?
   new_user('admin')
   3.times { new_user('customer') }
 end
-

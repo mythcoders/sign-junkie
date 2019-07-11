@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
@@ -48,7 +50,7 @@ class ApplicationController < ActionController::Base
   def convert_date(value)
     return nil if value.blank?
 
-    Date.strptime(value, "%m-%d-%Y")
+    Date.strptime(value, '%m-%d-%Y')
   end
 
   def record_not_found

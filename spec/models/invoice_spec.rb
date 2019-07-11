@@ -7,25 +7,25 @@ RSpec.describe Invoice, type: :model do
 
   context 'when any items are present' do
     context 'and taxable' do
-      context '#tax_total' do
+      describe '#tax_total' do
       end
 
-      context '#taxed?' do
+      describe '#taxed?' do
       end
     end
 
     context 'and cancelable' do
-      context '#cancelable_items' do
+      describe '#cancelable_items' do
       end
     end
 
-    context '#balance' do
+    describe '#balance' do
     end
 
-    context '#grand_total' do
+    describe '#grand_total' do
     end
 
-    context '#sub_total' do
+    describe '#sub_total' do
     end
   end
 
@@ -33,14 +33,14 @@ RSpec.describe Invoice, type: :model do
     subject { create(:invoice) }
     let!(:payment) { create(:payment, invoice: subject) }
 
-    context '#amount_paid' do
-      it 'should reflect applied payments' do
+    describe '#amount_paid' do
+      it 'reflects applied payments' do
         expect(subject.amount_paid).to eq(payment.amount)
       end
     end
 
-    context '#balance' do
-      it 'should reflect applied payments' do
+    describe '#balance' do
+      it 'reflects applied payments' do
         expect(subject.balance).to eq(payment.amount * -1)
       end
     end

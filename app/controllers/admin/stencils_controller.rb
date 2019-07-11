@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Admin
   class StencilsController < AdminController
-    before_action :set_stencil, only: %i(show edit update destroy)
-    before_action :set_values_for_dropdown, only: %i(new edit)
+    before_action :set_stencil, only: %i[show edit update destroy]
+    before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
       @stencils = Stencil.order(:name).page(params[:page])

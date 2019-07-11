@@ -2,10 +2,11 @@
 
 FactoryBot.define do
   factory :seat do
-    workshop
+    association :workshop, factory: :bookable_workshop
     customer
-    seat_item
     prepped { false }
     notified { false }
+
+    before(:create) { |seat| seat.description = create(:seat_item, workshop: seat.workshop) }
   end
 end

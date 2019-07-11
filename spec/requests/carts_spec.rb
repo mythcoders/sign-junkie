@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'CartController', type: :request do
-  describe 'get index' do
+  describe 'GET index' do
     context 'when not authenticated' do
       before do
         sign_out :user

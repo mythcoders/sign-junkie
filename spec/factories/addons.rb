@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :addon do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.characters(25) }
     price { Faker::Number.decimal(2) }
   end
 end

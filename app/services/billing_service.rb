@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BillingService
   def process!(payment)
     Raven.extra_context payment: payment.attributes
@@ -13,24 +15,20 @@ class BillingService
     refund.customer_credit = CustomerCredit.new(customer: refund.invoice.customer,
                                                 starting_amount: refund.amount,
                                                 balance: refund.amount)
-    if refund.deduct!
-      return true
-    else
-      Raven.extra_context refund: refund.attributes
-      Raven.capture_exception('Unable to process refund', transaction: 'Post Refund')
-      raise ProcessError, 'Unable to process refund'
-    end
+    return true if refund.deduct!
+
+    Raven.extra_context refund: refund.attributes
+    Raven.capture_exception('Unable to process refund', transaction: 'Post Refund')
+    raise ProcessError, 'Unable to process refund'
   end
 
   private
 
   def post_gift_card(payment)
-    if CustomerCredit.deduct!(payment)
-      true
-    else
-      Raven.capture_exception('Unable to deducet from gift card', transaction: 'Post Payment')
-      raise ProcessError, 'Unable to deduct from gift card'
-    end
+    return true if CustomerCredit.deduct!(payment)
+
+    Raven.capture_exception('Unable to deducet from gift card', transaction: 'Post Payment')
+    raise ProcessError, 'Unable to deduct from gift card'
   end
 
   def post_braintree(payment)

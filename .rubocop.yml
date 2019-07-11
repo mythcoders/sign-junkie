@@ -1,5 +1,17 @@
+AllCops:
+  Exclude:
+    - bin/**/*
+    - db/**/*
+
+Style/Documentation:
+  Enabled: No
+
 Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
   Max: 40
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
