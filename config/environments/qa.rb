@@ -30,13 +30,6 @@ Rails.application.configure do
 
   config.log_tags = [:request_id]
   config.log_formatter = ::Logger::Formatter.new
-  logger_options = {
-    app: 'sign-junkie',
-    hostname: 'mcdig-qaapp-signjunkie',
-    level: 'DEBUG',
-    env: Rails.env
-  }
-  config.logger = Logdna::RailsLogger.new(Rails.application.credentials.logging_api, logger_options)
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
