@@ -14,7 +14,7 @@ gem 'devise_invitable', '~> 2.0'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
-gem 'logdna-rails' # Logging
+gem 'lograge' # Logging
 gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
