@@ -1,3 +1,13 @@
+#### v1906.9 - July 13, 2019
+
+- Changes
+  - System backend
+
+#### v1906.8 - July 12, 2019
+
+- Changes
+  - System logging
+
 #### v1906.7 - July 10, 2019
 
 - Changes

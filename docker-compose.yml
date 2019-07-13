@@ -5,8 +5,6 @@ services:
     build:
       context: .
       target: base
-      labels:
-        com.mythcoders.description: "Ares"
     container_name: ares-app
     command: "bundle exec rails s -b 0.0.0.0 -p 5000"
     labels:
