@@ -6,3 +6,15 @@ build:
   before_script:
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
+
+review:
+  stage: review
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_COMMIT_REF_NAME.review.$KUBE_INGRESS_BASE_DOMAIN
+
+production:
+  stage: production
+  environment:
+    name: production
+    url: http://$KUBE_INGRESS_BASE_DOMAIN
