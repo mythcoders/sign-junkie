@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
+  setup do
+    create(:tax_rate)
+  end
+
   describe '#for' do
     subject { Cart.for(user1) }
     let(:user1) { create(:customer) }

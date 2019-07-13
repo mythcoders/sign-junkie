@@ -3,15 +3,19 @@
 module SystemInfo
   class << self
     def app_name
-      'Ares CRM'
+      'Ares'
     end
 
     def developer
       'MythCoders, LLC'
     end
 
+    def developer_url
+      'https://www.mythcoders.com'
+    end
+
     def support_url
-      'mailto:incoming+mythcoders-sign-junkie-12022372-issue-@incoming.gitlab.com'
+      'mailto:incoming+mythcoders-ares-12022372-issue-@incoming.gitlab.com'
     end
 
     def support_key
@@ -24,10 +28,6 @@ module SystemInfo
 
     def release
       Rails.root.join('RELEASE').read.chomp
-    end
-
-    def build_time
-      Rails.root.join('BUILD_TIME').read.chomp
     end
 
     def long_version

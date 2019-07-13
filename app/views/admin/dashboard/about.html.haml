@@ -17,7 +17,7 @@
     .form-group.row
       %label.col-sm-3.col-form-label Developed By
       .col-sm-9
-        %a{href: 'https://www.mythcoders.com'}= SystemInfo.developer
+        %a{href: SystemInfo.developer_url}= SystemInfo.developer
         %br= "\u00A9 Copyright #{Date.today.year}"
         Made with
         = fa_solid 'heart', 'text-warning'
