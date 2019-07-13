@@ -1,9 +1,11 @@
 name: sign-junkie
-domain: signjunkieworkshop.com
-plan:
-  size: small
-  pods: 1
-dependencies:
-  - hermes
+url: "signjunkieworkshop.com/"
+url: http://my.host.com/
+additionalHosts:
+size: large
+pods: 1
 services:
-  - db
+  - postgres
+  - sidekiq
+  - storage
+  - redis

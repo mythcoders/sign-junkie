@@ -1,10 +1,9 @@
-# Ares CRM
+# Ares
 
-Ares is an open-source Customer Relationship Management System that is built on the ails platform. Originally built for WHIZ Media and Sign Junkie, it can be customized to help you manage almost every aspect of your business!
+Ares is an open-source business management system that is built on the Rails platform and can be customized to help you manage almost every aspect of your business!
 
 ## Services Used
 
-- LogDNA
 - Sentry
 - Braintree (with client credentials)
 - PostgreSQL
@@ -12,6 +11,7 @@ Ares is an open-source Customer Relationship Management System that is built on 
 ## Getting Started
 
 - Get the encryption key file from a fellow developer. Without it, you will not be able to launch the application. It must be placed in `/config/master.key`
+- Run via `docker compose`
 
 ### Running RSpec
 

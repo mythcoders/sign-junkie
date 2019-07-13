@@ -8,8 +8,6 @@ module EnvironmentInfo
         :dev
       when 'test'
         :test
-      when 'qa'
-        :qa
       when 'production'
         :prod
       end
@@ -20,7 +18,6 @@ module EnvironmentInfo
         [nil, nil],
         ['Environment', Rails.env],
         ['Branch', SystemInfo.branch],
-        ['Build time', SystemInfo.build_time],
         [nil, nil],
         ['Platform', RUBY_PLATFORM.to_s],
         ['Database adapter', ActiveRecord::Base.connection.adapter_name],

@@ -8,7 +8,7 @@ Rails.application.configure do
 
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
-  config.action_controller.asset_host = 'https://www.signjunkieworkshop.com'
+  config.action_controller.asset_host = ENV['ENVIRONMENT_URL']
 
   config.require_master_key = true
 
@@ -24,10 +24,10 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.asset_host = 'https://www.signjunkieworkshop.com'
+  config.action_mailer.asset_host = ENV['ENVIRONMENT_URL']
   config.action_mailer.default_url_options = {
-    host: 'https://www.signjunkieworkshop.com'
-  }
+    host: ENV['ENVIRONMENT_URL']
+}
 
   # config.action_mailer.raise_delivery_errors = false
 

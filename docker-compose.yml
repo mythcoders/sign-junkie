@@ -1,21 +1,21 @@
-version: '3'
+version: '3.7'
 services:
+
   app:
-    build: .
-    image: ares-crm
-    ports:
-      - "3000"
+    build:
+      context: .
+      target: base
+      labels:
+        com.mythcoders.description: "Ares"
+    container_name: ares-app
+    command: "bundle exec rails s -b 0.0.0.0 -p 5000"
     labels:
       traefik.frontend.rule: "Host:ares.localhost"
     volumes:
       - "./:/app"
     environment:
       RAILS_ENV: development
-      RACK_ENV: development
       PAYMENT_ENV: sandbox
-      LANG: "en_US.UTF-8"
-      RAILS_SERVE_STATIC_FILES: enabled
-      RAILS_LOG_TO_STDOUT: enabled
       DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_dev"
       STORAGE_BUCKET: "mcdoc-dvstg-signjunkie"
     depends_on:
@@ -23,24 +23,10 @@ services:
       - net
     stdin_open: true
     tty: true
-  test:
-    build: .
-    image: ares-crm
-    volumes:
-      - "./:/app"
-    environment:
-      RAILS_ENV: test
-      RACK_ENV: test
-      PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_test"
-      STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
-    depends_on:
-      - db
-      - net
-    stdin_open: true
-    tty: true
+
   db:
     image: postgres:11.4
+    container_name: ares-db
     ports:
       - "5432:5432"
     environment:
@@ -48,13 +34,16 @@ services:
       POSTGRES_PASSWORD: "postgres"
     volumes:
       - pgdata
+
   net:
     image: traefik:latest
+    container_name: ares-net
     command: --api --docker
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   pgdata:

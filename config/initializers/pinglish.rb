@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
-Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglish do |ping|
+shared_checks = lambda do |ping|
   ping.check do
     true
   end
 
-  ping.check :database do
-    ActiveRecord::Base.connection.active?
+  ping.check :db do
+    ActiveRecord::Base.connection.execute("select 1").count == 1
   end
+end
+
+Rails.application.config.middleware.use Pinglish, path: '/_heartbeat', &shared_checks
+
+Rails.application.config.middleware.use Pinglish, path: '/_ping' do |ping|
+  shared_checks.call ping
 
   ping.check :branch do
     SystemInfo.branch
@@ -19,11 +25,5 @@ Rails.application.config.middleware.insert_after ActionDispatch::Static, Pinglis
 
   ping.check :release do
     SystemInfo.release
-  end
-
-  unless Rails.env.production?
-    ping.check :build_time do
-      SystemInfo.build_time
-    end
   end
 end
