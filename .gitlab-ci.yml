@@ -24,3 +24,9 @@ production:
   environment:
     name: production
     url: http://$KUBE_INGRESS_BASE_DOMAIN
+
+production_manual::
+  stage: production
+  environment:
+    name: production
+    url: http://$KUBE_INGRESS_BASE_DOMAIN
