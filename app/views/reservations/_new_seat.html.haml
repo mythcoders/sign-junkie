@@ -1,27 +1,30 @@
-#new-ticket-modal.modal.fade{"aria-hidden": "true", "aria-labelledby": "exampleModalLabel", role: "dialog", tabindex: "-1"}
+#new-seat-modal.modal.fade{"aria-hidden": "true", "aria-labelledby": "exampleModalLabel", role: "dialog", tabindex: "-1"}
   .modal-dialog{role: "document"}
     .modal-content
       = form_for :order_item, url: invoices_path do |f|
         .modal-header
-          %h5.modal-title Add Tickets
+          %h5.modal-title New seat for Workshop
           %button.close{"aria-label": "Close", "data-dismiss": "modal", type: "button"}
             %span{"aria-hidden": "true"} ×
         .modal-body
-          .alert.alert-danger#no-tickets-modal-alert{style: 'display: none;'}
-            This workshop is sold out.
-          #tickets-modal-form{style: 'display: none;'}
-            Select how many additional seats you'd like to reserve?
-            = f.hidden_field :workshop_id
-            .form-row
-              .form-group.col
-                = f.select :quantity, {}, {}, { class: 'form-control custom-select' }
+          .form-row
+            .form-group.col-6
+              %label First Name
+              = f.text_field :first_name, class: 'form-control', autofocus: true, autocomplete: 'off'
+            .form-group.col-6
+              %label Last Name
+              = f.text_field :last_name, class: 'form-control', autocomplete: 'off'
+          .form-row
+            .form-group.col
+              %label Email
+              = f.text_field :email, class: 'form-control'
         .modal-footer
           %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Close
-          %button.btn.btn-primary{type: "button"} Save changes
+          %button.btn.btn-primary{type: "button"} Send invite
 
 - content_for :scripts do
   :javascript
-    $('#new-ticket-modal').on('show.bs.modal', function (event) {
+    $('#new-seat-modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
       var workshop_id = button.data('workshop-id')
       var modal = $(this)

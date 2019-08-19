@@ -1,0 +1,20 @@
+.form-row
+  .form-group.col
+    = fa_solid 'file-invoice', 'text-primary fa-fw'
+    = f.label :payment_options
+    .custom-control.custom-radio
+      = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
+      = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
+        Host will pay for all guests and their projects
+    .custom-control.custom-radio
+      = f.radio_button :payment_plan, 'guest', class: 'custom-control-input'
+      = f.label :payment_plan, value: 'guest', class: 'custom-control-label' do
+        Each guest is responsible for paying for their own project
+.form-row
+  .form-group.col
+    .custom-switch.custom-control
+      = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
+      = f.label :policy_agreement, class: 'custom-control-label'
+    %p.form-control-plaintext
+      I have read and agree to the
+      %a{href: policies_path} Workshop Policies.

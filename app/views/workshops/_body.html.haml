@@ -11,10 +11,9 @@
     %input{id: 'base-price', value: '0.00', type: 'hidden'}
 - else
   %p.card-text
-    = fa_regular 'usd-circle', 'text-primary fa-fw'
-    %p
-      = "#{number_to_currency(Workshop.reservation_price)} deposit, due today"
-  %p.card-text
-    = fa_regular 'ticket-alt', 'text-primary fa-fw'
+    = fa_solid 'ticket-alt', 'text-primary fa-fw'
     = "#{Workshop.private_min} - #{@workshop.total_tickets} attendees"
+  %p.card-text
+    = fa_solid 'usd-circle', 'text-primary fa-fw'
+    = "#{number_to_currency(Workshop.private_deposit)} deposit due today by host"
 %p.card-text= @workshop.description

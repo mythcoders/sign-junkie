@@ -54,6 +54,13 @@ en:
   project:
     delete:
       confirmation: "This will delete the project, it's images, and will remove it from any workshops it's associated with."
+  reservations:
+    seating_requirement_warning:
+      You reservation doesn't currently met the minimum seating requirement.
+      You'll need to add additional seats before the registration deadline.
+      If not, your reservation will be automatically voided.
+  seat:
+    no_stencil: Plain (no stencil or personalization)
   stencil:
     destroy:
       confirmation: "This will delete the stencil, it's image, and any projects it's associated with."
@@ -70,14 +77,6 @@ en:
   workshop:
     destroy:
       confirmation: "This will delete the workshop and it's images."
-  cart:
-    add:
-      success: "The item was placed in your cart!"
-      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
-      already: "That item is already present in your cart."
-    update:
-      success: "Cart updated!"
-      failure: "Please try again."
   activerecord:
     errors:
       messages:
@@ -292,6 +291,8 @@ en:
     label:
       order:
         is_gift: "Order contains a gift"
+      project:
+        allow_no_stencil: Allow option to select no stencil
       workshop:
         start_date: "Workshop Start Date/Time"
         end_date: "Workshop End Date/Time"

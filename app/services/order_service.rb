@@ -40,11 +40,6 @@ class OrderService
       payment_plan: 'guest'
     )
 
-    item.description.seat_quantity.times do
-      seat = ItemDescription.seat(item.description.workshop)
-      reservation.seats << reserve_seat(seat)
-    end
-
     reservation.save!
   end
 

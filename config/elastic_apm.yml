@@ -1,0 +1,4 @@
+service_name: "Ares"
+environment: <%= ENV['GITLAB_ENVIRONMENT_NAME'] %>
+secret_token: <%= Rails.application.credentials[:elastic][:token] %>
+server_url: <%= Rails.application.credentials[:elastic][:url] %>

@@ -13,6 +13,14 @@ class Seat < ApplicationRecord
 
   delegate_missing_to :description
 
+  def name
+    if gifted_seat?
+      "#{first_name} #{last_name}"
+    else
+      customer.full_name
+    end
+  end
+
   def invoice
     description.invoice_items.first.invoice
   end

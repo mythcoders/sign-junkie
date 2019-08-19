@@ -1,0 +1,19 @@
+#!/bin/bash
+
+skylight disable_dev_warning
+
+if [ "$2" == "db:local" ]; then
+  echo "Setting up database..."
+  bundle exec rails db:exists && bundle exec rails db:migrate VERBOSE=true || bundle exec rails db:setup VERBOSE=true
+fi
+
+if [ "$1" == "start" ]; then
+  echo "Starting app on port ${APP_PORT}..."
+
+  if [ -f "${APP_HOME}/tmp/pids/server.pid" ]; then
+    echo "Found and neutralizing server.pid"
+    rm -rf ${APP_HOME}/tmp/pids/server.pid
+  fi
+
+  bundle exec rails s -b 0.0.0.0 -p $APP_PORT
+fi

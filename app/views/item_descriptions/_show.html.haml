@@ -28,12 +28,14 @@
         .font-size-1.mb-1{title: 'Seating preference'}
           = fa_solid 'chair', 'text-primary fa-fw'
           = item.seat_preference
-      .font-size-1.mb-1{title: 'Project'}
-        = fa_solid 'sign', 'text-primary fa-fw'
-        = item.project_name
-      .card-text.mb-1{title: 'Stencil'}
-        = fa_solid 'swatchbook', 'text-primary fa-fw'
-        = item.stencil_name
+      - if item.project_name.present?
+        .font-size-1.mb-1{title: 'Project'}
+          = fa_solid 'sign', 'text-primary fa-fw'
+          = item.project_name
+      - if item.stencil_name.present?
+        .card-text.mb-1{title: 'Stencil'}
+          = fa_solid 'swatchbook', 'text-primary fa-fw'
+          = item.stencil_name
       - if item.stencil_personalization.present?
         .font-size-1.mb-1{title: 'Add-on'}
           = fa_solid 'palette', 'text-primary fa-fw'

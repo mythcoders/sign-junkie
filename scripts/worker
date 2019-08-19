@@ -1,0 +1,13 @@
+#!/bin/bash
+
+skylight disable_dev_warning
+
+if [ "$1" == "stop" ]; then
+  echo "Stopping workers..."
+  for f in tmp/pids/sidekiq*.pid; do
+    bundle exec sidekiqctl stop $f;
+  done
+else
+  echo "Starting workers..."
+  bundle exec sidekiq -c 2
+fi

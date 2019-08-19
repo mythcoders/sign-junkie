@@ -4,23 +4,41 @@
       %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first)}
     - else
       %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
-    .col.d-lg-none
-      %a{href: workshop_path(workshop)}
-        = workshop.when
-        %br
-        = workshop.name
-      .text-primary
-        = "Starting at #{number_to_currency(workshop.starting_price)}"
-      %span.text-warning= workshop.seats_available
-      %span.text-primary seats left!
-    .col.d-none.d-lg-inline
-      %h5.card-title
+
+    - if workshop.private?
+      .col.d-lg-none
         %a{href: workshop_path(workshop)}
           = workshop.when
           %br
           = workshop.name
-      %h5.text-primary
-        = "Starting at #{number_to_currency(workshop.starting_price)}"
-      %h5
+        .text-primary
+          = "Reserve for #{number_to_currency(Workshop.private_deposit)}"
+      .col.d-none.d-lg-inline
+        %h5.card-title
+          %a{href: workshop_path(workshop)}
+            = workshop.when
+            %br
+            = workshop.name
+        %h5.text-primary
+          = "Reserve for #{number_to_currency(Workshop.private_deposit)}"
+    - else
+      .col.d-lg-none
+        %a{href: workshop_path(workshop)}
+          = workshop.when
+          %br
+          = workshop.name
+        .text-primary
+          = "Starting at #{number_to_currency(workshop.starting_price)}"
         %span.text-warning= workshop.seats_available
         %span.text-primary seats left!
+      .col.d-none.d-lg-inline
+        %h5.card-title
+          %a{href: workshop_path(workshop)}
+            = workshop.when
+            %br
+            = workshop.name
+        %h5.text-primary
+          = "Starting at #{number_to_currency(workshop.starting_price)}"
+        %h5
+          %span.text-warning= workshop.seats_available
+          %span.text-primary seats left!

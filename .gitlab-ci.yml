@@ -1,11 +1,34 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
+variables:
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
+
 build:
   stage: build
   before_script:
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
+
+test:
+  stage: test
+  image: $CONTAINER_IMAGE
+  services:
+  - postgres:latest
+  variables:
+    RAILS_ENV: test
+    PAYMENT_ENV: sandbox
+    STORAGE_BUCKET: "mcdoc-tsstg-signjunkie"
+    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
+  before_script:
+    - bundle exec rails db:setup
+  script:
+    - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
+  artifacts:
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
 
 review:
   stage: review

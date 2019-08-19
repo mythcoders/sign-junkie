@@ -1,0 +1,63 @@
+%li.list-group-item
+  .row
+    .col-6
+      .media
+        .media-body
+          %h5.card-title Hillary Clinton
+          .font-size-1.mb-1{title: 'Project'}
+            = fa_solid 'sign', 'text-primary fa-fw'
+            Project
+          .card-text.mb-1{title: 'Stencil'}
+            = fa_solid 'swatchbook', 'text-primary fa-fw'
+            Stencil
+          .card-text.mb-1{title: 'Stencil'}
+            = fa_solid 'palette', 'text-primary fa-fw'
+            Stencil customization
+    .col-2.offset-md-1
+      .text-success Paid
+    .col-3.text-right
+      .btn-group{"aria-label" => "Button group with nested dropdown", :role => "group"}
+        .btn-group{:role => "group"}
+          %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_solid 'ellipsis-h-alt'
+          .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+            %a.dropdown-item{:href => "#"} Action
+            %a.dropdown-item{:href => "#"}
+              = fa_solid 'comment-alt-lines', 'text-primary fa-fw'
+              Send email
+            .dropdown-divider
+            %a.dropdown-item{"data-target": "#new-seat-modal", "data-toggle": "modal", href: "#"}
+              = fa_solid 'user-edit', 'text-primary fa-fw'
+              Reassign seat
+            %a.dropdown-item{:href => "#"}
+              = fa_solid 'user-slash', 'text-primary fa-fw'
+              Cancel seat
+%li.list-group-item
+  .row
+    .col-6
+      .media
+        .media-body
+          %h5.card-title Donald Trump
+          %em.font-size-1.mb-1
+            Invited on July 25th
+    .col-2.offset-md-1
+      .text-warning Not Paid
+    .col-3.text-right
+      .btn-group{"aria-label" => "Button group with nested dropdown", :role => "group"}
+        .btn-group{:role => "group"}
+          %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_solid 'ellipsis-h-alt'
+          .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+            %a.dropdown-item{:href => "#"}
+              = fa_solid 'bell-exclamation', 'text-primary fa-fw'
+              Send reminder
+            %a.dropdown-item{:href => "#"}
+              = fa_solid 'comment-alt-lines', 'text-primary fa-fw'
+              Send email
+            .dropdown-divider
+            %a.dropdown-item{"data-target": "#new-seat-modal", "data-toggle": "modal", href: "#"}
+              = fa_solid 'user-edit', 'text-primary fa-fw'
+              Reassign seat
+            %a.dropdown-item{:href => "#"}
+              = fa_solid 'user-slash', 'text-primary fa-fw'
+              Cancel seat

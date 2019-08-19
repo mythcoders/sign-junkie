@@ -22,20 +22,19 @@ Rails.application.configure do
   end
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.asset_host = 'http://ares.localhost'
   config.action_mailer.default_url_options = {
     host: 'http://ares.localhost'
   }
-  config.action_controller.asset_host = 'http://ares.localhost'
-  config.action_mailer.delivery_method = :smtp
+
+  # config.action_mailer.delivery_method = Hermes::RailsAdapter
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
 
   config.active_support.deprecation = :log
-
+  config.active_storage.service = :local
+  config.active_job.queue_adapter = :inline
   config.active_record.migration_error = :page_load
 
   config.assets.debug = false
-
   config.assets.quiet = true
   config.web_console.whiny_requests = false
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker

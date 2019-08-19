@@ -19,7 +19,7 @@ Rails.application.configure do
 
   config.action_controller.allow_forgery_protection = false
 
-  config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_deliveries = false
   config.action_mailer.default_url_options = {
     host: 'http://ares.localhost'
   }

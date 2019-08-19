@@ -21,7 +21,7 @@ class Workshop < ApplicationRecord
 
   validates_presence_of :name
   validates_presence_of :purchase_start_date, :purchase_end_date, :start_date, :end_date,
-                        :total_tickets, :is_public, if: :is_for_sale
+                        :total_tickets, if: :is_for_sale
   validates_presence_of :reservation_price, unless: :is_public
 
   # Searches workshops on a variety of factors
