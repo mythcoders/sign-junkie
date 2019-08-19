@@ -4,13 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_paper_trail_whodunnit
-  before_action :raven_context
+  before_action :set_raven_context
   before_action :store_user_location!, if: :storable_location?
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_permitted_parameters, if: :devise_controller?
 
   layout :layout_by_resource
 
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from ActionController::RoutingError, with: :render_404
 
   def append_info_to_payload(payload)
     super
@@ -19,7 +20,9 @@ class ApplicationController < ActionController::Base
     payload[:host] = request.host
   end
 
-  def raven_context
+  private
+
+  def set_raven_context
     return unless current_user
 
     Raven.user_context(
@@ -29,9 +32,7 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  private
-
-  def configure_permitted_parameters
+  def set_permitted_parameters
     additional_fields = %i[first_name last_name].freeze
     devise_parameter_sanitizer.permit(:sign_up, keys: additional_fields)
     devise_parameter_sanitizer.permit(:account_update, keys: additional_fields)
@@ -53,12 +54,18 @@ class ApplicationController < ActionController::Base
     Date.strptime(value, '%m-%d-%Y')
   end
 
-  def record_not_found
-    render file: 'public/404.html', status: :not_found
+  def render_404
+    respond_to do |format|
+      format.html { render file: 'public/404.html', status: 404 }
+      format.all { render nothing: true, status: 404 }
+    end
   end
 
-  def unauthorized
-    render file: 'public/401.html', status: :unauthorized
+  def render_401
+    respond_to do |format|
+      format.html { render file: 'public/401.html', status: 401 }
+      format.all { render nothing: true, status: 401 }
+    end
   end
 
   def layout_by_resource

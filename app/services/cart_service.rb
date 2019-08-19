@@ -31,7 +31,6 @@ class CartService
       agreements = %i[design_confirmation policy_agreement acknowledgment]
       raise ProcessError, 'Please select all confirmations' unless agreements.all? { |key| cart_params[key] == '1' }
       raise ProcessError, 'No project selected' unless cart_params[:project_id].present?
-      raise ProcessError, 'No stencil selected' unless cart_params[:stencil_id].present?
 
       Cart.new_seat user, workshop, cart_params
     else

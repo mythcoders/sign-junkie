@@ -14,6 +14,9 @@
         .form-group
           %label.col-form-label Instructional price
           .form-control-plaintext= number_to_currency @project.instructional_price
+        .form-group
+          %label.col-form-label Stencil required
+          .form-control-plaintext= @project.allow_no_stencil
         - if @project.addons.any?
           .form-group
             %label.col-form-label Addons

@@ -6,7 +6,7 @@ shared_checks = lambda do |ping|
   end
 
   ping.check :db do
-    ActiveRecord::Base.connection.execute("select 1").count == 1
+    ActiveRecord::Base.connection.active?
   end
 end
 

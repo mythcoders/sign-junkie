@@ -1,0 +1,19 @@
+.btn-group{"aria-label" => "Button group with nested dropdown", :role => "group"}
+  .btn-group{:role => "group"}
+    %a.btn.btn-primary{"data-target": "#edit-seat-modal", "data-toggle": "modal", href: "#"} Edit
+    %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+      = fa_solid 'ellipsis-h-alt'
+    .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+      %a.dropdown-item{:href => "#"}
+        = fa_solid 'bell-exclamation', 'fa-fw text-primary'
+        Send reminder
+      %a.dropdown-item{:href => "#"}
+        = fa_solid 'comment-alt-lines', 'fa-fw text-primary'
+        Send email
+      .dropdown-divider
+      %a.dropdown-item{"data-target": "#new-seat-modal", "data-toggle": "modal", href: "#"}
+        = fa_solid 'user-edit', 'fa-fw text-primary'
+        Reassign seat
+      %a.dropdown-item{:href => "#"}
+        = fa_solid 'user-slash', 'fa-fw text-primary'
+        Cancel seat

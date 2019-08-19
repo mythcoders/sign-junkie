@@ -43,6 +43,11 @@
     %a.nav-link{sidebar_link(admin_stencil_categories_path, designs_controller?)}
       = fa_solid 'swatchbook', 'fa-fw'
       %span Stencil Categories
+  - if current_user.operator?
+    %li.nav-item
+      %a.nav-link{href: admin_sidekiq_web_path}
+        = fa_solid 'server', 'fa-fw'
+        %span System Jobs
   %li.nav-item
     %a.nav-link{sidebar_link(admin_workshops_path, workshops_controller?)}
       = fa_solid 'toolbox', 'fa-fw'

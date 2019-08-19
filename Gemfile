@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.3'
 
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -11,19 +11,25 @@ gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
 gem 'devise_invitable', '~> 2.0'
+gem 'elastic-apm'
+gem 'faker'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari' # Pagination
 gem 'lograge' # Logging
+gem 'logstash-event'
 gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.3'
+gem 'redis-namespace'
 gem 'sendgrid-ruby' # ActiveMailer
 gem 'sentry-raven' # Exceptions
-gem 'sidekiq'
+gem 'sidekiq-ent', '~> 1.8.1'
+gem 'sidekiq-status'
 gem 'skylight'
+gem 'unleash', '~> 0.1.5'
 
 # UI
 gem 'bootstrap'
@@ -45,7 +51,6 @@ group :development, :test do
   gem 'debase'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'guard-rspec'
   gem 'rails-controller-testing'
   gem 'rspec-rails'

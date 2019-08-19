@@ -9,10 +9,8 @@ class CartController < ApplicationController
     @cart = Cart.for(current_user)
     @cart_subtotal = (@cart.map(&:item_amount).reduce(:+) || 0.00).round(2)
     @cart_count = @cart.count
-
-    @reservation_fee = calc_reservation_fee
     @estimated_tax = calc_est_tax
-    @cart_total = @cart_subtotal + @reservation_fee + @estimated_tax
+    @cart_total = @cart_subtotal + @estimated_tax
   end
 
   def create
@@ -48,22 +46,13 @@ class CartController < ApplicationController
     params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
                                  :stencil_id, :stencil, :seating, :design_confirmation,
                                  :policy_agreement, :first_name, :last_name, :email,
-                                 :amount, :type, :acknowledgment, :gift_seat)
+                                 :amount, :type, :acknowledgment, :gift_seat, :payment_plan)
   end
 
   def calc_est_tax
     taxable = @cart.select(&:taxable?)
     if taxable.any?
       (taxable.map(&:tax_amount).reduce(:+) || 0.00).round(2)
-    else
-      0.00
-    end
-  end
-
-  def calc_reservation_fee
-    reservations = @cart.select(&:reservation?)
-    if reservations.any?
-      (reservations.map(&:item_amount).reduce(:+) || 0.00).round(2)
     else
       0.00
     end

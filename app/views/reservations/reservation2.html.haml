@@ -1,0 +1,62 @@
+= render partial: 'reservations/cancel'
+= render partial: 'reservations/new_seat'
+= render partial: 'reservations/edit_seat'
+.alert.alert-warning{:role => "alert"}
+  %h4.alert-heading
+    = fa_solid 'exclamation-triangle'
+    Heads up!
+  = t('reservations.seating_requirement_warning')
+  %a.alert-link{:href => "#"} Add more seats.
+.row
+  .col-12.col-lg-4.mb-2
+    .card
+      %h4.card-header.bg-primary.text-white Reservation Details
+      .card-body
+        .media.align-items-center.mb-3.mt-3
+          .font-size-1.font-weight-normal.mb-0.mr-3 Confirmation Number
+          .media-body.text-right
+            %span.font-weight-medium
+              .span 07AD27ED
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Workshop
+          .media-body.text-right
+            %span.font-weight-medium
+              .span Pick Your Project
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Date booked
+          .media-body.text-right
+            %span.font-weight-medium
+              .span July 21, 2019
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Seating requirements
+          .media-body.text-right
+            %span.font-weight-medium
+              .span 12-24
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Payment plan
+          .media-body.text-right
+            %span.font-weight-medium
+              .span Guests pay
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Registration deadline
+          .media-body.text-right
+            %span.font-weight-medium
+              .span Aug 1, 2019
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Payment deadline
+          .media-body.text-right
+            %span.font-weight-medium
+              .span Aug 3, 2019
+      .card-footer
+        %a.btn.btn-outline-primary.btn-block{"data-target": "#new-seat-modal", "data-toggle": "modal", href: "#"}
+          = fa_solid 'plus'
+          Add more seats
+        %a.btn.btn-outline-danger.btn-block{"data-target": "#cancelOrderModal", "data-toggle": "modal", href: "#"}
+          = fa_solid 'ban'
+          Cancel Reservation
+  .col-12.col-lg-8.mb-2
+    .card
+      %h4.card-header.bg-primary.text-white
+        Seats
+      %ul.list-group.list-group-flush
+        = render partial: 'reservations/items2'

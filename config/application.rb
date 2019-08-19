@@ -21,12 +21,10 @@ module Ares
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/app/services]
     config.require_master_key = true
-    # config.force_ssl = true if Rails.env.production?
 
     config.skylight.probes += %w[active_model_serializers]
 
     # Storage
-    config.active_storage.service = :amazon
     config.active_storage.variant_processor = :mini_magick
 
     #Logging

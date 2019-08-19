@@ -17,18 +17,23 @@ class Cart < ApplicationRecord
 
   def self.new_seat(user, workshop, params)
     project = workshop.projects.where(id: params[:project_id]).first!
-    stencil = project.stencils.where(id: params[:stencil_id]).first!
-
     cart = new(user: user,
                description: ItemDescription.seat(workshop),
                project_id: project.id,
                project_name: project.name,
-               stencil_id: stencil.id,
-               stencil_name: stencil.name,
                taxable_amount: project.material_price,
                nontaxable_amount: project.instructional_price)
-    cart.stencil_personalization = params[:stencil] if params[:stencil].present?
+
     cart.seat_preference = params[:seating] if params[:seating].present?
+
+    if params[:stencil_id].present?
+      stencil = project.stencils.where(id: params[:stencil_id]).first!
+      cart.stencil_id = stencil.id
+      cart.stencil_name = stencil.name
+      cart.stencil_personalization = params[:stencil] if params[:stencil].present?
+    else
+      cart.stencil_name = t('seat.no_stencil')
+    end
 
     if params[:addon_id].present?
       addon = project.addons.where(id: params[:addon_id]).first
@@ -38,9 +43,9 @@ class Cart < ApplicationRecord
     end
 
     if params[:email].present?
+      cart.email = params[:email]
       cart.first_name = params[:first_name]
       cart.last_name = params[:last_name]
-      cart.email = params[:email]
     end
 
     cart

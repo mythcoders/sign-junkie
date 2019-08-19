@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require 'sidekiq-ent/web'
+
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
+  root to: 'public#index'
   devise_for :users
+
   concern :pageable do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
@@ -10,6 +14,11 @@ Rails.application.routes.draw do
   # admin portal
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
+
+    authenticate :user, lambda { |u| u.can_cp? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
+
     get 'about', as: 'about', to: 'dashboard#about'
     get 'finances', as: 'finances', to: 'finances#index'
     get 'reports', as: 'reports', to: 'reports#index'
@@ -54,6 +63,9 @@ Rails.application.routes.draw do
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
+  # get 'reservation', to: 'reservations#reservation'
+  # get 'reservation2', to: 'reservations#reservation2'
+  # get 'reservation3', to: 'reservations#reservation3'
   get 'waiver', to: 'public#waiver'
   get 'how_it_works', to: 'public#how_it_works'
   get 'policies', to: 'workshops#public_policies'
@@ -71,7 +83,5 @@ Rails.application.routes.draw do
   resources :projects, only: %i[index show]
   resources :stencils, only: %i[index show]
   resources :workshops, only: %i[index show]
-
-  root to: 'public#index'
 end
 # rubocop:enable Metrics/BlockLength

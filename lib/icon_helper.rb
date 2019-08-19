@@ -5,6 +5,10 @@ module IconHelper
     tag.i class: "fas fa-#{icon} #{html_class}"
   end
 
+  def fa_duo(icon, html_class = nil)
+    tag.i class: "fad fa-#{icon} #{html_class}"
+  end
+
   def fa_regular(icon, html_class = nil)
     tag.i class: "far fa-#{icon} #{html_class}"
   end

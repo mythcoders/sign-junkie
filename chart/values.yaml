@@ -13,9 +13,15 @@ application:
   initializeCommand:
   secretName:
   secretChecksum:
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
 gitlab:
   app:
   env:
+  envName:
 service:
   enabled: true
   annotations: {}
@@ -45,15 +51,11 @@ readinessProbe:
   scheme: "HTTP"
 postgresql:
   enabled: true
-sidekiq:
-  enabled: false
-redis:
-  enabled: false
 resources:
 #  limits:
 #    cpu: 100m
 #    memory: 128Mi
-#  requests:
+  requests:
 #    cpu: 100m
 #    memory: 128Mi
 
@@ -64,3 +66,20 @@ podDisruptionBudget:
   enabled: false
   # minAvailable: 1
   maxUnavailable: 1
+
+# workers:
+#   worker:
+#     replicaCount: 1
+#     terminationGracePeriodSeconds: 60
+#     command: ["bundle", "exec", "sidekiq", "-c", "2"]
+#     preStopCommand: ["/bin/bash", "-l", "-c", "cd /opt/myapp/current; for f in tmp/pids/sidekiq*.pid; do bundle exec sidekiqctl stop $f; done"]
+#     livenessProbe:
+#       path: "/_sidebeat"
+#       initialDelaySeconds: 15
+#       timeoutSeconds: 15
+#       scheme: "HTTP"
+#     readinessProbe:
+#       path: "/_sidebeat"
+#       initialDelaySeconds: 15
+#       timeoutSeconds: 15
+#       scheme: "HTTP"

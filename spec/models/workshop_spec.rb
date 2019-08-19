@@ -12,7 +12,6 @@ RSpec.describe Workshop, type: :model do
     it { should validate_presence_of :start_date }
     it { should validate_presence_of :end_date }
     it { should validate_presence_of :total_tickets }
-    it { should validate_presence_of :is_public }
   end
 
   context 'when is private' do

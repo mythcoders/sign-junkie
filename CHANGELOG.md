@@ -1,3 +1,13 @@
+#### v1906.10 - August 17, 2019
+
+- Features
+  - Option for projects to be purchased with no stencil
+- Improvements
+  - Stencils are sorted alphabetically
+  - In the Admin Portal, the name of attendees are shown on the workshop detail page
+- Changes
+  - Ability to introduce new features in a more seamless experience
+
 #### v1906.9 - July 13, 2019
 
 - Changes

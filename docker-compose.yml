@@ -1,26 +1,50 @@
-version: '3.7'
+version: "3.7"
 services:
-
   app:
     build:
       context: .
       target: base
     container_name: ares-app
-    command: "bundle exec rails s -b 0.0.0.0 -p 5000"
+    command: ["sh", "./scripts/app", "start", "db:local"]
     labels:
       traefik.frontend.rule: "Host:ares.localhost"
     volumes:
-      - "./:/app"
+      - ./:/app
     environment:
       RAILS_ENV: development
+      GITLAB_ENVIRONMENT_NAME: development
       PAYMENT_ENV: sandbox
       DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_dev"
-      STORAGE_BUCKET: "mcdoc-dvstg-signjunkie"
+      STORAGE_BUCKET: none
+      REDIS_URL: redis://redis:6379
+      REDIS_NAMESPACE: ares-dev
     depends_on:
       - db
       - net
+      - redis
     stdin_open: true
     tty: true
+
+  worker:
+    image: ares_app:latest
+    container_name: ares-worker
+    command: ["sh", "./scripts/worker", "start"]
+    volumes:
+      - ./:/app
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://redis:6379
+      REDIS_NAMESPACE: ares-dev
+    depends_on:
+      - redis
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: redis:5.0.5-alpine
+    container_name: ares-redis
+    ports:
+      - "6379:6379"
 
   db:
     image: postgres:11.4

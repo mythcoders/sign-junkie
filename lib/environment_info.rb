@@ -4,13 +4,21 @@ module EnvironmentInfo
   class << self
     def current
       case Rails.env
-      when 'development'
-        :dev
-      when 'test'
-        :test
       when 'production'
         :prod
+      when 'development'
+        :dev
+      else
+        Rails.env
       end
+    end
+
+    def analytics?
+      ENV['ARES_ANALYTICS']
+    end
+
+    def errors?
+      ENV['ARES_ERRORS']
     end
 
     def instance
