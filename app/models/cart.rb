@@ -32,7 +32,7 @@ class Cart < ApplicationRecord
       cart.stencil_name = stencil.name
       cart.stencil_personalization = params[:stencil] if params[:stencil].present?
     else
-      cart.stencil_name = t('seat.no_stencil')
+      cart.stencil_name = I18n.translate('seat.no_stencil')
     end
 
     if params[:addon_id].present?
