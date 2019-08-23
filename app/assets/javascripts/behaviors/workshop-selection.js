@@ -118,7 +118,7 @@ function create_stencils(stencil_dropdown, allow_no_stencil, stencils) {
             var group = document.createElement('optgroup')
             group.label = category.name
             append_stencils(group, category, current_stencil)
-            stencil_dropdown.append(group)
+            stencil_dropdown.appendChild(group)
         }
     }
 }
@@ -133,7 +133,7 @@ function append_stencils(item, category, selected_stencil) {
             option.selected = true;
         }
 
-        item.append(option)
+        item.appendChild(option)
     }
 }
 
