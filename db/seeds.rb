@@ -13,7 +13,7 @@ end
 
 TaxRate.create!(rate: BigDecimal('0.0725'), effective_date: DateTime.now) unless TaxRate.all.any?
 
-if Rails.env.development? || ENV['DB_SEED']
+if Rails.env.development? || Rails.env.review?
   def new_user(role)
     User.create(first_name: Faker::Name.first_name,
                 last_name: Faker::Name.last_name,
@@ -24,6 +24,7 @@ if Rails.env.development? || ENV['DB_SEED']
   end
 
   def image_fetcher
+    puts 'Fetching image...'
     open(Faker::Avatar.image)
   rescue
     open("https://robohash.org/#{Faker::Lorem.characters(10)}.png?size=300x300&set=set4")
@@ -36,19 +37,23 @@ if Rails.env.development? || ENV['DB_SEED']
     }
   end
 
+  puts 'Creating users...'
   new_user('admin')
   new_user('customer')
 
   2.times do
+    puts 'Creating stencils...'
     StencilCategory.create!(name: Faker::Lorem.characters(10))
     stencil = Stencil.create!(name: Faker::Lorem.characters(10),
                               category: StencilCategory.all.sample)
     stencil.image.attach(image)
 
+    puts 'Creating addon...'
     addon = Addon.create!(name: "#{Faker::Construction.material} #{Faker::Lorem.characters(5)}",
                           price: Faker::Number.decimal(2))
     addon.addon_images.attach([image, image])
 
+    puts 'Creating project...'
     project = Project.create!(name: Faker::Lorem.characters(10),
                               material_price: Faker::Number.decimal(2),
                               instructional_price: Faker::Number.decimal(2),
@@ -62,6 +67,7 @@ if Rails.env.development? || ENV['DB_SEED']
   start_date = purchase_end_date + 2.days
   end_date = start_date + 3.hours
 
+  puts 'Creating workshops...'
   public_workshop = Workshop.create!(name: "#{Faker::Lorem.characters(5)}",
                                      projects: Project.all.sample(2),
                                      purchase_start_date: purchase_start_date,
