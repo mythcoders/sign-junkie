@@ -1,0 +1,10 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5 Hello #{@seat.customer.full_name}!
+%p
+  #{@seat.reservation.host.full_name} has invited you to the #{@seat.reservation.workshop.name} workshop on
+  #{@seat.reservation.workshop.when}. You have until the registartion deadline,
+  #{special_date @seat.reservation.workshop.registration_deadline}, to make your project selection.
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: seat_url(@seat)} Pick your project and stencil today!

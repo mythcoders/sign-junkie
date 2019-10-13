@@ -12,7 +12,7 @@
             = fa_regular 'plus'
             New
           .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
-            %a.dropdown-item{href: admin_new_addon_image_path(@addon)} Image
+            %a.dropdown-item{href: new_image_admin_addon_path(@addon)} Image
       .btn-group
         %a.btn.btn-primary{href: edit_admin_addon_path(@addon)} Edit
         %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}

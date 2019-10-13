@@ -1,26 +1,31 @@
 - page_title 'Customer Search'
 
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'users'
-    Customers
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Customers
+        %h1.header-title
+          %i.fad.fa-address-book
+          Search
+      .col-auto
+        = link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary lift'
 
-.table-responsive
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th First Name
-        %th Last Name
-    %tbody
-      - @customers.each do |c|
-        %tr{data: { 'clickable-row': '', 'href': admin_customer_path(c) }}
-          %td= c.first_name
-          %td= c.last_name
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @customers
-          = page_entries_info @customers
-
-%br
-= link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary'
+.card
+  .table-responsive
+    %table.table.card-table.table-hover
+      %thead
+        %tr
+          %th First Name
+          %th Last Name
+      %tbody
+        - @customers.each do |c|
+          %tr{data: { 'clickable-row': '', 'href': admin_customer_path(c) }}
+            %td= c.first_name
+            %td= c.last_name
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @customers
+            = page_entries_info @customers

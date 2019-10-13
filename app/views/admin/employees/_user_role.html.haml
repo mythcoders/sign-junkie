@@ -30,7 +30,7 @@
         Employee Permissions + editing abilities, data history and reports
 
 .custom-control.custom-radio
-  - if current_user.can_upgrade_operator?
+  - if current_user.may_upgrade_operator?
     = f.radio_button :role, 'operator', class: 'custom-control-input'
   - else
     = f.radio_button :role, 'operator', class: 'custom-control-input', 'disabled': 'disabled'

@@ -1,0 +1,48 @@
+.row.align-items-center.justify-content-center
+  .col-12.col-lg-7
+    .card
+      %h3.card-header.bg-primary.text-white
+        = "New seat for #{@reservation.title}"
+      .card-body
+        = render partial: 'workshops/body', locals: { workshop: @reservation.workshop }
+
+        %p.card-text
+          = fa_solid 'chair', 'text-primary fa-fw'
+          - if @reservation.requirements_met?
+            %span= "You can invite a total of #{@reservation.workshop.seats_available} additional guests"
+          - else
+            %span
+              = "You can invite a total of #{@reservation.workshop.seats_available} additional guests but are required"
+              = "to invite at least #{@reservation.remaining_seats_until_requirements_met} to get your deposit back."
+
+        %p.card-text
+          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+          %span= "Selections must be made by #{lifp @reservation.workshop.registration_deadline}"
+
+        %p.card-text
+          = fa_solid 'usd-circle', 'text-primary fa-fw'
+          - if @reservation.paid_by_host?
+            %span Pricing dependent upon guests selection
+          - else
+            %span Guest will pay for their seat after picking their project
+
+        = form_for :seat, url: reservation_seats_path(@reservation) do |f|
+          %div
+            %h6.card-title
+              = fa_solid 'user', 'text-primary fa-fw'
+              Guest Information
+            .form-row
+              .form-group.col-6
+                = f.label :first_name
+                = f.text_field :first_name, class: 'form-control', autocomplete: false
+              .form-group.col-6
+                = f.label :last_name
+                = f.text_field :last_name, class: 'form-control', autocomplete: false
+              .form-group.col-12
+                = f.label :email_address
+                = f.text_field :email, class: 'form-control', autocomplete: false
+
+          %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
+            = fa_solid 'save'
+            Add Seat to Reservation
+          = link_to 'Cancel', reservation_path(@reservation), class: 'btn btn-secondary btn-block'

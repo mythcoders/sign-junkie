@@ -1,4 +1,66 @@
-#### v1906.10 - August 17, 2019
+#### 1910 - October 12, 2019
+
+- New features and improvements for customers
+  - Customers now have the ability to book reservations to any workshop
+  - New look and feel for the sign in, sign up, and forgot password screens on large screen devices
+  - Redesigned the look of the My Account screen to reduce the number of tiles
+  - Workshop Planner tile
+  - Updated policies and guidelines
+  - Added a Seats tile to the My Account screen that allows customers to see all seats
+    that they've ever bought or been gifted.
+  - Redesigned the orders screen where customers view details about their orders, including and payments and refunds
+  - Greatly improved the look and feel of emails to be more consistent with the website
+  - An email is now sent out when a refund is issued to customers
+  - Redesigned the contact us screen with larger buttons and centered text
+  - Project names under images on the workshop selection page are now links to project detail page
+  - Dropdown menus in the navigation menu now include an arrow to indicate what they are
+  - Sorted stencil categories alphabetically on project detail page
+  - Decreased font size on the navigation menu
+  - Increased the clickable area on the My Account tiles
+  - Added business name and address to BrainTree transactions
+  - Replaced usages of the color red with purple in order to conserve reds usage of important events/information
+- Admin Portal new features and improvements
+  - Brand new look and feel with a more responsive design for mobile devices
+  - Admin Portal is now reflected as a rocketship rather than a wrench in the navigation bar on the public-facing site
+  - Workshop Types - ability to create new types of workshops and customize how customers
+    purchase seats and/or reservations
+  - Photo Gallery - allows management of the photos that appear on the public-facing site
+  - Merged the top navigation bar with a revamped sidebar that includes a quick create menu for various record types
+  - Added a user preferences panel with the ability to set a light and dark theme
+  - Now displaying additional information about a customers account - failed login attempts, current status and
+    date when customer entered that status
+  - Added more stats and panels to the dashboard
+  - Added the ability to search and sort through records
+  - Added a new seating availability metric for workshops to easily tell how many seats are remaining
+  - Redesigned the workshop creation and editing screen
+  - Added a `Public View` button to the workshop page that opens the workshop selection page that customers use
+  - Added the ability to delete unused customer credits
+  - Cloning a workshop will also clone any attached images
+  - Images are displayed in a consistent table that shows the date the image was uploaded. Also provides the
+    ability to easily download the image
+  - When viewing a project, the `Allow option to select no stencil` is displayed as
+    `Plain (no stencil or personalization)` in the same spot as the create and edit screen
+  - Alerts and error messages are displayed as a temporary alert towards the top of the screen
+  - Seats and reservations can now be canceled from the Workshop detail page  
+  - Added the ability to forfeit reservation deposits  
+  - Renamed Add-ons to Project Add-ons
+  - Tax Periods and Rates can be seen but not yet edited
+  - Added a help section that will be expanded on in future releases  
+- Technical features and improvements
+  - Background Worker to clean up old items in user carts. Runs daily at 00:15.
+  - Background Worker to void reservations and seats that don't meet payment requirements. Runs daily at 00:30.
+  - Background Worker to void reservations and seats that don't meet registration requirements. Runs daily at 01:00.
+  - Background Worker to refund reservation deposits 48 hours after the workshop ended. Runs daily at 02:00.
+  - Background Worker to process refunds as they are requested.
+  - Background Workers for processing reservation and seat cancelation and voids as they are requested.
+  - Security and other updates
+
+#### 1908.1 - October 6, 2019
+
+- Fixes
+  - An issue that prevented password reset emails from being sent
+
+#### 1908 - August 17, 2019
 
 - Features
   - Option for projects to be purchased with no stencil
@@ -8,38 +70,39 @@
 - Changes
   - Ability to introduce new features in a more seamless experience
 
-#### v1906.9 - July 13, 2019
+#### 1906.9 - July 13, 2019
 
 - Changes
   - System backend
 
-#### v1906.8 - July 12, 2019
+#### 1906.8 - July 12, 2019
 
 - Changes
   - System logging
 
-#### v1906.7 - July 10, 2019
+#### 1906.7 - July 10, 2019
 
 - Changes
   - Email configuration
 - Fixes
   - Grammar for text that appears when reserving a seat for someone else
 
-#### v1906.6 - July 4, 2019
+#### 1906.6 - July 4, 2019
 
 - Improvements
   - Creating Customers and Employees in the Admin Portal
-  - When a customer credit is created in the Admin Portal, the customer will now receive the same email that they would have received if a gift card had been purchased for them
+  - When a customer credit is created in the Admin Portal, the customer will now receive the same email that they would
+    have received if a gift card had been purchased for them
   - Security enhancements
 
-#### v1906.5 - July 3, 2019
+#### 1906.5 - July 3, 2019
 
 - Improvements
   - HTML properties that appear when site links are shared
 - Fixes
   - Grammar for text that appears when checking out
 
-#### v1906.4 - June 30, 2019
+#### 1906.4 - June 30, 2019
 
 - Improvements
   - The experience when creating an account for the first time
@@ -47,14 +110,14 @@
 - Fixes
   - Accept link in user invitations was an invalid link
 
-#### v1906.3 - June 29, 2019
+#### 1906.3 - June 29, 2019
 
 - Fixes
   - Small font color change
   - Emails were not being sent properly in all environments
   - Skylight integration is now working properly
 
-#### v1906.2 - June 29, 2019
+#### 1906.2 - June 29, 2019
 
 - Improvements
   - More formating for tablets and mobile devices
@@ -62,7 +125,7 @@
 - Fixes
   - Issue that prevented the creation of Stencils
 
-#### v1906.1 - June 27, 2019
+#### 1906.1 - June 27, 2019
 
 - Features
   - Receipts for orders placed
@@ -74,7 +137,7 @@
 - Fixes
   - Customers were unable to book another seat for themselves if they had cancel a prior order
 
-#### v1906 - June 18, 2019
+#### 1906 - June 18, 2019
 
 - Features
   - Gift Cards

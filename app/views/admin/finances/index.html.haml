@@ -1,25 +1,52 @@
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'sack-dollar'
-    Finances
+- page_title 'Finances'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle= welcome_message
+        %h1.header-title
+          %i.fad.fa-sack-dollar
+          Finances Dashboard
+
 .row
   .col-3
     .card
-      %h5.card-header.bg-primary.text-white
-        Summary
-      %ul.list-group
-        %li.list-group-item
-          %h5.card-title Payments
-          %h5.text-success $243
-        %li.list-group-item
-          %h5.card-title Refunds
-          %h5.text-danger $50
-        %li.list-group-item
-          %h5.card-title Unused credits/gift cards
-          %h5.text-info $450
-        %li.list-group-item
-          %h5.card-title Total invoices
-          %h5.text-info 35
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Payments
+            %span.h2.mb-0.text-success $243
+          .col-auto
+            %span.h2.fas.fa-briefcase.text-muted.mb-0
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Refunds
+            %span.h2.mb-0.text-danger $50
+          .col-auto
+            %span.h2.fas.fa-briefcase.text-muted.mb-0
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Unused credits
+            %span.h2.mb-0.text-info $450
+          .col-auto
+            %span.h2.fas.fa-briefcase.text-muted.mb-0
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Total Invoices
+            %span.h2.mb-0.text-info 1
+          .col-auto
+            %span.h2.fas.fa-briefcase.text-muted.mb-0
   .col-9
     .row
       .col-12
@@ -38,8 +65,8 @@
     .row
       .col-3
         .card
-          %h5.card-header.bg-primary.text-white
-            Taxes
+          .card-header
+            %h5.card-header-title Taxes
           %ul.list-group
             %li.list-group-item
               = fa_solid 'percent', 'fa-fw'
@@ -55,9 +82,9 @@
               $23.95
       .col-6
         .card
-          %h5.card-header.bg-primary.text-white
-            Sales Breakdown
-          %table.table.table-sm.table-striped.table-bordered.table-border-fix
+          .card-header
+            %h5.card-header-title Sales Breakdown
+          %table.table.card-table
             %tr
               %td Seats
               %td 1 items
@@ -72,10 +99,7 @@
               %td $100.00
       .col-3
         .card
-          %h5.card-header.bg-primary.text-white
-            Something
+          .card-header
+            %h5.card-header-title Something
           .card-body
             Anything else important. Can be removed.
-
-
-

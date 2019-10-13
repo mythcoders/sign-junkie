@@ -6,53 +6,54 @@
         My Account
 
 .row
-  .col-12.col-md-6.col-lg-4.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'file-invoice', 'fa-fw'
-        %h3.mr-5 Your Orders
-      %a.card-footer.text-white.clearfix.small.z-1{href: invoices_path}
-        %span.float-left Review or cancel past orders
-        %span.float-right
-          = fa_solid 'angle-right'
-  .col-12.col-md-6.col-lg-4.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'gift-card', 'fa-fw'
-        %h3.mr-5= "#{number_to_currency(current_user.credit_balance)} credit for use"
-      %a.card-footer.text-white.clearfix.small.z-1{href: my_credits_path}
-        %span.float-left View
-        %span.float-right
-          = fa_solid 'angle-right'
-  .col-12.col-md-6.col-lg-4.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'user-circle', 'fa-fw'
-        %h3.mr-5 Account information
-      %a.card-footer.text-white.clearfix.small.z-1{href: edit_user_registration_path}
-        %span.float-left Update email or password
-        %span.float-right
-          = fa_solid 'angle-right'
-  .col-12.col-md-6.col-lg-4.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'info-square', 'fa-fw'
-        %h3.mr-5 Contact support
-      %a.card-footer.text-white.clearfix.small.z-1{href: "mailto:#{ClientInfo.contact_email}"}
-        %span.float-left Email
-        %span.float-right
-          = fa_solid 'angle-right'
-  .col-12.col-md-6.col-lg-4.mb-3
-    .card.text-white.bg-info.o-hidden.h-100
-      .card-body
-        .card-body-icon
-          = fa_solid 'sign-out', 'fa-fw'
-        %h3.mr-5 Sign out
-      %a.card-footer.text-white.clearfix.small.z-1{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
-        %span.float-left Sign out of your account
-        %span.float-right
-          = fa_solid 'angle-right'
+  .col-12.col-lg-8
+    .row
+      - if @reservations
+        .col-12.col-md-6.mb-3
+          %a.card.text-white.bg-info.o-hidden.h-100{href: reservations_path}
+            .card-body
+              .card-body-icon
+                = fa_duo 'toolbox', 'fa-fw'
+              %h3.mr-5 Workshop Planner
+            .card-footer.text-white.clearfix.small.z-1
+              %span.float-left Workshops you're hositng or were invited to
+              %span.float-right
+                = fa_duo 'angle-double-right'
+      .col-12.col-md-6.mb-3
+        %a.card.text-white.bg-info.o-hidden.h-100{href: seats_path}
+          .card-body
+            .card-body-icon
+              = fa_duo 'chair', 'fa-fw'
+            %h3.mr-5 Seats
+          .card-footer.text-white.clearfix.small.z-1
+            %span.float-left Workshops that you've bought seats too
+            %span.float-right
+              = fa_duo 'angle-double-right'
+      .col-12.col-md-6.mb-3
+        %a.card.text-white.bg-info.o-hidden.h-100{href: invoices_path}
+          .card-body
+            .card-body-icon
+              = fa_duo 'file-invoice', 'fa-fw'
+            %h3.mr-5 Order History
+          .card-footer.text-white.clearfix.small.z-1
+            %span.float-left Review past orders, payments, and refunds
+            %span.float-right
+              = fa_duo 'angle-double-right'
+  .col-12.col-lg-4
+    .card
+      %h5.card-header.bg-primary.text-white Account information
+      %ul.list-group
+        %a.list-group-item.list-group-item-flush.list-group-item-action.d-flex.justify-content-between.align-items-center{href: my_credits_path}
+          %span
+            = fa_duo 'gift-card', 'fa-fw'
+            Your Credits
+          %span.badge.badge-info.badge-pill= number_to_currency(current_user.credit_balance)
+        %a.list-group-item.list-group-item-flush.list-group-item-action{href: edit_user_registration_path}
+          = fa_duo 'user-circle', 'fa-fw'
+          Update email or password
+        %a.list-group-item.list-group-item-flush.list-group-item-action{href: "mailto:#{ClientInfo.contact_email}"}
+          = fa_duo 'info-circle', 'fa-fw'
+          Contact Sign Junkie
+        %a.list-group-item.list-group-item-flush.list-group-item-action{"data-target": "#logoutModal", "data-toggle": "modal", href: "#"}
+          = fa_duo 'sign-out', 'fa-fw'
+          Sign out

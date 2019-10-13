@@ -1,0 +1,14 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@reservation.host.full_name},"
+%p
+  = "Thanks for making your reservation to the #{@reservation.workshop.name} workshop!"
+  = "It's going to be held on #{@reservation.workshop.when}."
+
+%p
+  Don't forget, you have until the registartion deadline,
+  = "#{special_date @reservation.workshop.registration_deadline}, "
+  = "to invite at least #{@reservation.minimum_seats} guests!"
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@reservation)} Invite your guests!

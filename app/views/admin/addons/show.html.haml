@@ -1,12 +1,22 @@
 - page_title @addon.name, 'Add-ons'
 
-= render partial: 'admin/addons/header'
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Project Add-ons
+        %h1.header-title
+          %i.fad.fa-stamp
+          = @addon.name
+      .col-auto
+        = render partial: 'admin/addons/header'
 
 .row
   .col-12.col-lg-4
     .card
-      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
-        = @addon.name
+      .card-header
+        %h3.card-header-title Information
       .card-body
         .form-group
           %label.col-form-label Price

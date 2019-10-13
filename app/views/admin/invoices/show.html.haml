@@ -1,14 +1,24 @@
-= render partial: 'admin/invoices/header'
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Invoices
+        %h1.header-title
+          %i.fad.fa-file-invoice-dollar
+          = "Invoice ##{@invoice.identifier}"
+      .col-auto
+        = render partial: 'admin/invoices/header'
 
 - if @invoice.status == :draft
   .alert.alert-info
     The customer has started this order but has yet to complete it!
 .row
   .col-12.col-lg-5
-    .card.card-primary
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'file-invoice'
-        = "Invoice ##{@invoice.identifier} - #{@invoice.status}"
+    .card
+      .card-header
+        %h3.card-header-title
+          Overview
       .card-body
         .form-group.row
           %label.col-form-label.col-6 Customer
@@ -18,27 +28,31 @@
           %label.col-form-label.col-6 Date Created
           .form-control-plaintext.col= lifp(@invoice.created_at, :short)
         .form-group.row
-          %label.col-form-label.col-6 Sales Tax
-          .form-control-plaintext.col= number_to_currency @invoice.tax_total
+          %label.col-form-label.col-6 Total Sales Tax
+          .form-control-plaintext.col= number_to_currency(@invoice.tax_total)
+        .form-group.row
+          %label.col-form-label.col-6 Grand Total
+          .form-control-plaintext.col= number_to_currency(@invoice.grand_total)
 
   .col-12.col-lg-7
     .card
-      %h4.card-header.bg-primary.text-white
-        = fa_solid 'list'
-        Summary
-      %ul.list-group
+      .card-header
+        %h3.card-header-title
+          = fa_solid 'list'
+          Summary
+      %table.table.card-table
         - @invoice.items.each do |i|
-          %li.list-group-item
-            .row
-              .col-7.mb-3.mb-md-0
-                = render partial: 'item_descriptions/show', locals: {item: i}
-              .col-5.text-right
-                %span.font-weight-medium
-                  = content_tag :span, number_to_currency(i.line_total)
+          %tr
+            %td
+              = render partial: 'admin/item_descriptions/show', locals: {item: i}
+            %td.text-right
+              %span.font-weight-medium
+                = content_tag :span, number_to_currency(i.line_total)
     .card.mt-2
-      %h4.card-header.bg-primary.text-white
-        = fa_solid 'money-check'
-        Payments
+      .card-header
+        %h3.card-header-title
+          = fa_solid 'money-check'
+          Payments
       %ul.list-group
         - @invoice.payments.each do |p|
           %li.list-group-item
@@ -50,18 +64,19 @@
                   = content_tag :span, number_to_currency(p.amount)
 
     .card.mt-2
-      %h4.card-header.bg-primary.text-white
-        = fa_solid 'gift-card'
-        Refunds
+      .card-header
+        %h3.card-header-title
+          = fa_solid 'gift-card'
+          Refunds
       %ul.list-group
         - @invoice.refunds.each do |r|
           %li.list-group-item
             .row
               .col-8.mb-3.mb-md-0
                 - if r.customer_credit.present?
-                  Credit
+                  %pre= "Method: customer_credit\nProcessed on: #{l r.created_at, format: :short}"
                 - else
-                  BrainTree
+                  %pre= "Method: credit_card\nProcessed on: #{l r.created_at, format: :short}"
               .col-4.text-right
                 %span.font-weight-medium
                   = content_tag :span, number_to_currency(r.amount)

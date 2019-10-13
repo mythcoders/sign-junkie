@@ -1,0 +1,23 @@
+- page_title 'Tax Rates'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Tax Periods
+        %h1.header-title
+          %i.fad.fa-calendar-alt
+          Search
+      .col-auto
+        = link_to 'New Tax Period', new_admin_project_path, class: 'btn btn-primary lift disabled'
+
+.row
+  .col-12
+    .card.card-inactive
+      .card-body.text-center
+        %img.img-fluid{:alt => 'Placeholder image', :src => "/illustrations/lost.svg", :style => "max-width: 182px;"}/
+        %h1
+          Coming soon
+        %p.text-muted
+          This is a work in progress and will be available in a future release.

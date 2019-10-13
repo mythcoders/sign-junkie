@@ -14,4 +14,8 @@ module Nameable
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def initials
+    full_name.split.map(&:first).join
+  end
 end

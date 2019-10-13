@@ -6,21 +6,22 @@
 .row
   .col-12.col-md-6.mb-2
     %div#googleMap{style: "width:100%;height:400px;"}
-  .col-12.col-md-6
-    %h5.text-danger Address
-    .address.mb-2
+  .col-12.col-md-6.text-center
+    %h5.text-info.text-uppercase Our Address
+    %address.address.mb-2
       %strong
-        11235 Ridenour Rd
-        %br Thornville, OH 43076
-    %h5.text-danger Email
-    %p
-      %a{href: "mailto:#{ClientInfo.contact_email}"}= ClientInfo.contact_email
-    %a{href: ClientInfo.facebook_link}
-      %h4
+        = ClientInfo.address_1
+        %br= "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
+    %a.btn.btn-outline-primary.btn-block.btn-lg{href: "mailto:#{ClientInfo.contact_email}"}
+      %h5
+        = fa_solid 'envelope-open'
+        = ClientInfo.contact_email
+    %a.btn.btn-outline-primary.btn-block.btn-lg{href: ClientInfo.facebook_link}
+      %h5
         = fa_brands 'facebook'
         Facebook
-    %a{href: ClientInfo.instagram_link}
-      %h4
+    %a.btn.btn-outline-primary.btn-block.btn-lg{href: ClientInfo.instagram_link}
+      %h5
         = fa_brands 'instagram'
         Instagram
 

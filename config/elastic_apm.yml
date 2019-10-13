@@ -1,4 +1,5 @@
-service_name: "Ares"
+service_name: "Apollo"
 environment: <%= ENV['GITLAB_ENVIRONMENT_NAME'] %>
-secret_token: <%= Rails.application.credentials[:elastic][:token] %>
-server_url: <%= Rails.application.credentials[:elastic][:url] %>
+secret_token: <%= Rails.application.credentials.dig(:elastic, :token) %>
+server_url: <%= Rails.application.credentials.dig(:elastic, :url) %>
+ignore_url_patterns: ["^/_ping", "^/_heartbeat", "^/admin/sidekiq", "^/peek"]

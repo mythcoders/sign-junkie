@@ -1,48 +1,108 @@
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'home'
-    = welcome_message
-.row
-  .col-12.col-lg-3.mb-3
-    .card
-      %h5.card-header.bg-primary.text-white
-        = fa_regular 'link'
-        Quick Links
-      %ul.list-group.list-group-flush
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_stencil_category_path }}
-          New Stencil Category
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_stencil_path }}
-          New Stencil
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_addon_path }}
-          New Add-on
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_project_path }}
-          New Project
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_workshop_path }}
-          New Workshop
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_customer_path }}
-          New Customer
-        %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: new_admin_employee_path }}
-          New Employee
-  .col-12.col-lg-9
-    .row
-      .col-12.col-xl-4.col-md-6.mb-2
-        .card.text-white.bg-info.o-hidden.h-100
-          .card-body
-            .card-body-icon
-              = fa_solid 'shopping-bag', 'fa-fw'
-            .mr-5= "#{@new_invoices} Invoices Today"
-          %a.card-footer.text-white.clearfix.small.z-1{href: admin_invoices_path}
-            %span.float-left View Details
-            %span.float-right
-              = fa_solid 'angle-right'
-      .col-12.col-xl-4.col-md-6.mb-2
-        .card.text-white.bg-info.o-hidden.h-100
-          .card-body
-            .card-body-icon
-              = fa_solid 'user', 'fa-fw'
-            .mr-5= "#{@new_customers} New Customers"
-          %a.card-footer.text-white.clearfix.small.z-1{href: admin_customers_path}
-            %span.float-left View Details
-            %span.float-right
-              = fa_solid 'angle-right'
+- page_title 'Dashboard'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle= welcome_message
+        %h1.header-title
+          %i.fad.fa-home
+          Home Dashboard
+
+.row
+  .col-12.col-lg-6.col-xl
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Customers
+            %span.h2.mb-0= @stats.total_customers
+            %span.badge.badge-soft-primary.mt-n1= "+ #{@stats.new_customers} last 24/hrs"
+          .col-auto
+            = fa_solid 'address-book', 'h2 text-muted mb-0'
+  .col-12.col-lg-6.col-xl
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Invoices
+            %span.h2.mb-0= @stats.total_invoices
+            %span.badge.badge-soft-primary.mt-n1= "+ #{@stats.recent_invoices.count} last 24/hrs"
+          .col-auto
+            = fa_solid 'file-invoice', 'h2 text-muted mb-0'
+  .col-12.col-lg-6.col-xl
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Sales today
+            %span.h2.mb-0
+              = number_to_currency @stats.sales_today
+          .col-auto
+            = fa_solid 'dollar-sign', 'h2 text-muted mb-0'
+  .col-12.col-lg-6.col-xl
+    .card
+      .card-body
+        .row.align-items-center
+          .col
+            %h6.card-title.text-uppercase.text-muted.mb-2
+              Refunds today
+            %span.h2.mb-0
+              = number_to_currency @stats.refunds_today
+          .col-auto
+            = fa_solid 'gift-card', 'h2 text-muted mb-0'
+.row
+  .col-12.col-xl-7
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h4.card-header-title
+              %i.fad.fa-toolbox
+              Upcoming Workshops
+          .col-auto
+            %a.small{:href => admin_workshops_path} View all
+      .table-responsive.mb-0
+        %table.table.table-sm.table-nowrap.card-table.table-hover
+          %thead
+            %tr
+              %th
+                Name
+              %th
+                Date
+              %th
+                Seating Availability
+          %tbody
+            - @stats.upcoming_workshops.each do |w|
+              %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(w) }}
+                %td
+                  - if w.workshop_images.any?
+                    .avatar.avatar-sm.d-inline-block.mr-2{}
+                      %img.avatar-img.rounded-circle{:alt => "Image of #{w.name}", :src => url_for(w.workshop_images.first)}
+                  - else
+                    .avatar.avatar-sm.d-inline-block.mr-2{}
+                      %img.avatar-img.rounded-circle{:alt => 'Placeholder image', :src => "cover.jpg"}
+                  %span= w.name
+                %td
+                  = w.when
+                %td
+                  .row.align-items-center.no-gutters
+                    .col-auto
+                      %span.mr-2= "#{w.seats_available}/#{w.total_seats}"
+                    .col
+                      .progress.progress-sm
+                        = render partial: 'admin/workshops/availability_bar', locals: { value: w.seating_availability }
+  .col-12.col-xl-5
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h4.card-header-title
+              %i.fad.fa-file-invoice
+              Recent Invoices
+          .col-auto
+            %a.small{:href => admin_invoices_path} View all
+      = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices }

@@ -1,0 +1,8 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@reservation.host.full_name},"
+%p
+  We're sorry, but your reservation to the
+  = @reservation.workshop.name
+  workshop has been automatically voided because you didn't meet the seating requirements
+  by the registration deadline.

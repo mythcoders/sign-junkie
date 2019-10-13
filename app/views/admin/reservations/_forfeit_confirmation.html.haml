@@ -1,0 +1,13 @@
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "cancelModalLabel", :role => "dialog", :tabindex => "-1", id: "forfeit-reservation-#{reservation.id}-modal"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h2#cancelModalLabel.modal-title Forfeit Reservation Deposit - Are you sure?
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body= t('reservations.forfeit.confirmation')
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Dismiss
+        = form_for :reservation, url: forfeit_admin_reservation_path(reservation), class: 'form-inline' do |f|
+          = f.hidden_field :id, value: reservation.id
+          %button.btn.btn-danger{type: 'submit'} Process forfeit

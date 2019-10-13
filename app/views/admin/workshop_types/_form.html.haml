@@ -1,0 +1,77 @@
+= f.hidden_field :id
+
+.form-group
+  = f.label :name, class: 'col-form-label'
+  = f.text_field :name, class: 'form-control'
+
+%h3.mb-4.mt-4 Purchasing Options
+.row
+  .col-12.col-md-6
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :active, class: 'custom-control-input'
+        = f.label :active, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Workshops of this type can be created
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_single_seat_allow, class: 'custom-control-input'
+        = f.label :default_single_seat_allow, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Allow customers to purchase seats to workshops of this type without a reservation
+  .col-12.col-md-6
+    .form-group
+      = f.label :default_total_seats, class: 'col-form-label'
+      = f.text_field :default_total_seats, class: 'form-control'
+      %small.form-text.text-muted
+        Default total number of guests that can attend this type of workshop.
+        This can be changed on a per-workshop basis later.
+
+%h3.mb-4 Reservation Options
+.row
+  .col-12.col-md-6
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_reservation_allow, class: 'custom-control-input'
+        = f.label :default_reservation_allow, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Allow customers to book reservations with multiple guests for workshops of this type
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_reservation_allow_multiple, class: 'custom-control-input'
+        = f.label :default_reservation_allow_multiple, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Allow multiple reservations to be booked as long as there are enough seats available to meet the
+          reservation minimum
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_reservation_cancel_minimum_not_met, class: 'custom-control-input'
+        = f.label :default_reservation_cancel_minimum_not_met, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Should the reservation be voided if the registration requirements have not been met by the deadline?
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_reservation_allow_guest_cancel_seat, class: 'custom-control-input'
+        = f.label :default_reservation_allow_guest_cancel_seat, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Should the host or guests that are associated to a reservation be allowed to cancel a seat after it's already
+          been claimed?
+  .col-12.col-md-6
+    .form-group
+      = f.label :default_reservation_price, class: 'col-form-label'
+      .input-group
+        .input-group-prepend
+          %span.input-group-text= fa_regular 'dollar-sign'
+        = f.text_field :default_reservation_price, class: 'form-control'
+      %small.form-text.text-muted
+        Default fee that must be paid to book a reservation. This can be changed on a per-workshop basis later.
+    .form-group
+      %label.col-form-label Default reservation min/max guests
+      .input-group.text-center
+        = f.text_field :default_reservation_minimum, class: 'form-control'
+        .input-group-prepend
+          %span.input-group-text= fa_solid 'minus'
+        = f.text_field :default_reservation_maximum, class: 'form-control'
+      %small.form-text.text-muted
+        Default minimum and maximum number of guests that can be on a single reservation.
+        Maximum can not be larger than the default total seats,

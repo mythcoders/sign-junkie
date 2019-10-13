@@ -1,0 +1,11 @@
+- if workshop.reservation_purchaseable?
+  %span.text-success ●
+- else
+  %span.text-danger ●
+New Reservations
+%br
+- if workshop.seat_purchaseable?
+  %span.text-success ●
+- else
+  %span.text-danger ●
+New Seats

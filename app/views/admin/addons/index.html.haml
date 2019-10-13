@@ -1,26 +1,31 @@
 - page_title 'Add-ons Search'
 
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'stamp'
-    Add-ons
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Project Add-ons
+        %h1.header-title
+          %i.fad.fa-stamp
+          Search
+      .col-auto
+        = link_to 'New Add-on', new_admin_addon_path, class: 'btn btn-primary lift'
 
-.table-responsive
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Name
-        %th Price
-    %tbody
-      - @addons.each do |c|
-        %tr{data: { 'clickable-row': '', 'href': admin_addon_path(c) }}
-          %td= c.name
-          %td= number_to_currency(c.price)
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @addons
-          = page_entries_info @addons
-
-%br
-= link_to 'New Add-on', new_admin_addon_path, class: 'btn btn-primary'
+.card
+  .table-responsive
+    %table.table.card-table.table-hover
+      %thead
+        %tr
+          %th Name
+          %th Price
+      %tbody
+        - @addons.each do |c|
+          %tr{data: { 'clickable-row': '', 'href': admin_addon_path(c) }}
+            %td= c.name
+            %td= number_to_currency(c.price)
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @addons
+            = page_entries_info @addons

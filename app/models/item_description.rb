@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class ItemDescription < ApplicationRecord
+  include Cancelable
   include Refundable
   include Taxable
+  include Voidable
 
   has_paper_trail
-  has_many :carts
-  has_many :invoice_items
-  has_many :seats
+  has_many :carts, inverse_of: :description
+  has_many :invoice_items, inverse_of: :description
+  has_many :seats, inverse_of: :description
+  has_many :reservations, inverse_of: :description
 
   ITEM_TYPES = %i[seat reservation gift_card].freeze
 
@@ -38,10 +41,10 @@ class ItemDescription < ApplicationRecord
   end
 
   def title
-    if reservation?
+    if reservation? && reservation&.host.present?
+      "#{reservation.host.full_name.pluralize} #{workshop_name}"
+    elsif reservation?
       "Reservation for #{workshop_name}"
-    # elsif gifted_seat?
-    #   "#{workshop_name} for #{item.first_name} #{item.last_name}"
     elsif gift_card?
       'Gift Card'
     else
@@ -53,21 +56,53 @@ class ItemDescription < ApplicationRecord
     @workshop ||= Workshop.find workshop_id
   end
 
+  def invoice
+    @invoice ||= invoice_items.any? ? invoice_items.first.invoice : nil
+  end
+
+  def reservation
+    @reservation ||= reservations.any? ? reservations.first : nil
+  end
+
+  def seat
+    @seat ||= seats.any? ? seats.first : nil
+  end
+
   def item_amount
-    (taxable_amount + nontaxable_amount).round(2)
+    @item_amount ||= (taxable_amount + nontaxable_amount).round(2)
   end
 
   def line_total
-    (item_amount + tax_amount).round(2)
+    @line_total ||= (item_amount + tax_amount).round(2)
   end
 
-  def gifted_seat?
-    seat? && email.present?
+  def confirmation_number
+    @confirmation_number ||= "#{id}#{identifier.split('-').first.upcase}"
+  end
+
+  def active?
+    !voided? && !canceled?
+  end
+
+  def selection_made?
+    project_name.present?
+  end
+
+  def recipient
+    @recipient ||= User.find_by_email(email)
   end
 
   ITEM_TYPES.each do |type|
     define_method "#{type}?" do
       item_type == type.to_s
     end
+  end
+
+  def gifted_seat?
+    seat? && email.present?
+  end
+
+  def reservation_seat?
+    seat? && reservation.present?
   end
 end

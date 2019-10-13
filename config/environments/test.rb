@@ -2,7 +2,6 @@
 
 Rails.application.configure do
   config.cache_classes = true
-
   config.eager_load = false
 
   config.log_level = :info
@@ -11,6 +10,13 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control': "public, max-age=#{1.hour.to_i}"
   }
+
+  config.assets.compile = true
+  config.assets.prefix = 'assets_test'
+  config.action_controller.asset_host = "file://#{::Rails.root}/public"
+  config.serve_static_assets = true
+  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.css_compressor = :sass
 
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -21,7 +27,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.default_url_options = {
-    host: 'http://ares.localhost'
+    host: 'http://apollo.localhost'
   }
 
   config.active_support.deprecation = :stderr

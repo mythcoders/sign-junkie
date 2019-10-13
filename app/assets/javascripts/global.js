@@ -1,35 +1,11 @@
-$(function() {
+$(function () {
   $.onmount();
-  $.fn.datetimepicker.Constructor.Default = $.extend(
-    {},
-    $.fn.datetimepicker.Constructor.Default,
-    {
-      icons: {
-        time: "far fa-clock",
-        date: "far fa-calendar",
-        up: "far fa-arrow-up",
-        down: "far fa-arrow-down",
-        previous: "far fa-chevron-left",
-        next: "far fa-chevron-right",
-        today: "far fa-calendar-check-o",
-        clear: "far fa-trash",
-        close: "far fa-times"
-      }
-    }
-  );
-  $("[data-date-time-picker]").datetimepicker({ format: "MM/DD/YYYY hh:mm A" });
-  $("[data-future-date-time-picker]").datetimepicker({
-    format: "MM/DD/YYYY hh:mm A",
-    minDate: moment(new Date())
-  });
-  $("[data-date-picker]").datetimepicker({ format: "MM-DD-YYYY" });
-  $("[data-future-date-picker]").datetimepicker({
-    format: "MM-DD-YYYY",
-    minDate: moment(new Date())
-  });
-  if ($('[data-js-multi-select2]').length > 0) {
-    $('[data-js-multi-select2]').select2();
-  }
+  ui_html = "<div class='d-block d-sm-none'><span><strong>XS</strong> ui</span></div>"
+    + "<div class='d-none d-sm-block d-md-none'><span><strong>SM</strong> ui</span></div>"
+    + "<div class='d-none d-md-block d-lg-none'><span><strong>MD</strong> ui</span></div>"
+    + "<div class='d-none d-lg-block d-xl-none'><span><strong>L</strong> ui</span></div>"
+    + "<div class='d-none d-xl-block'><span><strong>XL</strong> ui</span></div>";
+  $('#peek .wrapper').append(ui_html);
 });
 function ShowLoader() {
   $("#pageLoading").fadeIn();

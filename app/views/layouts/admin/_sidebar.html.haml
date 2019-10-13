@@ -1,0 +1,128 @@
+%nav.d-print-none#sidebar{class: sidebar_classes}
+  .container-fluid
+    %button.navbar-toggler{"aria-controls": "navbarVertical", "aria-expanded": "false", "aria-label": "Toggle navigation", "data-target": "#navbarVertical", "data-toggle": "collapse", type: "button"}
+      %span.navbar-toggler-icon
+    = link_to admin_dashboard_path, class: 'navbar-brand' do
+      %img.navbar-brand-img.mx-auto{src: '/apollo.png'}
+      = SystemInfo.app_name
+      - unless Rails.env.production?
+        %strong.text-warning.text-uppercase= EnvironmentInfo.current
+    #navbarVertical.collapse.navbar-collapse
+      %h6.navbar-heading.mb-n1 Your Business
+      %ul.navbar-nav.mb-md-3
+        %li.nav-item
+          = link_to admin_customers_path, class: 'nav-link' do
+            %i.fad.fa-address-book.fa-lg.sidebar-icon
+            Customers
+        %li.nav-item
+          = link_to admin_employees_path, class: 'nav-link' do
+            %i.fad.fa-users.fa-lg.sidebar-icon
+            Employees
+        -# %li.nav-item
+        -#   = link_to admin_finances_path, class: 'nav-link' do
+        -#     %i.fad.fa-sack-dollar.fa-lg.sidebar-icon
+        -#     Finances
+        %li.nav-item
+          = link_to admin_invoices_path, class: 'nav-link' do
+            %i.fad.fa-file-invoice.fa-lg.sidebar-icon
+            Invoices
+        %li.nav-item
+          = link_to admin_projects_path, class: 'nav-link' do
+            %i.fad.fa-sign.fa-lg.sidebar-icon
+            Projects
+        %li.nav-item
+          = link_to admin_reports_path, class: 'nav-link' do
+            %i.fad.fa-analytics.fa-lg.sidebar-icon
+            Reports
+        %li.nav-item
+          = link_to admin_stencils_path, class: 'nav-link' do
+            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
+            Stencils
+        %li.nav-item
+          = link_to admin_workshops_path('grid[f][start_date]': 'future'), class: 'nav-link' do
+            %i.fad.fa-toolbox.fa-lg.sidebar-icon
+            Workshops
+      %h6.navbar-heading.mb-n1 Configuration
+      %ul.navbar-nav.mb-md-3
+        %li.nav-item
+          = link_to admin_gallery_images_path, class: 'nav-link' do
+            %i.fad.fa-photo-video.fa-lg.sidebar-icon
+            Photo Gallery
+        %li.nav-item
+          = link_to admin_addons_path, class: 'nav-link' do
+            %i.fad.fa-stamp.fa-lg.sidebar-icon
+            Project Add-ons
+        %li.nav-item
+          = link_to admin_stencil_categories_path, class: 'nav-link' do
+            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
+            Stencil Categories
+        %li.nav-item
+          = link_to admin_tax_periods_path, class: 'nav-link' do
+            %i.fad.fa-calendar-alt.fa-lg.sidebar-icon
+            Tax Periods
+        %li.nav-item
+          = link_to admin_tax_rates_path, class: 'nav-link' do
+            %i.fad.fa-percent.fa-lg.sidebar-icon
+            Tax Rates
+        %li.nav-item
+          = link_to admin_workshop_types_path, class: 'nav-link' do
+            %i.fad.fa-chalkboard-teacher.fa-lg.sidebar-icon
+            Workshop Types
+      - if current_user.operator?
+        %h6.navbar-heading.mb-n1 IT Operations
+        %ul.navbar-nav.mb-md-3
+          -# %li.nav-item
+          -#   = link_to admin_dashboard_path, class: 'nav-link' do
+          -#     %i.fad.fa-users-cog.fa-lg.sidebar-icon
+          -#     Clients
+          -# %li.nav-item
+          -#   = link_to admin_dashboard_path, class: 'nav-link' do
+          -#     %i.fad.fa-history.fa-lg.sidebar-icon
+          -#     Data History
+          %li.nav-item
+            = link_to admin_sidekiq_web_path, class: 'nav-link', target: '_blank' do
+              %i.fad.fa-server.fa-lg.sidebar-icon
+              Sidekiq
+      .mt-auto
+      #sidebarUser.navbar-user
+        %a.navbar-user-link{href: root_path}
+          %span.icon
+            %i.fad.fa-globe-americas
+        .dropup
+          %a#sidebarIconCopy.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            .avatar.avatar-sm
+              %span.avatar-title.rounded-circle= current_user.initials
+          .dropdown-menu{"aria-labelledby" => "sidebarIconCopy"}
+            %a.dropdown-item{href: edit_user_registration_path}
+              = fa_solid 'user-circle'
+              My Profile
+            %a.dropdown-item{href: '#modalUserModal', 'data-toggle': 'modal'}
+              = fa_solid 'sliders-v'
+              Preferences
+            %a.dropdown-item{href: admin_help_path}
+              = fa_solid 'question-circle'
+              Help
+            %hr.dropdown-divider
+            %a.dropdown-item{href: admin_about_path}
+              = fa_solid 'info-circle'
+              About
+            %a.dropdown-item{"data-target": "#logoutModal", "data-toggle": "modal", href: '#'}
+              = fa_solid 'sign-out-alt'
+              Sign Out
+        .dropup
+          %a#sidebarNewRecord.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %span.icon.text-muted
+              %i.fad.fa-plus-circle
+          .dropdown-menu.dropdown-menu-right{"aria-labelledby" => "sidebarNewRecord"}
+            %a.dropdown-item{href: new_admin_customer_path}
+              %i.fad.fa-address-book
+              Customer
+            %a.dropdown-item{href: new_admin_project_path}
+              %i.fad.fa-sign
+              Project
+            %a.dropdown-item{href: new_admin_stencil_path}
+              %i.fad.fa-swatchbook
+              Stencil
+            %a.dropdown-item{href: new_admin_workshop_path}
+              %i.fad.fa-toolbox
+              Workshop

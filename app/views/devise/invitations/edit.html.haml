@@ -14,6 +14,4 @@
       = f.label :password_confirmation, 'Confirm new password'
       = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
   .form-group
-    = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn-primary btn-block btn-login'
-  .login-bottom-links
-    = render 'devise/shared/links'
+    = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn-teal btn-block btn-login'

@@ -1,0 +1,8 @@
+%h5= "#{@customer.first_name} #{@customer.last_name},"
+
+%p
+  = "Someone has purchased a Sign Junkie gift card for you in the amount of #{number_to_currency @gift_amount}!"
+  We can’t wait for you to join us and get your diy on!
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: new_registration_path('user')} Register today!

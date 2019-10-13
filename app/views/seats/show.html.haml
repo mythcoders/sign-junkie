@@ -1,0 +1,40 @@
+.row.align-items-center.justify-content-center
+  .col-12.col-lg-6
+    .card
+      %h3.card-header.bg-primary.text-white
+        = "Seat for #{@seat.workshop.name}"
+      .card-body
+        = render partial: 'item_descriptions/invoice', locals: {item: @seat}
+        - if @seat.reservation.present?
+          %p.card-text
+            = fa_solid 'toolbox', 'text-primary fa-fw'
+            = link_to "Reservation ##{@seat.reservation.confirmation_number}", reservation_path(@seat.reservation)
+
+          - unless @seat.selection_made?
+            %p.card-text
+              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+              %span= "Selections must be made by #{lifp @seat.workshop.registration_deadline}"
+      .card-footer
+        - if @seat.invoice.present?
+          %a.btn.btn-info.btn-block.mb-2{href: invoice_path(@seat.invoice.id)}
+            = fa_solid 'file-invoice'
+            View Invoice
+
+        - if @seat.editable?(current_user)
+          %a.btn.btn-primary.btn-block.mb-2{href: edit_reservation_seat_path(@seat.reservation, @seat)}
+            Select your project and stencil
+
+        - if @seat.unpaid?
+          = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
+            = f.hidden_field :seat_id, value: @seat.id
+            %button.btn.btn-info.btn-block.mb-2{type: 'submit'}
+              = fa_solid 'cart-plus'
+              Add to cart
+
+        - if @seat.cancelable?
+          = render partial: 'seats/cancel', locals: {seat: @seat}
+          %a.btn.btn-danger.btn-block{"data-target": "#cancel-seat-#{@seat.id}-modal", "data-toggle": "modal", href: "#"}
+            = fa_solid 'ban'
+            Cancel seat
+
+        = link_to 'Back', seats_path, class: 'btn btn-secondary btn-block'

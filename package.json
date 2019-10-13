@@ -1,0 +1,23 @@
+{
+  "name": "apollo",
+  "version": "0.5",
+  "main": "index.js",
+  "repository": "https://gitlab.com/mythcoders/ares",
+  "author": "Justin Adkins <justin.adkins@mythcoders.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^9.5.0",
+    "bootstrap": "4.3.1",
+    "bootstrap-datepicker": "^1.9.0",
+    "jquery": "3.3.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
+    "popper.js": "^1.12.9",
+    "postcss-loader": "^3.0.0",
+    "select2": "^4.0.8",
+    "startbootstrap-freelancer": "^5.0.4",
+    "tempusdominus-bootstrap-4": "^5.1.2",
+    "tempusdominus-core": "^5.0.3"
+  }
+}

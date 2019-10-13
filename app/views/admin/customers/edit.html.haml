@@ -1,9 +1,19 @@
 - page_title 'Edit', 'Customer'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Customers
+        %h1.header-title
+          %i.fad.fa-address-book
+          = @customer.full_name
+
 = form_for @customer, url: admin_customer_path(@customer), method: :patch do |f|
   .card
-    %h5.card-header.bg-primary.text-white
-      Edit Customer
+    .card-header
+      %h3.card-header-title Information
     .card-body
       = error_messages_for 'customer'
       = render partial: 'admin/customers/form', locals: { f: f }

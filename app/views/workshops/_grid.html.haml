@@ -1,44 +1,33 @@
 - @workshops.each do |workshop|
-  .workshop-row-item.text-center
-    - if workshop.images.any?
-      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.images.first)}
+  .workshop-row-item.text-center.pt-3
+    - if workshop.workshop_images.any?
+      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.workshop_images.first)}
     - else
       %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
 
-    - if workshop.private?
-      .col.d-lg-none
-        %a{href: workshop_path(workshop)}
-          = workshop.when
-          %br
-          = workshop.name
-        .text-primary
-          = "Reserve for #{number_to_currency(Workshop.private_deposit)}"
-      .col.d-none.d-lg-inline
-        %h5.card-title
-          %a{href: workshop_path(workshop)}
-            = workshop.when
-            %br
-            = workshop.name
-        %h5.text-primary
-          = "Reserve for #{number_to_currency(Workshop.private_deposit)}"
-    - else
-      .col.d-lg-none
-        %a{href: workshop_path(workshop)}
-          = workshop.when
-          %br
-          = workshop.name
-        .text-primary
-          = "Starting at #{number_to_currency(workshop.starting_price)}"
+    %div.d-lg-none
+      %a.pt-3{href: workshop_path(workshop)}
+        = workshop.when
+        %br
+        = workshop.name
+      .text-primary
+        = "Starting at #{number_to_currency(starting_price(workshop))}"
+      - if workshop.seat_purchaseable? || workshop.reservation_purchaseable?
         %span.text-warning= workshop.seats_available
-        %span.text-primary seats left!
-      .col.d-none.d-lg-inline
-        %h5.card-title
-          %a{href: workshop_path(workshop)}
-            = workshop.when
-            %br
-            = workshop.name
-        %h5.text-primary
-          = "Starting at #{number_to_currency(workshop.starting_price)}"
+        %span.text-primary.text-uppercase seats left!
+      - else
+        %span.text-danger.text-uppercase= sold_out_text(workshop)
+    %div.d-none.d-lg-inline
+      %h5.card-title.pt-3
+        %a{href: workshop_path(workshop)}
+          = workshop.when
+          %br
+          = workshop.name
+      %h5.text-primary
+        = "Starting at #{number_to_currency(starting_price(workshop))}"
+      - if workshop.seat_purchaseable? || workshop.reservation_purchaseable?
         %h5
           %span.text-warning= workshop.seats_available
-          %span.text-primary seats left!
+          %span.text-primary.text-uppercase seats left!
+      - else
+        %h5.text-danger.text-uppercase= sold_out_text(workshop)

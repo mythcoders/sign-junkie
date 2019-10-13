@@ -1,0 +1,29 @@
+#modalUserModal.modal.fade.fixed-left{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-vertical{:role => "document"}
+    %form#userPreferenceForm.modal-content{'onsubmit': 'saveUserPreferences();'}
+      .modal-body
+        %a.close{"aria-label" => "Close", "data-dismiss" => "modal"}
+          %span{"aria-hidden" => "true"} ×
+        .text-center
+          %img.img-fluid.mb-3{:alt => 'Placeholder image', :src => "/illustrations/designer-life.svg"}
+        %h2.text-center.mb-2
+          Make Apollo Your Own
+        %p.text-center.mb-4
+          Set preferences that will be saved for you.
+        %hr.mb-4
+        %h4.mb-1
+          Color Scheme
+        %p.small.text-muted.mb-3
+          Overall light or dark presentation.
+        .btn-group-toggle.d-flex.mb-4{"data-toggle" => "buttons"}
+          %label.btn.btn-white.col{class: ('active' if @ui_theme == 'light')}
+            = radio_button_tag 'apollo_ui_theme', 'light', @ui_theme == 'light'
+            %i.fad.fa-sun.mr-2
+            Light Mode
+          %label.btn.btn-white.col.ml-2{class: ('active' if @ui_theme == 'dark')}
+            = radio_button_tag 'apollo_ui_theme', 'dark', @ui_theme == 'dark'
+            %i.fad.fa-moon.mr-2
+            Dark Mode
+      .modal-footer.border-0
+        %button.btn.btn-block.btn-primary.mt-auto{:type => "submit"}
+          Update Preferences

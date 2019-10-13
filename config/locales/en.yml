@@ -2,6 +2,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  site:
+    title: Sign Junkie Workshop
+    description: Sign Junkie is a DIY Workshop that offers a wide variety of practical and unique wood home decor workshops.
   UpdateSuccess: "Record updated successfully!"
   CreateSuccess: "Record created successfully!"
   DeleteSuccess: "Record deleted successfully!"
@@ -37,46 +40,105 @@ en:
     not_paid: "Order has remaining balance"
     cash_not_accepted: "You can only pay with cash on pick-up orders"
     update:
-      success: "Your order details were successfully updated!"
-      failure: "Your order couldn't be updated. Please try again."
+      success: Your order details were successfully updated!
+      failure: Your order couldn't be updated. Please try again.
     create:
-      success: "Your order has been created! You can now finish checking out."
-      failure: "Your order couldn't be created. Please try again."
+      success: Your order has been created! You can now finish checking out.
+      failure: Your order couldn't be created. Please try again.
     placed:
-      success: "Your order has been placed!"
+      success: Your order has been placed!
     cancel:
-      success: "We're processing your order cancelation. Any credits or refunds will be issued within 48 hours."
-      failure: "We couldn't cancel your order at this time. Please try again."
+      success:
+        We're processing your cancellation request. Any credits or refunds will be issued within 48 hours and you will
+        be notified when issued.
+      failure: We couldn't cancel your order at this time. Please try again.
   product:
     useless: ""
     unavailable: ""
-    future_price: "Price changes must start tomorrow or on a later date."
+    future_price: Price changes must start tomorrow or on a later date.
   project:
     delete:
-      confirmation: "This will delete the project, it's images, and will remove it from any workshops it's associated with."
+      confirmation:
+        This will delete the project, it's images, and will remove it from any workshops it's associated with.
   reservations:
-    seating_requirement_warning:
-      You reservation doesn't currently met the minimum seating requirement.
-      You'll need to add additional seats before the registration deadline.
-      If not, your reservation will be automatically voided.
+    no_more_seats: No more seats can be added at this time.
+    registration_deadline_loose_deposit_warning:
+      Currently, your reservation doesn't met the minimum seating requirements.
+      You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
+      If not, your reservation deposit will not be refunded!
+    registration_deadline_cancel_warning:
+      Currently, your reservation doesn't met the minimum seating requirements.
+      You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
+      If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
+    forfeit:
+      confirmation:
+        This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
+    cancel:
+      confirmation:
+        This will also cancel any seats associated to this reservation and notify all hosts and guests.
+        Any applicable refunds will be issued within 48 hours.
+        This can not be undone.
   seat:
+    not_editable: This seat can not be edited at this time.
     no_stencil: Plain (no stencil or personalization)
+    cancel:
+      success:
+        We're processing your void request. Any credits or refunds will be issued within 48 hours.
+      failure: We couldn't void your seat at this time. Please try again.
+      confirmation:
+        The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
   stencil:
     destroy:
-      confirmation: "This will delete the stencil, it's image, and any projects it's associated with."
+      confirmation: This will delete the stencil, it's image, and any projects it's associated with.
   stencil_category:
     destroy:
-      confirmation: "This will delete the stencil category and any stencils it's associated with."
+      confirmation: This will delete the stencil category and any stencils it's associated with.
   success:
-    create: "The record was created successfully!"
-    update: "The record has been updated"
-    destory: "The record has been deleted"
-    upload: "Images was uploaded successfully!"
+    create: The record was created successfully!
+    update: The record has been updated successfully!
+    destroy: The record has been deleted successfully!
+    upload: Image was uploaded successfully!
+  failure:
+    create: Record couldn't be created. Please try again or contact your system administrator.
+    update: Record couldn't be updated. Please try again or contact your system administrator.
+    destroy: Record couldn't be deleted. Please try again or contact your system administrator.
+    upload: Image was not uploaded!
   user:
-    need_addresses: "Unless your order is being picked up, you'll need to add an address to your account!"
+    need_addresses: Unless your order is being picked up, you'll need to add an address to your account!
   workshop:
     destroy:
-      confirmation: "This will delete the workshop and it's images."
+      confirmation: This will delete the workshop and it's images.
+  helpers:
+    select:
+      prompt: Please select
+    submit:
+      create: Create"
+      submit: Save %{model}
+      update: Save changes
+    label:
+      cart:
+        reservation_agreement: Policy agreement
+      order:
+        is_gift: Order contains a gift
+      project:
+        allow_no_stencil: Allow option to select no stencil
+      workshop_type:
+        active: Is Active?
+        default_single_seat_allow: Are individual seats allowed?
+        default_total_seats: Total seat count
+        default_reservation_allow: Are reservations allowed?
+        default_reservation_allow_multiple: Are multiple reservations allowed?
+        default_reservation_price: Deposit fee
+        default_reservation_minimum: Minimum seat count
+        default_reservation_maximum: Maximum seat count
+        default_reservation_cancel_minimum_not_met: Void reservation if seating requirements not met?
+        default_reservation_allow_guest_cancel_seat: Are hosts or guests allowed to cancel seats?
+      workshop:
+        start_date: Start Time
+        end_date: End Time
+        purchase_start_date: First date to purchase reservations and/or seats
+        purchase_end_date: Individual seat deadline
+        workshop_type: Workshop Type
   activerecord:
     errors:
       messages:
@@ -85,111 +147,18 @@ en:
           has_one: "Cannot delete record because a dependent %{record} exists"
           has_many: "Cannot delete record because dependent %{record} exist"
   date:
-    abbr_day_names:
-      - Sun
-      - Mon
-      - Tue
-      - Wed
-      - Thu
-      - Fri
-      - Sat
-    abbr_month_names:
-      -
-      - Jan
-      - Feb
-      - Mar
-      - Apr
-      - May
-      - Jun
-      - Jul
-      - Aug
-      - Sep
-      - Oct
-      - Nov
-      - Dec
-    day_names:
-      - Sunday
-      - Monday
-      - Tuesday
-      - Wednesday
-      - Thursday
-      - Friday
-      - Saturday
     formats:
-      default: "%m-%d-%Y"
+      default: "%-m/%-d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
-    month_names:
-      -
-      - January
-      - February
-      - March
-      - April
-      - May
-      - June
-      - July
-      - August
-      - September
-      - October
-      - November
-      - December
-    order:
-      - :month
-      - :day
-      - :year
   time:
     am: am
     pm: pm
     formats:
-      default: "%m/%d/%Y %I:%M %p"
+      default: "%m/%d/%Y %l:%M %p"
       long: "%a, %d %b %Y %I:%M:%S %p %Z"
-      short: "%m/%d/%y %I:%M %p"
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
-      about_x_months:
-        one: about 1 month
-        other: about %{count} months
-      about_x_years:
-        one: about 1 year
-        other: about %{count} years
-      almost_x_years:
-        one: almost 1 year
-        other: almost %{count} years
-      half_a_minute: half a minute
-      less_than_x_minutes:
-        one: less than a minute
-        other: less than %{count} minutes
-      less_than_x_seconds:
-        one: less than 1 second
-        other: less than %{count} seconds
-      over_x_years:
-        one: over 1 year
-        other: over %{count} years
-      x_days:
-        one: 1 day
-        other: "%{count} days"
-      x_minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-      x_months:
-        one: 1 month
-        other: "%{count} months"
-      x_years:
-        one: 1 year
-        other: "%{count} years"
-      x_seconds:
-        one: 1 second
-        other: "%{count} seconds"
-    prompts:
-      day: Day
-      hour: Hour
-      minute: Minute
-      month: Month
-      second: Seconds
-      year: Year
+      short: "%-m/%-d/%y %I:%M %p"
+      no_time: "%-m/%-d/%Y"
   errors:
     format: "%{attribute} %{message}"
     messages:
@@ -281,27 +250,6 @@ en:
       last_word_connector: ", and "
       two_words_connector: " and "
       words_connector: ", "
-  helpers:
-    select:
-      prompt: "Please select"
-    submit:
-      create: "Create"
-      submit: Save %{model}
-      update: "Save changes"
-    label:
-      order:
-        is_gift: "Order contains a gift"
-      project:
-        allow_no_stencil: Allow option to select no stencil
-      workshop:
-        start_date: "Workshop Start Date/Time"
-        end_date: "Workshop End Date/Time"
-        is_for_sale: "Available for purchase?"
-        purhcase_start_date: "Date available for purhcase"
-        purhcase_end_date: "Last date to purchase"
-        total_tickets: "Tickets for purhcasee"
-        ticket_price: "Price per ticket"
-        is_public: "Availablity type"
   failure:
     delete: "Unable to delete your record. Please try again."
     update: ""

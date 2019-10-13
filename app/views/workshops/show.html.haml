@@ -1,11 +1,11 @@
 .row
   .col-12.col-lg-6.mb-2
     .row
-      - if @workshop.images.any?
+      - if @workshop.workshop_images.any?
         .col-12.d-flex.justify-content-center
           %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}",
-            src: url_for(@workshop.images.first), 'data-js-img-gallery-preview': ''}
-        - @workshop.images.each do |img|
+            src: url_for(@workshop.workshop_images.first), 'data-js-img-gallery-preview': ''}
+        - @workshop.workshop_images.each do |img|
           .workshop-img-item
             %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
       - else
@@ -15,35 +15,48 @@
 
       - @workshop.projects.each do |project|
         - project.project_images.each do |img|
-          .workshop-img-item.mb-3
+          .workshop-img-item.mb-3.text-center
             %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
-            .text-secondary.text-center= project.name
+            %a{href: project_path(project)}= project.name
 
   .col-12.col-lg-6.mb-2
     .card
-      %h4.card-header.bg-primary.text-white
+      %h3.card-header.bg-primary.text-white
         = @workshop.name
-      - if user_signed_in?
-        - if @workshop.can_purchase?
-          = form_for :cart, url: cart_index_path do |f|
-            = f.hidden_field :workshop_id, value: @workshop.id
-            .card-body
-              = render partial: 'body'
-              %hr
-              - if @workshop.private?
-                = render partial: 'reservation_form', locals: { f: f }
-              - else
-                = render partial: 'seat_form', locals: { f: f }
-              %button{type: 'submit', name: 'save', class: 'btn btn-success btn-block'}
-                = fa_solid 'cart-plus'
-                Add to Cart
+      - if @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
+        - if user_signed_in?
+          .card-body
+            = render partial: 'body', locals: { workshop: @workshop }
+            - if @workshop.seat_purchaseable? && @workshop.reservation_purchaseable?
+              %p.card-text.text-info
+                Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process.
+          .card-header
+            %ul#workshopTab.nav.nav-tabs.card-header-tabs{role: "tablist"}
+              - if @workshop.seat_purchaseable?
+                = render partial: 'general/tab_header', locals: { id: 'seat', active: @workshop.seat_purchaseable?, title: 'Individual Seat' }
+              - if @workshop.reservation_purchaseable?
+                = render partial: 'general/tab_header', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, title: 'Group Reservation' }
+
+          .card-body
+            #workshopTabContent.tab-content
+              - if @workshop.seat_purchaseable?
+                = render partial: 'general/tab_pane', locals: { id: 'seat', active: @workshop.seat_purchaseable?, view_name: 'seat_form' }
+              - if @workshop.reservation_purchaseable?
+                = render partial: 'general/tab_pane', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, view_name: 'reservation_form' }
         - else
           .card-body
-            = render partial: 'body'
-            .text-muted Sorry, but tickets for this workshop can't be purchased right now
+            = render partial: 'body', locals: { workshop: @workshop }
+            %a.btn.btn-primary.btn-block(href=new_user_session_path)
+              = fa_light 'sign-in'
+              Log In or Sign up to add this to your cart
       - else
         .card-body
-          = render partial: 'body'
-          %a.btn.btn-primary.btn-block(href=new_user_session_path)
-            = fa_light 'sign-in'
-            Log In or Sign up to add this to your cart
+          = render partial: 'body', locals: { workshop: @workshop }
+          %p
+            Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
+
+          %a.btn.btn-primary.btn-block(href=workshops_public_path)
+            View PUBLIC Workshop dates
+
+          %a.btn.btn-primary.btn-block(href=workshops_private_path)
+            View PRIVATE Workshop dates

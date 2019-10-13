@@ -1,8 +1,28 @@
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'analytics'
-    Reports
+- page_title 'Workshop Search'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Reports
+        %h1.header-title
+          %i.fad.fa-analytics
+          All Reports
+
 .row
-  %ul.list-group
-    %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: admin_reports_path }}
-      Sales Tax Liability
+  .col-12
+    .card.card-inactive
+      .card-body.text-center
+        %img.img-fluid{:alt => 'Placeholder image', :src => "/illustrations/scale.svg", :style => "max-width: 182px;"}/
+        %h1
+          No reports yet.
+        %p.text-muted
+          Create a report to find our more about your business.
+        %a.btn.btn-primary.disabled{:href => "#!"}
+          Create Report
+
+-# .row
+-#   %ul.list-group
+-#     %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: admin_reports_path }}
+-#       Sales Tax Liability

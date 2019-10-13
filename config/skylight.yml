@@ -1,4 +1,0 @@
----
-authentication: <%= Rails.application.credentials.skylight_secret %>
-ignored_endpoints:
-  - Pinglish

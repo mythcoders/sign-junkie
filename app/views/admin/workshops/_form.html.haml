@@ -1,56 +1,167 @@
-= f.hidden_field :id
-.form-group
-  = f.label :name, class: 'col-form-label'
-  = f.text_field :name, class: 'form-control'
-.form-row
-  .form-group.col-12.col-md-6
-    = f.label :start_date, class: 'col-form-label'
-    #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-      = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
-      .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
-        .input-group-text
-          = fa_regular 'calendar'
-  .form-group.col-12.col-md-6
-    = f.label :end_date, class: 'col-form-label'
-    #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-      = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
-      .input-group-append{"data-target": "#endpicker", "data-toggle": "datetimepicker"}
-        .input-group-text
-          = fa_regular 'calendar'
-.form-group
-  = f.label :description, class: 'col-form-label'
-  = f.text_area :description, class: 'form-control', rows: 3
-.form-row
-  .form-group.col-12.col-md-6
-    = f.label :is_public, class: 'control-label'
-    .custom-control.custom-radio
-      = f.radio_button :is_public, 'true', class: 'custom-control-input'
-      %label.custom-control-label{for: "workshop_is_public_true"} Public Workshop
-    .custom-control.custom-radio
-      = f.radio_button :is_public, 'false', class: 'custom-control-input'
-      %label.custom-control-label{for: "workshop_is_public_false"} Private Workshop
-  .form-group.col-12.col-md-6
-    = f.label :total_seats, class: 'col-form-label'
-    = f.text_field :total_tickets, class: 'form-control'
-%hr
-%h2 Purchasing
-.form-group
-  .custom-switch.custom-control
-    = f.check_box :is_for_sale, class: 'custom-control-input'
-    = f.label :is_for_sale, class: 'custom-control-label'
-.form-row
-  .form-group.col-12.col-md-6
-    = f.label :purchase_start_date, class: 'col-form-label'
-    #purchasestartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-      = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasestartpicker'
-      .input-group-append{"data-target": "#purchasestartpicker", "data-toggle": "datetimepicker"}
-        .input-group-text
-          = fa_regular 'calendar'
-  .form-group.col-12.col-md-6
-    = f.label :purchase_end_date, class: 'col-form-label'
-    #purchaseendpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-      = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control datetimepicker-input', 'data-target': '#purchaseendpicker'
-      .input-group-append{"data-target": "#purchaseendpicker", "data-toggle": "datetimepicker"}
-        .input-group-text
-          = fa_regular 'calendar'
+.row
+  .col-12.col-xl-4.col-lg-6
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h2.card-header-title
+              Basic Information
+          .col-auto.mr-n3
+            %span.text-muted
+              Is this workshop for sale?
+          .col-auto
+            .custom-control.custom-switch
+              = f.check_box :is_for_sale, class: 'custom-control-input'
+              %label.custom-control-label{for: 'workshop_is_for_sale'}
+      .card-body
+        = error_messages_for 'workshop'
+        = f.hidden_field :id
+        .form-group
+          = f.label :name, class: 'col-form-label'
+          = f.text_field :name, class: 'form-control'
+        .form-group
+          = f.label :description, class: 'col-form-label'
+          = f.text_area :description, class: 'form-control', rows: 2
+        .form-group
+          = f.label :start_date, class: 'col-form-label'
+          #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
+            .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :end_date, class: 'col-form-label'
+          #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
+            .input-group-append{"data-target": "#endpicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :purchase_start_date, class: 'col-form-label'
+          #purchasestartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasestartpicker'
+            .input-group-append{"data-target": "#purchasestartpicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :purchase_end_date, class: 'col-form-label'
+          #purchaseendpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control datetimepicker-input', 'data-target': '#purchaseendpicker'
+            .input-group-append{"data-target": "#purchaseendpicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :workshop_type_id, class: 'col-form-label'
+          - @workshop_types.each do |type|
+            .custom-control.custom-radio
+              = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
+                'data-js-workshop-type': '',
+                'data-workshop-type-single-seat-allow': human_boolean(type.default_single_seat_allow),
+                'data-workshop-type-reservation-allow': human_boolean(type.default_reservation_allow),
+                'data-workshop-type-reservations-end': 8,
+                'data-workshop-type-reservation-cancel-minimum': human_boolean(type.default_reservation_cancel_minimum_not_met),
+                'data-workshop-type-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
+                'data-workshop-type-total-seats': type.default_total_seats,
+                'data-workshop-type-reservation-price': number_to_currency(type.default_reservation_price),
+                'data-workshop-type-reservation-minimum': type.default_reservation_minimum,
+                'data-workshop-type-reservation-maximum': type.default_reservation_maximum
+              %label.custom-control-label{for: "workshop_workshop_type_id_#{type.id}"}= type.name
+  .col-12.col-xl-8.col-lg-6
+    %ul#workshopTab.nav.nav-tabs.mb-2{role: "tablist"}
+      %li.nav-item
+        %a#project-tab.nav-link.active{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
+          = fa_solid 'sign'
+          Projects
+      %li.nav-item
+        %a#attendee-tab.nav-link{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#attendee", role: "tab"}
+          = fa_solid 'cogs'
+          Options
 
+    #workshopTabContent.tab-content
+      #attendee.tab-pane.fade.fade{"aria-labelledby": "attendee-tab", role: "tabpanel"}
+        .card
+          .card-header
+            %h2.card-header-title Workshop Options
+          %table.table.table-sm.card-table
+            %thead
+              %tr
+                %th Option
+                %th Default Value
+                %th Current Value
+            %tfoot
+              %tr
+                %td
+                  Are individual seats allowed?
+                  %small.form-text.text-muted Allow customers to purchase individual seats (not associated with a reservation) as long as there are enough seats available
+                %td{'data-js-workshop-type-single-seat-allow': ''}
+                %td= f.select :overridden_single_seat_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
+              %tr
+                %td
+                  Total seat count
+                  %small.form-text.text-muted Total number of guests that can attend this type of workshop
+                %td{'data-js-workshop-type-total-seats': ''}
+                %td
+                  = f.text_field :overridden_total_seats, class: 'form-control', placeholder: 'Default'
+              %tr
+                %th.text-uppercase{colspan: 3} Reservation options
+              %tr
+                %td
+                  Are reservations allowed?
+                  %small.form-text.text-muted Allow reservations to be booked as long as there are enough seats available to meet the reservation minimum seat count
+                %td{'data-js-workshop-type-reservation-allow': ''}
+                %td= f.select :overridden_reservation_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
+              %tr
+                %td
+                  Are multiple reservations allowed?
+                  %small.form-text.text-muted Allow multiple reservations to be booked by different customers
+                %td{'data-js-workshop-type-reservation-allow-multiple': ''}
+                %td= f.select :overridden_reservation_allow_multiple, overriden_boolean_select_options, {}, { class: 'custom-select' }
+              %tr
+                %td
+                  Reservations stopped...
+                  %small.form-text.text-muted Number of days before the workshop when reservations are no longer accepted
+                %td{'data-js-workshop-type-reservations-end': ''}
+                %td
+                  %input.form-control{:placeholder => "Default", :disabled => "disabled", :type => "text"}
+              %tr
+                %td
+                  Cancel reservation if seating requirements not met?
+                  %small.form-text.text-muted
+                    Cancel reservations if the minimum number of guests have not met the requirements by the
+                    registration/payment deadlines
+                %td{'data-js-workshop-type-reservation-cancel-minimum': ''}
+                %td= f.select :overridden_reservation_cancel_minimum_not_met, overriden_boolean_select_options, {}, { class: 'custom-select' }
+              %tr
+                %td
+                  Minimum seat count
+                  %small.form-text.text-muted
+                    Minimum number of guests that can be on a single reservation
+                %td{'data-js-workshop-type-reservation-minimum': ''}
+                %td= f.text_field :overridden_reservation_minimum, class: 'form-control', placeholder: 'Default'
+              %tr
+                %td
+                  Maximum seat count
+                  %small.form-text.text-muted
+                    Maximum number of guests that can be on a single reservation.
+                    Can not be larger than the total seat count,
+                %td{'data-js-workshop-type-reservation-maximum': ''}
+                %td= f.text_field :overridden_reservation_maximum, class: 'form-control', placeholder: 'Default'
+              %tr
+                %td
+                  Deposit fee
+                  %small.form-text.text-muted The price it costs for customers to book a reservation
+                %td{'data-js-workshop-type-reservation-price': ''}
+                %td
+                  .input-group
+                    .input-group-prepend
+                      %span.input-group-text= fa_regular 'dollar-sign'
+                    = f.text_field :overridden_reservation_price, class: 'form-control', placeholder: 'Default'
+      #project.tab-pane.show.active{"aria-labelledby": "project-tab", role: "tabpanel"}
+        .card
+          .card-header
+            %h2.card-header-title Available Projects
+          .card-body
+            = collection_check_boxes(:workshop, :project_ids, Project.order(name: :asc).all, :id, :name) do |b|
+              .custom-control.custom-checkbox
+                = b.check_box(class: 'custom-control-input')
+                = b.label(class: 'custom-control-label')

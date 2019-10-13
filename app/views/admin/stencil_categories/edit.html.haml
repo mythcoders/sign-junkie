@@ -1,12 +1,22 @@
 - page_title 'Edit', 'Stencil Categories'
 = render partial: 'destory_confirmation'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Stencil Categories
+        %h1.header-title
+          %i.fad.fa-swatchbook
+          = "Edit #{@category.name}"
+
 = form_for @category, url: admin_stencil_category_path(@category), method: :patch do |f|
   .row
     .col-12.col-lg-5
       .card
-        %h5.card-header.bg-primary.text-white
-          Edit Category
+        .card-header
+          %h5.card-header-title Information
         .card-body
           = error_messages_for 'category'
           = render partial: 'admin/stencil_categories/form', locals: { f: f }
@@ -17,8 +27,8 @@
             Delete
     .col-12.col-lg-7
       .card
-        %h5.card-header.bg-primary.text-white
-          Stencils
+        .card-header
+          %h5.card-header-title Stencils
         .card-body
           %ul
             - @category.stencils.each do |stencil|

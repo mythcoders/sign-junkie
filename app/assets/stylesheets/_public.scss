@@ -1,0 +1,143 @@
+//
+// _public.scss
+// Styles specific to the public website
+//
+
+@import "peek";
+@import "peek/views/performance_bar";
+
+$light-teal: #4290a9 !default;
+
+@include bg-variant(".bg-blue", $blue);
+@include bg-variant(".bg-teal-light", $light-teal);
+
+@mixin rotate {
+  transform: rotate(15deg);
+}
+
+.card-body-icon {
+  position: absolute;
+  z-index: 0;
+  top: -1.25rem;
+  right: -1rem;
+  opacity: 0.4;
+
+  font-size: 5rem;
+  @include rotate;
+}
+
+.navbar-nav {
+  font-size: 1.2rem;
+  .nav-item {
+    &.active {
+      .nav-link {
+        color: $white;
+      }
+    }
+    .nav-link {
+      &:focus {
+        // remove outline for Safari and Firefox
+        outline: none;
+      }
+      .badge {
+        position: absolute;
+        margin-left: 0.75rem;
+        top: 0.3rem;
+        font-weight: 400;
+        font-size: 0.5rem;
+      }
+    }
+  }
+}
+
+.row-item {
+  @include media-breakpoint-up(md) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33%;
+    flex: 0 0 33%;
+    max-width: 33%;
+  }
+}
+
+.workshop-row-item {
+  @include media-breakpoint-up(md) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.workshop-img-item {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.bd-footer {
+  text-align: center;
+
+  a {
+    font-weight: 500;
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      color: $link-color;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: 3rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding: 1rem;
+  }
+
+  @include media-breakpoint-up(xs) {
+    text-align: left;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  .row > .card {
+    margin-bottom: 1em;
+  }
+}
+
+.bd-footer-links {
+  padding-left: 0;
+  margin-bottom: 1rem;
+
+  li {
+    display: inline-block;
+
+    + li {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.padded-container {
+  padding-top: 2rem;
+}

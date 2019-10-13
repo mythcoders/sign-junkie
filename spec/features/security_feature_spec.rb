@@ -9,7 +9,7 @@ RSpec.describe 'the signin process', type: :feature do
       fill_in 'user_email',	with: user.email
       fill_in 'user_password',	with: 'yodawg!'
 
-      click_button 'Log in'
+      click_button 'Sign in'
       expect(page).to have_content 'Signed in successfully'
     end
   end

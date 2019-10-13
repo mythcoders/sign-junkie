@@ -1,0 +1,15 @@
+- page_title 'Gallery Images'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Photo Gallery
+        %h1.header-title
+          %i.fad.fa-photo-video
+          Search
+      .col-auto
+        = link_to 'New Image', new_admin_gallery_image_path, class: 'btn btn-primary lift'
+
+= render partial: 'admin/images/list', locals: { images: @images }

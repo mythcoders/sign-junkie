@@ -7,5 +7,5 @@
 %ul.list-group
   - @questions.each do |item|
     %li.list-group-item
-      %h5.text-danger.text-uppercase= item['question']
+      %h5.text-info.text-uppercase= item['question']
       = item['answer'].html_safe

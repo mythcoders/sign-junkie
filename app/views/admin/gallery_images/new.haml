@@ -1,0 +1,33 @@
+- page_title 'New', 'Workshop Image'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Gallery Images
+        %h1.header-title
+          %i.fad.fa-toolbox
+          New Image
+
+= form_for :gallery, url: admin_gallery_images_path, local: true do |f|
+  .card
+    .card-header
+      %h3.card-header-title
+        = fa_solid 'images'
+        Image
+    .card-body
+      = error_messages_for 'image'
+      .form-group
+        .custom-file
+          = f.file_field :images, multiple: true, class: 'custom-file-input'
+          = f.label :select_one_or_more_images_to_upload, class: 'custom-file-label'
+    .card-footer
+      = link_to 'Cancel', admin_gallery_images_path, class: 'btn btn-outline-secondary'
+      = f.submit 'Upload', class: 'btn btn-success'
+
+- content_for :scripts do
+  :javascript
+    document.addEventListener('DOMContentLoaded', function() {
+      bsCustomFileInput.init()
+    });

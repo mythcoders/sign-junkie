@@ -1,33 +1,69 @@
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'info-circle'
-    = "About #{SystemInfo::app_name}"
+- page_title 'About'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle= "#{SystemInfo::app_name} Admin Portal"
+        %h1.header-title
+          %i.fad.fa-info-circle
+          About
+      .col-auto
+        %a.btn.btn-primary{href: admin_help_path}
+          = fa_solid 'question-circle'
+          Help
+        %a.btn.btn-primary{href: SystemInfo.support_url}
+          = fa_solid 'life-ring'
+          Contact Support
+
 .row
   .col-12.col-md-6
-    .form-group.row
-      %label.col-sm-3.col-form-label Release
-      .col-sm-9
-        = SystemInfo.release
-        - if SystemInfo.prerelease?
-          %span.badge.badge-danger.badge-pill.ml-3 PRE-RELEASE
-    .form-group.row
-      %label.col-sm-3.col-form-label Licensed To
-      .col-sm-9
-        %a{href: 'https://www.signjunkieworkshop.com'}= ClientInfo.owner
-    .form-group.row
-      %label.col-sm-3.col-form-label Developed By
-      .col-sm-9
-        %a{href: SystemInfo.developer_url}= SystemInfo.developer
-        %br= "\u00A9 Copyright #{Date.today.year}"
-        Made with
-        = fa_solid 'heart', 'text-warning'
-        in Ohio
-    - if current_user.operator?
-      %hr
-      .form-group.row
-        .col
-          %strong Instance
-          %pre= EnvironmentInfo.instance
+    .row
+      .col-4
+        %img.img-fluid{src: '/apollo.png'}
+      .col-8
+        .form-group
+          %h1
+            Apollo
+            %small.text-uppercase mission control for your business
+        .form-group.row
+          %label.col-sm-4.col-form-label Release
+          .col-sm-8.mt-3
+            = SystemInfo.release
+            - if SystemInfo.prerelease?
+              %span.badge.badge-warning.badge-pill.ml-3 PRE-RELEASE
+        .form-group.row
+          %label.col-sm-4.col-form-label Developed By
+          .col-sm-8
+            %a{href: SystemInfo.developer_url}= SystemInfo.developer
+            %br= "\u00A9 Copyright #{Time.zone.today.year}"
+            Made with
+            = fa_solid 'heart', 'text-danger'
+            in Ohio
+        .form-group.row
+          %label.col-sm-4.col-form-label Developed For
+          .col-sm-8
+            %a{href: ClientInfo.website_link}= ClientInfo.owner
+            %p= "#{ClientInfo.city}, #{ClientInfo.state}"
+            %span.badge.badge-info.badge-pill
+              %i.fas.fa-rocket.fa-lg
+              Core
+            %span.badge.badge-info.badge-pill
+              %i.fas.fa-address-book.fa-lg
+              Customer Portal
+            %span.badge.badge-info.badge-pill
+              %i.fas.fa-toolbox.fa-lg
+              DIY Workshops
+            %span.badge.badge-info.badge-pill
+              %i.fas.fa-database.fa-lg
+              Sales
+      - if current_user.operator?
+        .col-12
+          .card
+            .card-header
+              %h3.card-header-title Environment Information
+            .card-body
+              %pre= EnvironmentInfo.instance
   .col-12.col-md-6
     %h3 Release Notes
     = raw @markdown

@@ -1,0 +1,40 @@
+//
+// _admin_portal.scss
+// Styles specific to the Admin Portal
+//
+
+@import "select2/src/scss/core.scss";
+@import "tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4.scss";
+@import "wice_grid";
+@import "peek";
+@import "peek/views/performance_bar";
+
+#peek {
+  background-color: $navbar-dark-bg;
+}
+
+.bootstrap-datetimepicker-widget {
+  &.dropdown-menu {
+    width: unset;
+  }
+}
+
+.sidebar-icon {
+  min-width: $navbar-icon-min-width;
+  padding-bottom: 0.125em;
+  line-height: ($font-size-base * $line-height-base);
+  margin-left: -5px;
+  margin-right: 5px;
+}
+
+.btn-teal {
+  @include button-variant(teal, teal);
+}
+
+.link-teal {
+  color: teal;
+}
+
+.link-teal:hover {
+  color: #003434;
+}

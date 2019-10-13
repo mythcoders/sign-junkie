@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CartController < ApplicationController
-  helper WorkshopHelper
+  helper WorkshopsHelper
   before_action :authenticate_user!
   before_action :set_cart_service, only: %i[create destroy]
 
@@ -43,10 +43,10 @@ class CartController < ApplicationController
   end
 
   def cart_params
-    params.require(:cart).permit(:id, :quantity, :workshop_id, :project_id, :addon_id,
-                                 :stencil_id, :stencil, :seating, :design_confirmation,
-                                 :policy_agreement, :first_name, :last_name, :email,
-                                 :amount, :type, :acknowledgment, :gift_seat, :payment_plan)
+    params.require(:cart)
+          .permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
+                  :design_confirmation, :policy_agreement, :first_name, :last_name, :email, :amount, :acknowledgment,
+                  :gift_seat, :payment_plan, :reservation_agreement, :booking_agreement, :seat_id, :reservation_id)
   end
 
   def calc_est_tax

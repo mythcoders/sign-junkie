@@ -12,13 +12,13 @@
               = fa_brands 'instagram'
               Instagram
           %li= link_to 'Contact Us', contact_path
-          %li= link_to 'About', about_path
+          %li= link_to 'About Us', about_path
         = link_to contact_path do
           .address
             = ClientInfo.address_1
             %br= "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
         .text-muted
           %br
-          %a{href: root_path}= "\u00A9 #{Date.today.year} #{ClientInfo.owner}"
+          %a{href: root_path}= "\u00A9 #{Time.zone.today.year} #{ClientInfo.owner}"
           |
           %a{href: 'https://www.mythcoders.com', target: '_blank'} Powered by MythCoders, LLC

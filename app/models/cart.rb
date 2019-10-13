@@ -3,12 +3,13 @@
 class Cart < ApplicationRecord
   has_paper_trail
   belongs_to :user
-  belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id'
+  belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id', dependent: :destroy
 
   scope :for, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
   scope :as_of, ->(date_created) { where('created_at <= ?', date_created) }
   scope :for_shop, ->(id) { includes(:description).where(item_descriptions: { workshop_id: id }) }
   scope :seats, -> { includes(:description).where(item_descriptions: { item_type: 'seat' }) }
+  scope :reservations, -> { includes(:description).where(item_descriptions: { item_type: 'reservation' }) }
   scope :non_gift_seat, -> { seats.where(item_descriptions: { email: nil }) }
   scope :gifted_seats, ->(email) { seats.where(item_descriptions: { email: email }) }
 
@@ -61,9 +62,14 @@ class Cart < ApplicationRecord
   def self.new_reservation(user, workshop, params)
     new(user: user,
         description: ItemDescription.reservation(workshop),
-        seats_booked: params[:quantity],
+        payment_plan: params[:payment_plan],
         nontaxable_amount: workshop.reservation_price,
         taxable_amount: 0.00)
+  end
+
+  def self.new_from_seat(user, seat)
+    new(user: user,
+        item_description_id: seat.item_description_id)
   end
 
   private
@@ -72,17 +78,32 @@ class Cart < ApplicationRecord
     @seat_owner ||= gifted_seat? ? User.find_or_initialize_by(email: email) : user
   end
 
+  # TODO: Move this to CartService
   def validate_can_book
     if seat?
-      existing_seats = Seat.already_booked?(seat_owner, workshop_id)
+      # raise ProcessError, 'Workshop is not accepting anymore seats' unless workshop.seat_purchaseable?
+      raise ProcessError, 'This seat has already been added to someones cart' unless description.carts.none?
+
+      existing_seats = SeatService.already_booked?(seat_owner, workshop_id)
       existing_cart_items = Cart.for(seat_owner).for_shop(workshop_id).non_gift_seat.any?
       existing_gifts = Cart.gifted_seats(seat_owner.email).any?
 
       if existing_cart_items || existing_seats || existing_gifts
-        raise ProcessError, 'Workshop has already been booked or added to cart'
+        raise ProcessError, 'Seat to this workshop has already been booked or added to cart'
       end
+
+      return if description.seats.any?
     elsif reservation?
-      # TODO: Can another reservation be made?
+      # raise ProcessError, 'Workshop is not accepting anymore reservations' unless workshop.reservation_purchaseable?
+      raise ProcessError, 'This reservation has already been added to someones cart' unless description.carts.none?
+
+      existing_reservation = ReservationService.already_booked?(seat_owner, workshop_id)
+      existing_seats = SeatService.already_booked?(seat_owner, workshop_id)
+      existing_cart_items = Cart.for(seat_owner).for_shop(workshop_id).reservations.any?
+
+      if existing_reservation || existing_seats || existing_cart_items
+        raise ProcessError, 'Reservation has already been booked or added to cart'
+      end
     end
   end
 end

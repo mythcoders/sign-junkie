@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_223521) do
+ActiveRecord::Schema.define(version: 2019_10_08_010202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,26 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "state"
+    t.string "city"
+    t.string "zip_code"
+    t.string "phone"
+    t.string "fax"
+    t.string "contact_email"
+    t.string "instagram_account"
+    t.string "facebook_account"
+    t.string "twitter_account"
+    t.string "site_url"
+    t.string "site_name"
+    t.string "site_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "customer_credits", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
     t.decimal "starting_amount", null: false
@@ -60,6 +80,13 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
     t.datetime "updated_at", null: false
     t.decimal "balance", default: "0.0", null: false
     t.index ["user_id"], name: "index_customer_credits_on_user_id"
+  end
+
+  create_table "gallery_images", force: :cascade do |t|
+    t.string "caption"
+    t.integer "sort"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "invoice_items", id: :serial, force: :cascade do |t|
@@ -99,12 +126,13 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
     t.integer "addon_id"
     t.string "addon_name"
     t.string "seat_preference"
-    t.integer "seats_booked"
     t.string "first_name"
     t.string "last_name"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_plan"
+    t.datetime "refund_date"
   end
 
   create_table "notifiications", id: :serial, force: :cascade do |t|
@@ -181,10 +209,10 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
   create_table "reservations", id: :serial, force: :cascade do |t|
     t.bigint "workshop_id"
     t.bigint "user_id"
-    t.string "payment_plan", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "item_description_id", null: false
+    t.boolean "forfeit_deposit", default: false
     t.index ["user_id"], name: "index_reservations_on_user_id"
     t.index ["workshop_id"], name: "index_reservations_on_workshop_id"
   end
@@ -299,6 +327,22 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
     t.index ["workshop_id"], name: "index_workshop_projects_on_workshop_id"
   end
 
+  create_table "workshop_types", force: :cascade do |t|
+    t.string "name"
+    t.boolean "active"
+    t.boolean "default_reservation_allow"
+    t.boolean "default_reservation_allow_multiple"
+    t.integer "default_total_seats"
+    t.decimal "default_reservation_price"
+    t.integer "default_reservation_minimum"
+    t.integer "default_reservation_maximum"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "default_single_seat_allow"
+    t.boolean "default_reservation_cancel_minimum_not_met"
+    t.boolean "default_reservation_allow_guest_cancel_seat", default: true
+  end
+
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "description", limit: 1000
@@ -306,14 +350,20 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
     t.datetime "purchase_end_date"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.integer "total_tickets"
-    t.decimal "reservation_price"
+    t.integer "overridden_total_seats"
+    t.decimal "overridden_reservation_price"
     t.boolean "is_for_sale", default: false, null: false
-    t.boolean "is_public", default: true, null: false
-    t.boolean "allow_custom_stencils", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "cancel_date"
+    t.integer "workshop_type_id", null: false
+    t.boolean "overridden_reservation_allow"
+    t.boolean "overridden_reservation_allow_multiple"
+    t.integer "overridden_reservation_minimum"
+    t.integer "overridden_reservation_maximum"
+    t.boolean "overridden_single_seat_allow"
+    t.boolean "overridden_reservation_cancel_minimum_not_met"
+    t.boolean "overridden_reservation_allow_guest_cancel_seat"
   end
 
   add_foreign_key "carts", "item_descriptions"
@@ -342,4 +392,5 @@ ActiveRecord::Schema.define(version: 2019_08_16_223521) do
   add_foreign_key "stencils", "stencil_categories"
   add_foreign_key "workshop_projects", "projects"
   add_foreign_key "workshop_projects", "workshops"
+  add_foreign_key "workshops", "workshop_types"
 end

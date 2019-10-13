@@ -14,7 +14,7 @@ if Rails.application.config.lograge.enabled
             status: wrapper.status_code,
             error: "#{exception.class.name}: #{exception.message}"
           }
-          formatted_message = Lograge.formatter.(data)
+          formatted_message = Lograge.formatter.call(data)
           logger(request).send(Lograge.log_level, formatted_message)
         else
           old_log_error request, wrapper

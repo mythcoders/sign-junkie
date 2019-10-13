@@ -1,8 +1,19 @@
 - page_title 'New', 'Customer Credit'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Customers
+        %h1.header-title
+          %i.fad.fa-address-book
+          = "New credit for #{@credit.customer.full_name}"
+
 = form_for @credit, url: admin_customer_credits_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white= "New credit for #{@credit.customer.full_name}"
+    .card-header
+      %h5.card-header-title Information
     .card-body
       = error_messages_for 'credit'
       = f.hidden_field :user_id

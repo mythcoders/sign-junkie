@@ -1,8 +1,19 @@
 - page_title 'New', 'Add-ons'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Project Add-ons
+        %h1.header-title
+          %i.fad.fa-stamp
+          New
+
 = form_for @addon, url: admin_addons_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white New Add-on
+    .card-header
+      %h3.card-header-title Information
     .card-body
       = error_messages_for 'addon'
       = render partial: 'admin/addons/form', locals: { f: f }

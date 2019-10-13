@@ -25,19 +25,15 @@ $.onmount("[data-js-gift-seat]", function () {
 
 $.onmount("[data-js-change-addon]", function () {
     $(this).on("change", function () {
-        price = parseFloat(document.getElementById('base-price').value);
-        select = document.querySelectorAll('[data-js-change-addon]')[0]
-        if (select.selectedIndex > 0) {
-            addon = select[select.selectedIndex];
-            price += parseFloat(addon.getAttribute('price'));
-        }
-        document.getElementById('total-price').innerHTML = '$' + price.toFixed(2);
+        update_price();
     })
 });
 
 function update_ui() {
     var workshop = get_workshop();
     var project_id = get_project();
+    var stencil_id = document.getElementById('cart_org_stencil_id') ? document.getElementById('cart_org_stencil_id').value : '';
+    var addon_id = document.getElementById('cart_org_addon_id') ? document.getElementById('cart_org_stencil_id').value : '';
 
     if (workshop !== null && project_id !== null) {
         $.ajax({
@@ -61,6 +57,8 @@ function update_ui() {
                         }));
                     }
                     $("[data-js-change-addon]").removeAttr("disabled");
+                    $("[data-js-change-addon]").val(addon_id);
+                    update_price();
                 } else {
                     disable_addons("No addons for project");
                 }
@@ -73,18 +71,28 @@ function update_ui() {
                 preview.href = '/projects/' + project_id
 
                 $("[data-js-custom-stencil-input]").removeAttr("disabled");
-                currentStencils.selectedValue = null;
+                currentStencils.value = stencil_id;
                 currentStencils.disabled = false;
             },
             error: function (data, textStatus, jQxhr) {
                 Raven.captureException(jQxhr);
-                alert('An error occured. Please try again.');
+                alert('An error occurred. Please try again.');
             }
         });
     } else {
         disable_stencils("- Select Project -");
         disable_addons("- Select Project -");
     }
+}
+
+function update_price() {
+    price = parseFloat(document.getElementById('base-price').value);
+    select = document.querySelectorAll('[data-js-change-addon]')[0]
+    if (select.selectedIndex > 0) {
+        addon = select[select.selectedIndex];
+        price += parseFloat(addon.getAttribute('price'));
+    }
+    document.getElementById('total-price').innerHTML = '$' + price.toFixed(2);
 }
 
 function create_stencils(stencil_dropdown, allow_no_stencil, stencils) {
@@ -155,7 +163,7 @@ function get_project() {
 }
 
 function get_stencil() {
-    return document.querySelector('[data-js-custom-stencil-input]').value || null;
+    return document.querySelector('[data-js-change-stencil]').value || null;
 }
 
 function get_workshop() {

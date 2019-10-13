@@ -1,19 +1,20 @@
 #!/bin/bash
 
-skylight disable_dev_warning
+figlet -f trek apollo
 
-if [ "$2" == "db:local" ]; then
-  echo "Setting up database..."
+echo 'Configuring the hyperdrive...'
+
+if [ "$2" == "setup" ]; then
+  echo "Establsihing connection to the databank..."
   bundle exec rails db:exists && bundle exec rails db:migrate VERBOSE=true || bundle exec rails db:setup VERBOSE=true
 fi
 
 if [ "$1" == "start" ]; then
-  echo "Starting app on port ${APP_PORT}..."
-
   if [ -f "${APP_HOME}/tmp/pids/server.pid" ]; then
-    echo "Found and neutralizing server.pid"
+    echo "Scans detected server.pid in sector 1 -- neutralizing"
     rm -rf ${APP_HOME}/tmp/pids/server.pid
   fi
 
+  echo "Preparing for warp on port ${APP_PORT}..."
   bundle exec rails s -b 0.0.0.0 -p $APP_PORT
 fi
