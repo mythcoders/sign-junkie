@@ -2,11 +2,19 @@
 %html
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
-    :css
-      @import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
-  %body{style: "font-family: 'Abril Fatface'"}
-    = yield
-    %hr
-    = link_to ClientInfo.owner, root_url
-    %br 11235 Ridenour Rd
-    Thornville, OH 43076
+    = stylesheet_link_tag "mailer", media: "all"
+  %body.bg-light
+    .container.mt-2
+      %a{href: root_url}
+        %img.img-system-logo.d-none.d-sm-block{src: '/SJWlogo.svg'}
+      = yield
+      %hr
+      %p.text-center
+        = link_to ClientInfo.owner, ClientInfo.website_link
+        %br 11235 Ridenour Rd
+        Thornville, OH 43076
+        %br
+        Find us on
+        %a{href: ClientInfo.facebook_link} Facebook
+        and
+        %a{href: ClientInfo.instagram_link} Instagram

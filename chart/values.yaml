@@ -67,19 +67,9 @@ podDisruptionBudget:
   # minAvailable: 1
   maxUnavailable: 1
 
-# workers:
-#   worker:
-#     replicaCount: 1
-#     terminationGracePeriodSeconds: 60
-#     command: ["bundle", "exec", "sidekiq", "-c", "2"]
-#     preStopCommand: ["/bin/bash", "-l", "-c", "cd /opt/myapp/current; for f in tmp/pids/sidekiq*.pid; do bundle exec sidekiqctl stop $f; done"]
-#     livenessProbe:
-#       path: "/_sidebeat"
-#       initialDelaySeconds: 15
-#       timeoutSeconds: 15
-#       scheme: "HTTP"
-#     readinessProbe:
-#       path: "/_sidebeat"
-#       initialDelaySeconds: 15
-#       timeoutSeconds: 15
-#       scheme: "HTTP"
+workers:
+  sidekiq:
+    replicaCount: 1
+    terminationGracePeriodSeconds: 60
+    command: ["sh", "./scripts/worker", "start"]
+    preStopCommand: ["sh", "./scripts/worker", "stop"]

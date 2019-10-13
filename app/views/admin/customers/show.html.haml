@@ -1,30 +1,68 @@
 - page_title @customer.full_name, 'Customers'
 
-= render partial: 'admin/customers/header'
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Customers
+        %h1.header-title
+          %i.fad.fa-address-book
+          = @customer.full_name
+      .col-auto
+        .btn-group
+          %a.btn.btn-white.lift{href: admin_customers_path}
+            = fa_regular 'arrow-left'
+            Back to Search
+          %button.btn.btn-primary.dropdown-toggle.lift{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_regular 'plus'
+            New
+          .dropdown-menu
+            %a.dropdown-item{href: new_admin_customer_credit_path(@customer)} Credit
+        %a.btn.btn-primary.lift{href: edit_admin_customer_path(@customer)} Edit
 
 .row
   .col-12.col-lg-4
     .card.mb-2
-      %h5.card-header.bg-primary.text-white
-        = @customer.full_name
-      %table.table.table-border-fix.table-sm
-        %tbody
-          %tr
-            %td
-              = fa_regular 'envelope'
-              %strong Email
-            %td
+      .card-header
+        .row.align-items-center
+          .col
+            %h3.card-header-title
+              Overview
+          .col-auto
+            %span.badge{class: status_badge_class(@customer)}= @customer.status[:title]
+      .card-body
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3
+            = fa_duo 'envelope'
+            Email
+          .media-body.text-right
+            %span.font-weight-medium
               %a{href: "mailto:#{@customer.email}"}= @customer.email
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3
+            = fa_duo 'shield'
+            = status_date_title @customer
+          .media-body.text-right
+            %span.font-weight-medium= lifp @customer.status[:date]
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3
+            = fa_duo 'hammer-war'
+            Failed Login Attempts
+          .media-body.text-right
+            %span.font-weight-medium= @customer.failed_attempts
 
   .col-12.col-lg-8
     .card
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'file-invoice-dollar'
-        Invoices
-      = render partial: 'admin/invoices/list'
+      .card-header
+        %h3.card-header-title
+          = fa_duo 'file-invoice-dollar'
+          Invoices
+      = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices }
 
     .card.mt-2
-      %h5.card-header.bg-primary.text-white
-        = fa_solid 'gift-card'
-        Credits
+      .card-header
+        %h3.card-header-title
+          = fa_duo 'gift-card'
+          Credits
       = render partial: 'admin/customer_credits/list'

@@ -6,11 +6,6 @@ class Refund < ApplicationRecord
   belongs_to :refund_reason, required: false
   belongs_to :customer_credit, required: false
 
-  def self.new_from_invoice(invoice)
-    new(invoice: invoice,
-        amount: invoice.cancelable_items.collect(&:amount_refundable).first)
-  end
-
   def deduct!
     return false if persisted?
 

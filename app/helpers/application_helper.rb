@@ -2,27 +2,29 @@
 
 module ApplicationHelper
   include IconHelper
-  include SidebarHelper
-
-  USER_ROLES = [
-    { name: 'Customer', id: 1 },
-    { name: 'Employee', id: 2 },
-    { name: 'Supervisor', id: 4 },
-    { name: 'IT Operator', id: 8 }
-  ].freeze
-
-  PAYMENT_METHODS = [
-    { name: 'Credit/Debit Card', id: :card },
-    { name: 'PayPal', id: :pay_pal }
-  ].freeze
 
   def admin?
     controller.class.superclass == Admin::ApplicationController
   end
-  delegate :control_panel?, to: :admin?
+
+  def sidebar_classes
+    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md', (@ui_theme == 'light' ? 'navbar-dark' : 'navbar-light')]
+  end
 
   def lifp(value, format = :default)
     l(value, format: format) if value.present?
+  end
+
+  def human_boolean(boolean)
+    boolean ? 'Yes' : 'No'
+  end
+
+  def special_date(date)
+    date.strftime("%a, %B #{date.day.ordinalize}, %-l:%M%p")
+  end
+
+  def short_date(date)
+    date.strftime('%-m%-d/%Y')
   end
 
   # Handles HTML title element

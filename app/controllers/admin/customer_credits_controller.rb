@@ -2,7 +2,7 @@
 
 module Admin
   class CustomerCreditsController < AdminController
-    before_action :set_credit, only: %i[edit update]
+    before_action :set_credit, only: %i[edit update destroy]
 
     def new
       @credit = CustomerCredit.new(user_id: params[:customer_id])
@@ -13,7 +13,7 @@ module Admin
 
       if @credit.save
         flash['success'] = t('CreateSuccess')
-        InvoiceMailer.with(customer: @credit.customer, gift_amount: @credit.balance).gift_card.deliver_now
+        CustomerMailer.with(customer: @credit.customer, gift_amount: @credit.balance).gift_card.deliver_now
         redirect_to admin_customer_path @credit.customer
       else
         render 'new'
@@ -26,6 +26,16 @@ module Admin
         redirect_to admin_customer_path @credit.customer
       else
         render 'edit'
+      end
+    end
+
+    def destroy
+      if @credit.destroy
+        flash[:success] = t('destroy.success')
+        redirect_to admin_customer_path @credit.customer
+      else
+        flash[:error] = t('destroy.failure')
+        redirect_to admin_customer_credit_path(@credit)
       end
     end
 

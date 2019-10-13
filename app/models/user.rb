@@ -18,29 +18,28 @@ class User < ApplicationRecord
   has_many :carts
   has_many :invoices
   has_many :seats
+  has_many :reservations
 
   validates_presence_of :first_name, :last_name, :role
 
-  scope :recently_created, lambda {
-    where('created_at > ? AND role = ?', Time.now - 24.hours, User.roles[:customer])
-  }
-  scope :customers, lambda {
-    where('role = ?', User.roles[:customer])
-  }
-  scope :employees, lambda {
-    where('role <> ?', User.roles[:customer])
-  }
+  scope :recently_created, -> { customers.where('created_at > ?', Time.zone.now - 24.hours) }
+  scope :customers, -> { where('role = ?', User.roles[:customer]) }
+  scope :employees, -> { where('role <> ?', User.roles[:customer]) }
 
   def self.system_admin
-    email = Rails.env.development? ? SystemInfo.support_key : ClientInfo.contact_email
+    email = Rails.env.production? ? ClientInfo.contact_email : SystemInfo.support_key
     User.where(email: email).first
   end
 
-  def can_cp?
+  def associated_reservations
+    Reservation.attending(id)
+  end
+
+  def astronaut?
     employee? || admin? || operator?
   end
 
-  def can_upgrade_operator?
+  def may_upgrade_operator?
     operator?
   end
 
@@ -50,5 +49,17 @@ class User < ApplicationRecord
 
   def credit_balance
     (credits.active.map(&:balance).reduce(:+) || 0.00).round(2)
+  end
+
+  def status
+    if locked_at.present?
+      { title: :locked, date: locked_at }
+    elsif confirmed_at.present?
+      { title: :confirmed, date: confirmed_at }
+    elsif invitation_sent_at.present?
+      { title: :invited, date: invitation_sent_at }
+    elsif confirmation_sent_at.present?
+      { title: :pending, date: confirmation_sent_at }
+    end
   end
 end

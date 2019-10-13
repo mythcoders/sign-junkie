@@ -1,12 +1,22 @@
 - page_title @project.name, 'Projects'
 
-= render partial: 'header'
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Projects
+        %h1.header-title
+          %i.fad.fa-sign
+          = @project.name
+      .col-auto
+        = render partial: 'header'
 
 .row
   .col-12.col-lg-4
     .card
-      %h5.card-header.d-flex.align-items-center.bg-primary.text-white
-        = @project.name
+      .card-header
+        %h3.card-header-title Information
       .card-body
         .form-group
           %label.col-form-label Material price
@@ -14,17 +24,15 @@
         .form-group
           %label.col-form-label Instructional price
           .form-control-plaintext= number_to_currency @project.instructional_price
-        .form-group
-          %label.col-form-label Allow option to select no stencil
-          .form-control-plaintext= @project.allow_no_stencil
-        - if @project.addons.any?
-          .form-group
-            %label.col-form-label Addons
-            %ul.list-inline
-              - @project.addons.each do |addon|
-                %li.list-inline-item= addon.name
+    - if @project.addons.any?
+      .card
+        .card-header
+          %h3.card-header-title Addons
+        %ul.list-group
+          - @project.addons.each do |addon|
+            %li.list-group-item= addon.name
   .col-12.col-lg-8
-    %ul#projectTab.nav.nav-tabs{role: "tablist"}
+    %ul#projectTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item
         %a#project-tab.nav-link.active{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab", href: "#stencil", role: "tab"}
           = fa_solid 'swatchbook'
@@ -36,7 +44,7 @@
 
     #projectTabContent.tab-content
       #stencil.tab-pane.show.active{"aria-labelledby": "stencil-tab", role: "tabpanel"}
-        = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils }
+        = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils, allow_no_stencil: @project.allow_no_stencil }
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/images/list', locals: { images: @project.project_images }
 

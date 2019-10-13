@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :invoice_item do
+    invoice
+  end
+
   factory :seat_invoice_item, class: InvoiceItem do
     invoice
     seat_item

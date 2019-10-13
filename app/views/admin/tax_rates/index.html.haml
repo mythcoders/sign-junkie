@@ -1,0 +1,18 @@
+- page_title 'Tax Rates'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Tax Rates
+        %h1.header-title
+          %i.fad.fa-percent
+          Search
+      .col-auto
+        = link_to 'New Tax Rate', new_admin_tax_rate_path, class: 'btn btn-primary lift disabled'
+
+.card
+  = grid(@tax_rates_grid) do |g|
+    - g.column name: 'Rate', attribute: 'rate'
+    - g.column name: 'Effective Date', attribute: 'effective_date', filter_type: :timeframe_picker

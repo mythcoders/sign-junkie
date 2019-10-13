@@ -3,22 +3,22 @@
   .col-12
     .btn-toolbar{'aria-label': 'Order toolbar', role: 'toolbar'}
       .btn-group.mr-2{'aria-label': 'First group', role: 'group'}
-        %a.btn.btn-outline-secondary{href: admin_projects_path}
+        %a.btn.btn-white.lift{href: admin_projects_path}
           = fa_regular 'arrow-left'
           Back to Search
         .btn-group
-          %button#btnGroupDrop1.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %button#btnGroupDrop1.btn.btn-primary.dropdown-toggle.lift{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             = fa_regular 'plus'
             New
           .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
-            %a.dropdown-item{href: admin_new_project_image_path(@project)} Image
+            %a.dropdown-item{href: new_image_admin_project_path(@project)} Image
       .btn-group
-        %a.btn.btn-primary{href: edit_admin_project_path(@project)} Edit
-        %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+        %a.btn.btn-primary.lift{href: edit_admin_project_path(@project)} Edit
+        %a.btn.btn-danger.lift{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
           Delete
       .btn-group.ml-2
-        = form_for @project, url: admin_projects_clone_path, method: :post do |f|
+        = form_for @project, url: clone_admin_project_path, method: :post do |f|
           = f.hidden_field :id
-          = button_tag(type: 'submit', class: 'btn btn-info') do
+          = button_tag(type: 'submit', class: 'btn btn-info lift') do
             Clone
 %br

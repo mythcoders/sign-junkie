@@ -1,11 +1,19 @@
 - page_title 'New', 'Employee'
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Employees
+        %h1.header-title
+          %i.fad.fa-users
+          New Employee
 
 = form_for @employee, url: admin_employees_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white
-      New Employee
+    .card-header
+      %h2.card-header-title Information
     .card-body
-      %h3 Personal Information
       = error_messages_for 'employee'
       = render partial: 'admin/employees/form', locals: { f: f }
     .card-footer

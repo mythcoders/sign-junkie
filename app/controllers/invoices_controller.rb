@@ -33,19 +33,6 @@ class InvoicesController < ApplicationController
     process_invoice @invoice
   end
 
-  def cancel
-    invoice = Invoice.find params[:id]
-    begin
-      raise ProcessError, t('order.cancel.failure') unless InvoiceService.new.cancel(invoice)
-
-      flash[:success] = t('order.cancel.success')
-      redirect_to invoice_path invoice
-    rescue ProcessError => e
-      flash[:error] = e.message
-      return redirect_to invoice_path invoice
-    end
-  end
-
   private
 
   def invoice_params
@@ -53,7 +40,7 @@ class InvoicesController < ApplicationController
   end
 
   def process_invoice(invoice)
-    raise ProcessError, t('order.create.failure') unless InvoiceService.new.place(invoice)
+    raise ProcessError, t('order.create.failure') unless InvoiceService.new.place!(invoice)
 
     flash[:success] = t('order.placed.success')
     redirect_to invoice_path invoice

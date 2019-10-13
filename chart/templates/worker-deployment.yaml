@@ -51,24 +51,24 @@ items:
           env:
           - name: DATABASE_URL
             value: {{ $.Values.application.database_url | quote }}
-          - name: GITLAB_ENVIRONMENT_URL
-            value: {{ $.Values.service.url }}
           - name: GITLAB_ENVIRONMENT_NAME
             value: {{ $.Values.gitlab.envName }}
-          livenessProbe:
-            httpGet:
-              path: {{ $workerConfig.livenessProbe.path }}
-              port: {{ $.Values.service.internalPort }}
-              scheme: {{ $workerConfig.livenessProbe.scheme }}
-            initialDelaySeconds: {{ $workerConfig.livenessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ $workerConfig.livenessProbe.timeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: {{ $workerConfig.readinessProbe.path }}
-              port: {{ $.Values.service.internalPort }}
-              scheme: {{ $workerConfig.readinessProbe.scheme }}
-            initialDelaySeconds: {{ $workerConfig.readinessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ $workerConfig.readinessProbe.timeoutSeconds }}
+          - name: GITLAB_ENVIRONMENT_URL
+            value: {{ $.Values.service.url }}
+          # livenessProbe:
+          #   httpGet:
+          #     path: {{ $.Values.livenessProbe.path }}
+          #     port: {{ $.Values.service.internalPort }}
+          #     scheme: {{ $.Values.livenessProbe.scheme }}
+          #   initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
+          #   timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
+          # readinessProbe:
+          #   httpGet:
+          #     path: {{ $.Values.readinessProbe.path }}
+          #     port: {{ $.Values.service.internalPort }}
+          #     scheme: {{ $.Values.readinessProbe.scheme }}
+          #   initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
+          #   timeoutSeconds: {{ $.Values.readinessProbe.timeoutSeconds }}
           {{- if $workerConfig.preStopCommand }}
           lifecycle:
             preStop:

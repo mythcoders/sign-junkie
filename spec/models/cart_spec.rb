@@ -8,6 +8,8 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#for' do
+    # pending 'needs fixed'
+
     subject { Cart.for(user1) }
     let(:user1) { create(:customer) }
     let(:user2) { create(:customer) }
@@ -21,9 +23,11 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#as_of' do
-    subject { Cart.as_of(DateTime.now - 12.hours) }
+    # pending 'needs fixed'
+
+    subject { Cart.as_of(Time.zone.now - 12.hours) }
     let(:seat1) { create(:cart_seat) }
-    let(:seat2) { create(:cart_seat, created_at: DateTime.now - 25.hours) }
+    let(:seat2) { create(:cart_seat, created_at: Time.zone.now - 25.hours) }
 
     it 'returns records based on when requested' do
       expect(subject).to include(seat2)
@@ -31,6 +35,8 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#for_shop' do
+    # pending 'needs fixed'
+
     subject { Cart.for_shop(seat1.workshop_id) }
     let(:seat1) { create(:cart_seat) }
     let(:seat2) { create(:cart_seat) }
@@ -42,6 +48,8 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#non_gift_seat' do
+    # pending 'needs fixed'
+
     subject { Cart.non_gift_seat }
     let(:seat1) { create(:cart_seat) }
     let(:seat2) { create(:gifted_cart_seat) }
@@ -56,6 +64,8 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#gifted_seats' do
+    # pending 'needs fixed'
+
     subject { Cart.gifted_seats(seat1.email) }
     let(:seat1) { create(:cart_seat) }
     let(:seat2) { create(:cart_gift_card) }
@@ -161,7 +171,7 @@ RSpec.describe Cart, type: :model do
 
       context 'that has already been booked' do
         subject { Cart.new_seat(seat.customer, seat.workshop, cart_params) }
-        let(:seat) { create(:seat) }
+        let(:seat) { create(:seat, :paid) }
         let(:cart_params) { { project_id: seat.project_id, stencil_id: seat.stencil_id } }
 
         include_examples 'raises ProcessError'

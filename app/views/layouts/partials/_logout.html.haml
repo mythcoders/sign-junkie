@@ -1,13 +1,20 @@
-#logoutModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
+#logoutModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalCenterTitle", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
-      .modal-header
-        %h5#exampleModalLabel.modal-title Ready to Leave?
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-      .modal-body Any unsaved data will be lost.
-      .modal-footer
-        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-        = link_to destroy_user_session_path, method:'delete', class: 'btn btn-primary' do
-          Sign Out
-
+      .card.modal-card
+        .card-header
+          .row.align-items-center
+            .col
+              %h2#exampleModalCenterTitle.card-header-title
+                = fa_duo 'exclamation-triangle'
+                Ready to Leave?
+            .col-auto
+              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+        .card-body
+          %h4.card-text Any unsaved data will be lost!
+        .card-footer.float-right
+          %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} On second thought...
+          = link_to destroy_user_session_path, method:'delete', class: 'btn btn-primary' do
+            = fa_solid 'sign-out-alt'
+            Sign Out

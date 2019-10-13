@@ -7,9 +7,9 @@
     .input-group
       .input-group-prepend
         %span.input-group-text
-          = fa_light 'lock-alt'
-      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email Address'
+          = fa_solid 'lock-alt'
+      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'name@address.com'
   .form-group
-    = f.submit 'Resend unlock instructions', class: 'btn btn-primary btn-block btn-login'
-  .login-bottom-links
-    = render 'devise/shared/links'
+    = f.submit 'Resend unlock instructions', class: 'btn btn-teal btn-block btn-login'
+  -# .login-bottom-links
+  -#   = render 'devise/shared/links'

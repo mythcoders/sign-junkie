@@ -1,0 +1,48 @@
+%nav#topbar.navbar.navbar-expand-md.navbar-light.d-none.d-md-flex
+  .container-fluid
+    %form.form-inline.mr-4.d-none.d-md-flex
+      .input-group.input-group-flush.input-group-merge{"data-options": "{\"valueNames\": [\"name\"]}", "data-toggle": "lists"}
+        %input.form-control.form-control-prepended.dropdown-toggle.search{"aria-label": "Search", "data-toggle": "dropdown", placeholder: "Search", type: "search"}
+          .input-group-prepend
+            .input-group-text
+              %i.fad.fa-search
+    .navbar-user
+      %a.navbar-user-link.mr-3{href: root_path}
+        %span.icon
+          %i.fad.fa-globe-americas
+        Public Website
+      .dropdown.d-none.d-md-flex
+        %a.navbar-user-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+          %span.icon
+            %i.fad.fa-plus-circle
+            New
+        .dropdown-menu.dropdown-menu-right.dropdown-menu-card
+          .card-header
+            .row.align-items-center
+              .col
+                %h5.card-header-title
+                  Create New Record
+          .card-body
+            .list-group.list-group-flush.my-n3
+              .list-group-item.px-0
+                .row
+                  %a.col-6.text-center.mb-4{href: new_admin_addon_path}
+                    %i.fad.fa-stamp.fa-4x
+                    .card-title Add-on
+                  %a.col-6.text-center.mb-4{href: new_admin_customer_path}
+                    %i.fad.fa-address-book.fa-4x
+                    .card-title Customer
+                  %a.col-6.text-center.mb-4{href: new_admin_project_path}
+                    %i.fad.fa-sign.fa-4x
+                    .card-title Project
+                  %a.col-6.text-center.mb-4{href: new_admin_stencil_path}
+                    %i.fad.fa-swatchbook.fa-4x
+                    .card-title Stencil
+                  %a.col-6.text-center.mb-4{href: new_admin_workshop_path}
+                    %i.fad.fa-toolbox.fa-4x
+                    .card-title Workshop
+      .dropdown
+        %a.navbar-user-link.dropdown-toggle
+          %i.fad.fa-user-circle
+          = current_user.full_name
+        .dropdown-menu.dropdown-menu-right.text-right

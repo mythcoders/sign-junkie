@@ -3,7 +3,7 @@
 class CustomerCredit < ApplicationRecord
   has_paper_trail
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
-  has_one :refund
+  has_one :refund, dependent: :restrict_with_error
 
   scope :not_expired, lambda {
     where(expiration_date: nil)

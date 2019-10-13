@@ -1,20 +1,43 @@
-.form-row
-  .form-group.col
-    = fa_solid 'file-invoice', 'text-primary fa-fw'
-    = f.label :payment_options
-    .custom-control.custom-radio
-      = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
-      = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
-        Host will pay for all guests and their projects
-    .custom-control.custom-radio
-      = f.radio_button :payment_plan, 'guest', class: 'custom-control-input'
-      = f.label :payment_plan, value: 'guest', class: 'custom-control-label' do
-        Each guest is responsible for paying for their own project
-.form-row
-  .form-group.col
-    .custom-switch.custom-control
-      = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
-      = f.label :policy_agreement, class: 'custom-control-label'
-    %p.form-control-plaintext
-      I have read and agree to the
-      %a{href: policies_path} Workshop Policies.
+= form_for :cart, url: cart_index_path do |f|
+  = f.hidden_field :workshop_id, value: @workshop.id
+  = f.hidden_field :type, value: 'reservation'
+
+  %p.card-text
+    = fa_solid 'ticket-alt', 'text-primary fa-fw'
+    = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
+  %p.card-text
+    = fa_solid 'usd-circle', 'text-primary fa-fw'
+    %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
+    %input{id: 'base-price', value: '0.00', type: 'hidden'}
+  .form-row
+    .form-group.col
+      = fa_solid 'file-invoice', 'text-primary fa-fw'
+      = f.label :payment_options
+      .custom-control.custom-radio
+        = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
+        = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
+          Host will pay for all guests and the projects they select
+      .custom-control.custom-radio
+        = f.radio_button :payment_plan, 'guest', class: 'custom-control-input'
+        = f.label :payment_plan, value: 'guest', class: 'custom-control-label' do
+          Each guest is responsible for paying for their own project
+  .form-row
+    .form-group.col
+      .custom-switch.custom-control
+        = f.check_box :booking_agreement, class: 'custom-control-input', required: 'required'
+        = f.label :booking_agreement, class: 'custom-control-label'
+      %p.form-control-plaintext
+        I have read and agree to the
+        %a{href: workshop_hosting_path(@workshop)}= "Hostess Guidesliness for #{@workshop.workshop_type.name} Workshops"
+  .form-row
+    .form-group.col
+      .custom-switch.custom-control
+        = f.check_box :reservation_agreement, class: 'custom-control-input', required: 'required'
+        = f.label :reservation_agreement, class: 'custom-control-label'
+      %p.form-control-plaintext
+        I have read and agree to the
+        %a{href: workshop_policies_path(@workshop)}= "#{@workshop.workshop_type.name} Workshop Policies."
+
+  %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
+    = fa_solid 'cart-plus'
+    Add to Cart

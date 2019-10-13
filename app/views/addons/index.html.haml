@@ -6,7 +6,7 @@
 
 - if @addons.any?
   - @addons.each do |addon|
-    %h3.text-danger= "#{addon.name} - #{number_to_currency addon.price}"
+    %h3.text-info.pt-2.pb-2= "#{addon.name} - #{number_to_currency addon.price}"
     .row
       - addon.addon_images.each do |img|
         .row-item.text-center

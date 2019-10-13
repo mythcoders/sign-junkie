@@ -9,10 +9,10 @@
       %img.img-fluid.img-thumbnail{alt: "Image of #{@project.name}", src: url_for(image)}
 
 %h3.text-danger Available Stencils
-- @project.stencils.group_by(&:category).sort.each do |category, stencils|
+- @project.stencils.group_by(&:category).sort_by { |cat, _| cat[:name].downcase }.each do |category, stencils|
   %h4.text-danger= category.name
   .d-flex.flex-wrap.mb-3
-    - stencils.each do |stencil|
+    - stencils.sort_by { |s| s.name.downcase }.each do |stencil|
       .row-item.text-center
         - if stencil.image.attached?
           %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image)}

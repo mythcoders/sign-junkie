@@ -1,28 +1,33 @@
 - page_title 'Stencil Category Search'
 
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'swatchbook'
-    Stencil Categories
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Stencil Categories
+        %h1.header-title
+          %i.fad.fa-swatchbook
+          Search
+      .col-auto
+        = link_to 'New Stencil Category', new_admin_stencil_category_path, class: 'btn btn-primary lift'
 
-.table-responsive
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Name
-        %th Parent
-    %tbody
-      - @categories.each do |c|
-        %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_category_path(c) }}
-          %td= c.name
-          %td
-            - if c.parent_category.present?
-              = c.parent_category.name
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @categories
-          = page_entries_info @categories
-
-= link_to 'New Stencil Category', new_admin_stencil_category_path, class: 'btn btn-primary'
-
+.card
+  .table-responsive
+    %table.table.card-table.table-hover
+      %thead
+        %tr
+          %th Name
+          %th Parent
+      %tbody
+        - @categories.each do |c|
+          %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_category_path(c) }}
+            %td= c.name
+            %td
+              - if c.parent_category.present?
+                = c.parent_category.name
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @categories
+            = page_entries_info @categories

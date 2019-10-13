@@ -2,10 +2,11 @@
 
 module Admin
   class ProjectsController < AdminController
-    before_action :set_project, only: %i[edit update show images destroy]
+    before_action :set_project, only: %i[edit update show destroy new_image upload_images]
 
     def index
-      @projects = Project.order(:name).page(params[:page])
+      @projects_grid = initialize_grid(Project,
+                                       order: 'name')
     end
 
     def show
@@ -36,7 +37,8 @@ module Admin
       end
     end
 
-    def images
+    def upload_images
+      Rails.logger.debug '#upload_images'
       @project.project_images.attach(file_params)
       flash['success'] = t('UploadSuccess')
       redirect_to admin_project_path(@project)
@@ -50,7 +52,7 @@ module Admin
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_project_path(clone)
       else
-        flash[:error] = 'Sorry, an error occured.'
+        flash[:error] = 'Sorry, an error occurred.'
         redirect_to admin_project_path project
       end
     end

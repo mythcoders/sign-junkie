@@ -3,13 +3,12 @@
 module Admin
   class DashboardController < AdminController
     before_action :populate_changelog, only: %i[about]
-    before_action :set_new_customers, only: %i[index]
+    before_action :set_stats, only: %i[index]
 
     private
 
-    def set_new_customers
-      @new_customers = User.recently_created.count
-      @new_invoices = Invoice.recently_created.count
+    def set_stats
+      @stats = AdminDashboardViewModel.new
     end
 
     def populate_changelog

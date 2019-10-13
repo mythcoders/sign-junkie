@@ -1,0 +1,26 @@
+- page_title 'Help'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle= SystemInfo::app_name
+        %h1.header-title
+          %i.fad.fa-question-circle
+          Help
+      .col-auto
+        %a.btn.btn-primary{href: SystemInfo.support_url}
+          = fa_solid 'life-ring'
+          Contact Support
+
+.row
+  -# .col-12.col-lg-3
+  -# .col-12.col-lg-9
+  .col-12
+    .card.card-inactive
+      .card-body.text-center
+        %img.img-fluid{:alt => 'Placeholder image', :src => "/illustrations/lost.svg", :style => "max-width: 182px;"}
+        %h1
+          Coming soon
+        %p.text-muted
+          In a future release, you'll be able to come here for documentation on how to get things done with Apollo.

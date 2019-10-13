@@ -27,7 +27,7 @@ module ClientInfo
     end
 
     def zip_code
-      '43076'
+      '43076-9690'
     end
 
     def contact_email
@@ -40,6 +40,10 @@ module ClientInfo
 
     def facebook_link
       'https://www.facebook.com/signjunkieworkshop/'
+    end
+
+    def website_link
+      'http://' + (ENV['GITLAB_ENVIRONMENT_URL'] || 'apollo.localhost')
     end
   end
 end

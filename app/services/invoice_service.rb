@@ -1,26 +1,31 @@
 # frozen_string_literal: true
 
-class InvoiceService
-  def place(invoice)
+class InvoiceService < ApplicationService
+  def place!(invoice)
     ActiveRecord::Base.transaction do
       if post_payments(invoice) && empty_cart(invoice)
         invoice.status = :paid
         invoice.save! && invoice.reload
-        return OrderService.new.process!(invoice)
+
+        invoice.items.each do |item|
+          if item.gift_card?
+            CustomerService.new.issue_gift_card(item, invoice.customer)
+            CustomerMailer.with(customer: item.recipient, gift_amount: item.item_amount).gift_card.deliver_now
+          elsif item.reservation?
+            ReservationService.new.book(item, invoice.customer)
+            ReservationMailer.with(reservation: item.reservation).placed.deliver_now
+          else
+            SeatService.new.reserve(item, invoice.customer)
+          end
+        end
+
+        InvoiceMailer.with(invoice: invoice).receipt.deliver_now
+        return true
       else
         Raven.capture_exception(invoice, transaction: 'Invoice creation failed')
 
         raise ActiveRecord::Rollback
       end
-    end
-    false
-  end
-
-  def cancel(invoice)
-    ActiveRecord::Base.transaction do
-      refund = Refund.new_from_invoice(invoice)
-
-      return OrderService.new.cancel!(invoice) && BillingService.new.refund!(refund)
     end
     false
   end
@@ -32,9 +37,8 @@ class InvoiceService
   end
 
   def post_payments(invoice)
-    billing_service = BillingService.new
     invoice.payments.each do |payment|
-      billing_service.process! payment
+      PaymentService.new.process! payment
     end
   end
 end

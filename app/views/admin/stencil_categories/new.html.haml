@@ -1,8 +1,19 @@
 - page_title 'New', 'stencil Categories'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Stencil Categories
+        %h1.header-title
+          %i.fad.fa-swatchbook
+          New Category
+
 = form_for @category, url: admin_stencil_categories_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white New stencil Category
+    .card-header
+      %h5.card-header-title New stencil Category
     .card-body
       = error_messages_for 'category'
       = render partial: 'admin/stencil_categories/form', locals: { f: f }

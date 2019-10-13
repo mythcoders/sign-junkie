@@ -1,0 +1,54 @@
+%preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@invoice.customer.full_name},"
+%p Thanks for placing your order! We can't wait for you to join us and get your diy on!
+%br
+
+.row.justify-content-center
+  .col-12.col-lg-10
+    .card
+      .card-body.p-4
+        %h6
+          %strong ORDER SUMMARY
+        %table.table
+          %tbody
+            - @invoice.items.each do |i|
+              %tr
+                %td= render partial: 'item_descriptions/show', locals: {item: i}
+                %td.text-right= content_tag :span, number_to_currency(i.line_total)
+            %tr
+              %td Sales Tax
+              %td.text-right
+                = content_tag :span, number_to_currency(@invoice.tax_total)
+            %tr
+              %td Grand Total
+              %td.text-right
+                = content_tag :span, number_to_currency(@invoice.grand_total)
+
+        - if @invoice.payments.any?
+          %h6
+            %strong PAYMENTS
+          %table.table
+            %tbody
+              - @invoice.payments.each_with_index do |payment, index|
+                %tr
+                  %td= "#{payment.method.humanize} ##{index + 1}"
+                  %td.text-right= content_tag :span, number_to_currency(payment.amount)
+
+        - if @invoice.refunds.any?
+          %h6
+            %strong Refunds
+          %table.table
+            %thead
+              %tr
+                %th Method
+                %th.text-amount Amount
+            %tbody
+              - @invoice.refunds.each_with_index do |refund, index|
+                %tr
+                  %td
+                    - if refund.customer_credit.present?
+                      Credit
+                    - else
+                      Credit Card
+                  %td.text-right= content_tag :span, number_to_currency(refund.amount)

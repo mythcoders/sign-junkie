@@ -3,7 +3,7 @@
 module SystemInfo
   class << self
     def app_name
-      'Ares'
+      'Apollo'
     end
 
     def developer
@@ -19,11 +19,15 @@ module SystemInfo
     end
 
     def support_key
-      Rails.application.credentials[:support][:key]
+      Rails.application.credentials.dig(:support, :key)
     end
 
     def support_secret
-      Rails.application.credentials[:support][:secret]
+      Rails.application.credentials.dig(:support, :secret)
+    end
+
+    def modules
+      %w[core customer_portal diy_workshops sales].join(',')
     end
 
     def release

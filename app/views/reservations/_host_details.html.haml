@@ -1,0 +1,43 @@
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Event
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= @reservation.workshop.name
+    %span.font-weight-medium
+      .span= lifp @reservation.workshop.start_date
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Status
+  .media-body.text-right
+    %span.font-weight-medium
+      = render partial: 'statuses/reservation', locals: { reservation: @reservation }
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Confirmation Number
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= @reservation.confirmation_number
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Date booked
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= lifp @reservation.created_at
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Seating requirements
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= "#{@reservation.minimum_seats}-#{@reservation.maximum_seats}"
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Payment plan
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= "#{@reservation.payment_plan.humanize} Pays"
+%hr
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Registration deadline
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= lifp @reservation.workshop.registration_deadline
+.media.align-items-center.mb-4
+  .font-size-1.font-weight-normal.mb-0.mr-3 Payment deadline
+  .media-body.text-right
+    %span.font-weight-medium
+      .span= lifp @reservation.payment_deadline

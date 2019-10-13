@@ -12,14 +12,16 @@
             = fa_regular 'plus'
             New
           .dropdown-menu
-            %a.dropdown-item{href: admin_new_workshop_image_path(@workshop)} Image
+            %a.dropdown-item{href: new_image_admin_workshop_path(@workshop)} Image
       .btn-group
         %a.btn.btn-primary{href: edit_admin_workshop_path(@workshop)} Edit
         - if @workshop.deleteable?
           %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
             Delete
       .btn-group.ml-2
-        = form_for @workshop, url: admin_workshops_clone_path, method: :post do |f|
+        %a.btn.btn-secondary{href: workshop_path(@workshop), target: '_blank'} Public View
+      .btn-group.ml-2
+        = form_for @workshop, url: clone_admin_workshop_path, method: :post do |f|
           = f.hidden_field :id
           = button_tag(type: 'submit', class: 'btn btn-info') do
             Clone

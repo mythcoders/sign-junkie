@@ -32,18 +32,18 @@ en:
         submit_button: "Set my password"
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Confirm your Sign Junkie Workshop account"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Reset your Sign Junkie Workshop password"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Unlock your Sign Junkie Workshop account"
       email_changed:
-        subject: "Email Changed"
+        subject: "Your Sign Junkie Workshop email was changed"
       password_change:
-        subject: "Password Changed"
+        subject: "Your Sign Junkie Workshop password was changed"
       invitation_instructions:
-        subject: "Invitation instructions"
-        hello: "Hello %{email}"
+        subject: "Welcome to Sign Junkie Workshop!"
+        hello: "Hello %{email}!"
         someone_invited_you: "Yah! You've been invited to a Sign Junkie diy workshop! Follow the link below to sign up and register. We can't wait for you to join us and get your diy on!"
         accept: "Accept invitation"
         accept_until: "This invitation will be due in %{due_date}."

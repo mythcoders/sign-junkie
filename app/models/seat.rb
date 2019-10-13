@@ -8,27 +8,42 @@ class Seat < ApplicationRecord
   belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id'
 
   scope :for_user, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
-  scope :for_shop, ->(id) { includes(:description).where(item_descriptions: { workshop_id: id }) }
+  scope :for_shop, ->(id) { where(workshop_id: id) }
   scope :active, -> { includes(:description).where(item_descriptions: { cancel_date: nil, void_date: nil }) }
 
   delegate_missing_to :description
+  accepts_nested_attributes_for :description
 
   def name
-    if gifted_seat?
+    if customer.nil?
+      'Unassigned'
+    elsif gifted_seat?
       "#{first_name} #{last_name}"
     else
       customer.full_name
     end
   end
 
-  def invoice
-    description.invoice_items.first.invoice
+  def unpaid?
+    invoice.nil? && selection_made?
   end
 
-  def self.already_booked?(user, workshop_id)
-    Seat.for_user(user)
-        .for_shop(workshop_id)
-        .active
-        .any?
+  def paid?
+    invoice.present?
+  end
+
+  def editable?(user)
+    return false if invoice.present?
+    return false if Time.zone.now > reservation.workshop.registration_deadline
+    return false if user.id != customer.id
+
+    true
+  end
+
+  def reassignable?(user)
+    return true if reservation.host?(user)
+    return false unless editable?(user)
+
+    true
   end
 end

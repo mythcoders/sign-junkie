@@ -15,13 +15,13 @@ RSpec.describe User, type: :model do
     end
 
     it 'has access to the admin portal' do
-      expect(subject.can_cp?).to be true
+      expect(subject.astronaut?).to be true
     end
   end
 
   shared_examples 'non-operator user' do
     it 'does not allow upgrading users to be an operator' do
-      expect(subject.can_upgrade_operator?).to be false
+      expect(subject.may_upgrade_operator?).to be false
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'does not allow access to the admin portal' do
-      expect(subject.can_cp?).to be false
+      expect(subject.astronaut?).to be false
     end
 
     context 'created within the last 24 hours' do
@@ -45,7 +45,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'created more then 24 hours ago' do
-      subject { create(:customer, created_at: DateTime.now - 25.hours) }
+      subject { create(:customer, created_at: Time.zone.now - 25.hours) }
 
       it 'is not returned in #recently_created' do
         expect(User.recently_created).to_not include(subject)
@@ -73,16 +73,7 @@ RSpec.describe User, type: :model do
     include_examples 'employee user'
 
     it 'allows upgrading users to be an operator' do
-      expect(subject.can_upgrade_operator?).to be true
-    end
-  end
-
-  describe '#cart_total' do
-    subject { create(:customer) }
-
-    it 'reflects number of items in cart' do
-      pending 'WIP'
-      expect(subject.cart_total).to eq(1)
+      expect(subject.may_upgrade_operator?).to be true
     end
   end
 end

@@ -12,11 +12,11 @@ FactoryBot.define do
     tax_rate { 0.00 }
 
     trait :voided do
-      void_date { DateTime.now }
+      void_date { Time.zone.now }
     end
 
     trait :canceled do
-      cancel_date { DateTime.now }
+      cancel_date { Time.zone.now }
     end
 
     factory :seat_item do
@@ -56,7 +56,7 @@ FactoryBot.define do
       item_type { 'reservation' }
       # fill in workshop info
       nontaxable_amount { Faker::Number.decimal(2) }
-      seats_booked { Faker::Number.between(1, 10) }
+      payment_plan { 'host' }
     end
 
     factory :gift_card_item do

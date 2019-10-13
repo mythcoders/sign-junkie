@@ -6,7 +6,7 @@ module Admin
     before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
-      @stencils = Stencil.order(:name).page(params[:page])
+      @stencils_grid = initialize_grid(Stencil, order: 'name')
     end
 
     def new

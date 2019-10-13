@@ -6,15 +6,12 @@ class Payment < ApplicationRecord
   attr_accessor :auth_token
 
   validates_presence_of :method, :amount
+  scope :credit_cards, -> { where(method: 'credit_card') }
 
   # TODO: make sure we don't refund more than paid
 
   def amount_refundable
     amount - (amount_refunded || 0.00)
-  end
-
-  def refund!(refund_amount)
-    self.amount_refunded += refund_amount
   end
 
   def gift_card?
@@ -23,5 +20,9 @@ class Payment < ApplicationRecord
 
   def paypal?
     method == 'paypal_account'
+  end
+
+  def credit_card?
+    method == 'credit_card'
   end
 end

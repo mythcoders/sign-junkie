@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-# fronzen_string_literal: true
-
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destroy images]
+    before_action :populate_workshop, only: %i[edit update show destroy new_image upload_images]
+    before_action :set_workshop_types, only: %i[edit update new]
 
     def index
-      @workshops = Workshop.order(start_date: :desc).page(params[:page])
+      @workshops_grid = initialize_grid(Workshop,
+                                        include: [:workshop_type],
+                                        order: 'start_date')
     end
 
     def new
@@ -20,6 +21,7 @@ module Admin
         flash[:success] = t('CreateSuccess')
         redirect_to admin_workshop_path @workshop
       else
+        set_workshop_types
         render 'new'
       end
     end
@@ -29,6 +31,7 @@ module Admin
         flash[:success] = t('UpdateSuccess')
         redirect_to admin_workshop_path @workshop
       else
+        set_workshop_types
         render 'edit'
       end
     end
@@ -43,20 +46,19 @@ module Admin
       end
     end
 
-    def images
+    def upload_images
       @workshop.workshop_images.attach(file_params)
       flash[:success] = t('UploadSuccess')
       redirect_to admin_workshop_path(@workshop)
     end
 
     def clone
-      workshop = Workshop.find(filtered_params[:id])
-      clone = workshop.deep_clone include: [:workshop_projects], exclude: [:is_for_sale]
+      clone = Workshop.clone(filtered_params[:id])
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_workshop_path(clone)
       else
-        flash[:error] = 'Sorry, an error occured.'
+        flash[:error] = 'Sorry, an error occurred.'
         redirect_to admin_workshop_path @workshop
       end
     end
@@ -64,10 +66,11 @@ module Admin
     private
 
     def workshop_params
-      params.require(:workshop).permit(:id, :name, :description, :purchase_start_date,
-                                       :purchase_end_date, :start_date, :end_date,
-                                       :total_tickets, :ticket_price, :deposit_price, :is_for_sale,
-                                       :is_public, project_ids: [])
+      params.require(:workshop).permit(:id, :name, :description, :purchase_start_date, :purchase_end_date, :start_date,
+                                       :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
+                                       :overridden_total_seats, :overridden_reservation_allow_multiple,
+                                       :overridden_reservation_price, :overridden_reservation_minimum,
+                                       :overridden_reservation_maximum, :is_for_sale, :workshop_type_id, project_ids: [])
     end
 
     def project_params
@@ -80,6 +83,10 @@ module Admin
 
     def populate_workshop
       @workshop = Workshop.includes(:seats, :projects).find(params[:id])
+    end
+
+    def set_workshop_types
+      @workshop_types = WorkshopType.all.order(:name)
     end
 
     def filtered_params

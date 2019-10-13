@@ -4,56 +4,63 @@ require 'sidekiq-ent/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-  root to: 'public#index'
+  mount Peek::Railtie => '/peek'
   devise_for :users
 
   concern :pageable do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
 
+  concern :cancelable do
+    post 'cancel', action: :cancel, on: :member
+  end
+
+  concern :cloneable do
+    post 'clone', action: :clone, on: :member
+  end
+
+  concern :image_attachable do
+    get 'images/new', action: :new_image, as: :new_image, on: :member
+    post 'images', action: :upload_images, as: :upload_images, on: :member
+  end
+
+  root to: 'public#index'
+
   # admin portal
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
 
-    authenticate :user, lambda { |u| u.can_cp? } do
+    authenticate :user, ->(u) { u.astronaut? } do
       mount Sidekiq::Web => '/sidekiq'
     end
 
     get 'about', as: 'about', to: 'dashboard#about'
+    get 'help', as: 'help', to: 'help#index'
     get 'finances', as: 'finances', to: 'finances#index'
+    delete 'images/:id', to: 'images#destroy', as: 'delete_image'
     get 'reports', as: 'reports', to: 'reports#index'
     get 'reports/sales_tax', as: 'sales_tax_report'
 
-    resources :addons, concerns: :pageable
-    resources :stencils, concerns: :pageable
-    resources :stencil_categories, concerns: :pageable
-    resources :projects, concerns: :pageable do
+    resources :addons, concerns: [:image_attachable]
+    resources :gallery_images
+    resources :invoices
+    resources :projects, concerns: %i[cloneable image_attachable] do
       resources :project_addons, path: 'addons', as: 'addons'
     end
-    post 'projects/clone', to: 'projects#clone'
-    resources :invoices, concerns: :pageable
-    resources :workshops, concerns: :pageable
-    post 'workshops/clone', to: 'workshops#clone'
-
-    get 'workshops/:id/image', to: 'images#workshop', as: 'new_workshop_image'
-    get 'projects/:id/image', to: 'images#project', as: 'new_project_image'
-    get 'addons/:id/image', to: 'images#addon', as: 'new_addon_image'
-    post 'workshops/:id/image', to: 'workshops#images', as: 'upload_workshop_image'
-    post 'projects/:id/image', to: 'projects#images', as: 'upload_project_image'
-    post 'addons/:id/image', to: 'addons#images', as: 'upload_addon_image'
-    delete 'images/:id', to: 'images#destroy', as: 'delete_image'
-
-    resources :users, as: 'customers', path: 'customers', controller: 'customers',
-                      concerns: :pageable do
-      resources :customer_credits, only: %i[new edit create update destroy],
-                                   as: 'credits', path: 'credits'
-    end
-    resources :users, as: 'employees', path: 'employees', controller: 'employees',
-                      concerns: :pageable
     resources :tax_periods
     resources :tax_rates
-
-    get 'settings', as: 'settings', to: 'settings#index'
+    resources :seats, only: %i[], concerns: [:cancelable]
+    resources :stencils
+    resources :stencil_categories
+    resources :users, as: 'customers', path: 'customers', controller: 'customers' do
+      resources :customer_credits, only: %i[new edit create update destroy], as: 'credits', path: 'credits'
+    end
+    resources :users, as: 'employees', path: 'employees', controller: 'employees'
+    resources :reservations, only: %i[], concerns: [:cancelable] do
+      post 'forfeit', action: :forfeit, on: :member
+    end
+    resources :workshops, concerns: %i[cloneable image_attachable]
+    resources :workshop_types
   end
 
   # customer facing
@@ -63,9 +70,6 @@ Rails.application.routes.draw do
   get 'about', to: 'public#about'
   get 'contact', to: 'public#contact'
   get 'faq', to: 'public#faq'
-  # get 'reservation', to: 'reservations#reservation'
-  # get 'reservation2', to: 'reservations#reservation2'
-  # get 'reservation3', to: 'reservations#reservation3'
   get 'waiver', to: 'public#waiver'
   get 'how_it_works', to: 'public#how_it_works'
   get 'policies', to: 'workshops#public_policies'
@@ -74,13 +78,18 @@ Rails.application.routes.draw do
   get 'private_hostess', to: 'workshops#hostess_policies'
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
-  get 'workshops/bookings', to: 'workshops#coming_soon'
+  get 'workshops/bookings', to: 'workshops#hostess_public_policies'
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]
   resources :invoices, only: %i[index show new create], path: 'orders'
-  post 'invoices/:id/cancel', to: 'invoices#cancel', as: 'cancel_invoice'
   resources :projects, only: %i[index show]
+  resources :reservations, only: %i[index show new create], concerns: :cancelable do
+    resources :seats, only: %i[show edit new create update] do
+      post 'remind', action: :remind, on: :member
+    end
+  end
+  resources :seats, only: %i[index show], concerns: :cancelable
   resources :stencils, only: %i[index show]
   resources :workshops, only: %i[index show]
 end

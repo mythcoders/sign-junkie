@@ -1,0 +1,12 @@
+- unless workshop.reservations.any?
+  .card.mt-3
+    .card-body
+      .text-muted No reservations found.
+- else
+  - if workshop.reservations.any?
+    = render partial: 'admin/reservations/list', locals: { reservations: workshop.reservations }
+
+.card
+  .card-header
+    %h3.card-header-title Individual Seats
+  = render partial: 'admin/seats/list', locals: { seats: workshop.seats.where(reservation_id: nil), host_id: nil }

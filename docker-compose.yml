@@ -1,23 +1,26 @@
 version: "3.7"
 services:
   app:
+    image: apollo
+    command: ["sh", "./scripts/app", "start", "setup"]
     build:
       context: .
       target: base
-    container_name: ares-app
-    command: ["sh", "./scripts/app", "start", "db:local"]
+    container_name: apollo-app
     labels:
-      traefik.frontend.rule: "Host:ares.localhost"
+      traefik.frontend.rule: "Host:apollo.localhost"
     volumes:
-      - ./:/app
+      - .:/app
     environment:
       RAILS_ENV: development
       GITLAB_ENVIRONMENT_NAME: development
+      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
       PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/ares_dev"
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
       STORAGE_BUCKET: none
-      REDIS_URL: redis://redis:6379
-      REDIS_NAMESPACE: ares-dev
+      REDIS_URL: redis://redis:6379/0
+      REDIS_NAMESPACE: apollo-dev
+      WORKER_REDIS_NAMESPACE: apollo-worker-dev
     depends_on:
       - db
       - net
@@ -26,29 +29,34 @@ services:
     tty: true
 
   worker:
-    image: ares_app:latest
-    container_name: ares-worker
+    image: apollo
+    container_name: apollo-worker
     command: ["sh", "./scripts/worker", "start"]
     volumes:
-      - ./:/app
+      - .:/app
     environment:
       RAILS_ENV: development
-      REDIS_URL: redis://redis:6379
-      REDIS_NAMESPACE: ares-dev
+      GITLAB_ENVIRONMENT_NAME: development
+      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
+      PAYMENT_ENV: sandbox
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
+      STORAGE_BUCKET: none
+      REDIS_URL: redis://redis:6379/0
+      REDIS_NAMESPACE: apollo-dev
+      WORKER_REDIS_NAMESPACE: apollo-worker-dev
     depends_on:
+      - db
       - redis
-    stdin_open: true
-    tty: true
 
   redis:
     image: redis:5.0.5-alpine
-    container_name: ares-redis
+    container_name: apollo-redis
     ports:
       - "6379:6379"
 
   db:
     image: postgres:11.4
-    container_name: ares-db
+    container_name: apollo-db
     ports:
       - "5432:5432"
     environment:
@@ -59,7 +67,7 @@ services:
 
   net:
     image: traefik:latest
-    container_name: ares-net
+    container_name: apollo-net
     command: --api --docker
     ports:
       - "80:80"

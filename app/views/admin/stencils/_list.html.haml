@@ -1,15 +1,19 @@
-- if stencils.any?
-  %table.table.table-bordered.table-striped.mt-2
-    %thead.bg-primary.text-white
-      %tr
-        %th Name
-        %th Category
-    %tbody
-      - stencils.order(:name).each do |c|
-        %tr
-          %td= link_to c.name, admin_stencil_path(c)
-          %td= c.category.name
-- else
-  .card.mt-2
+.card
+  - if stencils.any?
+    .table-responsive.mb-0
+      %table.table.table-sm.table-nowrap.card-table.table-hover
+        %thead
+          %tr
+            %th Name
+            %th Category
+        %tbody
+          - if allow_no_stencil
+            %tr
+              %td{colspan: 2}= t('seat.no_stencil')
+          - stencils.order(:name).each do |c|
+            %tr
+              %td= link_to c.name, admin_stencil_path(c)
+              %td= c.category.name
+  - else
     .card-body
       .text-muted No stencils

@@ -1,0 +1,46 @@
+- if item.gift_card?
+  .media
+    .media-body
+      %h5.card-title= item.title
+      .font-size-1.mb-1{title: 'Purchased for'}
+        = fa_solid 'user', 'text-primary fa-fw'
+        = "#{item.first_name} #{item.last_name}"
+- else
+  .media
+    .media-body
+      %strong.text-body= link_to item.title, admin_workshop_path(item.workshop_id)
+      - if item.cancel_date.present?
+        .font-size-1.mb-1.text-danger{title: 'Cancel Date'}
+          = fa_solid 'ban', 'fa-fw'
+          CANCELED
+      - if item.void_date.present?
+        .font-size-1.mb-1.text-danger{title: 'Cancel Date'}
+          = fa_solid 'ban', 'fa-fw'
+          VOIDED
+      .font-size-1.mb-1{title: 'Scheduled time'}
+        = fa_solid 'calendar-alt', 'text-primary fa-fw'
+        = item.workshop.when
+      - if item.gifted_seat?
+        .font-size-1.mb-1{title: 'Purchased for'}
+          = fa_solid 'user', 'text-primary fa-fw'
+          = "#{item.first_name} #{item.last_name}"
+      - if item.seat_preference.present?
+        .font-size-1.mb-1{title: 'Seating preference'}
+          = fa_solid 'chair', 'text-primary fa-fw'
+          = item.seat_preference
+      - if item.project_name.present?
+        .font-size-1.mb-1{title: 'Project'}
+          = fa_solid 'sign', 'text-primary fa-fw'
+          = item.project_name
+      - if item.stencil_name.present?
+        .card-text.mb-1{title: 'Stencil'}
+          = fa_solid 'swatchbook', 'text-primary fa-fw'
+          = item.stencil_name
+      - if item.stencil_personalization.present?
+        .font-size-1.mb-1{title: 'Add-on'}
+          = fa_solid 'palette', 'text-primary fa-fw'
+          = item.stencil_personalization
+      - if item.addon_id.present?
+        .font-size-1.mb-1{title: 'Add-on'}
+          = fa_solid 'stamp', 'text-primary fa-fw'
+          = item.addon_name

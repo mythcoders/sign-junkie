@@ -1,0 +1,13 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@seat.customer.full_name},"
+%p
+  Your seat to the
+  = @seat.workshop.name
+  workshop is ready for payment!
+
+%hr
+= render partial: 'item_descriptions/show', locals: {item: @seat}
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@seat.reservation)} Pay now

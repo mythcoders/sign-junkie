@@ -5,16 +5,15 @@
         Photo Gallery
 .row
   .col-12.mb-3
-    %h4.text-center.text-danger
-      Take a look at the AMAZING project our guests (people just like you!) have made!
+    %h4.text-center.text-info
+      Take a look at the AMAZING project our guests (people just like you) have made!
       %br
       We guarantee you'll create a wall worthy project you will be proud to display!
       %br
       What are you waiting for?
       = link_to 'Book your next DIY project!', root_path
 .row.text-center.text-lg-left
-  - for i in 1..13
+  - @images.each do |img|
     .row-item.text-center
-      %a{href: "/gallery/#{i}.jpeg", target: '_blank'}
-        %img.img-fluid.img-thumbnail{alt: '', src: "/gallery/#{i}.jpeg"}
-
+      %a{href: rails_blob_path(img), target: '_blank'}
+        %img.img-fluid.img-thumbnail{alt: '', src: rails_blob_path(img)}

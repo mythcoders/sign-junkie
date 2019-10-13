@@ -1,23 +1,19 @@
 - page_title 'Project Search'
 
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'sign'
-    Projects
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Projects
+        %h1.header-title
+          %i.fad.fa-sign
+          Search
+      .col-auto
+        = link_to 'New Project', new_admin_project_path, class: 'btn btn-primary lift'
 
-.table-responsive
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Name
-    %tbody
-      - @projects.each do |p|
-        %tr{data: { 'clickable-row': '', 'href': admin_project_path(p) }}
-          %td= p.name
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @projects, remote: true
-          = page_entries_info @projects
-%br
-= link_to 'New Project', new_admin_project_path, class: 'btn btn-primary'
+.card
+  = grid(@projects_grid) do |g|
+    - g.row_attributes do |t|
+      - {data: { 'clickable-row': '', 'href': admin_project_path(t)}}
+    - g.column name: 'Name', attribute: 'name'

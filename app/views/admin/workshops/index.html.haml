@@ -1,39 +1,27 @@
 - page_title 'Workshop Search'
 
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-  %h1.h2
-    = fa_solid 'toolbox'
-    Workshops
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Workshops
+        %h1.header-title
+          %i.fad.fa-toolbox
+          Search
+      .col-auto
+        = link_to 'New Workshop', new_admin_workshop_path, class: 'btn btn-primary lift'
 
-.table-responsive
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Name
-        %th Date
-        %th Seats Available
-    %tbody
-      - @workshops.each do |e|
-        %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(e) }}
-          %td
-            = e.name
-            .float-right
-              - if !e.is_for_sale? || e.start_date < DateTime.now
-                %span.badge.badge-warning Not for Sale
-              - else
-                %span.badge.badge-success For Sale
-              - if e.is_public?
-                %span.badge.badge-info Public
-                - if e.allow_custom_stencils
-                  %span.badge.badge-secondary Custom Stencils
-              - else
-                %span.badge.badge-info Private
-          %td= e.when
-          %td= e.seats_available
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @workshops
-          = page_entries_info @workshops
-%br
-= link_to 'New workshop', new_admin_workshop_path, class: 'btn btn-primary'
+.card
+  = grid(@workshops_grid) do |g|
+    - g.row_attributes do |t|
+      - {data: { 'clickable-row': '', 'href': admin_workshop_path(t)}}
+    - g.column name: 'Name', attribute: 'name'
+    - g.column name: 'Status' do |t|
+      - render partial: 'statuses/workshop', locals: { workshop: t }
+    - g.column name: 'Date', attribute: 'start_date', filter_type: :timeframe_picker do |t|
+      - t.when
+    - g.column name: 'Type', attribute: 'workshop_type_id', custom_filter: WorkshopType.to_dropdown do |t|
+      - t.workshop_type.name if t.workshop_type
+    - g.column name: 'Seats Available' do |t|
+      - "#{t.seats_available}/#{t.total_seats}"

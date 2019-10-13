@@ -1,5 +1,5 @@
 - content_for :header do
-  My Profile
+  Edit Profile
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
@@ -10,34 +10,52 @@
       .input-group
         .input-group-prepend
           %span.input-group-text
-            = fa_regular 'user'
+            = fa_solid 'user'
         = f.text_field :first_name, class: 'form-control', placeholder: 'First Name', autofocus: true, autocomplete: 'off'
         = f.text_field :last_name, class: 'form-control', autocomplete: 'off', placeholder: 'Last Name'
 
     .form-group
       = f.label :email
-      = f.email_field :email, class: 'form-control', autocomplete: 'off'
+      .input-group
+        .input-group-prepend
+          %span.input-group-text
+            = fa_solid 'lock-alt'
+        = f.email_field :email, autocomplete: 'off', class: 'form-control', placeholder: 'name@address.com'
 
     %a{'data-toggle': 'collapse', href: '#change-password', role: 'button'} Change password
 
     .collapse#change-password
       .form-group.mt-2
-        = f.label :password
-        = f.password_field :password, autocomplete: 'off', class: 'form-control'
+        = f.label :new_password
+        .input-group
+          .input-group-prepend
+            %span.input-group-text
+              = fa_solid 'key'
+          = f.password_field :password, autocomplete: 'off', class: 'form-control'
         %p.form-text.text-muted
           Leave blank if you don't want to change your password!
           - if @minimum_password_length
             = "New password must be #{@minimum_password_length} characters minimum."
 
       .form-group
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+        = f.label :new_password_confirmation
+        .input-group
+          .input-group-prepend
+            %span.input-group-text
+              = fa_solid 'key'
+          = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+
+    %hr
 
     .form-group.mt-2
       = f.label :current_password
-      = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+      .input-group
+        .input-group-prepend
+          %span.input-group-text
+            = fa_solid 'key'
+        = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
       %p.form-text.text-muted
         We need your current password to confirm your changes
 
-    = link_to 'Cancel', root_path, class: 'btn btn-secondary'
-    = f.submit 'Save Changes', class: 'btn btn-success'
+    = f.submit 'Save Changes', class: 'btn btn-success btn-block'
+    = link_to 'Cancel', :back, class: 'btn btn-secondary btn-block'

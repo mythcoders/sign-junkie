@@ -1,16 +1,19 @@
-- unless @customer.invoices.any?
+- unless invoices.any?
   .card-footer
-    .text-muted Customer has no invoices
+    .text-muted No invoices found
 - else
-  %table.table.table-striped.table-bordered.table-border-fix
-    %thead
-      %tr
-        %th Order Number
-        %th Date Placed
-        %th Amount
-    %tbody
-      - @customer.invoices.each do |o|
-        %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
-          %td= o.identifier
-          %td= l o.created_at, format: :short
-          %td= number_to_currency o.grand_total
+  .table-responsive.mb-0
+    %table.table.table-sm.table-nowrap.card-table.table-hover
+      %thead
+        %tr
+          %th ID
+          %th Status
+          %th Date Placed
+          %th Amount
+      %tbody
+        - invoices.each do |o|
+          %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
+            %td= o.identifier
+            %td= render partial: 'statuses/invoice', locals: { invoice: o }
+            %td= l o.created_at, format: :short
+            %td= number_to_currency o.grand_total

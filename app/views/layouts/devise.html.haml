@@ -1,21 +1,24 @@
 !!!
-%html
+%html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
+    = stylesheet_link_tag 'admin', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  %body
-    .container.padded-container
-      = render partial: 'layouts/partials/alerts'
-      .row
-        .col-sm-8.offset-sm-2
-          .card
-            .card-header.bg-primary.text-white
-              %strong= ClientInfo.name
-              |
-              = yield :header
-            .card-body
-              = yield
+  %body{style: "Font-Family: 'Abril Fatface'"}
+    = render 'peek/bar'
+    .container-fluid
+      .row.align-items-center.justify-content-center
+        .col-12.col-md-6.col-lg-6.col-xl-4.px-lg-5.my-5
+          %h1.text-center
+            = link_to ClientInfo.name, root_path, class: 'link-teal'
+          %h2.text-center.mb-5
+            = yield :header
+          = render partial: 'layouts/partials/alerts'
+          = yield
+          .text-center.mt-3
+            %a.link-teal{href: root_path}= "\u00A9 #{Time.zone.today.year} #{ClientInfo.owner}"
+        .col-12.col-md-6.col-lg-6.col-xl-8.d-none.d-lg-block
+          .bg-cover.vh-100.mt-n1.mr-n3{:style => "background-image: url(/Private.jpeg);"}
   :javascript
     document.addEventListener("turbolinks:load", function() {
         window.FontAwesome.dom.i2svg();

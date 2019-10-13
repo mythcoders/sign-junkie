@@ -1,8 +1,19 @@
 - page_title 'Edit', 'Customer Credit'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Customers
+        %h1.header-title
+          %i.fad.fa-address-book
+          = "Edit credit for #{@credit.customer.full_name}"
+
 = form_for @credit, url: admin_customer_credit_path(@credit), method: :patch do |f|
   .card
-    %h5.card-header.bg-primary.text-white= "Edit credit for #{@credit.customer.full_name}"
+    .card-header
+      %h5.card-header-title Information
     .card-body
       = error_messages_for 'credit'
       = f.hidden_field :id
@@ -22,5 +33,8 @@
               .input-group-text
                 = fa_regular 'calendar'
     .card-footer
-      = link_to 'Cancel', admin_customer_path(@credit), class: 'btn btn-outline-secondary'
+      = link_to 'Cancel', admin_customer_path(@credit.customer), class: 'btn btn-outline-secondary'
       = f.submit 'Save Changes', class: 'btn btn-success'
+      = form_for :seat, url: admin_addon_path(@credit), method:'delete', class: 'form-inline' do |f|
+        = f.hidden_field :id, value: @credit.id
+        %button.btn.btn-danger{type: 'submit'} Delete

@@ -1,0 +1,21 @@
+- if reservation.voided?
+  %span.text-danger ●
+  Voided
+- elsif reservation.canceled?
+  %span.text-danger ●
+  Canceled
+- elsif reservation.forfeit_deposit
+  %span.text-warning ●
+  Deposit forfeited by Admin
+- elsif reservation.requirements_met?
+  %span.text-success ●
+  Requirements met, deposit to be refunded
+- elsif reservation.can_add_seat?
+  %span.text-warning ●
+  Requirements not yet met
+- elsif reservation.workshop.reservations_void_minimum_not_met?
+  %span.text-danger ●
+  Requirements not met -- pending void
+- else
+  %span.text-info ●
+  Workshop scheduled -- no deposit refund

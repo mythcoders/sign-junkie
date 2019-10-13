@@ -1,9 +1,19 @@
 - page_title 'Edit', 'Design Categories'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Stencils
+        %h1.header-title
+          %i.fad.fa-swatchbook
+          = "Edit #{@stencil.name}"
+
 = form_for @stencil, url: admin_stencil_path(@stencil), method: :patch do |f|
   .card
-    %h5.card-header.bg-primary.text-white
-      Edit Stencil
+    .card-header
+      %h2.card-header-title Information
     .card-body
       = error_messages_for 'stenci'
       = render partial: 'admin/stencils/form', locals: { f: f }

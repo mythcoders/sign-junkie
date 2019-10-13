@@ -1,0 +1,11 @@
+%p.card-text
+  = fa_solid 'calendar-alt', 'text-primary fa-fw'
+  = @workshop.when
+%p.card-text
+  = fa_solid 'ticket-alt', 'text-primary fa-fw'
+  = "#{@workshop.seats_available} seats available"
+%p.card-text
+  = fa_solid 'usd-circle', 'text-primary fa-fw'
+  %span#total-price Select a project to see pricing
+  %input{id: 'base-price', value: '0.00', type: 'hidden'}
+%p.card-text= @workshop.description

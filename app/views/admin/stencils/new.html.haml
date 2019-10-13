@@ -1,8 +1,19 @@
 - page_title 'New', 'Stencil'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Stencils
+        %h1.header-title
+          %i.fad.fa-swatchbook
+          New Stencil
+
 = form_for @stencil, url: admin_stencils_path do |f|
   .card
-    %h5.card-header.bg-primary.text-white New Stencil
+    .card-header
+      %h5.card-header-title Information
     .card-body
       = error_messages_for 'stencil'
       = render partial: 'admin/stencils/form', locals: { f: f }

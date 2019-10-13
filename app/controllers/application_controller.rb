@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_paper_trail_whodunnit
-  before_action :set_raven_context
+  before_action :set_user_context
   before_action :store_user_location!, if: :storable_location?
   before_action :set_permitted_parameters, if: :devise_controller?
 
@@ -20,11 +20,16 @@ class ApplicationController < ActionController::Base
     payload[:host] = request.host
   end
 
+  # def peek_enabled?
+  #   user_signed_in? && current_user.operator?
+  # end
+
   private
 
-  def set_raven_context
+  def set_user_context
     return unless current_user
 
+    Unleash::Context.new.user_id = current_user.email
     Raven.user_context(
       id: current_user.id,
       email: current_user.email,
@@ -37,7 +42,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: additional_fields)
     devise_parameter_sanitizer.permit(:account_update, keys: additional_fields)
 
-    return unless user_signed_in? && current_user.can_cp?
+    return unless user_signed_in? && current_user.astronaut?
 
     devise_parameter_sanitizer.permit(:account_update, keys: [:role])
   end
@@ -77,20 +82,19 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
-    user.can_cp? ? admin_dashboard_path : root_path
+    stored_location_for(user) || super
   end
 
   # Its important that the location is NOT stored if:
   # - The request method is not GET (non idempotent)
-  # - The request is handled by a Devise controller such as
-  #   Devise::SessionsController as that could cause an infinite redirect loop
+  # - The request is handled by a Devise controller such as Devise::SessionsController
+  #   as that could cause an infinite redirect loop
   # - The request is an Ajax request as this can lead to very unexpected behavior
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
 
   def store_user_location!
-    # :user is the scope we are authenticating
     store_location_for(:user, request.fullpath)
   end
 end

@@ -1,11 +1,21 @@
 - page_title 'Edit', @project.name, 'Projects'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Projects
+        %h1.header-title
+          %i.fad.fa-sign
+          = "Edit #{@project.name}"
+
 = form_for @project, url: admin_project_path(@project), method: :patch do |f|
   .row
     .col-12.col-md-5
       .card
-        %h5.card-header.bg-primary.text-white
-          Edit Project
+        .card-header
+          %h3.card-header-title Information
         .card-body
           = error_messages_for 'project'
           = render partial: 'admin/projects/form', locals: { f: f }
@@ -14,8 +24,8 @@
           = f.submit 'Save', class: 'btn btn-success'
     .col-12.col-md-7
       .card
-        %h5.card-header.bg-primary.text-white
-          Stencils
+        .card-header
+          %h3.card-header-title Stencils
         .card-body
           .custom-control.custom-checkbox
             = f.check_box :allow_no_stencil, class: 'custom-control-input'

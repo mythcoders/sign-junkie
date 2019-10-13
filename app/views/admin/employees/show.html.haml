@@ -1,8 +1,19 @@
 - page_title @employee.full_name, 'Employees'
 
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Employees
+        %h1.header-title
+          %i.fad.fa-users
+          = @employee.full_name
+      .col-auto
+
 .card
-  %h5.card-header.bg-primary.text-white
-    = @employee.full_name
+  .card-header
+    %h2.card-header-title Information
   .card-body
     .form-group
       %label

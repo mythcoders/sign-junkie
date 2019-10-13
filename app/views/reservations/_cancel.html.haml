@@ -1,4 +1,4 @@
-#cancel-reservation-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "cancelOrderModalLabel", :role => "dialog", :tabindex => "-1"}
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "cancelOrderModalLabel", :role => "dialog", :tabindex => "-1", id: "cancel-reservation-#{reservation.id}-modal"}
   .modal-dialog{:role => "document"}
     .modal-content
       .modal-header
@@ -6,10 +6,13 @@
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
-        A refund or credit will be issued per the
-        %a{href: policies_path} refund policy.
-        This can not be undone.
+        = t('reservations.cancel.confirmation')
+        %br
+        %br
+        %a{href: policies_path, target: '_blank'} Our refund policy.
 
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Nevermind
-        %button.btn.btn-danger{type: 'submit'} Process cancellation
+        = form_for :reservation, url: cancel_reservation_path(reservation), class: 'form-inline' do |f|
+          = f.hidden_field :id, value: reservation.id
+          %button.btn.btn-danger{type: 'submit'} Process cancellation

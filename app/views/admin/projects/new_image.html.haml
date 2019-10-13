@@ -1,0 +1,35 @@
+-# - page_title 'New', 'Project Image'
+- page_title @project.name, 'Projects'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Projects
+        %h1.header-title
+          %i.fad.fa-sign
+          = @project.name
+
+= form_for @project, url: upload_images_admin_project_path(@project), method: 'post', local: true do |f|
+  .card
+    .card-header
+      %h3.card-header-title
+        = fa_solid 'images'
+        New Image
+    .card-body
+      = error_messages_for 'project'
+      = f.hidden_field :id
+      .form-group
+        .custom-file
+          = f.file_field :images, multiple: true, class: 'custom-file-input'
+          = f.label :select_one_or_more_images_to_upload, class: 'custom-file-label'
+    .card-footer
+      = link_to 'Cancel', admin_project_path(@project), class: 'btn btn-outline-secondary'
+      = f.submit 'Upload', class: 'btn btn-success'
+
+- content_for :scripts do
+  :javascript
+    document.addEventListener('DOMContentLoaded', function() {
+      bsCustomFileInput.init()
+    });

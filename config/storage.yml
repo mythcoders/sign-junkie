@@ -4,8 +4,8 @@ local:
 
 amazon:
   service: S3
-  access_key_id: <%= Rails.application.credentials.storage_key %>
-  secret_access_key: <%= Rails.application.credentials.storage_secret %>
+  access_key_id: <%= Rails.application.credentials.dig(:storage_key) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:storage_secret) %>
   region: nyc3
   bucket: <%= ENV.fetch('STORAGE_BUCKET') %>
   endpoint: "https://nyc3.digitaloceanspaces.com"

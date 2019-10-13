@@ -1,0 +1,13 @@
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "cancelModalLabel", :role => "dialog", :tabindex => "-1", id: "cancel-seat-#{seat.id}-modal"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h2#cancelModalLabel.modal-title Cancel Seat - Are you sure?
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body= t('seat.cancel.confirmation')
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Dismiss
+        = form_for :seat, url: cancel_admin_seat_path(seat), class: 'form-inline' do |f|
+          = f.hidden_field :id, value: seat.id
+          %button.btn.btn-danger{type: 'submit'} Process cancellation

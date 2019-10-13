@@ -1,0 +1,10 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@reservation.host.full_name},"
+%p
+  Your reservation to the
+  = @reservation.workshop.name
+  workshop is ready for payment!
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@reservation)} Pay now

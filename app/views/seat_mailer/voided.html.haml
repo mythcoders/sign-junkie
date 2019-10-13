@@ -1,0 +1,8 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5= "#{@seat.customer.full_name},"
+%p We're sorry, but your seat has been automatically voided because you didn't meet the registration deadline.
+%p If applicable, a credit or refund will be issued within 48 hours.
+
+%hr
+= render partial: 'item_descriptions/show', locals: {item: @seat}

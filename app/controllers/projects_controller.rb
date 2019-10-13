@@ -7,6 +7,10 @@ class ProjectsController < ApplicationController
     @projects = Project.all.order(name: :asc)
   end
 
+  def gallery
+    @images = GalleryImage.all_images
+  end
+
   def show
     respond_to do |format|
       format.html
