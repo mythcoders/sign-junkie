@@ -99,9 +99,9 @@
             %a.dropdown-item{href: '#modalUserModal', 'data-toggle': 'modal'}
               = fa_solid 'sliders-v'
               Preferences
-            %a.dropdown-item{href: admin_help_path}
-              = fa_solid 'question-circle'
-              Help
+            %a.dropdown-item{href: "mailto:#{SystemInfo.support_mail}"}
+              = fa_solid 'life-ring'
+              Support
             %hr.dropdown-divider
             %a.dropdown-item{href: admin_about_path}
               = fa_solid 'info-circle'
