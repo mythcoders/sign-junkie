@@ -15,7 +15,11 @@ module SystemInfo
     end
 
     def support_url
-      'mailto:incoming+mythcoders-ares-12022372-issue-@incoming.gitlab.com'
+      'https://mythcoders.atlassian.net/servicedesk/customer/portal/3'
+    end
+
+    def support_mail
+      'apollo@mythcoders.com'
     end
 
     def support_key
