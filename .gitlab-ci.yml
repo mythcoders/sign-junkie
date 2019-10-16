@@ -36,13 +36,13 @@ review:
   stage: review
   environment:
     name: review/$CI_COMMIT_REF_NAME
-    url: http://$CI_COMMIT_REF_NAME.review.$KUBE_INGRESS_BASE_DOMAIN
+    url: http://$CI_COMMIT_REF_NAME.$KUBE_INGRESS_BASE_DOMAIN
 
 staging:
   stage: staging
   environment:
     name: staging
-    url: http://staging.$KUBE_INGRESS_BASE_DOMAIN
+    url: http://$KUBE_INGRESS_BASE_DOMAIN
 
 production:
   stage: production
