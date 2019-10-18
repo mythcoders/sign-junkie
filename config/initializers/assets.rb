@@ -12,11 +12,8 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
 # Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in the app/assets
-# folder are already added.
+# application.js, application.css, and all non-JS/CSS in the app/assets folder are already added.
 Rails.application.config.assets.precompile += %w[admin.css
                                                  admin_dark.css
                                                  mailer.css
-                                                 admin.js
-                                                 onmount.js
-                                                 jquery.easing.min.js]
+                                                 admin.js]

@@ -54,7 +54,7 @@
           %li.nav-item
             = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
               = fa_solid 'user-circle'
-              %span.d-none.d-lg-inline My Account
+              My Account
           - if current_user.astronaut?
             %li.nav-item
               = link_to admin_dashboard_path, title: "#{SystemInfo.app_name} Mission Control", class: 'nav-link' do

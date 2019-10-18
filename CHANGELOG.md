@@ -1,3 +1,11 @@
+#### 1910.2 - October 18, 2019
+
+- Added the ability to search for customers in the Admin Portal
+- Mobile UI improvements
+- Resolved an issue that caused several portions of the site to not work properly in Internet Explorer 11 like
+  the Braintree UI for entering payment information
+- Resolved an issue that prevented gift cards from being purchased
+
 #### 1910 - October 12, 2019
 
 - New features and improvements for customers

@@ -11,13 +11,16 @@
     - else
       = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
+    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
+    - if Rails.env.production?
+      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
   %body
     = render partial: "layouts/admin/toast_alerts"
     = render partial: "layouts/admin/sidebar"
     .main-content
       = render partial: "layouts/partials/logout"
       = render partial: "layouts/partials/user_preferences"
-      = render 'peek/bar'
+      -# = render 'peek/bar'
       .container-fluid
         = yield :breadcrumbs
         = yield

@@ -3,9 +3,6 @@
 // Styles specific to the public website
 //
 
-@import "peek";
-@import "peek/views/performance_bar";
-
 $light-teal: #4290a9 !default;
 
 @include bg-variant(".bg-blue", $blue);

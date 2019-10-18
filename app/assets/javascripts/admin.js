@@ -1,19 +1,16 @@
 //
 //= require rails-ujs
 //= require jquery/dist/jquery.min
-//= require onmount
-//= require popper.js/dist/umd/popper.min
-//= require bootstrap/dist/js/bootstrap.min
+//= require onmount/index.js
+//= require bootstrap/dist/js/bootstrap.bundle.min
 //= require moment/moment.js
 //= require tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min
 //= require select2/dist/js/select2.js
 //= require wice_grid
 //= require behaviors/clickable-row
 //= require behaviors/workshop-edit
-//= require jquery.easing.min
-//= require bs-custom-file-input.min
-//= require peek
-//= require peek/views/performance_bar
+//= require jquery.easing/jquery.easing.min
+//= require bs-custom-file-input/dist/bs-custom-file-input.min
 //= require user-preferences
 //= require global
 

@@ -4,12 +4,12 @@
   .header-body
     .row.align-items-center
       .col
-        %h6.header-pretitle= "#{SystemInfo::app_name} Admin Portal"
+        %h6.header-pretitle #{SystemInfo.app_name} Mission Control
         %h1.header-title
           %i.fad.fa-info-circle
           About
       .col-auto
-        %a.btn.btn-primary{href: admin_help_path}
+        %a.btn.btn-primary{href: SystemInfo.support_url}
           = fa_solid 'question-circle'
           Help
         %a.btn.btn-primary{href: "mailto:#{SystemInfo.support_mail}"}
@@ -44,7 +44,7 @@
           %label.col-sm-4.col-form-label Developed For
           .col-sm-8
             %a{href: ClientInfo.website_link}= ClientInfo.owner
-            %p= "#{ClientInfo.city}, #{ClientInfo.state}"
+            %p #{ClientInfo.city}, #{ClientInfo.state}
             %span.badge.badge-info.badge-pill
               %i.fas.fa-rocket.fa-lg
               Core

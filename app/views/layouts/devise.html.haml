@@ -4,14 +4,17 @@
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'admin', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
+    - if Rails.env.production?
+      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
   %body{style: "Font-Family: 'Abril Fatface'"}
-    = render 'peek/bar'
+    -# = render 'peek/bar'
     .container-fluid
       .row.align-items-center.justify-content-center
         .col-12.col-md-6.col-lg-6.col-xl-4.px-lg-5.my-5
-          %h1.text-center
-            = link_to ClientInfo.name, root_path, class: 'link-teal'
-          %h2.text-center.mb-5
+          %a{href: root_path}
+            %img.img-system-logo{src: '/SJWlogo.svg'}
+          %h1.text-center.mb-5
             = yield :header
           = render partial: 'layouts/partials/alerts'
           = yield
