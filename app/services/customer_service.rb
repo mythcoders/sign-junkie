@@ -25,7 +25,7 @@ class CustomerService < ApplicationService
   end
 
   def issue_gift_card(item, _purchaser)
-    recipient = CustomerService.find_or_invite_recipient(item)
+    recipient = CustomerService.find_or_invite(item.first_name, item.last_name, item.email)
     recipient.credits << CustomerCredit.new(starting_amount: item.item_amount,
                                             balance: item.item_amount)
     recipient.save!

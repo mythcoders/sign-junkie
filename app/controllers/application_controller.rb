@@ -20,10 +20,6 @@ class ApplicationController < ActionController::Base
     payload[:host] = request.host
   end
 
-  # def peek_enabled?
-  #   user_signed_in? && current_user.operator?
-  # end
-
   private
 
   def set_user_context

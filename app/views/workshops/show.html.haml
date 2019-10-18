@@ -1,5 +1,5 @@
 .row
-  .col-12.col-lg-6.mb-2
+  .col-12.col-md-6.mb-2.order-2.order-md-1
     .row
       - if @workshop.workshop_images.any?
         .col-12.d-flex.justify-content-center
@@ -19,7 +19,7 @@
             %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
             %a{href: project_path(project)}= project.name
 
-  .col-12.col-lg-6.mb-2
+  .col-12.col-md-6.mb-2.order-1.order-md-2
     .card
       %h3.card-header.bg-primary.text-white
         = @workshop.name

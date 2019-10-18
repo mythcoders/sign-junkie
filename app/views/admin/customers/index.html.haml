@@ -13,19 +13,9 @@
         = link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary lift'
 
 .card
-  .table-responsive
-    %table.table.card-table.table-hover
-      %thead
-        %tr
-          %th First Name
-          %th Last Name
-      %tbody
-        - @customers.each do |c|
-          %tr{data: { 'clickable-row': '', 'href': admin_customer_path(c) }}
-            %td= c.first_name
-            %td= c.last_name
-      %tfoot
-        %tr
-          %td{colspan: '100%'}
-            = paginate @customers
-            = page_entries_info @customers
+  = grid(@customers_grid) do |g|
+    - g.row_attributes do |t|
+      - {data: { 'clickable-row': '', 'href': admin_customer_path(t)}}
+    - g.column name: 'First Name', attribute: 'first_name'
+    - g.column name: 'Last Name', attribute: 'last_name'
+    - g.column name: 'Email Address', attribute: 'email'

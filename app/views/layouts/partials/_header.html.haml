@@ -10,15 +10,12 @@
 %meta{property: "og:url", content: request.base_url + request.path}
 %meta{property: "og:title", content: t('site.title')}
 %meta{property: "og:description", content: t('site.description')}
-%meta{property: "og:image", content: asset_url('/SJWlogo.jpeg')}
+%meta{property: "og:image", content: asset_url('/SJWlogo.svg')}
 %meta{property: "twitter:card", content: 'summary_large_image'}
 -# %meta{property: "twitter:site", content: '@adkinsforohio'}
 %meta{property: "twitter:title", content: t('site.title_long')}
 %meta{property: "twitter:description", content: t('site.description')}
-%meta{property: "twitter:image", content: asset_url('/SJWlogo.jpeg')}
+%meta{property: "twitter:image", content: asset_url('/SJWlogo.svg')}
 %meta{property: "twitter:image:alt", content: '?'}
 = csrf_meta_tags
-%script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-- if Rails.env.production?
-  %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
 = yield :styles
