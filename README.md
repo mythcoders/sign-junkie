@@ -8,6 +8,8 @@ Apollo is an open-source business management system that is designed to be custo
 - PostgreSQL
 - Redis 2.8+
 
+
+
 ### Services used
 
 - Sentry
