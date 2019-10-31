@@ -1,5 +1,5 @@
 .row
-  - if !@reservation.requirements_met? && @reservation.may_add_seat?(current_user)
+  - unless @reservation.requirements_met? && @reservation.host? current_user
     .col-12
       .alert.alert-warning{:role => "alert"}
         %h4.alert-heading
@@ -13,8 +13,9 @@
           = t('reservations.registration_deadline_loose_deposit_warning',
             seats: @reservation.remaining_seats_until_requirements_met,
             registration_deadline: lifp(@reservation.workshop.registration_deadline))
-        %br
-        %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
+        - if @reservation.may_add_seat?(current_user)
+          %br
+          %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
   .col-12.col-lg-5.mb-2
     .card
       %h4.card-header.bg-primary.text-white

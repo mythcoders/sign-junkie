@@ -45,7 +45,7 @@ spec:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
         - name: GITLAB_ENVIRONMENT_URL
-          value: {{ .Values.service.url }}
+          value: {{ template "hostname" $.Values.service.url }}
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}

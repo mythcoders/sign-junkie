@@ -1,3 +1,15 @@
+#### 1910.3 - October 31, 2019
+
+- Resolved an issue where the status of a reservation was being incorrectly calculated
+- Fixed “My Orders Page” text that was supposed to be a link to read Workshop Planner and point to the correct page
+- Created a .PNG version of the logo that displays properly in emails
+- Guidelines was misspelled as “Guidesliness” and has been corrected
+- Additional mobile UI improvements
+  - Switched the order of images and order form on the workshop selection page
+  - Adjustments to improve text sizing on smaller devices across all pages
+  - Improved button styling on the shopping cart page
+  - Consistent header sizing on all pages
+
 #### 1910.2 - October 18, 2019
 
 - Added the ability to search for customers in the Admin Portal

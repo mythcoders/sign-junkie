@@ -54,7 +54,7 @@ items:
           - name: GITLAB_ENVIRONMENT_NAME
             value: {{ $.Values.gitlab.envName }}
           - name: GITLAB_ENVIRONMENT_URL
-            value: {{ $.Values.service.url }}
+            value: {{ template "hostname" $.Values.service.url }}
           # livenessProbe:
           #   httpGet:
           #     path: {{ $.Values.livenessProbe.path }}

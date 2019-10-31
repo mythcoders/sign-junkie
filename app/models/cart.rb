@@ -78,7 +78,7 @@ class Cart < ApplicationRecord
     @seat_owner ||= gifted_seat? ? User.find_or_initialize_by(email: email) : user
   end
 
-  # TODO: Move this to CartService
+  # TODO: AP-241 Move this to CartService
   def validate_can_book
     if seat?
       # raise ProcessError, 'Workshop is not accepting anymore seats' unless workshop.seat_purchaseable?
