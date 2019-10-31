@@ -8,8 +8,7 @@ class Payment < ApplicationRecord
   validates_presence_of :method, :amount
   scope :credit_cards, -> { where(method: 'credit_card') }
 
-  # TODO: make sure we don't refund more than paid
-
+  # TODO: : AP-242 make sure we don't refund more than paid
   def amount_refundable
     amount - (amount_refunded || 0.00)
   end

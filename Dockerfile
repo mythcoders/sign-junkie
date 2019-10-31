@@ -19,4 +19,4 @@ ADD . $APP_HOME/
 
 RUN ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=production bundle exec rake assets:precompile
 
-CMD ["sh", "-c", "bundle exec rails s -b 0.0.0.0 -p ${APP_PORT}"]
+CMD ["sh", "./scripts/app", "start"]

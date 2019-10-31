@@ -28,7 +28,7 @@
         = f.label :booking_agreement, class: 'custom-control-label'
       %p.form-control-plaintext
         I have read and agree to the
-        %a{href: workshop_hosting_path(@workshop)}= "Hostess Guidesliness for #{@workshop.workshop_type.name} Workshops"
+        %a{href: workshop_hosting_path(@workshop)} Hostess Guidelines
   .form-row
     .form-group.col
       .custom-switch.custom-control

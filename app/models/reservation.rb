@@ -51,7 +51,7 @@ class Reservation < ApplicationRecord
   end
 
   def requirements_met?
-    remaining_seats_until_requirements_met <= 0
+    paid_seats >= minimum_seats
   end
 
   def remaining_seats_until_requirements_met
@@ -72,5 +72,9 @@ class Reservation < ApplicationRecord
 
   def active_seats
     seats.select(&:active?)
+  end
+
+  def paid_seats
+    seats.select(&:paid?)
   end
 end
