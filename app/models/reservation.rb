@@ -51,7 +51,7 @@ class Reservation < ApplicationRecord
   end
 
   def requirements_met?
-    paid_seats >= minimum_seats
+    paid_seats.count >= minimum_seats
   end
 
   def remaining_seats_until_requirements_met
