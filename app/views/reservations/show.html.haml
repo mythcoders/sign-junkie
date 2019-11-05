@@ -1,5 +1,5 @@
 .row
-  - unless @reservation.requirements_met? && @reservation.host? current_user
+  - unless @reservation.requirements_met? && @reservation.host?(current_user)
     .col-12
       .alert.alert-warning{:role => "alert"}
         %h4.alert-heading
@@ -21,7 +21,7 @@
       %h4.card-header.bg-primary.text-white
         = fa_solid 'toolbox'
         Workshop Planner
-      - if @reservation.host? current_user
+      - if @reservation.host?(current_user)
         .card-body= render partial: 'reservations/host_details'
         .card-footer= render partial: 'reservations/actions'
       - else
