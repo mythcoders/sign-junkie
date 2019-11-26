@@ -10,13 +10,17 @@
     .media-body
       %h5.card-title= item.title
       - if item.cancel_date.present?
-        .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+        .font-size-1.mb-1.text-danger{title: 'Cancel Date'}
           = fa_solid 'ban', 'fa-fw'
           CANCELED
       - if item.void_date.present?
-        .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+        .font-size-1.mb-1.text-danger{title: 'Cancel Date'}
           = fa_solid 'ban', 'fa-fw'
           VOIDED
+      - if item.active? && (!item.selection_made? || !item.paid?)
+        .font-size-1.mb-1.text-info{title: 'Attention needed'}
+          = fa_solid 'exclamation', 'fa-fw'
+          This seat requires your attention!
       .font-size-1.mb-1{title: 'Scheduled time'}
         = fa_solid 'calendar-alt', 'text-primary fa-fw'
         = item.workshop.when

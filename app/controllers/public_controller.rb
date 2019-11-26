@@ -7,10 +7,6 @@ class PublicController < ApplicationController
     @questions = YAML.load_file(faq_file_path)
   end
 
-  def my_account
-    @reservations = UNLEASH.is_enabled? 'reservations', @unleash_context
-  end
-
   def my_credits
     @credits = current_user.credits.active
   end

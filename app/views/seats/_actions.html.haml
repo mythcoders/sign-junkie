@@ -1,33 +1,21 @@
 - if seat.cancelable?
   = render partial: 'seats/cancel', locals: {seat: seat}
 
-.btn-group{"aria-label" => "Button group with nested dropdown", :role => "group"}
-  - if seat.editable?(current_user)
-    %a.btn.btn-info{href: edit_reservation_seat_path(seat.reservation, seat)} Update your seat
-  - if seat.unpaid?
-    = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
-      = f.hidden_field :seat_id, value: seat.id
-      %button.btn.btn-primary{type: 'submit'}
-        Add to cart
-  .btn-group{:role => "group"}
-    %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-      = fa_solid 'ellipsis-h-alt'
-      Options
-    .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
-      - if seat.cancelable?
-        %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
-          = fa_duo 'user-slash', 'fa-fw'
-          Cancel seat
-      %a.dropdown-item{:href => "mailto:#{seat.customer.email}"}
-        = fa_duo 'comment-alt-lines', 'fa-fw'
-        Send email
-      - if seat.active? && !seat.selection_made?
-        = form_for :seat, url: remind_reservation_seat_path(seat.reservation, seat), class: 'form-inline' do |f|
-          = f.hidden_field :id, value: seat.id
-          %button.dropdown-item{type: 'submit'}
-            = fa_duo 'bell-exclamation', 'fa-fw'
-            Send reminder
-      -# - if seat.reassignable?(current_user)
-      -#   %a.dropdown-item{"data-target": "#new-seat-modal", "data-toggle": "modal", href: "#"}
-      -#     = fa_duo 'user-edit', 'fa-fw'
-      -#     Reassign seat
+.btn-group{:role => "group"}
+  %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+    = fa_solid 'ellipsis-h-alt'
+    Options
+  .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+    - if seat.cancelable?
+      %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
+        = fa_duo 'user-slash', 'fa-fw'
+        Cancel seat
+    %a.dropdown-item{:href => "mailto:#{seat.customer.email}"}
+      = fa_duo 'comment-alt-lines', 'fa-fw'
+      Send email
+    - if seat.active? && !seat.selection_made?
+      = form_for :seat, url: remind_reservation_seat_path(seat.reservation, seat), class: 'form-inline' do |f|
+        = f.hidden_field :id, value: seat.id
+        %button.dropdown-item{type: 'submit'}
+          = fa_duo 'bell-exclamation', 'fa-fw'
+          Send reminder

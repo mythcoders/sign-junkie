@@ -14,13 +14,13 @@
       = fa_solid 'file-invoice', 'text-primary fa-fw'
       = f.label :payment_options
       .custom-control.custom-radio
-        = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
-        = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
-          Host will pay for all guests and the projects they select
-      .custom-control.custom-radio
         = f.radio_button :payment_plan, 'guest', class: 'custom-control-input'
         = f.label :payment_plan, value: 'guest', class: 'custom-control-label' do
           Each guest is responsible for paying for their own project
+      .custom-control.custom-radio
+        = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
+        = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
+          Host will pay for all guests and the projects they select
   .form-row
     .form-group.col
       .custom-switch.custom-control

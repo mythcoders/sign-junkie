@@ -27,7 +27,7 @@
             %span.badge.badge-primary= @workshop.workshop_type.name
           .col-auto= render partial: 'statuses/workshop', locals: { workshop: @workshop }
       .card-body
-        - if @workshop.description
+        - if @workshop.description.present?
           .form-group
             .form-control-plaintext= @workshop.description
         .form-group
@@ -49,11 +49,12 @@
           .media-body.text-right
             %span.font-weight-medium
               .span= special_date @workshop.purchase_start_date
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3 Individual seat deadline
-          .media-body.text-right
-            %span.font-weight-medium
-              .span= special_date @workshop.purchase_end_date
+        - if @workshop.single_seats_allowed?
+          .media.align-items-center.mb-4
+            .font-size-1.font-weight-normal.mb-0.mr-3 Individual seat deadline
+            .media-body.text-right
+              %span.font-weight-medium
+                .span= special_date @workshop.purchase_end_date
         - if @workshop.reservations_allowed?
           .media.align-items-center.mb-4
             .font-size-1.font-weight-normal.mb-0.mr-3 Booking deadline
@@ -67,33 +68,48 @@
                 .span= special_date @workshop.registration_deadline
         %hr
         .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :individual_seats_allowed)
+          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_single_seat_allow)
           .media-body.text-right
             %span.font-weight-medium
               .span= human_boolean @workshop.single_seats_allowed?
         .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :reservations_allowed)
+          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow)
           .media-body.text-right
             %span.font-weight-medium
               .span= human_boolean @workshop.reservations_allowed?
         - if @workshop.reservations_allowed?
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :multiple_reservations_allowed)
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_multiple)
             .media-body.text-right
               %span.font-weight-medium
                 .span= human_boolean @workshop.multiple_reservations_allowed?
+          -# .media.align-items-center.mb-4
+          -#   .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :void_reservation_minimum_not_met)
+          -#   .media-body.text-right
+          -#     %span.font-weight-medium
+          -#       .span= human_boolean @workshop.reservations_void_minimum_not_met?
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :reservation_minimum_seats)
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_guest_cancel_seat)
+            .media-body.text-right
+              %span.font-weight-medium
+                .span= human_boolean @workshop.reservation_allow_guest_cancel_seat?
+          .media.align-items-center.mb-4
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_cancel_minimum_not_met)
+            .media-body.text-right
+              %span.font-weight-medium
+                .span= human_boolean @workshop.reservations_void_minimum_not_met?
+          .media.align-items-center.mb-4
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_minimum)
             .media-body.text-right
               %span.font-weight-medium
                 .span= @workshop.reservation_minimum_seats
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :reservation_maximum_seats)
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_maximum)
             .media-body.text-right
               %span.font-weight-medium
                 .span= @workshop.reservation_maximum_seats
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop, :reservation_price)
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_price)
             .media-body.text-right
               %span.font-weight-medium
                 .span= number_to_currency @workshop.reservation_price

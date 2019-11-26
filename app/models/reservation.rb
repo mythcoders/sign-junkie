@@ -27,7 +27,7 @@ class Reservation < ApplicationRecord
   end
 
   def can_add_seat?
-    active? && active_seats.count <= maximum_seats && Time.zone.now < workshop.registration_deadline
+    active? && remaining_seats.positive? && workshop.registration_deadline.future?
   end
 
   def payment_deadline
@@ -51,11 +51,25 @@ class Reservation < ApplicationRecord
   end
 
   def requirements_met?
-    paid_seats.count >= minimum_seats
+    minimum_seats <= paid_seats.count
   end
 
   def remaining_seats_until_requirements_met
+    minimum_seats - paid_seats.count
+  end
+
+  def minimum_met?
+    minimum_seats <= active_seats.count
+  end
+
+  def remaining_seats_until_minimum_met
     minimum_seats - active_seats.count
+  end
+
+  def remaining_seats
+    seats_free = maximum_seats - active_seats.count
+
+    workshop.seats_available <= seats_free ? workshop.seats_available : seats_free
   end
 
   def balance

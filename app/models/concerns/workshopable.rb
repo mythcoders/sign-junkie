@@ -4,40 +4,77 @@ module Workshopable
   extend ActiveSupport::Concern
 
   def single_seats_allowed?
-    overridden_single_seat_allow || workshop_type.default_single_seat_allow
+    if overridden_single_seat_allow.nil?
+      workshop_type.default_single_seat_allow
+    else
+      overridden_single_seat_allow
+    end
   end
 
   def reservations_allowed?
-    overridden_reservation_allow || workshop_type.default_reservation_allow
+    if overridden_reservation_allow.nil?
+      workshop_type.default_reservation_allow
+    else
+      overridden_reservation_allow
+    end
   end
 
   def reservations_void_minimum_not_met?
-    overridden_reservation_cancel_minimum_not_met || workshop_type.default_reservation_cancel_minimum_not_met
+    if overridden_reservation_cancel_minimum_not_met.nil?
+      workshop_type.default_reservation_cancel_minimum_not_met
+    else
+      overridden_reservation_cancel_minimum_not_met
+    end
   end
 
   def multiple_reservations_allowed?
-    overridden_reservation_allow_multiple || workshop_type.default_reservation_allow_multiple
+    if overridden_reservation_allow_multiple.nil?
+      workshop_type.default_reservation_allow_multiple
+    else
+      overridden_reservation_allow_multiple
+    end
   end
 
   def reservation_minimum_seats
-    overridden_reservation_minimum || workshop_type.default_reservation_minimum
+    if overridden_reservation_minimum.nil?
+      workshop_type.default_reservation_minimum
+    else
+      overridden_reservation_minimum
+    end
   end
 
   def reservation_maximum_seats
-    reservation_maximum = overridden_reservation_maximum || workshop_type.default_reservation_maximum
+    reservation_maximum = if overridden_reservation_maximum.nil?
+                            workshop_type.default_reservation_maximum
+                          else
+                            overridden_reservation_maximum
+                          end
+
     reservation_maximum > total_seats ? total_seats : reservation_maximum
   end
 
-  def reservation_allow_guest_cancel_seat
-    overridden_reservation_allow_guest_cancel_seat || workshop_type.default_reservation_allow_guest_cancel_seat
+  def reservation_allow_guest_cancel_seat?
+    if overridden_reservation_allow_guest_cancel_seat.nil?
+      workshop_type.default_reservation_allow_guest_cancel_seat
+    else
+      overridden_reservation_allow_guest_cancel_seat
+    end
   end
 
   def reservation_price
-    overridden_reservation_price || workshop_type.default_reservation_price
+    if overridden_reservation_price.nil?
+      workshop_type.default_reservation_price
+    else
+      overridden_reservation_price
+    end
   end
 
   def total_seats
-    overridden_total_seats || workshop_type.default_total_seats
+    if overridden_total_seats.nil?
+      workshop_type.default_total_seats
+    else
+      overridden_total_seats
+    end
   end
 
   def seats_available

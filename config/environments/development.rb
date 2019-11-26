@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.configure do
   config.cache_classes = false
   config.eager_load = false
@@ -20,8 +21,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.perform_caching = false
+  config.action_mailer.asset_host = ENV['GITLAB_ENVIRONMENT_URL']
   config.action_mailer.default_url_options = {
-    host: 'http://apollo.localhost'
+    host: ENV['GITLAB_ENVIRONMENT_URL']
   }
 
   # config.action_mailer.delivery_method = Hermes::RailsAdapter
@@ -38,4 +40,3 @@ Rails.application.configure do
   config.web_console.whiny_requests = false
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end
-# rubocop:enable Metrics/BlockLength

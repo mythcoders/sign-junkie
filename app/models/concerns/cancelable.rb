@@ -7,8 +7,8 @@ module Cancelable
     return false if refunded? ||
                     canceled? ||
                     voided? ||
-                    Time.zone.now > workshop.start_date ||
-                    reservation_seat? && !workshop.reservation_allow_guest_cancel_seat
+                    workshop.start_date.past? ||
+                    reservation_seat? && !workshop.reservation_allow_guest_cancel_seat?
 
     true
   end

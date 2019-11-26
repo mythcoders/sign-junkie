@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :reservations
 
   validates_presence_of :first_name, :last_name, :role
+  validates :email, presence: true, uniqueness: true, email: true
 
   scope :recently_created, -> { customers.where('created_at > ?', Time.zone.now - 24.hours) }
   scope :customers, -> { where('role = ?', User.roles[:customer]) }

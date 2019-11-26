@@ -11,4 +11,13 @@
   = "to invite at least #{@reservation.minimum_seats} guests!"
 
 .text-center
-  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@reservation)} Invite your guests!
+  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@reservation)} Invite your guests now!
+
+.text-center.mt-2 OR
+
+%p
+  Add your guests later by accessing the
+  %a{href: reservations_url} Workshop Planner
+  via
+  %a{href: my_account_url} My Account
+  located on the menu bar of the website.

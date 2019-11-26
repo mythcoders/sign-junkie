@@ -12,3 +12,9 @@ Apollo is an open-source business management system that is designed to be custo
 
 - Sentry
 - Braintree (with client credentials)
+
+## Getting Started
+
+1. Populate `master.key`
+2. Pull `mythcoders/gaia:latest` docker image
+3. Run `docker-compose up`

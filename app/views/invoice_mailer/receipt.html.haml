@@ -14,7 +14,7 @@
           %tbody
             - @invoice.items.each do |i|
               %tr
-                %td= render partial: 'item_descriptions/show', locals: {item: i}
+                %td= render partial: 'item_descriptions/cart', locals: {item: i}
                 %td.text-right= content_tag :span, number_to_currency(i.line_total)
             %tr
               %td Sales Tax

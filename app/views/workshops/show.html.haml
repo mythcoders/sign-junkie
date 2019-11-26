@@ -46,7 +46,7 @@
         - else
           .card-body
             = render partial: 'body', locals: { workshop: @workshop }
-            %a.btn.btn-primary.btn-block(href=new_user_session_path)
+            %a.btn.btn-primary.btn-block{href: new_user_session_path}
               = fa_light 'sign-in'
               Log In or Sign up to add this to your cart
       - else
@@ -55,8 +55,8 @@
           %p
             Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
 
-          %a.btn.btn-primary.btn-block(href=workshops_public_path)
+          %a.btn.btn-primary.btn-block{href: workshops_public_path}
             View PUBLIC Workshop dates
 
-          %a.btn.btn-primary.btn-block(href=workshops_private_path)
+          %a.btn.btn-primary.btn-block{href: workshops_private_path}
             View PRIVATE Workshop dates

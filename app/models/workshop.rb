@@ -53,7 +53,7 @@ class Workshop < ApplicationRecord
                         projects.count.positive? &&
                         reservations_allowed? &&
                         Time.zone.now.between?(purchase_start_date, booking_deadline)
-    return false if seats_available < reservation_minimum_seats ||
+    return false if seats_available <= reservation_minimum_seats ||
                     reservations.any? && !multiple_reservations_allowed?
 
     true

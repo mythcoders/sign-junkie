@@ -5,7 +5,7 @@ module Voidable
 
   # if the reservation is able to be voided by the system
   def voidable?
-    return false if refunded? || canceled? || voided? || Time.zone.now < workshop.registration_deadline
+    return false if refunded? || canceled? || voided? || workshop.registration_deadline.future?
     return true if reservation? && !reservation.requirements_met? &&
                    (workshop.reservations_void_minimum_not_met? || reservation.active_seats.count.zero?)
 

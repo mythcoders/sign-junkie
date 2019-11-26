@@ -8,7 +8,7 @@ class SeatsController < ApplicationController
   before_action :authorize_edit, only: %i[edit update]
 
   def index
-    @seats = Seat.for_user(current_user).order(created_at: :desc).page(params[:page])
+    @seats = Seat.for_user(current_user)
   end
 
   def create
@@ -16,7 +16,7 @@ class SeatsController < ApplicationController
       flash[:success] = t('success.create')
       redirect_to reservation_path(@reservation)
     else
-      flash[:error] = t('failure.create')
+      flash[:error] = t('seat.create.failure')
       render 'new'
     end
   end
