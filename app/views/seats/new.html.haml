@@ -8,12 +8,12 @@
 
         %p.card-text
           = fa_solid 'chair', 'text-primary fa-fw'
-          - if @reservation.requirements_met?
-            %span= "You can invite a total of #{@reservation.workshop.seats_available} additional guests"
+          - if @reservation.minimum_met?
+            %span You can invite a total of #{@reservation.remaining_seats} additional guests
           - else
             %span
-              = "You can invite a total of #{@reservation.workshop.seats_available} additional guests but are required"
-              = "to invite at least #{@reservation.remaining_seats_until_requirements_met} to get your deposit back."
+              You can invite a total of #{@reservation.remaining_seats} additional guests but are required to invite at
+              least #{@reservation.remaining_seats_until_requirements_met} more to get your deposit back.
 
         %p.card-text
           = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
@@ -26,7 +26,7 @@
           - else
             %span Guest will pay for their seat after picking their project
 
-        = form_for :seat, url: reservation_seats_path(@reservation) do |f|
+        = form_for :seat, url: reservation_seats_path(@reservation), html: { 'data-js-single-submit-form': '' } do |f|
           %div
             %h6.card-title
               = fa_solid 'user', 'text-primary fa-fw'

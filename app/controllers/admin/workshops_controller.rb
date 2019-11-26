@@ -70,7 +70,9 @@ module Admin
                                        :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
                                        :overridden_total_seats, :overridden_reservation_allow_multiple,
                                        :overridden_reservation_price, :overridden_reservation_minimum,
-                                       :overridden_reservation_maximum, :is_for_sale, :workshop_type_id, project_ids: [])
+                                       :overridden_reservation_cancel_minimum_not_met, :overridden_reservation_maximum,
+                                       :overridden_reservation_allow_guest_cancel_seat, :is_for_sale, :workshop_type_id,
+                                       project_ids: [])
     end
 
     def project_params

@@ -7,12 +7,13 @@ class Seat < ApplicationRecord
   belongs_to :workshop
   belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id'
 
-  scope :for_user, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
+  scope :for_user, ->(user) { where(user_id: user.id).order(created_at: :desc) unless user.nil? }
   scope :for_shop, ->(id) { where(workshop_id: id) }
   scope :active, -> { includes(:description).where(item_descriptions: { cancel_date: nil, void_date: nil }) }
 
   delegate_missing_to :description
   accepts_nested_attributes_for :description
+  validates_presence_of :user_id
 
   def name
     if customer.nil?
@@ -34,7 +35,7 @@ class Seat < ApplicationRecord
 
   def editable?(user)
     return false if invoice.present?
-    return false if Time.zone.now > reservation.workshop.registration_deadline
+    return false if reservation.workshop.registration_deadline.past?
     return false if user.id != customer.id
 
     true

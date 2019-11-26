@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   config.cache_classes = true
   config.eager_load = true
 
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+
   if ENV['CDN_URL']
     config.action_controller.asset_host = ENV['CDN_URL']
-    # config.action_mailer.asset_host = ENV['ENVIRONMENT_URL']
+    config.action_mailer.asset_host = ENV['CDN_URL']
+  else
+    config.action_mailer.asset_host = "https://#{ENV['GITLAB_ENVIRONMENT_URL']}"
   end
+
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   config.assets.js_compressor = Uglifier.new(harmony: true)
@@ -39,6 +42,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
     host: ENV['GITLAB_ENVIRONMENT_URL']
+
   }
   config.action_mailer.smtp_settings = {
     user_name: Rails.application.credentials.dig(:email, :username),
@@ -50,4 +54,3 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 end
-# rubocop:enable Metrics/BlockLength

@@ -4,9 +4,9 @@
     Add another seat
 
 - if @reservation.unpaid_balance? && @reservation.host?(current_user)
-  = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
+  = form_for :cart, url: cart_index_path do |f|
     = f.hidden_field :reservation_id, value: @reservation.id
-    %a.btn.btn-info.btn-block{type: 'submit'}
+    %button.btn.btn-info.btn-block.mb-2{type: 'submit'}
       = fa_solid 'dollar-sign'
       Add unpaid seats to cart
 

@@ -1,30 +1,12 @@
+- page_title 'My Seats'
+
 .row.justify-content-center.mt-3
   .col
-    .card.mb-3
+    .card
       %h2.card-header.bg-primary.text-white.text-center
         = fa_solid 'chair'
         My Seats
-
-.table-responsive-md
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Confirmation Number
-        %th Workshop
-        %th Date Booked
-    %tbody
-      - @seats.each do |r|
-        %tr{data: { 'clickable-row': '', 'href': seat_path(r) }}
-          %td
-            = r.confirmation_number
-            %br
-            = render partial: 'statuses/seat', locals: { seat: r }
-          %td
-            = r.workshop.name
-            %br= r.workshop.when
-          %td= lifp(r.created_at, :short)
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @seats
-          = page_entries_info @seats
+      %ul.list-group
+        - @seats.each do |r|
+          %a.list-group-item.list-group-item-action{href: seat_path(r)}
+            = render partial: 'item_descriptions/show', locals: {item: r}

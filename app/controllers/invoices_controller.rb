@@ -43,7 +43,7 @@ class InvoicesController < ApplicationController
     raise ProcessError, t('order.create.failure') unless InvoiceService.new.place!(invoice)
 
     flash[:success] = t('order.placed.success')
-    redirect_to invoice_path invoice
+    redirect_to my_account_path
   rescue ProcessError => e
     flash[:error] = e.message
     redirect_to cart_index_path

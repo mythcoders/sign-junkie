@@ -1,3 +1,35 @@
+#### 1911 - November 26, 2019
+
+- Improvements
+  - Redesigned the My Seats screen to show workshop and selected project information. Will also display an message
+    saying the seat requires their attention if the project hasn't been selected or paid for. If the host is paying for
+    the seat, the system will not tell the guest the seat requires their attention if it hasn't been paid for.
+  - Added an alert for a seat where the customer selected their project but has yet to add it to their cart and pay for
+    it.
+  - Redesigned the seat detail screen when the customer had yet to select their project or stencil
+  - Updated the Heads Up alert that hosts see in the Workshop Planner to provide additional information on what needs to
+    be done after the minimum number of seats have been added but not yet paid for.  
+  - Display an alert on the Seat detail page when the seat has already been added to the customers cart
+  - Message that is displayed when customers complete their order now has information to help hosts invite their guests
+  - Reservation confirmation email now includes links to the Workshop Planner and My Account. Also added additional
+    information to help them invite their guests either now or later.
+  - Email addresses for customers are validated
+  - Workshop Planner now has better formatting on smaller devices
+- Changes
+  - Customers are redirected to the My Account screen after paying for their order
+  - Replaced several uses of the word seat with either project or guest
+  - Stopped using the warning beige-looking orange/yellow color in favor of the informational purple color
+  - Hosts will no longer see a seat on their reservation after it has been canceled or voided
+  - After a host submits the form for adding a new seat to their reservation the save button is disabled to prevent
+    multiple clicks
+  - Adjusted the use of alert colors based on feedback
+- Fixes
+  - Sent emails now display images properly
+  - Solved a scenario where the system wasn't taking into account the total available seats for the workshop when
+    calculating the number of seats that can be added to a reservation
+  - Issue that prevented certain Workshop Type fields from being updated
+  - Issue that prevented certain Workshop fields from being updated
+
 #### 1910.3 - October 31, 2019
 
 - Resolved an issue where the status of a reservation was being incorrectly calculated

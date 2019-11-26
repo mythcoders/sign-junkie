@@ -2,7 +2,7 @@
   - seats.each do |seat|
     %li.list-group-item
       .row
-        .col
+        .col-7
           .media
             .media-body
               %h5.card-title= seat.name
@@ -34,10 +34,19 @@
                 .font-size-1.mb-1{title: 'Add-on'}
                   = fa_solid 'stamp', 'text-primary fa-fw'
                   = seat.addon_name
-        .col-auto.text-right
+        .col-5.text-right
           - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
             = render partial: 'seats/actions', locals: { seat: seat }
-          .font-size-1.mb-1= render partial: 'statuses/seat', locals: { seat: seat }
+        .col-12
+          - if seat.selection_made? && seat.editable?(current_user)
+            %a.btn.btn-info.btn-sm.mb-2{href: edit_reservation_seat_path(seat.reservation, seat)} Update your project or stencil
+          - elsif seat.editable?(current_user)
+            %a.btn.btn-info.btn-sm.mb-2{href: edit_reservation_seat_path(seat.reservation, seat)} Select your project and stencil
+          - if seat.unpaid?
+            = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
+              = f.hidden_field :seat_id, value: seat.id
+              %button.btn.btn-primary.btn-sm{type: 'submit'}
+                Add project to cart
 - else
   %li.list-group-item
     No seats have been added yet.

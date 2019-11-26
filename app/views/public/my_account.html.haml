@@ -8,17 +8,16 @@
 .row
   .col-12.col-lg-8
     .row
-      - if @reservations
-        .col-12.col-md-6.mb-3
-          %a.card.text-white.bg-info.o-hidden.h-100{href: reservations_path}
-            .card-body
-              .card-body-icon
-                = fa_duo 'toolbox', 'fa-fw'
-              %h3.mr-5 Workshop Planner
-            .card-footer.text-white.clearfix.small.z-1
-              %span.float-left Workshops you're hositng or were invited to
-              %span.float-right
-                = fa_duo 'angle-double-right'
+      .col-12.col-md-6.mb-3
+        %a.card.text-white.bg-info.o-hidden.h-100{href: reservations_path}
+          .card-body
+            .card-body-icon
+              = fa_duo 'toolbox', 'fa-fw'
+            %h3.mr-5 Workshop Planner
+          .card-footer.text-white.clearfix.small.z-1
+            %span.float-left Workshops you're hositng or invited to
+            %span.float-right
+              = fa_duo 'angle-double-right'
       .col-12.col-md-6.mb-3
         %a.card.text-white.bg-info.o-hidden.h-100{href: seats_path}
           .card-body
@@ -26,7 +25,7 @@
               = fa_duo 'chair', 'fa-fw'
             %h3.mr-5 Seats
           .card-footer.text-white.clearfix.small.z-1
-            %span.float-left Workshops that you've bought seats too
+            %span.float-left Workshops that you bought seats to
             %span.float-right
               = fa_duo 'angle-double-right'
       .col-12.col-md-6.mb-3

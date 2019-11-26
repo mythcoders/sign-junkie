@@ -46,7 +46,9 @@ en:
       success: Your order has been created! You can now finish checking out.
       failure: Your order couldn't be created. Please try again.
     placed:
-      success: Your order has been placed!
+      success:
+        Thank you for shopping with Sign Junkie! We've emailed you a copy of your receipt.
+        If you booked a reservation, go to the Workshop Planner to invite your guests.
     cancel:
       success:
         We're processing your cancellation request. Any credits or refunds will be issued within 48 hours and you will
@@ -63,13 +65,19 @@ en:
   reservations:
     no_more_seats: No more seats can be added at this time.
     registration_deadline_loose_deposit_warning:
-      Currently, your reservation doesn't met the minimum seating requirements.
-      You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
       If not, your reservation deposit will not be refunded!
     registration_deadline_cancel_warning:
+      If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
+    minimum_not_met:
       Currently, your reservation doesn't met the minimum seating requirements.
       You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
-      If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
+    requirements_not_met:
+      Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
+      them. They must select their project and stencil by %{registration_deadline}.
+    payment_host:
+      Afterwards, you must pay for them by %{payment_deadline}.
+    payment_guest:
+      They must also pay for their selections by %{payment_deadline}.
     forfeit:
       confirmation:
         This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
@@ -81,6 +89,8 @@ en:
   seat:
     not_editable: This seat can not be edited at this time.
     no_stencil: Plain (no stencil or personalization)
+    create:
+      failure: We couldn't create your seat. Please try again.
     cancel:
       success:
         We're processing your void request. Any credits or refunds will be issued within 48 hours.
@@ -128,9 +138,9 @@ en:
         default_total_seats: Total seat count
         default_reservation_allow: Are reservations allowed?
         default_reservation_allow_multiple: Are multiple reservations allowed?
-        default_reservation_price: Deposit fee
-        default_reservation_minimum: Minimum seat count
-        default_reservation_maximum: Maximum seat count
+        default_reservation_price: Reservation deposit fee
+        default_reservation_minimum: Minimum seats per reservation
+        default_reservation_maximum: Maximum seats per reservation
         default_reservation_cancel_minimum_not_met: Void reservation if seating requirements not met?
         default_reservation_allow_guest_cancel_seat: Are hosts or guests allowed to cancel seats?
       workshop:

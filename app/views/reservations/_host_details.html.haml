@@ -20,11 +20,18 @@
   .media-body.text-right
     %span.font-weight-medium
       .span= lifp @reservation.created_at
-.media.align-items-center.mb-4
-  .font-size-1.font-weight-normal.mb-0.mr-3 Seating requirements
-  .media-body.text-right
-    %span.font-weight-medium
-      .span= "#{@reservation.minimum_seats}-#{@reservation.maximum_seats}"
+- unless @reservation.minimum_met?
+  .media.align-items-center.mb-4
+    .font-size-1.font-weight-normal.mb-0.mr-3 Seating requirements
+    .media-body.text-right
+      %span.font-weight-medium
+        .span= @reservation.remaining_seats_until_minimum_met
+- else
+  .media.align-items-center.mb-4
+    .font-size-1.font-weight-normal.mb-0.mr-3 Available seats
+    .media-body.text-right
+      %span.font-weight-medium
+        .span= @reservation.remaining_seats
 .media.align-items-center.mb-4
   .font-size-1.font-weight-normal.mb-0.mr-3 Payment plan
   .media-body.text-right

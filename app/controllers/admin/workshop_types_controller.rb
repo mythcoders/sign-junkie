@@ -42,7 +42,8 @@ module Admin
       params.require(:workshop_type).permit(:id, :name, :default_reservation_allow, :default_reservation_allow_multiple,
                                             :default_total_seats, :default_reservation_price,
                                             :default_reservation_minimum, :default_reservation_maximum,
-                                            :default_single_seat_allow, :default_reservation_allow_guest_cancel_seat)
+                                            :default_reservation_cancel_minimum_not_met, :default_single_seat_allow,
+                                            :default_reservation_allow_guest_cancel_seat)
     end
   end
 end

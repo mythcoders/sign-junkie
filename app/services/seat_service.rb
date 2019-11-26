@@ -32,7 +32,7 @@ class SeatService < ApplicationService
     seat.tax_amount = 0.00
     seat.taxable_amount = 0.00
     seat.nontaxable_amount = 0.00
-    return false unless seat.save!
+    return false unless seat.valid? && seat.save!
 
     SeatMailer.with(seat: seat).invited.deliver_now
     true
@@ -62,7 +62,7 @@ class SeatService < ApplicationService
 
   def cancel(seat)
     seat.cancel_date = Time.zone.now
-    seat.save!
+    return false unless seat.valid? && seat.save!
 
     RefundWorker.perform_async(seat.item_description_id) if seat.refundable?
     true
@@ -70,7 +70,7 @@ class SeatService < ApplicationService
 
   def void(seat)
     seat.void_date = Time.zone.now
-    seat.save!
+    return false unless seat.valid? && seat.save!
 
     RefundWorker.perform_async(seat.item_description_id) if seat.refundable?
     true
