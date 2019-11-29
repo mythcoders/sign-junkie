@@ -13,7 +13,7 @@ class PaymentDeadlineWorker
       if batch.total.positive?
         Rails.logger.debug "PaymentDeadlineWorker started batch #{batch.bid}"
       else
-        on_success(status, 'reservation_id' => reservation.id)
+        on_success(batch, 'reservation_id' => reservation.id)
       end
     end
   end
