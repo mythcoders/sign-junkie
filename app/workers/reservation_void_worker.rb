@@ -9,6 +9,6 @@ class ReservationVoidWorker
 
     Rails.logger.info "ReservationVoidWorker #{reservation_id}"
     ReservationService.new.void(reservation)
-    ReservationMailer.with(reservation: reservation).voided.deliver_now
+    ReservationMailer.with(reservation: reservation).voided.deliver_later
   end
 end

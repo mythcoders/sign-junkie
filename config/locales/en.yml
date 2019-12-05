@@ -69,7 +69,7 @@ en:
     registration_deadline_cancel_warning:
       If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
     minimum_not_met:
-      Currently, your reservation doesn't met the minimum seating requirements.
+      Currently, your reservation doesn't meet the minimum seating requirements.
       You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
     requirements_not_met:
       Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
@@ -118,6 +118,8 @@ en:
   workshop:
     destroy:
       confirmation: This will delete the workshop and it's images.
+    empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
+    hostess_note: "Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process."
   helpers:
     select:
       prompt: Please select

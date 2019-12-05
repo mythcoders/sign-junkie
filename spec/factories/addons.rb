@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :addon do
     name { Faker::Lorem.characters(25) }
-    price { Faker::Number.decimal(2) }
+    price { Faker::Commerce.material }
   end
 end

@@ -55,7 +55,7 @@ services:
       - "6379:6379"
 
   db:
-    image: postgres:11.4
+    image: postgres:11.6
     container_name: apollo-db
     ports:
       - "5432:5432"

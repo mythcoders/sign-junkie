@@ -28,7 +28,7 @@ class RegistrationDeadlineWorker
       Rails.logger.debug "checked reservation #{reservation.id} - ReservationVoidWorker"
       ReservationVoidWorker.perform_async(reservation.id)
     elsif reservation.paid_by_host? && reservation.unpaid_balance?
-      ReservationMailer.with(reservation: reservation).ready_for_payment.deliver_now
+      ReservationMailer.with(reservation: reservation).ready_for_payment.deliver_later
     else
       Rails.logger.debug "checked reservation #{reservation.id} - nothing"
     end

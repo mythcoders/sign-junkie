@@ -8,6 +8,6 @@ class SeatCancelWorker
     return if seat.canceled?
 
     SeatService.new.cancel(seat)
-    SeatMailer.with(seat: seat).canceled.deliver_now
+    SeatMailer.with(seat: seat).canceled.deliver_later
   end
 end

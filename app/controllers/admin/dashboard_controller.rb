@@ -5,6 +5,12 @@ module Admin
     before_action :populate_changelog, only: %i[about]
     before_action :set_stats, only: %i[index]
 
+    def demo_data
+      DemoDataWorker.perform_async
+      flash[:success] = 'Started! This may take some time.'
+      redirect_to admin_dashboard_path
+    end
+
     private
 
     def set_stats

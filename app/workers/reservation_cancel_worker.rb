@@ -8,7 +8,7 @@ class ReservationCancelWorker
     return if reservation.canceled?
 
     ReservationService.new.cancel(reservation)
-    ReservationMailer.with(reservation: reservation).canceled.deliver_now
+    ReservationMailer.with(reservation: reservation).canceled.deliver_later
     RefundWorker.perform_async(reservation.item_description_id) if reservation.refundable?
   end
 end

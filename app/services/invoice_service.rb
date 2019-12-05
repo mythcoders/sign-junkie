@@ -10,16 +10,16 @@ class InvoiceService < ApplicationService
         invoice.items.each do |item|
           if item.gift_card?
             CustomerService.new.issue_gift_card(item, invoice.customer)
-            CustomerMailer.with(customer: item.recipient, gift_amount: item.item_amount).gift_card.deliver_now
+            CustomerMailer.with(customer: item.recipient, gift_amount: item.item_amount).gift_card.deliver_later
           elsif item.reservation?
             ReservationService.new.book(item, invoice.customer)
-            ReservationMailer.with(reservation: item.reservation).placed.deliver_now
+            ReservationMailer.with(reservation: item.reservation).placed.deliver_later
           else
             SeatService.new.reserve(item, invoice.customer)
           end
         end
 
-        InvoiceMailer.with(invoice: invoice).receipt.deliver_now
+        InvoiceMailer.with(invoice: invoice).receipt.deliver_later
         return true
       else
         Raven.capture_exception(invoice, transaction: 'Invoice creation failed')

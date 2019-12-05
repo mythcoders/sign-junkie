@@ -11,14 +11,7 @@
             - @cart.each do |item|
               %li.list-group-item
                 .row
-                  .col.mb-3.mb-md-0
-                    = render partial: 'item_descriptions/cart', locals: {item: item}
-                  .col-auto.text-right
-                    %span.font-weight-medium
-                      = content_tag :span, number_to_currency(item.item_amount), id: "amt-#{item.id}"
-                    = link_to cart_path(item), method: :delete, class: "d-block text-danger font-size-1 mb-1", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'} do
-                      %span.far.fa-trash-alt.mr-1
-                      %span Remove
+                  = render partial: 'item_descriptions/cart', locals: {item: item}
           - else
             %li.list-group-item
               %a.btn.btn-info.btn-block(href=workshops_public_path)

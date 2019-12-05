@@ -18,6 +18,7 @@
           %th Number
           %th Customer
           %th Date
+          %th Amount
           %th Status
       %tbody
         - @invoices.each do |o|
@@ -25,6 +26,7 @@
             %td= o.identifier
             %td= o.customer.full_name
             %td= lifp(o.created_at, :short)
+            %td= number_to_currency o.grand_total
             %td= render partial: 'statuses/invoice', locals: { invoice: o }
       %tfoot
         %tr

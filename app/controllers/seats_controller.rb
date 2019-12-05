@@ -24,7 +24,9 @@ class SeatsController < ApplicationController
   def update
     if SeatService.new.update(@seat, seat_params)
       flash[:success] = t('success.update')
-      redirect_to seat_path(@seat)
+
+      add_to_cart if @seat.selection_made? && !@seat.in_cart?
+      redirect_to cart_index_path
     else
       flash[:error] = t('failure.update')
       render 'edit'
@@ -32,7 +34,7 @@ class SeatsController < ApplicationController
   end
 
   def remind
-    SeatMailer.with(seat: @seat).remind.deliver_now
+    SeatMailer.with(seat: @seat).remind.deliver_later
     flash[:success] = 'Reminder sent'
     redirect_to reservation_path(@seat.reservation.id)
   end
@@ -52,6 +54,10 @@ class SeatsController < ApplicationController
 
   def guest_params
     params.require(:seat).permit(:first_name, :last_name, :email)
+  end
+
+  def add_to_cart
+    CartService.new.pay_for_seat(current_user, seat_id: @seat.id)
   end
 
   def set_seat
