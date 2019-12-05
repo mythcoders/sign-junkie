@@ -33,7 +33,7 @@ function update_ui() {
     var workshop = get_workshop();
     var project_id = get_project();
     var stencil_id = document.getElementById('cart_org_stencil_id') ? document.getElementById('cart_org_stencil_id').value : '';
-    var addon_id = document.getElementById('cart_org_addon_id') ? document.getElementById('cart_org_stencil_id').value : '';
+    var addon_id = document.getElementById('cart_org_addon_id') ? document.getElementById('cart_org_addon_id').value : '';
 
     if (workshop !== null && project_id !== null) {
         $.ajax({

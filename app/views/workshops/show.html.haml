@@ -28,8 +28,12 @@
           .card-body
             = render partial: 'body', locals: { workshop: @workshop }
             - if @workshop.seat_purchaseable? && @workshop.reservation_purchaseable?
-              %p.card-text.text-info
-                Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process.
+              %p.card-text.text-info= t('workshop.hostess_note')
+            - if @already_hosting != false
+              = render partial: 'already_hosting'
+            - if @already_attending != false
+              = render partial: 'already_attending'
+
           .card-header
             %ul#workshopTab.nav.nav-tabs.card-header-tabs{role: "tablist"}
               - if @workshop.seat_purchaseable?
@@ -52,8 +56,12 @@
       - else
         .card-body
           = render partial: 'body', locals: { workshop: @workshop }
-          %p
-            Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
+          - if @already_hosting != false
+            = render partial: 'already_hosting'
+          - if @already_attending != false
+            = render partial: 'already_attending'
+          - else
+            %p= t('workshop.empty')
 
           %a.btn.btn-primary.btn-block{href: workshops_public_path}
             View PUBLIC Workshop dates

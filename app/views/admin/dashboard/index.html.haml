@@ -8,6 +8,12 @@
         %h1.header-title
           %i.fad.fa-home
           Home Dashboard
+      - unless Rails.env.production?
+        .col-auto
+          = form_for :data, url: admin_demo_data_path do |f|
+            %button.btn.btn-info{type: 'submit'}
+              = fa_solid 'database', 'fa-fw'
+              Generate Sample Data
 
 .row
   .col-12.col-lg-6.col-xl

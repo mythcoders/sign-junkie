@@ -1,6 +1,6 @@
 {
   "name": "apollo",
-  "version": "0.5",
+  "version": "1912-alpha",
   "main": "index.js",
   "repository": "https://gitlab.com/mythcoders/ares",
   "author": "Justin Adkins <justin.adkins@mythcoders.com>",

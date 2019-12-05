@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     end
 
     get 'about', as: 'about', to: 'dashboard#about'
+    post 'demo_data', as: 'demo_data', to: 'dashboard#demo_data'
     get 'help', as: 'help', to: 'help#index'
     get 'finances', as: 'finances', to: 'finances#index'
     delete 'images/:id', to: 'images#destroy', as: 'delete_image'
@@ -74,6 +75,7 @@ Rails.application.routes.draw do
   get 'how_it_works', to: 'public#how_it_works'
   get 'policies', to: 'workshops#public_policies'
   get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
+  get 'privacy', to: 'public#privacy'
   get 'private_policies', to: 'workshops#private_policies'
   get 'private_hostess', to: 'workshops#hostess_policies'
   get 'workshops/public', to: 'workshops#public'

@@ -2,6 +2,8 @@
 
 class WorkshopsController < ApplicationController
   before_action :set_workshop, only: %i[show project_info]
+  before_action :set_seat_check, only: %i[show]
+  before_action :set_reservation_check, only: %i[show]
 
   def public
     @workshops = Workshop.includes(:workshop_type)
@@ -25,5 +27,23 @@ class WorkshopsController < ApplicationController
 
   def set_workshop
     @workshop = Workshop.find(params[:id])
+  end
+
+  def set_seat_check
+    @already_attending = if current_user
+                           seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
+                           seats.any? ? seats.first.id : false
+                         else
+                           false
+                         end
+  end
+
+  def set_reservation_check
+    @already_hosting = if current_user
+                         reservations = Reservation.active.for_shop(@workshop.id).for_user(current_user)
+                         reservations.any? ? reservations.first.id : false
+                       else
+                         false
+                       end
   end
 end

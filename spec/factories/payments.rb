@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :payment do
     invoice
     add_attribute(:method) { 'gift_card' }
-    amount { Faker::Number.decimal(2) }
+    amount { Faker::Commerce.material }
     amount_refunded { 0.00 }
 
     factory :card_payment do

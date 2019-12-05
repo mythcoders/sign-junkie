@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :project do
     name { Faker::Lorem.characters(25) }
-    instructional_price { Faker::Number.decimal(2) }
-    material_price { Faker::Number.decimal(2) }
+    instructional_price { Faker::Commerce.material }
+    material_price { Faker::Commerce.material }
 
     trait :with_addons do
       after(:create) do |project|

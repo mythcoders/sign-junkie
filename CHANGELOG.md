@@ -1,3 +1,18 @@
+#### 1912 - December 4, 2019
+
+- Improvements
+  - Reservation Seats are automatically added to a customers cart after making their project/stencil selection    
+  - Ability to generate Sample Data from the Admin dashboard in review and staging environments  
+  - When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they already have a seat/reservation for that workshop.
+- Admin Portal Improvements
+  - The amount of an invoice is now displayed on the invoice search screen
+- Changes
+  - Added a Privacy Policy for customers
+  - Quality of data that is generated in review environments
+  - Receipts emailed to customers now include links to the Reservation or Seat under My Account
+- Fixes
+  - When editing a Reservation Seat, the Add-on dropdown is populated with the correct value
+
 #### 1911 - November 26, 2019
 
 - Improvements

@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :customer_credit do
     customer
-    starting_amount { Faker::Number.decimal(2) }
+    starting_amount { Faker::Commerce.material }
     balance { starting_amount }
 
     trait :expired do

@@ -44,7 +44,7 @@ en:
       invitation_instructions:
         subject: "Welcome to Sign Junkie Workshop!"
         hello: "Hello %{email}!"
-        someone_invited_you: "Yah! You've been invited to a Sign Junkie diy workshop! Follow the link below to sign up and register. We can't wait for you to join us and get your diy on!"
+        someone_invited_you: "Yah! You've been invited to a Sign Junkie diy workshop! Follow the link below to sign up and register."
         accept: "Accept invitation"
         accept_until: "This invitation will be due in %{due_date}."
         ignore: "If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password."

@@ -55,13 +55,13 @@ FactoryBot.define do
     factory :reservation_item do
       item_type { 'reservation' }
       # fill in workshop info
-      nontaxable_amount { Faker::Number.decimal(2) }
+      nontaxable_amount { Faker::Commerce.material }
       payment_plan { 'host' }
     end
 
     factory :gift_card_item do
       item_type { 'gift_card' }
-      nontaxable_amount { Faker::Number.decimal(2) }
+      nontaxable_amount { Faker::Commerce.material }
       first_name { Faker::Name.first_name }
       last_name { Faker::Name.last_name }
       email { Faker::Internet.email }

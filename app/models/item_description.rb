@@ -103,7 +103,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def reservation_seat?
-    seat? && reservation.present?
+    seat? && seat.present? && seat.reservation.present?
   end
 
   def in_cart?
