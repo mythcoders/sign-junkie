@@ -49,25 +49,27 @@
       = fa_solid 'chair', 'text-primary fa-fw'
       = f.label :seating_preference
       = f.text_field :seating, class: 'form-control', autocomplete: false
-  .form-row
-    .form-group.col
-      .custom-control.custom-checkbox
-        = f.check_box :gift_seat, class: 'custom-control-input', 'data-js-gift-seat': ''
-        = f.label :gift_seat, 'This reservation is for someone else', class: 'custom-control-label'
-  %div{'data-js-seat-info': '', style: 'display: none;'}
-    %h6.card-title
-      = fa_solid 'user', 'text-primary fa-fw'
-      Recipient Information
+  
+  - if @guest_purchase  
     .form-row
-      .form-group.col-6
-        = f.label :first_name
-        = f.text_field :first_name, class: 'form-control', autocomplete: false
-      .form-group.col-6
-        = f.label :last_name
-        = f.text_field :last_name, class: 'form-control', autocomplete: false
-      .form-group.col-12
-        = f.label :email_address
-        = f.text_field :email, class: 'form-control', autocomplete: false
+      .form-group.col
+        .custom-control.custom-checkbox
+          = f.check_box :gift_seat, class: 'custom-control-input', 'data-js-gift-seat': ''
+          = f.label :gift_seat, 'This reservation is for someone else', class: 'custom-control-label'
+    %div{'data-js-seat-info': '', style: 'display: none;'}
+      %h6.card-title
+        = fa_solid 'user', 'text-primary fa-fw'
+        Recipient Information
+      .form-row
+        .form-group.col-6
+          = f.label :first_name
+          = f.text_field :first_name, class: 'form-control', autocomplete: false
+        .form-group.col-6
+          = f.label :last_name
+          = f.text_field :last_name, class: 'form-control', autocomplete: false
+        .form-group.col-12
+          = f.label :email_address
+          = f.text_field :email, class: 'form-control', autocomplete: false
   %hr
   .form-row
     .form-group.col
