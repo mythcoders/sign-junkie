@@ -20,8 +20,8 @@ Sidekiq.configure_server do |config|
     mgr.register('30 0 * * *', PaymentDeadlineWorker)
     mgr.register('0 1 * * *', RegistrationDeadlineWorker)
     mgr.register('0 2 * * *', ReservationDepositRefundWorker)
+    mgr.register('0 6 * * *', AbandonedCartReminderWorker)
 
-    # mgr.register('0 6 * * *', AbandonedCartReminderWorker)
     # mgr.register('0 6 * * *', PaymentDeadlineReminderWorker)
     # mgr.register('0 6 * * *', RegistrationDeadlineReminderWorker)
     # mgr.register('0 6 * * *', UnconfirmedAccountReminderWorker)

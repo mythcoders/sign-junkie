@@ -26,6 +26,7 @@ class User < ApplicationRecord
   scope :recently_created, -> { customers.where('created_at > ?', Time.zone.now - 24.hours) }
   scope :customers, -> { where('role = ?', User.roles[:customer]) }
   scope :employees, -> { where('role <> ?', User.roles[:customer]) }
+  scope :with_items_in_cart, -> { joins(:carts).distinct }
 
   def self.system_admin
     email = Rails.env.production? ? ClientInfo.contact_email : SystemInfo.support_key

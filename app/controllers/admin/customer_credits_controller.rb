@@ -13,7 +13,7 @@ module Admin
 
       if @credit.save
         flash['success'] = t('CreateSuccess')
-        CustomerMailer.with(customer: @credit.customer, gift_amount: @credit.balance).gift_card.deliver_later
+        CustomerMailer.with(customer_id: @credit.customer.id, gift_amount: @credit.balance).gift_card.deliver_later
         redirect_to admin_customer_path @credit.customer
       else
         render 'new'

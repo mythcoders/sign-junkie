@@ -11,6 +11,10 @@ module Admin
       redirect_to admin_dashboard_path
     end
 
+    def cart
+      @cart = Cart.all
+    end
+
     private
 
     def set_stats

@@ -8,6 +8,7 @@ class Invoice < ApplicationRecord
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
   validates_presence_of :due_date
+  accepts_nested_attributes_for :payments, :items
 
   scope :recently_created, -> { where('created_at > ?', Time.zone.now - 24.hours) }
 

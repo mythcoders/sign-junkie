@@ -36,7 +36,7 @@ class RegistrationDeadlineWorker
 
   private
 
-  def reservations(as_of = Time.zone.today)
+  def reservations(as_of = Time.zone.yesterday)
     Reservation.active
                .joins(:workshop)
                .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)

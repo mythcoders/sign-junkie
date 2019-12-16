@@ -50,10 +50,13 @@ Rails.application.routes.draw do
     end
     resources :tax_periods
     resources :tax_rates
-    resources :seats, only: %i[], concerns: [:cancelable]
+    resources :seats, only: %i[], concerns: [:cancelable] do
+      post 'remind', action: :remind, on: :member
+    end
     resources :stencils
     resources :stencil_categories
     resources :users, as: 'customers', path: 'customers', controller: 'customers' do
+      post 'remind_cart', action: :remind, on: :member
       resources :customer_credits, only: %i[new edit create update destroy], as: 'credits', path: 'credits'
     end
     resources :users, as: 'employees', path: 'employees', controller: 'employees'

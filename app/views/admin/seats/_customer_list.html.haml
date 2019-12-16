@@ -1,0 +1,19 @@
+.card.mt-3
+  .card-header
+    Indvidual Seats
+  - if seats.empty?
+    .card-body
+      .text-muted Customer has no seats
+  - else
+    - seats.each do |seat|
+      .card-body
+        .row
+          .col
+            = render partial: 'statuses/seat', locals: { seat: seat }
+            = render partial: 'admin/item_descriptions/show', locals: { item: seat }
+          .col-auto
+            .btn-group
+              - if seat.invoice.present?
+                %a.btn.btn-sm.btn-white{:href => admin_invoice_path(seat.invoice)}
+                  = fa_duo 'file-invoice'
+                  View Invoice

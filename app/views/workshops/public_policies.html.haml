@@ -57,7 +57,7 @@
   Please note, the design you choose at registration will be the design you receive at your workshop.
   Please check your spelling. No changes may be made once your order is placed. We would be happy to accommodate your
   request for a design change for a $10 stencil re-cut fee, payable upon the start of your workshop. Email
-  %a{href: 'mailto:signjunkie@columbus.rr.com'} signjunkie@columbus.rr.com
+  %a{href: "mailto:#{ClientInfo.contact_email}"}= ClientInfo.contact_email
   to request a stencil design change.
 
 %p
@@ -88,4 +88,4 @@
 
 %p
   If you would like more information! Send us an email at
-  %a{href: 'mailto:signjunkie@columbus.rr.com'} signjunkie@columbus.rr.com
+  %a{href: "mailto:#{ClientInfo.contact_email}"}= ClientInfo.contact_email

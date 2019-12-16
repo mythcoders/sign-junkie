@@ -15,7 +15,7 @@ end
 puts 'Creating addon...'
 
 3.times do
-  addon = Addon.create(name: "#{Faker::Commerce.material} #{Faker::House.furniture}",
+  addon = Addon.create(name: "#{Faker::Commerce.material} #{Faker::House.room} #{Faker::House.furniture}",
                        price: Faker::Commerce.price)
   addon.addon_images.attach([new_image, new_image])
 end

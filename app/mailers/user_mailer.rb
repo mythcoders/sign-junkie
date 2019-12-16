@@ -2,6 +2,7 @@
 
 class UserMailer < Devise::Mailer
   layout 'mailer'
+  default from: "#{ClientInfo.name} <#{ClientInfo.contact_email}>"
   default template_path: 'devise/mailer'
 
   def confirmation_instructions(record, token, opts = {})

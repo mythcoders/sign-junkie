@@ -30,4 +30,8 @@ class AdminDashboardViewModel
   def upcoming_workshops
     @upcoming_workshops ||= Workshop.for_sale.order(:start_date)
   end
+
+  def abandoned_carts
+    @abandoned_carts ||= User.with_items_in_cart
+  end
 end

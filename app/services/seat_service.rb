@@ -13,10 +13,14 @@ class SeatService < ApplicationService
     end
   end
 
-  def reserve(invoice_item, _user = nil)
+  def reserve(invoice_item, _purchaser)
     return if invoice_item.description.seats.any?
 
-    recipient = invoice_item.gifted_seat? ? invoice_item.recipient : invoice_item.invoice.customer
+    recipient = if invoice_item.gifted_seat?
+                  CustomerService.find_or_invite(invoice_item.first_name, invoice_item.last_name, invoice_item.email)
+                else
+                  invoice_item.invoice.customer
+                end
     Seat.create!(
       item_description_id: invoice_item.description.id,
       workshop_id: invoice_item.workshop_id,

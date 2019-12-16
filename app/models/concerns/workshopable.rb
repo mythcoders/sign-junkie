@@ -94,10 +94,10 @@ module Workshopable
   end
 
   def booking_deadline
-    start_date.beginning_of_day - 8.days
+    start_date.end_of_day - 8.days
   end
 
   def registration_deadline
-    start_date.beginning_of_day - 7.days
+    start_date.end_of_day - 7.days
   end
 end

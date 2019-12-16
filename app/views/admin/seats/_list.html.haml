@@ -41,6 +41,12 @@
               = seat.addon_name
         .col-auto
           .btn-group
+            - if seat.active? && !seat.selection_made?
+              = form_for :seat, url: remind_admin_seat_path(seat) do |f|
+                = f.hidden_field :id, value: seat.id
+                %button.btn.btn-sm.btn-secondary{type: 'submit'}
+                  = fa_duo 'bell-exclamation', 'fa-fw'
+                  Send reminder
             %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
               = fa_duo 'cogs'
               Options

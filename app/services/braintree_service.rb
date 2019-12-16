@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class BraintreeService < ApplicationService
+  PaymentError = Class.new(StandardError)
+  RefundError = Class.new(StandardError)
+
   def self.env
     ENV['PAYMENT_ENV']
   end
@@ -18,7 +21,7 @@ class BraintreeService < ApplicationService
 
     unless result.success?
       log_failed_braintree(result, 'post_sale')
-      raise ProcessError, 'Unable to process payment'
+      raise PaymentError, result.errors.map(&:message).join(', ')
     end
 
     result
@@ -30,7 +33,7 @@ class BraintreeService < ApplicationService
     result = gateway.transaction.refund(payment.identifier, amount)
     unless result.success?
       log_failed_braintree(result, 'post_refund')
-      raise ProcessError, 'Unable to process refund'
+      raise RefundError, 'Unable to process refund'
     end
 
     result
@@ -65,5 +68,5 @@ class BraintreeService < ApplicationService
     Raven.extra_context parameters: result.params
     Raven.extra_context errors: errors
     Raven.capture_exception(result.message, transaction: transaction)
- end
+  end
 end

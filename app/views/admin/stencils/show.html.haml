@@ -22,6 +22,9 @@
           %label.col-form-label Category
           .form-control-plaintext
             = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
+        .form-group
+          %label.col-form-label Allowed to be personalized?
+          .form-control-plaintext= human_boolean @stencil.allow_personilization
   .col-12.col-lg-8
     %ul#tab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item

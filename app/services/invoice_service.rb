@@ -1,44 +1,75 @@
 # frozen_string_literal: true
 
 class InvoiceService < ApplicationService
-  def place!(invoice)
+  def initialize(invoice)
+    @invoice = invoice
+  end
+
+  def place!
     ActiveRecord::Base.transaction do
-      if post_payments(invoice) && empty_cart(invoice)
-        invoice.status = :paid
-        invoice.save! && invoice.reload
+      process_items
+      empty_cart
+      post_payments
 
-        invoice.items.each do |item|
-          if item.gift_card?
-            CustomerService.new.issue_gift_card(item, invoice.customer)
-            CustomerMailer.with(customer: item.recipient, gift_amount: item.item_amount).gift_card.deliver_later
-          elsif item.reservation?
-            ReservationService.new.book(item, invoice.customer)
-            ReservationMailer.with(reservation: item.reservation).placed.deliver_later
-          else
-            SeatService.new.reserve(item, invoice.customer)
-          end
-        end
+      if @invoice.save! && @invoice.reload
+        send_emails
+        # raise ProcessError, 'Test'
 
-        InvoiceMailer.with(invoice: invoice).receipt.deliver_later
-        return true
+        @invoice.status = :paid
+        @invoice.save!
       else
-        Raven.capture_exception(invoice, transaction: 'Invoice creation failed')
+        Raven.capture_exception(@invoice, transaction: 'Invoice creation failed')
 
         raise ActiveRecord::Rollback
       end
     end
-    false
+  rescue StandardError, ProcessError => e
+    Raven.capture_exception(e)
+    void_payments
+    raise e
   end
 
   private
 
-  def empty_cart(invoice)
-    CartService.new.empty! invoice.customer, invoice.created_at
+  def empty_cart
+    CartService.new.empty! @invoice.customer, @invoice.created_at
   end
 
-  def post_payments(invoice)
-    invoice.payments.each do |payment|
+  def post_payments
+    @invoice.payments.each do |payment|
       PaymentService.new.process! payment
+    end
+  end
+
+  def void_payments
+    @invoice.payments.each do |payment|
+      BraintreeService.new.post_refund(payment, payment.amount)
+    end
+  end
+
+  def process_items
+    @invoice.items.each do |item|
+      if item.gift_card?
+        CustomerService.new.issue_gift_card(item, @invoice.customer)
+      elsif item.reservation?
+        ReservationService.new.book(item, @invoice.customer)
+      else
+        SeatService.new.reserve(item, @invoice.customer)
+      end
+    end
+  end
+
+  def send_emails
+    InvoiceMailer.with(invoice: @invoice).receipt.deliver_later
+
+    @invoice.items.each do |item|
+      if item.gift_card?
+        CustomerMailer.with(customer_id: item.recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
+      elsif item.reservation?
+        ReservationMailer.with(reservation: item.reservation).placed.deliver_later
+        # elsif item.gifted_seat?
+        #   SeatMailer.with(seat: item.seat).invited.deliver_later
+      end
     end
   end
 end

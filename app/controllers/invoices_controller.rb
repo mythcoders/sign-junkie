@@ -14,11 +14,11 @@ class InvoicesController < ApplicationController
   def new
     @invoice = Invoice.new_from_cart(current_user, params[:gift_cards])
     if @invoice.items.empty?
-      flash[:error] = 'No items to checkout'
+      flash[:error] = t('cart.empty')
       redirect_to cart_index_path
     end
 
-    return process_invoice @invoice unless @invoice.balance.positive?
+    return process_invoice unless @invoice.balance.positive?
 
     @payment = Payment.new
     @client_token = BraintreeService.new.token
@@ -26,11 +26,26 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new_from_cart(current_user, params[:gift_cards], invoice_params[:created_at])
-    if @invoice.balance.positive?
-      @invoice.payments << Payment.new(amount: @invoice.balance,
-                                       auth_token: params.fetch(:payment_method_nonce, nil))
+    create_payment if @invoice.balance.positive?
+
+    if @invoice.valid?
+      process_invoice
+    else
+      flash[:error] = @invoice.errors.full_messages.to_sentence
+      redirect_to cart_index_path
     end
-    process_invoice @invoice
+  rescue BraintreeService::PaymentError => e
+    Raven.capture_exception(e)
+    flash[:error] = "Payment Error: #{e.message}"
+    redirect_to cart_index_path
+    # rescue StandardError, ProcessError => e
+    #   Raven.capture_exception(e)
+    #   flash[:error] = if Rails.env.development?
+    #                     "Critical Error: #{e.message}"
+    #                   else
+    #                     t('order.critical_failure')
+    #                   end
+    #   redirect_to cart_index_path
   end
 
   private
@@ -39,13 +54,21 @@ class InvoicesController < ApplicationController
     params.require(:invoice).permit(:created_at)
   end
 
-  def process_invoice(invoice)
-    raise ProcessError, t('order.create.failure') unless InvoiceService.new.place!(invoice)
+  def payment_method_nonce
+    params.fetch(:payment_method_nonce, nil)
+  end
 
-    flash[:success] = t('order.placed.success')
-    redirect_to my_account_path
-  rescue ProcessError => e
-    flash[:error] = e.message
-    redirect_to cart_index_path
+  def create_payment
+    @invoice.payments << Payment.new(amount: @invoice.balance, auth_token: payment_method_nonce)
+  end
+
+  def process_invoice
+    if InvoiceService.new(@invoice).place!
+      flash[:success] = t('order.placed.success')
+      redirect_to my_account_path
+    else
+      flash[:error] = '?' # t('order.critical_failure')
+      redirect_to cart_index_path
+    end
   end
 end

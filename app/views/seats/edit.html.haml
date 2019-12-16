@@ -24,7 +24,17 @@
       %h3.card-header.bg-primary.text-white
         = "#{@seat.name} seat for #{@seat.workshop.name}"
       .card-body
-        = render partial: 'workshops/body', locals: { workshop: @seat.workshop }
+        %p.card-text
+          = fa_solid 'toolbox', 'text-primary fa-fw'
+          #{@seat.workshop.workshop_type.name} Workshop on #{@seat.workshop.when}
+        - if @seat.reservation
+          %p.card-text.text-info
+            = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+            - if @seat.reservation.paid_by_host?
+              Projects must be selected by #{@seat.reservation.registration_deadline}"
+            - else
+              Projects must be selected and paid for by #{special_date @seat.reservation.payment_deadline}
+
         = form_for :cart, url: reservation_seat_path(@seat.reservation, @seat), method: :patch do |f|
           = f.hidden_field :workshop_id, value: @seat.workshop_id
           = f.hidden_field :org_stencil_id, value: @seat.stencil_id
@@ -107,4 +117,4 @@
 
           %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
             = fa_solid 'save'
-            Reserve Seat and Save Project
+            Reserve Seat and Project

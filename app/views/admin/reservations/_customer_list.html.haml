@@ -1,0 +1,28 @@
+.card.mt-3
+  .card-header
+    Reservations
+  - if reservations.empty?
+    .card-body
+      .text-muted Customer has no reservations
+  - else
+    .table-responsive.mb-0
+      %table.table.table-sm.table-nowrap.card-table.table-hover
+        %thead
+          %tr
+            %th Workshop
+            %th Confirmation & Status
+            %th Payment Plan
+            %th.action-column
+        %tbody
+          - reservations.each do |res|
+            %tr
+              %td= link_to res.workshop.name, admin_workshop_path(res.workshop)
+              %td
+                = res.confirmation_number
+                %br= render partial: 'statuses/reservation', locals: { reservation: res }
+              %td= "#{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
+              %td
+                .btn-group
+                  %a.btn.btn-sm.btn-white{:href => admin_invoice_path(res.invoice)}
+                    = fa_duo 'file-invoice'
+                    View Invoice

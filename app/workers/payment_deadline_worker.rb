@@ -31,7 +31,7 @@ class PaymentDeadlineWorker
 
   private
 
-  def reservations(as_of = Time.zone.today)
+  def reservations(as_of = Time.zone.yesterday)
     reservations_paid_by_guest(as_of) + reservations_paid_by_host(as_of)
   end
 

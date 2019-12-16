@@ -1,9 +1,20 @@
 %nav.navbar.navbar-expand-md.mb-3{style: 'font-size: 1.3rem; padding: 0;'}
   .container-fluid{style: 'padding: 0;'}
     = link_to root_path, class: 'navbar-brand d-inline d-sm-none' do
-      Sign Junkie Workshop
+      Sign Junkie
       - unless Rails.env.production?
         %span.text-warning= "- #{EnvironmentInfo.current.upcase}"
+    - if user_signed_in?
+      %small
+        = link_to my_account_path, title: 'My Acount', class: 'd-inline d-sm-none' do
+          My Account
+        = link_to cart_index_path, title: 'Shopping cart', class: 'd-inline d-sm-none' do
+          = fa_solid 'shopping-cart'
+    - else
+      %small
+        = link_to new_user_session_path, class: 'd-inline d-sm-none' do
+          = fa_solid 'sign-in'
+          Sign In
     %button.navbar-toggler{data: { target: '#navbarSupportedContent', toggle: 'collapse' }, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, type: 'button'}
       = fa_solid 'bars'
     .collapse.navbar-collapse#navbarSupportedContent

@@ -1,9 +1,10 @@
-- unless workshop.reservations.any?
-  .card.mt-3
+.card.mt-3
+  .card-header
+    %h3.card-header-title Reservations
+  - if workshop.reservations.empty?
     .card-body
-      .text-muted No reservations found.
-- else
-  - if workshop.reservations.any?
+      .text-muted No reservations have been purchased.
+  - else
     = render partial: 'admin/reservations/list', locals: { reservations: workshop.reservations }
 
 .card

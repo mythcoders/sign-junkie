@@ -20,6 +20,12 @@
           .dropdown-menu
             %a.dropdown-item{href: new_admin_customer_credit_path(@customer)} Credit
         %a.btn.btn-primary.lift{href: edit_admin_customer_path(@customer)} Edit
+      - if @customer.carts.any?
+        = form_for :seat, url: remind_cart_admin_customer_path(@customer) do |f|
+          = f.hidden_field :id, value: @customer.id
+          %button.btn.btn-info{type: 'submit'}
+            = fa_duo 'shopping-cart', 'fa-fw'
+            Send Cart Reminder
 
 .row
   .col-12.col-lg-4
@@ -53,16 +59,31 @@
             %span.font-weight-medium= @customer.failed_attempts
 
   .col-12.col-lg-8
-    .card
-      .card-header
-        %h3.card-header-title
-          = fa_duo 'file-invoice-dollar'
+    %ul#customerTab.nav.nav-tabs.mb-2{role: "tablist"}
+      %li.nav-item
+        %a#workshop-tab.nav-link.active{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#workshop", role: "tab"}
+          = fa_solid 'chair'
+          Workshops
+      %li.nav-item
+        %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
+          = fa_solid 'file-invoice-dollar'
           Invoices
-      = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices }
-
-    .card.mt-2
-      .card-header
-        %h3.card-header-title
-          = fa_duo 'gift-card'
+      %li.nav-item
+        %a#credit-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#credit", role: "tab"}
+          = fa_solid 'gift-card'
           Credits
-      = render partial: 'admin/customer_credits/list'
+      %li.nav-item
+        %a#cart-tab.nav-link{"aria-controls": "cart", "aria-selected": "false", "data-toggle": "tab", href: "#cart", role: "tab"}
+          = fa_solid 'shopping-cart'
+          Shopping Cart
+
+    #workshopTabContent.tab-content
+      #workshop.tab-pane.fade.show.active{"aria-labelledby": "attendee-tab", role: "tabpanel"}
+        = render partial: 'admin/reservations/customer_list', locals: { reservations: @customer.reservations.order(created_at: :desc) }
+        = render partial: 'admin/seats/customer_list', locals: { seats: @customer.seats.order(created_at: :desc) }
+      #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
+        = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices.order(created_at: :desc) }
+      #credit.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+        = render partial: 'admin/customer_credits/list', locals: { credits: @customer.credits.with_balance.order(created_at: :desc) }
+      #cart.tab-pane.fade{"aria-labelledby": "cart-tab", role: "tabpanel"}
+        = render partial: 'admin/customers/cart', locals: { carts: @customer.carts.order(created_at: :desc) }
