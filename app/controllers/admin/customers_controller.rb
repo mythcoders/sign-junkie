@@ -35,6 +35,12 @@ module Admin
       end
     end
 
+    def remind
+      CustomerMailer.with(customer_id: params[:id]).abandoned_cart.deliver_later
+      flash[:success] = 'Reminder sent'
+      redirect_to admin_customer_path params[:id]
+    end
+
     private
 
     def customer_params

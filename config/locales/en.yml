@@ -15,6 +15,7 @@ en:
     delete:
       confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
   cart:
+    empty: You can't checkout with an empty cart.
     add:
       success: "The item was placed in your cart!"
       failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
@@ -32,13 +33,19 @@ en:
     failure: ""
     success: ""
   order:
-    tampered: "We're sorry. But the prices for some items in your cart have recently changed. Please try again."
+    refund:
+      critical_failure:
+        An error occured while attempting to process your refund. Unfortunately, the error is on our end and any
+        further attempts to process your payment will also result in failure. Our support staff has been alerted and
+        we'll be in touch shortly.
     payment:
-      success: "We're unable to accept payments for this order at this time."
-      failure: "An error occurred while attempting to apply your payment. Please try again."
-      not_allowed: ""
-    not_paid: "Order has remaining balance"
-    cash_not_accepted: "You can only pay with cash on pick-up orders"
+      success: We're unable to accept payments for this order at this time
+      failure: An error occurred while attempting to apply your payment. Please try your payment again.
+      missing_token: missing authorization token. Please try your payment again.
+    critical_failure:
+      An error occured while attempting to process your request.
+      Unfortunately, the error is on our end and any further attempts will also result in failure.
+      Please do not try again! Our support staff has been alerted and we'll be in touch shortly.
     update:
       success: Your order details were successfully updated!
       failure: Your order couldn't be updated. Please try again.
@@ -54,10 +61,6 @@ en:
         We're processing your cancellation request. Any credits or refunds will be issued within 48 hours and you will
         be notified when issued.
       failure: We couldn't cancel your order at this time. Please try again.
-  product:
-    useless: ""
-    unavailable: ""
-    future_price: Price changes must start tomorrow or on a later date.
   project:
     delete:
       confirmation:
@@ -134,6 +137,7 @@ en:
         is_gift: Order contains a gift
       project:
         allow_no_stencil: Allow option to select no stencil
+        allowed_stencils: Number of stencils allowed to be selected
       workshop_type:
         active: Is Active?
         default_single_seat_allow: Are individual seats allowed?
@@ -171,6 +175,7 @@ en:
       long: "%a, %d %b %Y %I:%M:%S %p %Z"
       short: "%-m/%-d/%y %I:%M %p"
       no_time: "%-m/%-d/%Y"
+      workshop: "%a, %B #{start_date.day.ordinalize}, %-l:%M%p"
   errors:
     format: "%{attribute} %{message}"
     messages:

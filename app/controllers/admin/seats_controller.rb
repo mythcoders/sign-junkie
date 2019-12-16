@@ -2,11 +2,17 @@
 
 module Admin
   class SeatsController < AdminController
-    before_action :set_seat, only: %i[cancel]
+    before_action :set_seat, only: %i[cancel remind]
 
     def cancel
       SeatCancelWorker.perform_async(@seat.id)
       flash[:info] = t('order.cancel.success')
+      redirect_to admin_workshop_path(@seat.workshop_id)
+    end
+
+    def remind
+      SeatMailer.with(seat: @seat).remind.deliver_later
+      flash[:success] = 'Reminder sent'
       redirect_to admin_workshop_path(@seat.workshop_id)
     end
 

@@ -1,3 +1,33 @@
+#### 1912.2 - December 16, 2019
+
+- Improvements
+  - On smaller screen devices, the sign in button is showed on the top navigation bar for users who are not signed in.
+  - On smaller screen devices, a My Account and shopping cart link are showed on the top navigation bar for users
+    who are signed in.
+  - Error messages returned when errors occur during the checkout process
+  - How the system handles errors during the checkout process
+  - Displays the payment/registration deadline when customers are selecting their project for
+    seats that apart of a reservation.
+  - Background worker to send an email to Customers if an item has left in their cart of longer than 24 hours.
+    Reminders are only sent once. Runs daily at 06:00.
+- Admin Portal Improvements
+  - Table on Dashboard that shows all abandoned carts
+  - Redesigned the customer information screen
+  - Customer information screen now shows a customers reservations and seats as well as the items still in their
+    shopping cart
+  - Option to send a reminder email for seats attached to a reservation that haven't made their selection yet    
+  - Option to remind a user of items left in their cart
+  - Ability to configure projects to allow more than one stencil.
+    This will be implemented for customers in a future release.
+  - Ability to control which stencils are allowed to be customized.
+    This will be implemented for customers in a future release.  
+- Changes
+  - Payment and registration deadlines are now at the end of the day (11:59PM) rather than the beginning (12:00AM).
+  - When PaymentDeadlineWorkshop and RegistrationDeadlineWorker run they now process records for the previous day
+- Fixes
+  - Purchasing a seat for someone who does not yet have an account
+  - Corrected some messages in the Admin Portal that said å record was created rather than updated successfully
+
 #### 1912.1 - December 7, 2019
 
 - Policy update
@@ -7,7 +37,8 @@
 - Improvements
   - Reservation Seats are automatically added to a customers cart after making their project/stencil selection    
   - Ability to generate Sample Data from the Admin dashboard in review and staging environments  
-  - When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they already have a seat/reservation for that workshop.
+  - When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they
+    already have a seat/reservation for that workshop.
 - Admin Portal Improvements
   - The amount of an invoice is now displayed on the invoice search screen
 - Changes

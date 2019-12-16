@@ -16,6 +16,6 @@ module Nameable
   end
 
   def initials
-    full_name.split.map(&:first).join
+    full_name.split.map(&:first).join.upcase
   end
 end

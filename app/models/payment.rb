@@ -5,7 +5,8 @@ class Payment < ApplicationRecord
   belongs_to :invoice
   attr_accessor :auth_token
 
-  validates_presence_of :method, :amount
+  validates_presence_of :amount
+  validate :auth_token_presence, on: :create
   scope :credit_cards, -> { where(method: 'credit_card') }
 
   # TODO: : AP-242 make sure we don't refund more than paid
@@ -23,5 +24,11 @@ class Payment < ApplicationRecord
 
   def credit_card?
     method == 'credit_card'
+  end
+
+  private
+
+  def auth_token_presence
+    errors.add('', I18n.translate('order.payment.missing_token')) if !gift_card? && auth_token.nil?
   end
 end

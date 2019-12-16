@@ -1,0 +1,18 @@
+.card.mt-3
+  - unless carts.any?
+    .card-footer
+      .text-muted Customer has nothing in their cart
+  - else
+    .table-responsive.mb-0
+      %table.table.table-sm.table-nowrap.card-table.table-hover
+        %thead
+          %tr
+            %th Item
+            %th Price
+            %th Date Added
+        %tbody
+          - carts.each do |cart|
+            %tr
+              %td= render partial: 'admin/item_descriptions/show', locals: {item: cart}
+              %td= number_to_currency cart.line_total
+              %td= l cart.created_at

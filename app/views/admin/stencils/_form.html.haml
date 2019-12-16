@@ -9,6 +9,12 @@
       options_from_collection_for_select(@categories, 'id', 'name', @stencil.stencil_category_id),
         { include_blank: '- Select category -' },
         { class: 'form-control custom-select' }
+
+.form-group
+  .custom-control.custom-checkbox
+    = f.check_box :allow_personilization, class: 'custom-control-input'
+    = f.label :allow_personilization, class: 'custom-control-label'
+
 .form-group
   .custom-file
     = f.file_field :image, class: 'custom-file-input'

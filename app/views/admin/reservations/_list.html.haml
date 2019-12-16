@@ -1,34 +1,32 @@
 - reservations.each do |res|
   = render partial: 'admin/reservations/cancel_confirmation', locals: {reservation: res} if res.cancelable?
   = render partial: 'admin/reservations/forfeit_confirmation', locals: {reservation: res}
-  .card.mt-3
-    .card-header
-      .row.align-items-center
-        .col.ml-n2
-          %h3.card-title.mb-1.mt-3
-            = "Reservation ##{res.confirmation_number}"
-            %small.text-muted.mb-1= "Hosted by #{res.host.full_name}"
-          = render partial: 'statuses/reservation', locals: { reservation: res }
-          %p.mb-1= "Payment Plan: #{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
-        .col-auto
-          .btn-group
-            %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-              = fa_duo 'cogs'
-              Options
-            .dropdown-menu.dropdown-menu-right
-              - if res.cancelable?
-                %a.dropdown-item{"data-target": "#cancel-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
-                  = fa_duo 'ban'
-                  Cancel Reservation
-              %a.dropdown-item{:href => "mailto:#{res.host.email}"}
-                = fa_duo 'envelope'
-                Contact Host
-              - unless res.forfeit_deposit
-                %a.dropdown-item{"data-target": "#forfeit-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
-                  = fa_duo 'money-check-alt'
-                  Forfeit deposit
-              %a.dropdown-item{:href => admin_invoice_path(res.invoice)}
-                = fa_duo 'file-invoice'
-                View Invoice
-
-    = render partial: 'admin/seats/list', locals: { seats: res.seats.all, host_id: res.user_id }
+  .card-body
+    .row.align-items-center
+      .col.ml-n2
+        %h3.card-title.mb-1
+          = "Reservation ##{res.confirmation_number}"
+          %small.text-muted.mb-1= "Hosted by #{res.host.full_name}"
+        = render partial: 'statuses/reservation', locals: { reservation: res }
+        %p.mb-1= "Payment Plan: #{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
+      .col-auto
+        .btn-group
+          %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
+            = fa_duo 'cogs'
+            Options
+          .dropdown-menu.dropdown-menu-right
+            - if res.cancelable?
+              %a.dropdown-item{"data-target": "#cancel-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
+                = fa_duo 'ban'
+                Cancel Reservation
+            %a.dropdown-item{:href => "mailto:#{res.host.email}"}
+              = fa_duo 'envelope'
+              Contact Host
+            - unless res.forfeit_deposit
+              %a.dropdown-item{"data-target": "#forfeit-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
+                = fa_duo 'money-check-alt'
+                Forfeit deposit
+            %a.dropdown-item{:href => admin_invoice_path(res.invoice)}
+              = fa_duo 'file-invoice'
+              View Invoice
+  = render partial: 'admin/seats/list', locals: { seats: res.seats.all, host_id: res.user_id }

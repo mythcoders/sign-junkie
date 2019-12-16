@@ -27,7 +27,7 @@ module Admin
 
     def update
       if @stencil.update(stencil_params)
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('UpdateSuccess')
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
@@ -48,7 +48,7 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image)
+      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image, :allow_personilization)
     end
 
     def set_stencil

@@ -112,3 +112,26 @@
           .col-auto
             %a.small{:href => admin_invoices_path} View all
       = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices }
+
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h4.card-header-title
+              %i.fad.fa-shopping-cart
+              Abandoned Carts
+      - unless @stats.abandoned_carts.any?
+        .card-footer
+          .text-muted No carts have been abandoned
+      - else
+        .table-responsive.mb-0
+          %table.table.table-sm.table-nowrap.card-table.table-hover
+            %thead
+              %tr
+                %th Customer
+                %th Number of Items
+            %tbody
+              - @stats.abandoned_carts.each do |o|
+                %tr{data: { 'clickable-row': '', 'href': admin_customer_path(o) }}
+                  %td= o.full_name
+                  %td= o.carts.count

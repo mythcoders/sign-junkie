@@ -1,24 +1,25 @@
-- unless @customer.credits.with_balance.any?
-  .card-footer
-    .text-muted Customer has no credits
-- else
-  .table-responsive.mb-0
-    %table.table.table-sm.table-nowrap.card-table.table-hover
-      %thead
-        %tr
-          %th.action-column
-          %th Balance
-          %th Issue Date
-          %th Exp. Date
-      %tbody
-        - @customer.credits.with_balance.order(:created_at).each do |o|
+.card.mt-3
+  - unless credits.any?
+    .card-body
+      .text-muted Customer has no account credits
+  - else
+    .table-responsive.mb-0
+      %table.table.table-sm.table-nowrap.card-table.table-hover
+        %thead
           %tr
-            %td= link_to 'Edit', edit_admin_customer_credit_path(o.customer, o)
-            %td= number_to_currency o.balance
-            %td= o.created_at.strftime("%B %-d, %Y")
-            %td
-              - if o.expiration_date.present?
-                - if o.expiration_date.future?
-                  = l o.expiration_date, format: :long
-                - else
-                  .text-danger= l o.expiration_date, format: :long
+            %th.action-column
+            %th Balance
+            %th Issue Date
+            %th Exp. Date
+        %tbody
+          - credits.each do |o|
+            %tr
+              %td= link_to 'Edit', edit_admin_customer_credit_path(o.customer, o)
+              %td= number_to_currency o.balance
+              %td= o.created_at.strftime("%B %-d, %Y")
+              %td
+                - if o.expiration_date.present?
+                  - if o.expiration_date.future?
+                    = l o.expiration_date, format: :long
+                  - else
+                    .text-danger= l o.expiration_date, format: :long

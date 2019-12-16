@@ -30,7 +30,7 @@ module Admin
 
     def update
       if @project.update(project_params)
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('UpdateSuccess')
         redirect_to admin_project_path @project
       else
         render 'edit'
@@ -71,7 +71,7 @@ module Admin
 
     def project_params
       parameters = params.require(:project)
-                         .permit(:id, :name, :description, :material_price, :allow_no_stencil,
+                         .permit(:id, :name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
                                  :instructional_price, addon_ids: [], stencil_ids: [])
       parameters[:addon_ids]&.reject!(&:blank?)
       parameters[:stencil_ids]&.reject!(&:blank?)

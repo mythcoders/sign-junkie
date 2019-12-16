@@ -1,0 +1,28 @@
+%h5.mb-2= "#{@customer.first_name} #{@customer.last_name},"
+
+%p.mb-2
+  Friendly Reminder - You still have items in your cart and your order is NOT yet complete!
+  If you are aware of this kindly disregard this email.
+
+%p.mb-2
+  To complete your order click 'Finish checking out' below.
+  If you need any assistance in the completion of your order please respond to this email.
+
+%p
+  Thanks,
+  %br Martha
+
+.row.justify-content-center.mt-2
+  .col-12.col-lg-10
+    .card
+      .card-body.mb-3
+        .card-title Items left in your cart
+        %table.table
+          %tbody
+            - @customer.carts.each do |i|
+              %tr
+                %td= render partial: 'item_descriptions/basic_cart', locals: {item: i}
+                %td.text-right= content_tag :span, number_to_currency(i.line_total)
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: cart_index_url} Finish checking out!
