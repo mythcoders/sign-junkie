@@ -28,12 +28,12 @@ class BraintreeService < ApplicationService
   end
 
   def post_refund(payment, amount)
-    return false unless payment.credit_card?
+    raise RefundError 'Incorrect refund method' if payment.gift_card?
 
     result = gateway.transaction.refund(payment.identifier, amount)
     unless result.success?
       log_failed_braintree(result, 'post_refund')
-      raise RefundError, 'Unable to process refund'
+      raise RefundError, result.errors.map(&:message).join(', ')
     end
 
     result

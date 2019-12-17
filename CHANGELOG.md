@@ -1,3 +1,7 @@
+#### 1912.3 - December 16, 2019
+
+- Improvements and fixes to the refund process, especially for PayPal payments
+
 #### 1912.2 - December 16, 2019
 
 - Improvements
