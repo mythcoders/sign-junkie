@@ -82,7 +82,8 @@
         = render partial: 'admin/reservations/customer_list', locals: { reservations: @customer.reservations.order(created_at: :desc) }
         = render partial: 'admin/seats/customer_list', locals: { seats: @customer.seats.order(created_at: :desc) }
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
-        = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices.order(created_at: :desc) }
+        .card
+          = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices.order(created_at: :desc) }
       #credit.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/customer_credits/list', locals: { credits: @customer.credits.with_balance.order(created_at: :desc) }
       #cart.tab-pane.fade{"aria-labelledby": "cart-tab", role: "tabpanel"}

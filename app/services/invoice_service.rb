@@ -13,7 +13,6 @@ class InvoiceService < ApplicationService
 
       if @invoice.save! && @invoice.reload
         send_emails
-        # raise ProcessError, 'Test'
 
         @invoice.status = :paid
         @invoice.save!
@@ -43,7 +42,14 @@ class InvoiceService < ApplicationService
 
   def void_payments
     @invoice.payments.each do |payment|
-      BraintreeService.new.post_refund(payment, payment.amount)
+      if payment.gift_card?
+        # do we want this to be cleaner and actually refunded back to the original credit?
+        CustomerCredit.create!(customer: payment.invoice.customer,
+                               starting_amount: payment.amount,
+                               balance: payment.amount)
+      else
+        BraintreeService.new.post_refund(payment, payment.amount)
+      end
     end
   end
 
