@@ -1,3 +1,7 @@
+#### 1912.4 - December 19, 2019
+
+- Resolved an issue with sending security emails
+
 #### 1912.3 - December 16, 2019
 
 - Improvements and fixes to the refund process, especially for PayPal payments
