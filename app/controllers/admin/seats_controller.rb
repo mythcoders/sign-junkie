@@ -11,7 +11,7 @@ module Admin
     end
 
     def remind
-      SeatMailer.with(seat: @seat).remind.deliver_later
+      SeatMailer.with(seat_id: @seat.id).remind.deliver_later
       flash[:success] = 'Reminder sent'
       redirect_to admin_workshop_path(@seat.workshop_id)
     end

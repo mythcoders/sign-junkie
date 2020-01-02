@@ -38,7 +38,7 @@ class SeatService < ApplicationService
     seat.nontaxable_amount = 0.00
     return false unless seat.valid? && seat.save!
 
-    SeatMailer.with(seat: seat).invited.deliver_later
+    SeatMailer.with(seat_id: seat.id).invited.deliver_later
     true
   end
 

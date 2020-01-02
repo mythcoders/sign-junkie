@@ -2,7 +2,7 @@
 
 class SeatMailer < ApplicationMailer
   helper :application
-  before_action { @seat = params[:seat] }
+  before_action { @seat = Seat.find params[:seat_id] }
 
   def invited
     make_bootstrap_mail(to: "#{@seat.customer.full_name} <#{@seat.customer.email}>",

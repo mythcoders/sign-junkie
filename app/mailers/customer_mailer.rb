@@ -3,8 +3,9 @@
 class CustomerMailer < ApplicationMailer
   helper :application
 
+  before_action { @customer = User.find params[:customer_id] }
+
   def gift_card
-    @customer = User.find params[:customer_id]
     @gift_amount = params[:gift_amount]
     make_bootstrap_mail(to: "#{@customer.first_name} #{@customer.last_name} <#{@customer.email}>",
                         subject: 'Someone has bought you a gift card!',
@@ -12,7 +13,6 @@ class CustomerMailer < ApplicationMailer
   end
 
   def abandoned_cart
-    @customer = User.find params[:customer_id]
     make_bootstrap_mail(to: "#{@customer.first_name} #{@customer.last_name} <#{@customer.email}>",
                         subject: 'You have items left in your cart!',
                         template_name: 'abandoned_cart')

@@ -12,8 +12,6 @@ class InvoiceService < ApplicationService
       post_payments
 
       if @invoice.save! && @invoice.reload
-        send_emails
-
         @invoice.status = :paid
         @invoice.save!
       else
@@ -22,6 +20,8 @@ class InvoiceService < ApplicationService
         raise ActiveRecord::Rollback
       end
     end
+
+    send_emails
   rescue StandardError, ProcessError => e
     Raven.capture_exception(e)
     void_payments
@@ -66,15 +66,15 @@ class InvoiceService < ApplicationService
   end
 
   def send_emails
-    InvoiceMailer.with(invoice: @invoice).receipt.deliver_later
+    InvoiceMailer.with(invoice_id: @invoice.id).receipt.deliver_later
 
     @invoice.items.each do |item|
       if item.gift_card?
         CustomerMailer.with(customer_id: item.recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
       elsif item.reservation?
-        ReservationMailer.with(reservation: item.reservation).placed.deliver_later
+        ReservationMailer.with(reservation_id: item.reservation.id).placed.deliver_later
         # elsif item.gifted_seat?
-        #   SeatMailer.with(seat: item.seat).invited.deliver_later
+        #   SeatMailer.with(seat_id: item.seat.id).invited.deliver_later
       end
     end
   end

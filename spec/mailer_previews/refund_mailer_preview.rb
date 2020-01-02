@@ -2,6 +2,6 @@
 
 class RefundMailerPreview < ActionMailer::Preview
   def issued
-    RefundMailer.with(refund: Refund.first).issued
+    RefundMailer.with(refund_id: Refund.first.id).issued
   end
 end
