@@ -30,8 +30,16 @@ module ClientInfo
       '43076-9690'
     end
 
+    def domain
+      'signjunkieworkshop.com'
+    end
+
     def contact_email
-      'signjunkie@columbus.rr.com'
+      "martha@#{domain}"
+    end
+
+    def admin_email
+      "martha@#{domain}"
     end
 
     def instagram_link

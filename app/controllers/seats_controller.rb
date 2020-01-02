@@ -34,7 +34,7 @@ class SeatsController < ApplicationController
   end
 
   def remind
-    SeatMailer.with(seat: @seat).remind.deliver_later
+    SeatMailer.with(seat_id: @seat.id).remind.deliver_later
     flash[:success] = 'Reminder sent'
     redirect_to reservation_path(@seat.reservation.id)
   end

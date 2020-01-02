@@ -22,7 +22,7 @@ unless User.where(email: SystemInfo.support_key).any?
               confirmed_at: Time.zone.now)
 end
 
-new_user('admin', ClientInfo.contact_email, 'Martha', 'Rusler')
+new_user('admin', ClientInfo.admin_email, 'Martha', 'Rusler')
 
 5.times do
   new_user('customer')

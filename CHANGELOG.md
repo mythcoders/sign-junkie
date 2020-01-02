@@ -1,3 +1,7 @@
+#### 1912.5 - January 1, 2020
+
+- Updated the email addresses that are used to send notifications and order confirmations
+
 #### 1912.4 - December 19, 2019
 
 - Resolved an issue with sending security emails

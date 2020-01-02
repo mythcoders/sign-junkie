@@ -2,8 +2,9 @@
 
 class RefundMailer < ApplicationMailer
   helper :application
+  default from: "#{ClientInfo.name} <orders@#{ClientInfo.domain}>"
 
-  before_action { @refund = params[:refund] }
+  before_action { @refund = Refund.find params[:refund_id] }
 
   def issued
     make_bootstrap_mail(to: "#{@refund.invoice.customer.full_name} <#{@refund.invoice.customer.email}>",

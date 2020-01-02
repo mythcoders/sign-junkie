@@ -9,6 +9,6 @@ class SeatVoidWorker
 
     Rails.logger.info "SeatVoidWorker #{seat_id}"
     SeatService.new.void(seat)
-    SeatMailer.with(seat: seat).voided.deliver_later
+    SeatMailer.with(seat_id: seat.id).voided.deliver_later
   end
 end

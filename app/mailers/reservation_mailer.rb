@@ -4,7 +4,7 @@
 class ReservationMailer < ApplicationMailer
   helper :application
 
-  before_action { @reservation = params[:reservation] }
+  before_action { @reservation = Reservation.find params[:reservation_id] }
 
   def placed
     make_bootstrap_mail(to: "#{@reservation.host.full_name} <#{@reservation.host.email}>",
