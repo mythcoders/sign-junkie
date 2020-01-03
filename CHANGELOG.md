@@ -1,3 +1,7 @@
+#### 1912.6 - January 2, 2020
+
+- Sales Tax report
+
 #### 1912.5 - January 1, 2020
 
 - Updated the email addresses that are used to send notifications and order confirmations

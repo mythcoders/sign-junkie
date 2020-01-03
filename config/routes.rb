@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     get 'finances', as: 'finances', to: 'finances#index'
     delete 'images/:id', to: 'images#destroy', as: 'delete_image'
     get 'reports', as: 'reports', to: 'reports#index'
-    get 'reports/sales_tax', as: 'sales_tax_report'
+    match 'reports/sales_tax', to: 'reports#sales_tax', as: 'sales_tax_report', via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
     resources :gallery_images

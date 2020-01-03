@@ -1,0 +1,48 @@
+- page_title 'Sales Tax', 'Reports'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Reports
+        %h1.header-title
+          %i.fad.fa-analytics
+          Sales Tax Liability
+
+.row
+  .col-12.col-lg-4
+    = form_tag url: admin_sales_tax_report_path, method: :get do |f|
+      .card
+        .card-header
+          Parameters
+        .card-body
+          .form-row
+            .form-group.col
+              = label_tag :tax_period_id
+              = select_tag :tax_period_id,
+                  options_from_collection_for_select(@tax_periods, 'id', 'name', params[:tax_period_id]),
+                  { class: 'form-control custom-select', required: true, include_blank: '- Please Select -' }
+        .card-footer
+          = submit_tag 'Submit', class: 'btn btn-primary'
+
+  .col-12.col-lg-8
+    .card
+      - if @report
+        %table.table
+          %tr
+            %th.text-center{colspan: 2}= ClientInfo.owner
+          %tr
+            %th{colspan: 2}= short_date_out@report.start_date, @report.end_date
+          %tr
+            %td Taxable Sales
+            %td.text-right= number_to_currency @report.taxable_sales
+          %tr
+            %td Non-Taxable Sales
+            %td.text-right= number_to_currency @report.nontaxable_sales
+          %tr
+            %td Sales Tax Collected
+            %td.text-right= number_to_currency @report.tax_collected
+      - else
+        .card-body
+          .card-text No results found.
