@@ -122,7 +122,12 @@ en:
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
-    hostess_note: "Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process."
+    hostess_note:
+      "Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process."
+    adult_only_warning:
+      These are adult only workshops unless specified otherwise!
+      If specified FAMILY FRIENDLY these workshops are geared toward children ages 8 and up
+      and adults!  This is the perfect environment for you to create lasting memories, fun, and an awesome project!
   helpers:
     select:
       prompt: Please select

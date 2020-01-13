@@ -11,20 +11,14 @@
       We offer a large variety of projects and designs.
       In order to prepare your project and stencil, we do require our guests to choose and book ahead of time.
       We look forward to seeing you at a workshop!
-    %h4.text-info.text-center
-      These are adult only workshops unless specified otherwise!
-      If specified FAMILY FRIENDLY these workshops are geared toward children ages 8 and up
-      and adults! This is the perfect environment for you to create lasting memories, fun and an awesome project!
+    %h4.text-info.text-center= t('workshop.adult_only_warning')
   .col.d-md-none
     %h6.text-primary.text-center
       Below you will find upcoming workshops we are currently accepting reservations for.
       We offer a large variety of projects and designs.
       In order to prepare your project and stencil, we do require our guests to choose and book ahead of time.
       We look forward to seeing you at a workshop!
-    %h6.text-info.text-center
-      These are adult only workshops unless specified otherwise!
-      If specified FAMILY FRIENDLY these workshops are geared toward children ages 8 and up
-      and adults!  This is the perfect environment for you to create lasting memories, fun and an awesome project!
+    %h6.text-info.text-center= t('workshop.adult_only_warning')
 
 .row
   - if @workshops.any?

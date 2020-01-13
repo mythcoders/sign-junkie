@@ -5,12 +5,18 @@
         Private Workshops
 
 .row
-  .col
-    %h4.text-info.text-center
+  .col.d-none.d-md-inline
+    %h4.text-primary.text-center
       Host a private DIY workshop with friends, family, or co-workers!
       %br
       Great for birthday celebrations, girl’s night out, bachelorette party or team building!
-
+    %h4.text-info.text-center= t('workshop.adult_only_warning')
+  .col.d-md-none
+    %h6.text-primary.text-center
+      Host a private DIY workshop with friends, family, or co-workers!
+      %br
+      Great for birthday celebrations, girl’s night out, bachelorette party or team building!
+    %h6.text-info.text-center= t('workshop.adult_only_warning')
 .row
   - if @workshops.any?
     = render partial: "workshops/grid"
