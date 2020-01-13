@@ -1,3 +1,7 @@
+#### 1912.7 - January 12, 2020
+
+- Simple text updates on the customer side
+
 #### 1912.6 - January 2, 2020
 
 - Sales Tax report
