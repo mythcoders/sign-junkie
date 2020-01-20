@@ -13,7 +13,7 @@ class SeatsController < ApplicationController
 
   def create
     if SeatService.new.add(guest_params.merge(reservation: @reservation))
-      flash[:success] = t('success.create')
+      flash[:success] = t('create.success')
       redirect_to reservation_path(@reservation)
     else
       flash[:error] = t('seat.create.failure')
@@ -23,12 +23,12 @@ class SeatsController < ApplicationController
 
   def update
     if SeatService.new.update(@seat, seat_params)
-      flash[:success] = t('success.update')
+      flash[:success] = t('update.success')
 
       add_to_cart if @seat.selection_made? && !@seat.in_cart?
       redirect_to cart_index_path
     else
-      flash[:error] = t('failure.update')
+      flash[:error] = t('update.failure')
       render 'edit'
     end
   end

@@ -31,13 +31,14 @@
           %p.card-text.text-info
             = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
             - if @seat.reservation.paid_by_host?
-              Projects must be selected by #{@seat.reservation.registration_deadline}"
+              Project and stencil must be selected by #{special_date @seat.reservation.workshop.registration_deadline}
             - else
-              Projects must be selected and paid for by #{special_date @seat.reservation.payment_deadline}
+              Project and stencil must be selected and paid for by #{special_date @seat.reservation.payment_deadline}
 
         = form_for :cart, url: reservation_seat_path(@seat.reservation, @seat), method: :patch do |f|
           = f.hidden_field :workshop_id, value: @seat.workshop_id
           = f.hidden_field :org_stencil_id, value: @seat.stencil_id
+          = f.hidden_field :org_stencil_personalization, value: @seat.stencil_personalization
           = f.hidden_field :org_addon_id, value: @seat.addon_id
 
           %p.card-text
@@ -63,15 +64,16 @@
                     { class: 'form-control custom-select', 'data-js-change-stencil': '', required: true, 'data-js-stencil': @seat.stencil_id }
                 .input-group-append
                   %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
-          .form-row
-            .form-group.col
-              = fa_solid 'palette', 'text-primary fa-fw'
-              = f.label :stencil_personalization
-              = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '',
-                  autocomplete: false, value: @seat.stencil_personalization
-              %p.form-text.text-muted
-                Please enter your information for personalization shown on the design you have chosen, this includes
-                any names, dates, city, state, gps coordinates, etc.
+          %div{'data-js-custom-stencil-info': '', style: 'display: none;'}
+            .form-row
+              .form-group.col
+                = fa_solid 'palette', 'text-primary fa-fw'
+                = f.label :stencil_personalization
+                = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '',
+                    autocomplete: false, value: @seat.stencil_personalization
+                %p.form-text.text-muted
+                  Please enter your information for personalization shown on the design you have chosen, this includes
+                  any names, dates, city, state, gps coordinates, etc.
           .form-row
             .form-group.col
               = fa_solid 'stamp', 'text-primary fa-fw'

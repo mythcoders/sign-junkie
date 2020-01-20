@@ -29,11 +29,26 @@ $.onmount("[data-js-change-addon]", function () {
     })
 });
 
+$.onmount("[data-js-change-stencil]", function () {
+    $(this).on("change", function () {
+      var option = event.target.options[event.target.selectedIndex]
+      console.log(option.dataset.personilization);
+      if (option.dataset.personilization == "true") {
+        $("[data-js-custom-stencil-info]").show();
+        $("[data-js-custom-stencil-input]").attr("required", true);
+        $("[data-js-custom-stencil-input]").removeAttr("disabled");
+      } else {
+        disable_stencil_personilization();
+      }
+    })
+});
+
 function update_ui() {
     var workshop = get_workshop();
     var project_id = get_project();
     var stencil_id = document.getElementById('cart_org_stencil_id') ? document.getElementById('cart_org_stencil_id').value : '';
     var addon_id = document.getElementById('cart_org_addon_id') ? document.getElementById('cart_org_addon_id').value : '';
+    var stencil_personalization = document.getElementById('cart_org_stencil_personalization') ? document.getElementById('cart_org_stencil_personalization').value : '';
 
     if (workshop !== null && project_id !== null) {
         $.ajax({
@@ -65,6 +80,12 @@ function update_ui() {
 
                 var currentStencils = document.querySelector('[data-js-change-stencil]')
                 create_stencils(currentStencils, data.allow_no_stencil, data.stencils)
+
+                if (stencil_personalization == '') {
+                  disable_stencil_personilization()
+                } else {
+                  $("[data-js-custom-stencil-info]").show();
+                }
 
                 preview = document.querySelector('[data-js-project-preview]')
                 preview.classList.remove('disabled')
@@ -136,6 +157,7 @@ function append_stencils(item, category, selected_stencil) {
         var option = document.createElement('option')
         option.text = category.stencils[j].name
         option.value = category.stencils[j].id
+        option.dataset.personilization = category.stencils[j].personilization
 
         if (option.text === selected_stencil) {
             option.selected = true;
@@ -156,6 +178,12 @@ function disable_addons(message) {
     $("[data-js-change-addon]").find('option').remove()
     $("[data-js-change-addon]").append("<option value=''>" + message + "</option>")
     $("[data-js-change-addon]").attr("disabled", "disabled");
+}
+
+function disable_stencil_personilization() {
+  $("[data-js-custom-stencil-info]").hide();
+  $("[data-js-custom-stencil-input]").removeAttr("required");
+  $("[data-js-custom-stencil-input]").attr("disabled", "disabled");
 }
 
 function get_project() {

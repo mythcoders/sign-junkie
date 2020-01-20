@@ -8,9 +8,9 @@ module Admin
 
     def create
       if GalleryImage.mass_attach(params[:gallery][:images])
-        flash['success'] = t('UploadSuccess')
+        flash['success'] = t('upload.success')
       else
-        flash['error'] = t('UploadFailure')
+        flash['error'] = t('upload.failure')
       end
 
       redirect_to admin_gallery_images_path

@@ -1,0 +1,15 @@
+-# %preview Thanks for placing your order! We can't wait for you to join us and get your diy on!
+
+%h5.mb-2= "#{@seat.customer.full_name},"
+
+%p.mb-2
+  Friendly reminder: Your registration deadline, #{special_date @seat.reservation.workshop.registration_deadline},
+  is fast approaching! If you want to attend this workshop you must click on the link below to complete the
+  booking process.
+
+%p.mb-2
+  Thanks,
+  %br Martha
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: seat_url(@seat)} Pick your project and stencil today!

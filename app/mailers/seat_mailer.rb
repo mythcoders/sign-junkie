@@ -22,6 +22,12 @@ class SeatMailer < ApplicationMailer
                         template_name: 'remind')
   end
 
+  def registration_deadline
+    make_bootstrap_mail(to: "#{@seat.customer.full_name} <#{@seat.customer.email}>",
+                        subject: "Don't forget about your seat!",
+                        template_name: 'registration_deadline')
+  end
+
   def voided
     admin = User.system_admin
     make_bootstrap_mail(to: "#{@seat.customer.full_name} <#{@seat.customer.email}>",
@@ -36,5 +42,11 @@ class SeatMailer < ApplicationMailer
                         bcc: "#{admin.full_name} <#{admin.email}>",
                         subject: 'Your seat has been cancelled',
                         template_name: 'canceled')
+  end
+
+  def purchased
+    make_bootstrap_mail(to: "#{@seat.customer.full_name} <#{@seat.customer.email}>",
+                        subject: 'Someone has purchased a seat for you!',
+                        template_name: 'purchased')
   end
 end

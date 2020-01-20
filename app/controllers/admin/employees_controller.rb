@@ -17,7 +17,7 @@ module Admin
     def create
       @employee = User.invite!(employee_params.except(:id))
       if @employee
-        flash['success'] = t('CreateSuccess')
+        flash['success'] = t('create.success')
         redirect_to admin_employee_path @employee
       else
         disabled_roles
@@ -27,7 +27,7 @@ module Admin
 
     def update
       if @employee.update(employee_params)
-        flash['success'] = t('UpdateSuccess')
+        flash['success'] = t('update.success')
         redirect_to admin_employee_path @employee
       else
         disabled_roles

@@ -17,7 +17,7 @@ module Admin
       @category = StencilCategory.new(stencil_params)
 
       if @category.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
         set_values_for_dropdown
@@ -27,7 +27,7 @@ module Admin
 
     def update
       if @category.update(stencil_params)
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
         set_values_for_dropdown

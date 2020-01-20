@@ -12,9 +12,9 @@ module Admin
 
     def forfeit
       if @reservation.update(forfeit_params)
-        flash[:success] = t('success.update')
+        flash[:success] = t('update.success')
       else
-        flash[:error] = t('failure.update')
+        flash[:error] = t('update.failure')
       end
       redirect_to admin_workshop_path(@reservation.workshop_id)
     end

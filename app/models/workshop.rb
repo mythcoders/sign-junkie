@@ -7,8 +7,8 @@ class Workshop < ApplicationRecord
   has_paper_trail
   has_many :workshop_projects, dependent: :destroy
   has_many :projects, through: :workshop_projects
-  has_many :seats
-  has_many :reservations
+  has_many :seats, dependent: :restrict_with_error
+  has_many :reservations, dependent: :restrict_with_error
   has_many_attached :workshop_images, dependent: :destroy
   belongs_to :workshop_type
 

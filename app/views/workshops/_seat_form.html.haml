@@ -28,14 +28,15 @@
             { class: 'form-control custom-select', 'data-js-change-stencil': '', required: true }
         .input-group-append
           %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
-  .form-row
-    .form-group.col
-      = fa_solid 'palette', 'text-primary fa-fw'
-      = f.label :stencil_personalization
-      = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '', autocomplete: false
-      %p.form-text.text-muted
-        Please enter your information for personalization shown on the design you have chosen, this includes
-        any names, dates, city, state, gps coordinates, etc.
+  %div{'data-js-custom-stencil-info': '', style: 'display: none;'}
+    .form-row
+      .form-group.col
+        = fa_solid 'palette', 'text-primary fa-fw'
+        = f.label :stencil_personalization
+        = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '', autocomplete: false
+        %p.form-text.text-muted
+          Please enter your information for personalization shown on the design you have chosen, this includes
+          any names, dates, city, state, gps coordinates, etc.
   .form-row
     .form-group.col
       = fa_solid 'stamp', 'text-primary fa-fw'
@@ -49,8 +50,8 @@
       = fa_solid 'chair', 'text-primary fa-fw'
       = f.label :seating_preference
       = f.text_field :seating, class: 'form-control', autocomplete: false
-  
-  - if @guest_purchase  
+
+  - if @guest_purchase
     .form-row
       .form-group.col
         .custom-control.custom-checkbox

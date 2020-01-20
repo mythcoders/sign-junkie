@@ -2,9 +2,9 @@
 
 class Invoice < ApplicationRecord
   has_paper_trail
-  has_many :items, class_name: 'InvoiceItem'
-  has_many :payments
-  has_many :refunds
+  has_many :items, class_name: 'InvoiceItem', dependent: :restrict_with_error
+  has_many :payments, dependent: :restrict_with_error
+  has_many :refunds, dependent: :restrict_with_error
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
   validates_presence_of :due_date

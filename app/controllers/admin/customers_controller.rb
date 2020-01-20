@@ -2,12 +2,11 @@
 
 module Admin
   class CustomersController < AdminController
-    before_action :get, only: %i[edit show update]
+    before_action :get, only: %i[edit show update destroy]
     before_action :disabled_roles, only: %i[edit update]
 
     def index
-      @customers_grid = initialize_grid(User.where(role: 'customer'),
-                                        order: 'last_name')
+      @customers_grid = initialize_grid(User.where(role: 'customer'), order: 'last_name')
     end
 
     def new
@@ -17,7 +16,7 @@ module Admin
     def create
       @customer = User.invite!(customer_params.except(:id))
       if @customer
-        flash['success'] = t('CreateSuccess')
+        flash['success'] = t('create.success')
         redirect_to admin_customer_path @customer
       else
         disabled_roles
@@ -27,11 +26,21 @@ module Admin
 
     def update
       if @customer.update(customer_params)
-        flash['success'] = t('UpdateSuccess')
+        flash['success'] = t('update.success')
         redirect_to admin_customer_path @customer
       else
         disabled_roles
         render 'edit'
+      end
+    end
+
+    def destroy
+      if @customer.destroy
+        flash['success'] = t('destroy.success')
+        redirect_to admin_customer_path @customer
+      else
+        flash[:error] = t('destroy.failure')
+        redirect_to edit_admin_customer_path(@customer)
       end
     end
 

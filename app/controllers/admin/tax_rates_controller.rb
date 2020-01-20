@@ -2,7 +2,8 @@
 
 module Admin
   class TaxRatesController < AdminController
-    before_action :set_tax_rate, only: %i[show edit update]
+    before_action :set_tax_rate, only: %i[edit update destroy]
+    before_action :check_editable, only: %i[edit update destroy]
 
     def index
       @tax_rates_grid = initialize_grid(TaxRate, order: 'effective_date')
@@ -13,33 +14,58 @@ module Admin
     end
 
     def create
-      @tax_rate = TaxRate.new(tax_rate_params)
+      @tax_rate = TaxRate.new(filtered_params)
 
       if @tax_rate.save
-        flash[:success] = t('CreateSuccess')
-        redirect_to admin_tax_rate_path @tax_rate
+        flash[:success] = t('create.success')
+        redirect_to admin_tax_rates_path
       else
         render 'new'
       end
     end
 
     def update
-      if @tax_rate.update(tax_rate_params)
-        flash[:success] = t('UpdateSuccess')
-        redirect_to admin_tax_rate_path @tax_rate
+      if @tax_rate.update(filtered_params)
+        flash[:success] = t('update.success')
+        redirect_to admin_tax_rates_path
       else
         render 'edit'
+      end
+    end
+
+    def destroy
+      if @tax_rate.destroy
+        flash[:success] = t('destroy.success')
+        redirect_to admin_tax_rates_path
+      else
+        flash[:error] = t('destroy.failure')
+        redirect_to edit_admin_tax_rate_path(@tax_rate)
       end
     end
 
     private
 
     def set_tax_rate
-      @rax_rate = TaxRate.find params[:id]
+      @tax_rate = TaxRate.find params[:id]
     end
 
     def tax_rate_params
       params.require(:tax_rate).permit(:id, :rate, :effective_date)
+    end
+
+    def filtered_params
+      parameters = tax_rate_params
+      parameters[:rate] = (parameters[:rate].to_d / 100).to_s
+      parameters[:effective_date] = convert_datetime(parameters[:effective_date])
+
+      parameters
+    end
+
+    def check_editable
+      return if @tax_rate.editable?
+
+      flash[:error] = t('tax_rate.uneditable')
+      redirect_to admin_tax_rates_path
     end
   end
 end

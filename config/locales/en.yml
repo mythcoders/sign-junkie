@@ -5,10 +5,6 @@ en:
   site:
     title: Sign Junkie Workshop
     description: Sign Junkie is a DIY Workshop that offers a wide variety of practical and unique wood home decor workshops.
-  UpdateSuccess: "Record updated successfully!"
-  CreateSuccess: "Record created successfully!"
-  DeleteSuccess: "Record deleted successfully!"
-  UploadSuccess: "Image was uploaded successfully!"
   feature_un: "This feature will be available in a future release!"
   unauthorized: "You're not authorized to perform this action."
   addon:
@@ -21,17 +17,24 @@ en:
       failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
       already: "That item is already present in your cart."
     update:
-      success: "Cart updated!"
-      failure: "Please try again."
+      success: Cart updated!
+      failure: Please try again.
   destroy:
-    failure: "Record couldn't be deleted. Please try again or contact your system administrator."
-    success: "Record has been deleted successfully!"
+    failure: Record couldn't be deleted. Please try again or contact your system administrator.
+    success: Record has been deleted successfully!
+    confirmation: Are you sure? This can not be undone and it will also delete any associated records.
   create:
-    failure: ""
-    success: "The record couldn't be deleted. Please try again."
+    failure: Record couldn't be created. Please try again or contact your system administrator.
+    success: Record created successfully!
+  clone:
+    failure: Record couldn't be cloned. Please try again or contact your system administrator.
+    success: Record cloned successfully!
   update:
-    failure: ""
-    success: ""
+    failure: Record couldn't be updated. Please try again or contact your system administrator.
+    success: Record updated successfully!
+  upload:
+    failure: Image couldn't be uploaded. Please try again or contact your system administrator.
+    success: Image was uploaded successfully!
   order:
     refund:
       critical_failure:
@@ -106,16 +109,8 @@ en:
   stencil_category:
     destroy:
       confirmation: This will delete the stencil category and any stencils it's associated with.
-  success:
-    create: The record was created successfully!
-    update: The record has been updated successfully!
-    destroy: The record has been deleted successfully!
-    upload: Image was uploaded successfully!
-  failure:
-    create: Record couldn't be created. Please try again or contact your system administrator.
-    update: Record couldn't be updated. Please try again or contact your system administrator.
-    destroy: Record couldn't be deleted. Please try again or contact your system administrator.
-    upload: Image was not uploaded!
+  tax_rate:
+    uneditable: Tax Rate is already in-effect. Create a new tax rate to override the current rate.
   user:
     need_addresses: Unless your order is being picked up, you'll need to add an address to your account!
   workshop:
@@ -132,7 +127,7 @@ en:
     select:
       prompt: Please select
     submit:
-      create: Create"
+      create: Create
       submit: Save %{model}
       update: Save changes
     label:
@@ -272,7 +267,3 @@ en:
       last_word_connector: ", and "
       two_words_connector: " and "
       words_connector: ", "
-  failure:
-    delete: "Unable to delete your record. Please try again."
-    update: ""
-    create: ""

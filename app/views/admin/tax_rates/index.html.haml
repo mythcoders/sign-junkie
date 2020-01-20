@@ -10,9 +10,12 @@
           %i.fad.fa-percent
           Search
       .col-auto
-        = link_to 'New Tax Rate', new_admin_tax_rate_path, class: 'btn btn-primary lift disabled'
+        = link_to 'New Tax Rate', new_admin_tax_rate_path, class: 'btn btn-primary lift'
 
 .card
   = grid(@tax_rates_grid) do |g|
-    - g.column name: 'Rate', attribute: 'rate'
+    - g.row_attributes do |t|
+      - { data: { 'clickable-row': '', 'href': edit_admin_tax_rate_path(t) } }
+    - g.column name: 'Rate', attribute: 'rate' do |t|
+      - number_to_percentage t.rate * 100
     - g.column name: 'Effective Date', attribute: 'effective_date', filter_type: :timeframe_picker

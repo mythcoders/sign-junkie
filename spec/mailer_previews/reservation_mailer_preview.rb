@@ -16,4 +16,8 @@ class ReservationMailerPreview < ActionMailer::Preview
   def canceled
     ReservationMailer.with(reservation_id: Reservation.first.id).canceled
   end
+
+  def payment_deadline
+    ReservationMailer.with(reservation_id: Reservation.first.id).payment_deadline
+  end
 end

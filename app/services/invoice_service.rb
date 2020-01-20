@@ -73,8 +73,8 @@ class InvoiceService < ApplicationService
         CustomerMailer.with(customer_id: item.recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
       elsif item.reservation?
         ReservationMailer.with(reservation_id: item.reservation.id).placed.deliver_later
-        # elsif item.gifted_seat?
-        #   SeatMailer.with(seat_id: item.seat.id).invited.deliver_later
+      elsif item.gifted_seat?
+        SeatMailer.with(seat_id: item.seat.id).purchased.deliver_later
       end
     end
   end

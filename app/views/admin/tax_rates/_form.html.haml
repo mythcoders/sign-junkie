@@ -1,0 +1,24 @@
+.row
+  .col
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h2.card-header-title
+              Basic Information
+      .card-body
+        = error_messages_for 'tax_rate'
+        = f.hidden_field :id
+        .form-group
+          = f.label :effective_date, class: 'col-form-label'
+          #effectivepicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :effective_date, value: lifp(@tax_rate.effective_date), class: 'form-control datetimepicker-input', 'data-target': '#effectivepicker'
+            .input-group-append{"data-target": "#effectivepicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :rate, class: 'col-form-label'
+          .input-group
+            = f.text_field :rate, class: 'form-control', value: @tax_rate.display
+            .input-group-append
+              %span.input-group-text= fa_regular 'percent'

@@ -30,7 +30,7 @@ class CartController < ApplicationController
     if @service.remove(current_user, params)
       flash[:success] = t('cart.update.success')
     else
-      flash[:error] = t('failure.delete')
+      flash[:error] = t('destroy.failure')
     end
 
     redirect_to cart_index_path

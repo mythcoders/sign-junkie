@@ -12,7 +12,7 @@ module Admin
       @credit = CustomerCredit.new(create_params)
 
       if @credit.save
-        flash['success'] = t('CreateSuccess')
+        flash['success'] = t('create.success')
         CustomerMailer.with(customer_id: @credit.customer.id, gift_amount: @credit.balance).gift_card.deliver_later
         redirect_to admin_customer_path @credit.customer
       else
@@ -22,7 +22,7 @@ module Admin
 
     def update
       if @credit.update(update_params)
-        flash['success'] = t('UpdateSuccess')
+        flash['success'] = t('update.success')
         redirect_to admin_customer_path @credit.customer
       else
         render 'edit'
