@@ -3,6 +3,8 @@
 class TaxPeriod < ApplicationRecord
   has_paper_trail
 
+  validates_presence_of :start_date, :due_date, :amount_paid
+
   def name
     case start_date.month
     when 1..6

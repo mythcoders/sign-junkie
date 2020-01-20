@@ -3,8 +3,8 @@
   = f.radio_button :role, 'customer', class: 'custom-control-input'
   = f.label :role, value: 'customer', class: 'custom-control-label' do
     %h4
+      = fa_solid 'user'
       Customer
-      = fa_light 'user'
       %br
       %small.text-muted
         Add events to cart, checkout, and pay for orders
@@ -13,8 +13,8 @@
   = f.radio_button :role, 'employee', class: 'custom-control-input'
   = f.label :role, value: 'employee', class: 'custom-control-label' do
     %h4
+      = fa_solid 'user-tie'
       Employee
-      = fa_light 'user-tie'
       %br
       %small.text-muted
         Customer Permissions + Admin Protal access to view customers, events, gift certificates, and orders
@@ -23,8 +23,8 @@
   = f.radio_button :role, 'admin', class: 'custom-control-input'
   = f.label :role, value: 'admin', class: 'custom-control-label' do
     %h4
+      = fa_solid 'user-crown'
       Administrator
-      = fa_light 'user-crown'
       %br
       %small.text-muted
         Employee Permissions + editing abilities, data history and reports
@@ -36,8 +36,8 @@
     = f.radio_button :role, 'operator', class: 'custom-control-input', 'disabled': 'disabled'
   = f.label :role, value: 'operator', class: 'custom-control-label' do
     %h4
+      = fa_solid 'user-cog'
       IT Operator
-      = fa_light 'user-cog'
       %br
       %small.text-muted
         Administrator Permissions + system maintenance

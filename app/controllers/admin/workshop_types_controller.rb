@@ -16,7 +16,7 @@ module Admin
       @workshop_type = WorkshopType.new(workshop_type_params)
 
       if @workshop_type.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_workshop_types_path
       else
         render 'new'
@@ -25,7 +25,7 @@ module Admin
 
     def update
       if @workshop_type.update(workshop_type_params)
-        flash[:success] = t('UpdateSuccess')
+        flash[:success] = t('update.success')
         redirect_to admin_workshop_types_path
       else
         render 'edit'

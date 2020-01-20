@@ -1,0 +1,19 @@
+- page_title 'Edit', 'Tax Rates'
+
+= form_for @tax_rate, url: admin_tax_rate_path(@tax_rate), method: :patch do |f|
+  .header.mt-md-2
+    .header-body
+      .row.align-items-center
+        .col
+          %h6.header-pretitle
+            Tax Rates
+          %h1.header-title
+            %i.fad.fa-toolbox
+            Edit Tax Rate
+        .col-auto
+          = link_to 'Cancel', admin_tax_rates_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Save', class: 'btn btn-success'
+          = link_to "Delete", admin_tax_rate_path(@tax_rate), method: :delete, class: 'btn btn-outline-danger',
+            data: {confirm: 'Are you sure want to delete this tax rate? This can not be undone!'}
+
+  = render partial: 'admin/tax_rates/form', locals: { f: f }

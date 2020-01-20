@@ -1,0 +1,31 @@
+.row
+  .col
+    .card
+      .card-header
+        .row.align-items-center
+          .col
+            %h2.card-header-title
+              Basic Information
+      .card-body
+        = error_messages_for 'tax_period'
+        = f.hidden_field :id
+        .form-group
+          = f.label :start_date, class: 'col-form-label'
+          #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :start_date, value: lifp(@tax_period.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
+            .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :due_date, class: 'col-form-label'
+          #duepicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
+            = f.text_field :due_date, value: lifp(@tax_period.due_date), class: 'form-control datetimepicker-input', 'data-target': '#duepicker'
+            .input-group-append{"data-target": "#duepicker", "data-toggle": "datetimepicker"}
+              .input-group-text
+                = fa_regular 'calendar'
+        .form-group
+          = f.label :amount_paid, class: 'col-form-label'
+          .input-group
+            .input-group-prepend
+              %span.input-group-text= fa_regular 'dollar-sign'
+            = f.text_field :amount_paid, class: 'form-control'

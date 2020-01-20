@@ -11,7 +11,8 @@ class Project < ApplicationRecord
   has_many_attached :project_images, dependent: :destroy
 
   accepts_nested_attributes_for :addons, :stencils
-  validates_presence_of :name, :material_price, :instructional_price
+  validates_presence_of :name, :material_price, :instructional_price, :allowed_stencils
+  validates :allowed_stencils, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
 
   default_scope { order(name: :asc) }
 

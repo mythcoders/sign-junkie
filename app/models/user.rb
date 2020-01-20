@@ -16,9 +16,9 @@ class User < ApplicationRecord
   }
   has_many :credits, class_name: 'CustomerCredit'
   has_many :carts
-  has_many :invoices
-  has_many :seats
-  has_many :reservations
+  has_many :invoices, dependent: :restrict_with_error
+  has_many :seats, dependent: :restrict_with_error
+  has_many :reservations, dependent: :restrict_with_error
 
   validates_presence_of :first_name, :last_name, :role
   validates :email, presence: true, uniqueness: true, email: true

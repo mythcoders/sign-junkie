@@ -33,4 +33,10 @@ class ReservationMailer < ApplicationMailer
                         subject: 'Your reservation was been canceled',
                         template_name: 'canceled')
   end
+
+  def payment_deadline
+    make_bootstrap_mail(to: "#{@reservation.host.full_name} <#{@reservation.host.email}>",
+                        subject: 'Unpaid seats on your reservation!',
+                        template_name: 'payment_deadline')
+  end
 end

@@ -17,7 +17,13 @@ stencils = []
   stencils << {
     name: cat.name,
     stencils: items.sort_by { |s| s.name.downcase }
-                   .map { |s| { id: s.id, name: s.name } }
+                   .map do |s|
+                {
+                  id: s.id,
+                  name: s.name,
+                  personilization: s.allow_personilization
+                }
+              end
   }
 end
 

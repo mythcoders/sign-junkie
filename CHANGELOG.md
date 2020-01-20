@@ -1,10 +1,32 @@
+#### 2001 - January 19, 2020
+
+- Improvements
+  - The stencil personalization textbox only appears for Stencils that can be customized.
+  - Additional reminders that customers have 72 hours to confirm their account and that they won't be able to sign-in
+    until doing so.
+  - Updated the text of the email that is sent to customers when a seat is purchased for them.
+  - Background worker to send an email to reservation hosts if they have any guests that have not paid for their
+    projects. Runs daily at 06:00 for reservations that have a payment deadline at 23:59.
+  - Background worker to send an email to guests who have yet to make their project selection.    
+    Runs daily at 06:00 for reservations that have a registration deadline at 23:59.
+  - Background worker to send an email to users who have yet to confirm their account after signing up.
+    Also resends invitations that haven't been accepted after 48 hours. Runs daily at 06:00.
+- Admin Portal Improvements
+  - Added a New Customers report
+  - Tax Periods and Tax Rates can now be added, edited, and deleted
+  - Ability to delete customers who don't have any orders or shopping cart items associated to them
+  - Report descriptions added to the Reports screen
+  - Add-ons associated to a project are now clickable links to the Add-on itself
+- Fixes
+  - An issue where the reservation payment deadline was at 12:00AM rather than 11:59PM
+
 #### 1912.7 - January 12, 2020
 
 - Simple text updates on the customer side
 
 #### 1912.6 - January 2, 2020
 
-- Sales Tax report
+- Sales Tax Liability report
 
 #### 1912.5 - January 1, 2020
 

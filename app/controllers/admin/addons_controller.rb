@@ -16,7 +16,7 @@ module Admin
       @addon = Addon.new(addon_params)
 
       if @addon.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_addon_path @addon
       else
         render 'new'
@@ -25,7 +25,7 @@ module Admin
 
     def update
       if @addon.update(addon_params)
-        flash[:success] = t('UpdateSuccess')
+        flash[:success] = t('update.success')
         redirect_to admin_addon_path @addon
       else
         render 'edit'
@@ -34,7 +34,7 @@ module Admin
 
     def upload_images
       @addon.addon_images.attach(file_params)
-      flash['success'] = t('UploadSuccess')
+      flash['success'] = t('upload.success')
       redirect_to admin_addon_path(@addon)
     end
 

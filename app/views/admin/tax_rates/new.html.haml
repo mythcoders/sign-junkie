@@ -1,0 +1,17 @@
+- page_title 'New', 'Tax rate'
+
+= form_for @tax_rate, url: admin_tax_rates_path, local: true do |f|
+  .header.mt-md-2
+    .header-body
+      .row.align-items-center
+        .col
+          %h6.header-pretitle
+            Tax Rates
+          %h1.header-title
+            %i.fad.fa-calendar-alt
+            New Tax Rate
+        .col-auto
+          = link_to 'Cancel', admin_tax_rates_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Create', class: 'btn btn-success'
+
+  = render partial: 'admin/tax_rates/form', locals: { f: f }

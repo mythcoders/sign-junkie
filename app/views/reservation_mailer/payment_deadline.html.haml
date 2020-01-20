@@ -1,0 +1,27 @@
+%h5.mb-2= "#{@reservation.host.full_name},"
+
+%p.mb-2
+  Friendly Reminder - You still have guests that have not yet completed the payment process for their order.
+  Please remind your guests that the deadline to complete their order is
+  #{special_date @reservation.workshop.registration_deadline}. If they fail to do so their seat will be voided.
+
+%p.mb-2
+  Thanks,
+  %br Martha
+
+%hr
+
+%h5.text-bold.mb-2 Guests who have yet to pay
+%table.table.mb-2
+  %thead
+    %tr
+      %th Name
+      %th Email
+  %tbody
+    - @reservation.unpaid_seats.each do |seat|
+      %tr
+        %td= seat.customer.full_name
+        %td= mail_to seat.customer.email
+
+.text-center
+  %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@reservation)} Go to Workshop Planner

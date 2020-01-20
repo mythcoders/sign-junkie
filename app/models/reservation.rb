@@ -31,7 +31,7 @@ class Reservation < ApplicationRecord
   end
 
   def payment_deadline
-    (workshop.start_date - (paid_by_host? ? 5.days : 7.days)).beginning_of_day
+    (workshop.start_date - (paid_by_host? ? 5.days : 7.days)).end_of_day
   end
 
   def minimum_seats

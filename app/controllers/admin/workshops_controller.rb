@@ -18,7 +18,7 @@ module Admin
     def create
       @workshop = Workshop.new(filtered_params)
       if @workshop.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
@@ -28,7 +28,7 @@ module Admin
 
     def update
       if @workshop.update(filtered_params)
-        flash[:success] = t('UpdateSuccess')
+        flash[:success] = t('update.success')
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
@@ -48,7 +48,7 @@ module Admin
 
     def upload_images
       @workshop.workshop_images.attach(file_params)
-      flash[:success] = t('UploadSuccess')
+      flash[:success] = t('upload.success')
       redirect_to admin_workshop_path(@workshop)
     end
 

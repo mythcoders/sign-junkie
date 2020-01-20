@@ -11,8 +11,8 @@
           Sales Tax Liability
 
 .row
-  .col-12.col-lg-4
-    = form_tag url: admin_sales_tax_report_path, method: :get do |f|
+  .col-12.col-lg-4.d-print-none
+    = form_tag url: admin_sales_tax_report_path do |f|
       .card
         .card-header
           Parameters
@@ -34,7 +34,7 @@
             %tr
               %th.text-center{colspan: 3}= ClientInfo.owner
             %tr
-              %th{colspan: 3}= short_date_out@report.start_date, @report.end_date
+              %th{colspan: 3}= short_date_out @report.start_date, @report.end_date
             %tr
               %td{colspan: 2} Sales
               %td.text-right= number_to_currency @report.total_sales

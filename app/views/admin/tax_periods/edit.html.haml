@@ -1,0 +1,19 @@
+- page_title 'Edit', @tax_period.name, 'tax_periods'
+
+= form_for @tax_period, url: admin_tax_period_path(@tax_period), method: :patch do |f|
+  .header.mt-md-2
+    .header-body
+      .row.align-items-center
+        .col
+          %h6.header-pretitle
+            Tax Periods
+          %h1.header-title
+            %i.fad.fa-toolbox
+            = "Edit #{@tax_period.name}"
+        .col-auto
+          = link_to 'Cancel', admin_tax_periods_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Save', class: 'btn btn-success'
+          = link_to "Delete", admin_tax_period_path(@tax_period), method: :delete, class: 'btn btn-outline-danger',
+            data: {confirm: 'Are you sure want to delete this tax period? This can not be undone!'}
+
+  = render partial: 'admin/tax_periods/form', locals: { f: f }

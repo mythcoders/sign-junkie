@@ -10,20 +10,13 @@
           %i.fad.fa-analytics
           All Reports
 
--# .row
--#   .col-12
--#     .card.card-inactive
--#       .card-body.text-center
--#         %img.img-fluid{:alt => 'Placeholder image', :src => "/illustrations/scale.svg", :style => "max-width: 182px;"}/
--#         %h1
--#           No reports yet.
--#         %p.text-muted
--#           Create a report to find our more about your business.
--#         %a.btn.btn-primary.disabled{:href => "#!"}
--#           Create Report
-
-.row
-  .col
-    %ul.list-group
-      %a.list-group-item.list-group-item-action{data: { 'clickable-row': '', href: admin_sales_tax_report_path }}
-        Sales Tax Liability
+%table.table
+  %tr
+    %th Report Title
+    %th Description
+  %tr{data: { 'clickable-row': '', href: admin_new_customers_report_path }}
+    %td New Customers
+    %td List of all new customers that were added between a certain timeframe.
+  %tr{data: { 'clickable-row': '', href: admin_sales_tax_report_path }}
+    %td Sales Tax Liability
+    %td Summary of all taxable and non-taxable sales with a total of sales tax collected.

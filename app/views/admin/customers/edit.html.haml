@@ -1,22 +1,23 @@
 - page_title 'Edit', 'Customer'
 
-.header.mt-md-2
-  .header-body
-    .row.align-items-center
-      .col
-        %h6.header-pretitle
-          Customers
-        %h1.header-title
-          %i.fad.fa-address-book
-          = @customer.full_name
-
 = form_for @customer, url: admin_customer_path(@customer), method: :patch do |f|
+  .header.mt-md-2
+    .header-body
+      .row.align-items-center
+        .col
+          %h6.header-pretitle
+            Customers
+          %h1.header-title
+            %i.fad.fa-address-book
+            = @customer.full_name
+        .col-auto
+          = link_to 'Cancel', admin_customer_path(@customer), class: 'btn btn-outline-secondary'
+          = f.submit 'Save', class: 'btn btn-success'
+          = link_to "Delete", admin_customer_path(@customer), method: :delete, class: 'btn btn-outline-danger',
+            data: {confirm: 'Are you sure want to delete this customer? This can not be undone!'}
   .card
     .card-header
       %h3.card-header-title Information
     .card-body
       = error_messages_for 'customer'
       = render partial: 'admin/customers/form', locals: { f: f }
-    .card-footer
-      = link_to 'Cancel', admin_customer_path(@customer), class: 'btn btn-outline-secondary'
-      = f.submit 'Save', class: 'btn btn-success'

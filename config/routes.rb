@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     delete 'images/:id', to: 'images#destroy', as: 'delete_image'
     get 'reports', as: 'reports', to: 'reports#index'
     match 'reports/sales_tax', to: 'reports#sales_tax', as: 'sales_tax_report', via: %i[get post]
+    match 'reports/new_customers', to: 'reports#new_customers', as: 'new_customers_report', via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
     resources :gallery_images
@@ -48,8 +49,8 @@ Rails.application.routes.draw do
     resources :projects, concerns: %i[cloneable image_attachable] do
       resources :project_addons, path: 'addons', as: 'addons'
     end
-    resources :tax_periods
-    resources :tax_rates
+    resources :tax_periods, only: %i[index new edit create update destroy]
+    resources :tax_rates, only: %i[index new edit create update destroy]
     resources :seats, only: %i[], concerns: [:cancelable] do
       post 'remind', action: :remind, on: :member
     end

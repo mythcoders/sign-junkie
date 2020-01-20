@@ -17,7 +17,7 @@ module Admin
       @stencil = Stencil.new(stencil_params)
 
       if @stencil.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
@@ -27,7 +27,7 @@ module Admin
 
     def update
       if @stencil.update(stencil_params)
-        flash[:success] = t('UpdateSuccess')
+        flash[:success] = t('update.success')
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
@@ -37,10 +37,10 @@ module Admin
 
     def destroy
       if @stencil.destroy
-        flash[:success] = t('DeleteSuccess')
+        flash[:success] = t('destroy.success')
         redirect_to admin_stencils_path
       else
-        flash[:error] = t('DeleteFailure')
+        flash[:error] = t('destroy.failure')
         redirect_to admin_stencil_path(@project)
       end
     end

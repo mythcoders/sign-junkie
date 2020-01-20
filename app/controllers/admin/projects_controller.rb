@@ -21,7 +21,7 @@ module Admin
       @project = Project.new(project_params)
 
       if @project.save
-        flash[:success] = t('CreateSuccess')
+        flash[:success] = t('create.success')
         redirect_to admin_project_path @project
       else
         render 'new'
@@ -30,7 +30,7 @@ module Admin
 
     def update
       if @project.update(project_params)
-        flash[:success] = t('UpdateSuccess')
+        flash[:success] = t('update.success')
         redirect_to admin_project_path @project
       else
         render 'edit'
@@ -40,7 +40,7 @@ module Admin
     def upload_images
       Rails.logger.debug '#upload_images'
       @project.project_images.attach(file_params)
-      flash['success'] = t('UploadSuccess')
+      flash['success'] = t('upload.success')
       redirect_to admin_project_path(@project)
     end
 
@@ -59,10 +59,10 @@ module Admin
 
     def destroy
       if @project.destroy
-        flash[:success] = t('DeleteSuccess')
+        flash[:success] = t('destroy.success')
         redirect_to admin_projects_path
       else
-        flash[:error] = t('DeleteFailure')
+        flash[:error] = t('destroy.failure')
         redirect_to admin_project_path(@project)
       end
     end

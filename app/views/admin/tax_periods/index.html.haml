@@ -10,14 +10,12 @@
           %i.fad.fa-calendar-alt
           Search
       .col-auto
-        = link_to 'New Tax Period', new_admin_project_path, class: 'btn btn-primary lift disabled'
+        = link_to 'New Tax Period', new_admin_tax_period_path, class: 'btn btn-primary lift'
 
-.row
-  .col-12
-    .card.card-inactive
-      .card-body.text-center
-        %img.img-fluid{:alt => 'Placeholder image', :src => "/illustrations/lost.svg", :style => "max-width: 182px;"}/
-        %h1
-          Coming soon
-        %p.text-muted
-          This is a work in progress and will be available in a future release.
+.card
+  = grid(@tax_periods_grid) do |g|
+    - g.row_attributes do |t|
+      - {data: { 'clickable-row': '', 'href': edit_admin_tax_period_path(t)}}
+    - g.column name: 'Name' do |t|
+      - t.name
+    - g.column name: 'Start Date', attribute: 'start_date', filter_type: :timeframe_picker
