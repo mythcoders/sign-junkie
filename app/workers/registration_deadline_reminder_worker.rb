@@ -6,7 +6,7 @@ class RegistrationDeadlineReminderWorker
   def perform
     reservations.each do |reservation|
       reservation.active_seats.each do |seat|
-        next if seaat.selection_made?
+        next if seat.selection_made?
 
         SeatMailer.with(seat_id: seat.id).registration_deadline.deliver_later
       end
