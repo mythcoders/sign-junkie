@@ -1,10 +1,9 @@
 - unless images.any?
   .card.mt-2
-    .card-body
-      .text-muted No images have been uploaded
+    .card-body No images have been uploaded
 - else
   %ul.list-group
-    - images.order(:created_at).each_with_index do |img, index|
+    - images.each_with_index do |img, index|
       %li.list-group-item
         .row.align-items-center
           .col-auto

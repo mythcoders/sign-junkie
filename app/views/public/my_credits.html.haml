@@ -5,16 +5,24 @@
         = fa_solid 'gift-card'
         My Credits
 
-.table-responsive-md
-  %table.table.table-bordered.table-striped
-    %thead.bg-primary.text-white
-      %tr
-        %th Balance
-        %th Issue Date
-        %th Expiration Date
-    %tbody
-      - @credits.each do |o|
+- if @credits.empty?
+  %h5.card-title It looks like you haven't purchased any gift cards.
+
+  %a.btn.btn-info.btn-block(href=workshops_public_path)
+    View PUBLIC Workshop dates
+  %a.btn.btn-info.btn-block(href=workshops_private_path)
+    View PRIVATE Workshop dates
+- else
+  .table-responsive-md
+    %table.table.table-bordered.table-striped
+      %thead.bg-primary.text-white
         %tr
-          %td= number_to_currency o.balance
-          %td= o.created_at.strftime("%B %-d, %Y")
-          %td= o.expiration_date
+          %th Balance
+          %th Issue Date
+          %th Expiration Date
+      %tbody
+        - @credits.each do |o|
+          %tr
+            %td= number_to_currency o.balance
+            %td= o.created_at.strftime("%B %-d, %Y")
+            %td= o.expiration_date

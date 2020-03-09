@@ -21,6 +21,7 @@ class Workshop < ApplicationRecord
   }
 
   validates_presence_of :name
+  validates_length_of :name, maximum: 50
   validates_presence_of :purchase_start_date, :purchase_end_date, :start_date, :end_date, if: :is_for_sale
   validate :workshop_type_not_changed
 
@@ -61,6 +62,10 @@ class Workshop < ApplicationRecord
 
   def deleteable?
     seats.select(&:active?).none? && reservations.select(&:active?).none?
+  end
+
+  def name_with_date
+    "#{start_date.strftime('%-m/%-d/%Y')} - #{name}"
   end
 
   private

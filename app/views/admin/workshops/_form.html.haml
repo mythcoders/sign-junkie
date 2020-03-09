@@ -1,18 +1,11 @@
 .row
-  .col-12.col-xl-4.col-lg-6
+  .col-12.col-lg-5
     .card
       .card-header
         .row.align-items-center
           .col
             %h2.card-header-title
               Basic Information
-          .col-auto.mr-n3
-            %span.text-muted
-              Is this workshop for sale?
-          .col-auto
-            .custom-control.custom-switch
-              = f.check_box :is_for_sale, class: 'custom-control-input'
-              %label.custom-control-label{for: 'workshop_is_for_sale'}
       .card-body
         = error_messages_for 'workshop'
         = f.hidden_field :id
@@ -22,6 +15,32 @@
         .form-group
           = f.label :description, class: 'col-form-label'
           = f.text_area :description, class: 'form-control', rows: 2
+        .form-row
+          .form-group.col
+            = f.label :workshop_type_id, class: 'col-form-label'
+            - @workshop_types.each do |type|
+              .custom-control.custom-radio
+                = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
+                  'data-js-workshop-type': '',
+                  'data-workshop-type-single-seat-allow': human_boolean(type.default_single_seat_allow),
+                  'data-workshop-type-reservation-allow': human_boolean(type.default_reservation_allow),
+                  'data-workshop-type-reservations-end': 8,
+                  'data-workshop-type-reservation-cancel-minimum': human_boolean(type.default_reservation_cancel_minimum_not_met),
+                  'data-workshop-type-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
+                  'data-workshop-type-total-seats': type.default_total_seats,
+                  'data-workshop-type-reservation-price': number_to_currency(type.default_reservation_price),
+                  'data-workshop-type-reservation-minimum': type.default_reservation_minimum,
+                  'data-workshop-type-reservation-maximum': type.default_reservation_maximum
+                %label.custom-control-label{for: "workshop_workshop_type_id_#{type.id}"}= type.name
+
+          .form-group.col
+            %label.col-form-label Workshop Options
+            .custom-control.custom-switch.mb-1
+              = f.check_box :is_for_sale, class: 'custom-control-input'
+              = f.label :is_for_sale, class: 'custom-control-label'
+            .custom-control.custom-switch
+              = f.check_box :family_friendly, class: 'custom-control-input'
+              = f.label :family_friendly, class: 'custom-control-label'
         .form-group
           = f.label :start_date, class: 'col-form-label'
           #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
@@ -50,39 +69,21 @@
             .input-group-append{"data-target": "#purchaseendpicker", "data-toggle": "datetimepicker"}
               .input-group-text
                 = fa_regular 'calendar'
-        .form-group
-          = f.label :workshop_type_id, class: 'col-form-label'
-          - @workshop_types.each do |type|
-            .custom-control.custom-radio
-              = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
-                'data-js-workshop-type': '',
-                'data-workshop-type-single-seat-allow': human_boolean(type.default_single_seat_allow),
-                'data-workshop-type-reservation-allow': human_boolean(type.default_reservation_allow),
-                'data-workshop-type-reservations-end': 8,
-                'data-workshop-type-reservation-cancel-minimum': human_boolean(type.default_reservation_cancel_minimum_not_met),
-                'data-workshop-type-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
-                'data-workshop-type-total-seats': type.default_total_seats,
-                'data-workshop-type-reservation-price': number_to_currency(type.default_reservation_price),
-                'data-workshop-type-reservation-minimum': type.default_reservation_minimum,
-                'data-workshop-type-reservation-maximum': type.default_reservation_maximum
-              %label.custom-control-label{for: "workshop_workshop_type_id_#{type.id}"}= type.name
-  .col-12.col-xl-8.col-lg-6
+  .col-12.col-lg-7
     %ul#workshopTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item
         %a#project-tab.nav-link.active{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
           = fa_solid 'sign'
-          Projects
+          Available Projects
       %li.nav-item
         %a#attendee-tab.nav-link{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#attendee", role: "tab"}
           = fa_solid 'cogs'
-          Options
+          Workshop Options
 
     #workshopTabContent.tab-content
       #attendee.tab-pane.fade.fade{"aria-labelledby": "attendee-tab", role: "tabpanel"}
         .card
-          .card-header
-            %h2.card-header-title Workshop Options
-          %table.table.table-sm.card-table
+          %table.table.card-table
             %thead
               %tr
                 %th Option
@@ -158,8 +159,6 @@
                     = f.text_field :overridden_reservation_price, class: 'form-control', placeholder: 'Default'
       #project.tab-pane.show.active{"aria-labelledby": "project-tab", role: "tabpanel"}
         .card
-          .card-header
-            %h2.card-header-title Available Projects
           .card-body
             = collection_check_boxes(:workshop, :project_ids, Project.order(name: :asc).all, :id, :name) do |b|
               .custom-control.custom-checkbox

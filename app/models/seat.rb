@@ -18,13 +18,17 @@ class Seat < ApplicationRecord
   validates_presence_of :user_id
 
   def name
-    if customer.nil?
-      'Unassigned'
-    elsif gifted_seat?
+    if first_name.present?
       "#{first_name} #{last_name}"
+    elsif customer.nil?
+      'Unassigned'
     else
       customer.full_name
     end
+  end
+
+  def name_initials
+    name.split.map(&:first).join.upcase
   end
 
   def unpaid?

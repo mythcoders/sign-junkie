@@ -2,6 +2,6 @@
 
 class InvoiceMailerPreview < ActionMailer::Preview
   def receipt
-    InvoiceMailer.with(invoice_id: Invoice.find(2).id).receipt
+    InvoiceMailer.with(invoice_id: Invoice.find(3).id).receipt
   end
 end

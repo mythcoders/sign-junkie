@@ -53,30 +53,26 @@
         %h3.card-header-title
           = fa_solid 'money-check'
           Payments
-      %ul.list-group
+      %table.table.card-table
         - @invoice.payments.each do |p|
-          %li.list-group-item
-            .row
-              .col-8.mb-3.mb-md-0
-                %pre= "Method: #{p.method}\nProcessed on: #{l p.created_at, format: :short}\nTransaction ID: #{p.identifier}"
-              .col-4.text-right
-                %span.font-weight-medium
-                  = content_tag :span, number_to_currency(p.amount)
+          %tr
+            %td= p.method.humanize
+            %td= p.identifier
+            %td= l p.created_at, format: :short
+            %td.text-right= content_tag :span, number_to_currency(p.amount)
 
     .card.mt-2
       .card-header
         %h3.card-header-title
           = fa_solid 'gift-card'
           Refunds
-      %ul.list-group
+      %table.table.card-table
         - @invoice.refunds.each do |r|
-          %li.list-group-item
-            .row
-              .col-8.mb-3.mb-md-0
-                - if r.customer_credit.present?
-                  %pre= "Method: customer_credit\nProcessed on: #{l r.created_at, format: :short}"
-                - else
-                  %pre= "Method: credit_card\nProcessed on: #{l r.created_at, format: :short}"
-              .col-4.text-right
-                %span.font-weight-medium
-                  = content_tag :span, number_to_currency(r.amount)
+          %tr
+            %td
+              - if r.customer_credit.present?
+                Customer credit
+              - else
+                Credit card
+            %td= l r.created_at, format: :short
+            %td.text-right= content_tag :span, number_to_currency(r.amount)

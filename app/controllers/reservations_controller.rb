@@ -5,9 +5,11 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[show cancel]
 
   def index
-    @reservations = Reservation.attending_or_hosting(current_user.id)
-                               .order(created_at: :desc)
-                               .page(params[:page])
+    @reservations = Reservation
+                    .includes(seats: [:description])
+                    .attending_or_hosting(current_user.id)
+                    .order(created_at: :desc)
+                    .page(params[:page])
   end
 
   def cancel
@@ -19,6 +21,9 @@ class ReservationsController < ApplicationController
   private
 
   def set_reservation
-    @reservation = Reservation.attending_or_hosting(current_user.id).find params[:id]
+    @reservation = Reservation
+                   .includes(seats: [:customer, { description: :invoice_items }])
+                   .attending_or_hosting(current_user.id)
+                   .find params[:id]
   end
 end

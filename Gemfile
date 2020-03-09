@@ -29,7 +29,7 @@ gem 'peek-sidekiq'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4'
 gem 'redcarpet' # Markdown rendering
 gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'

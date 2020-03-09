@@ -19,10 +19,10 @@
 .btn-white, .btn-light {
   @include button-variant($gray-800-dark, $gray-600-dark);
 
-  &:not(:disabled):not(.disabled):hover, 
-  &:not(:disabled):not(.disabled):focus, 
-  &:not(:disabled):not(.disabled):active, 
-  &:not(:disabled):not(.disabled).active, 
+  &:not(:disabled):not(.disabled):hover,
+  &:not(:disabled):not(.disabled):focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active:focus,
   &:not(:disabled):not(.disabled).active:focus,
   .show > &.dropdown-toggle {
@@ -57,14 +57,4 @@
   border-left-color: $input-bg;
   border-right-color: $input-bg;
   border-bottom-color: $input-bg;
-}
-
-
-// Select2
-
-.select2-container .select2-selection--single,
-.select2-container--default.select2-container--focus .select2-selection--multiple,
-.select2-container--default .select2-selection--multiple,
-.select2-container--default .select2-search--dropdown .select2-search__field {
-  border-color: $input-bg;
 }

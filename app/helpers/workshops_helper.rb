@@ -15,6 +15,12 @@ module WorkshopsHelper
     'SOLD OUT!'
   end
 
+  def workshop_type_name(workshop)
+    return "#{workshop.workshop_type.name} Family Friendly" if workshop.family_friendly?
+
+    workshop.workshop_type.name
+  end
+
   def workshop_policies_path(workshop)
     return private_policies_path if private?(workshop)
 

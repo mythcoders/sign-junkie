@@ -38,8 +38,8 @@ class InvoicesController < ApplicationController
     Raven.capture_exception(e)
     flash[:error] = "Payment Error: #{e.message}"
     redirect_to cart_index_path
-    # rescue StandardError, ProcessError => e
-    #   Raven.capture_exception(e)
+    # rescue ProcessError => e
+    #   Raven.capture_message(e.message, level: 'warning')
     #   flash[:error] = if Rails.env.development?
     #                     "Critical Error: #{e.message}"
     #                   else

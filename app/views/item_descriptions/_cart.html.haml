@@ -24,7 +24,7 @@
         - if item.gifted_seat?
           .font-size-1.mb-1{title: 'Purchased for'}
             = fa_solid 'user', 'text-primary fa-fw'
-            = "#{item.first_name} #{item.last_name}"
+            = item.seat.name
         - if item.seat_preference.present?
           .font-size-1.mb-1{title: 'Seating preference'}
             = fa_solid 'chair', 'text-primary fa-fw'

@@ -1,14 +1,47 @@
 = form_for :cart, url: cart_index_path do |f|
   = f.hidden_field :workshop_id, value: @workshop.id
   = f.hidden_field :type, value: 'seat'
+  = f.hidden_field :guest_type, value: 'adult'
 
   %p.card-text
     = fa_solid 'ticket-alt', 'text-primary fa-fw'
     = "#{@workshop.seats_available} seats available"
   %p.card-text
+    = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+    Seats must be purchased by #{special_date @workshop.purchase_end_date}
+  %p.card-text
     = fa_solid 'usd-circle', 'text-primary fa-fw'
     %span#total-price Select a project to see pricing
     %input{id: 'base-price', value: '0.00', type: 'hidden'}
+
+  .form-row
+    .form-group.col
+      .custom-control.custom-switch
+        = f.check_box :gift_seat, class: 'custom-control-input', 'data-js-gift-seat': ''
+        = f.label :gift_seat, 'This seat is for someone else', class: 'custom-control-label'
+  %div{'data-js-seat-info': '', style: 'display: none;'}
+    - if @workshop.family_friendly?
+      .form-row
+        .form-group.col
+          .custom-control.custom-switch
+            = f.check_box :child, class: 'custom-control-input', 'data-js-change-child': ''
+            = f.label :child, 'This is for a child', class: 'custom-control-label'
+    %h6.card-title
+      = fa_solid 'user', 'text-primary fa-fw'
+      Recipient Information
+    .form-row
+      .form-group.col-6
+        = f.label :first_name
+        = f.text_field :first_name, class: 'form-control', autocomplete: false
+      .form-group.col-6
+        = f.label :last_name
+        = f.text_field :last_name, class: 'form-control', autocomplete: false
+      .form-group.col-12
+        = f.label :email_address
+        = f.text_field :email, class: 'form-control', autocomplete: false
+        %p.form-control-plaintext.text-muted
+          * Email Optional. Provide one if you'd like an invite sent to this person.
+  %hr
   .form-row
     .form-group.col
       = fa_solid 'sign', 'text-primary fa-fw'
@@ -50,27 +83,6 @@
       = fa_solid 'chair', 'text-primary fa-fw'
       = f.label :seating_preference
       = f.text_field :seating, class: 'form-control', autocomplete: false
-
-  - if @guest_purchase
-    .form-row
-      .form-group.col
-        .custom-control.custom-checkbox
-          = f.check_box :gift_seat, class: 'custom-control-input', 'data-js-gift-seat': ''
-          = f.label :gift_seat, 'This reservation is for someone else', class: 'custom-control-label'
-    %div{'data-js-seat-info': '', style: 'display: none;'}
-      %h6.card-title
-        = fa_solid 'user', 'text-primary fa-fw'
-        Recipient Information
-      .form-row
-        .form-group.col-6
-          = f.label :first_name
-          = f.text_field :first_name, class: 'form-control', autocomplete: false
-        .form-group.col-6
-          = f.label :last_name
-          = f.text_field :last_name, class: 'form-control', autocomplete: false
-        .form-group.col-12
-          = f.label :email_address
-          = f.text_field :email, class: 'form-control', autocomplete: false
   %hr
   .form-row
     .form-group.col

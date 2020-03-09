@@ -99,7 +99,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def gifted_seat?
-    seat? && email.present?
+    seat? && gifted?
   end
 
   def reservation_seat?

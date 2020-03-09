@@ -1,0 +1,14 @@
+#clonemodal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#exampleModalLabel.modal-title Clone Workshop
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body Are you sure?
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Cancel
+        = form_for @workshop, url: clone_admin_workshop_path, method: :post do |f|
+          = f.hidden_field :id
+          = button_tag(type: 'submit', class: 'btn btn-primary') do
+            Yes, clone

@@ -25,7 +25,12 @@ unless WorkshopType.any?
                        default_reservation_cancel_minimum_not_met: true,
                        default_reservation_allow_guest_cancel_seat: true,
                        default_total_seats: 18,
-                       default_reservation_price: BigDecimal('100.00'),
+                       default_reservation_price: BigDecimal('50.00'),
                        default_reservation_minimum: 12,
                        default_reservation_maximum: 18)
+end
+
+unless TaxPeriod.any?
+  TaxPeriod.create!(start_date: '2019-07-01 00:00:00', due_date: '2020-01-14 00:00:00', amount_paid: 0.00)
+  TaxPeriod.create!(start_date: '2020-01-01 00:00:00', due_date: '2020-07-14 00:00:00', amount_paid: 0.00)
 end

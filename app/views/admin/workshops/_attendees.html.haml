@@ -2,8 +2,7 @@
   .card-header
     %h3.card-header-title Reservations
   - if workshop.reservations.empty?
-    .card-body
-      .text-muted No reservations have been purchased.
+    .card-body No reservations have been purchased.
   - else
     = render partial: 'admin/reservations/list', locals: { reservations: workshop.reservations }
 

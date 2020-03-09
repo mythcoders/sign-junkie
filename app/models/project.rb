@@ -16,6 +16,8 @@ class Project < ApplicationRecord
 
   default_scope { order(name: :asc) }
 
+  attr_accessor :restrict_adult
+
   def total_price
     material_price + instructional_price
   end

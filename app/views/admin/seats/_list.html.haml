@@ -5,7 +5,7 @@
       .row.align-items-center
         .col-auto
           %a.avatar.avatar-lg{:href => admin_customer_path(seat.customer)}
-            %span.avatar-title.rounded-circle= seat.customer.initials
+            %span.avatar-title.rounded-circle= seat.name_initials
         .col.ml-n2
           %h4.card-title.mb-1= link_to seat.name, admin_customer_path(seat.user_id)
           %p.card-text.small.text-muted.mb-1
@@ -19,6 +19,10 @@
             .font-size-1.mb-1{title: 'Cancel Date'}
               %span.text-danger ●
               Canceled
+          - if seat.gifted_seat?
+            .font-size-1.mb-1{title: 'Purchased for'}
+              = fa_solid 'shopping-bag', 'fa-fw'
+              = link_to seat.customer.full_name, admin_customer_path(seat.user_id)
           - if seat.seat_preference.present?
             .font-size-1.mb-1{title: 'Seating preference'}
               = fa_duo 'chair', 'fa-fw'
@@ -39,17 +43,17 @@
             .font-size-1.mb-1{title: 'Add-on'}
               = fa_duo 'stamp', 'fa-fw'
               = seat.addon_name
-        .col-auto
+        .col-auto.mt-2
           .btn-group
             - if seat.active? && !seat.selection_made?
               = form_for :seat, url: remind_admin_seat_path(seat) do |f|
                 = f.hidden_field :id, value: seat.id
                 %button.btn.btn-sm.btn-secondary{type: 'submit'}
                   = fa_duo 'bell-exclamation', 'fa-fw'
-                  Send reminder
+                  Remind
             %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-              = fa_duo 'cogs'
-              Options
+              = fa_duo 'ellipsis-h-alt'
+              Actions
             .dropdown-menu.dropdown-menu-right
               - if seat.cancelable?
                 %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
@@ -63,5 +67,4 @@
                   = fa_duo 'file-invoice'
                   View Invoice
 - else
-  .card-body
-    .text-muted No seats found.
+  .card-body No seats have been purchased.

@@ -17,7 +17,7 @@ RSpec.describe 'StencilsController', type: :request do
     end
 
     it 'assigns @categories' do
-      categories = StencilCategory.with_stencils
+      categories = StencilCategory.includes(stencils: [{ image_attachment: :blob }])
       get '/stencils'
       expect(assigns(:categories)).to eq(categories)
     end

@@ -8,6 +8,7 @@ class Payment < ApplicationRecord
   validates_presence_of :amount
   validate :auth_token_presence, on: :create
   scope :credit_cards, -> { where(method: 'credit_card') }
+  scope :refundable_payments, -> { where.not(method: 'gift_card') }
 
   # TODO: : AP-242 make sure we don't refund more than paid
   def amount_refundable
@@ -24,6 +25,10 @@ class Payment < ApplicationRecord
 
   def credit_card?
     method == 'credit_card'
+  end
+
+  def refundable?
+    credit_card? || paypal?
   end
 
   private

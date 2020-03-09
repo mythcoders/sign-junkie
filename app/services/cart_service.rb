@@ -35,9 +35,9 @@ class CartService < ApplicationService
 
     reservation.unpaid_seats.each do |seat|
       new_from_seat(user, seat).save
+    rescue StandardError => e
+      Raven.capture_exception e
     end
-
-    true
   end
 
   def remove(user, cart_params)
@@ -59,15 +59,9 @@ class CartService < ApplicationService
     if cart_params[:type] == 'reservation'
       raise ProcessError, 'Workshop is not available for purchase' unless workshop.reservation_purchaseable?
 
-      agreements = %i[booking_agreement reservation_agreement]
-      raise ProcessError, 'Please select all reservation confirmations' unless agreements_checked(cart_params, agreements)
-
       new_reservation user, workshop, cart_params
     else
       raise ProcessError, 'Workshop is not available for purchase' unless workshop.seat_purchaseable?
-
-      agreements = %i[design_confirmation policy_agreement acknowledgment]
-      raise ProcessError, 'Please select all confirmations' unless agreements_checked(cart_params, agreements)
       raise ProcessError, 'No project selected' unless cart_params[:project_id].present?
 
       new_seat user, workshop, cart_params
@@ -84,6 +78,8 @@ class CartService < ApplicationService
                     nontaxable_amount: project.instructional_price)
 
     cart.seat_preference = params[:seating] if params[:seating].present?
+    cart.email = params[:email] if params[:email].present?
+    cart.for_child = true if params[:guest_type] == 'child'
 
     if params[:stencil_id].present?
       stencil = project.stencils.where(id: params[:stencil_id]).first!
@@ -101,8 +97,8 @@ class CartService < ApplicationService
       cart.taxable_amount += addon.price
     end
 
-    if params[:email].present?
-      cart.email = params[:email]
+    if params[:first_name].present?
+      cart.gifted = true # should we consider this a gifted seat? The UI expects the `seat` to already be populated
       cart.first_name = params[:first_name]
       cart.last_name = params[:last_name]
     end
@@ -128,9 +124,5 @@ class CartService < ApplicationService
   def new_from_seat(user, seat)
     Cart.new(user: user,
              item_description_id: seat.item_description_id)
-  end
-
-  def agreements_checked(values, agreements)
-    agreements.all? { |key| values[key] == '1' }
   end
 end

@@ -47,7 +47,7 @@ module Admin
     def clone
       project = Project.find(project_params[:id])
       clone = project.deep_clone include: %i[project_addons project_stencils]
-      clone.name += ' Clone'
+      clone.name += ' copy'
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_project_path(clone)

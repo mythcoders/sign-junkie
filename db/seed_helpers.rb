@@ -2,11 +2,22 @@
 
 require 'open-uri'
 
-def fetch_new_image
-  puts 'Fetching image...'
-  open(Faker::Avatar.image)
+def random_image
+  puts 'Fetching backup image'
+  open("https://robohash.org/#{Faker::Lorem.characters(12)}.png?set=set4")
 rescue
-  open("https://robohash.org/#{Faker::Lorem.characters(10)}.png?size=300x300&set=set4")
+  puts 'Fatal error!'
+end
+
+def fetch_new_image
+  puts 'Fetching image'
+  open(Faker::Avatar.image)
+rescue OpenURI::HTTPError
+  puts 'HTTP error fetching image'
+  random_image
+rescue
+  puts 'Generic error fetching image'
+  random_image
 end
 
 def new_image

@@ -11,7 +11,9 @@
             %img.avatar-img.rounded{:alt => 'Placed holder image', :src => "/cover.jpg"}
       .col.ml-n3.ml-md-n2
         %h6.header-pretitle Workshops
-        %h1.header-title= @workshop.name
+        %h1.header-title
+          = @workshop.name
+        %h3.text-secondary= @workshop.when
       .col-12.col-md-auto.mt-3.mt-md-0
         = render partial: 'admin/workshops/header'
 
@@ -24,12 +26,16 @@
             %h2.card-header-title
               Overview
           .col-auto
-            %span.badge.badge-primary= @workshop.workshop_type.name
-          .col-auto= render partial: 'statuses/workshop', locals: { workshop: @workshop }
+            %span.badge.badge-primary= workshop_type_name @workshop
       .card-body
         - if @workshop.description.present?
-          .form-group
+          .form-group.mb-1
             .form-control-plaintext= @workshop.description
+        .form-group
+          %label.col-form-label Booking availability
+          .row.align-items-center.no-gutters
+            .col-auto
+              = render partial: 'statuses/workshop', locals: { workshop: @workshop }
         .form-group
           %label.col-form-label Seating availability
           .row.align-items-center.no-gutters
@@ -38,86 +44,85 @@
             .col
               .progress.progress-sm.ml-2
                 = render partial: 'admin/workshops/availability_bar', locals: { value: @workshop.seating_availability }
-        %hr
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3 Scheduled
-          .media-body.text-right
-            %span.font-weight-medium
-              .span= @workshop.when
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3 Purchase start
-          .media-body.text-right
-            %span.font-weight-medium
-              .span= special_date @workshop.purchase_start_date
-        - if @workshop.single_seats_allowed?
+        %a.btn.btn-info.btn-sm{"aria-controls" => "workshop-info-collapse", "aria-expanded" => "false",
+                               "data-toggle" => "collapse", :href => "#workshop-info-collapse", :role => "button"}
+          Show/hide booking details
+        .collapse#workshop-info-collapse
+          %hr
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3 Individual seat deadline
+            .font-size-1.font-weight-normal.mb-0.mr-3 Purchase start
             .media-body.text-right
               %span.font-weight-medium
-                .span= special_date @workshop.purchase_end_date
-        - if @workshop.reservations_allowed?
+                .span= special_date @workshop.purchase_start_date
+          - if @workshop.single_seats_allowed?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3 Individual seat deadline
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= special_date @workshop.purchase_end_date
+          - if @workshop.reservations_allowed?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3 Booking deadline
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= special_date @workshop.booking_deadline
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3 Registration deadline
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= special_date @workshop.registration_deadline
+          %hr
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3 Booking deadline
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_single_seat_allow)
             .media-body.text-right
               %span.font-weight-medium
-                .span= special_date @workshop.booking_deadline
+                .span= human_boolean @workshop.single_seats_allowed?
           .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3 Registration deadline
+            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow)
             .media-body.text-right
               %span.font-weight-medium
-                .span= special_date @workshop.registration_deadline
-        %hr
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_single_seat_allow)
-          .media-body.text-right
-            %span.font-weight-medium
-              .span= human_boolean @workshop.single_seats_allowed?
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow)
-          .media-body.text-right
-            %span.font-weight-medium
-              .span= human_boolean @workshop.reservations_allowed?
-        - if @workshop.reservations_allowed?
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_multiple)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= human_boolean @workshop.multiple_reservations_allowed?
-          -# .media.align-items-center.mb-4
-          -#   .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :void_reservation_minimum_not_met)
-          -#   .media-body.text-right
-          -#     %span.font-weight-medium
-          -#       .span= human_boolean @workshop.reservations_void_minimum_not_met?
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_guest_cancel_seat)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= human_boolean @workshop.reservation_allow_guest_cancel_seat?
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_cancel_minimum_not_met)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= human_boolean @workshop.reservations_void_minimum_not_met?
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_minimum)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= @workshop.reservation_minimum_seats
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_maximum)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= @workshop.reservation_maximum_seats
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_price)
-            .media-body.text-right
-              %span.font-weight-medium
-                .span= number_to_currency @workshop.reservation_price
+                .span= human_boolean @workshop.reservations_allowed?
+          - if @workshop.reservations_allowed?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_multiple)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= human_boolean @workshop.multiple_reservations_allowed?
+            -# .media.align-items-center.mb-4
+            -#   .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :void_reservation_minimum_not_met)
+            -#   .media-body.text-right
+            -#     %span.font-weight-medium
+            -#       .span= human_boolean @workshop.reservations_void_minimum_not_met?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_allow_guest_cancel_seat)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= human_boolean @workshop.reservation_allow_guest_cancel_seat?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_cancel_minimum_not_met)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= human_boolean @workshop.reservations_void_minimum_not_met?
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_minimum)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= @workshop.reservation_minimum_seats
+            .media.align-items-center.mb-4
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_maximum)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= @workshop.reservation_maximum_seats
+            .media.align-items-center
+              .font-size-1.font-weight-normal.mb-0.mr-3= label(:workshop_type, :default_reservation_price)
+              .media-body.text-right
+                %span.font-weight-medium
+                  .span= number_to_currency @workshop.reservation_price
   .col-12.col-lg-8
     %ul#workshopTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item
         %a#attendee-tab.nav-link.active{"aria-controls": "attendee", "aria-selected": "true", "data-toggle": "tab", href: "#attendee", role: "tab"}
-          = fa_solid 'chair'
+          = fa_solid 'users'
           Attendees
       %li.nav-item
         %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
@@ -127,11 +132,23 @@
         %a#image-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#image", role: "tab"}
           = fa_solid 'images'
           Images
+      %li.nav-item
+        %a#history-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#history", role: "tab"}
+          = fa_solid 'history'
+          History
 
     #workshopTabContent.tab-content
       #attendee.tab-pane.fade.show.active{"aria-labelledby": "attendee-tab", role: "tabpanel"}
         = render partial: 'attendees', locals: { workshop: @workshop }
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
-        = render partial: 'admin/projects/list', locals: { projects: @workshop.projects }
+        - if @workshop.projects.any?
+          = render partial: 'admin/projects/list', locals: { projects: @workshop.projects }
+        - else
+          .card
+            .card-body
+              %strong.text-danger You haven't added any projects to this workshop
+              .card-text Customers will be unable to purchase seats to this workshop until you've added a project.
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
-        = render partial: 'admin/images/list', locals: { images: @workshop.workshop_images }
+        = render partial: 'admin/images/list', locals: { images: @workshop.workshop_images.order(:created_at) }
+      #history.tab-pane.fade{"aria-labelledby": "history-tab", role: "tabpanel"}
+        = render partial: 'admin/versions/activity', locals: { versions: @workshop.versions }

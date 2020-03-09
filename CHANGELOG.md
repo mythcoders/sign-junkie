@@ -1,3 +1,23 @@
+#### 2003 - March 9, 2020
+
+- Improvements
+  - Family friendly workshops allow seats to assigned to a children by a Workshop Host
+  - Customers can purchase seats for another customer without providing that customers email address  
+  - The deposit amount is no longer listed under Hostess Guidelines for Private Workshops
+- Admin Portal Improvements
+  - When a project or workshop is cloned, the word "copy" is added to the name of the newly created record to clearly
+    identify the two.
+  - Workshop Guest List report
+  - Improved display of Payments and Refunds on an Invoice
+  - Improved layout of Workshop detail screen for easier display of workshop and attendee information. Also improved
+    layout on smaller screen devices.
+  - When viewing a stencil, you can now see which projects are currently associated with it  
+- Fixes
+  - An issue that prevented voiding payments they were successful but they invoice failed to process successfully
+- Technical features and improvements    
+  - Increased efficiency by reducing the number of database calls that are made
+  - Security and other updates  
+
 #### 2001 - January 19, 2020
 
 - Improvements

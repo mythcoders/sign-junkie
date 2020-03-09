@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_090735) do
+ActiveRecord::Schema.define(version: 2020_02_29_125731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "item_description_id", null: false
+    t.index ["item_description_id"], name: "index_carts_on_item_description_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "updated_at", null: false
     t.integer "item_description_id", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+    t.index ["item_description_id"], name: "index_invoice_items_on_item_description_id"
   end
 
   create_table "invoices", id: :serial, force: :cascade do |t|
@@ -133,6 +135,8 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "updated_at", null: false
     t.string "payment_plan"
     t.datetime "refund_date"
+    t.boolean "for_child", default: false
+    t.boolean "gifted", default: false
   end
 
   create_table "notifiications", id: :serial, force: :cascade do |t|
@@ -163,7 +167,6 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "updated_at", null: false
     t.index ["addon_id"], name: "index_project_addons_on_addon_id"
     t.index ["project_id", "addon_id"], name: "index_project_addons_on_project_id_and_addon_id", unique: true
-    t.index ["project_id"], name: "index_project_addons_on_project_id"
   end
 
   create_table "project_stencils", id: :serial, force: :cascade do |t|
@@ -173,7 +176,6 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_stencils_on_project_id"
     t.index ["stencil_id", "project_id"], name: "index_project_stencils_on_stencil_id_and_project_id", unique: true
-    t.index ["stencil_id"], name: "index_project_stencils_on_stencil_id"
   end
 
   create_table "projects", id: :serial, force: :cascade do |t|
@@ -230,7 +232,6 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.index ["reservation_id"], name: "index_seats_on_reservation_id"
     t.index ["user_id"], name: "index_seats_on_user_id"
     t.index ["workshop_id", "user_id", "item_description_id"], name: "index_seats_on_workshop_id_and_user_id_and_item_description_id", unique: true
-    t.index ["workshop_id"], name: "index_seats_on_workshop_id"
   end
 
   create_table "stencil_categories", id: :serial, force: :cascade do |t|
@@ -326,7 +327,6 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_workshop_projects_on_project_id"
     t.index ["workshop_id", "project_id"], name: "index_workshop_projects_on_workshop_id_and_project_id", unique: true
-    t.index ["workshop_id"], name: "index_workshop_projects_on_workshop_id"
   end
 
   create_table "workshop_types", force: :cascade do |t|
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_090735) do
     t.boolean "overridden_single_seat_allow"
     t.boolean "overridden_reservation_cancel_minimum_not_met"
     t.boolean "overridden_reservation_allow_guest_cancel_seat"
+    t.boolean "family_friendly", default: false
   end
 
   add_foreign_key "carts", "item_descriptions"

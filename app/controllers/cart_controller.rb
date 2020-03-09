@@ -45,8 +45,8 @@ class CartController < ApplicationController
   def cart_params
     params.require(:cart)
           .permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
-                  :design_confirmation, :policy_agreement, :first_name, :last_name, :email, :amount, :acknowledgment,
-                  :gift_seat, :payment_plan, :reservation_agreement, :booking_agreement, :seat_id, :reservation_id)
+                  :first_name, :last_name, :email, :amount, :gift_seat, :payment_plan, :seat_id, :reservation_id,
+                  :guest_type)
   end
 
   def calc_est_tax

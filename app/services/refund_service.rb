@@ -10,10 +10,10 @@ class RefundService < ApplicationService
     refund = Refund.new(invoice: item.invoice, amount: item.amount_refundable)
 
     success = if item.reservation? # && paid_with_card?
-                Rails.logger.debug 'Issuing card refund'
+                Rails.logger.debug 'Issuing refund via BrainTree'
                 issue_card_refund(item, refund)
               else
-                Rails.logger.debug 'Issuing credit refund'
+                Rails.logger.debug 'Issuing refund as credit'
                 issue_credit_refund(item, refund)
               end
 
@@ -30,23 +30,25 @@ class RefundService < ApplicationService
   private
 
   def issue_card_refund(_item, refund)
-    remaining = refund.amount
-    refund.invoice.payments.credit_cards.order(:amount).each do |payment|
-      refundable = payment.amount_refundable
-      if refundable >= remaining
-        return false unless BraintreeService.new.post_refund(payment, remaining)
+    amount_remaining = refund.amount
+    refund.invoice.payments.order(:amount).each do |payment|
+      next unless payment.refundable?
 
-        payment.amount_refunded += remaining
-        remaining -= remaining
+      amount_refundable = payment.amount_refundable
+      if amount_refundable >= amount_remaining
+        return false unless BraintreeService.new.post_refund(payment, amount_remaining)
+
+        payment.amount_refunded += amount_remaining
+        amount_remaining -= amount_remaining
       else
-        return false unless BraintreeService.new.post_refund(payment, refundable)
+        return false unless BraintreeService.new.post_refund(payment, amount_refundable)
 
-        payment.amount_refunded += refundable
-        remaining -= refundable
+        payment.amount_refunded += amount_refundable
+        amount_remaining -= amount_refundable
       end
 
       payment.save!
-      break if remaining.zero?
+      break if amount_remaining.zero?
     end
 
     refund.save!

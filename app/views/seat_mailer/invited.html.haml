@@ -3,14 +3,18 @@
 %h5.mb-2 Hello #{@seat.customer.full_name}!
 
 %p.mb-2
-  #{@seat.reservation.host.full_name} has invited you to the #{@seat.reservation.workshop.name} workshop on
-  #{@seat.reservation.workshop.when}!
+  - if @seat.gifted_seat?
+    #{@seat.reservation.host.full_name} has invited #{@seat.name} to the #{@seat.reservation.workshop.name} workshop on
+    #{@seat.reservation.workshop.when}!
+  - else
+    #{@seat.reservation.host.full_name} has invited you to the #{@seat.reservation.workshop.name} workshop on
+    #{@seat.reservation.workshop.when}!
 
 %p.mb-2
   - if @seat.reservation.paid_by_host?
-    = "You must make your selection by #{special_date @seat.reservation.workshop.registration_deadline}."
+    You must select a project by #{special_date @seat.reservation.workshop.registration_deadline}.
   - else
-    = "You must make your selection and pay by #{special_date @seat.reservation.workshop.registration_deadline}."
+    You must select a project and pay by #{special_date @seat.reservation.workshop.registration_deadline}
 
 .text-center
   %a.btn.btn-primary.btn-block.mt-2{href: seat_url(@seat)} Pick your project and stencil today!
