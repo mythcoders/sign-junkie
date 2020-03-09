@@ -1,14 +1,14 @@
 - if @reservation.may_add_seat?(current_user)
   %a.btn.btn-primary.btn-block.mb-2{href: new_reservation_seat_path(@reservation)}
-    = fa_solid 'plus'
-    Add another seat
+    = fa_solid 'user-plus'
+    Invite another guest
 
 - if @reservation.unpaid_balance? && @reservation.host?(current_user)
   = form_for :cart, url: cart_index_path do |f|
     = f.hidden_field :reservation_id, value: @reservation.id
     %button.btn.btn-info.btn-block.mb-2{type: 'submit'}
       = fa_solid 'dollar-sign'
-      Add unpaid seats to cart
+      Add unpaid projects to cart
 
 - if @reservation.cancelable?
   = render partial: 'cancel', locals: {reservation: @reservation}

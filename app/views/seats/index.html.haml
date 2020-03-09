@@ -7,6 +7,14 @@
         = fa_solid 'chair'
         My Seats
       %ul.list-group
+        - if @seats.empty?
+          %li.list-group-item
+            %h5.card-title It looks like you don't have any seats yet.
+
+            %a.btn.btn-info.btn-block(href=workshops_public_path)
+              View PUBLIC Workshop dates
+            %a.btn.btn-info.btn-block(href=workshops_private_path)
+              View PRIVATE Workshop dates
         - @seats.each do |r|
           %a.list-group-item.list-group-item-action{href: seat_path(r)}
             = render partial: 'item_descriptions/show', locals: {item: r}

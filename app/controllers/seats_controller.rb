@@ -12,7 +12,7 @@ class SeatsController < ApplicationController
   end
 
   def create
-    if SeatService.new.add(guest_params.merge(reservation: @reservation))
+    if SeatService.new.add(guest_params.merge(reservation: @reservation), current_user)
       flash[:success] = t('create.success')
       redirect_to reservation_path(@reservation)
     else
@@ -48,12 +48,12 @@ class SeatsController < ApplicationController
   private
 
   def seat_params
-    params.require(:cart).permit(:id, :project_id, :addon_id, :stencil_id, :stencil, :seating,
-                                 :design_confirmation, :policy_agreement, :acknowledgment)
+    params.require(:cart).permit(:id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :first_name, :last_name,
+                                 :email, :guest_type)
   end
 
   def guest_params
-    params.require(:seat).permit(:first_name, :last_name, :email)
+    params.require(:seat).permit(:first_name, :last_name, :email, :guest_type, :child_first_name, :child_last_name)
   end
 
   def add_to_cart
@@ -61,7 +61,9 @@ class SeatsController < ApplicationController
   end
 
   def set_seat
-    @seat = Seat.find params[:id]
+    @seat = Seat
+            .includes({ reservation: %i[description seats] }, :description)
+            .find params[:id]
   end
 
   def set_reservation

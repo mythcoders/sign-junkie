@@ -21,8 +21,7 @@
 
   .col-12.col-md-6.mb-2.order-1.order-md-2
     .card
-      %h3.card-header.bg-primary.text-white
-        = "#{@seat.name} seat for #{@seat.workshop.name}"
+      %h3.card-header.bg-primary.text-white #{@seat.name} seat for #{@seat.workshop.name}
       .card-body
         %p.card-text
           = fa_solid 'toolbox', 'text-primary fa-fw'
@@ -86,7 +85,7 @@
             .form-group.col
               = fa_solid 'chair', 'text-primary fa-fw'
               = f.label :seating_preference
-              = f.text_field :seating, class: 'form-control', autocomplete: false, value: @seat.seat_preference
+              = f.text_field :seating, class: 'form-control', autocomplete: false, value: @seat.seat_preference          
           %hr
           .form-row
             .form-group.col

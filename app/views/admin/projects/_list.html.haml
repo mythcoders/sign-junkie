@@ -1,8 +1,6 @@
 .card
   - unless projects.any?
-    .card-body
-      %strong.text-danger You haven't added any projects to this workshop
-      .card-text Customers will be unable to purchase seats to this workshop until you've added a project.
+    .card-body No projects were found.
   - else
     .table-responsive.mb-0
       %table.table.table-sm.table-nowrap.card-table.table-hover

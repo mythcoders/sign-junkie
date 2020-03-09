@@ -25,18 +25,17 @@ module EnvironmentInfo
 
     def instance
       [
-        [nil, nil],
-        ["#{SystemInfo.app_name} version", SystemInfo.long_version],
+        ["#{SystemInfo.app_name} commit", SystemInfo.long_version],
         ["#{SystemInfo.app_name} modules", SystemInfo.modules],
         ['Environment', Rails.env],
         ['Branch', SystemInfo.branch],
         [nil, nil],
         ['Platform', RUBY_PLATFORM.to_s],
-        ['Database adapter', ActiveRecord::Base.connection.adapter_name],
-        ['Bundler version', Bundler::VERSION],
-        ['Rails version', Rails::VERSION::STRING],
-        ['Ruby version', "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
-      ].map { |info| '%-26s %s' % info }.join("\n") + "\n"
+        ['Database', ActiveRecord::Base.connection.adapter_name],
+        ['Bundler', "v#{Bundler::VERSION}"],
+        ['Rails', "v#{Rails::VERSION::STRING}"],
+        ['Ruby', "v#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
+      ].map { |info| '%-17s %s' % info }.join("\n") + "\n"
     end
   end
 end

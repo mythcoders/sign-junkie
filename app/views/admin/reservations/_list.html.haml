@@ -4,16 +4,17 @@
   .card-body
     .row.align-items-center
       .col.ml-n2
-        %h3.card-title.mb-1
-          = "Reservation ##{res.confirmation_number}"
-          %small.text-muted.mb-1= "Hosted by #{res.host.full_name}"
-        = render partial: 'statuses/reservation', locals: { reservation: res }
-        %p.mb-1= "Payment Plan: #{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
+        %h2.card-title.mb-1
+          %a{href: admin_customer_path(res.host)}= res.host.full_name
+        %p.mb-1
+          Confirmation ##{res.confirmation_number}.
+          #{res.payment_plan.capitalize} must pay by #{lifp res.payment_deadline}
+          %br= render partial: 'statuses/reservation', locals: { reservation: res }
       .col-auto
         .btn-group
           %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-            = fa_duo 'cogs'
-            Options
+            = fa_duo 'ellipsis-h-alt'
+            Actions
           .dropdown-menu.dropdown-menu-right
             - if res.cancelable?
               %a.dropdown-item{"data-target": "#cancel-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}

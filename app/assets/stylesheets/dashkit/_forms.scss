@@ -71,9 +71,9 @@
 
     &:focus {
       box-shadow: none;
-      
+
       ~ [class*="input-group"] {
-        
+
         > .input-group-text {
           border-color: $input-focus-border-color;
         }

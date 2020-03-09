@@ -48,7 +48,7 @@ class InvoiceService < ApplicationService
                                starting_amount: payment.amount,
                                balance: payment.amount)
       else
-        BraintreeService.new.post_refund(payment, payment.amount)
+        BraintreeService.new.void! payment
       end
     end
   end

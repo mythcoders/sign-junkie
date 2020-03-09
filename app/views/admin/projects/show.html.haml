@@ -49,4 +49,4 @@
       #stencil.tab-pane.show.active{"aria-labelledby": "stencil-tab", role: "tabpanel"}
         = render partial: 'admin/stencils/list', locals: { stencils: @project.stencils, allow_no_stencil: @project.allow_no_stencil }
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
-        = render partial: 'admin/images/list', locals: { images: @project.project_images }
+        = render partial: 'admin/images/list', locals: { images: @project.project_images.order(:created_at) }

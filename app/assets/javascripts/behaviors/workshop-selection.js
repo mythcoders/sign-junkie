@@ -19,7 +19,6 @@ $.onmount("[data-js-gift-seat]", function () {
         }
         $("#cart_first_name").attr("required", event.target.checked);
         $("#cart_last_name").attr("required", event.target.checked);
-        $("#cart_email").attr("required", event.target.checked);
     })
 });
 
@@ -39,6 +38,16 @@ $.onmount("[data-js-change-stencil]", function () {
         $("[data-js-custom-stencil-input]").removeAttr("disabled");
       } else {
         disable_stencil_personilization();
+      }
+    })
+});
+
+$.onmount("[data-js-change-child]", function () {
+    $(this).on("change", function (event) {
+      if (event.target.checked) {
+        document.getElementById('cart_guest_type').value = 'child';
+      } else {
+        document.getElementById('cart_guest_type').value = 'adult';
       }
     })
 });

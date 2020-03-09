@@ -12,4 +12,4 @@
       .col-auto
         = link_to 'New Image', new_admin_gallery_image_path, class: 'btn btn-primary lift'
 
-= render partial: 'admin/images/list', locals: { images: @images }
+= render partial: 'admin/images/list', locals: { images: @images.order(:created_at) }

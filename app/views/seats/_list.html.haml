@@ -2,7 +2,7 @@
   - seats.each do |seat|
     %li.list-group-item
       .row
-        .col-7
+        .col
           .media
             .media-body
               %h5.card-title= seat.name
@@ -11,9 +11,9 @@
                   = fa_solid 'envelope-open-text', 'text-primary fa-fw'
                   = "Invited on #{lifp seat.customer.invitation_sent_at}"
               - if seat.gifted_seat?
-                .font-size-1.mb-1{title: 'Purchased for'}
+                .font-size-1.mb-1{title: 'Purchased by'}
                   = fa_solid 'user', 'text-primary fa-fw'
-                  = "#{seat.first_name} #{seat.last_name}"
+                  = seat.customer.full_name
               - if seat.seat_preference.present?
                 .font-size-1.mb-1{title: 'Seating preference'}
                   = fa_solid 'chair', 'text-primary fa-fw'
@@ -34,19 +34,8 @@
                 .font-size-1.mb-1{title: 'Add-on'}
                   = fa_solid 'stamp', 'text-primary fa-fw'
                   = seat.addon_name
-        .col-5.text-right
-          - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
-            = render partial: 'seats/actions', locals: { seat: seat }
-        .col-12
-          - if seat.selection_made? && seat.editable?(current_user)
-            %a.btn.btn-info.btn-sm.mb-2{href: edit_reservation_seat_path(seat.reservation, seat)} Update your project or stencil
-          - elsif seat.editable?(current_user)
-            %a.btn.btn-info.btn-sm.mb-2{href: edit_reservation_seat_path(seat.reservation, seat)} Select your project and stencil
-          - if seat.unpaid?
-            = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
-              = f.hidden_field :seat_id, value: seat.id
-              %button.btn.btn-primary.btn-sm{type: 'submit'}
-                Add project to cart
+        - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
+          .col.text-right= render partial: 'seats/actions', locals: { seat: seat }
 - else
   %li.list-group-item
     No seats have been added yet.

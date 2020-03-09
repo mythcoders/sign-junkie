@@ -1,28 +1,32 @@
 = render partial: 'destory_confirmation'
+= render partial: 'clone'
 
 .row
   .col-12
     .btn-toolbar
       .btn-group.mr-2
         %a.btn.btn-outline-secondary{href: admin_workshops_path}
-          = fa_regular 'arrow-left'
+          = fa_solid 'arrow-left'
           Back to Search
-        .btn-group
-          %button.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-            = fa_regular 'plus'
-            New
-          .dropdown-menu
-            %a.dropdown-item{href: new_image_admin_workshop_path(@workshop)} Image
-      .btn-group
         %a.btn.btn-primary{href: edit_admin_workshop_path(@workshop)} Edit
-        - if @workshop.deleteable?
-          %a.btn.btn-danger{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
-            Delete
+
       .btn-group.ml-2
-        %a.btn.btn-secondary{href: workshop_path(@workshop), target: '_blank'} Public View
-      .btn-group.ml-2
-        = form_for @workshop, url: clone_admin_workshop_path, method: :post do |f|
-          = f.hidden_field :id
-          = button_tag(type: 'submit', class: 'btn btn-info') do
-            Clone
-%br
+        %a.btn.btn-info{href: workshop_path(@workshop), target: '_blank'} Public View
+        .btn-group
+          %button.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            = fa_solid 'ellipsis-h-alt'
+            Actions
+          .dropdown-menu.dropdown-menu-right
+            %a.dropdown-item{href: new_image_admin_workshop_path(@workshop)}
+              = fa_duo 'file-image'
+              Add Image
+            %a.dropdown-item{href: admin_guest_list_report_path(workshop_id: @workshop.id)}
+              = fa_duo 'file-image'
+              Attendee List
+            %a.dropdown-item{"data-target": "#clonemodal", "data-toggle": "modal", href: "#"}
+              = fa_duo 'copy'
+              Clone Workshop
+            - if @workshop.deleteable?
+              %a.dropdown-item{"data-target": "#destroymodal", "data-toggle": "modal", href: "#"}
+                = fa_duo 'trash'
+                Delete Workshop

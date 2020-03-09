@@ -6,6 +6,9 @@
     = fa_solid 'ticket-alt', 'text-primary fa-fw'
     = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
   %p.card-text
+    = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+    Reservation must be booked by #{special_date @workshop.booking_deadline}
+  %p.card-text
     = fa_solid 'usd-circle', 'text-primary fa-fw'
     %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
     %input{id: 'base-price', value: '0.00', type: 'hidden'}
@@ -14,11 +17,11 @@
       = fa_solid 'file-invoice', 'text-primary fa-fw'
       = f.label :payment_options
       .custom-control.custom-radio
-        = f.radio_button :payment_plan, 'guest', class: 'custom-control-input'
+        = f.radio_button :payment_plan, 'guest', class: 'custom-control-input', required: 'required'
         = f.label :payment_plan, value: 'guest', class: 'custom-control-label' do
           Each guest is responsible for paying for their own project
       .custom-control.custom-radio
-        = f.radio_button :payment_plan, 'host', class: 'custom-control-input'
+        = f.radio_button :payment_plan, 'host', class: 'custom-control-input', required: 'required'
         = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
           Host will pay for all guests and the projects they select
   .form-row

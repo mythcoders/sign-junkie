@@ -8,11 +8,12 @@
 //
 
 .modal-dialog {
-  
+
   // When fading in the modal, animate it to slide down
   .modal.fade & {
     transform: translate(0, -150px);
   }
+
   .modal.show & {
     transform: translate(0, 0);
   }
@@ -89,4 +90,12 @@
     max-height: $modal-card-body-max-height;
     overflow-y: auto;
   }
+}
+
+
+// Modal tabs
+
+.modal-header-tabs {
+  margin-top: -$modal-header-padding-y;
+  margin-bottom: calc(-#{$modal-header-padding-y} - #{$border-width});
 }

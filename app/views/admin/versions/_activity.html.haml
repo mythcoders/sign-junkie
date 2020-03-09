@@ -1,0 +1,18 @@
+.list-group.list-group-flush.list-group-activity.my-n3
+  - versions.each do |version|
+    .list-group-item
+      .row
+        .col-auto
+          .avatar.avatar-sm
+            .avatar-title.font-size-lg.bg-primary-soft.rounded-circle.text-primary
+              = fa_solid versions_activity_icon(version.event)
+        .col.ml-n2
+          %h5.text-uppercase.mb-1= version.event
+          %p.small.text-muted.mb-1{title: lifp(version.created_at)}
+            #{time_ago_in_words version.created_at} ago by #{whodunnit(version)}
+          %a{"aria-controls" => "collapseDiff-#{version.id}", "aria-expanded" => "false", "data-toggle" => "collapse",
+             :href => "#collapseDiff-#{version.id}", :role => "button"}
+            View details
+          .collapse{id: "collapseDiff-#{version.id}"}
+            .card.card-body.mt-2
+              %pre.card-text.overflow-auto= JSON.pretty_generate version.changeset

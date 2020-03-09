@@ -3,6 +3,7 @@
 class BraintreeService < ApplicationService
   PaymentError = Class.new(StandardError)
   RefundError = Class.new(StandardError)
+  VoidError = Class.new(StandardError)
 
   def self.env
     ENV['PAYMENT_ENV']
@@ -34,6 +35,18 @@ class BraintreeService < ApplicationService
     unless result.success?
       log_failed_braintree(result, 'post_refund')
       raise RefundError, result.errors.map(&:message).join(', ')
+    end
+
+    result
+  end
+
+  def void!(payment)
+    raise VoidError 'Unvoidable payment type' if payment.gift_card?
+
+    result = gateway.transaction.void(payment.identifier)
+    unless result.success?
+      log_failed_braintree(result, 'post_void')
+      raise VoidError, result.errors.map(&:message).join(', ')
     end
 
     result

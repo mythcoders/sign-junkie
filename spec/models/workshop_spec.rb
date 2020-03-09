@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Workshop, type: :model do
   it { should validate_presence_of :name }
 
-  context 'when is for sale' do
+  context 'when for sale' do
     subject { create(:workshop, :for_sale) }
     it { should validate_presence_of :purchase_start_date }
     it { should validate_presence_of :purchase_end_date }
@@ -27,28 +27,25 @@ RSpec.describe Workshop, type: :model do
   # describe '.seats_available' do
   # end
 
-  describe '.deleteable?' do
-    subject { create(:bookable_workshop) }
+  describe '#deleteable?' do
+    let(:workshop) { create(:bookable_workshop) }
+    subject { workshop.deleteable? }
 
-    it 'is allowed when no seats or reservations' do
-      expect(subject.deleteable?).to eq(true)
+    context 'when no seats or reservations' do
+      it { is_expected.to be(true) }
     end
 
     context 'when seats have already been purchased' do
-      let!(:seat) { create(:seat, workshop: subject) }
+      let!(:seat) { create(:seat, workshop: workshop) }
 
-      it 'is NOT allowed' do
-        expect(subject.deleteable?).to eq(false)
-      end
+      it { is_expected.to be(false) }
 
       context 'but they are cancled' do
         before do
           seat.update(cancel_date: Time.zone.now)
         end
 
-        it 'is allowed' do
-          expect(subject.deleteable?).to eq(true)
-        end
+        it { is_expected.to be(true) }
       end
 
       context 'but are voided' do
@@ -56,27 +53,21 @@ RSpec.describe Workshop, type: :model do
           seat.update(void_date: Time.zone.now)
         end
 
-        it 'is allowed' do
-          expect(subject.deleteable?).to eq(true)
-        end
+        it { is_expected.to be(true) }
       end
     end
 
     context 'when reservations have already been purchased' do
-      let!(:reservation) { create(:reservation, workshop: subject) }
+      let!(:reservation) { create(:reservation, workshop: workshop) }
 
-      it 'is NOT allowed' do
-        expect(subject.deleteable?).to eq(false)
-      end
+      it { is_expected.to be(false) }
 
       context 'but are cancled' do
         before do
           reservation.update(cancel_date: Time.zone.now)
         end
 
-        it 'is allowed' do
-          expect(subject.deleteable?).to eq(true)
-        end
+        it { is_expected.to be(true) }
       end
 
       context 'but are voided' do
@@ -84,9 +75,7 @@ RSpec.describe Workshop, type: :model do
           reservation.update(void_date: Time.zone.now)
         end
 
-        it 'is allowed' do
-          expect(subject.deleteable?).to eq(true)
-        end
+        it { is_expected.to be(true) }
       end
     end
   end

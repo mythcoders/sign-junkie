@@ -22,4 +22,4 @@
           %label.col-form-label Price
           .form-control-plaintext= number_to_currency @addon.price
   .col-12.col-lg-8
-    = render partial: 'admin/images/list', locals: { images: @addon.addon_images }
+    = render partial: 'admin/images/list', locals: { images: @addon.addon_images.order(:created_at) }

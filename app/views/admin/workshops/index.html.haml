@@ -22,6 +22,6 @@
     - g.column name: 'Date', attribute: 'start_date', filter_type: :timeframe_picker do |t|
       - t.when
     - g.column name: 'Type', attribute: 'workshop_type_id', custom_filter: WorkshopType.to_dropdown do |t|
-      - t.workshop_type.name if t.workshop_type
+      - workshop_type_name(t)
     - g.column name: 'Seats Available' do |t|
       - "#{t.seats_available}/#{t.total_seats}"

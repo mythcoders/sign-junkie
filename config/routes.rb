@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     get 'reports', as: 'reports', to: 'reports#index'
     match 'reports/sales_tax', to: 'reports#sales_tax', as: 'sales_tax_report', via: %i[get post]
     match 'reports/new_customers', to: 'reports#new_customers', as: 'new_customers_report', via: %i[get post]
+    match 'reports/guest_list', to: 'reports#guest_list', as: 'guest_list_report', via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
     resources :gallery_images

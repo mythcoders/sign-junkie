@@ -41,7 +41,9 @@
   @if $enable-rounded {
     // Manually use the if/else instead of the mixin to account for iOS override
     border-radius: $input-border-radius;
-  } @else {
+  }
+
+  @else {
     // Otherwise undo the iOS default
     border-radius: 0;
   }
@@ -56,7 +58,7 @@
   }
 
   // Customize the `:focus` state to imitate native WebKit styles.
-  @include form-control-focus();
+  @include form-control-focus($ignore-warning: true);
 }
 
 .ql-hidden {
@@ -68,7 +70,8 @@
 // Placeholder
 
 .ql-editor.ql-blank::before {
-  top: $input-padding-y; left: $input-padding-x;
+  top: $input-padding-y;
+  left: $input-padding-x;
   font-style: normal;
   color: $input-placeholder-color;
 }
@@ -87,6 +90,7 @@
   &:first-child {
     padding-left: 0;
   }
+
   &:last-child {
     padding-right: 0;
   }
@@ -94,7 +98,8 @@
 
 .ql-toolbar button {
   padding: 0 .25rem;
-  background: none; border: none;
+  background: none;
+  border: none;
   color: $body-color;
   cursor: pointer;
   transition: $transition-base;
@@ -113,7 +118,8 @@
 }
 
 .ql-toolbar button svg {
-  height: $font-size-lg; width: $font-size-lg;
+  height: $font-size-lg;
+  width: $font-size-lg;
 }
 
 .ql-toolbar .ql-stroke {
@@ -135,7 +141,7 @@
 .ql-toolbar input.ql-image {
   position: absolute;
   transform: scale(0);
-} 
+}
 
 
 // Tooltip
@@ -153,18 +159,21 @@
   box-shadow: $popover-box-shadow;
 
   // Arrow
-  
+
   &:before, &:after {
     content: '';
     position: absolute;
-    left: 50%; bottom: 100%;
+    left: 50%;
+    bottom: 100%;
     transform: translateX(-50%);
   }
+
   &:before {
     border-bottom: .6rem solid $popover-border-color;
     border-left: .6rem solid transparent;
     border-right: .6rem solid transparent;
   }
+
   &:after {
     border-bottom: .5rem solid $popover-bg;
     border-left: .5rem solid transparent;

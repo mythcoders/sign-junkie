@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class SalesTaxReport
-  def initialize(tax_period_id)
-    @tax_period_id = tax_period_id
+  def initialize(params)
+    @tax_period_id = params[:tax_period_id]
   end
 
   def start_date

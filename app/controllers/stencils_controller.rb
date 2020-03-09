@@ -2,6 +2,7 @@
 
 class StencilsController < ApplicationController
   def index
-    @categories = StencilCategory.with_stencils
+    @categories = StencilCategory
+                  .includes(stencils: [{ image_attachment: :blob }])
   end
 end

@@ -3,6 +3,6 @@
   = workshop.when
 %p.card-text
   = fa_solid 'toolbox', 'text-primary fa-fw'
-  = "#{workshop.workshop_type.name} Workshop"
+  = "#{workshop_type_name(workshop)} Workshop"
 - if workshop.description
   %p.card-text= workshop.description

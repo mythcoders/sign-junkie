@@ -54,6 +54,7 @@ module Admin
 
     def clone
       clone = Workshop.clone(filtered_params[:id])
+      clone.name += ' copy'
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_workshop_path(clone)
@@ -72,7 +73,7 @@ module Admin
                                        :overridden_reservation_price, :overridden_reservation_minimum,
                                        :overridden_reservation_cancel_minimum_not_met, :overridden_reservation_maximum,
                                        :overridden_reservation_allow_guest_cancel_seat, :is_for_sale, :workshop_type_id,
-                                       project_ids: [])
+                                       :family_friendly, project_ids: [])
     end
 
     def project_params

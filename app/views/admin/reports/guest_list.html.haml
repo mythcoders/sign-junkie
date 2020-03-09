@@ -1,0 +1,51 @@
+- page_title 'Workshop Guest List', 'Reports'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Reports
+        %h1.header-title
+          %i.fad.fa-analytics
+          Workshop Guest List
+
+.row
+  .col-12.col-lg-4.d-print-none
+    = form_tag url: admin_guest_list_report_path do |f|
+      .card
+        .card-header
+          Parameters
+        .card-body
+          .form-row
+            .form-group.col
+              = label_tag :workshop_id
+              = select_tag :workshop_id,
+                  options_from_collection_for_select(@workshops, 'id', 'name_with_date', params[:workshop_id]),
+                  { class: 'form-control custom-select', required: true, include_blank: '- Please Select -' }
+        .card-footer
+          = submit_tag 'Submit', class: 'btn btn-primary'
+
+  .col-12.col-lg-8
+    .card
+      - if @report
+        .table-responsive.mb-0
+          %table.table.table-nowrap.card-table
+            %thead
+              %tr
+                %th.text-center{colspan: 4}
+                  %h3= ClientInfo.owner
+                  %br Attendess for #{@report.workshop_name}
+            %tbody
+              - @report.raw_data.each do |seat|
+                %tr
+                  %td= seat.name
+                  %td= seat.project_name
+                  %td
+                    = seat.stencil_name
+                    = seat.stencil_personalization
+                  %td= seat.addon_name
+
+      - else
+        .card-body
+          .card-text No results found.

@@ -12,43 +12,46 @@
 // Replace original arrows with Feather icons
 
 // .dropdown-toggle {
-
+//
 //   &::after {
-//     width: auto; height: auto;
+//     width: auto;
+//     height: auto;
 //     border: none !important;
 //     vertical-align: middle;
 //     font-family: 'Feather';
 //   }
-
+//
 //   &::after {
 //     content: '\e92e';
 //   }
 // }
-
+//
 // .dropup > .dropdown-toggle {
-
+//
 //   &::after {
 //     content: '\e931';
 //   }
 // }
-
+//
 // .dropright > .dropdown-toggle {
-
+//
 //   &::after {
 //     content: '\e930';
 //   }
 // }
-
+//
 // .dropleft > .dropdown-toggle {
-
+//
 //   &::before {
 //     content: '\e92f';
-//     width: auto; height: auto;
+//     width: auto;
+//     height: auto;
 //     border: none !important;
 //     vertical-align: middle;
 //     font-family: 'Feather';
 //   }
 // }
+
 
 // Dropdown toggle
 //
@@ -59,26 +62,31 @@
   justify-content: space-between;
 }
 
+
 // Dropdown menu animation
 //
 // Animate dropdown menu appearance
 
 .dropdown-menu {
-  animation: dropdownMenu 0.15s;
+  animation: dropdownMenu .15s;
 }
 
 @keyframes dropdownMenu {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
+
+
 //
 // Dashkit ===================================
 //
+
 
 // Dropdown ellipses
 //
@@ -92,6 +100,7 @@
 .dropdown-ellipses::after {
   display: none;
 }
+
 
 // Dropdown card
 //
