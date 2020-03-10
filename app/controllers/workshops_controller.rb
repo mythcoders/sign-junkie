@@ -7,7 +7,7 @@ class WorkshopsController < ApplicationController
 
   def public
     @workshops = Workshop
-                 .includes({ workshop_projects: :project, workshop_images_attachments: :blob }, :workshop_type, :seats, :projects)
+                 .includes(:workshop_type)
                  .where(workshop_types: { name: 'Public' })
                  .for_sale
                  .order(:start_date)
@@ -15,7 +15,7 @@ class WorkshopsController < ApplicationController
 
   def private
     @workshops = Workshop
-                 .includes({ workshop_projects: :project, workshop_images_attachments: :blob }, :workshop_type, :seats, :projects)
+                 .includes(:workshop_type)
                  .where(workshop_types: { name: 'Private' })
                  .for_sale
                  .order(:start_date)

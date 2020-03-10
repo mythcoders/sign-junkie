@@ -1,3 +1,8 @@
+#### 2003.1 - March 9, 2020
+
+- Technical improvements
+  - Revert change that reduced database calls
+
 #### 2003 - March 9, 2020
 
 - Improvements
@@ -14,7 +19,7 @@
   - When viewing a stencil, you can now see which projects are currently associated with it  
 - Fixes
   - An issue that prevented voiding payments they were successful but they invoice failed to process successfully
-- Technical features and improvements    
+- Technical features and improvements
   - Increased efficiency by reducing the number of database calls that are made
   - Security and other updates  
 
