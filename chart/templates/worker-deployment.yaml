@@ -3,7 +3,7 @@ apiVersion: v1
 kind: List
 items:
 {{- range $workerName, $workerConfig :=  .Values.workers }}
-- apiVersion: extensions/v1beta1
+- apiVersion: {{ default "extensions/v1beta1" $.Values.deploymentApiVersion }}
   kind: Deployment
   metadata:
     name: {{ template "trackableappname" $ }}-{{ $workerName }}
@@ -17,7 +17,18 @@ items:
       release: {{ $.Release.Name }}
       heritage: {{ $.Release.Service }}
   spec:
+  {{- if or $.Values.enableSelector (eq (default "extensions/v1beta1" $.Values.deploymentApiVersion) "apps/v1") }}
+    selector:
+      matchLabels:
+        track: "{{ $.Values.application.track }}"
+        tier: worker
+        release: {{ $.Release.Name }}
+  {{- end }}
     replicas: {{ $workerConfig.replicaCount }}
+  {{- if $workerConfig.strategyType }}
+    strategy:
+      type: {{ $workerConfig.strategyType | quote }}
+  {{- end  }}
     template:
       metadata:
         annotations:
@@ -53,22 +64,30 @@ items:
             value: {{ $.Values.application.database_url | quote }}
           - name: GITLAB_ENVIRONMENT_NAME
             value: {{ $.Values.gitlab.envName }}
-          - name: GITLAB_ENVIRONMENT_URL
-            value: {{ template "hostname" $.Values.service.url }}
-          # livenessProbe:
-          #   httpGet:
-          #     path: {{ $.Values.livenessProbe.path }}
-          #     port: {{ $.Values.service.internalPort }}
-          #     scheme: {{ $.Values.livenessProbe.scheme }}
-          #   initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
-          #   timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
-          # readinessProbe:
-          #   httpGet:
-          #     path: {{ $.Values.readinessProbe.path }}
-          #     port: {{ $.Values.service.internalPort }}
-          #     scheme: {{ $.Values.readinessProbe.scheme }}
-          #   initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
-          #   timeoutSeconds: {{ $.Values.readinessProbe.timeoutSeconds }}
+#           livenessProbe:
+# {{- if eq $.Values.livenessProbe.probeType "httpGet" }}
+#             httpGet:
+#               path: {{ $.Values.livenessProbe.path }}
+#               scheme: {{ $.Values.livenessProbe.scheme }}
+#               port: {{ $.Values.service.internalPort }}
+# {{- else if eq $.Values.livenessProbe.probeType "tcpSocket" }}
+#             tcpSocket:
+#               port: {{ $.Values.service.internalPort }}
+# {{- end }}
+#             initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
+#             timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
+#           readinessProbe:
+# {{- if eq $.Values.readinessProbe.probeType "httpGet" }}
+#             httpGet:
+#               path: {{ $.Values.readinessProbe.path }}
+#               scheme: {{ $.Values.readinessProbe.scheme }}
+#               port: {{ $.Values.service.internalPort }}
+# {{- else if eq $.Values.readinessProbe.probeType "tcpSocket" }}
+#             tcpSocket:
+#               port: {{ $.Values.service.internalPort }}
+# {{- end }}
+#             initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
+#             timeoutSeconds: {{ $.Values.readinessProbe.timeoutSeconds }}
           {{- if $workerConfig.preStopCommand }}
           lifecycle:
             preStop:
@@ -79,6 +98,6 @@ items:
                 {{- end }}
           {{- end }}
           resources:
-  {{ toYaml $.Values.resources | indent 14 }}
+{{ toYaml $.Values.resources | indent 12 }}
 {{- end -}}
 {{- end -}}
