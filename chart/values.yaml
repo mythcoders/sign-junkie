@@ -42,25 +42,25 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 livenessProbe:
   path: "/_heartbeat"
-  initialDelaySeconds: 25
+  initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
   probeType: "httpGet"
 readinessProbe:
   path: "/_heartbeat"
-  initialDelaySeconds: 25
+  initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
   probeType: "httpGet"
 postgresql:
   enabled: true
 resources:
- limits:
-   cpu: 100m
-   memory: 512Mi
- requests:
-   cpu: 10m
-   memory: 256Mi
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 10m
+    memory: 256Mi
 
 ## Configure PodDisruptionBudget
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
