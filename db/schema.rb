@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_29_125731) do
+ActiveRecord::Schema.define(version: 2020_03_26_042602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,8 +185,9 @@ ActiveRecord::Schema.define(version: 2020_02_29_125731) do
     t.decimal "material_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "allow_no_stencil", default: false, null: false
-    t.integer "allowed_stencils", default: 1
+    t.boolean "stencil_optional", default: false, null: false
+    t.integer "max_stencil_selection", default: 1
+    t.boolean "prohibit_adult_purchases", default: false
     t.index ["name"], name: "index_projects_on_name", unique: true
   end
 

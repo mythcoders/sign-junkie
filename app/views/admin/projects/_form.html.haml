@@ -16,13 +16,13 @@
         %span.input-group-text= fa_regular 'dollar-sign'
       = f.text_field :instructional_price, class: 'form-control'
 .form-group
-  = f.label :allowed_stencils, class: 'col-form-label'
-  = f.text_field :allowed_stencils, class: 'form-control'
--# .form-row
--#   .form-group.col
--#     .custom-switch.custom-control
--#       = f.check_box :restrict_adult, class: 'custom-control-input'
--#       = f.label :restrict_adult, class: 'custom-control-label'
+  = f.label :max_stencil_selection, class: 'col-form-label'
+  = f.text_field :max_stencil_selection, class: 'form-control'
+.form-row
+  .form-group.col
+    .custom-switch.custom-control
+      = f.check_box :prohibit_adult_purchases, class: 'custom-control-input'
+      = f.label :prohibit_adult_purchases, class: 'custom-control-label'
 .form-row
   .form-group.col
     = f.label :addons, class: 'col-form-label'

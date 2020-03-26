@@ -38,6 +38,7 @@ gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
 gem 'unleash', '~> 0.1.5'
+gem 'webpacker'
 gem 'wice_grid'
 
 group :development, :test do

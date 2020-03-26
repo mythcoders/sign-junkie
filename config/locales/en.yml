@@ -137,7 +137,7 @@ en:
         is_gift: Order contains a gift
       project:
         allow_no_stencil: Allow option to select no stencil
-        allowed_stencils: Number of stencils allowed to be selected
+        max_stencil_selection: Number of stencils allowed to be selected
         restrict_adult: Restrict adults from purchasing this project
       workshop_type:
         active: Is Active?

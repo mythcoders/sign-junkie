@@ -26,7 +26,7 @@
           .form-control-plaintext= number_to_currency @project.instructional_price
         .form-group
           %label.col-form-label Number of stencils allowed
-          .form-control-plaintext= @project.allowed_stencils
+          .form-control-plaintext= @project.max_stencil_selection
     - if @project.addons.any?
       .card
         .card-header

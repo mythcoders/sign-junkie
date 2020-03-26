@@ -21,7 +21,8 @@ stencils = []
                 {
                   id: s.id,
                   name: s.name,
-                  personilization: s.allow_personilization
+                  personilization: s.allow_personilization,
+                  restrict_adult: s.restrict_adult
                 }
               end
   }

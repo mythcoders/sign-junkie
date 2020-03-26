@@ -1,118 +1,133 @@
-= form_for :cart, url: cart_index_path do |f|
-  = f.hidden_field :workshop_id, value: @workshop.id
-  = f.hidden_field :type, value: 'seat'
-  = f.hidden_field :guest_type, value: 'adult'
+%seat-selector#seat-selector{'data-workshop-id': @workshop.id}
+  = form_for :cart, url: cart_index_path do |f|
+    = f.hidden_field :workshop_id, value: @workshop.id
+    = f.hidden_field :type, value: 'seat'
 
-  %p.card-text
-    = fa_solid 'ticket-alt', 'text-primary fa-fw'
-    = "#{@workshop.seats_available} seats available"
-  %p.card-text
-    = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-    Seats must be purchased by #{special_date @workshop.purchase_end_date}
-  %p.card-text
-    = fa_solid 'usd-circle', 'text-primary fa-fw'
-    %span#total-price Select a project to see pricing
-    %input{id: 'base-price', value: '0.00', type: 'hidden'}
+    %p.card-text
+      = fa_solid 'ticket-alt', 'text-primary fa-fw'
+      = "#{@workshop.seats_available} seats available"
+    %p.card-text
+      = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+      Seats must be purchased by #{special_date @workshop.purchase_end_date}
+    %p.card-text
+      = fa_solid 'usd-circle', 'text-primary fa-fw'
+      %span#total-price Select a project to see pricing
+      %input{id: 'base-price', value: '0.00', type: 'hidden'}
 
-  .form-row
-    .form-group.col
-      .custom-control.custom-switch
-        = f.check_box :gift_seat, class: 'custom-control-input', 'data-js-gift-seat': ''
-        = f.label :gift_seat, 'This seat is for someone else', class: 'custom-control-label'
-  %div{'data-js-seat-info': '', style: 'display: none;'}
-    - if @workshop.family_friendly?
+    .form-row
+      .form-group
+        = fa_solid 'chair', 'text-primary fa-fw'
+        = f.label :who_is_this_seat_for?
+        .custom-control.custom-radio
+          = f.radio_button :guest_type, 'self', class: 'custom-control-input', 'v-model': 'guestType'
+          = f.label :guest_type, value: 'self', class: 'custom-control-label' do
+            Myself
+        .custom-control.custom-radio
+          = f.radio_button :guest_type, 'adult', class: 'custom-control-input', 'v-model': 'guestType'
+          = f.label :guest_type, value: 'adult', class: 'custom-control-label' do
+            An adult or someone with an email address
+        .custom-control.custom-radio
+          = f.radio_button :guest_type, 'guest', class: 'custom-control-input', 'v-model': 'guestType'
+          = f.label :guest_type, value: 'guest', class: 'custom-control-label' do
+            Someone without an email address
+        - if @workshop.family_friendly?
+          .custom-control.custom-radio
+            = f.radio_button :guest_type, 'child', class: 'custom-control-input', 'v-model': 'guestType'
+            = f.label :guest_type, value: 'child', class: 'custom-control-label' do
+              A child (ages 8-17)
+
+    %hr
+    %div{'v-show': "recipientVisible()"}
+      %h6.card-title
+        = fa_solid 'user', 'text-primary fa-fw'
+        Recipient Information
       .form-row
-        .form-group.col
-          .custom-control.custom-switch
-            = f.check_box :child, class: 'custom-control-input', 'data-js-change-child': ''
-            = f.label :child, 'This is for a child', class: 'custom-control-label'
-    %h6.card-title
-      = fa_solid 'user', 'text-primary fa-fw'
-      Recipient Information
+        .form-group.col-6
+          = f.label :first_name
+          = f.text_field :first_name, class: 'form-control', autocomplete: false, 'v-model': 'firstName'
+        .form-group.col-6
+          = f.label :last_name
+          = f.text_field :last_name, class: 'form-control', autocomplete: false, 'v-model': 'lastName'
+        .form-group.col-12
+          = f.label :email_address
+          = f.text_field :email, class: 'form-control', autocomplete: false, 'v-model': 'email'
+          %p.form-control-plaintext.text-muted
+            * Email Optional. Provide one if you'd like an invite sent to this person.
+
     .form-row
-      .form-group.col-6
-        = f.label :first_name
-        = f.text_field :first_name, class: 'form-control', autocomplete: false
-      .form-group.col-6
-        = f.label :last_name
-        = f.text_field :last_name, class: 'form-control', autocomplete: false
-      .form-group.col-12
-        = f.label :email_address
-        = f.text_field :email, class: 'form-control', autocomplete: false
-        %p.form-control-plaintext.text-muted
-          * Email Optional. Provide one if you'd like an invite sent to this person.
-  %hr
-  .form-row
-    .form-group.col
-      = fa_solid 'sign', 'text-primary fa-fw'
-      = f.label :project
-      = f.select :project_id,
-          options_from_collection_for_select(@workshop.projects, 'id', 'name'),
-          { value: nil, include_blank: '- Please Select -' },
-          { class: 'form-control custom-select', 'data-js-change-project': '', required: true }
-  .form-row
-    .form-group.col
-      = fa_solid 'swatchbook', 'text-primary fa-fw'
-      = f.label :stencil_design
-      .input-group
-        = f.select :stencil_id,
-            options_from_collection_for_select([], 'id', 'name'),
-            { value: nil, include_blank: '- Select Project -' },
-            { class: 'form-control custom-select', 'data-js-change-stencil': '', required: true }
-        .input-group-append
-          %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
-  %div{'data-js-custom-stencil-info': '', style: 'display: none;'}
-    .form-row
+      .form-group.col
+        = fa_solid 'sign', 'text-primary fa-fw'
+        = f.label :project
+        = f.select :project_id,
+            options_from_collection_for_select({}, 'id', 'name'),
+            { value: nil, include_blank: '- Loading... -' },
+            { class: 'form-control custom-select', required: true, 'v-model': 'projectId' }
+
+    .form-row{'v-show': "projectId != 0"}
+      .form-group.col
+        = fa_solid 'swatchbook', 'text-primary fa-fw'
+        = f.label :stencil_design
+        .input-group
+          = f.select :stencil_id, {},
+              { value: nil, placeholder: '- Select Project -' },
+              { class: 'form-control custom-select', required: true, 'v-model': 'stencilId' }
+          .input-group-append
+            %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
+
+    .form-row{'v-show': "projectId != 0"}
       .form-group.col
         = fa_solid 'palette', 'text-primary fa-fw'
         = f.label :stencil_personalization
-        = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '', autocomplete: false
+        = f.text_field :stencil, class: 'form-control', disabled: true, autocomplete: false, 'v-model': 'stencilPersonalization'
         %p.form-text.text-muted
           Please enter your information for personalization shown on the design you have chosen, this includes
           any names, dates, city, state, gps coordinates, etc.
-  .form-row
-    .form-group.col
-      = fa_solid 'stamp', 'text-primary fa-fw'
-      = f.label :addons, 'Add-on'
-      = f.select :addon_id,
-          options_from_collection_for_select([], 'id', 'name'),
-          { value: nil, include_blank: '- Select Project -' },
-          { class: 'form-control custom-select', 'data-js-change-addon': '' }
-  .form-row
-    .form-group.col
-      = fa_solid 'chair', 'text-primary fa-fw'
-      = f.label :seating_preference
-      = f.text_field :seating, class: 'form-control', autocomplete: false
-  %hr
-  .form-row
-    .form-group.col
-      .custom-switch.custom-control
-        = f.check_box :acknowledgment, class: 'custom-control-input', required: 'required'
-        = f.label :acknowledgment, class: 'custom-control-label'
-      %p.form-control-plaintext
-        I understand this is a Wood Workshop, so my sign MAY HAVE random cracks, chips, knots, and
-        other NATURAL blemishes that give it it’s characteristics.
-  .form-row
-    .form-group.col
-      .custom-switch.custom-control
-        = f.check_box :design_confirmation, class: 'custom-control-input', required: 'required'
-        = f.label :design_confirmation, class: 'custom-control-label'
-      %p.form-control-plaintext
-        I have entered the correct design and/or customization info. I userstand that NO CHANGES
-        can be made to my design choice OR any personalization once my reservation is submitted.
-  .form-row
-    .form-group.col
-      .custom-switch.custom-control
-        = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
-        = f.label :policy_agreement, class: 'custom-control-label'
-      %p.form-control-plaintext
-        I have read and agree to the
-        %a{href: workshop_policies_path(@workshop)}= "#{@workshop.workshop_type.name} Workshop Policies."
-        I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
-        in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
-        later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
-        I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
 
-  %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
-    = fa_solid 'cart-plus'
-    Add to Cart
+    .form-row{'v-show': "projectId != 0"}
+      .form-group.col
+        = fa_solid 'stamp', 'text-primary fa-fw'
+        = f.label :addons, 'Add-on'
+        = f.select :addon_id,
+            options_from_collection_for_select([], 'id', 'name'),
+            { value: nil, include_blank: '- Select Project -' },
+            { class: 'form-control custom-select', 'v-model': 'addonId' }
+
+    .form-row{'v-show': "projectId != 0"}
+      .form-group.col
+        = fa_solid 'chair', 'text-primary fa-fw'
+        = f.label :seating_preference
+        = f.text_field :seating, class: 'form-control', autocomplete: false, 'v-model': 'seatingPreference'
+
+    %hr
+    .form-row
+      .form-group.col
+        .custom-switch.custom-control
+          = f.check_box :acknowledgment, class: 'custom-control-input', required: 'required'
+          = f.label :acknowledgment, class: 'custom-control-label'
+        %p.form-control-plaintext
+          I understand this is a Wood Workshop, so my sign MAY HAVE random cracks, chips, knots, and
+          other NATURAL blemishes that give it it’s characteristics.
+    .form-row
+      .form-group.col
+        .custom-switch.custom-control
+          = f.check_box :design_confirmation, class: 'custom-control-input', required: 'required'
+          = f.label :design_confirmation, class: 'custom-control-label'
+        %p.form-control-plaintext
+          I have entered the correct design and/or customization info. I userstand that NO CHANGES
+          can be made to my design choice OR any personalization once my reservation is submitted.
+    .form-row
+      .form-group.col
+        .custom-switch.custom-control
+          = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
+          = f.label :policy_agreement, class: 'custom-control-label'
+        %p.form-control-plaintext
+          I have read and agree to the
+          %a{href: workshop_policies_path(@workshop)}= "#{@workshop.workshop_type.name} Workshop Policies."
+          I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
+          in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
+          later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
+          I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
+
+    %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
+      = fa_solid 'cart-plus'
+      Add to Cart

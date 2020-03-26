@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: %i[show project_info]
+  before_action :set_workshop, only: %i[show]
   before_action :set_seat_check, only: %i[show]
   before_action :set_reservation_check, only: %i[show]
 
@@ -21,14 +21,10 @@ class WorkshopsController < ApplicationController
                  .order(:start_date)
   end
 
-  def project_info
-    @project = Project.find(params[:project_id])
-  end
-
   private
 
   def set_workshop
-    @workshop = Workshop.find(params[:id])
+    @workshop = Workshop.find params[:id]
   end
 
   def set_seat_check
