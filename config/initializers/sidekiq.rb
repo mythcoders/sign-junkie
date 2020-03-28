@@ -16,10 +16,10 @@ Sidekiq.configure_server do |config|
   config.super_fetch!
 
   config.periodic do |mgr|
-    mgr.register('15 0 * * *', CartCleanupWorker)
-    mgr.register('30 0 * * *', PaymentDeadlineWorker)
-    mgr.register('0 1 * * *', RegistrationDeadlineWorker)
-    mgr.register('0 2 * * *', ReservationDepositRefundWorker)
+    mgr.register('0 4 * * *', ReservationDepositRefundWorker)
+    mgr.register('15 4 * * *', RegistrationDeadlineWorker)
+    mgr.register('35 4 * * *', PaymentDeadlineWorker)
+    mgr.register('0 5 * * *', CartCleanupWorker)
     mgr.register('0 6 * * *', AbandonedCartReminderWorker)
     mgr.register('0 6 * * *', PaymentDeadlineReminderWorker)
     mgr.register('0 6 * * *', RegistrationDeadlineReminderWorker)
