@@ -4,7 +4,7 @@ x-shared-environment-variables: &shared-environment-variables
   RAILS_ENV: development
   NODE_ENV: development
   GITLAB_ENVIRONMENT_NAME: development
-  GITLAB_ENVIRONMENT_URL: https://apollo.mythcoders.dev
+  GITLAB_ENVIRONMENT_URL: https://apollo.mythcoders.dev  
   PAYMENT_ENV: sandbox
   DATABASE_URL: "postgres://postgres:postgres@mythpostgres:5432/apollo_dev"
   STORAGE_BUCKET: none
@@ -35,10 +35,10 @@ services:
   webpacker:
     image: apollo
     container_name: apollo-webpacker
+    command: ["./bin/webpack-dev-server"]
     environment:
       <<: *shared-environment-variables
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
-    command: ["./bin/webpack-dev-server"]
     volumes:
       - .:/app
       - '/app/node_modules/'
@@ -53,7 +53,6 @@ services:
     command: ["sh", "./scripts/worker", "start"]
     volumes:
       - .:/app
-      - '/app/node_modules/'
     environment:
       <<: *shared-environment-variables
     depends_on:
