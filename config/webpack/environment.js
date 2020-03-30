@@ -22,8 +22,6 @@ environment.plugins.prepend('Provide',
   })
 )
 
-
-
 environment.loaders.prepend('vue', vue)
 
 module.exports = environment
