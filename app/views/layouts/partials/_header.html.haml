@@ -19,7 +19,3 @@
 -# %meta{property: "twitter:image:alt", content: '?'}
 = csrf_meta_tags
 = yield :styles
-- if Rails.env.development?
-  %script{src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'}
-- else
-  %script{src: 'https://cdn.jsdelivr.net/npm/vue@2.6.11'}

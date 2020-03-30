@@ -16,6 +16,11 @@ Rails.application.configure do
 
   # end
 
+  if ENV['CDN_URL']
+    config.action_controller.asset_host = ENV['CDN_URL']
+    config.action_mailer.asset_host = ENV['CDN_URL']
+  end
+
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], namespace: ENV['REDIS_NAMESPACE'] }
   config.action_controller.perform_caching = true
 

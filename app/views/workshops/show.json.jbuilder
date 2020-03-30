@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
-json.call(@workshop, :id, :name)
+json.call(@workshop, :id, :name, :family_friendly)
 json.seat_purchaseable @workshop.seat_purchaseable?
 json.reservation_purchaseable @workshop.reservation_purchaseable?
+json.remaining_seats @workshop.seats_available
+json.purchase_end_date special_date(@workshop.purchase_end_date)
 
 json.projects @workshop.projects do |project|
-  json.call(project, :instructional_price, :material_price, :prohibit_adult_purchases, :stencil_optional, :max_stencil_selection)
+  json.call(project, :id, :name, :instructional_price, :material_price, :prohibit_adult_purchases,
+            :stencil_optional, :max_stencil_selection)
 
   json.addons project.addons do |addon|
     json.id addon.id

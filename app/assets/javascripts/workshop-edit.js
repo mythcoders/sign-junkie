@@ -1,4 +1,4 @@
-$.onmount("[data-js-workshop-type]", function () {
+onmount("[data-js-workshop-type]", function () {
   $(this).on("change ready load", function () {
     console.log('direct')
     updateDefaultOptions(this);

@@ -4,13 +4,13 @@ $(function () {
     }
 });
 
-$.onmount("[data-js-change-project]", function () {
+onmount("[data-js-change-project]", function () {
     $(this).on("change", function () {
         update_ui();
     })
 });
 
-$.onmount("[data-js-gift-seat]", function () {
+onmount("[data-js-gift-seat]", function () {
     $(this).on("change", function (event) {
         if (event.target.checked) {
             $("[data-js-seat-info]").show();
@@ -22,13 +22,13 @@ $.onmount("[data-js-gift-seat]", function () {
     })
 });
 
-$.onmount("[data-js-change-addon]", function () {
+onmount("[data-js-change-addon]", function () {
     $(this).on("change", function () {
         update_price();
     })
 });
 
-$.onmount("[data-js-change-stencil]", function () {
+onmount("[data-js-change-stencil]", function () {
     $(this).on("change", function () {
       var option = event.target.options[event.target.selectedIndex]
       console.log(option.dataset.personilization);
@@ -42,7 +42,7 @@ $.onmount("[data-js-change-stencil]", function () {
     })
 });
 
-$.onmount("[data-js-change-child]", function () {
+onmount("[data-js-change-child]", function () {
     $(this).on("change", function (event) {
       if (event.target.checked) {
         document.getElementById('cart_guest_type').value = 'child';

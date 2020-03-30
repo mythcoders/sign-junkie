@@ -96,12 +96,9 @@
             %a.dropdown-item{href: edit_user_registration_path}
               = fa_solid 'user-circle'
               My Profile
-            %a.dropdown-item{href: '#modalUserModal', 'data-toggle': 'modal'}
+            %a.dropdown-item{href: '#modalUserPreferences', 'data-toggle': 'modal'}
               = fa_solid 'sliders-v'
               Preferences
-            -# %a.dropdown-item{href: SystemInfo.support_url}
-            -#   = fa_solid 'question-circle'
-            -#   Help
             %a.dropdown-item{href: "mailto:#{SystemInfo.support_mail}"}
               = fa_solid 'life-ring'
               Support

@@ -4,26 +4,21 @@
 %html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    - if @ui_theme == 'light'
-      = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    - elsif @ui_theme == 'dark'
-      = stylesheet_link_tag 'admin_dark', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    - else
-      = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
-    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
+    - css_file = @ui_theme == 'dark' ? 'admin_dark' : 'admin'
+    = stylesheet_link_tag css_file, media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
+    = javascript_pack_tag 'admin', 'data-turbolinks-track': 'reload'
     - if Rails.env.production?
       %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
   %body
-    = render partial: "layouts/admin/toast_alerts"
-    = render partial: "layouts/admin/sidebar"
-    .main-content
-      = render partial: "layouts/partials/logout"
-      = render partial: "layouts/partials/user_preferences"
-      -# = render 'peek/bar'
-      .container-fluid
-        = yield :breadcrumbs
-        = yield
+    #apollo-app
+      = render partial: "layouts/admin/toast_alerts"
+      = render partial: "layouts/admin/sidebar"
+      .main-content
+        = render partial: "layouts/partials/logout"
+        %user-preferences
+        .container-fluid
+          = yield :breadcrumbs
+          = yield
     = yield :scripts
     - if Rails.env.production?
       :javascript

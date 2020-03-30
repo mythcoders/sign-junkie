@@ -1,74 +1,89 @@
-version: "3.7"
+version:                         "3.7"
+
+x-shared-environment-variables:  &shared-environment-variables
+  RAILS_ENV:                     development
+  NODE_ENV:                      development
+  GITLAB_ENVIRONMENT_NAME:       development
+  GITLAB_ENVIRONMENT_URL:        http://apollo.localhost
+  CDN_URL:                       http://apollo-assets.localhost
+  PAYMENT_ENV:                   sandbox
+  DATABASE_URL:                  "postgres://postgres:postgres@db:5432/apollo_dev"
+  STORAGE_BUCKET:                none
+  REDIS_URL:                     redis://redis:6379/0
+  REDIS_NAMESPACE:               apollo-dev
+  WORKER_REDIS_NAMESPACE:        apollo-worker-dev
+
 services:
   app:
-    image: apollo
-    command: ["sh", "./scripts/app", "start", "setup"]
+    image:                       apollo
+    command:                     ["sh", "./scripts/app", "start", "setup"]
     build:
-      context: .
-      target: base
-    container_name: apollo-app
+      context:                   .
+      target:                    base
+    container_name:              apollo-app
     labels:
-      traefik.frontend.rule: "Host:apollo.localhost"
+      traefik.frontend.rule:     "Host:apollo.localhost"
     volumes:
       - .:/app
     environment:
-      RAILS_ENV: development
-      GITLAB_ENVIRONMENT_NAME: development
-      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
-      PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
-      STORAGE_BUCKET: none
-      REDIS_URL: redis://redis:6379/0
-      REDIS_NAMESPACE: apollo-dev
-      WORKER_REDIS_NAMESPACE: apollo-worker-dev
+      <<:                        *shared-environment-variables
     depends_on:
       - db
       - net
       - redis
-    stdin_open: true
-    tty: true
+    stdin_open:                  true
+    tty:                         true
+
+  webpacker:
+    image:                       apollo
+    container_name:              apollo-webpacker
+    environment:
+      <<:                        *shared-environment-variables
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    command:                     ["./bin/webpack-dev-server"]
+    labels:
+      traefik.frontend.rule:     "Host:apollo-assets.localhost"
+    volumes:
+      - .:/app
+    ports:
+      - '5001'
+    depends_on:
+      - app
 
   worker:
-    image: apollo
-    container_name: apollo-worker
-    command: ["sh", "./scripts/worker", "start"]
+    image:                       apollo
+    container_name:              apollo-worker
+    command:                     ["sh", "./scripts/worker", "start"]
     volumes:
       - .:/app
     environment:
-      RAILS_ENV: development
-      GITLAB_ENVIRONMENT_NAME: development
-      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
-      PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
-      STORAGE_BUCKET: none
-      REDIS_URL: redis://redis:6379/0
-      REDIS_NAMESPACE: apollo-dev
-      WORKER_REDIS_NAMESPACE: apollo-worker-dev
+      <<:                        *shared-environment-variables
     depends_on:
+      - app
       - db
       - redis
 
   redis:
-    image: redis:5.0.5-alpine
-    container_name: apollo-redis
+    image:                       redis:5.0.5-alpine
+    container_name:              apollo-redis
     ports:
       - "6379:6379"
 
   db:
-    image: postgres:11.6
-    container_name: apollo-db
+    image:                       postgres:11.6
+    container_name:              apollo-db
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER:             "postgres"
+      POSTGRES_PASSWORD:         "postgres"
     volumes:
       - pgdata
 
   net:
-    image: traefik:v1.7.16
-    container_name: apollo-net
-    command: --api --docker
+    image:                       traefik:v1.7.16
+    container_name:              apollo-net
+    command:                     --api --docker
     ports:
       - "80:80"
       - "8080:8080"
