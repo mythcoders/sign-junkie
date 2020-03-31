@@ -5,7 +5,7 @@ export default {
   name: 'UserPreferences',
   data: function() {
     return {
-      colorScheme: cookieHelper.get('apollo_ui_theme')
+      colorScheme: cookieHelper.get('apollo_ui_theme') || 'light'
     }
   },
   methods: {

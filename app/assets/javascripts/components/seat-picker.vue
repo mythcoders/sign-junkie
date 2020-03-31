@@ -1,5 +1,7 @@
 <script>
 import axios from 'axios/dist/axios.min'
+// import utils from 'utils'
+const utils = require('utils.js')
 
 export default {
   name: 'SeatPicker',
@@ -25,8 +27,8 @@ export default {
       seatingPreference: ''
     }
   },
-  created() {
-    axios.get('/workshops/' + this.workshopId, {
+  beforeCreate() {
+    axios.get('/workshops/' + this.$options.propsData.workshopId, {
         headers: {
           'Accept': 'application/json'
         }
@@ -43,6 +45,14 @@ export default {
     }
   },
   methods: {
+    fetchWorkshop: function() {
+      const customJs = new CustomJS();
+      return new Promise((resolve, reject) => {
+        customJs.getTools()
+          .then(res => resolve(res))
+          .catch(err => reject(err))
+      })
+    },
     recipientVisible: function() {
       return this.guestType != 'self';
     },
@@ -58,6 +68,9 @@ export default {
     },
     submit: function() {
       return false;
+    },
+    showLoader: function() {
+      return utils.isObjectEmpty(this.workshop);
     }
   },
   watch: {
@@ -70,14 +83,14 @@ export default {
 
 <template>
 <div>
-  <div v-if="_.isEmpty(workshop)" class="d-flex justify-content-center">
+  <div v-show="showLoader()" class="d-flex justify-content-center">
     <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </div>
 
-  <div v-else>
-    <p class="card-text">
+  <div v-if="!showLoader()">
+    <p class=" card-text">
       <i class="fas fa-ticket-alt text-primary fa-fw"></i>
       {{ workshop.remaining_seats }} seats available
     </p>

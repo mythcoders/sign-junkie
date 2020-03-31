@@ -62,7 +62,7 @@ development:
     host:                            localhost
     port:                            5001
     public:                          apollo.mythcoders.dev
-    hmr:                             true
+    hmr:                             false
     # Inline should be set to true if using HMR
     inline:                          true
     overlay:                         true

@@ -4,7 +4,6 @@ import Vue from 'vue/dist/vue.esm'
 import UserPreferences from '../components/user-preferences'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-import 'axios/dist/axios.min'
 import '@fortawesome/fontawesome-pro/js/all'
 import 'jquery.easing/jquery.easing.min'
 import 'tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min'

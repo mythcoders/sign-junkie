@@ -9,7 +9,7 @@ const webpack = require('webpack')
 
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin())
-environment.plugins.prepend('LodashModuleReplacement', new LodashModuleReplacementPlugin)
+// environment.plugins.prepend('LodashModuleReplacement', new LodashModuleReplacementPlugin)
 
 // fix legacy jQuery plugins which depend on globals
 environment.plugins.prepend('Provide',
