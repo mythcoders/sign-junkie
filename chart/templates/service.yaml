@@ -1,11 +1,15 @@
-{{- if .Values.service.enabled -}}
+{{- if and (.Values.service.enabled) (eq .Values.application.track "stable") -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ template "fullname" . }}
-{{- if .Values.service.annotations }}
   annotations:
+{{- if .Values.service.annotations }}
 {{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
+{{- if .Values.prometheus.metrics }}
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "{{ .Values.service.internalPort }}"
 {{- end }}
   labels:
     app: {{ template "appname" . }}

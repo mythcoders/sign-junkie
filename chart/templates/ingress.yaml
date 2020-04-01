@@ -1,4 +1,4 @@
-{{- if .Values.service.enabled -}}
+{{- if and (.Values.service.enabled) (eq .Values.application.track "stable") -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -8,9 +8,26 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version| replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.ingress.annotations }}
   annotations:
+{{- if .Values.ingress.annotations }}
 {{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+{{- with .Values.ingress.modSecurity }}
+{{- if .enabled }}
+    nginx.ingress.kubernetes.io/modsecurity-transaction-id: "$server_name-$request_id"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine {{ .secRuleEngine | default "DetectionOnly" | title }}
+{{- range $rule := .secRules }}
+{{ (include "secrule" $rule) | indent 6 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.prometheus.metrics }}
+    nginx.ingress.kubernetes.io/server-snippet: |-
+      location /metrics {
+          deny all;
+      }
+
 {{- end }}
 spec:
 {{- if .Values.ingress.tls.enabled }}
