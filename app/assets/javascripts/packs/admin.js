@@ -1,10 +1,10 @@
 /* eslint no-console:0 */
 
+import * as Sentry from '@sentry/browser';
 import Vue from 'vue/dist/vue.esm'
 import UserPreferences from '../components/user-preferences'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-import '@fortawesome/fontawesome-pro/js/all'
 import 'jquery.easing/jquery.easing.min'
 import 'tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min'
 import 'select2/dist/js/select2.js'
@@ -16,6 +16,9 @@ import '../clickable-row'
 import '../workshop-edit'
 
 document.addEventListener('DOMContentLoaded', () => {
+  Sentry.init({
+    dsn: 'https://88201b6ab32943ce8864d958fb947d69@sentry.io/1285199'
+  });
   const app = new Vue({
     el: '#apollo-app',
     components: {

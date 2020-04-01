@@ -8,7 +8,7 @@ RUN apk add --no-cache --virtual build-deps build-base && \
   bundle install && \
   apk del build-deps
 
-COPY package.json yarn.lock .npmrc .yarnrc $APP_HOME/
+COPY package.json yarn.lock .yarnrc $APP_HOME/
 RUN yarn install --frozen-lockfile
 RUN yarn check --integrity
 

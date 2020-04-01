@@ -4,8 +4,7 @@
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'admin', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
+    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
   %body{style: "Font-Family: 'Abril Fatface'"}
     #apollo-app
       .container-fluid
@@ -21,3 +20,4 @@
               %a.link-teal{href: root_path}= "\u00A9 #{Time.zone.today.year} #{ClientInfo.owner}"
           .col-12.col-md-6.col-lg-6.col-xl-8.d-none.d-lg-block
             .bg-cover.vh-100.mt-n1.mr-n3{:style => "background-image: url(/Private.jpeg);"}
+    = yield :scripts    

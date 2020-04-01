@@ -4,8 +4,7 @@
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
+    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
     - if @client_token
       %script{src: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'}
   %body

@@ -7,8 +7,7 @@
     - css_file = @ui_theme == 'dark' ? 'admin_dark' : 'admin'
     = stylesheet_link_tag css_file, media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
     = javascript_pack_tag 'admin', 'data-turbolinks-track': 'reload'
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
+    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}    
   %body
     #apollo-app
       = render partial: "layouts/admin/toast_alerts"
