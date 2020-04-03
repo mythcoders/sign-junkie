@@ -10,7 +10,6 @@ RUN apk add --no-cache --virtual build-deps build-base && \
 
 COPY package.json yarn.lock .yarnrc $APP_HOME/
 RUN yarn install --frozen-lockfile
-RUN yarn check --integrity
 
 EXPOSE $APP_PORT
 

@@ -1,0 +1,102 @@
+<script>
+export default {
+  name: 'SeatGuestInfo',
+  props: {
+    seatsForChildren: {
+      required: true
+    }
+  },
+  data: function() {
+    return {
+      guestType: 'self',
+      firstName: '',
+      lastName: '',
+      email: '',
+      seatingPreference: ''
+    }
+  },
+  methods: {
+    recipientVisible: function() {
+      return this.guestType != 'self';
+    }
+  },
+  watch: {
+    guestType: function(value) {
+      this.$emit('update-guestType', value)
+    },
+    firstName: function(value) {
+      this.$emit('update-firstName', value)
+    },
+    lastName: function(value) {
+      this.$emit('update-lastName', value)
+    },
+    email: function(value) {
+      this.$emit('update-email', value)
+    },
+    seatingPreference: function(value) {
+      this.$emit('update-seatingPreference', value)
+    }
+  }
+}
+</script>
+
+<template>
+<div>
+  <div class="form-row">
+    <div class="form-group col">
+      <i class="fas fa-chair text-primary fa-fw"></i>
+      <label>Who is this seat for?</label>
+      <div class="custom-control custom-radio">
+        <input class='custom-control-input' type="radio" v-model="guestType" id="self" value="self" name="guestType">
+        <label class="custom-control-label" for="self">Myself</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input class='custom-control-input' type="radio" v-model="guestType" id="adult" value="adult" name="guestType">
+        <label class="custom-control-label" for="adult">An adult or someone with an email address</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input class='custom-control-input' type="radio" v-model="guestType" id="guest" value="guest" name="guestType">
+        <label class="custom-control-label" for="guest">Someone without an email address</label>
+      </div>
+      <div class="custom-control custom-radio" v-show="seatsForChildren">
+        <input class='custom-control-input' type="radio" v-model="guestType" id="child" value="child" name="guestType">
+        <label class="custom-control-label" for="child">A child (ages 8-17)</label>
+      </div>
+    </div>
+  </div>
+
+  <div v-show="recipientVisible()">
+    <h6 class="card-title">
+      <i class="fas fa-user text-primary fa-fw"></i>
+      Recipient Information
+    </h6>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label for="firstName">First name</label>
+        <input class="form-control" autocomplete="false" type="text" v-model="firstName" id="firstName"
+               required="required">
+      </div>
+      <div class="form-group col-6">
+        <label for="lastName">Last name</label>
+        <input class="form-control" autocomplete="false" type="text" v-model="lastName" id="lastName"
+               required="required">
+      </div>
+      <div class="form-group col-12">
+        <label for="email">Email address</label>
+        <input class="form-control" autocomplete="false" type="text" v-model="email" id="email">
+        <p class="form-control-plaintext text-muted">
+          * Email Optional. Provide one if you'd like an invite sent to this person.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <i class="fas fa-chair text-primary fa-fw"></i>
+      <label for="seatingPreference">Seating preference</label>
+      <input class="form-control" autocomplete="false" type="text" id="seatingPreference" v-model="seatingPreference">
+    </div>
+  </div>
+</div>
+</template>
