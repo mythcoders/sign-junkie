@@ -17,7 +17,7 @@ application:
   secretName:
   secretChecksum:
 hpa:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
@@ -72,11 +72,11 @@ postgresql:
     #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
 resources:
   limits:
-    cpu: 100m
-    memory: 512Mi
+    # cpu: 100m
+    # memory: 512Mi
   requests:
-    cpu: 10m
-    memory: 256Mi
+    # cpu: 10m
+    # memory: 256Mi
 
 ## Configure PodDisruptionBudget
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/

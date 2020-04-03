@@ -50,9 +50,9 @@ export default {
     price: function() {
       if (utils.isObjectEmpty(this.project)) return null;
 
-      var amount = this.project.material_price + this.project.instructional_price;
-      if (!utils.isObjectEmpty(this.addon)) amount += this.addon.price;
-      return "$" + amount;
+      var amount = parseFloat(this.project.material_price) + parseFloat(this.project.instructional_price);
+      if (!utils.isObjectEmpty(this.addon)) amount += parseFloat(this.addon.price);
+      return "$" + amount.toFixed(2);
     }
   },
   methods: {
@@ -61,6 +61,27 @@ export default {
     },
     submit: function() {
       return false;
+
+      axios.post('/cart', {
+          cart: {
+            guestType: this.guestType,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            workshop_id: this.workshop.id,
+            project_id: utils.isObjectEmpty(this.project) ? 0 : this.project.id,
+            stencil_id: utils.isObjectEmpty(this.stencil) ? 0 : this.stencil.id,
+            addon_id: utils.isObjectEmpty(this.addon) ? 0 : this.addon.id,
+            personalizedStencil: this.personalizedStencil,
+            seatingPreference: this.seatingPreference
+          }
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 }

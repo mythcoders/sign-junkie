@@ -84,9 +84,6 @@ export default {
       <div class="form-group col-12">
         <label for="email">Email address</label>
         <input class="form-control" autocomplete="false" type="text" v-model="email" id="email">
-        <p class="form-control-plaintext text-muted">
-          * Email Optional. Provide one if you'd like an invite sent to this person.
-        </p>
       </div>
     </div>
   </div>
@@ -96,6 +93,10 @@ export default {
       <i class="fas fa-chair text-primary fa-fw"></i>
       <label for="seatingPreference">Seating preference</label>
       <input class="form-control" autocomplete="false" type="text" id="seatingPreference" v-model="seatingPreference">
+      <p class="form-control-plaintext text-muted">
+        If you would like to sit next to someone, enter their name here and we'll do our best to accomidate your
+        request.
+      </p>
     </div>
   </div>
 </div>
