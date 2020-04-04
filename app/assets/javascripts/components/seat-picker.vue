@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios/dist/axios.min'
 import AddonDropdown from '../components/addon-dropdown.vue'
+import CustomerAgreement from '../components/customer-agreement.vue'
 import ProjectDropdown from '../components/project-dropdown.vue'
 import SeatGuestInfo from '../components/seat-guest-info.vue'
 import StencilDropdown from '../components/stencil-dropdown.vue'
@@ -10,6 +11,7 @@ export default {
   name: 'SeatPicker',
   components: {
     'addon-dropdown': AddonDropdown,
+    'customer-agreement': CustomerAgreement,
     'project-dropdown': ProjectDropdown,
     'seat-guest-info': SeatGuestInfo,
     'stencil-dropdown': StencilDropdown
@@ -33,7 +35,9 @@ export default {
       stencil: {},
       addon: {},
       personalizedStencil: '',
-      seatingPreference: ''
+      seatingPreference: '',
+      allAgreementsChecked: false,
+      errors: []
     }
   },
   beforeCreate() {
@@ -50,44 +54,48 @@ export default {
     price: function() {
       if (utils.isObjectEmpty(this.project)) return null;
 
-      var amount = parseFloat(this.project.material_price) + parseFloat(this.project.instructional_price);
+      var amount = parseFloat(this.project.price);
       if (!utils.isObjectEmpty(this.addon)) amount += parseFloat(this.addon.price);
-      return "$" + amount.toFixed(2);
+      return amount.toFixed(2);
     }
   },
   methods: {
     isObjectEmpty: function(obj) {
       return utils.isObjectEmpty(obj);
     },
-    submit: function() {
-      return false;
+    checkForm: function(e) {
+      this.errors = [];
 
-      axios.post('/cart', {
-          cart: {
-            guestType: this.guestType,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            workshop_id: this.workshop.id,
-            project_id: utils.isObjectEmpty(this.project) ? 0 : this.project.id,
-            stencil_id: utils.isObjectEmpty(this.stencil) ? 0 : this.stencil.id,
-            addon_id: utils.isObjectEmpty(this.addon) ? 0 : this.addon.id,
-            personalizedStencil: this.personalizedStencil,
-            seatingPreference: this.seatingPreference
-          }
-        })
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      if (this.guestType != 'self') {
+        if (this.firstName === '' || this.lastName === '') {
+          this.errors.push('You forgot to tell us the name of your guest.')
+        }
+
+        if (this.guestType === 'adult' && this.email === '') {
+          this.errors.push('We need the email address for your guest.')
+        }
+      }
+
+      if (utils.isObjectEmpty(this.project)) {
+        this.errors.push('You forgot to pick a project.')
+      } else if (utils.isObjectEmpty(this.stencil) && !this.project.stencil_optional) {
+        this.errors.push('You need to pick more stencils for your project.')
+      }
+
+      if (!this.allAgreementsChecked) {
+        this.errors.push('All terms and conditions have not been accepted.')
+      }
+
+      if (this.errors.length) {
+        e.preventDefault();
+        return false;
+      }
+
+      return true;
     }
   }
 }
 </script>
-
-<!-- TODO: Figure out submtting form with the blank values of '{}' -->
 
 <template>
 <div>
@@ -100,18 +108,15 @@ export default {
   </div>
 
   <div v-show="!this.isObjectEmpty(this.workshop)">
-    <form>
-      <p class="card-text">
-        <i class="fas fa-ticket-alt text-primary fa-fw"></i>
-        {{ workshop.remaining_seats }} seats available
-      </p>
+    <form @submit="checkForm" method="POST">
       <p class="card-text">
         <i class="fas fa-calendar-exclamation text-primary fa-fw"></i>
-        Seats must be purchased by {{ workshop.purchase_end_date }}
+
       </p>
       <p class="card-text">
         <i class="fas fa-usd-circle text-primary fa-fw"></i>
-        {{ price || 'Select a project to see pricing' }}
+        <span v-show="price === null">Select a project to see pricing</span>
+        <span v-show="price != null">${{ price }}</span>
       </p>
 
       <hr>
@@ -120,63 +125,29 @@ export default {
                        v-on:update-firstName="firstName = $event" v-on:update-lastName="lastName = $event"
                        v-on:update-email="email = $event" v-on:update-seatingPreference="seatingPreference = $event" />
 
-      <hr>
+      <hr class="mt-0">
 
       <project-dropdown :projects="workshop.projects" :guestType="guestType" v-on:update-project="project = $event" />
 
-      <stencil-dropdown v-show="!isObjectEmpty(this.project)" :stencils="project.stencils"
-                        v-on:update-stencil="stencil = $event"
+      <stencil-dropdown v-show="!isObjectEmpty(this.project)" :stencils="project.stencils" :projectId="project.id"
+                        :showPlainOption="project.stencil_optional" v-on:update-stencil="stencil = $event"
                         v-on:update-personalization="personalizedStencil = $event" />
 
       <addon-dropdown v-show="!isObjectEmpty(this.project)" :addons="project.addons"
                       v-on:update-addon="addon = $event" />
 
-      <hr>
+      <hr class="mt-0">
 
-      <div class="form-row">
-        <div class="form-group col">
-          <div class="custom-switch custom-control">
-            <input class="custom-control-input" required="required" type="checkbox" value="1" id="acknowledgment">
-            <label class="custom-control-label" for="acknowledgment">Acknowledgment</label>
-          </div>
-          <p class="form-control-plaintext">
-            I understand this is a Wood Workshop, so my sign MAY HAVE random cracks, chips, knots, and
-            other NATURAL blemishes that give it it’s characteristics.
-          </p>
-        </div>
+      <customer-agreement :workshop="workshop" v-on:update-agreements="allAgreementsChecked = $event" />
+
+      <div v-if="errors.length" class="alert alert-danger">
+        Please correct the following error(s):
+        <ul>
+          <li v-for="error in errors">{{ error }}</li>
+        </ul>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col">
-          <div class="custom-switch custom-control">
-            <input class="custom-control-input" required="required" type="checkbox" value="1" id="design_confirmation">
-            <label class="custom-control-label" for="design_confirmation">Design confirmation</label>
-          </div>
-          <p class="form-control-plaintext">
-            I have entered the correct design and/or customization info. I userstand that NO CHANGES
-            can be made to my design choice OR any personalization once my reservation is submitted.
-          </p>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col">
-          <div class="custom-switch custom-control">
-            <input class="custom-control-input" required="required" type="checkbox" value="1" id="policy_agreement">
-            <label class="custom-control-label" for="policy_agreement">Policy agreement</label>
-          </div>
-          <p class="form-control-plaintext">
-            I have read and agree to the
-            <a href="/policies">Public Workshop Policies.</a>
-            I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
-            in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
-            later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
-            I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
-          </p>
-        </div>
-      </div>
-
-      <button class="btn btn-info btn-block" v-on:click="submit()">
+      <button class="btn btn-info btn-block" type="submit">
         <i class="fas fa-cart-plus "></i>
         Add to Cart
       </button>

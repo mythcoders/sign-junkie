@@ -19,4 +19,26 @@ class Project < ApplicationRecord
   def total_price
     material_price + instructional_price
   end
+
+  def stencils_by_category
+    results = []
+
+    stencils.group_by(&:category)
+            .sort_by { |category, _| category[:name].downcase }
+            .each do |category, items|
+      results << {
+        category_name: category.name,
+        stencils: items.sort_by { |stencil| stencil.name.downcase }
+                       .map do |stencil|
+                    {
+                      id: stencil.id,
+                      name: stencil.name,
+                      personilization_allowed: stencil.allow_personilization
+                    }
+                  end
+      }
+    end
+
+    results
+  end
 end

@@ -4,5 +4,8 @@
 %p.card-text
   = fa_solid 'toolbox', 'text-primary fa-fw'
   = "#{workshop_type_name(workshop)} Workshop"
+%p.card-text
+  = fa_solid 'ticket-alt', 'text-primary fa-fw'
+  #{workshop.seats_available} seats available
 - if workshop.description
   %p.card-text= workshop.description

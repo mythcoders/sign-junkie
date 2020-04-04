@@ -43,7 +43,7 @@ export default {
     <div class="form-group col">
       <i class="fas fa-sign text-primary fa-fw"></i>
       <label for="project">Project</label>
-      <select class="form-control custom-select" required="required" id="project_id" v-model="project">
+      <select class="form-control custom-select" id="project_id" v-model="project">
         <option v-if="projects && projects.length == 0" :value='{}'>No projects for this workshop</option>
         <option :value='{}'>- Please select a project -</option>
         <option v-for="project in applicableProjects()" :value="project">

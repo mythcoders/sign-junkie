@@ -16,7 +16,7 @@ export default {
     }
   },
   methods: {
-    recipientVisible: function() {
+    guestInformationVisible: function() {
       return this.guestType != 'self';
     }
   },
@@ -44,7 +44,7 @@ export default {
 <div>
   <div class="form-row">
     <div class="form-group col">
-      <i class="fas fa-chair text-primary fa-fw"></i>
+      <i class="fas fa-user text-primary fa-fw"></i>
       <label>Who is this seat for?</label>
       <div class="custom-control custom-radio">
         <input class='custom-control-input' type="radio" v-model="guestType" id="self" value="self" name="guestType">
@@ -65,23 +65,21 @@ export default {
     </div>
   </div>
 
-  <div v-show="recipientVisible()">
+  <div v-show="guestInformationVisible()">
     <h6 class="card-title">
       <i class="fas fa-user text-primary fa-fw"></i>
-      Recipient Information
+      Guest Information
     </h6>
     <div class="form-row">
       <div class="form-group col-6">
         <label for="firstName">First name</label>
-        <input class="form-control" autocomplete="false" type="text" v-model="firstName" id="firstName"
-               required="required">
+        <input class="form-control" autocomplete="false" type="text" v-model="firstName" id="firstName">
       </div>
       <div class="form-group col-6">
         <label for="lastName">Last name</label>
-        <input class="form-control" autocomplete="false" type="text" v-model="lastName" id="lastName"
-               required="required">
+        <input class="form-control" autocomplete="false" type="text" v-model="lastName" id="lastName">
       </div>
-      <div class="form-group col-12">
+      <div class="form-group col-12" v-show="this.guestType === 'adult'">
         <label for="email">Email address</label>
         <input class="form-control" autocomplete="false" type="text" v-model="email" id="email">
       </div>
@@ -92,11 +90,11 @@ export default {
     <div class="form-group col">
       <i class="fas fa-chair text-primary fa-fw"></i>
       <label for="seatingPreference">Seating preference</label>
-      <input class="form-control" autocomplete="false" type="text" id="seatingPreference" v-model="seatingPreference">
       <p class="form-control-plaintext text-muted">
-        If you would like to sit next to someone, enter their name here and we'll do our best to accomidate your
-        request.
+        If {{ this.guestType === 'self' ? 'you' : 'the guest' }} would like to sit next to someone specific enter
+        their name here and we'll do our best to accomidate your request.
       </p>
+      <input class="form-control" autocomplete="false" type="text" id="seatingPreference" v-model="seatingPreference">
     </div>
   </div>
 </div>

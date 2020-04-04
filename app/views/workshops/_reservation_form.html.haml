@@ -12,6 +12,7 @@
     = fa_solid 'usd-circle', 'text-primary fa-fw'
     %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
     %input{id: 'base-price', value: '0.00', type: 'hidden'}
+  %hr.mt-0
   .form-row
     .form-group.col
       = fa_solid 'file-invoice', 'text-primary fa-fw'
@@ -24,6 +25,7 @@
         = f.radio_button :payment_plan, 'host', class: 'custom-control-input', required: 'required'
         = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
           Host will pay for all guests and the projects they select
+  %hr.mt-0
   .form-row
     .form-group.col
       .custom-switch.custom-control

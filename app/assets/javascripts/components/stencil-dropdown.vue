@@ -6,6 +6,12 @@ export default {
   props: {
     stencils: {
       required: true
+    },
+    projectId: {
+      required: true
+    },
+    showPlainOption: {
+      required: true
     }
   },
   data: function() {
@@ -19,6 +25,9 @@ export default {
       if (utils.isObjectEmpty(this.stencil)) return false;
 
       return this.stencil.personilization_allowed;
+    },
+    isObjectEmpty: function(value) {
+      return utils.isObjectEmpty(value)
     }
   },
   watch: {
@@ -33,15 +42,15 @@ export default {
 </script>
 
 <template>
-<div>
+<div v-if="stencils && stencils.length">
   <div class="form-row">
     <div class="form-group col">
       <i class="fas fa-swatchbook text-primary fa-fw"></i>
       <label for="stencil">Stencil design</label>
       <div class="input-group">
         <select class="form-control custom-select" id="stencil" v-model="stencil">
-          <option v-if="stencils && stencils.length == 0" :value='{}'>No stencils for project</option>
           <option :value='{}'>- Please select a stencil -</option>
+          <option :value='{}' v-show="showPlainOption">Plain (no stencil or personalization)</option>
           <optgroup v-for="category in stencils" :label="category.category_name">
             <option v-for="stencil in category.stencils" :value="stencil">
               {{ stencil.name }}
@@ -49,7 +58,8 @@ export default {
           </optgroup>
         </select>
         <div class="input-group-append">
-          <a class="btn btn-outline-secondary" href="/projects/13" target="_blank">Preview</a>
+          <a class="btn btn-outline-info" v-bind:href="'/projects/' + this.projectId" target="_blank"
+             v-show="!isObjectEmpty(stencil)">Preview</a>
         </div>
       </div>
     </div>

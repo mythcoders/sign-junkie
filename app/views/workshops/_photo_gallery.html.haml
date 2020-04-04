@@ -1,0 +1,18 @@
+.row
+  - if @workshop.workshop_images.any?
+    .col-12.d-flex.justify-content-center
+      %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}",
+        src: url_for(@workshop.workshop_images.first), 'data-js-img-gallery-preview': ''}
+    - @workshop.workshop_images.each do |img|
+      .workshop-img-item
+        %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+  - else
+    .col-12
+      %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}",
+        src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
+
+  - @workshop.projects.each do |project|
+    - project.project_images.each do |img|
+      .workshop-img-item.mb-3.text-center
+        %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+        %a{href: project_path(project)}= project.name

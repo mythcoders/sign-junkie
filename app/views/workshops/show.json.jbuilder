@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 json.call(@workshop, :id, :name, :family_friendly)
+json.type @workshop.workshop_type.name
 json.seat_purchaseable @workshop.seat_purchaseable?
 json.reservation_purchaseable @workshop.reservation_purchaseable?
 json.remaining_seats @workshop.seats_available
 json.purchase_end_date special_date(@workshop.purchase_end_date)
 
+json.policies_path workshop_policies_path @workshop
+json.hosting_path workshop_hosting_path @workshop
+
 json.projects @workshop.projects do |project|
-  json.call(project, :id, :name, :instructional_price, :material_price, :prohibit_adult_purchases,
-            :stencil_optional, :max_stencil_selection)
+  json.call(project, :id, :name, :prohibit_adult_purchases, :stencil_optional, :max_stencil_selection)
+  json.price project.instructional_price + project.material_price
 
   json.addons project.addons do |addon|
     json.id addon.id
@@ -16,24 +20,5 @@ json.projects @workshop.projects do |project|
     json.price addon.price
   end
 
-  stencils = []
-
-  # Group the stencils by category, then sort by category name downcase as to ignore case
-  project.stencils.group_by(&:category)
-         .sort_by { |cat, _| cat[:name].downcase }
-         .each do |cat, items|
-    stencils << {
-      category_name: cat.name,
-      stencils: items.sort_by { |s| s.name.downcase }
-                     .map do |s|
-                  {
-                    id: s.id,
-                    name: s.name,
-                    personilization_allowed: s.allow_personilization
-                  }
-                end
-    }
-  end
-
-  json.stencils stencils
+  json.stencils project.stencils_by_category
 end

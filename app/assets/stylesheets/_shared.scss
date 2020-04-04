@@ -3,6 +3,12 @@
 // Styles used in both the public and admin portal
 //
 
+.custom-select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .padded-body {
   padding-top: 5rem;
 }
