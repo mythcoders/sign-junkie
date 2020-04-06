@@ -86,6 +86,8 @@ export default {
         this.errors.push('All terms and conditions have not been accepted.')
       }
 
+      this.errors.push('Cart feature is currently disabled.')
+
       if (this.errors.length) {
         e.preventDefault();
         return false;
@@ -98,7 +100,7 @@ export default {
           project_id: this.project.id,
           stencil_id: this.stencil.id,
           addon_id: this.addon.id,
-          guest_type: this.guestType
+          guest_type: this.guestType,
           first_name: this.firstName,
           last_name: this.lastName,
           email: this.email
