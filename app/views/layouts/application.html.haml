@@ -25,8 +25,3 @@
         = yield
       = render partial: 'layouts/partials/footer'
     = yield :scripts
-    - if Rails.env.production?
-      :javascript
-        $(function() {
-          Raven.config("#{Rails.application.credentials.errors_dsn}").install();
-        });

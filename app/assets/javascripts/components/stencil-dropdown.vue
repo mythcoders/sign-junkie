@@ -49,7 +49,7 @@ export default {
       <label for="stencil">Stencil design</label>
       <div class="input-group">
         <select class="form-control custom-select" id="stencil" v-model="stencil">
-          <option :value='{}'>- Please select a stencil -</option>
+          <option :value='{}' v-show="!showPlainOption">- Please select a stencil -</option>
           <option :value='{}' v-show="showPlainOption">Plain (no stencil or personalization)</option>
           <optgroup v-for="category in stencils" :label="category.category_name">
             <option v-for="stencil in category.stencils" :value="stencil">

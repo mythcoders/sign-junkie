@@ -43,8 +43,7 @@ class CartController < ApplicationController
 
   # Are you there
   def cart_params
-    params.require(:cart)
-          .permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
+    params.permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
                   :first_name, :last_name, :email, :amount, :gift_seat, :payment_plan, :seat_id, :reservation_id,
                   :guest_type)
   end

@@ -6,7 +6,7 @@ x-shared-environment-variables: &shared-environment-variables
   GITLAB_ENVIRONMENT_NAME: development
   GITLAB_ENVIRONMENT_URL: apollo.mythcoders.dev
   PAYMENT_ENV: sandbox
-  DATABASE_URL: "postgres://postgres:postgres@myth-psql:5432/apollo_dev"
+  DATABASE_URL: postgres://postgres:postgres@myth-psql:5432/apollo_dev
   STORAGE_BUCKET: none
   REDIS_URL: redis://myth-redis:6379/0
   REDIS_NAMESPACE: apollo-dev
@@ -25,7 +25,6 @@ services:
       - "traefik.frontend.rule=Host:apollo.mythcoders.dev"
     volumes:
       - .:/app
-      - '/app/node_modules/'
     environment:
       <<: *shared-environment-variables
       WEBPACKER_DEV_SERVER_HOST: webpacker
@@ -41,7 +40,6 @@ services:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     volumes:
       - .:/app
-      - '/app/node_modules/'
     ports:
       - '5001'
     depends_on:

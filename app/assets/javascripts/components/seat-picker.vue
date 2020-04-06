@@ -26,18 +26,18 @@ export default {
   },
   data: function() {
     return {
-      guestType: 'self',
-      firstName: '',
-      lastName: '',
-      email: '',
+      errors: [],
+      allAgreementsChecked: false,
       workshop: {},
       project: {},
       stencil: {},
       addon: {},
+      guestType: 'self',
+      firstName: '',
+      lastName: '',
+      email: '',
       personalizedStencil: '',
-      seatingPreference: '',
-      allAgreementsChecked: false,
-      errors: []
+      seatingPreference: ''
     }
   },
   beforeCreate() {
@@ -63,7 +63,7 @@ export default {
     isObjectEmpty: function(obj) {
       return utils.isObjectEmpty(obj);
     },
-    checkForm: function(e) {
+    validateForm: function(e) {
       this.errors = [];
 
       if (this.guestType != 'self') {
@@ -91,7 +91,27 @@ export default {
         return false;
       }
 
-      return true;
+      axios.post('/cart', {
+          type: 'seat',
+          authenticity_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          workshop_id: this.workshop.id,
+          project_id: this.project.id,
+          stencil_id: this.stencil.id,
+          addon_id: this.addon.id,
+          guest_type: this.guestType
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email
+        })
+        .then(function(response) {
+          // go to cart page if successful
+          // add items to errors if not
+          console.log(response);
+        })
+        .catch(function(error) {
+          // add items to errors
+          console.log(error);
+        });
     }
   }
 }
@@ -108,10 +128,10 @@ export default {
   </div>
 
   <div v-show="!this.isObjectEmpty(this.workshop)">
-    <form @submit="checkForm" method="POST">
+    <form @submit="validateForm">
       <p class="card-text">
         <i class="fas fa-calendar-exclamation text-primary fa-fw"></i>
-
+        Seats must be purchased by {{ workshop.purchase_end_date }}
       </p>
       <p class="card-text">
         <i class="fas fa-usd-circle text-primary fa-fw"></i>
