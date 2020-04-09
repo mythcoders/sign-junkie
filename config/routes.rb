@@ -25,6 +25,41 @@ Rails.application.routes.draw do
 
   root to: 'public#index'
 
+  namespace :api do
+    resources :cart, only: %i[index create]
+  end
+
+  # customer facing
+  get 'my_account', to: 'public#my_account'
+  get 'my_credits', to: 'public#my_credits'
+  get 'gift_cards', to: 'public#gift_cards'
+  get 'about', to: 'public#about'
+  get 'contact', to: 'public#contact'
+  get 'faq', to: 'public#faq'
+  get 'waiver', to: 'public#waiver'
+  get 'how_it_works', to: 'public#how_it_works'
+  get 'policies', to: 'workshops#public_policies'
+  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
+  get 'privacy', to: 'public#privacy'
+  get 'private_policies', to: 'workshops#private_policies'
+  get 'private_hostess', to: 'workshops#hostess_policies'
+  get 'workshops/public', to: 'workshops#public'
+  get 'workshops/private', to: 'workshops#private'
+  get 'workshops/bookings', to: 'workshops#hostess_public_policies'
+
+  resources :addons, only: %i[index show]
+  resources :cart, only: %i[index create destroy]
+  resources :invoices, only: %i[index show new create], path: 'orders'
+  resources :projects, only: %i[index show]
+  resources :reservations, only: %i[index show new create], concerns: :cancelable do
+    resources :seats, only: %i[show edit new create update] do
+      post 'remind', action: :remind, on: :member
+    end
+  end
+  resources :seats, only: %i[index show], concerns: :cancelable
+  resources :stencils, only: %i[index show]
+  resources :workshops, only: %i[index show]
+
   # admin portal
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
@@ -67,36 +102,5 @@ Rails.application.routes.draw do
     resources :workshops, concerns: %i[cloneable image_attachable]
     resources :workshop_types
   end
-
-  # customer facing
-  get 'my_account', to: 'public#my_account'
-  get 'my_credits', to: 'public#my_credits'
-  get 'gift_cards', to: 'public#gift_cards'
-  get 'about', to: 'public#about'
-  get 'contact', to: 'public#contact'
-  get 'faq', to: 'public#faq'
-  get 'waiver', to: 'public#waiver'
-  get 'how_it_works', to: 'public#how_it_works'
-  get 'policies', to: 'workshops#public_policies'
-  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
-  get 'privacy', to: 'public#privacy'
-  get 'private_policies', to: 'workshops#private_policies'
-  get 'private_hostess', to: 'workshops#hostess_policies'
-  get 'workshops/public', to: 'workshops#public'
-  get 'workshops/private', to: 'workshops#private'
-  get 'workshops/bookings', to: 'workshops#hostess_public_policies'
-
-  resources :addons, only: %i[index show]
-  resources :cart, only: %i[index create destroy]
-  resources :invoices, only: %i[index show new create], path: 'orders'
-  resources :projects, only: %i[index show]
-  resources :reservations, only: %i[index show new create], concerns: :cancelable do
-    resources :seats, only: %i[show edit new create update] do
-      post 'remind', action: :remind, on: :member
-    end
-  end
-  resources :seats, only: %i[index show], concerns: :cancelable
-  resources :stencils, only: %i[index show]
-  resources :workshops, only: %i[index show]
 end
 # rubocop:enable Metrics/BlockLength

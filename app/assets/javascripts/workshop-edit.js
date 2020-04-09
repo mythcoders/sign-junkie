@@ -1,11 +1,9 @@
-onmount("[data-js-workshop-type]", function () {
-  $(this).on("change ready load", function () {
+$(function() {
+  $('[data-js-workshop-type]').on("change ready load", function() {
     console.log('direct')
     updateDefaultOptions(this);
   })
-});
 
-$(function () {
   selected = document.querySelector('input[data-js-workshop-type]:checked')
   if (selected) {
     updateDefaultOptions(selected);

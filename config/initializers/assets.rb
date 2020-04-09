@@ -16,5 +16,4 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts
 Rails.application.config.assets.precompile += %w[admin.css
                                                  admin_dark.css
                                                  mailer.css
-                                                 admin.js
-                                                 components/project-selector]
+                                                 admin.js]
