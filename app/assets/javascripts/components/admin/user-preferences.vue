@@ -1,5 +1,5 @@
 <script>
-const cookieHelper = require('cookie-helper.js')
+const cookieHelper = require('lib/utils/cookie-helper.js')
 
 export default {
   name: 'UserPreferences',

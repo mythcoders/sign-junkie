@@ -4,7 +4,7 @@ require.context('../images', true)
 
 import * as Sentry from '@sentry/browser';
 import Vue from 'vue/dist/vue.esm'
-import UserPreferences from '../components/user-preferences'
+import UserPreferences from '../components/admin/user-preferences'
 import WorkshopGrid from '../components/admin/workshop-grid'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'

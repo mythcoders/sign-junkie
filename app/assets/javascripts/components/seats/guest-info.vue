@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'SeatGuestInfo',
+  name: 'GuestInfo',
   props: {
     seatsForChildren: {
       required: true

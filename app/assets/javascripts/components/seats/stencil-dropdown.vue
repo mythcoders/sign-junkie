@@ -1,5 +1,5 @@
 <script>
-const utils = require('utils.js')
+const utils = require('lib/utils/utils.js')
 
 export default {
   name: 'StencilDropdown',

@@ -1,19 +1,19 @@
 <script>
 import axios from 'axios/dist/axios.min'
-import AddonDropdown from '../components/addon-dropdown.vue'
-import CustomerAgreement from '../components/customer-agreement.vue'
-import ProjectDropdown from '../components/project-dropdown.vue'
-import SeatGuestInfo from '../components/seat-guest-info.vue'
-import StencilDropdown from '../components/stencil-dropdown.vue'
-const utils = require('utils.js')
+import AddonDropdown from '../components/seats/addon-dropdown.vue'
+import Agreements from '../components/seats/agreements.vue'
+import GuestInfo from '../components/seats/guest-info.vue'
+import ProjectDropdown from '../components/seats/project-dropdown.vue'
+import StencilDropdown from '../components/seats/stencil-dropdown.vue'
+const utils = require('lib/utils/utils.js')
 
 export default {
   name: 'SeatPicker',
   components: {
     'addon-dropdown': AddonDropdown,
-    'customer-agreement': CustomerAgreement,
+    'agreements': Agreements,
     'project-dropdown': ProjectDropdown,
-    'seat-guest-info': SeatGuestInfo,
+    'guest-info': GuestInfo,
     'stencil-dropdown': StencilDropdown
   },
   props: {
@@ -148,9 +148,9 @@ export default {
 
       <hr>
 
-      <seat-guest-info :seatsForChildren="workshop.family_friendly" v-on:update-guestType="guestType = $event"
-                       v-on:update-firstName="firstName = $event" v-on:update-lastName="lastName = $event"
-                       v-on:update-email="email = $event" v-on:update-seatingPreference="seatingPreference = $event" />
+      <guest-info :seatsForChildren="workshop.family_friendly" v-on:update-guestType="guestType = $event"
+                  v-on:update-firstName="firstName = $event" v-on:update-lastName="lastName = $event"
+                  v-on:update-email="email = $event" v-on:update-seatingPreference="seatingPreference = $event" />
 
       <hr class="mt-0">
 
@@ -165,7 +165,7 @@ export default {
 
       <hr class="mt-0">
 
-      <customer-agreement :workshop="workshop" v-on:update-agreements="allAgreementsChecked = $event" />
+      <agreements :workshop="workshop" v-on:update-agreements="allAgreementsChecked = $event" />
 
       <div v-if="errors.length" class="alert alert-danger">
         Please correct the following error(s):

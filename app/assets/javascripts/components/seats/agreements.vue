@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'CustomerAgreement',
+  name: 'Agreements',
   props: {
     workshop: {
       required: true
