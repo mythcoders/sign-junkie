@@ -13,15 +13,12 @@ class CartController < ApplicationController
   end
 
   def create
-    begin
-      raise ProcessError, t('cart.add.failure') unless cart_service.add(current_user, cart_params)
+    raise ProcessError, t('cart.add.failure') unless cart_service.add(current_user, cart_params)
 
-      flash[:success] = t('cart.add.success')
-      return redirect_to cart_index_path
-    rescue ProcessError => e
-      flash[:error] = e.message
-    end
-
+    flash[:success] = t('cart.add.success')
+    redirect_to cart_index_path
+  rescue ProcessError => e
+    flash[:error] = e.message
     redirect_back(fallback_location: root_path)
   end
 
@@ -41,7 +38,6 @@ class CartController < ApplicationController
     @cart_service ||= CartService.new
   end
 
-  # Are you there
   def cart_params
     params.permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
                   :first_name, :last_name, :email, :amount, :gift_seat, :payment_plan, :seat_id, :reservation_id,

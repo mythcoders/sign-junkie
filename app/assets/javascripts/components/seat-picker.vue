@@ -86,33 +86,38 @@ export default {
         this.errors.push('All terms and conditions have not been accepted.')
       }
 
-      this.errors.push('Cart feature is currently disabled.')
+      // this.errors.push('Cart feature is currently disabled.')
 
       if (this.errors.length) {
         e.preventDefault();
         return false;
       }
 
-      axios.post('/cart', {
+      axios.post('/api/cart', {
           type: 'seat',
           authenticity_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
           workshop_id: this.workshop.id,
           project_id: this.project.id,
-          stencil_id: this.stencil.id,
-          addon_id: this.addon.id,
+          stencil_id: utils.isObjectEmpty(this.stencil) ? 0 : this.stencil.id,
+          stencil: this.personalizedStencil,
+          seating: this.seatingPreference,
+          addon_id: utils.isObjectEmpty(this.addon) ? 0 : this.addon.id,
           guest_type: this.guestType,
+          gift_seat: false, //should this be true when guestType != 'self'
           first_name: this.firstName,
           last_name: this.lastName,
           email: this.email
         })
         .then(function(response) {
-          // go to cart page if successful
-          // add items to errors if not
-          console.log(response);
+          debugger;
+          if (response.status === 200) {
+            document.location = response.data.redirect_url
+          } else {
+            this.errors.push(response.data.errors)
+          }
         })
         .catch(function(error) {
-          // add items to errors
-          console.log(error);
+          this.errors.push('Your purchase could not be completed at this time. Please try again.')
         });
     }
   }

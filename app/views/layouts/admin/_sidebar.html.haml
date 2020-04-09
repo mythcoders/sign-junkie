@@ -3,7 +3,7 @@
     %button.navbar-toggler{"aria-controls": "navbarVertical", "aria-expanded": "false", "aria-label": "Toggle navigation", "data-target": "#navbarVertical", "data-toggle": "collapse", type: "button"}
       %span.navbar-toggler-icon
     = link_to admin_dashboard_path, class: 'navbar-brand' do
-      %img.navbar-brand-img.mx-auto{src: '/apollo.png'}
+      %img.navbar-brand-img.mx-auto{src: asset_pack_path('media/images/apollo.png')}
       = SystemInfo.app_name
       - unless Rails.env.production?
         %strong.text-warning.text-uppercase= EnvironmentInfo.current

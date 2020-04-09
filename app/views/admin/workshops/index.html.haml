@@ -12,16 +12,4 @@
       .col-auto
         = link_to 'New Workshop', new_admin_workshop_path, class: 'btn btn-primary lift'
 
-.card
-  = grid(@workshops_grid) do |g|
-    - g.row_attributes do |t|
-      - {data: { 'clickable-row': '', 'href': admin_workshop_path(t)}}
-    - g.column name: 'Name', attribute: 'name'
-    - g.column name: 'Status' do |t|
-      - render partial: 'statuses/workshop', locals: { workshop: t }
-    - g.column name: 'Date', attribute: 'start_date', filter_type: :timeframe_picker do |t|
-      - t.when
-    - g.column name: 'Type', attribute: 'workshop_type_id', custom_filter: WorkshopType.to_dropdown do |t|
-      - workshop_type_name(t)
-    - g.column name: 'Seats Available' do |t|
-      - "#{t.seats_available}/#{t.total_seats}"
+%workshop-grid

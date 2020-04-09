@@ -6,9 +6,10 @@ module Admin
     before_action :set_workshop_types, only: %i[edit update new]
 
     def index
-      @workshops_grid = initialize_grid(Workshop,
-                                        include: [:workshop_type],
-                                        order: 'start_date')
+      respond_to do |format|
+        format.html
+        format.json { @workshops = Workshop.all }
+      end
     end
 
     def new

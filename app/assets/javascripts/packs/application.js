@@ -1,5 +1,7 @@
 /* eslint no-console:0 */
 
+require.context('../images', true)
+
 import * as Sentry from '@sentry/browser';
 import Vue from 'vue/dist/vue.esm'
 import SeatCreator from '../components/seat-creator.vue'
@@ -8,7 +10,6 @@ import SeatPicker from '../components/seat-picker.vue'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
-import '../clickable-row'
 import '../gallery'
 import '../global'
 

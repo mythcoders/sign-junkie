@@ -19,5 +19,5 @@
             .text-center.mt-3
               %a.link-teal{href: root_path}= "\u00A9 #{Time.zone.today.year} #{ClientInfo.owner}"
           .col-12.col-md-6.col-lg-6.col-xl-8.d-none.d-lg-block
-            .bg-cover.vh-100.mt-n1.mr-n3{:style => "background-image: url(/Private.jpeg);"}
-    = yield :scripts    
+            .bg-cover.vh-100.mt-n1.mr-n3{:style => "background-image: url(#{asset_pack_path('media/images/Private.jpeg')});"}
+    = yield :scripts

@@ -12,7 +12,8 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      seatingPreference: ''
+      hasSeatPreference: false,
+      requestedSeat: ''
     }
   },
   methods: {
@@ -33,7 +34,7 @@ export default {
     email: function(value) {
       this.$emit('update-email', value)
     },
-    seatingPreference: function(value) {
+    requestedSeat: function(value) {
       this.$emit('update-seatingPreference', value)
     }
   }
@@ -73,15 +74,15 @@ export default {
     <div class="form-row">
       <div class="form-group col-6">
         <label for="firstName">First name</label>
-        <input class="form-control" autocomplete="false" type="text" v-model="firstName" id="firstName">
+        <input class="form-control" autocomplete="false" type="text" v-model="firstName">
       </div>
       <div class="form-group col-6">
         <label for="lastName">Last name</label>
-        <input class="form-control" autocomplete="false" type="text" v-model="lastName" id="lastName">
+        <input class="form-control" autocomplete="false" type="text" v-model="lastName">
       </div>
       <div class="form-group col-12" v-show="this.guestType === 'adult'">
         <label for="email">Email address</label>
-        <input class="form-control" autocomplete="false" type="text" v-model="email" id="email">
+        <input class="form-control" autocomplete="false" type="text" v-model="email">
       </div>
     </div>
   </div>
@@ -89,12 +90,26 @@ export default {
   <div class="form-row">
     <div class="form-group col">
       <i class="fas fa-chair text-primary fa-fw"></i>
-      <label for="seatingPreference">Seating preference</label>
-      <p class="form-control-plaintext text-muted">
-        If {{ this.guestType === 'self' ? 'you' : 'the guest' }} would like to sit next to someone specific enter
-        their name here and we'll do our best to accomidate your request.
-      </p>
-      <input class="form-control" autocomplete="false" type="text" id="seatingPreference" v-model="seatingPreference">
+      <label>Seating preference</label>
+      <div class="custom-switch custom-control">
+        <input class="custom-control-input" type="checkbox" value="1" id="hasSeatPreference"
+               v-model="hasSeatPreference">
+
+        <label class="custom-control-label" for="hasSeatPreference" v-show="guestInformationVisible()">
+          Would {{ this.firstName || 'this guest' }} like to sit next to someone specific?
+        </label>
+        <label class="custom-control-label" for="hasSeatPreference" v-show="!guestInformationVisible()">
+          Would you like to sit next to someone specific?
+        </label>
+
+        <div v-show="this.hasSeatPreference">
+          <p class="form-control-plaintext text-muted" v-show="this.hasSeatPreference">
+            Enter the guests name below. We'll do our best to accomidate your request.
+          </p>
+          <input class="form-control" autocomplete="false" type="text" v-model="requestedSeat"
+                 placeholder="First and Last name">
+        </div>
+      </div>
     </div>
   </div>
 </div>

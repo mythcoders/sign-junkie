@@ -1,18 +1,20 @@
 /* eslint no-console:0 */
 
+require.context('../images', true)
+
 import * as Sentry from '@sentry/browser';
 import Vue from 'vue/dist/vue.esm'
 import UserPreferences from '../components/user-preferences'
+import WorkshopGrid from '../components/admin/workshop-grid'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'jquery.easing/jquery.easing.min'
 import 'tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min'
 import 'select2/dist/js/select2.js'
 import 'bs-custom-file-input/dist/bs-custom-file-input.min'
-// import wice_grid
+import '@progress/kendo-theme-bootstrap/dist/all.css'
 
 import '../global'
-import '../clickable-row'
 import '../workshop-edit'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     el: '#apollo-app',
     components: {
-      UserPreferences
+      UserPreferences,
+      WorkshopGrid
     }
   })
   $('.toast').toast('show')
