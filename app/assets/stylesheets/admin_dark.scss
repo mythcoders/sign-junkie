@@ -9,7 +9,7 @@
 @import "bootstrap/scss/functions";
 
 // Custom variables
-@import "admin_portal_variables";
+@import "apollo/admin_variables";
 
 // Dashkit variables
 @import "dashkit/dark/variables-dark";
@@ -23,5 +23,5 @@
 @import "dashkit/dark/overrides-dark";
 
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "apollo/admin";
+@import "apollo/shared";

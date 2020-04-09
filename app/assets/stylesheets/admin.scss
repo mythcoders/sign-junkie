@@ -11,7 +11,7 @@
 // @import "select2/src/scss/core.scss";
 
 // Custom variables
-@import "admin_portal_variables";
+@import "apollo/admin_variables";
 
 // Dashkit variables
 @import "dashkit/variables";
@@ -25,5 +25,5 @@
 @import "wice_grid";
 
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "apollo/admin";
+@import "apollo/shared";
