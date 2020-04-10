@@ -98,7 +98,7 @@ class CartService < ApplicationService
     end
 
     if params[:first_name].present?
-      cart.gifted = true # should we consider this a gifted seat? The UI expects the `seat` to already be populated
+      cart.gifted = true
       cart.first_name = params[:first_name]
       cart.last_name = params[:last_name]
     end

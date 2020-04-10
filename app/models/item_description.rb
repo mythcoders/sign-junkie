@@ -45,6 +45,10 @@ class ItemDescription < ApplicationRecord
       "#{reservation.host.full_name.pluralize} #{workshop_name}"
     elsif reservation?
       "Reservation for #{workshop_name}"
+    # elsif seat?
+    #   "Seat to #{workshop_name}"
+    # elsif gifted_seat?
+    #   ''
     elsif gift_card?
       'Gift Card'
     else

@@ -1,0 +1,17 @@
+.k-grid-table {
+  .k-master-row {
+    background-color: $table-bg;
+  }
+
+  .k-master-row:hover {
+    cursor: pointer;
+    color: $table-color;
+    background-color: $gray-900-dark;
+  }
+
+  .k-master-row {
+    .k-alt {
+      background-color: $table-accent-bg
+    }
+  }
+}

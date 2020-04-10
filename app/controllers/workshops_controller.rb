@@ -28,12 +28,13 @@ class WorkshopsController < ApplicationController
   end
 
   def set_seat_check
-    @already_attending = if current_user
-                           seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
-                           seats.any? ? seats.first.id : false
-                         else
-                           false
-                         end
+    @already_attending = 23
+    # @already_attending = if current_user
+    #                        seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
+    #                        seats.any? ? seats.first.id : false
+    #                      else
+    #                        false
+    # end
   end
 
   def set_reservation_check

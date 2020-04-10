@@ -35,7 +35,7 @@ export default {
       project: {},
       stencil: {},
       addon: {},
-      guestType: 'self',
+      guestType: '',
       firstName: '',
       lastName: '',
       email: '',

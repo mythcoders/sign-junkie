@@ -1,5 +1,5 @@
-onmount("[data-js-guest-type]", function() {
-  $(this).on("change", function(event) {
+document.addEventListener('DOMContentLoaded', () => {
+  $("[data-js-guest-type]").on("change", function(event) {
     if (event.target.value == 'adult') {
       $("#guest-info-title")[0].innerHTML = 'Guest Information'
       $("#child-info-title")[0].innerHTML = 'Guest Information'
@@ -25,4 +25,4 @@ onmount("[data-js-guest-type]", function() {
     $("#seat_child_first_name").attr("required", event.target.value != 'adult');
     $("#seat_child_last_name").attr("required", event.target.value != 'adult');
   })
-});
+})

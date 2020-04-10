@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
       WorkshopGrid
     }
   })
+  $('[data-clickable-row]').on('click', function() {
+    var row_href = $(this).attr('data-href');
+    if (row_href) {
+      document.location = $(this).attr('data-href');
+    }
+  })
   $('.toast').toast('show')
   $.fn.datetimepicker.Constructor.Default = $.extend({},
     $.fn.datetimepicker.Constructor.Default, {

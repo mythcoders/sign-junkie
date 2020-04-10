@@ -12,7 +12,7 @@ export default {
   },
   data: function() {
     return {
-      guestType: 'self',
+      guestType: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     guestInformationVisible: function() {
-      return this.guestType != 'self';
+      return this.guestType === 'adult' || this.guestType === 'guest' || this.guestType === 'child';
     }
   },
   watch: {

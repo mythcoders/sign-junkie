@@ -1,4 +1,4 @@
-$(function() {
+document.addEventListener('DOMContentLoaded', () => {
   $('[data-js-workshop-type]').on("change ready load", function() {
     console.log('direct')
     updateDefaultOptions(this);
