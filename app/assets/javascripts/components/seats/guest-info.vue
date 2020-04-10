@@ -2,7 +2,11 @@
 export default {
   name: 'GuestInfo',
   props: {
-    seatsForChildren: {
+    isSelfTypeAllowed: {
+      required: false,
+      default: true
+    },
+    isChildTypeAllowed: {
       required: true
     }
   },
@@ -47,7 +51,7 @@ export default {
     <div class="form-group col">
       <i class="fas fa-user text-primary fa-fw"></i>
       <label>Who is this seat for?</label>
-      <div class="custom-control custom-radio">
+      <div class="custom-control custom-radio" v-show="isSelfTypeAllowed">
         <input class='custom-control-input' type="radio" v-model="guestType" id="self" value="self" name="guestType">
         <label class="custom-control-label" for="self">Myself</label>
       </div>
@@ -59,7 +63,7 @@ export default {
         <input class='custom-control-input' type="radio" v-model="guestType" id="guest" value="guest" name="guestType">
         <label class="custom-control-label" for="guest">Someone without an email address</label>
       </div>
-      <div class="custom-control custom-radio" v-show="seatsForChildren">
+      <div class="custom-control custom-radio" v-show="isChildTypeAllowed">
         <input class='custom-control-input' type="radio" v-model="guestType" id="child" value="child" name="guestType">
         <label class="custom-control-label" for="child">A child (ages 8-17)</label>
       </div>

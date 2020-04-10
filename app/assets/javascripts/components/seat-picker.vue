@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios/dist/axios.min'
+import Api from 'lib/api';
 import AddonDropdown from '../components/seats/addon-dropdown.vue'
 import Agreements from '../components/seats/agreements.vue'
 import GuestInfo from '../components/seats/guest-info.vue'
@@ -17,8 +17,11 @@ export default {
     'stencil-dropdown': StencilDropdown
   },
   props: {
-    workshopId: {
+    allowSelfPurchase: {
       required: true,
+    },
+    workshopId: {
+      required: false,
     },
     seatId: {
       required: false,
@@ -41,11 +44,7 @@ export default {
     }
   },
   beforeCreate() {
-    axios.get('/workshops/' + this.$options.propsData.workshopId, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
+    Api.workshop(this.$options.propsData.workshopId)
       .then(response => {
         this.workshop = response.data
       })
@@ -93,9 +92,8 @@ export default {
         return false;
       }
 
-      axios.post('/api/cart', {
+      Api.addToCart({
           type: 'seat',
-          authenticity_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
           workshop_id: this.workshop.id,
           project_id: this.project.id,
           stencil_id: utils.isObjectEmpty(this.stencil) ? 0 : this.stencil.id,
@@ -109,7 +107,6 @@ export default {
           email: this.email
         })
         .then(function(response) {
-          debugger;
           if (response.status === 200) {
             document.location = response.data.redirect_url
           } else {
@@ -148,9 +145,10 @@ export default {
 
       <hr>
 
-      <guest-info :seatsForChildren="workshop.family_friendly" v-on:update-guestType="guestType = $event"
-                  v-on:update-firstName="firstName = $event" v-on:update-lastName="lastName = $event"
-                  v-on:update-email="email = $event" v-on:update-seatingPreference="seatingPreference = $event" />
+      <guest-info :isSelfTypeAllowed="allowSelfPurchase" :isChildTypeAllowed="workshop.family_friendly"
+                  v-on:update-guestType="guestType = $event" v-on:update-firstName="firstName = $event"
+                  v-on:update-lastName="lastName = $event" v-on:update-email="email = $event"
+                  v-on:update-seatingPreference="seatingPreference = $event" />
 
       <hr class="mt-0">
 

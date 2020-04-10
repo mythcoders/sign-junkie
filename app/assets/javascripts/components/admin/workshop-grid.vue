@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios/dist/axios.min'
+import Api from 'lib/api'
 import {
   Grid,
   GridToolbar,
@@ -9,6 +9,7 @@ import {
   filterBy,
   CompositeFilterDescriptor
 } from '@progress/kendo-data-query';
+import parseDate from '@telerik/kendo-intl';
 
 export default {
   name: 'WorkshopGrid',
@@ -17,10 +18,12 @@ export default {
   },
   data: function() {
     return {
+      items: [],
       columns: [{
           field: 'id',
           title: 'ID',
-          width: '50px'
+          width: '50px',
+          hidden: true
         },
         {
           field: 'name',
@@ -37,7 +40,8 @@ export default {
         {
           field: 'start_date',
           title: 'Date',
-          format: '{0: yyyy-MM-dd}'
+          filterable: true,
+          format: '{0:yyyy-MM-dd}'
         },
         {
           field: 'type',
@@ -47,24 +51,14 @@ export default {
           field: 'seating',
           title: 'Seats Available'
         }
-      ],
-      workshops: []
+      ]
     };
   },
   mounted() {
-    axios.get('/admin/workshops/', {
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
+    Api.adminWorkshops()
       .then(response => {
-        this.workshops = response.data.workshops
+        this.items = response.data.workshops
       })
-  },
-  computed: {
-    dataItems() {
-      return this.workshops
-    }
   },
   methods: {
     rowClick: function(e) {
@@ -76,7 +70,7 @@ export default {
 
 <template>
 <div>
-  <Grid :data-items="workshops" @rowclick="rowClick" :columns="columns">
+  <Grid :data-items="items" @rowclick="rowClick" :columns="columns">
     <!-- <grid-toolbar>
       <div>
         <button title="Add new" class="k-button k-primary">

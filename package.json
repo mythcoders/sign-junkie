@@ -16,6 +16,7 @@
     "@progress/kendo-vue-popup": "^0.5.2",
     "@rails/webpacker": "5.0.1",
     "@sentry/browser": "^5.15.4",
+    "@telerik/kendo-intl": "^2.1.1",
     "autoprefixer": "^9.5.0",
     "axios": "^0.19.2",
     "bootstrap": "4.4.1",

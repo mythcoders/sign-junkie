@@ -1,1 +1,1 @@
-%seat-picker{'workshop-id': @workshop.id}
+%seat-picker{'v-bind:allow-self-purchase': @already_attending ? 'false' : 'true', 'v-bind:workshop-id': @workshop.id}

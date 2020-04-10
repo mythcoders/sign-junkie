@@ -11,9 +11,6 @@ export default {
       guestType: 'self'
     }
   },
-  // created: function() {
-  //   console.log("I'm open")
-  // },
   computed: {
     workshop: function() {
       if (this.workshopId == 0) return {};
@@ -25,9 +22,7 @@ export default {
     recipientVisible: function() {
       return this.workshopId != 'self';
     }
-  },
-  // function runs whenever property changes
-  watch: {}
+  }
 }
 </script>
 
