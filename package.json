@@ -32,6 +32,7 @@
     "popper.js": "^1.16.0",
     "postcss-loader": "^3.0.0",
     "rails-erb-loader": "^5.5.2",
+    "rails-ujs": "^5.2.4-2",
     "select2": "^4.0.12",
     "startbootstrap-freelancer": "^5.0.4",
     "tempusdominus-bootstrap-4": "^5.1.2",

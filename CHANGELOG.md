@@ -1,337 +1,348 @@
+#### 2004 - April ?, 2020
+
+-   Features
+    -   Seats to workshops can now be purchased for children.
+    -   Projects can be created that are only for children.
+-   Improvements
+    -   User experience when selecting a project or stencil
+-   Technical Improvements
+    -   Rewrote the component for selecting projects and stencils.
+    -   Rewrote the component for selecting gift cards.  
+
 #### 2003.1 - March 9, 2020
 
-- Technical improvements
-  - Revert change that reduced database calls
+-   Technical improvements
+    -   Revert change that reduced database calls
 
 #### 2003 - March 9, 2020
 
-- Improvements
-  - Family friendly workshops allow seats to assigned to a children by a Workshop Host
-  - Customers can purchase seats for another customer without providing that customers email address  
-  - The deposit amount is no longer listed under Hostess Guidelines for Private Workshops
-- Admin Portal Improvements
-  - When a project or workshop is cloned, the word "copy" is added to the name of the newly created record to clearly
-    identify the two.
-  - Workshop Guest List report
-  - Improved display of Payments and Refunds on an Invoice
-  - Improved layout of Workshop detail screen for easier display of workshop and attendee information. Also improved
-    layout on smaller screen devices.
-  - When viewing a stencil, you can now see which projects are currently associated with it  
-- Fixes
-  - An issue that prevented voiding payments they were successful but they invoice failed to process successfully
-- Technical features and improvements
-  - Increased efficiency by reducing the number of database calls that are made
-  - Security and other updates  
+-   Improvements
+    -   Family friendly workshops allow seats to assigned to a children by a Workshop Host
+    -   Customers can purchase seats for another customer without providing that customers email address  
+    -   The deposit amount is no longer listed under Hostess Guidelines for Private Workshops
+-   Admin Portal Improvements
+    -   When a project or workshop is cloned, the word "copy" is added to the name of the newly created record to clearly
+        identify the two.
+    -   Workshop Guest List report
+    -   Improved display of Payments and Refunds on an Invoice
+    -   Improved layout of Workshop detail screen for easier display of workshop and attendee information. Also improved
+        layout on smaller screen devices.
+    -   When viewing a stencil, you can now see which projects are currently associated with it  
+-   Fixes
+    -   An issue that prevented voiding payments they were successful but they invoice failed to process successfully
+-   Technical features and improvements
+    -   Increased efficiency by reducing the number of database calls that are made
+    -   Security and other updates  
 
 #### 2001 - January 19, 2020
 
-- Improvements
-  - The stencil personalization textbox only appears for Stencils that can be customized.
-  - Additional reminders that customers have 72 hours to confirm their account and that they won't be able to sign-in
-    until doing so.
-  - Updated the text of the email that is sent to customers when a seat is purchased for them.
-  - Background worker to send an email to reservation hosts if they have any guests that have not paid for their
-    projects. Runs daily at 06:00 for reservations that have a payment deadline at 23:59.
-  - Background worker to send an email to guests who have yet to make their project selection.    
-    Runs daily at 06:00 for reservations that have a registration deadline at 23:59.
-  - Background worker to send an email to users who have yet to confirm their account after signing up.
-    Also resends invitations that haven't been accepted after 48 hours. Runs daily at 06:00.
-- Admin Portal Improvements
-  - Added a New Customers report
-  - Tax Periods and Tax Rates can now be added, edited, and deleted
-  - Ability to delete customers who don't have any orders or shopping cart items associated to them
-  - Report descriptions added to the Reports screen
-  - Add-ons associated to a project are now clickable links to the Add-on itself
-- Fixes
-  - An issue where the reservation payment deadline was at 12:00AM rather than 11:59PM
+-   Improvements
+    -   The stencil personalization textbox only appears for Stencils that can be customized.
+    -   Additional reminders that customers have 72 hours to confirm their account and that they won't be able to sign-in
+        until doing so.
+    -   Updated the text of the email that is sent to customers when a seat is purchased for them.
+    -   Background worker to send an email to reservation hosts if they have any guests that have not paid for their
+        projects. Runs daily at 06:00 for reservations that have a payment deadline at 23:59.
+    -   Background worker to send an email to guests who have yet to make their project selection.  
+        Runs daily at 06:00 for reservations that have a registration deadline at 23:59.
+    -   Background worker to send an email to users who have yet to confirm their account after signing up.
+        Also resends invitations that haven't been accepted after 48 hours. Runs daily at 06:00.
+-   Admin Portal Improvements
+    -   Added a New Customers report
+    -   Tax Periods and Tax Rates can now be added, edited, and deleted
+    -   Ability to delete customers who don't have any orders or shopping cart items associated to them
+    -   Report descriptions added to the Reports screen
+    -   Add-ons associated to a project are now clickable links to the Add-on itself
+-   Fixes
+    -   An issue where the reservation payment deadline was at 12:00AM rather than 11:59PM
 
 #### 1912.7 - January 12, 2020
 
-- Simple text updates on the customer side
+-   Simple text updates on the customer side
 
 #### 1912.6 - January 2, 2020
 
-- Sales Tax Liability report
+-   Sales Tax Liability report
 
 #### 1912.5 - January 1, 2020
 
-- Updated the email addresses that are used to send notifications and order confirmations
+-   Updated the email addresses that are used to send notifications and order confirmations
 
 #### 1912.4 - December 19, 2019
 
-- Resolved an issue with sending security emails
+-   Resolved an issue with sending security emails
 
 #### 1912.3 - December 16, 2019
 
-- Improvements and fixes to the refund process, especially for PayPal payments
+-   Improvements and fixes to the refund process, especially for PayPal payments
 
 #### 1912.2 - December 16, 2019
 
-- Improvements
-  - On smaller screen devices, the sign in button is showed on the top navigation bar for users who are not signed in.
-  - On smaller screen devices, a My Account and shopping cart link are showed on the top navigation bar for users
-    who are signed in.
-  - Error messages returned when errors occur during the checkout process
-  - How the system handles errors during the checkout process
-  - Displays the payment/registration deadline when customers are selecting their project for
-    seats that apart of a reservation.
-  - Background worker to send an email to Customers if an item has left in their cart of longer than 24 hours.
-    Reminders are only sent once. Runs daily at 06:00.
-- Admin Portal Improvements
-  - Table on Dashboard that shows all abandoned carts
-  - Redesigned the customer information screen
-  - Customer information screen now shows a customers reservations and seats as well as the items still in their
-    shopping cart
-  - Option to send a reminder email for seats attached to a reservation that haven't made their selection yet    
-  - Option to remind a user of items left in their cart
-  - Ability to configure projects to allow more than one stencil.
-    This will be implemented for customers in a future release.
-  - Ability to control which stencils are allowed to be customized.
-    This will be implemented for customers in a future release.  
-- Changes
-  - Payment and registration deadlines are now at the end of the day (11:59PM) rather than the beginning (12:00AM).
-  - When PaymentDeadlineWorkshop and RegistrationDeadlineWorker run they now process records for the previous day
-- Fixes
-  - Purchasing a seat for someone who does not yet have an account
-  - Corrected some messages in the Admin Portal that said å record was created rather than updated successfully
+-   Improvements
+    -   On smaller screen devices, the sign in button is showed on the top navigation bar for users who are not signed in.
+    -   On smaller screen devices, a My Account and shopping cart link are showed on the top navigation bar for users
+        who are signed in.
+    -   Error messages returned when errors occur during the checkout process
+    -   How the system handles errors during the checkout process
+    -   Displays the payment/registration deadline when customers are selecting their project for
+        seats that apart of a reservation.
+    -   Background worker to send an email to Customers if an item has left in their cart of longer than 24 hours.
+        Reminders are only sent once. Runs daily at 06:00.
+-   Admin Portal Improvements
+    -   Table on Dashboard that shows all abandoned carts
+    -   Redesigned the customer information screen
+    -   Customer information screen now shows a customers reservations and seats as well as the items still in their
+        shopping cart
+    -   Option to send a reminder email for seats attached to a reservation that haven't made their selection yet    
+    -   Option to remind a user of items left in their cart
+    -   Ability to configure projects to allow more than one stencil.
+        This will be implemented for customers in a future release.
+    -   Ability to control which stencils are allowed to be customized.
+        This will be implemented for customers in a future release.  
+-   Changes
+    -   Payment and registration deadlines are now at the end of the day (11:59PM) rather than the beginning (12:00AM).
+    -   When PaymentDeadlineWorkshop and RegistrationDeadlineWorker run they now process records for the previous day
+-   Fixes
+    -   Purchasing a seat for someone who does not yet have an account
+    -   Corrected some messages in the Admin Portal that said å record was created rather than updated successfully
 
 #### 1912.1 - December 7, 2019
 
-- Policy update
+-   Policy update
 
 #### 1912 - December 4, 2019
 
-- Improvements
-  - Reservation Seats are automatically added to a customers cart after making their project/stencil selection    
-  - Ability to generate Sample Data from the Admin dashboard in review and staging environments  
-  - When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they
-    already have a seat/reservation for that workshop.
-- Admin Portal Improvements
-  - The amount of an invoice is now displayed on the invoice search screen
-- Changes
-  - Added a Privacy Policy for customers
-  - Quality of data that is generated in review environments
-  - Receipts emailed to customers now include links to the Reservation or Seat under My Account
-- Fixes
-  - When editing a Reservation Seat, the Add-on dropdown is populated with the correct value
+-   Improvements
+    -   Reservation Seats are automatically added to a customers cart after making their project/stencil selection    
+    -   Ability to generate Sample Data from the Admin dashboard in review and staging environments  
+    -   When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they
+        already have a seat/reservation for that workshop.
+-   Admin Portal Improvements
+    -   The amount of an invoice is now displayed on the invoice search screen
+-   Changes
+    -   Added a Privacy Policy for customers
+    -   Quality of data that is generated in review environments
+    -   Receipts emailed to customers now include links to the Reservation or Seat under My Account
+-   Fixes
+    -   When editing a Reservation Seat, the Add-on dropdown is populated with the correct value
 
 #### 1911 - November 26, 2019
 
-- Improvements
-  - Redesigned the My Seats screen to show workshop and selected project information. Will also display an message
-    saying the seat requires their attention if the project hasn't been selected or paid for. If the host is paying for
-    the seat, the system will not tell the guest the seat requires their attention if it hasn't been paid for.
-  - Added an alert for a seat where the customer selected their project but has yet to add it to their cart and pay for
-    it.
-  - Redesigned the seat detail screen when the customer had yet to select their project or stencil
-  - Updated the Heads Up alert that hosts see in the Workshop Planner to provide additional information on what needs to
-    be done after the minimum number of seats have been added but not yet paid for.  
-  - Display an alert on the Seat detail page when the seat has already been added to the customers cart
-  - Message that is displayed when customers complete their order now has information to help hosts invite their guests
-  - Reservation confirmation email now includes links to the Workshop Planner and My Account. Also added additional
-    information to help them invite their guests either now or later.
-  - Email addresses for customers are validated
-  - Workshop Planner now has better formatting on smaller devices
-- Changes
-  - Customers are redirected to the My Account screen after paying for their order
-  - Replaced several uses of the word seat with either project or guest
-  - Stopped using the warning beige-looking orange/yellow color in favor of the informational purple color
-  - Hosts will no longer see a seat on their reservation after it has been canceled or voided
-  - After a host submits the form for adding a new seat to their reservation the save button is disabled to prevent
-    multiple clicks
-  - Adjusted the use of alert colors based on feedback
-- Fixes
-  - Sent emails now display images properly
-  - Solved a scenario where the system wasn't taking into account the total available seats for the workshop when
-    calculating the number of seats that can be added to a reservation
-  - Issue that prevented certain Workshop Type fields from being updated
-  - Issue that prevented certain Workshop fields from being updated
+-   Improvements
+    -   Redesigned the My Seats screen to show workshop and selected project information. Will also display an message
+        saying the seat requires their attention if the project hasn't been selected or paid for. If the host is paying for
+        the seat, the system will not tell the guest the seat requires their attention if it hasn't been paid for.
+    -   Added an alert for a seat where the customer selected their project but has yet to add it to their cart and pay for
+        it.
+    -   Redesigned the seat detail screen when the customer had yet to select their project or stencil
+    -   Updated the Heads Up alert that hosts see in the Workshop Planner to provide additional information on what needs to
+        be done after the minimum number of seats have been added but not yet paid for.  
+    -   Display an alert on the Seat detail page when the seat has already been added to the customers cart
+    -   Message that is displayed when customers complete their order now has information to help hosts invite their guests
+    -   Reservation confirmation email now includes links to the Workshop Planner and My Account. Also added additional
+        information to help them invite their guests either now or later.
+    -   Email addresses for customers are validated
+    -   Workshop Planner now has better formatting on smaller devices
+-   Changes
+    -   Customers are redirected to the My Account screen after paying for their order
+    -   Replaced several uses of the word seat with either project or guest
+    -   Stopped using the warning beige-looking orange/yellow color in favor of the informational purple color
+    -   Hosts will no longer see a seat on their reservation after it has been canceled or voided
+    -   After a host submits the form for adding a new seat to their reservation the save button is disabled to prevent
+        multiple clicks
+    -   Adjusted the use of alert colors based on feedback
+-   Fixes
+    -   Sent emails now display images properly
+    -   Solved a scenario where the system wasn't taking into account the total available seats for the workshop when
+        calculating the number of seats that can be added to a reservation
+    -   Issue that prevented certain Workshop Type fields from being updated
+    -   Issue that prevented certain Workshop fields from being updated
 
 #### 1910.3 - October 31, 2019
 
-- Resolved an issue where the status of a reservation was being incorrectly calculated
-- Fixed “My Orders Page” text that was supposed to be a link to read Workshop Planner and point to the correct page
-- Created a .PNG version of the logo that displays properly in emails
-- Guidelines was misspelled as “Guidesliness” and has been corrected
-- Additional mobile UI improvements
-  - Switched the order of images and order form on the workshop selection page
-  - Adjustments to improve text sizing on smaller devices across all pages
-  - Improved button styling on the shopping cart page
-  - Consistent header sizing on all pages
+-   Resolved an issue where the status of a reservation was being incorrectly calculated
+-   Fixed “My Orders Page” text that was supposed to be a link to read Workshop Planner and point to the correct page
+-   Created a .PNG version of the logo that displays properly in emails
+-   Guidelines was misspelled as “Guidesliness” and has been corrected
+-   Additional mobile UI improvements
+    -   Switched the order of images and order form on the workshop selection page
+    -   Adjustments to improve text sizing on smaller devices across all pages
+    -   Improved button styling on the shopping cart page
+    -   Consistent header sizing on all pages
 
 #### 1910.2 - October 18, 2019
 
-- Added the ability to search for customers in the Admin Portal
-- Mobile UI improvements
-- Resolved an issue that caused several portions of the site to not work properly in Internet Explorer 11 like
-  the Braintree UI for entering payment information
-- Resolved an issue that prevented gift cards from being purchased
+-   Added the ability to search for customers in the Admin Portal
+-   Mobile UI improvements
+-   Resolved an issue that caused several portions of the site to not work properly in Internet Explorer 11 like
+    the Braintree UI for entering payment information
+-   Resolved an issue that prevented gift cards from being purchased
 
 #### 1910 - October 12, 2019
 
-- New features and improvements for customers
-  - Customers now have the ability to book reservations to any workshop
-  - New look and feel for the sign in, sign up, and forgot password screens on large screen devices
-  - Redesigned the look of the My Account screen to reduce the number of tiles
-  - Workshop Planner tile
-  - Updated policies and guidelines
-  - Added a Seats tile to the My Account screen that allows customers to see all seats
-    that they've ever bought or been gifted.
-  - Redesigned the orders screen where customers view details about their orders, including and payments and refunds
-  - Greatly improved the look and feel of emails to be more consistent with the website
-  - An email is now sent out when a refund is issued to customers
-  - Redesigned the contact us screen with larger buttons and centered text
-  - Project names under images on the workshop selection page are now links to project detail page
-  - Dropdown menus in the navigation menu now include an arrow to indicate what they are
-  - Sorted stencil categories alphabetically on project detail page
-  - Decreased font size on the navigation menu
-  - Increased the clickable area on the My Account tiles
-  - Added business name and address to BrainTree transactions
-  - Replaced usages of the color red with purple in order to conserve reds usage of important events/information
-- Admin Portal new features and improvements
-  - Brand new look and feel with a more responsive design for mobile devices
-  - Admin Portal is now reflected as a rocketship rather than a wrench in the navigation bar on the public-facing site
-  - Workshop Types - ability to create new types of workshops and customize how customers
-    purchase seats and/or reservations
-  - Photo Gallery - allows management of the photos that appear on the public-facing site
-  - Merged the top navigation bar with a revamped sidebar that includes a quick create menu for various record types
-  - Added a user preferences panel with the ability to set a light and dark theme
-  - Now displaying additional information about a customers account - failed login attempts, current status and
-    date when customer entered that status
-  - Added more stats and panels to the dashboard
-  - Added the ability to search and sort through records
-  - Added a new seating availability metric for workshops to easily tell how many seats are remaining
-  - Redesigned the workshop creation and editing screen
-  - Added a `Public View` button to the workshop page that opens the workshop selection page that customers use
-  - Added the ability to delete unused customer credits
-  - Cloning a workshop will also clone any attached images
-  - Images are displayed in a consistent table that shows the date the image was uploaded. Also provides the
-    ability to easily download the image
-  - When viewing a project, the `Allow option to select no stencil` is displayed as
-    `Plain (no stencil or personalization)` in the same spot as the create and edit screen
-  - Alerts and error messages are displayed as a temporary alert towards the top of the screen
-  - Seats and reservations can now be canceled from the Workshop detail page  
-  - Added the ability to forfeit reservation deposits  
-  - Renamed Add-ons to Project Add-ons
-  - Tax Periods and Rates can be seen but not yet edited
-  - Added a help section that will be expanded on in future releases  
-- Technical features and improvements
-  - Background Worker to clean up old items in user carts. Runs daily at 00:15.
-  - Background Worker to void reservations and seats that don't meet payment requirements. Runs daily at 00:30.
-  - Background Worker to void reservations and seats that don't meet registration requirements. Runs daily at 01:00.
-  - Background Worker to refund reservation deposits 48 hours after the workshop ended. Runs daily at 02:00.
-  - Background Worker to process refunds as they are requested.
-  - Background Workers for processing reservation and seat cancelation and voids as they are requested.
-  - Security and other updates
+-   New features and improvements for customers
+    -   Customers now have the ability to book reservations to any workshop
+    -   New look and feel for the sign in, sign up, and forgot password screens on large screen devices
+    -   Redesigned the look of the My Account screen to reduce the number of tiles
+    -   Workshop Planner tile
+    -   Updated policies and guidelines
+    -   Added a Seats tile to the My Account screen that allows customers to see all seats
+        that they've ever bought or been gifted.
+    -   Redesigned the orders screen where customers view details about their orders, including and payments and refunds
+    -   Greatly improved the look and feel of emails to be more consistent with the website
+    -   An email is now sent out when a refund is issued to customers
+    -   Redesigned the contact us screen with larger buttons and centered text
+    -   Project names under images on the workshop selection page are now links to project detail page
+    -   Dropdown menus in the navigation menu now include an arrow to indicate what they are
+    -   Sorted stencil categories alphabetically on project detail page
+    -   Decreased font size on the navigation menu
+    -   Increased the clickable area on the My Account tiles
+    -   Added business name and address to BrainTree transactions
+    -   Replaced usages of the color red with purple in order to conserve reds usage of important events/information
+-   Admin Portal new features and improvements
+    -   Brand new look and feel with a more responsive design for mobile devices
+    -   Admin Portal is now reflected as a rocketship rather than a wrench in the navigation bar on the public-facing site
+    -   Workshop Types - ability to create new types of workshops and customize how customers
+        purchase seats and/or reservations
+    -   Photo Gallery - allows management of the photos that appear on the public-facing site
+    -   Merged the top navigation bar with a revamped sidebar that includes a quick create menu for various record types
+    -   Added a user preferences panel with the ability to set a light and dark theme
+    -   Now displaying additional information about a customers account - failed login attempts, current status and
+        date when customer entered that status
+    -   Added more stats and panels to the dashboard
+    -   Added the ability to search and sort through records
+    -   Added a new seating availability metric for workshops to easily tell how many seats are remaining
+    -   Redesigned the workshop creation and editing screen
+    -   Added a `Public View` button to the workshop page that opens the workshop selection page that customers use
+    -   Added the ability to delete unused customer credits
+    -   Cloning a workshop will also clone any attached images
+    -   Images are displayed in a consistent table that shows the date the image was uploaded. Also provides the
+        ability to easily download the image
+    -   When viewing a project, the `Allow option to select no stencil` is displayed as
+        `Plain (no stencil or personalization)` in the same spot as the create and edit screen
+    -   Alerts and error messages are displayed as a temporary alert towards the top of the screen
+    -   Seats and reservations can now be canceled from the Workshop detail page  
+    -   Added the ability to forfeit reservation deposits  
+    -   Renamed Add-ons to Project Add-ons
+    -   Tax Periods and Rates can be seen but not yet edited
+    -   Added a help section that will be expanded on in future releases  
+-   Technical features and improvements
+    -   Background Worker to clean up old items in user carts. Runs daily at 00:15.
+    -   Background Worker to void reservations and seats that don't meet payment requirements. Runs daily at 00:30.
+    -   Background Worker to void reservations and seats that don't meet registration requirements. Runs daily at 01:00.
+    -   Background Worker to refund reservation deposits 48 hours after the workshop ended. Runs daily at 02:00.
+    -   Background Worker to process refunds as they are requested.
+    -   Background Workers for processing reservation and seat cancelation and voids as they are requested.
+    -   Security and other updates
 
 #### 1908.1 - October 6, 2019
 
-- Fixes
-  - An issue that prevented password reset emails from being sent
+-   Fixes
+    -   An issue that prevented password reset emails from being sent
 
 #### 1908 - August 17, 2019
 
-- Features
-  - Option for projects to be purchased with no stencil
-- Improvements
-  - Stencils are sorted alphabetically
-  - In the Admin Portal, the name of attendees are shown on the workshop detail page
-- Changes
-  - Ability to introduce new features in a more seamless experience
+-   Features
+    -   Option for projects to be purchased with no stencil
+-   Improvements
+    -   Stencils are sorted alphabetically
+    -   In the Admin Portal, the name of attendees are shown on the workshop detail page
+-   Changes
+    -   Ability to introduce new features in a more seamless experience
 
 #### 1906.9 - July 13, 2019
 
-- Changes
-  - System backend
+-   Changes
+    -   System backend
 
 #### 1906.8 - July 12, 2019
 
-- Changes
-  - System logging
+-   Changes
+    -   System logging
 
 #### 1906.7 - July 10, 2019
 
-- Changes
-  - Email configuration
-- Fixes
-  - Grammar for text that appears when reserving a seat for someone else
+-   Changes
+    -   Email configuration
+-   Fixes
+    -   Grammar for text that appears when reserving a seat for someone else
 
 #### 1906.6 - July 4, 2019
 
-- Improvements
-  - Creating Customers and Employees in the Admin Portal
-  - When a customer credit is created in the Admin Portal, the customer will now receive the same email that they would
-    have received if a gift card had been purchased for them
-  - Security enhancements
+-   Improvements
+    -   Creating Customers and Employees in the Admin Portal
+    -   When a customer credit is created in the Admin Portal, the customer will now receive the same email that they would
+        have received if a gift card had been purchased for them
+    -   Security enhancements
 
 #### 1906.5 - July 3, 2019
 
-- Improvements
-  - HTML properties that appear when site links are shared
-- Fixes
-  - Grammar for text that appears when checking out
+-   Improvements
+    -   HTML properties that appear when site links are shared
+-   Fixes
+    -   Grammar for text that appears when checking out
 
 #### 1906.4 - June 30, 2019
 
-- Improvements
-  - The experience when creating an account for the first time
-  - Text for gift card notification emails
-- Fixes
-  - Accept link in user invitations was an invalid link
+-   Improvements
+    -   The experience when creating an account for the first time
+    -   Text for gift card notification emails
+-   Fixes
+    -   Accept link in user invitations was an invalid link
 
 #### 1906.3 - June 29, 2019
 
-- Fixes
-  - Small font color change
-  - Emails were not being sent properly in all environments
-  - Skylight integration is now working properly
+-   Fixes
+    -   Small font color change
+    -   Emails were not being sent properly in all environments
+    -   Skylight integration is now working properly
 
 #### 1906.2 - June 29, 2019
 
-- Improvements
-  - More formating for tablets and mobile devices
-  - Increased logging to help with debugging issues
-- Fixes
-  - Issue that prevented the creation of Stencils
+-   Improvements
+    -   More formating for tablets and mobile devices
+    -   Increased logging to help with debugging issues
+-   Fixes
+    -   Issue that prevented the creation of Stencils
 
 #### 1906.1 - June 27, 2019
 
-- Features
-  - Receipts for orders placed
-  - Email notifications for gift card recipients
-  - Email notifications for orders canceled to admins and the customer
-- Improvements
-  - Multiple screens properly formatted for tablets and mobile devices
-  - Checkout experience with gift cards
-- Fixes
-  - Customers were unable to book another seat for themselves if they had cancel a prior order
+-   Features
+    -   Receipts for orders placed
+    -   Email notifications for gift card recipients
+    -   Email notifications for orders canceled to admins and the customer
+-   Improvements
+    -   Multiple screens properly formatted for tablets and mobile devices
+    -   Checkout experience with gift cards
+-   Fixes
+    -   Customers were unable to book another seat for themselves if they had cancel a prior order
 
 #### 1906 - June 18, 2019
 
-- Features
-  - Gift Cards
-  - Ability to cancel orders and have payments refunded as credits
-  - My Account for customers
-  - Acknowledgments for public seats
-  - Customer invites
-  - Policies and guidelines for customers
-  - Projects, Stencils, and Add-ons are viewable by customers
-  - Coming soon page for reservations
-- Changes
-  - Designs are now Stencils
-  - Orders are now Invoices
-  - Tax Rates are stored in the database
-  - Add-ons are managed independently and associated to Projects
-  - Projects now have material and instructional prices
-  - Seat price is now based entirely on the project selected
-  - Prevented customer from booking multiple seats to the same workshop
-  - Custom stencils have been redesigned
-  - Removed quantity dropdown from workshop selection page
-- Improvements
-  - Sorted projects, stencils, stencil categories, and workshops alphabetically in various spots through out the website
-  - Redesigned shopping cart and checkout experience
-  - Stencils are grouped by category when selecting a workshop
-  - Sales tax calculation
-  - Button to preview selected stencils
-  - Validations when creating Workshops
-  - Multiple backend services
+-   Features
+    -   Gift Cards
+    -   Ability to cancel orders and have payments refunded as credits
+    -   My Account for customers
+    -   Acknowledgments for public seats
+    -   Customer invites
+    -   Policies and guidelines for customers
+    -   Projects, Stencils, and Add-ons are viewable by customers
+    -   Coming soon page for reservations
+-   Changes
+    -   Designs are now Stencils
+    -   Orders are now Invoices
+    -   Tax Rates are stored in the database
+    -   Add-ons are managed independently and associated to Projects
+    -   Projects now have material and instructional prices
+    -   Seat price is now based entirely on the project selected
+    -   Prevented customer from booking multiple seats to the same workshop
+    -   Custom stencils have been redesigned
+    -   Removed quantity dropdown from workshop selection page
+-   Improvements
+    -   Sorted projects, stencils, stencil categories, and workshops alphabetically in various spots through out the website
+    -   Redesigned shopping cart and checkout experience
+    -   Stencils are grouped by category when selecting a workshop
+    -   Sales tax calculation
+    -   Button to preview selected stencils
+    -   Validations when creating Workshops
+    -   Multiple backend services

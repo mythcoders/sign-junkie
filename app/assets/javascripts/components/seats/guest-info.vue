@@ -51,8 +51,9 @@ export default {
     <div class="form-group col">
       <i class="fas fa-user text-primary fa-fw"></i>
       <label>Who is this seat for?</label>
-      <div class="custom-control custom-radio" v-show="isSelfTypeAllowed">
-        <input class='custom-control-input' type="radio" v-model="guestType" id="self" value="self" name="guestType">
+      <div class="custom-control custom-radio">
+        <input class='custom-control-input' type="radio" v-model="guestType" id="self" value="self" name="guestType"
+               :disabled="!isSelfTypeAllowed">
         <label class="custom-control-label" for="self">Myself</label>
       </div>
       <div class="custom-control custom-radio">
@@ -98,21 +99,19 @@ export default {
       <div class="custom-switch custom-control">
         <input class="custom-control-input" type="checkbox" value="1" id="hasSeatPreference"
                v-model="hasSeatPreference">
-
         <label class="custom-control-label" for="hasSeatPreference" v-show="guestInformationVisible()">
           Would {{ this.firstName || 'this guest' }} like to sit next to someone specific?
         </label>
         <label class="custom-control-label" for="hasSeatPreference" v-show="!guestInformationVisible()">
           Would you like to sit next to someone specific?
         </label>
-
-        <div v-show="this.hasSeatPreference">
-          <p class="form-control-plaintext text-muted" v-show="this.hasSeatPreference">
-            Enter the guests name below. We'll do our best to accomidate your request.
-          </p>
-          <input class="form-control" autocomplete="false" type="text" v-model="requestedSeat"
-                 placeholder="First and Last name">
-        </div>
+      </div>
+      <div v-show="this.hasSeatPreference">
+        <p class="form-control-plaintext text-muted" v-show="this.hasSeatPreference">
+          Enter the guests name below. We'll do our best to accomidate your request.
+        </p>
+        <input class="form-control" autocomplete="false" type="text" v-model="requestedSeat"
+               placeholder="First and Last name">
       </div>
     </div>
   </div>

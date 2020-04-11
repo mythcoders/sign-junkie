@@ -1,31 +1,41 @@
-= form_for @invoice, url: invoices_path do |f|
-  .row
-    .col-12.col-lg-8
-      .card.card-primary.mb-2
-        %h4.card-header.bg-primary.text-white
-          Select your payment method
-        = render partial: 'invoices/form', locals: { f: f }
-    .col-12.col-lg-4
-      .card
-        %h5.card-header.bg-primary.text-white Order summary
-        .card-body
-          - @invoice.items.each do |i|
-            .media.align-items-center.mb-3
-              .font-size-1.font-weight-normal.mb-0.mr-3= i.title
-              .media-body.text-right
-                %span.font-weight-medium= number_to_currency(i.item_amount)
-          .media.align-items-center.mb-3
-            .font-size-1.font-weight-normal.mb-0.mr-3 Sales tax
-            .media-body.text-right
-              %span.font-weight-medium
-                - if @invoice.tax_total.positive?
-                  = number_to_currency @invoice.tax_total
-                - else
-                  .span --
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3 Total due today
-            .media-body.text-right
-              %span.font-weight-medium
-                = content_tag :span, number_to_currency(@invoice.balance)
+.row
+  .col-12.col-lg-8
+    .card.card-primary.mb-2
+      %h4.card-header.bg-primary.text-white
+        Select your payment method
+      .card-body
+        = error_messages_for 'order'
+        = error_messages_for 'payment'
 
-= render partial: 'checkout'
+        %p.card-text
+          If you're purchasing seats or a gift card for someone else we'll send them an email letting them know about
+          your purchase. We'll also invite them to create an account if they don't already have one.
+
+        %check-out{'created-at': @invoice.created_at,
+                   'payment-amount': number_to_currency(@invoice.balance),
+                   'payment-token': @client_token,
+                   'show-test-payment-info': (!Rails.env.production?).to_s,
+                   'apply-gift-cards': 'false'}
+
+  .col-12.col-lg-4
+    .card
+      %h5.card-header.bg-primary.text-white Order summary
+      .card-body
+        - @invoice.items.each do |i|
+          .media.align-items-center.mb-3
+            .font-size-1.font-weight-normal.mb-0.mr-3= i.title
+            .media-body.text-right
+              %span.font-weight-medium= number_to_currency(i.item_amount)
+        .media.align-items-center.mb-3
+          .font-size-1.font-weight-normal.mb-0.mr-3 Sales tax
+          .media-body.text-right
+            %span.font-weight-medium
+              - if @invoice.tax_total.positive?
+                = number_to_currency @invoice.tax_total
+              - else
+                .span --
+        .media.align-items-center.mb-4
+          .font-size-1.font-weight-normal.mb-0.mr-3 Total due today
+          .media-body.text-right
+            %span.font-weight-medium
+              = content_tag :span, number_to_currency(@invoice.balance)

@@ -7,6 +7,7 @@ import Vue from 'vue/dist/vue.esm'
 import UserPreferences from '../components/admin/user-preferences'
 import WorkshopGrid from '../components/admin/workshop-grid'
 
+import Rails from 'rails-ujs';
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'jquery.easing/jquery.easing.min'
 import 'tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min'
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Sentry.init({
     dsn: 'https://88201b6ab32943ce8864d958fb947d69@sentry.io/1285199'
   });
+  Rails.start()
   const app = new Vue({
     el: '#apollo-app',
     components: {

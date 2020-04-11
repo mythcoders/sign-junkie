@@ -7,7 +7,9 @@ import Vue from 'vue/dist/vue.esm'
 import SeatCreator from '../components/seat-creator.vue'
 import GiftCardSelector from '../components/gift-card-selector.vue'
 import SeatPicker from '../components/seat-picker.vue'
+import CheckOut from '../components/check-out.vue'
 
+import Rails from 'rails-ujs';
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 import '../gallery'
@@ -17,11 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
   Sentry.init({
     dsn: 'https://88201b6ab32943ce8864d958fb947d69@sentry.io/1285199'
   });
+  Rails.start()
   const app = new Vue({
     el: '#apollo-app',
     components: {
       GiftCardSelector,
-      SeatPicker
+      SeatPicker,
+      CheckOut
     }
   })
 })

@@ -51,7 +51,7 @@ class InvoicesController < ApplicationController
   private
 
   def invoice_params
-    params.require(:invoice).permit(:created_at)
+    params.permit(:created_at)
   end
 
   def payment_method_nonce

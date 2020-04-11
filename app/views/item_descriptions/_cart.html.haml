@@ -5,7 +5,7 @@
         %h5.card-title= item.title
         .font-size-1.mb-1{title: 'Purchased for'}
           = fa_solid 'user', 'text-primary fa-fw'
-          = "#{item.first_name} #{item.last_name}"
+          #{item.first_name} #{item.last_name}
   - else
     .media
       .media-body
@@ -24,7 +24,7 @@
         - if item.gifted_seat?
           .font-size-1.mb-1{title: 'Purchased for'}
             = fa_solid 'user', 'text-primary fa-fw'
-            = item.seat.name
+            #{item.first_name} #{item.last_name}
         - if item.seat_preference.present?
           .font-size-1.mb-1{title: 'Seating preference'}
             = fa_solid 'chair', 'text-primary fa-fw'
