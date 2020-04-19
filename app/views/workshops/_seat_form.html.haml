@@ -87,6 +87,16 @@
   .form-row
     .form-group.col
       .custom-switch.custom-control
+        = f.check_box :covid19_acknowledgment, class: 'custom-control-input', required: 'required'
+        = f.label :covid19_acknowledgment, 'COVID-19 Acknowledgement', class: 'custom-control-label'
+      %p.form-control-plaintext.text-info
+        Due to COVID-19 I understand that I MUST have my temperature taken upon arrival
+        and before entering Sign Junkie. I MUST also provide my own mask to wear throughout the
+        entire workshop. If I DO NOT comply I will NOT be able to attend this workshop and will
+        NOT receive a refund.
+  .form-row
+    .form-group.col
+      .custom-switch.custom-control
         = f.check_box :acknowledgment, class: 'custom-control-input', required: 'required'
         = f.label :acknowledgment, class: 'custom-control-label'
       %p.form-control-plaintext
