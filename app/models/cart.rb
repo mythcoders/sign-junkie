@@ -31,7 +31,6 @@ class Cart < ApplicationRecord
                               Cart.seats.for_shop(workshop_id)
                                   .where('trim(item_descriptions.email) = ?', seat_owner.email).any?
                             else
-                              binding.pry
                               Cart.seats.for_shop(workshop_id)
                                   .where('trim(item_descriptions.first_name) = ?', first_name)
                                   .where('trim(item_descriptions.last_name) = ?', last_name).any?
