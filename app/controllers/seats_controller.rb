@@ -2,7 +2,7 @@
 
 class SeatsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_reservation, only: %i[new create]
+  before_action :set_reservation, only: %i[new create update]
   before_action :set_seat, only: %i[show edit update cancel remind]
   before_action :authorize_add, only: %i[new create]
   before_action :authorize_edit, only: %i[edit update]
@@ -24,9 +24,7 @@ class SeatsController < ApplicationController
   def update
     if SeatService.new.update(@seat, seat_params)
       flash[:success] = t('update.success')
-
-      add_to_cart if @seat.selection_made? && !@seat.in_cart?
-      redirect_to cart_index_path
+      post_update_redirect
     else
       flash[:error] = t('update.failure')
       render 'edit'
@@ -81,6 +79,15 @@ class SeatsController < ApplicationController
     unless @seat.editable?(current_user)
       flash[:error] = t('seat.not_editable')
       redirect_to reservation_path(@reservation)
+    end
+  end
+
+  def post_update_redirect
+    if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
+      add_to_cart
+      redirect_to cart_index_path
+    else
+      redirect_to seat_path @seat
     end
   end
 end

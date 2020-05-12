@@ -29,10 +29,12 @@ class Cart < ApplicationRecord
 
       existing_cart_items = if email.present?
                               Cart.seats.for_shop(workshop_id)
-                                  .where(item_descriptions: { email: seat_owner.email }).any?
+                                  .where('trim(item_descriptions.email) = ?', seat_owner.email).any?
                             else
+                              binding.pry
                               Cart.seats.for_shop(workshop_id)
-                                  .where(item_descriptions: { first_name: first_name, last_name: last_name }).any?
+                                  .where('trim(item_descriptions.first_name) = ?', first_name)
+                                  .where('trim(item_descriptions.last_name) = ?', last_name).any?
                             end
       existing_seats = SeatService.already_booked?(nil, self)
 

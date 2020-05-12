@@ -52,6 +52,14 @@ class ItemDescription < ApplicationRecord
     end
   end
 
+  def guest_name
+    @guest_name ||= gifted_seat? ? "#{first_name} #{last_name}" : nil
+  end
+
+  def guest_name_initials
+    guest_name.split.map(&:first).join.upcase
+  end
+
   def workshop
     @workshop ||= Workshop.find workshop_id
   end
