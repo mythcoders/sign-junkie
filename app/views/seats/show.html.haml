@@ -22,7 +22,7 @@
             %a.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{href: cart_index_path}
               = fa_solid 'shopping-cart'
               View cart
-        - elsif @seat.unpaid?
+        - elsif @seat.unpaid? && !@seat.reservation.paid_by_host?
           .alert.alert-info
             = fa_solid 'calendar-exclamation', 'fa-fw'
             %span
