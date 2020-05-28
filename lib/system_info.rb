@@ -15,11 +15,11 @@ module SystemInfo
     end
 
     def support_url
-      'https://mythcoders.atlassian.net/servicedesk/customer/portal/3'
+      'https://mythcoders.atlassian.net/servicedesk/customer/portal/2'
     end
 
     def support_mail
-      'apollo@mythcoders.com'
+      'support@mythcoders.com'
     end
 
     def support_key
