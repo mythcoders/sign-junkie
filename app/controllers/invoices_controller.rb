@@ -35,11 +35,11 @@ class InvoicesController < ApplicationController
       redirect_to cart_index_path
     end
   rescue BraintreeService::PaymentError => e
-    Raven.capture_exception(e)
+    Appsignal.send_error(e)
     flash[:error] = "Payment Error: #{e.message}"
     redirect_to cart_index_path
     # rescue ProcessError => e
-    #   Raven.capture_message(e.message, level: 'warning')
+    #   Appsignal.send_error(e.message, level: 'warning')
     #   flash[:error] = if Rails.env.development?
     #                     "Critical Error: #{e.message}"
     #                   else

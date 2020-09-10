@@ -1,0 +1,26 @@
+default: &defaults
+  name: "Sign Junkie"
+  push_api_key: "c994936e-c275-4e2f-a0e0-4fb6ca592643"
+  running_in_container: true
+  ignore_actions:
+    - "GET /_ping"
+    - "GET /_heartbeat"
+    - "DemoDataWorker#perform"
+
+development:
+  <<: *defaults
+  active: true
+
+review:
+  <<: *defaults
+  active: true
+
+staging:
+  <<: *defaults
+  active: true
+  revision: "<%= SystemInfo.release %>"
+
+production:
+  <<: *defaults
+  active: true
+  revision: "<%= SystemInfo.release %>"

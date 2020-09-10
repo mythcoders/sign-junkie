@@ -26,7 +26,7 @@ test:
   before_script:
     - bundle exec rails db:setup
   script:
-    - ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=test bundle exec rake assets:precompile
+    - SECRET_KEY_BASE=1 RAILS_ENV=test bundle exec rake assets:precompile
     - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
   artifacts:
     paths:

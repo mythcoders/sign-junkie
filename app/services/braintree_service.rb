@@ -78,8 +78,8 @@ class BraintreeService < ApplicationService
     errors = result.errors.map do |error|
       { attribute: error.attribute, code: error.code, message: error.message }
     end
-    Raven.extra_context parameters: result.params
-    Raven.extra_context errors: errors
-    Raven.capture_exception(result.message, transaction: transaction)
+    Appsignal.tag_request parameters: result.params
+    Appsignal.tag_request errors: errors
+    Appsignal.send_error(result.message, transaction: transaction)
   end
 end
