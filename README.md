@@ -1,6 +1,6 @@
-# Apollo
+# Sign Junkie Workshop
 
-Apollo is an open-source business management system that is designed to be customizable for your business needs.
+Sign Junkie Workshop is a website for Sign Junkie in Thornville, OH.
 
 ## Software stack
 

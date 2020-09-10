@@ -1,3 +1,9 @@
+#### 2009.1 - September 10, 2020
+
+- Improvements
+  - Projects, Stencils, and Addons can now be marked as Active or Inactive. When inactive, they'll no longer be
+    available for purchase.
+
 #### 2003.1 - March 9, 2020
 
 - Technical improvements
@@ -7,7 +13,7 @@
 
 - Improvements
   - Family friendly workshops allow seats to assigned to a children by a Workshop Host
-  - Customers can purchase seats for another customer without providing that customers email address  
+  - Customers can purchase seats for another customer without providing that customers email address
   - The deposit amount is no longer listed under Hostess Guidelines for Private Workshops
 - Admin Portal Improvements
   - When a project or workshop is cloned, the word "copy" is added to the name of the newly created record to clearly
@@ -16,12 +22,12 @@
   - Improved display of Payments and Refunds on an Invoice
   - Improved layout of Workshop detail screen for easier display of workshop and attendee information. Also improved
     layout on smaller screen devices.
-  - When viewing a stencil, you can now see which projects are currently associated with it  
+  - When viewing a stencil, you can now see which projects are currently associated with it
 - Fixes
   - An issue that prevented voiding payments they were successful but they invoice failed to process successfully
 - Technical features and improvements
   - Increased efficiency by reducing the number of database calls that are made
-  - Security and other updates  
+  - Security and other updates
 
 #### 2001 - January 19, 2020
 
@@ -32,7 +38,7 @@
   - Updated the text of the email that is sent to customers when a seat is purchased for them.
   - Background worker to send an email to reservation hosts if they have any guests that have not paid for their
     projects. Runs daily at 06:00 for reservations that have a payment deadline at 23:59.
-  - Background worker to send an email to guests who have yet to make their project selection.    
+  - Background worker to send an email to guests who have yet to make their project selection.
     Runs daily at 06:00 for reservations that have a registration deadline at 23:59.
   - Background worker to send an email to users who have yet to confirm their account after signing up.
     Also resends invitations that haven't been accepted after 48 hours. Runs daily at 06:00.
@@ -82,12 +88,12 @@
   - Redesigned the customer information screen
   - Customer information screen now shows a customers reservations and seats as well as the items still in their
     shopping cart
-  - Option to send a reminder email for seats attached to a reservation that haven't made their selection yet    
+  - Option to send a reminder email for seats attached to a reservation that haven't made their selection yet
   - Option to remind a user of items left in their cart
   - Ability to configure projects to allow more than one stencil.
     This will be implemented for customers in a future release.
   - Ability to control which stencils are allowed to be customized.
-    This will be implemented for customers in a future release.  
+    This will be implemented for customers in a future release.
 - Changes
   - Payment and registration deadlines are now at the end of the day (11:59PM) rather than the beginning (12:00AM).
   - When PaymentDeadlineWorkshop and RegistrationDeadlineWorker run they now process records for the previous day
@@ -102,8 +108,8 @@
 #### 1912 - December 4, 2019
 
 - Improvements
-  - Reservation Seats are automatically added to a customers cart after making their project/stencil selection    
-  - Ability to generate Sample Data from the Admin dashboard in review and staging environments  
+  - Reservation Seats are automatically added to a customers cart after making their project/stencil selection
+  - Ability to generate Sample Data from the Admin dashboard in review and staging environments
   - When customers are trying to book a seat or reservation to a workshop, the system will show an alert if they
     already have a seat/reservation for that workshop.
 - Admin Portal Improvements
@@ -125,7 +131,7 @@
     it.
   - Redesigned the seat detail screen when the customer had yet to select their project or stencil
   - Updated the Heads Up alert that hosts see in the Workshop Planner to provide additional information on what needs to
-    be done after the minimum number of seats have been added but not yet paid for.  
+    be done after the minimum number of seats have been added but not yet paid for.
   - Display an alert on the Seat detail page when the seat has already been added to the customers cart
   - Message that is displayed when customers complete their order now has information to help hosts invite their guests
   - Reservation confirmation email now includes links to the Workshop Planner and My Account. Also added additional
@@ -210,11 +216,11 @@
   - When viewing a project, the `Allow option to select no stencil` is displayed as
     `Plain (no stencil or personalization)` in the same spot as the create and edit screen
   - Alerts and error messages are displayed as a temporary alert towards the top of the screen
-  - Seats and reservations can now be canceled from the Workshop detail page  
-  - Added the ability to forfeit reservation deposits  
+  - Seats and reservations can now be canceled from the Workshop detail page
+  - Added the ability to forfeit reservation deposits
   - Renamed Add-ons to Project Add-ons
   - Tax Periods and Rates can be seen but not yet edited
-  - Added a help section that will be expanded on in future releases  
+  - Added a help section that will be expanded on in future releases
 - Technical features and improvements
   - Background Worker to clean up old items in user carts. Runs daily at 00:15.
   - Background Worker to void reservations and seats that don't meet payment requirements. Runs daily at 00:30.
