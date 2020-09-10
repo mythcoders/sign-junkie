@@ -14,16 +14,29 @@
 .row
   .col-12.col-lg-4
     .card
-      .card-header
-        %h2.card-header-title Information
       .card-body
-        .form-group
-          %label.col-form-label Category
-          .form-control-plaintext
-            = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
-        .form-group
-          %label.col-form-label Allowed to be personalized?
-          .form-control-plaintext= human_boolean @stencil.allow_personilization
+        .row.align-items-center
+          .col
+            %h5.mb-0 Status
+          .col-auto
+            %small.text-muted
+              - if @stencil.active
+                %span.badge.badge-success.text-uppercase active
+              - else
+                %span.badge.badge-warning.text-uppercase inactive
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Allowed to be personalized?
+          .col-auto
+            %small.text-muted= human_boolean @stencil.allow_personilization
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Category
+          .col-auto
+            %small.text-muted
+              = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
   .col-12.col-lg-8
     %ul#tab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item

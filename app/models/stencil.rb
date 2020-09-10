@@ -8,6 +8,7 @@ class Stencil < ApplicationRecord
   has_many :projects, through: :project_stencils
 
   default_scope { order(name: :asc) }
+  scope :active, -> { where(active: true) }
 
   validates_presence_of :name, :category
   validates_uniqueness_of :name, scope: :stencil_category_id

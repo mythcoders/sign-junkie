@@ -19,6 +19,17 @@ staging:
   <<: *defaults
   active: true
   revision: "<%= SystemInfo.release %>"
+  ignore_actions:
+    - "GET /_ping"
+    - "GET /_heartbeat"
+    - "ReservationDepositRefundWorker#perform"
+    - "RegistrationDeadlineWorker#perform"
+    - "PaymentDeadlineWorker#perform"
+    - "CartCleanupWorker#perform"
+    - "AbandonedCartReminderWorker#perform"
+    - "PaymentDeadlineReminderWorker#perform"
+    - "RegistrationDeadlineReminderWorker#perform"
+    - "UnconfirmedAccountReminderWorker#perform"
 
 production:
   <<: *defaults

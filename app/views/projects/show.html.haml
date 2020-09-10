@@ -9,7 +9,7 @@
       %img.img-fluid.img-thumbnail{alt: "Image of #{@project.name}", src: url_for(image)}
 
 %h3.text-danger Available Stencils
-- @project.stencils.group_by(&:category).sort_by { |cat, _| cat[:name].downcase }.each do |category, stencils|
+- @project.stencils.active.group_by(&:category).sort_by { |cat, _| cat[:name].downcase }.each do |category, stencils|
   %h4.text-danger= category.name
   .d-flex.flex-wrap.mb-3
     - stencils.sort_by { |s| s.name.downcase }.each do |stencil|

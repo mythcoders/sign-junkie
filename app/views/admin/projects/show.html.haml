@@ -40,7 +40,7 @@
         %hr
         .row.align-items-center
           .col
-            %h5.mb-0Number of stencils allowed
+            %h5.mb-0 No. stencils allowed
           .col-auto
             %small.text-muted= @project.allowed_stencils
     - if @project.addons.any?
@@ -49,7 +49,11 @@
           %h3.card-header-title Addons
         %ul.list-group
           - @project.addons.each do |addon|
-            %li.list-group-item= link_to addon.name, admin_addon_path(addon)
+            %li.list-group-item
+              = link_to addon.name, admin_addon_path(addon)
+              - unless addon.active?
+                %span.badge.badge-warning.text-uppercase Inactive
+
   .col-12.col-lg-8
     %ul#projectTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item

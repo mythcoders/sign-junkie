@@ -17,5 +17,10 @@
     - g.row_attributes do |t|
       - {data: { 'clickable-row': '', 'href': admin_stencil_path(t)}}
     - g.column name: 'Name', attribute: 'name'
+    - g.column name: 'Active?', attribute: 'active' do |t|
+      - if t.active?
+        - content_tag('span', 'ACTIVE', class: 'badge badge-success')
+      - else
+        - content_tag('span', 'INACTIVE', class: 'badge badge-warning')
     - g.column name: 'Category', attribute: 'stencil_category_id', custom_filter: StencilCategory.to_dropdown do |t|
       - t.category.name if t.category
