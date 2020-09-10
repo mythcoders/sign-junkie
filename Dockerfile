@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/mythcoders/gaia:latest AS base
+FROM ghcr.io/mythcoders/gaia:latest AS base
 
 ADD Gemfile* $APP_HOME/
 

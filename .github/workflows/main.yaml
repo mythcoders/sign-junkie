@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: write build info
+        run: |
+          echo $GITHUB_REF > BRANCH
+          echo $GITHUB_ACTOR > AUTHOR
+          echo $GITHUB_SHA > REVISION
+
+      - name: build image and push
+        uses: docker/build-push-action@v1.1.0
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          repository: ${{github.repository}}/sign-junkie
+          tag_with_ref: true
+          push: true
