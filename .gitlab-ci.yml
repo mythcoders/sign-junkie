@@ -9,6 +9,8 @@ variables:
 build:
   stage: build
   before_script:
+    - docker login ghcr.io --username $GITHUB_PACKAGES_USERNAME --password $GITHUB_PACKAGES_PASSWORD
+    - docker pull ghcr.io/mythcoders/gaia:latest
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
 
