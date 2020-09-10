@@ -65,6 +65,7 @@ class InvoicesController < ApplicationController
   def process_invoice
     if InvoiceService.new(@invoice).place!
       flash[:success] = t('order.placed.success')
+      Appsignal.increment_counter('orders.placed', 1)
       redirect_to my_account_path
     else
       flash[:error] = '?' # t('order.critical_failure')

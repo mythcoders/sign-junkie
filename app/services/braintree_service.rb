@@ -25,6 +25,7 @@ class BraintreeService < ApplicationService
       raise PaymentError, result.errors.map(&:message).join(', ')
     end
 
+    Appsignal.increment_counter('payments.posted', 1)
     result
   end
 
@@ -49,6 +50,7 @@ class BraintreeService < ApplicationService
       raise VoidError, result.errors.map(&:message).join(', ')
     end
 
+    Appsignal.increment_counter('payments.voided', 1)
     result
   end
 
