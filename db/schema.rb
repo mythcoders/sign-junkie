@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_29_125731) do
+ActiveRecord::Schema.define(version: 2020_09_10_191151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_02_29_125731) do
     t.datetime "updated_at", null: false
     t.boolean "allow_no_stencil", default: false, null: false
     t.integer "allowed_stencils", default: 1
+    t.boolean "active", default: true, null: false
     t.index ["name"], name: "index_projects_on_name", unique: true
   end
 
@@ -247,6 +248,7 @@ ActiveRecord::Schema.define(version: 2020_02_29_125731) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "allow_personilization", default: false
+    t.boolean "active", default: true, null: false
     t.index ["name", "stencil_category_id"], name: "index_stencils_on_name_and_stencil_category_id", unique: true
     t.index ["stencil_category_id"], name: "index_stencils_on_stencil_category_id"
   end

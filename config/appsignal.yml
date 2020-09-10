@@ -1,6 +1,6 @@
 default: &defaults
   name: "Sign Junkie"
-  push_api_key: "c994936e-c275-4e2f-a0e0-4fb6ca592643"
+  push_api_key: "<%= Rails.application.credentials.dig(:appsignal_key) %>"
   running_in_container: true
   ignore_actions:
     - "GET /_ping"

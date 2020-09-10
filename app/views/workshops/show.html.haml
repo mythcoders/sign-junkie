@@ -13,7 +13,7 @@
           %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}",
             src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
 
-      - @workshop.projects.each do |project|
+      - @workshop.projects.active.each do |project|
         - project.project_images.each do |img|
           .workshop-img-item.mb-3.text-center
             %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
