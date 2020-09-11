@@ -23,4 +23,5 @@ production:
   connect_timeout: 5
   checkout_timeout: 5
   variables:
-    statement_timeout: 10000
+    statement_timeout: 30000 # 30 seconds
+
