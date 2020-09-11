@@ -28,7 +28,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.PACKAGE_TOKEN }}
-          registry: ghcr.io
+          registry: docker.pkg.github.com
           repository: ${{github.repository}}/sign-junkie
           tag_with_ref: true
           push: true
