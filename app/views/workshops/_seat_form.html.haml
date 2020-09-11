@@ -47,7 +47,7 @@
       = fa_solid 'sign', 'text-primary fa-fw'
       = f.label :project
       = f.select :project_id,
-          options_from_collection_for_select(@workshop.projects, 'id', 'name'),
+          options_from_collection_for_select(@workshop.projects.active, 'id', 'name'),
           { value: nil, include_blank: '- Please Select -' },
           { class: 'form-control custom-select', 'data-js-change-project': '', required: true }
   .form-row

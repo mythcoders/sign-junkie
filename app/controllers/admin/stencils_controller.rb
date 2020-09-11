@@ -48,7 +48,7 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image, :allow_personilization)
+      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image, :allow_personilization, :active)
     end
 
     def set_stencil

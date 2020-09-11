@@ -1,79 +1,45 @@
 version: "3.7"
+
+x-shared-environment-variables: &shared-environment-variables
+  RAILS_ENV: development
+  GITLAB_ENVIRONMENT_NAME: development
+  GITLAB_ENVIRONMENT_URL: http://signjunkie.mythcoders.dev
+  PAYMENT_ENV: sandbox
+  STORAGE_BUCKET: none
+  REDIS_URL: redis://myth-redis:6379/0
+  REDIS_NAMESPACE: sign-junkie-dev
+  WORKER_REDIS_NAMESPACE: sign-junkie-worker-dev
+
 services:
   app:
-    image: apollo
+    image: sign-junkie
     command: ["sh", "./scripts/app", "start", "setup"]
     build:
       context: .
       target: base
-    container_name: apollo-app
+    container_name: sign-junkie-app
     labels:
-      traefik.frontend.rule: "Host:apollo.localhost"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:signjunkie.mythcoders.dev"
     volumes:
       - .:/app
     environment:
-      RAILS_ENV: development
-      GITLAB_ENVIRONMENT_NAME: development
-      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
-      PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
-      STORAGE_BUCKET: none
-      REDIS_URL: redis://redis:6379/0
-      REDIS_NAMESPACE: apollo-dev
-      WORKER_REDIS_NAMESPACE: apollo-worker-dev
-    depends_on:
-      - db
-      - net
-      - redis
+      <<: *shared-environment-variables
     stdin_open: true
     tty: true
 
   worker:
-    image: apollo
-    container_name: apollo-worker
+    image: sign-junkie
+    container_name: sign-junkie-worker
     command: ["sh", "./scripts/worker", "start"]
     volumes:
       - .:/app
     environment:
-      RAILS_ENV: development
-      GITLAB_ENVIRONMENT_NAME: development
-      GITLAB_ENVIRONMENT_URL: http://apollo.localhost
-      PAYMENT_ENV: sandbox
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/apollo_dev"
-      STORAGE_BUCKET: none
-      REDIS_URL: redis://redis:6379/0
-      REDIS_NAMESPACE: apollo-dev
-      WORKER_REDIS_NAMESPACE: apollo-worker-dev
+      <<: *shared-environment-variables
     depends_on:
-      - db
-      - redis
+      - app
 
-  redis:
-    image: redis:5.0.5-alpine
-    container_name: apollo-redis
-    ports:
-      - "6379:6379"
-
-  db:
-    image: postgres:11.6
-    container_name: apollo-db
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-    volumes:
-      - pgdata
-
-  net:
-    image: traefik:v1.7.16
-    container_name: apollo-net
-    command: --api --docker
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-volumes:
-  pgdata:
+networks:
+  default:
+    name: mythcoders_dev
+    external: true

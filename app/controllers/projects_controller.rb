@@ -5,7 +5,8 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.includes(project_images_attachments: :blob)
-                       .all.order(name: :asc)
+                       .active
+                       .order(name: :asc)
   end
 
   def gallery

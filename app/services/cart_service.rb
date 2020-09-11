@@ -36,7 +36,7 @@ class CartService < ApplicationService
     reservation.unpaid_seats.each do |seat|
       new_from_seat(user, seat).save
     rescue StandardError => e
-      Raven.capture_exception e
+      Appsignal.send_error e
     end
   end
 

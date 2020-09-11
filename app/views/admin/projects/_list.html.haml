@@ -13,7 +13,10 @@
         %tbody
           - projects.order(:name).each do |p|
             %tr
-              %td= link_to p.name, admin_project_path(p)
+              %td
+                = link_to p.name, admin_project_path(p)
+                - unless p.active?
+                  %span.badge.badge-warning.text-uppercase Inactive
               %td.text-right= number_to_currency(p.total_price)
               %td.text-right= number_to_currency(p.material_price)
               %td.text-right= number_to_currency(p.instructional_price)

@@ -17,3 +17,8 @@
     - g.row_attributes do |t|
       - {data: { 'clickable-row': '', 'href': admin_project_path(t)}}
     - g.column name: 'Name', attribute: 'name'
+    - g.column name: 'Active?', attribute: 'active' do |t|
+      - if t.active?
+        - content_tag('span', 'ACTIVE', class: 'badge badge-success')
+      - else
+        - content_tag('span', 'INACTIVE', class: 'badge badge-warning')

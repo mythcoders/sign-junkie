@@ -15,11 +15,21 @@
 .row
   .col-12.col-lg-4
     .card
-      .card-header
-        %h3.card-header-title Information
       .card-body
-        .form-group
-          %label.col-form-label Price
-          .form-control-plaintext= number_to_currency @addon.price
+        .row.align-items-center
+          .col
+            %h5.mb-0 Status
+          .col-auto
+            %small.text-muted
+              - if @addon.active?
+                %span.badge.badge-success.text-uppercase active
+              - else
+                %span.badge.badge-warning.text-uppercase inactive
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Price
+          .col-auto
+            %small.text-muted= number_to_currency @addon.price
   .col-12.col-lg-8
     = render partial: 'admin/images/list', locals: { images: @addon.addon_images.order(:created_at) }

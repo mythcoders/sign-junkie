@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'appsignal'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', require: false
 gem 'bootstrap-email'
@@ -12,13 +13,12 @@ gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
 gem 'devise_invitable', '~> 2.0'
-gem 'elastic-apm'
 gem 'faker'
 gem 'haml'
 gem 'haml-rails'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
-gem 'kaminari' # Pagination
+gem 'kaminari', '>= 1.2.1' # Pagination
 gem 'lograge' # Logging'
 gem 'lograge-sql'
 gem 'paper_trail'
@@ -33,11 +33,11 @@ gem 'rails', '~> 5.2.4'
 gem 'redcarpet' # Markdown rendering
 gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'
-gem 'sentry-raven' # Exceptions
+gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
-gem 'unleash', '~> 0.1.5'
+gem 'websocket-extensions', '>= 0.1.5'
 gem 'wice_grid'
 
 group :development, :test do

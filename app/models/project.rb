@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   validates :allowed_stencils, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
 
   default_scope { order(name: :asc) }
+  scope :active, -> { where(active: true) }
 
   attr_accessor :restrict_adult
 

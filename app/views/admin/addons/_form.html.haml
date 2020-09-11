@@ -8,3 +8,7 @@
     .input-group-prepend
       %span.input-group-text= fa_regular 'dollar-sign'
     = f.text_field :price, class: 'form-control'
+.form-group
+  .custom-control.custom-checkbox
+    = f.check_box :active, class: 'custom-control-input'
+    = f.label :active, class: 'custom-control-label'

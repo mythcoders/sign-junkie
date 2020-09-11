@@ -10,5 +10,6 @@ class ReservationVoidWorker
     Rails.logger.info "ReservationVoidWorker #{reservation_id}"
     ReservationService.new.void(reservation)
     ReservationMailer.with(reservation_id: reservation.id).voided.deliver_later
+    Appsignal.increment_counter('seats.voided', 1)
   end
 end

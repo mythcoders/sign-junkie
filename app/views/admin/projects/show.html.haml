@@ -15,25 +15,45 @@
 .row
   .col-12.col-lg-4
     .card
-      .card-header
-        %h3.card-header-title Information
       .card-body
-        .form-group
-          %label.col-form-label Material price
-          .form-control-plaintext= number_to_currency @project.material_price
-        .form-group
-          %label.col-form-label Instructional price
-          .form-control-plaintext= number_to_currency @project.instructional_price
-        .form-group
-          %label.col-form-label Number of stencils allowed
-          .form-control-plaintext= @project.allowed_stencils
+        .row.align-items-center
+          .col
+            %h5.mb-0 Status
+          .col-auto
+            %small.text-muted
+              - if @project.active
+                %span.badge.badge-success.text-uppercase active
+              - else
+                %span.badge.badge-warning.text-uppercase inactive
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Material price
+          .col-auto
+            %small.text-muted= number_to_currency @project.material_price
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Instructional price
+          .col-auto
+            %small.text-muted= number_to_currency @project.instructional_price
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 No. stencils allowed
+          .col-auto
+            %small.text-muted= @project.allowed_stencils
     - if @project.addons.any?
       .card
         .card-header
           %h3.card-header-title Addons
         %ul.list-group
           - @project.addons.each do |addon|
-            %li.list-group-item= link_to addon.name, admin_addon_path(addon)
+            %li.list-group-item
+              = link_to addon.name, admin_addon_path(addon)
+              - unless addon.active?
+                %span.badge.badge-warning.text-uppercase Inactive
+
   .col-12.col-lg-8
     %ul#projectTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item

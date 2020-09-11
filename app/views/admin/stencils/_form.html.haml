@@ -12,6 +12,9 @@
 
 .form-group
   .custom-control.custom-checkbox
+    = f.check_box :active, class: 'custom-control-input'
+    = f.label :active, class: 'custom-control-label'
+  .custom-control.custom-checkbox
     = f.check_box :allow_personilization, class: 'custom-control-input'
     = f.label :allow_personilization, class: 'custom-control-label'
 

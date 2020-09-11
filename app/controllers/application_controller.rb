@@ -25,8 +25,7 @@ class ApplicationController < ActionController::Base
   def set_user_context
     return unless current_user
 
-    Unleash::Context.new.user_id = current_user.email
-    Raven.user_context(
+    Appsignal.tag_request(
       id: current_user.id,
       email: current_user.email,
       ip_address: request.ip

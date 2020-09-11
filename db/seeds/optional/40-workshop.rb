@@ -3,7 +3,7 @@
 puts 'Creating workshops...'
 
 5.times do
-  start_date = Faker::Date.between(Date.today, Date.today + 6.weeks)
+  start_date = Faker::Date.between(from: Date.today, to: Date.today + 6.weeks)
   end_date = start_date + 3.hours
   purchase_start_date = Time.zone.today - 2.hours
   purchase_end_date = start_date - 2.days

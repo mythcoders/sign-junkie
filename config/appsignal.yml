@@ -1,0 +1,37 @@
+default: &defaults
+  name: "Sign Junkie"
+  push_api_key: "<%= Rails.application.credentials.dig(:appsignal_key) %>"
+  running_in_container: true
+  ignore_actions:
+    - "GET /_ping"
+    - "GET /_heartbeat"
+    - "DemoDataWorker#perform"
+
+development:
+  <<: *defaults
+  active: true
+
+review:
+  <<: *defaults
+  active: true
+
+staging:
+  <<: *defaults
+  active: true
+  revision: "<%= SystemInfo.release %>"
+  ignore_actions:
+    - "GET /_ping"
+    - "GET /_heartbeat"
+    - "ReservationDepositRefundWorker#perform"
+    - "RegistrationDeadlineWorker#perform"
+    - "PaymentDeadlineWorker#perform"
+    - "CartCleanupWorker#perform"
+    - "AbandonedCartReminderWorker#perform"
+    - "PaymentDeadlineReminderWorker#perform"
+    - "RegistrationDeadlineReminderWorker#perform"
+    - "UnconfirmedAccountReminderWorker#perform"
+
+production:
+  <<: *defaults
+  active: true
+  revision: "<%= SystemInfo.release %>"

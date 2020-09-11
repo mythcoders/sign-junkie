@@ -7,5 +7,6 @@ class RefundWorker
   def perform(item_description_id)
     Rails.logger.debug "RefundWorker - #{item_description_id}"
     RefundService.new.refund_item(item_description_id)
+    Appsignal.increment_counter('refunds.issued', 1)
   end
 end

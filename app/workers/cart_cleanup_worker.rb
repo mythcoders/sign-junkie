@@ -4,7 +4,7 @@ class CartCleanupWorker
   include Sidekiq::Worker
 
   def perform
-    Rails.logger.info "Cart items to be deleted #{expired_cart_items.count}"
+    Appsignal.increment_counter('carts.items_cleared', expired_cart_items.count)
     expired_cart_items.delete_all
   end
 
