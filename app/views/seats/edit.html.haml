@@ -49,7 +49,7 @@
               = fa_solid 'sign', 'text-primary fa-fw'
               = f.label :project
               = f.select :project_id,
-                  options_from_collection_for_select(@seat.workshop.projects, 'id', 'name', @seat.project_id),
+                  options_from_collection_for_select(@seat.workshop.projects.active, 'id', 'name', @seat.project_id),
                   { include_blank: '- Please Select -' },
                   { class: 'form-control custom-select', 'data-js-change-project': '', required: true }
           .form-row
@@ -85,7 +85,7 @@
             .form-group.col
               = fa_solid 'chair', 'text-primary fa-fw'
               = f.label :seating_preference
-              = f.text_field :seating, class: 'form-control', autocomplete: false, value: @seat.seat_preference          
+              = f.text_field :seating, class: 'form-control', autocomplete: false, value: @seat.seat_preference
           %hr
           .form-row
             .form-group.col
