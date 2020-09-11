@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v1.1.0
         with:
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
           registry: ghcr.io
           repository: ${{github.repository}}/sign-junkie
           tag_with_ref: true
