@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def set_user_context
     return unless current_user
 
-    Appsignal.tag_request(
+    Raven.extra_context(
       id: current_user.id,
       email: current_user.email,
       ip_address: request.ip

@@ -1,6 +1,7 @@
 default: &defaults
+  active: false
   name: "Sign Junkie"
-  push_api_key: "<%= Rails.application.credentials.dig(:appsignal_key) %>"
+  push_api_key: "<%= Rails.application.credentials.dig(:appsignal, :key) %>"
   running_in_container: true
   ignore_actions:
     - "GET /_ping"
@@ -9,15 +10,15 @@ default: &defaults
 
 development:
   <<: *defaults
-  active: true
+  active: false
 
 review:
   <<: *defaults
-  active: true
+  active: false
 
 staging:
   <<: *defaults
-  active: true
+  active: false
   revision: "<%= SystemInfo.release %>"
   ignore_actions:
     - "GET /_ping"
@@ -33,5 +34,5 @@ staging:
 
 production:
   <<: *defaults
-  active: true
+  active: false
   revision: "<%= SystemInfo.release %>"

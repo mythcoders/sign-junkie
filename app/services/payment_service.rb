@@ -2,7 +2,7 @@
 
 class PaymentService < ApplicationService
   def process!(payment)
-    Appsignal.tag_request payment: payment.attributes
+    Raven.extra_context payment: payment.attributes
 
     if payment.gift_card?
       deduct_credit(payment)
@@ -16,7 +16,7 @@ class PaymentService < ApplicationService
   def deduct_credit(payment)
     return true if CustomerCredit.deduct!(payment)
 
-    Appsignal.send_error('Unable to deducet from gift card', transaction: 'Post Payment')
+    Raven.capture_exception('Unable to deducet from gift card', transaction: 'Post Payment')
     raise ProcessError, 'Unable to deduct from gift card'
   end
 
