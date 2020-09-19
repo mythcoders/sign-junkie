@@ -9,7 +9,7 @@ RUN apk add --no-cache --virtual build-deps build-base && \
   apk del build-deps
 
 COPY package.json yarn.lock $APP_HOME/
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 EXPOSE $APP_PORT
 
@@ -17,6 +17,7 @@ FROM base AS build
 
 ADD . $APP_HOME/
 
-RUN ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=production bundle exec rake assets:precompile
+RUN ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 NODE_ENV=production RAILS_ENV=production \
+  bundle exec rake assets:precompile
 
 CMD ["sh", "./scripts/app", "start"]
