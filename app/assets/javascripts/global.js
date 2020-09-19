@@ -1,20 +1,14 @@
 $(function () {
-  $.onmount();
-  ui_html = "<div class='d-block d-sm-none'><span><strong>XS</strong> ui</span></div>"
-    + "<div class='d-none d-sm-block d-md-none'><span><strong>SM</strong> ui</span></div>"
-    + "<div class='d-none d-md-block d-lg-none'><span><strong>MD</strong> ui</span></div>"
-    + "<div class='d-none d-lg-block d-xl-none'><span><strong>L</strong> ui</span></div>"
-    + "<div class='d-none d-xl-block'><span><strong>XL</strong> ui</span></div>";
-  $('#peek .wrapper').append(ui_html);
-});
+  $.onmount()
+})
 function ShowLoader() {
-  $("#pageLoading").fadeIn();
+  $("#pageLoading").fadeIn()
 }
 function HideLoader() {
-  $("#pageLoading").fadeOut();
+  $("#pageLoading").fadeOut()
 }
 $.onmount("[data-js-single-submit-form]", function () {
   $(this).on("submit", function () {
-    $(this).find(":submit").prop("disabled", true);
-  })  
-});
+    $(this).find(":submit").prop("disabled", true)
+  })
+})

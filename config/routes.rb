@@ -4,7 +4,6 @@ require 'sidekiq-ent/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-  mount Peek::Railtie => '/peek'
   devise_for :users
 
   concern :pageable do
