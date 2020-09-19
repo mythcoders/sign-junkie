@@ -1,4 +1,4 @@
-service_name: "Apollo"
+service_name: "Sign Junkie"
 environment: <%= ENV['GITLAB_ENVIRONMENT_NAME'] %>
 secret_token: <%= Rails.application.credentials.dig(:elastic, :token) %>
 server_url: <%= Rails.application.credentials.dig(:elastic, :url) %>

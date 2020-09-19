@@ -13,6 +13,7 @@ gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
 gem 'devise_invitable', '~> 2.0'
+gem 'elastic-apm'
 gem 'faker'
 gem 'haml'
 gem 'haml-rails'
@@ -33,12 +34,13 @@ gem 'rails', '~> 5.2.4'
 gem 'redcarpet' # Markdown rendering
 gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'
+gem 'sentry-raven' # Exceptions
 gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
 gem 'websocket-extensions', '>= 0.1.5'
-gem 'wice_grid'
+gem 'wice_grid', github: 'patricklindsay/wice_grid', branch: 'master'
 
 group :development, :test do
   gem 'bundler-audit'
