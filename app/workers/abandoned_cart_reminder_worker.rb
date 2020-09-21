@@ -6,7 +6,7 @@ class AbandonedCartReminderWorker
   def perform
     customers.each do |customer|
       CustomerMailer.with(customer_id: customer.id).abandoned_cart.deliver_later
-      Appsignal.increment_counter('carts.abandoned_reminder', 1)
+      # Appsignal.increment_counter('carts.abandoned_reminder', 1)
     end
   end
 

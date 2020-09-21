@@ -15,7 +15,7 @@ class InvoiceService < ApplicationService
         @invoice.status = :paid
         @invoice.save!
       else
-        Appsignal.send_error(@invoice, transaction: 'Invoice creation failed')
+        Raven.capture_exception(@invoice, transaction: 'Invoice creation failed')
 
         raise ActiveRecord::Rollback
       end
@@ -23,7 +23,7 @@ class InvoiceService < ApplicationService
 
     send_emails
   rescue StandardError, ProcessError => e
-    Appsignal.send_error(e)
+    Raven.capture_exception(e)
     void_payments
     raise e
   end

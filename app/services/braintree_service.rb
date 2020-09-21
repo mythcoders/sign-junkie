@@ -25,7 +25,7 @@ class BraintreeService < ApplicationService
       raise PaymentError, result.errors.map(&:message).join(', ')
     end
 
-    Appsignal.increment_counter('payments.posted', 1)
+    # Appsignal.increment_counter('payments.posted', 1)
     result
   end
 
@@ -50,7 +50,7 @@ class BraintreeService < ApplicationService
       raise VoidError, result.errors.map(&:message).join(', ')
     end
 
-    Appsignal.increment_counter('payments.voided', 1)
+    # Appsignal.increment_counter('payments.voided', 1)
     result
   end
 
@@ -80,8 +80,8 @@ class BraintreeService < ApplicationService
     errors = result.errors.map do |error|
       { attribute: error.attribute, code: error.code, message: error.message }
     end
-    Appsignal.tag_request parameters: result.params
-    Appsignal.tag_request errors: errors
-    Appsignal.send_error(result.message, transaction: transaction)
+    Raven.extra_context parameters: result.params
+    Raven.extra_context errors: errors
+    Raven.capture_exception(result.message, transaction: transaction)
   end
 end

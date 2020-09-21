@@ -20,7 +20,6 @@
     .main-content
       = render partial: "layouts/partials/logout"
       = render partial: "layouts/partials/user_preferences"
-      -# = render 'peek/bar'
       .container-fluid
         = yield :breadcrumbs
         = yield
@@ -28,5 +27,5 @@
     - if Rails.env.production?
       :javascript
         $(function() {
-          Raven.config("#{Rails.application.credentials.errors_dsn}").install();
+          Raven.config("#{Rails.application.credentials.dig(:sentry, :public_dsn)}").install();
         });

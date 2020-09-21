@@ -27,9 +27,9 @@ Sidekiq.configure_server do |config|
   end
 
   config.death_handlers << lambda { |job, ex|
-    Appsignal.tag_request job_id: job['jid']
-    Appsignal.tag_request job_class: job['class']
-    Appsignal.send_error(ex)
+    Raven.extra_context job_id: job['jid']
+    Raven.extra_context job_class: job['class']
+    Raven.capture_exception(ex)
   }
 end
 
