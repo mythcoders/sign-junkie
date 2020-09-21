@@ -17,7 +17,7 @@ FROM base AS build
 
 ADD . $APP_HOME/
 
-RUN ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 NODE_ENV=production RAILS_ENV=production \
+RUN ELASTIC_APM_ENABLED=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 NODE_ENV=production RAILS_ENV=production \
   bundle exec rake assets:precompile
 
 CMD ["sh", "./scripts/app", "start"]
