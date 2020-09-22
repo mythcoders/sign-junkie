@@ -2,4 +2,4 @@ service_name: "Sign Junkie"
 environment: <%= ENV['GITLAB_ENVIRONMENT_NAME'] %>
 secret_token: <%= Rails.application.credentials.dig(:elastic, :token) %>
 server_url: <%= Rails.application.credentials.dig(:elastic, :url) %>
-transaction_ignore_urls: ["^/_ping", "^/_heartbeat", "^/admin/sidekiq"]
+ignore_url_patterns: ["^/_ping", "^/_heartbeat", "^/admin/sidekiq"]
