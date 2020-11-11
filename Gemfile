@@ -5,7 +5,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'appsignal'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', require: false
 gem 'bootstrap-email'
@@ -35,6 +34,7 @@ gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
+gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
 gem 'wice_grid', github: 'patricklindsay/wice_grid', branch: 'master'
 
