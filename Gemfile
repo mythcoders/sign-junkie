@@ -25,7 +25,7 @@ gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
 gem 'puma', '~> 3.11'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0'
 gem 'redcarpet' # Markdown rendering
 gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'
@@ -36,7 +36,6 @@ gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
-gem 'wice_grid', github: 'patricklindsay/wice_grid', branch: 'master'
 
 group :development, :test do
   gem 'bundler-audit'

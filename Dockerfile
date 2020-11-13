@@ -3,13 +3,13 @@ FROM ghcr.io/mythcoders/gaia:latest AS base
 ADD Gemfile* $APP_HOME/
 
 RUN apk add --no-cache --virtual build-deps build-base && \
-  apk add figlet imagemagick && \
+  apk add figlet imagemagick libxml2-dev libxslt-dev && \
   wget http://www.figlet.org/fonts/trek.flf -P /usr/share/figlet/fonts && \
   bundle install && \
   apk del build-deps
 
 COPY package.json yarn.lock $APP_HOME/
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 EXPOSE $APP_PORT
 

@@ -37,5 +37,15 @@ module EnvironmentInfo
         ['Ruby', "v#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
       ].map { |info| '%-17s %s' % info }.join("\n") + "\n"
     end
+
+    def env_url(protocol: true)
+      if ENV['GITLAB_ENVIRONMENT_URL'].present? && protocol
+        ENV['GITLAB_ENVIRONMENT_URL'].gsub('HTTP', 'HTTPS').gsub('http', 'https')
+      elsif ENV['GITLAB_ENVIRONMENT_URL'].present?
+        ENV['GITLAB_ENVIRONMENT_URL'].split('//').last
+      else
+        'signjunkie.mythcoders.dev'
+      end
+    end
   end
 end

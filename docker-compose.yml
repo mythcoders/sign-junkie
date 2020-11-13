@@ -2,6 +2,7 @@ version: "3.7"
 
 x-shared-environment-variables: &shared-environment-variables
   RAILS_ENV: development
+  NODE_ENV: development
   GITLAB_ENVIRONMENT_NAME: development
   GITLAB_ENVIRONMENT_URL: http://signjunkie.mythcoders.dev
   PAYMENT_ENV: sandbox
@@ -9,6 +10,8 @@ x-shared-environment-variables: &shared-environment-variables
   REDIS_URL: redis://myth-redis:6379/0
   REDIS_NAMESPACE: sign-junkie-dev
   WORKER_REDIS_NAMESPACE: sign-junkie-worker-dev
+  HERMES_API_KEY: fsdfsdf
+  HERMES_API_SECRET: fsdfsdf
 
 services:
   app:
