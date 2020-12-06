@@ -1,0 +1,15 @@
+- page_title 'Refund Search'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Refund
+        %h1.header-title
+          %i.fad.fa-gift-card
+          Invoice #{@refund.invoice.identifier}
+
+= @refund.customer.full_name
+= lifp(@refund.created_at, :short)
+= number_to_currency @refund.amount

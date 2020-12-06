@@ -1,0 +1,33 @@
+- page_title 'Refund Search'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Refunds
+        %h1.header-title
+          %i.fad.fa-gift-card
+          Search
+
+.card
+  .table-responsive
+    %table.table.card-table.table-hover
+      %thead
+        %tr
+          %th Invoice
+          %th Customer
+          %th Date
+          %th Amount
+      %tbody
+        - @refunds.each do |o|
+          %tr{data: { 'clickable-row': '', 'href': admin_refund_path(o) }}
+            %td= o.invoice.identifier
+            %td= o.customer.full_name
+            %td= lifp(o.created_at, :short)
+            %td= number_to_currency o.amount
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @refunds
+            = page_entries_info @refunds
