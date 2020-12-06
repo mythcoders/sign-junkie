@@ -1,3 +1,9 @@
+#### 2012.1 - December ??, 2020
+
+- Admin Portal Improvements
+  - Several search screens received an overhaul
+  - All Refunds can now be viewed by an individual screen
+
 #### 2009.1 - September 10, 2020
 
 - Improvements

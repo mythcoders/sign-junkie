@@ -6,7 +6,9 @@ module Admin
     before_action :check_editable, only: %i[edit update destroy]
 
     def index
-      @tax_rates_grid = initialize_grid(TaxRate, order: 'effective_date')
+      @q = TaxRate.ransack(params[:q])
+      @q.sorts = 'effective_date asc' if @q.sorts.empty?
+      @tax_rates = @q.result(distinct: true).page(params[:page])
     end
 
     def new

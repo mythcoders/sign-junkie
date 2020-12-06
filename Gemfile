@@ -27,10 +27,12 @@ gem 'pinglish'
 gem 'puma', '~> 4.3'
 gem 'premailer-rails'
 gem 'rails', '~> 6.0'
+gem 'ransack' # Searching
 gem 'redcarpet' # Markdown rendering
 gem 'sass-rails', '~> 5.0'
 gem 'sentry-raven' # Exceptions
 gem 'uglifier', '>= 1.3.0'
+gem 'view_component'
 gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
 

@@ -5,7 +5,9 @@ module Admin
     before_action :set_tax_period, only: %i[show edit update destroy]
 
     def index
-      @tax_periods_grid = initialize_grid(TaxPeriod, order: 'start_date')
+      @q = TaxPeriod.ransack(params[:q])
+      @q.sorts = 'start_date asc' if @q.sorts.empty?
+      @tax_periods = @q.result(distinct: true).page(params[:page])
     end
 
     def new

@@ -6,9 +6,16 @@ module Admin
     before_action :set_workshop_types, only: %i[edit update new]
 
     def index
-      @workshops_grid = initialize_grid(Workshop,
-                                        include: [:workshop_type],
-                                        order: 'start_date')
+      @q = if params[:scope] == 'all'
+             Workshop.all
+           elsif params[:scope] == 'past'
+             Workshop.where('start_date <= current_timestamp')
+           else
+             Workshop.where('start_date >= current_timestamp')
+           end.ransack(params[:q])
+
+      @q.sorts = 'start_date desc' if @q.sorts.empty?
+      @workshops = @q.result(distinct: true).includes(:workshop_type).page(params[:page])
     end
 
     def new

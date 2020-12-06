@@ -4,11 +4,7 @@ require 'sidekiq-ent/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-  devise_for :users
-
-  concern :pageable do
-    get '(page/:page)', action: :index, on: :collection, as: ''
-  end
+  devise_for :users # , path: 'security'
 
   concern :cancelable do
     post 'cancel', action: :cancel, on: :member

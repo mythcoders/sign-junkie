@@ -5,8 +5,9 @@ module Admin
     before_action :set_project, only: %i[edit update show destroy new_image upload_images]
 
     def index
-      @projects_grid = initialize_grid(Project,
-                                       order: 'name')
+      @q = Project.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @projects = @q.result(distinct: true).page(params[:page])
     end
 
     def show

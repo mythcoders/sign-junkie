@@ -13,12 +13,33 @@
         = link_to 'New Project', new_admin_project_path, class: 'btn btn-primary lift'
 
 .card
-  = grid(@projects_grid) do |g|
-    - g.row_attributes do |t|
-      - {data: { 'clickable-row': '', 'href': admin_project_path(t)}}
-    - g.column name: 'Name', attribute: 'name'
-    - g.column name: 'Active?', attribute: 'active' do |t|
-      - if t.active?
-        - content_tag('span', 'ACTIVE', class: 'badge badge-success')
-      - else
-        - content_tag('span', 'INACTIVE', class: 'badge badge-warning')
+  .card-header
+    = search_form_for(@q, url: admin_projects_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white lift'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :name)
+        %th Status
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= link_to project.name, admin_project_path(project)
+          %td
+            - if project.active?
+              %span.badge.badge-success ACTIVE
+            - else
+              %span.badge.badge-warning INACTIVE
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @projects
+          = page_entries_info @projects

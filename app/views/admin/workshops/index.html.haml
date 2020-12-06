@@ -1,5 +1,6 @@
 - page_title 'Workshop Search'
 
+
 .header.mt-md-2
   .header-body
     .row.align-items-center
@@ -11,17 +12,65 @@
           Search
       .col-auto
         = link_to 'New Workshop', new_admin_workshop_path, class: 'btn btn-primary lift'
+    .row.align-items-center
+      .col
+        = render(SearchNavigationTabs::Component.new(tabs: workshop_tabs,
+                                                     path: :admin_workshops_path,
+                                                     params: params))
 
 .card
-  = grid(@workshops_grid) do |g|
-    - g.row_attributes do |t|
-      - {data: { 'clickable-row': '', 'href': admin_workshop_path(t)}}
-    - g.column name: 'Name', attribute: 'name'
-    - g.column name: 'Status' do |t|
-      - render partial: 'statuses/workshop', locals: { workshop: t }
-    - g.column name: 'Date', attribute: 'start_date', filter_type: :timeframe_picker do |t|
-      - t.when
-    - g.column name: 'Type', attribute: 'workshop_type_id', custom_filter: WorkshopType.to_dropdown do |t|
-      - workshop_type_name(t)
-    - g.column name: 'Seats Available' do |t|
-      - "#{t.seats_available}/#{t.total_seats}"
+  .card-header
+    = search_form_for(@q, url: admin_workshops_path) do |f|
+      = hidden_field_tag :scope, value: params[:scope]
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto
+          .dropdown
+            %button.btn.btn-sm.btn-white{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              %i.fas.fa-filter.mr-1
+              Filter
+            .dropdown-menu.dropdown-menu-right.dropdown-menu-card
+              .card-header
+                %h4.card-header-title
+                  Filters
+                %button.btn.btn-sm.btn-link.text-reset{:type => "reset"}
+                  %small Clear filters
+              .card-body
+                .list-group.list-group-flush.mt-n4.mb-4
+                  .list-group-item
+                    .row
+                      .col
+                        %small Type
+                      .col-auto
+                        = f.select :workshop_type_id_eq,
+                          options_from_collection_for_select(WorkshopType.all, "id", "name", @q.workshop_type_id_eq),
+                          include_blank: true,
+                          class: 'custom-select custom-select-sm'
+                %button.btn.btn-block.btn-primary{:type => "submit"}
+                  Apply filter
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :name)
+        %th Status
+        %th= sort_link(@q, :start_date, 'Date')
+        %th Type
+        %th Seats Available
+    %tbody
+      - @workshops.each do |workshop|
+        %tr
+          %td= link_to workshop.name, admin_workshop_path(workshop)
+          %td= render partial: 'statuses/workshop', locals: { workshop: workshop }
+          %td= workshop.when
+          %td= workshop_type_name(workshop)
+          %td= "#{workshop.seats_available}/#{workshop.total_seats}"
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @workshops
+          = page_entries_info @workshops

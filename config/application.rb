@@ -6,6 +6,7 @@ require 'action_mailer/railtie'
 require 'active_record/railtie'
 require 'active_storage/engine'
 require 'action_view/railtie'
+require 'view_component/engine'
 require 'pinglish'
 
 Bundler.require(*Rails.groups)

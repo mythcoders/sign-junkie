@@ -6,7 +6,9 @@ module Admin
     before_action :disabled_roles, only: %i[edit update]
 
     def index
-      @customers_grid = initialize_grid(User.where(role: 'customer'), order: 'last_name')
+      @q = User.where(role: 'customer').ransack(params[:q])
+      @q.sorts = 'last_name asc' if @q.sorts.empty?
+      @customers = @q.result(distinct: true).page(params[:page])
     end
 
     def new

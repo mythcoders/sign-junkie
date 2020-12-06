@@ -6,7 +6,9 @@ module Admin
     before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
-      @stencils_grid = initialize_grid(Stencil, order: 'name')
+      @q = Stencil.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @stencils = @q.result(distinct: true).page(params[:page])
     end
 
     def new
