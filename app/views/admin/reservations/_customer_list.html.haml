@@ -2,8 +2,9 @@
   .card-header
     Reservations
   - if reservations.empty?
-    .card-body
-      .text-muted Customer has no reservations
+    .card-body.text-center
+      %h2 No Reservations
+      %p.text-muted.mb-0 Any reservations the customer purchases will appear here.
   - else
     .table-responsive.mb-0
       %table.table.table-sm.table-nowrap.card-table.table-hover

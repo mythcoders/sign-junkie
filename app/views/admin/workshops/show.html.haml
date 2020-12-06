@@ -145,9 +145,11 @@
           = render partial: 'admin/projects/list', locals: { projects: @workshop.projects }
         - else
           .card
-            .card-body
-              %strong.text-danger You haven't added any projects to this workshop
-              .card-text Customers will be unable to purchase seats to this workshop until you've added a project.
+            .card-body.text-center
+              %h2.text-danger No Projects
+              %p.text-muted.mb-0
+                Projects available for purchase at this workshop will appear here.
+                %br Customers will be unable to purchase seats to this workshop until you've added a project.
       #image.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
         = render partial: 'admin/images/list', locals: { images: @workshop.workshop_images.order(:created_at) }
       #history.tab-pane.fade{"aria-labelledby": "history-tab", role: "tabpanel"}

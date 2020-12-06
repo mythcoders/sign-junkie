@@ -1,70 +1,67 @@
-- if seats.any?
-  - seats.each do |seat|
-    = render partial: 'admin/seats/cancel_confirmation', locals: {seat: seat} if seat.cancelable?
-    .card-body
-      .row.align-items-center
-        .col-auto
-          %a.avatar.avatar-lg{:href => admin_customer_path(seat.customer)}
-            %span.avatar-title.rounded-circle= seat.name_initials
-        .col.ml-n2
-          %h4.card-title.mb-1= link_to seat.name, admin_customer_path(seat.user_id)
-          %p.card-text.small.text-muted.mb-1
-            Created at
-            = lifp seat.created_at
-          - if seat.voided?
-            .font-size-1.mb-1{title: 'Void Date'}
-              %span.text-danger ●
-              Voided
-          - if seat.canceled?
-            .font-size-1.mb-1{title: 'Cancel Date'}
-              %span.text-danger ●
-              Canceled
-          - if seat.gifted_seat?
-            .font-size-1.mb-1{title: 'Purchased for'}
-              = fa_solid 'shopping-bag', 'fa-fw'
-              = link_to seat.customer.full_name, admin_customer_path(seat.user_id)
-          - if seat.seat_preference.present?
-            .font-size-1.mb-1{title: 'Seating preference'}
-              = fa_duo 'chair', 'fa-fw'
-              = seat.seat_preference
-          - if seat.project_name.present?
-            .font-size-1.mb-1{title: 'Project'}
-              = fa_duo 'sign', 'fa-fw'
-              = seat.project_name
-          - if seat.stencil_name.present?
-            .card-text.mb-1{title: 'Stencil'}
-              = fa_duo 'swatchbook', 'fa-fw'
-              = seat.stencil_name
-            - if seat.stencil_personalization.present?
-              .font-size-1.mb-1{title: 'Add-on'}
-                = fa_duo 'palette', 'fa-fw'
-                = seat.stencil_personalization
-          - if seat.addon_id.present?
+- seats.each do |seat|
+  = render partial: 'admin/seats/cancel_confirmation', locals: {seat: seat} if seat.cancelable?
+  .card-body
+    .row.align-items-center
+      .col-auto
+        %a.avatar.avatar-lg{:href => admin_customer_path(seat.customer)}
+          %span.avatar-title.rounded-circle= seat.name_initials
+      .col.ml-n2
+        %h4.card-title.mb-1= link_to seat.name, admin_customer_path(seat.user_id)
+        %p.card-text.small.text-muted.mb-1
+          Created at
+          = lifp seat.created_at
+        - if seat.voided?
+          .font-size-1.mb-1{title: 'Void Date'}
+            %span.text-danger ●
+            Voided
+        - if seat.canceled?
+          .font-size-1.mb-1{title: 'Cancel Date'}
+            %span.text-danger ●
+            Canceled
+        - if seat.gifted_seat?
+          .font-size-1.mb-1{title: 'Purchased for'}
+            = fa_solid 'shopping-bag', 'fa-fw'
+            = link_to seat.customer.full_name, admin_customer_path(seat.user_id)
+        - if seat.seat_preference.present?
+          .font-size-1.mb-1{title: 'Seating preference'}
+            = fa_duo 'chair', 'fa-fw'
+            = seat.seat_preference
+        - if seat.project_name.present?
+          .font-size-1.mb-1{title: 'Project'}
+            = fa_duo 'sign', 'fa-fw'
+            = seat.project_name
+        - if seat.stencil_name.present?
+          .card-text.mb-1{title: 'Stencil'}
+            = fa_duo 'swatchbook', 'fa-fw'
+            = seat.stencil_name
+          - if seat.stencil_personalization.present?
             .font-size-1.mb-1{title: 'Add-on'}
-              = fa_duo 'stamp', 'fa-fw'
-              = seat.addon_name
-        .col-auto.mt-2
-          .btn-group
-            - if seat.active? && !seat.selection_made?
-              = form_for :seat, url: remind_admin_seat_path(seat) do |f|
-                = f.hidden_field :id, value: seat.id
-                %button.btn.btn-sm.btn-secondary{type: 'submit'}
-                  = fa_duo 'bell-exclamation', 'fa-fw'
-                  Remind
-            %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-              = fa_duo 'ellipsis-h-alt'
-              Actions
-            .dropdown-menu.dropdown-menu-right
-              - if seat.cancelable?
-                %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
-                  = fa_duo 'ban'
-                  Cancel Seat
-              = link_to "mailto:#{seat.customer.email}", class: "dropdown-item" do
-                = fa_duo 'envelope'
-                Contact Guest
-              - if seat.invoice.present?
-                %a.dropdown-item{:href => admin_invoice_path(seat.invoice)}
-                  = fa_duo 'file-invoice'
-                  View Invoice
-- else
-  .card-body No seats have been purchased.
+              = fa_duo 'palette', 'fa-fw'
+              = seat.stencil_personalization
+        - if seat.addon_id.present?
+          .font-size-1.mb-1{title: 'Add-on'}
+            = fa_duo 'stamp', 'fa-fw'
+            = seat.addon_name
+      .col-auto.mt-2
+        .btn-group
+          - if seat.active? && !seat.selection_made?
+            = form_for :seat, url: remind_admin_seat_path(seat) do |f|
+              = f.hidden_field :id, value: seat.id
+              %button.btn.btn-sm.btn-secondary{type: 'submit'}
+                = fa_duo 'bell-exclamation', 'fa-fw'
+                Remind
+          %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
+            = fa_duo 'ellipsis-h-alt'
+            Actions
+          .dropdown-menu.dropdown-menu-right
+            - if seat.cancelable?
+              %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
+                = fa_duo 'ban'
+                Cancel Seat
+            = link_to "mailto:#{seat.customer.email}", class: "dropdown-item" do
+              = fa_duo 'envelope'
+              Contact Guest
+            - if seat.invoice.present?
+              %a.dropdown-item{:href => admin_invoice_path(seat.invoice)}
+                = fa_duo 'file-invoice'
+                View Invoice

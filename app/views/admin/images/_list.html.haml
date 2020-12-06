@@ -1,6 +1,8 @@
 - unless images.any?
-  .card.mt-2
-    .card-body No images have been uploaded
+  .card
+    .card-body.text-center
+      %h2 No Images
+      %p.text-muted.mb-0 Any uploaded images will appear here.
 - else
   %ul.list-group
     - images.each_with_index do |img, index|

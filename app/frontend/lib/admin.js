@@ -1,16 +1,16 @@
 //
-//= require rails-ujs
-//= require jquery/dist/jquery.min
-//= require onmount/index.js
-//= require bootstrap/dist/js/bootstrap.bundle.min
-//= require moment/moment.js
-//= require tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min
-//= require select2/dist/js/select2.js
-//= require behaviors/workshop-edit
-//= require jquery.easing/jquery.easing.min
-//= require bs-custom-file-input/dist/bs-custom-file-input.min
-//= require user-preferences
-//= require global
+//= rails-ujs
+//= jquery/dist/jquery.min
+//= onmount/index.js
+//= bootstrap/dist/js/bootstrap.bundle.min
+//= moment/moment.js
+//= tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min
+//= select2/dist/js/select2.js
+//= behaviors/workshop-edit
+//= jquery.easing/jquery.easing.min
+//= bs-custom-file-input/dist/bs-custom-file-input.min
+//= user-preferences
+//= global
 
 $(function () {
   $('.toast').toast('show')

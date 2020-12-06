@@ -2,8 +2,8 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', type: 'text/javascript'
-    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload', type: 'text/css'
+    = javascript_pack_tag 'application', type: 'text/javascript'
+    = stylesheet_pack_tag 'application', type: 'text/css'
     - if @client_token
       %script{src: 'https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js'}
   %body#page-top

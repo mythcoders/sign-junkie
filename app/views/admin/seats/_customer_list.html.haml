@@ -2,8 +2,9 @@
   .card-header
     Indvidual Seats
   - if seats.empty?
-    .card-body
-      .text-muted Customer has no seats
+    .card-body.text-center
+      %h2 No Seats
+      %p.text-muted.mb-0 Any seats the customer purchases will appear here.
   - else
     - seats.each do |seat|
       .card-body

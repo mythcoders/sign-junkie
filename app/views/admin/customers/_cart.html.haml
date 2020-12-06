@@ -1,7 +1,8 @@
 .card.mt-3
   - unless carts.any?
-    .card-footer
-      .text-muted Customer has nothing in their cart
+    .card-body.text-center
+      %h2 Empty Cart
+      %p.text-muted.mb-0 Any items in this customers cart will appear here.
   - else
     .table-responsive.mb-0
       %table.table.table-sm.table-nowrap.card-table.table-hover

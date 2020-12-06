@@ -1,10 +1,10 @@
 //
-//= require rails-ujs
-//= require jquery/dist/jquery.min
-//= require onmount/index.js
-//= require bootstrap/dist/js/bootstrap.bundle.min
-//= require behaviors/gallery
-//= require behaviors/giftcard-selection
-//= require behaviors/seat-new
-//= require behaviors/workshop-selection
-//= require global
+//= rails-ujs
+//= jquery/dist/jquery.min
+//= onmount/index.js
+//= bootstrap/dist/js/bootstrap.bundle.min
+//= behaviors/gallery
+//= behaviors/giftcard-selection
+//= behaviors/seat-new
+//= behaviors/workshop-selection
+//= global
