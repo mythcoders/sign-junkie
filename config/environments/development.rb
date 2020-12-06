@@ -20,15 +20,15 @@ Rails.application.configure do
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], namespace: ENV['REDIS_NAMESPACE'] }
   config.action_controller.perform_caching = true
 
-  config.action_mailer.perform_deliveries = false
+  # config.action_mailer.perform_deliveries = false
   config.action_mailer.perform_caching = false
-  config.action_mailer.asset_host = ENV['GITLAB_ENVIRONMENT_URL']
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
+  config.action_mailer.asset_host = EnvironmentInfo.env_url
   config.action_mailer.default_url_options = {
-    host: ENV['GITLAB_ENVIRONMENT_URL']
+    host: EnvironmentInfo.env_url(protocol: false),
+    protocol: 'https://'
   }
 
-  # config.action_mailer.delivery_method = Hermes::RailsAdapter
-  config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
   config.active_record.verbose_query_logs = true
 
   config.active_support.deprecation = :log

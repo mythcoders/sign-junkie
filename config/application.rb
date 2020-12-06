@@ -24,8 +24,12 @@ module Apollo
 
     # Storage
     config.active_storage.variant_processor = :mini_magick
+    config.active_storage.routes_prefix = '/storage'
 
     # Logging
     config.lograge.enabled = true
+
+    # Mailing
+    config.action_mailer.delivery_method = :hermes
   end
 end

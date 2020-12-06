@@ -36,21 +36,12 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
+  config.action_mailer.asset_host = EnvironmentInfo.env_url
   config.action_mailer.default_url_options = {
-    host: ENV['GITLAB_ENVIRONMENT_URL']
-
-  }
-  config.action_mailer.smtp_settings = {
-    user_name: Rails.application.credentials.dig(:email, :username),
-    password: Rails.application.credentials.dig(:email, :password),
-    domain: 'columbus.rr.com',
-    address: 'email-smtp.us-east-1.amazonaws.com',
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
+    host: EnvironmentInfo.env_url(protocol: false),
+    protocol: 'https://'
   }
 end
