@@ -7,8 +7,8 @@ class RefundMailer < ApplicationMailer
   before_action { @refund = Refund.find params[:refund_id] }
 
   def issued
-    make_bootstrap_mail(to: "#{@refund.invoice.customer.full_name} <#{@refund.invoice.customer.email}>",
-                        subject: "Refund issued for Order ##{@refund.invoice.identifier}",
-                        template_name: 'issued')
+    mail(to: "#{@refund.invoice.customer.full_name} <#{@refund.invoice.customer.email}>",
+         subject: "Refund issued for Order ##{@refund.invoice.identifier}",
+         template_name: 'issued')
   end
 end

@@ -5,9 +5,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'aasm'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', require: false
-gem 'bootstrap-email'
 gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
@@ -24,18 +24,25 @@ gem 'lograge-sql'
 gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
+gem 'premailer-rails'
 gem 'rails', '~> 6.0'
 gem 'redcarpet' # Markdown rendering
-gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'
 gem 'sentry-raven' # Exceptions
-gem 'sidekiq', '~> 5.2'
-gem 'sidekiq-ent', '~> 1.8.1'
-gem 'sidekiq-status'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
+
+# sidekiq
+gem 'redis-namespace'
+gem 'sidekiq', '~> 5.2'
+gem 'sidekiq-ent', '~> 1.8.1'
+gem 'sidekiq-status'
+
+source 'https://rubygems.pkg.github.com/mythcoders' do
+  gem 'hermes'
+end
 
 group :development, :test do
   gem 'bundler-audit'
