@@ -5,7 +5,9 @@ module Admin
     before_action :set_addon, only: %i[show edit update destroy new_image upload_images]
 
     def index
-      @addons = Addon.order(:name).page(params[:page])
+      @q = Addon.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @addons = @q.result(distinct: true).page(params[:page])
     end
 
     def new

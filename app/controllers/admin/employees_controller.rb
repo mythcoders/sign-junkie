@@ -6,7 +6,9 @@ module Admin
     before_action :disable_roles, only: %i[edit update]
 
     def index
-      @employees = User.employees.order(:last_name).page(params[:page])
+      @q = User.employees.ransack(params[:q])
+      @q.sorts = 'last_name asc' if @q.sorts.empty?
+      @employees = @q.result(distinct: true).page(params[:page])
     end
 
     def new

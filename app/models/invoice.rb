@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Invoice < ApplicationRecord
+  include AASM
   has_paper_trail
   has_many :items, class_name: 'InvoiceItem', dependent: :restrict_with_error
   has_many :payments, dependent: :restrict_with_error
@@ -11,6 +12,11 @@ class Invoice < ApplicationRecord
   accepts_nested_attributes_for :payments, :items
 
   scope :recently_created, -> { where('created_at > ?', Time.zone.now - 24.hours) }
+
+  aasm column: :status do
+    state :draft, initial: true
+    state :paid
+  end
 
   def self.new_from_cart(user, pay_with_gift_card, created_at = Time.zone.now)
     invoice = Invoice.new(user_id: user.id,
@@ -81,14 +87,6 @@ class Invoice < ApplicationRecord
 
   def taxed?
     items.any?(&:taxed?)
-  end
-
-  def draft?
-    status == 'draft'
-  end
-
-  def paid?
-    status == 'paid'
   end
 
   def past_due?

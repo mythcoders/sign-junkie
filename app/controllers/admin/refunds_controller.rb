@@ -3,7 +3,9 @@
 module Admin
   class RefundsController < AdminController
     def index
-      @refunds = Refund.order(created_at: :desc).page(params[:page]).per(10)
+      @q = Refund.includes(:invoice).ransack(params[:q])
+      @q.sorts = 'created_at desc' if @q.sorts.empty?
+      @refunds = @q.result(distinct: true).page(params[:page])
     end
 
     def show

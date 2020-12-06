@@ -6,7 +6,9 @@ module Admin
     before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
-      @categories = StencilCategory.order(:name).page(params[:page])
+      @q = StencilCategory.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @categories = @q.result(distinct: true).page(params[:page])
     end
 
     def new

@@ -23,7 +23,7 @@
                 %i.fas.fa-search
             = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
         .col-auto.mr-n3
-          = f.submit 'Search', class: 'btn btn-white lift'
+          = f.submit 'Search', class: 'btn btn-white'
   %table.table.table-striped.border-bottom.card-table
     %thead
       %tr
@@ -35,9 +35,11 @@
           %td= link_to project.name, admin_project_path(project)
           %td
             - if project.active?
-              %span.badge.badge-success ACTIVE
+              %span.text-success ●
+              Active
             - else
-              %span.badge.badge-warning INACTIVE
+              %span.text-warning ●
+              Inactive
     %tfoot
       %tr
         %td{colspan: '100%'}

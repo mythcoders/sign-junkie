@@ -21,6 +21,10 @@
           Overview
       .card-body
         .form-group.row
+          %label.col-form-label.col-6 Status
+          .form-control-plaintext.col
+            = render partial: 'statuses/invoice', locals: { invoice: @invoice }
+        .form-group.row
           %label.col-form-label.col-6 Customer
           .form-control-plaintext.col
             = link_to @invoice.customer.full_name, admin_customer_path(@invoice.customer)

@@ -13,17 +13,36 @@
         = link_to 'New Add-on', new_admin_addon_path, class: 'btn btn-primary lift'
 
 .card
+  .card-header
+    = search_form_for(@q, url: admin_addons_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
   .table-responsive
     %table.table.card-table.table-hover
       %thead
         %tr
           %th Name
           %th Price
+          %th Status
       %tbody
         - @addons.each do |c|
           %tr{data: { 'clickable-row': '', 'href': admin_addon_path(c) }}
             %td= c.name
             %td= number_to_currency(c.price)
+            %td
+              - if c.active?
+                %span.text-success ●
+                Active
+              - else
+                %span.text-warning ●
+                Inactive
       %tfoot
         %tr
           %td{colspan: '100%'}

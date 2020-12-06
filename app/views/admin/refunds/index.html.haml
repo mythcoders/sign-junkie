@@ -11,13 +11,24 @@
           Search
 
 .card
+  .card-header
+    = search_form_for(@q, url: admin_refunds_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :invoice_customer_first_name_or_invoice_customer_last_name_cont, class: 'form-control list-search', placeholder: 'Customer Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
   .table-responsive
     %table.table.card-table.table-hover
       %thead
         %tr
           %th Invoice
           %th Customer
-          %th Date
+          %th= sort_link(@q, :created_at, 'Date')
           %th Amount
       %tbody
         - @refunds.each do |o|

@@ -23,6 +23,13 @@
         %span.input-group-text
           = fa_solid 'key'
       = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'Enter your password'
+
+  - if devise_mapping.rememberable?
+    .form-group
+      .custom-control.custom-checkbox
+        = f.check_box :remember_me, class: 'custom-control-input'
+        %label.custom-control-label{for: 'user_remember_me'} Keep me signed in
+
   .form-group
     = f.submit 'Sign in', class: 'btn btn-teal btn-block btn-login'
 
