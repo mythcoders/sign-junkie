@@ -14,8 +14,8 @@
         %th Date Created
     %tbody
       - @invoices.each do |o|
-        %tr{data: { 'clickable-row': '', 'href': invoice_path(o) }}
-          %td= o.identifier
+        %tr
+          %td= link_to o.identifier, invoice_path(o)
           %td= number_to_currency o.grand_total
           %td= lifp(o.created_at, :short)
     %tfoot

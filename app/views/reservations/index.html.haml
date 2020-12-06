@@ -18,9 +18,9 @@
         %th Date Booked
     %tbody
       - @reservations.each do |r|
-        %tr{data: { 'clickable-row': '', 'href': reservation_path(r) }}
+        %tr
           %td
-            = r.confirmation_number
+            = link_to r.confirmation_number, reservation_path(r)
             %br
             = render partial: 'statuses/reservation', locals: { reservation: r }
           %td

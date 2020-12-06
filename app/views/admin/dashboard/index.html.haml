@@ -83,7 +83,7 @@
                 Seating Availability
           %tbody
             - @stats.upcoming_workshops.each do |w|
-              %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(w) }}
+              %tr
                 %td
                   - if w.workshop_images.any?
                     .avatar.avatar-sm.d-inline-block.mr-2{}
@@ -91,7 +91,7 @@
                   - else
                     .avatar.avatar-sm.d-inline-block.mr-2{}
                       %img.avatar-img.rounded-circle{:alt => 'Placeholder image', :src => "cover.jpg"}
-                  %span= w.name
+                  %span= link_to w.name, admin_workshop_path(w)
                 %td
                   = w.when
                 %td
@@ -132,6 +132,6 @@
                 %th Number of Items
             %tbody
               - @stats.abandoned_carts.each do |o|
-                %tr{data: { 'clickable-row': '', 'href': admin_customer_path(o) }}
-                  %td= o.full_name
+                %tr
+                  %td= link_to o.full_name, admin_customer_path(o)
                   %td= o.carts.count

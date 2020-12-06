@@ -2,8 +2,8 @@
 %html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag 'admin', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'admin', 'data-turbolinks-track': 'reload', type: 'text/css'
     %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
     - if Rails.env.production?
       %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}

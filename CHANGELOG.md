@@ -1,4 +1,4 @@
-#### 2012.1 - December ??, 2020
+#### 2012 - December ??, 2020
 
 - Admin Portal Improvements
   - Several search screens received an overhaul

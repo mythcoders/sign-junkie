@@ -1,0 +1,8 @@
+#!/bin/bash
+
+figlet -f trek apollo
+
+echo 'Starting Webpack...'
+
+rm -rf ${APP_HOME}/public/packs
+${APP_HOME}/bin/webpack-dev-server

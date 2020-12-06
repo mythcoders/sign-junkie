@@ -33,8 +33,8 @@
           %th= sort_link(@q, :status)
       %tbody
         - @invoices.each do |o|
-          %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
-            %td= o.identifier
+          %tr
+            %td= link_to o.identifier, admin_invoice_path(o)
             %td= o.customer.full_name
             %td= lifp(o.created_at, :short)
             %td= number_to_currency o.grand_total

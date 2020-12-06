@@ -2,13 +2,10 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', type: 'text/javascript'
+    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload', type: 'text/css'
     - if @client_token
-      %script{src: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'}
+      %script{src: 'https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js'}
   %body#page-top
     #pageLoading
       #pageLoadingContent

@@ -14,12 +14,12 @@
   %tr
     %th Report Title
     %th Description
-  %tr{data: { 'clickable-row': '', href: admin_new_customers_report_path }}
-    %td New Customers
+  %tr
+    %td= link_to 'New Customers', admin_new_customers_report_path
     %td List of all new customers that were added between a certain timeframe.
-  %tr{data: { 'clickable-row': '', href: admin_sales_tax_report_path }}
-    %td Sales Tax Liability
+  %tr
+    %td= link_to 'Sales Tax Liability', admin_sales_tax_report_path
     %td Summary of all taxable and non-taxable sales with a total of sales tax collected.
-  %tr{data: { 'clickable-row': '', href: admin_guest_list_report_path }}
-    %td Workshop Guest List
+  %tr
+    %td= link_to 'Workshop Guest List', admin_guest_list_report_path
     %td Attendee list for a workshop.
