@@ -28,15 +28,21 @@
         %tr
           %th Invoice
           %th Customer
-          %th= sort_link(@q, :created_at, 'Date')
           %th Amount
+          %th Form
+          %th= sort_link(@q, :created_at, 'Date')
       %tbody
         - @refunds.each do |o|
-          %tr{data: { 'clickable-row': '', 'href': admin_refund_path(o) }}
-            %td= o.invoice.identifier
-            %td= o.invoice.customer.full_name
-            %td= lifp(o.created_at, :short)
+          %tr
+            %td= link_to o.invoice.identifier, admin_invoice_path(o.invoice)
+            %td= link_to o.invoice.customer.full_name, admin_customer_path(o.invoice.customer)
             %td= number_to_currency o.amount
+            %td
+              - if o.customer_credit
+                Account Credit
+              - else
+                Refund
+            %td= lifp(o.created_at, :short)
       %tfoot
         %tr
           %td{colspan: '100%'}

@@ -27,12 +27,17 @@
         .card-header
           %h3.card-header-title Stencils
         .card-body
+          -# .custom-control.custom-checkbox
+          -#   = f.check_box :select_all, class: 'custom-control-input'
+          -#   = f.label :select_all, class: 'custom-control-label'
+
           .custom-control.custom-checkbox
             = f.check_box :allow_no_stencil, class: 'custom-control-input'
             = f.label :allow_no_stencil, class: 'custom-control-label'
+
           = collection_check_boxes(:project, :stencil_ids, Stencil.all, :id, :name) do |b|
             .custom-control.custom-checkbox
-              = b.check_box(class: 'custom-control-input')
+              = b.check_box(class: 'custom-control-input', 'data-stencil-checkbox': '')
               = b.label(class: 'custom-control-label')
               - unless b.object.active?
-                %span.badge.badge-warning.text-uppercase Inactive
+                %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive

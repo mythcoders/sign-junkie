@@ -37,7 +37,7 @@
             %span.h2.mb-0= @stats.total_invoices
             %span.badge.badge-soft-primary.mt-n1= "+ #{@stats.recent_invoices.count} last 24/hrs"
           .col-auto
-            = fa_solid 'file-invoice', 'h2 text-muted mb-0'
+            = fa_solid 'file-invoice-dollar', 'h2 text-muted mb-0'
   .col-12.col-lg-6.col-xl
     .card
       .card-body
@@ -111,7 +111,7 @@
               Recent Invoices
           .col-auto
             %a.small{:href => admin_invoices_path} View all
-      = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices }
+      = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices.order(created_at: :desc) }
 
     .card
       .card-header

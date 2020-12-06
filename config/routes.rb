@@ -88,7 +88,7 @@ Rails.application.routes.draw do
       resources :customer_credits, only: %i[new edit create update destroy], as: 'credits', path: 'credits'
     end
     resources :users, as: 'employees', path: 'employees', controller: 'employees'
-    resources :refunds, only: %i[index show]
+    resources :refunds, only: %i[index]
     resources :reservations, only: %i[], concerns: [:cancelable] do
       post 'forfeit', action: :forfeit, on: :member
     end

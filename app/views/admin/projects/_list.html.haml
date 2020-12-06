@@ -16,7 +16,7 @@
               %td.d-flex.justify-content-between.align-items-center
                 = link_to p.name, admin_project_path(p)
                 - unless p.active?
-                  %span.badge.badge-warning.text-uppercase.badge-pill Inactive
+                  %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
               %td.text-right= number_to_currency(p.total_price)
               %td.text-right= number_to_currency(p.material_price)
               %td.text-right= number_to_currency(p.instructional_price)
