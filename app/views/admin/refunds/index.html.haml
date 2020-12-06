@@ -23,7 +23,7 @@
         - @refunds.each do |o|
           %tr{data: { 'clickable-row': '', 'href': admin_refund_path(o) }}
             %td= o.invoice.identifier
-            %td= o.customer.full_name
+            %td= o.invoice.customer.full_name
             %td= lifp(o.created_at, :short)
             %td= number_to_currency o.amount
       %tfoot
