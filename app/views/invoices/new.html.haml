@@ -1,5 +1,7 @@
 = form_for @invoice, url: invoices_path do |f|
-  .row
+  .row{'data-controller': 'checkout',
+       'data-checkout-client-token-value': "#{@client_token}",
+       'data-checkout-purchase-amount-value': "#{number_to_currency(@invoice.grand_total)}"}
     .col-12.col-lg-8
       .card.card-primary.mb-2
         %h4.card-header.bg-primary.text-white
@@ -27,5 +29,3 @@
             .media-body.text-right
               %span.font-weight-medium
                 = content_tag :span, number_to_currency(@invoice.balance)
-
-= render partial: 'checkout'

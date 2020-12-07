@@ -38,25 +38,30 @@
           .col-auto
             %span.badge{class: status_badge_class(@customer)}= @customer.status[:title]
       .card-body
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'envelope'
-            Email
-          .media-body.text-right
-            %span.font-weight-medium
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'envelope'
+              Email
+          .col-auto
+            %small.text-muted
               %a{href: "mailto:#{@customer.email}"}= @customer.email
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'shield'
-            = status_date_title @customer
-          .media-body.text-right
-            %span.font-weight-medium= lifp @customer.status[:date]
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'hammer-war'
-            Failed Login Attempts
-          .media-body.text-right
-            %span.font-weight-medium= @customer.failed_attempts
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'shield'
+              = status_date_title @customer
+          .col-auto
+            %small.text-muted= lifp @customer.status[:date]
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'hammer-war'
+              Failed Login Attempts
+          .col-auto
+            %small.text-muted= @customer.failed_attempts
 
   .col-12.col-lg-8
     %ul#customerTab.nav.nav-tabs.mb-2{role: "tablist"}
