@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: %i[show project_info]
-  before_action :set_seat_check, only: %i[show]
-  before_action :set_reservation_check, only: %i[show]
+  before_action :set_workshop, only: %i[show seat reservation project_info]
+  before_action :set_seat_check, only: %i[show seat]
+  before_action :set_reservation_check, only: %i[show reservation]
 
   def public
     @workshops = Workshop
@@ -11,6 +11,14 @@ class WorkshopsController < ApplicationController
                  .where(workshop_types: { name: 'Public' })
                  .for_sale
                  .order(:start_date)
+  end
+
+  def seat
+    # redirect somewhere if no seat purchase
+  end
+
+  def seat
+    # redirect somewhere if no reservation purchase
   end
 
   def private
@@ -22,13 +30,13 @@ class WorkshopsController < ApplicationController
   end
 
   def project_info
-    @project = Project.find(params[:project_id])
+    @project = Project.find params[:project_id]
   end
 
   private
 
   def set_workshop
-    @workshop = Workshop.find(params[:id])
+    @workshop = Workshop.find params[:id]
   end
 
   def set_seat_check

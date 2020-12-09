@@ -30,14 +30,15 @@ Rails.application.routes.draw do
   get 'faq', to: 'public#faq'
   get 'waiver', to: 'public#waiver'
   get 'how_it_works', to: 'public#how_it_works'
-  get 'policies', to: 'workshops#public_policies'
   get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
   get 'privacy', to: 'public#privacy'
-  get 'private_policies', to: 'workshops#private_policies'
-  get 'private_hostess', to: 'workshops#hostess_policies'
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
-  get 'workshops/bookings', to: 'workshops#hostess_public_policies'
+
+  get 'policies', to: 'public#public_policies', as: :public_policies
+  get 'hostess', to: 'public#public_hostess', as: :public_hostess
+  get 'private_policies', to: 'public#private_policies', as: :private_policies
+  get 'private_hostess', to: 'public#private_hostess', as: :private_hostess
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]
@@ -50,7 +51,10 @@ Rails.application.routes.draw do
   end
   resources :seats, only: %i[index show], concerns: :cancelable
   resources :stencils, only: %i[index show]
-  resources :workshops, only: %i[index show]
+  resources :workshops, only: %i[index show] do
+    get 'seat', on: :member
+    get 'reservation', on: :member
+  end
 
   # admin portal
   namespace :admin do

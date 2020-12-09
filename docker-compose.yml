@@ -28,6 +28,7 @@ services:
       - .:/app
     environment:
       <<: *shared-environment-variables
+      WEBPACKER_DEV_SERVER_HOST: webpacker
     stdin_open: true
     tty: true
 

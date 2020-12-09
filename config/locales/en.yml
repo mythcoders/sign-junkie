@@ -45,8 +45,7 @@ en:
       success: We're unable to accept payments for this order at this time
       failure: An error occurred while attempting to apply your payment. Please try your payment again.
       missing_token: missing authorization token. Please try your payment again.
-    critical_failure:
-      An error occured while attempting to process your request.
+    critical_failure: An error occured while attempting to process your request.
       Unfortunately, the error is on our end and any further attempts will also result in failure.
       Please do not try again! Our support staff has been alerted and we'll be in touch shortly.
     update:
@@ -66,27 +65,21 @@ en:
       failure: We couldn't cancel your order at this time. Please try again.
   project:
     delete:
-      confirmation:
-        This will delete the project, it's images, and will remove it from any workshops it's associated with.
+      confirmation: This will delete the project, it's images, and will remove it from any workshops it's associated with.
   reservations:
     no_more_seats: No more seats can be added at this time.
-    registration_deadline_loose_deposit_warning:
-      If not, your reservation deposit will not be refunded!
-    registration_deadline_cancel_warning:
-      If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
+    registration_deadline_loose_deposit_warning: If not, your reservation deposit will not be refunded!
+    registration_deadline_cancel_warning: If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
     minimum_not_met:
       Currently, your reservation doesn't meet the minimum seating requirements.
       You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
     requirements_not_met:
       Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
       them. They must select their project and stencil by %{registration_deadline}.
-    payment_host:
-      Afterwards, you must pay for them by %{payment_deadline}.
-    payment_guest:
-      They must also pay for their selections by %{payment_deadline}.
+    payment_host: Afterwards, you must pay for them by %{payment_deadline}.
+    payment_guest: They must also pay for their selections by %{payment_deadline}.
     forfeit:
-      confirmation:
-        This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
+      confirmation: This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
     cancel:
       confirmation:
         This will also cancel any seats associated to this reservation and notify all hosts and guests.
@@ -98,11 +91,9 @@ en:
     create:
       failure: We couldn't create your seat. Please try again.
     cancel:
-      success:
-        We're processing your void request. Any credits or refunds will be issued within 48 hours.
+      success: We're processing your void request. Any credits or refunds will be issued within 48 hours.
       failure: We couldn't void your seat at this time. Please try again.
-      confirmation:
-        The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
+      confirmation: The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
   stencil:
     destroy:
       confirmation: This will delete the stencil, it's image, and any projects it's associated with.
@@ -117,8 +108,6 @@ en:
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
-    hostess_note:
-      "Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process."
     adult_only_warning:
       These are adult only workshops unless specified otherwise!
       If specified FAMILY FRIENDLY these workshops are geared toward children ages 8 and up

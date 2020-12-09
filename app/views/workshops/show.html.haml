@@ -23,48 +23,66 @@
     .card
       %h3.card-header.bg-primary.text-white
         = @workshop.name
-      - if @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
-        - if user_signed_in?
-          .card-body
-            = render partial: 'body', locals: { workshop: @workshop }
-            - if @workshop.seat_purchaseable? && @workshop.reservation_purchaseable?
-              %p.card-text.text-info= t('workshop.hostess_note')
-            - if @already_hosting != false
-              = render partial: 'already_hosting'
-            - if @already_attending != false
-              = render partial: 'already_attending'
+      .card-body
+        %p.card-text
+          = fa_solid 'calendar-alt', 'text-primary fa-fw'
+          = @workshop.when
+        %p.card-text
+          = fa_solid 'toolbox', 'text-primary fa-fw'
+          = "#{workshop_type_name(@workshop)} Workshop"
+        - if @workshop.description
+          %p.card-text= @workshop.description
 
-          .card-header
-            %ul#workshopTab.nav.nav-tabs.card-header-tabs{role: "tablist"}
-              - if @workshop.seat_purchaseable?
-                = render partial: 'general/tab_header', locals: { id: 'seat', active: @workshop.seat_purchaseable?, title: 'Individual Seat' }
-              - if @workshop.reservation_purchaseable?
-                = render partial: 'general/tab_header', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, title: 'Group Reservation' }
+        %p.card-text
+          = fa_solid 'ticket-alt', 'text-primary fa-fw'
+          = "#{@workshop.seats_available} seats available"
+        %p.card-text
+          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+          Seats must be purchased by #{special_date @workshop.purchase_end_date}
 
-          .card-body
-            #workshopTabContent.tab-content
-              - if @workshop.seat_purchaseable?
-                = render partial: 'general/tab_pane', locals: { id: 'seat', active: @workshop.seat_purchaseable?, view_name: 'seat_form' }
-              - if @workshop.reservation_purchaseable?
-                = render partial: 'general/tab_pane', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, view_name: 'reservation_form' }
+        %p.card-text
+          = fa_solid 'ticket-alt', 'text-primary fa-fw'
+          = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
+        %p.card-text
+          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+          Reservation must be booked by #{special_date @workshop.booking_deadline}
+
+        - unless user_signed_in?
+          %a.btn.btn-primary.btn-block{href: new_user_session_path}
+            = fa_light 'sign-in'
+            Log In or Sign up to add this to your cart
         - else
-          .card-body
-            = render partial: 'body', locals: { workshop: @workshop }
-            %a.btn.btn-primary.btn-block{href: new_user_session_path}
-              = fa_light 'sign-in'
-              Log In or Sign up to add this to your cart
-      - else
-        .card-body
-          = render partial: 'body', locals: { workshop: @workshop }
           - if @already_hosting != false
-            = render partial: 'already_hosting'
+            .alert.alert-info
+              %h4.alert-heading
+                = fa_solid 'exclamation-triangle'
+                Heads up!
+              You already have booked a reservation for this workshop.
+              %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
+                View your reservation
+
           - if @already_attending != false
-            = render partial: 'already_attending'
+            .alert.alert-info
+              %h4.alert-heading
+                = fa_solid 'exclamation-triangle'
+                Heads up!
+              You already have a seat for this workshop!
+              %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
+                View your seat
+
+          - if @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
+            - if @workshop.reservation_purchaseable?
+              %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
+                Book GROUP reservation
+
+            - if @workshop.seat_purchaseable?
+              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+                Book ONE seat
           - else
             %p= t('workshop.empty')
 
-          %a.btn.btn-primary.btn-block{href: workshops_public_path}
-            View PUBLIC Workshop dates
+            %a.btn.btn-primary.btn-block{href: workshops_public_path}
+              View PUBLIC Workshop dates
 
-          %a.btn.btn-primary.btn-block{href: workshops_private_path}
-            View PRIVATE Workshop dates
+            %a.btn.btn-primary.btn-block{href: workshops_private_path}
+              View PRIVATE Workshop dates
