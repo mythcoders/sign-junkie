@@ -1,0 +1,54 @@
+%div.mt-2{'data-controller': 'seat-wizard--guest'}
+  %h5.card-title
+    Who is this seat for?
+  .form-group
+    - unless @already_attending
+      .custom-control.custom-radio
+        %input#self.custom-control-input{name: "guestType", type: "radio", value: "self",
+                                          'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
+        %label.custom-control-label{for: "self"} Myself
+    .custom-control.custom-radio
+      %input#adult.custom-control-input{name: "guestType", type: "radio", value: "adult",
+                                        'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
+      %label.custom-control-label{for: "adult"} An adult or someone else with an email address
+    .custom-control.custom-radio
+      %input#other.custom-control-input{name: "guestType", type: "radio", value: "other",
+                                        'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
+      %label.custom-control-label{for: "other"} Someone without an email address
+    - if @workshop.family_friendly?
+      .custom-control.custom-radio
+        %input#child.custom-control-input{name: "guestType", type: "radio", value: "child",
+                                          'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
+        %label.custom-control-label{for: "child"} A child (ages 8-17)
+
+  %div{'data-seat-wizard--guest-target': 'guestInfo'}
+    %h5.card-title
+      Guest Information
+    .form-row
+      .form-group.col-6
+        %label{for: 'firstName'} First name
+        %input.form-control#firstName{type: 'text', autocomplete: false, 'data-seat-wizard-target': 'firstName'}
+      .form-group.col-6
+        %label{for: 'lastName'} Last name
+        %input.form-control#lastName{type: 'text', autocomplete: false, 'data-seat-wizard-target': 'lastName'}
+      .form-group.col-12
+        %label{for: 'emailAddress'} Email address
+        %input.form-control#emailAddress{type: 'text', autocomplete: false, 'data-seat-wizard--guest-target': 'emailAddress'}
+
+  %h5.card-title
+    Seating Request
+  .form-group
+    .custom-checkbox.custom-control
+      %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--guest#toggleSeatRequest"}
+      %label.custom-control-label{for: "hasSeatRequest", 'data-seat-wizard--guest-target': 'seatRequestLabel'}
+        Would you like to sit next to someone specific?
+
+  .form-group{'data-seat-wizard--guest-target': 'seatRequestArea'}
+    .form-control-plaintext
+      Enter the guests name below. We'll do our best to accomidate your request.
+    = text_field_tag :seating, nil, class: 'form-control', autocomplete: false, placeholder: "First and Last name"
+
+  %div.float-right
+    %a.btn.btn-info{href: '#'}
+      Next Step
+      = fa_solid 'arrow-right'

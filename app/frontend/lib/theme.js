@@ -1,10 +1,9 @@
-import Parallax from 'parallax-js'
-import Shuffle from 'shufflejs'
-import SmoothScroll from 'smooth-scroll'
+// import Parallax from 'parallax-js'
+// import Shuffle from 'shufflejs'
+// import SmoothScroll from 'smooth-scroll'
 import flatpickr from 'flatpickr'
-import imagesLoaded from 'imagesloaded'
 import bsCustomFileInput from 'bs-custom-file-input'
-import { tns } from 'tiny-slider/src/tiny-slider'
+  // import { tns } from 'tiny-slider/src/tiny-slider'
 
   /**
    * Around | Multipurpose Bootstrap Template
@@ -29,37 +28,38 @@ import { tns } from 'tiny-slider/src/tiny-slider'
       */
 
       init: () => {
-        theme.masonryGrid()
-        theme.stickyNavbar()
-        theme.navbarSearch()
-        theme.passwordVisibilityToggle()
+        // theme.masonryGrid()
+        // theme.stickyNavbar()
+        // theme.navbarSearch()
+        // theme.passwordVisibilityToggle()
         theme.customFileInput()
-        theme.fileDropArea()
-        theme.labelUpdate()
-        theme.radioTabs()
-        theme.formValidation()
+        // theme.fileDropArea()
+        // theme.labelUpdate()
+        // theme.radioTabs()
+        // theme.formValidation()
         // theme.inputFormatter()
         theme.bsAccordion()
-        theme.multilevelDropdown()
-        theme.offcanvas()
-        theme.tooltips()
-        theme.popovers()
-        theme.smoothScroll()
-        theme.scrollTopButton()
-        theme.carousel()
-        theme.gallery()
-        theme.productGallery()
-        theme.videoPopupBtn()
-        theme.countdown()
-        theme.charts()
-        theme.priceSwitch()
-        theme.rangeSlider()
-        theme.ajaxifySubscribeForm()
-        theme.viewSwitcher()
+        // theme.multilevelDropdown()
+        // theme.offcanvas()
+        // theme.tooltips()
+        // theme.popovers()
+        // theme.smoothScroll()
+        // theme.scrollTopButton()
+        // theme.carousel()
+        // theme.gallery()
+        // theme.productGallery()
+        // theme.videoPopupBtn()
+        // theme.countdown()
+        // theme.charts()
+        // theme.priceSwitch()
+        // theme.rangeSlider()
+        // theme.ajaxifySubscribeForm()
+        // theme.viewSwitcher()
         theme.datePicker()
-        theme.checkboxToggleClass()
-        theme.masterCheckbox()
-        theme.parallax()
+        // theme.checkboxToggleClass()
+        // theme.masterCheckbox()
+        // theme.parallax()
+        theme.isotopes()
       },
 
 
@@ -1284,8 +1284,26 @@ import { tns } from 'tiny-slider/src/tiny-slider'
         for (let i = 0; i < element.length; i++) {
           let parallaxInstance = new Parallax(element[i])
         }
-      }
+      },
 
+      isotopes: () => {
+
+        let topes = document.querySelectorAll('[data-isotope]')
+
+        if (topes.length === 0) return
+
+        var imagesLoaded = require('imagesloaded')
+        var Isotope = require('isotope-layout')
+
+        for (let i = 0; i < topes.length; i++) {
+          let element = topes[i]
+          var iso = new Isotope(element, JSON.parse(element.dataset.isotope))
+
+          imagesLoaded(element).on('progress', function () {
+            iso.layout()
+          })
+        }
+      }
     }
 
     /**

@@ -43,7 +43,10 @@ Rails.application.routes.draw do
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]
   resources :invoices, only: %i[index show new create], path: 'orders'
-  resources :projects, only: %i[index show]
+  resources :projects, only: %i[index show] do
+    get 'stencils', on: :member
+    get 'addons', on: :member
+  end
   resources :reservations, only: %i[index show new create], concerns: :cancelable do
     resources :seats, only: %i[show edit new create update] do
       post 'remind', action: :remind, on: :member
@@ -54,6 +57,7 @@ Rails.application.routes.draw do
   resources :workshops, only: %i[index show] do
     get 'seat', on: :member
     get 'reservation', on: :member
+    get 'projects', on: :member
   end
 
   # admin portal

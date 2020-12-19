@@ -22,6 +22,11 @@
 
 .btn-teal {
   @include button-variant(teal, teal);
+  //   @include bg-gradient-variant(
+  //   ".bg-teal-light",
+  //   $light-teal,
+  //   $ignore-warning: false
+  // );
 }
 
 .link-teal {

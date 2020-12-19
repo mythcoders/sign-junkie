@@ -50,9 +50,12 @@
               %button.btn.btn-sm.btn-secondary{type: 'submit'}
                 = fa_duo 'bell-exclamation', 'fa-fw'
                 Remind
+          - if seat.invoice.present?
+            %a.btn.btn-sm.btn-white{:href => admin_invoice_path(seat.invoice), title: 'View Invoice'}
+              = fa_duo 'file-invoice'
+              Invoice
           %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-            = fa_duo 'ellipsis-h-alt'
-            Actions
+            = fa_solid 'ellipsis-h-alt'
           .dropdown-menu.dropdown-menu-right
             - if seat.cancelable?
               %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
@@ -61,7 +64,3 @@
             = link_to "mailto:#{seat.customer.email}", class: "dropdown-item" do
               = fa_duo 'envelope'
               Contact Guest
-            - if seat.invoice.present?
-              %a.dropdown-item{:href => admin_invoice_path(seat.invoice)}
-                = fa_duo 'file-invoice'
-                View Invoice

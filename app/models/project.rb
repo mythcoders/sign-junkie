@@ -17,8 +17,6 @@ class Project < ApplicationRecord
   default_scope { order(name: :asc) }
   scope :active, -> { where(active: true) }
 
-  attr_accessor :restrict_adult
-
   def total_price
     material_price + instructional_price
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_181958) do
+ActiveRecord::Schema.define(version: 2020_12_19_050705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_181958) do
 
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.serial "identifier", null: false
+    t.serial "identifier", limit: 10
     t.string "status"
     t.date "due_date", null: false
     t.datetime "created_at", null: false
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_181958) do
     t.boolean "allow_no_stencil", default: false, null: false
     t.integer "allowed_stencils", default: 1
     t.boolean "active", default: true, null: false
+    t.boolean "only_for_children", default: false, null: false
     t.index ["name"], name: "index_projects_on_name", unique: true
   end
 
@@ -366,8 +367,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_181958) do
     t.boolean "overridden_reservation_allow_multiple"
     t.integer "overridden_reservation_minimum"
     t.integer "overridden_reservation_maximum"
-    t.boolean "overridden_single_seat_allow"
-    t.boolean "overridden_reservation_cancel_minimum_not_met"
+    t.boolean "overridden_single_seat_allow", default: true
+    t.boolean "overridden_reservation_cancel_minimum_not_met", default: true
     t.boolean "overridden_reservation_allow_guest_cancel_seat"
     t.boolean "family_friendly", default: false
   end

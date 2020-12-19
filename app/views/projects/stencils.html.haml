@@ -1,0 +1,52 @@
+- if @project.stencils.active.any?
+  %h5.card-title.mt-2.text-info
+    - if @project.allowed_stencils > 1
+      Select #{@project.allowed_stencils} stencils for your #{@project.name}
+    - else
+      Select a stencil for your #{@project.name}
+
+  .row#stencilOptions{'data-controller': 'seat-wizard--stencil',
+                      'data-seat-wizard--stencil-max-stencils-value': @project.allowed_stencils,
+                      'data-seat-wizard--stencil-active-class': 'bg-teal-light',
+                      'data-isotope': '{"layoutMode": "masonry", "itemSelector": "stencil"}'}
+
+    - if @project.allow_no_stencil
+      .col-12
+        .form-group
+          .custom-checkbox.custom-control
+            %input#noStencil.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--stencil#toggleStencilContent"}
+            %label.custom-control-label{for: "noStencil"}
+              No Stencil
+
+    - @project.stencils.active.each do |stencil|
+      .col-12.col-sm-6.stencil
+        %a.card.shadow-light-lg.mb-3{href: '#',
+                                'data-action': 'seat-wizard--stencil#toggle seat-wizard#pickStencil seat-wizard--sidebar#render',
+                                'data-id': stencil.id}
+          .card-zoom
+            %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image)}
+
+          .card-body.text-center{'data-seat-wizard--stencil-target': 'stencil',
+                                 'data-seat-wizard-target': 'stencil',
+                                 'data-id': stencil.id,
+                                 'data-name': stencil.name,
+                                 'data-image': url_for(stencil.image),
+                                 'data-selected': 'false'}
+            %h5.card-title.text-dark.mb-2= stencil.name
+            %h6.text-muted= stencil.category.name
+
+        .form-group{'data-seat-wizard--stencil-target': 'stencilPersonalization',
+                    'data-id': stencil.id,
+                    'data-allow-personalization': "#{stencil.allow_personilization}",
+                    style: 'display: none;'}
+          = fa_solid 'palette', 'text-primary fa-fw'
+          = label_tag :stencil_personalization
+          = text_field_tag :stencil, nil, class: 'form-control', disabled: true, autocomplete: false
+          %p.form-text.text-muted
+            Please enter your information for personalization shown on the design you have chosen, this includes
+            any names, dates, city, state, gps coordinates, etc.
+- else
+  .card.mt-2
+    .card-body.text-center
+      %h2 No Stencils
+      %p.text-muted.mb-0 This project does not have any available stencils.

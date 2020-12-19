@@ -127,7 +127,7 @@ en:
       project:
         allow_no_stencil: Allow option to select no stencil
         allowed_stencils: Number of stencils allowed to be selected
-        restrict_adult: Restrict adults from purchasing this project
+        only_for_children: Only allow children to purchase this project
       workshop_type:
         active: Is Active?
         default_single_seat_allow: Are individual seats allowed?

@@ -1,0 +1,26 @@
+.card.card-sticky{'data-seat-wizard--sidebar-target': 'content'}
+
+%template{"data-seat-wizard--sidebar-target": "emptyTemplate"}
+  .card-header Your Selection
+  .card-body
+    %p.card-text
+      = fa_solid 'usd-circle', 'text-primary fa-fw'
+      Select a project to see pricing
+
+%template{"data-seat-wizard--sidebar-target": "template"}
+  .card-header{'data-seat-wizard--sidebar-target': 'header'} Your Selection
+  %img.card-img{'data-seat-wizard--sidebar-target': 'projectImage'}
+  .card-body
+    %p.card-text
+      = fa_solid 'usd-circle', 'text-primary fa-fw'
+      %span{'data-seat-wizard--sidebar-target': 'priceDisplay'} $ --
+
+%template{"data-seat-wizard--sidebar-target": "addonTemplate"}
+  %p.card-text
+    = fa_solid 'stamp', 'text-primary fa-fw'
+    %span {{ ADDON_TEXT }}
+
+%template{"data-seat-wizard--sidebar-target": "stencilTemplate"}
+  %p.card-text
+    = fa_solid 'swatchbook', 'text-primary fa-fw'
+    %span {{ STENCIL_TEXT }}

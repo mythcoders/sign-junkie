@@ -1,0 +1,25 @@
+- if @project.addons.active.any?
+  %h5.text-info.mt-2 Select an optional add-on to your #{@project.name}
+
+  .row#addonOptions{'data-controller': 'seat-wizard--addon',
+                    'data-seat-wizard--addon-active-class': 'bg-teal-light',
+                    'data-isotope': '{"layoutMode": "masonry", "itemSelector": "addon"}'}
+
+    - @project.addons.active.each do |addon|
+      .col-12.col-sm-6.addon{'data-id': addon.id}
+        %a.card.shadow-light-lg.mb-3{href: '#',
+                                'data-seat-wizard-target': 'addon',
+                                'data-action': 'seat-wizard--addon#toggle seat-wizard#pickAddon seat-wizard--sidebar#render'}
+          .card-zoom
+            %img.card-img{alt: "Image of #{addon.name}", src: url_for(addon.addon_images.first)}
+          .card-body.text-center{'data-seat-wizard--addon-target': 'addon',
+                                 'data-id': addon.id,
+                                 'data-selected': 'false',
+                                 'data-price': addon.price}
+            %h5.card-title.text-dark= addon.name
+            %h6.text-muted= number_to_currency addon.price
+- else
+  .card.mt-2
+    .card-body.text-center
+      %h2 No Add-ons
+      %p.text-muted.mb-0 This project does not have any available add-ons for purchase.

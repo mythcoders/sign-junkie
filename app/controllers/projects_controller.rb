@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[show]
+  before_action :set_project, only: %i[show addons stencils]
 
   def index
     @projects = Project.includes(project_images_attachments: :blob)
@@ -13,11 +13,12 @@ class ProjectsController < ApplicationController
     @images = GalleryImage.all_images
   end
 
-  def show
-    respond_to do |format|
-      format.html
-      format.json { set_workshop }
-    end
+  def addons
+    render layout: false
+  end
+
+  def stencils
+    render layout: false
   end
 
   private
@@ -26,9 +27,5 @@ class ProjectsController < ApplicationController
     @project = Project
                .includes(stencils: [:category, { image_attachment: :blob }], project_images_attachments: :blob)
                .find params[:id]
-  end
-
-  def set_workshop
-    @workshop = Workshop.find params[:workshop_id]
   end
 end

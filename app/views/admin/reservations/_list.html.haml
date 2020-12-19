@@ -12,9 +12,11 @@
           %br= render partial: 'statuses/reservation', locals: { reservation: res }
       .col-auto
         .btn-group
+          %a.btn.btn-sm.btn-white{:href => admin_invoice_path(res.invoice), title: 'View Invoice'}
+            = fa_solid 'file-invoice'
+            Invoice
           %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
-            = fa_duo 'ellipsis-h-alt'
-            Actions
+            = fa_solid 'ellipsis-h-alt'
           .dropdown-menu.dropdown-menu-right
             - if res.cancelable?
               %a.dropdown-item{"data-target": "#cancel-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
@@ -27,7 +29,4 @@
               %a.dropdown-item{"data-target": "#forfeit-reservation-#{res.id}-modal", "data-toggle": "modal", href: "#"}
                 = fa_duo 'money-check-alt'
                 Forfeit deposit
-            %a.dropdown-item{:href => admin_invoice_path(res.invoice)}
-              = fa_duo 'file-invoice'
-              View Invoice
   = render partial: 'admin/seats/list', locals: { seats: res.seats.all, host_id: res.user_id }

@@ -18,6 +18,7 @@ application.load(definitionsFromContext(context))
 require('flatpickr/dist/flatpickr.css')
 // require('tiny-slider/dist/tiny-slider.css')
 require("../stylesheets/application.scss")
+require("../fonts/feather/feather.css")
 
 const images = require.context('../images', true)
 const imagePath = (name) => images(name, true)
@@ -26,5 +27,5 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'flatpickr/dist/flatpickr'
 
 document.addEventListener('turbolinks:load', () => {
-  //theme stuff
+  require('lib/theme')
 })

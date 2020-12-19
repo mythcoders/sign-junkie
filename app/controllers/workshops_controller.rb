@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: %i[show seat reservation project_info]
+  before_action :set_workshop, only: %i[show seat reservation projects]
   before_action :set_seat_check, only: %i[show seat]
   before_action :set_reservation_check, only: %i[show reservation]
 
@@ -13,14 +13,6 @@ class WorkshopsController < ApplicationController
                  .order(:start_date)
   end
 
-  def seat
-    # redirect somewhere if no seat purchase
-  end
-
-  def seat
-    # redirect somewhere if no reservation purchase
-  end
-
   def private
     @workshops = Workshop
                  .includes(:workshop_type)
@@ -29,8 +21,21 @@ class WorkshopsController < ApplicationController
                  .order(:start_date)
   end
 
-  def project_info
-    @project = Project.find params[:project_id]
+  def seat
+    # TODO: redirect somewhere if no seat purchase
+  end
+
+  def seat
+    # TODO: redirect somewhere if no reservation purchase
+  end
+
+  def projects
+    @projects = if params[:include_children]
+                  @workshop.projects.active
+                else
+                  @workshop.projects.where(only_for_children: false).active
+                end
+    render layout: false
   end
 
   private

@@ -1,0 +1,22 @@
+%h5.card-title.mt-2.text-info Select your project
+
+.row#projectOptions{'data-controller': 'seat-wizard--project',
+                    'data-seat-wizard--project-active-class': 'bg-teal-light',
+                    'data-isotope': '{"layoutMode": "masonry", "itemSelector": "project"}'}
+
+  - @projects.each do |project|
+    - image = project.project_images.first
+
+    .col-12.col-sm-6.project
+      %a.card.shadow-light-lg.mb-3{href: '#',
+                                  'data-seat-wizard-target': 'project',
+                                  'data-action': 'seat-wizard--project#toggle seat-wizard#pickProject seat-wizard--sidebar#render',
+                                  'data-id': project.id,
+                                  'data-name': project.name,
+                                  'data-price': project.total_price,
+                                  'data-image-url': url_for(image)}
+        .card-zoom
+          %img.card-img{alt: "Image of #{project.name}", src: url_for(image)}
+        .card-body.text-center{'data-seat-wizard--project-target': 'project', 'data-id': project.id}
+          %h5.card-title.text-dark.mb-2= project.name
+          %h6.text-muted= number_to_currency project.total_price

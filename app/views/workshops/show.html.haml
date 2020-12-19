@@ -33,56 +33,69 @@
         - if @workshop.description
           %p.card-text= @workshop.description
 
-        %p.card-text
-          = fa_solid 'ticket-alt', 'text-primary fa-fw'
-          = "#{@workshop.seats_available} seats available"
-        %p.card-text
-          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-          Seats must be purchased by #{special_date @workshop.purchase_end_date}
+    - if user_signed_in? && @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
+      - if @workshop.reservation_purchaseable?
+        .card.mt-2
+          .card-body
+            %h4.card-title Group Reservations
+            - if @already_hosting != false
+              .alert.alert-info
+                %h4.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have booked a reservation for this workshop.
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
+                  View your reservation
+            %p.card-text
+              = fa_solid 'usd-circle', 'text-primary fa-fw'
+              %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
+              %input{id: 'base-price', value: '0.00', type: 'hidden'}
+            %p.card-text
+              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+              Reservation must be booked by #{special_date @workshop.booking_deadline}
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
+            %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
+              Book GROUP reservation
 
-        %p.card-text
-          = fa_solid 'ticket-alt', 'text-primary fa-fw'
-          = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
-        %p.card-text
-          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-          Reservation must be booked by #{special_date @workshop.booking_deadline}
+      - if @workshop.seat_purchaseable?
+        .card.mt-2
+          .card-body
+            %h4.card-title Individual Seats
+            - if @already_attending != false
+              .alert.alert-info
+                %h4.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have a seat for this workshop!
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
+                  View your seat
+            %p.card-text
+              = fa_solid 'usd-circle', 'text-primary fa-fw'
+              %span= "Starting at #{number_to_currency(starting_price(@workshop))}"
+              %input{id: 'base-price', value: '0.00', type: 'hidden'}
+            %p.card-text
+              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+              Seats must be purchased by #{special_date @workshop.purchase_end_date}
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.seats_available} seats available"
 
-        - unless user_signed_in?
-          %a.btn.btn-primary.btn-block{href: new_user_session_path}
-            = fa_light 'sign-in'
-            Log In or Sign up to add this to your cart
-        - else
-          - if @already_hosting != false
-            .alert.alert-info
-              %h4.alert-heading
-                = fa_solid 'exclamation-triangle'
-                Heads up!
-              You already have booked a reservation for this workshop.
-              %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
-                View your reservation
-
-          - if @already_attending != false
-            .alert.alert-info
-              %h4.alert-heading
-                = fa_solid 'exclamation-triangle'
-                Heads up!
-              You already have a seat for this workshop!
-              %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
-                View your seat
-
-          - if @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
-            - if @workshop.reservation_purchaseable?
-              %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
-                Book GROUP reservation
-
-            - if @workshop.seat_purchaseable?
-              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
-                Book ONE seat
+            %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+              Book ONE seat
+    - else
+      .card.mt-2
+        .card-body
+          - unless user_signed_in?
+            %a.btn.btn-primary.btn-block{href: new_user_session_path}
+              = fa_light 'sign-in'
+              Log In or Sign up to add this to your cart
           - else
             %p= t('workshop.empty')
 
-            %a.btn.btn-primary.btn-block{href: workshops_public_path}
-              View PUBLIC Workshop dates
+          %a.btn.btn-primary.btn-block{href: workshops_public_path}
+            View PUBLIC Workshop dates
 
-            %a.btn.btn-primary.btn-block{href: workshops_private_path}
-              View PRIVATE Workshop dates
+          %a.btn.btn-primary.btn-block{href: workshops_private_path}
+            View PRIVATE Workshop dates
