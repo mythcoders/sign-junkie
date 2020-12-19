@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
-require 'action_controller/railtie'
-require 'action_mailer/railtie'
+require 'active_model/railtie'
 require 'active_record/railtie'
 require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_text/engine'
 require 'action_view/railtie'
 require 'view_component/engine'
 require 'pinglish'
@@ -20,7 +22,6 @@ module Apollo
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/app/services]
-    config.eager_load_paths += %W[#{config.root}/app/view_models]
     # config.require_master_key = true
 
     # Storage

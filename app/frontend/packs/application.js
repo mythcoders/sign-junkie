@@ -1,7 +1,4 @@
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
+// This file is automatically compiled by Webpack, along with any other files present in this directory.
 
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
@@ -27,5 +24,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'flatpickr/dist/flatpickr'
 
 document.addEventListener('turbolinks:load', () => {
+  console.log('turbolinks loaded')
   require('lib/theme')
 })

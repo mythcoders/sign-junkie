@@ -2,6 +2,7 @@
 
 class WorkshopsController < ApplicationController
   before_action :set_workshop, only: %i[show seat reservation projects]
+  before_action :authenticate_user!, only: %i[seat reservation]
   before_action :set_seat_check, only: %i[show seat]
   before_action :set_reservation_check, only: %i[show reservation]
 

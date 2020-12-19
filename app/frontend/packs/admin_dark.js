@@ -6,8 +6,6 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
-require("trix")
-require("@rails/actiontext")
 
 const application = Application.start()
 const context = require.context("../controllers", true, /\.js$/)
@@ -16,7 +14,7 @@ application.load(definitionsFromContext(context))
 require('trix/dist/trix.css')
 require('flatpickr/dist/flatpickr.css')
 require("../fonts/feather/feather.css")
-require("../stylesheets/admin.scss")
+require("../stylesheets/admin_dark.scss")
 
 const images = require.context('../images', true)
 const imagePath = (name) => images(name, true)

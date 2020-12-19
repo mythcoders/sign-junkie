@@ -12,12 +12,12 @@ module Admin
     end
 
     def set_theme
-      @ui_theme = case request.cookies['apollo_ui_theme']
-                  when 'dark', 'light'
-                    request.cookies['apollo_ui_theme']
-                  else
-                    'light'
-                  end
+      @admin_ui_theme = case request.cookies['apollo_ui_theme']
+                        when 'dark'
+                          'admin_dark'
+                        else
+                          'admin'
+                        end
     end
   end
 end

@@ -1,29 +1,49 @@
 %div.mt-2{'data-controller': 'seat-wizard--guest'}
   %h5.card-title
-    Who is this seat for?
+    Who are you purchasing this seat for?
   .form-group
     - unless @already_attending
       .custom-control.custom-radio
         %input#self.custom-control-input{name: "guestType", type: "radio", value: "self",
                                           'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
         %label.custom-control-label{for: "self"} Myself
+    - else
+      %input.custom-control-input{type: "radio", disabled: true}
+      %label.custom-control-label
+        Myself
+        %br You've already purchased a seat for this workshop
+
     .custom-control.custom-radio
       %input#adult.custom-control-input{name: "guestType", type: "radio", value: "adult",
                                         'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
-      %label.custom-control-label{for: "adult"} An adult or someone else with an email address
+      %label.custom-control-label{for: "adult"}
+        An adult or someone else
+        %strong.text-uppercase with
+        an email address
+
     .custom-control.custom-radio
       %input#other.custom-control-input{name: "guestType", type: "radio", value: "other",
                                         'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
-      %label.custom-control-label{for: "other"} Someone without an email address
-    - if @workshop.family_friendly?
-      .custom-control.custom-radio
+      %label.custom-control-label{for: "other"}
+        An adult or someone
+        %strong.text-uppercase without
+        an email address
+
+    .custom-control.custom-radio
+      - if @workshop.family_friendly?
         %input#child.custom-control-input{name: "guestType", type: "radio", value: "child",
                                           'data-action': "seat-wizard--guest#toggleType seat-wizard#toggleGuestType"}
         %label.custom-control-label{for: "child"} A child (ages 8-17)
+      - else
+        %input.custom-control-input{type: "radio", disabled: true}
+        %label.custom-control-label
+          A child (ages 8-17)
+          %br Sorry, this workshop is for ages 18+ only.
 
   %div{'data-seat-wizard--guest-target': 'guestInfo'}
     %h5.card-title
       Guest Information
+    .alert.alert-info{'data-seat-wizard--guest-target': 'guestInfoAlert'}
     .form-row
       .form-group.col-6
         %label{for: 'firstName'} First name

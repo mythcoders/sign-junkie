@@ -24,20 +24,24 @@ export default class extends ApplicationController {
     workshopId: String,
   }
 
+  connect() {
+    this.element[this.identifier] = this
+    document.addEventListener('seat_wizard.navigation', function (event) {
+      debugger
+    }.bind(this))
+
+    if (this.projectValue.id !== undefined) {
+      this.updateProjectContent()
+      this.updateAddonContent()
+      this.updateStencilContent()
+    }
+  }
+
   get sidebarInformation() {
     return {
       addon: this.addonValue,
       project: this.projectValue,
       stencils: this.stencilsValue,
-    }
-  }
-
-  connect() {
-    this.element[this.identifier] = this
-
-    if (this.projectValue.id !== undefined) {
-      this.updateAddonContent()
-      this.updateStencilContent()
     }
   }
 

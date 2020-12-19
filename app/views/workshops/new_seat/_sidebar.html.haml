@@ -8,9 +8,10 @@
       Select a project to see pricing
 
 %template{"data-seat-wizard--sidebar-target": "template"}
-  .card-header{'data-seat-wizard--sidebar-target': 'header'} Your Selection
+  .card-header Your Project
   %img.card-img{'data-seat-wizard--sidebar-target': 'projectImage'}
   .card-body
+    %h5.card-title{'data-seat-wizard--sidebar-target': 'header'}
     %p.card-text
       = fa_solid 'usd-circle', 'text-primary fa-fw'
       %span{'data-seat-wizard--sidebar-target': 'priceDisplay'} $ --

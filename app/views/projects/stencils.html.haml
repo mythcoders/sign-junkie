@@ -1,9 +1,9 @@
 - if @project.stencils.active.any?
   %h5.card-title.mt-2.text-info
     - if @project.allowed_stencils > 1
-      Select #{@project.allowed_stencils} stencils for your #{@project.name}
+      Select #{@project.allowed_stencils} stencils
     - else
-      Select a stencil for your #{@project.name}
+      Select a stencil
 
   .row#stencilOptions{'data-controller': 'seat-wizard--stencil',
                       'data-seat-wizard--stencil-max-stencils-value': @project.allowed_stencils,
@@ -34,6 +34,8 @@
                                  'data-selected': 'false'}
             %h5.card-title.text-dark.mb-2= stencil.name
             %h6.text-muted= stencil.category.name
+            - if stencil.allow_personilization
+              .badge.badge-info Personalizable
 
         .form-group{'data-seat-wizard--stencil-target': 'stencilPersonalization',
                     'data-id': stencil.id,

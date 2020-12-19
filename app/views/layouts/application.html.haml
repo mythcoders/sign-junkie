@@ -2,8 +2,8 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'application', type: 'text/javascript'
-    = stylesheet_pack_tag 'application', type: 'text/css'
+    = javascript_pack_tag 'application', type: 'text/javascript', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', type: 'text/css', 'data-turbolinks-track': 'reload'
   %body#page-top
     #pageLoading
       #pageLoadingContent

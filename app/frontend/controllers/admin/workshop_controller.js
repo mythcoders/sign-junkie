@@ -1,6 +1,6 @@
-import { Controller } from "stimulus"
+import AdminController from "./admin_controller"
 
-export default class extends Controller {
+export default class extends AdminController {
   static targets = ["selectedAmount"]
 
   setAmount(event) {

@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def sidebar_classes
-    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md', (@ui_theme == 'light' ? 'navbar-dark' : 'navbar-light')]
+    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md', (@admin_ui_theme == 'admin' ? 'navbar-dark' : 'navbar-light')]
   end
 
   def lifp(value, format = :default)

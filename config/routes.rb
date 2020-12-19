@@ -35,10 +35,10 @@ Rails.application.routes.draw do
   get 'workshops/public', to: 'workshops#public'
   get 'workshops/private', to: 'workshops#private'
 
-  get 'policies', to: 'public#public_policies', as: :public_policies
-  get 'hostess', to: 'public#public_hostess', as: :public_hostess
-  get 'private_policies', to: 'public#private_policies', as: :private_policies
-  get 'private_hostess', to: 'public#private_hostess', as: :private_hostess
+  get 'public_policies', to: 'public#public_policies'
+  get 'public_hostess', to: 'public#public_hostess'
+  get 'private_policies', to: 'public#private_policies'
+  get 'private_hostess', to: 'public#private_hostess'
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]

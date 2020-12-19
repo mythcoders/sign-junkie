@@ -13,7 +13,7 @@ export default class extends ApplicationController {
     let element = e.currentTarget
     element.dataset.selected = !element.dataset.selected
 
-    this.stencilTargets.forEach((element) => {
+    this.addonTargets.forEach((element) => {
       if (element.dataset.id === this.projectIdValue) {
         element.classList.add(this.activeClass)
       } else {
