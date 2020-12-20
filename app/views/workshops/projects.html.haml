@@ -1,4 +1,4 @@
-%h5.card-title.mt-2.text-info Select your project
+%h5.card-title.mt-2 Select your project
 
 .row#projectOptions{'data-controller': 'seat-wizard--project',
                     'data-seat-wizard--project-active-class': 'bg-teal-light',
@@ -10,13 +10,16 @@
     .col-12.col-sm-6.project
       %a.card.shadow-light-lg.mb-3{href: '#',
                                   'data-seat-wizard-target': 'project',
-                                  'data-action': 'seat-wizard--project#toggle seat-wizard#pickProject seat-wizard--sidebar#render',
+                                  'data-action': 'seat-wizard--project#toggle',
                                   'data-id': project.id,
                                   'data-name': project.name,
                                   'data-price': project.total_price,
-                                  'data-image-url': url_for(image)}
+                                  'data-image-url': url_for(image),
+                                  'data-active-addons': project.addons.active.any?}
         .card-zoom
           %img.card-img{alt: "Image of #{project.name}", src: url_for(image)}
         .card-body.text-center{'data-seat-wizard--project-target': 'project', 'data-id': project.id}
           %h5.card-title.text-dark.mb-2= project.name
-          %h6.text-muted= number_to_currency project.total_price
+          %h6.text-dark= number_to_currency project.total_price
+          - if project.addons.active.any?
+            .badge.badge-info Optional Add-ons!

@@ -44,8 +44,9 @@ Rails.application.routes.draw do
   resources :cart, only: %i[index create destroy]
   resources :invoices, only: %i[index show new create], path: 'orders'
   resources :projects, only: %i[index show] do
-    get 'stencils', on: :member
     get 'addons', on: :member
+    get 'sidebar', on: :member
+    get 'stencils', on: :member
   end
   resources :reservations, only: %i[index show new create], concerns: :cancelable do
     resources :seats, only: %i[show edit new create update] do

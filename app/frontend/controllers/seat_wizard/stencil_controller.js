@@ -4,6 +4,7 @@ export default class extends ApplicationController {
   static classes = ["active"]
   static targets = [
     "stencil",
+    "stencilColumn",
     "stencilPersonalization"
   ]
   static values = {
@@ -13,39 +14,56 @@ export default class extends ApplicationController {
   }
 
   toggle(e) {
-    let element = e.currentTarget
+    e.preventDefault()
 
-    if (this.stencilIdsValue.length === this.maxStencilsValue && !element.dataset.selected) {
-      console.error('stencil limit reached!')
-      e.stopImmediatePropagation()
-      return
+    let element = e.currentTarget
+    let stencils = this.stencilIdsValue
+
+    if (element.dataset.selected) {
+      let pos = stencils.indexOf(element.dataset.id)
+      stencils.splice(pos, 1)
+    } else {
+      if (this.stencilIdsValue.length === this.maxStencilsValue) {
+        if (this.maxStencilsValue === 1) {
+          // in this scenario we want the selector to function as a toggle
+          // and and we go ahead and 'unselect' the other stencil
+          stencils = []
+        } else {
+          alert("You've reached your limit on stencils. Please unselect an existing stencil before trying to select another one.")
+          e.stopImmediatePropagation()
+          return
+        }
+      }
+
+      stencils.push(element.dataset.id)
     }
 
     element.dataset.selected = !element.dataset.selected
-    if (element.dataset.selected) {
-      this.stencilIdsValue.push(element.dataset.id)
-    } else {
-      let pos = this.stencilIdsValue.indexOf(element.dataset.id)
-      this.stencilIdsValue.splice(pos, 1)
-    }
+    this.stencilIdsValue = stencils
 
-    // update the UI
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
+    this.notifySeatWizard()
   }
 
   toggleStencilContent(e) {
-    this.visibleValue = !e.currentTarget.checked
-    this.stencilTargets.forEach((element) => {
+    this.visibleValue = e.currentTarget.checked
+    this.stencilColumnTargets.forEach((element) => {
       element.hidden = this.visibleValue
     })
   }
 
   // private
 
+  notifySeatWizard() {
+    document.dispatchEvent(new CustomEvent('seatWizard.updateStencils', {
+      detail: this.stencilIdsValue
+    }))
+  }
+
   updateStencilTargets() {
     this.stencilTargets.forEach((element) => {
-      if (element.dataset.id === this.projectIdValue) {
+      if (this.stencilIdsValue.includes(element.dataset.id)) {
         element.classList.add(this.activeClass)
       } else {
         element.classList.remove(this.activeClass)
@@ -55,8 +73,8 @@ export default class extends ApplicationController {
 
   updatePersonalizationTargets() {
     this.stencilPersonalizationTargets.forEach((element) => {
-      if (element.dataset.id === this.projectIdValue) {
-        element.hidden = !element.dataset.allowPersonalization
+      if (this.stencilIdsValue.includes(element.dataset.id) && element.dataset.allowPersonalization === 'true') {
+        element.hidden = false
       } else {
         element.hidden = true
       }

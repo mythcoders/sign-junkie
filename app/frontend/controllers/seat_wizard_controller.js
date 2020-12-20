@@ -12,85 +12,63 @@ export default class extends ApplicationController {
     "projectTab",
     "projectTabContent",
     "reviewTab",
+    "sidebarContent",
     "stencil",
     "stencilTab",
     "stencilTabContent",
   ]
   static values = {
-    addon: Object,
-    guest: Object,
+    addonId: String,
     project: Object,
+    guest: Object,
     stencils: Array,
     workshopId: String,
   }
 
   connect() {
     this.element[this.identifier] = this
-    document.addEventListener('seat_wizard.navigation', function (event) {
-      debugger
-    }.bind(this))
+    this.registerCallbacks()
 
     if (this.projectValue.id !== undefined) {
+      this.updateSidebarContent()
       this.updateProjectContent()
       this.updateAddonContent()
       this.updateStencilContent()
     }
   }
 
-  get sidebarInformation() {
-    return {
-      addon: this.addonValue,
-      project: this.projectValue,
-      stencils: this.stencilsValue,
-    }
-  }
+  registerCallbacks() {
+    document.addEventListener('seatWizard.navigation', function (event) {
+      debugger
+    }.bind(this))
 
-  toggleGuestType(e) {
-    e.preventDefault()
+    document.addEventListener('seatWizard.reset', function (event) {
+      this.guestValue = {}
+      this.projectValue = {}
+      this.stencilsValue = []
+      this.addonIdValue = undefined
 
-    this.guestValue.type = e.currentTarget.value
+      this.projectTabTarget.classList.add(this.disabledClass)
+      this.addonTabTarget.classList.add(this.disabledClass)
+      this.stencilTabTarget.classList.add(this.disabledClass)
+      this.reviewTabTarget.classList.add(this.disabledClass)
+    }.bind(this))
 
-    this.updateProjectContent(this.guestValue.type === 'child')
-    this.projectTabTarget.classList.remove(this.disabledClass)
-    this.addonTabTarget.classList.add(this.disabledClass)
-    this.stencilTabTarget.classList.add(this.disabledClass)
-    this.reviewTabTarget.classList.add(this.disabledClass)
-  }
+    document.addEventListener('seatWizard.toggleGuestType', function (event) {
+      this.guestValue = event.detail
+    }.bind(this))
 
-  pickProject(e) {
-    e.preventDefault()
+    document.addEventListener('seatWizard.updateProject', function (event) {
+      this.projectValue = event.detail
+    }.bind(this))
 
-    this.projectValue = {
-      id: e.currentTarget.dataset.id,
-      name: e.currentTarget.dataset.name,
-      price: parseFloat(e.currentTarget.dataset.price),
-      imageUrl: e.currentTarget.dataset.imageUrl
-    }
+    document.addEventListener('seatWizard.updateAddon', function (event) {
+      this.addonIdValue = event.detail.id
+    }.bind(this))
 
-    this.updateStencilContent()
-    this.updateAddonContent()
-    this.addonTabTarget.classList.remove(this.disabledClass)
-    this.stencilTabTarget.classList.remove(this.disabledClass)
-    this.reviewTabTarget.classList.add(this.disabledClass)
-  }
-
-  pickStencil(e) {
-    e.preventDefault()
-
-    let selectedElement = e.currentTarget
-    // set the form value
-
-    this.reviewTabTarget.classList.remove(this.disabledClass)
-  }
-
-  pickAddon(e) {
-    e.preventDefault()
-
-    this.addonValue = {
-      id: e.currentTarget.dataset.id,
-      name: e.currentTarget.dataset.name,
-      price: parseFloat(e.currentTarget.dataset.price)
-    }
+    document.addEventListener('seatWizard.updateStencils', function (event) {
+      this.stencilsValue = event.detail
+    }.bind(this))
   }
 
   submit() {
@@ -98,6 +76,54 @@ export default class extends ApplicationController {
   }
 
   // private
+
+  guestValueChanged() {
+    if (this.guestValue.guestType === undefined) {
+      return
+    }
+
+    this.updateProjectContent(this.guestValue.guestType === 'child')
+    this.projectTabTarget.classList.remove(this.disabledClass)
+    this.addonTabTarget.classList.add(this.disabledClass)
+    this.stencilTabTarget.classList.add(this.disabledClass)
+    this.reviewTabTarget.classList.add(this.disabledClass)
+  }
+
+  projectValueChanged() {
+    if (this.projectValue.id === undefined) {
+      return
+    }
+
+    if (this.projectValue.addons) {
+      this.updateAddonContent()
+      this.addonTabTarget.classList.remove(this.disabledClass)
+    } else {
+      this.addonTabTarget.classList.add(this.disabledClass)
+    }
+
+    this.updateSidebarContent()
+    this.updateStencilContent()
+    this.stencilTabTarget.classList.remove(this.disabledClass)
+    this.reviewTabTarget.classList.add(this.disabledClass)
+  }
+
+  addonIdValueChanged() {
+    if (!this.hasAddonIdValue) {
+      return
+    }
+
+    this.updateSidebarContent()
+  }
+
+  stencilsValueChanged() {
+    if (this.stencilsValue.length === 0) {
+      return
+    }
+
+    this.reviewTabTarget.classList.remove(this.disabledClass)
+
+    this.updateSidebarContent()
+  }
 
   updateProjectContent(includeChildProjects) {
     let url = `/workshops/${this.workshopIdValue}/projects`
@@ -126,6 +152,29 @@ export default class extends ApplicationController {
     axios.get(`/projects/${this.projectValue.id}/addons`)
       .then(resp => {
         this.addonTabContentTarget.innerHTML = resp.data
+      })
+      .catch(err => {
+        console.error(err)
+        alert('An error occurred. Please try again.')
+      })
+  }
+
+  updateSidebarContent() {
+    //TODO: POST the params for cart!!!
+    var url = new URL(window.location.origin + `/projects/${this.projectValue.id}/sidebar`)
+
+    if (this.hasAddonIdValue) {
+      url.searchParams.append('addon_id', this.addonIdValue)
+    }
+
+    for (let i = 0; i < this.stencilsValue.length; i++) {
+      url.searchParams.append('stencil_ids[]', this.stencilsValue[i])
+    }
+
+    console.log(url.href)
+    axios.get(url.href)
+      .then(resp => {
+        this.sidebarContentTarget.innerHTML = resp.data
       })
       .catch(err => {
         console.error(err)

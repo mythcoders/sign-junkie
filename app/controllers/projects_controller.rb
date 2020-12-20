@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[show addons stencils]
+  before_action :set_project, only: %i[show addons stencils sidebar]
 
   def index
     @projects = Project.includes(project_images_attachments: :blob)
@@ -18,6 +18,13 @@ class ProjectsController < ApplicationController
   end
 
   def stencils
+    render layout: false
+  end
+
+  def sidebar
+    @addon = @project.addons.where(id: params[:addon_id]).first if params[:addon_id]
+    @stencils = @project.stencils.where(id: params[:stencil_ids]) if params[:stencil_ids]
+
     render layout: false
   end
 

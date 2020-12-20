@@ -3,12 +3,18 @@ import ApplicationController from "../application_controller"
 export default class extends ApplicationController {
   static targets = [
     "emailAddress",
+    "firstName",
     "guestInfo",
     "guestInfoAlert",
     "guestType",
+    "lastName",
+    "seatRequest",
     "seatRequestArea",
     "seatRequestLabel",
   ]
+  static values = {
+    guestType: String,
+  }
 
   connect() {
     this.seatRequestAreaTarget.hidden = true
@@ -17,54 +23,92 @@ export default class extends ApplicationController {
     this.guestInfoAlertTarget.hidden = true
   }
 
-  toggleType(e) {
-    let guestType = e.currentTarget.value
+  updateUI(e) {
+    this.showHideEmailAddress()
+    this.showHideGuestInfo()
+    this.notifyWizard()
+  }
 
-    this.showHideEmailAddress(guestType)
-    this.showHideGuestInfo(guestType)
-
-    if (!this.isGuestInfoComplete(e)) {
-      e.stopImmediatePropagation()
-      return
-    }
-
-    document.dispatchEvent(new Event('seat_wizard.finish_step', { step: 'guest' }))
+  toggleGuestType(e) {
+    this.guestTypeValue = e.currentTarget.value
   }
 
   toggleSeatRequest(e) {
     this.seatRequestAreaTarget.hidden = !e.currentTarget.checked
+    this.seatRequestTarget.required = !this.seatRequestAreaTarget.hidden
   }
 
   // private
 
-  isGuestInfoComplete(e) {
+  guestTypeValueChanged() {
+    this.showHideEmailAddress()
+    this.showHideGuestInfo()
+    this.notifyWizard()
+  }
+
+  notifyWizard() {
+    if (!this.isComplete()) {
+      document.dispatchEvent(new CustomEvent('seatWizard.reset'))
+      // e.stopImmediatePropagation()
+    } else {
+      document.dispatchEvent(new CustomEvent('seatWizard.toggleGuestType', {
+        detail: {
+          guestType: this.guestTypeValue,
+          firstName: this.firstNameTarget.value,
+          lastName: this.lastNameTarget.value,
+          email: this.emailAddressTarget.value,
+          seatRequest: this.seatRequestTarget.value
+        }
+      }))
+    }
+  }
+
+  isComplete() {
+    if (this.guestTypeValue !== 'self' && this.firstNameTarget.value === '') {
+      return false
+    }
+
+    if (this.guestTypeValue !== 'self' && this.lastNameTarget.value === '') {
+      return false
+    }
+
+    if (this.guestTypeValue === 'adult' && this.emailAddressTarget.value === '') {
+      return false
+    }
+
     return true
   }
 
-  showHideEmailAddress(guestType) {
-    if (guestType === 'child' || guestType === 'other') {
+  showHideEmailAddress() {
+    if (this.guestTypeValue === 'child' || this.guestTypeValue === 'other') {
       this.emailAddressTarget.disabled = true
+      this.emailAddressTarget.required = false
       this.emailAddressTarget.value = ''
     } else {
+      this.emailAddressTarget.required = true
       this.emailAddressTarget.disabled = false
     }
   }
 
-  showHideGuestInfo(guestType) {
-    if (guestType === 'self') {
+  showHideGuestInfo() {
+    if (this.guestTypeValue === 'self') {
       this.guestInfoTarget.hidden = true
+      this.firstNameTarget.required = false
+      this.lastNameTarget.required = false
       this.seatRequestLabelTarget.innerHTML = "Would you like to sit next to someone specific?"
       this.guestInfoAlertTarget.hidden = true
     } else {
       this.guestInfoTarget.hidden = false
+      this.firstNameTarget.required = true
+      this.lastNameTarget.required = true
       this.seatRequestLabelTarget.innerHTML = "Would your guest like to sit next to someone specific?"
 
-      if (guestType === 'other' || guestType === 'child') {
+      if (this.guestTypeValue === 'other' || this.guestTypeValue === 'child') {
         this.guestInfoAlertTarget.hidden = false
         this.guestInfoAlertTarget.innerHTML = "This seat will be linked to your Sign Junkie Workshop account but under your guests name."
-      } else if (guestType === 'adult') {
+      } else if (this.guestTypeValue === 'adult') {
         this.guestInfoAlertTarget.hidden = false
-        this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. We'll send them an invite if they don't have a Sign Junkie Workshop account."
+        this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. After payment, you'll receive a copy of the receipt and we'll send them an invite if they don't have a Sign Junkie Workshop account."
       }
     }
   }

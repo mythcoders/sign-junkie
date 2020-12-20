@@ -1,7 +1,7 @@
-%ul#seatPickerTabs.nav.nav-tabs.nav-justified{:role => "tablist"}
+%ul#seatPickerTabs.nav.nav-tabs.nav-justified.sticky-top{:role => "tablist"}
   %li.nav-item{:role => "presentation"}
     %a#guest-tab.nav-link.active{"aria-controls" => "guest", "aria-selected" => "true", "data-toggle" => "tab",
-                                 :href => "#guest", :role => "tab"}
+                                :href => "#guest", :role => "tab"}
       Step 1
       %br
       = fa_solid 'user', 'fa-fw'
@@ -9,7 +9,7 @@
 
   %li.nav-item{:role => "presentation"}
     %a#project-tab.nav-link.disabled{"aria-controls" => "project", "aria-selected" => "false", "data-toggle" => "tab",
-                                     :href => "#project", :role => "tab", 'data-seat-wizard-target': 'projectTab'}
+                                    :href => "#project", :role => "tab", 'data-seat-wizard-target': 'projectTab'}
       Step 2
       %br
       = fa_solid 'sign', 'fa-fw'
@@ -17,7 +17,7 @@
 
   %li.nav-item{:role => "presentation"}
     %a#addon-tab.nav-link.disabled{"aria-controls" => "addon", "aria-selected" => "false", "data-toggle" => "tab",
-                                   :href => "#addon", :role => "tab", 'data-seat-wizard-target': 'addonTab'}
+                                  :href => "#addon", :role => "tab", 'data-seat-wizard-target': 'addonTab'}
       Step 3
       %br
       = fa_solid 'stamp', 'fa-fw'
@@ -25,7 +25,7 @@
 
   %li.nav-item{:role => "presentation"}
     %a#stencil-tab.nav-link.disabled{"aria-controls" => "stencil", "aria-selected" => "false", "data-toggle" => "tab",
-                                     :href => "#stencil", :role => "tab", 'data-seat-wizard-target': 'stencilTab'}
+                                    :href => "#stencil", :role => "tab", 'data-seat-wizard-target': 'stencilTab'}
       Step 4
       %br
       = fa_solid 'swatchbook', 'fa-fw'

@@ -4,15 +4,19 @@
       %h2.card-header.bg-primary.text-white.text-center
         New Seat for #{@workshop.name}
 
-.row{'data-controller': 'seat-wizard seat-wizard--sidebar',
+.row{'data-controller': 'seat-wizard',
      'data-seat-wizard-workshop-id-value': @workshop.id,
      'data-seat-wizard-active-class': 'active',
      'data-seat-wizard-disabled-class': 'disabled'}
 
-  .col-4
-    = render partial: 'workshops/new_seat/sidebar'
+  .col-12.col-sm-4.order-2.order-md-1
+    %div{'data-seat-wizard-target': 'sidebarContent'}
+      .card.card-sticky
+        .card-body
+          %p.card-text
+            To get started, tell us who you're purchasing this seat for and then select a project to see pricing.
 
-  .col
+  .col.order-1.order-md-2
     = render partial: 'workshops/new_seat/tabs'
 
     #seatPickerTabs.tab-content

@@ -31,14 +31,14 @@
             = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
         .col-auto
           .dropdown
-            %button.btn.btn-sm.btn-white{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %button.btn.btn-sm.btn-white{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", type: "button"}
               %i.fas.fa-filter.mr-1
               Filter
             .dropdown-menu.dropdown-menu-right.dropdown-menu-card
               .card-header
                 %h4.card-header-title
                   Filters
-                %button.btn.btn-sm.btn-link.text-reset{:type => "reset"}
+                %button.btn.btn-sm.btn-link.text-reset{type: "reset"}
                   %small Clear filters
               .card-body
                 .list-group.list-group-flush.mt-n4.mb-4
@@ -51,7 +51,7 @@
                           options_from_collection_for_select(WorkshopType.all, "id", "name", @q.workshop_type_id_eq),
                           include_blank: true,
                           class: 'custom-select custom-select-sm'
-                %button.btn.btn-block.btn-primary{:type => "submit"}
+                %button.btn.btn-block.btn-primary{type: "submit"}
                   Apply filter
   %table.table.table-striped.border-bottom.card-table
     %thead
