@@ -1,6 +1,3 @@
-- total_price = @project.total_price
-- total_price += @addon.price if @addon
-
 .card.card-sticky
   -# %img.card-img{src: url_for(image),
   -#               alt: "Image of #{@project.name}",
@@ -33,21 +30,13 @@
 
     %hr
 
-    .media.align-items-center.mb-4
+    .media.align-items-center
       .font-size-1.font-weight-normal.mb-0.mr-3 Total
       .media-body.text-right
         %span.font-weight-medium
+          - total_price = @project.total_price
+          - total_price += @addon.price if @addon
           - if total_price.positive?
             = number_to_currency total_price
           - else
             .span --
-
-  .card-footer
-    %a.btn.btn-info.btn-sm{href: '#'}
-      = fa_solid 'arrow-left'
-      Previous Step
-    .float-right
-      %a.btn.btn-info.btn-sm{href: '#'}
-        Next Step
-        = fa_solid 'arrow-right'
-

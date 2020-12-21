@@ -1289,8 +1289,20 @@ import bsCustomFileInput from 'bs-custom-file-input'
       isotopes: () => {
 
         let topes = document.querySelectorAll('[data-isotope]')
+        let filter = document.querySelectorAll('[data-isotope-filter]')
 
         if (topes.length === 0) return
+
+        // on filter change filter the isotope
+        $filter.on('click', function () {
+          var $this = $(this)
+          var filter = $this.data('filter')
+          var target = $this.data('target')
+
+          $(target).isotope({
+            filter: filter
+          })
+        })
 
         var imagesLoaded = require('imagesloaded')
         var Isotope = require('isotope-layout')

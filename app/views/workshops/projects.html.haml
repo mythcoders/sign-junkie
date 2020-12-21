@@ -23,3 +23,9 @@
           %h6.text-dark= number_to_currency project.total_price
           - if project.addons.active.any?
             .badge.badge-info Optional Add-ons!
+
+  %a{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'guest'}
+    Previous
+
+  %a{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'addon'}
+    Next

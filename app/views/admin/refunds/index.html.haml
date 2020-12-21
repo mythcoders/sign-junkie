@@ -39,9 +39,9 @@
             %td= number_to_currency o.amount
             %td
               - if o.customer_credit
-                Account Credit
+                Credit
               - else
-                Refund
+                Payment Method
             %td= lifp(o.created_at, :short)
       %tfoot
         %tr

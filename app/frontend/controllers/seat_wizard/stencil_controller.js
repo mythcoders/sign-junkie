@@ -1,8 +1,11 @@
 import ApplicationController from "../application_controller"
+import isotope from 'isotope-layout'
+var imagesLoaded = require('imagesloaded')
 
 export default class extends ApplicationController {
   static classes = ["active"]
   static targets = [
+    "filterDropdown",
     "stencil",
     "stencilColumn",
     "stencilPersonalization"
@@ -11,6 +14,34 @@ export default class extends ApplicationController {
     visible: Boolean,
     maxStencils: Number,
     stencilIds: Array,
+  }
+
+  connect() {
+    $(this.element).isotope({
+      layoutMode: "masonry",
+      itemSelector: "stencil"
+    })
+
+    $(this.filterDropdownTarget).on('change', function (event) {
+      var $select = $(event.target)
+      // get group key
+      var filterGroup = $select.attr('value-group')
+      // set filter for group
+      filters[filterGroup] = event.target.value
+      // combine filters
+      var filterValue = filters
+      // set filter for Isotope
+      $grid.isotope({ filter: filterValue })
+    })
+
+    imagesLoaded(this.element).on('progress', function () {
+      console.log('image loaded!')
+      this.element.layout()
+    })
+  }
+
+  disconnect() {
+    this.element.isotope().destroy()
   }
 
   toggle(e) {
@@ -48,6 +79,8 @@ export default class extends ApplicationController {
 
   toggleStencilContent(e) {
     this.visibleValue = e.currentTarget.checked
+    this.stencilIdsValue = [0]
+    this.notifySeatWizard()
     this.stencilColumnTargets.forEach((element) => {
       element.hidden = this.visibleValue
     })

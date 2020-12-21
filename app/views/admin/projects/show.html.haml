@@ -45,6 +45,12 @@
             %h5.mb-0 No. stencils allowed
           .col-auto
             %small.text-muted= @project.allowed_stencils
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0 Only for Children?
+          .col-auto
+            %small.text-muted= human_boolean @project.only_for_children
     - if @project.addons.any?
       .card
         .card-header

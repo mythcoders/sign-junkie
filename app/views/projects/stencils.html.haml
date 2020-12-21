@@ -7,8 +7,7 @@
 
   .row#stencilOptions{'data-controller': 'seat-wizard--stencil',
                       'data-seat-wizard--stencil-max-stencils-value': @project.allowed_stencils,
-                      'data-seat-wizard--stencil-active-class': 'bg-teal-light',
-                      'data-isotope': '{"layoutMode": "masonry", "itemSelector": "stencil"}'}
+                      'data-seat-wizard--stencil-active-class': 'bg-teal-light'}
 
     - if @project.allow_no_stencil
       .col-12
@@ -18,8 +17,17 @@
             %label.custom-control-label{for: "noStencil"}
               Plain (no stencil or personalization)
 
-    - @project.stencils.active.each do |stencil|
-      .col-12.col-sm-6.stencil{'data-seat-wizard--stencil-target': 'stencilColumn'}
+    .col-12{'data-seat-wizard--stencil-target': 'stencilColumn'}
+      .form-group
+        = select_tag :filter_select,
+          options_from_collection_for_select(StencilCategory.all, "id", "name"),
+          include_blank: 'All Stencil Categories',
+          class: 'custom-select custom-select-sm',
+          'data-target': '#stencilOptions',
+          'data-seat-wizard--stencil-target': 'filterDropdown'
+
+    - @project.stencils.active.order(:name).each do |stencil|
+      .col-12.col-sm-6.stencil{'data-seat-wizard--stencil-target': 'stencilColumn', class: stencil.category.id}
         %a.card.shadow-light-lg.mb-3{href: '#',
                                 'data-action': 'seat-wizard--stencil#toggle',
                                 'data-id': stencil.id}

@@ -8,6 +8,7 @@ export default class extends ApplicationController {
     "guestInfoAlert",
     "guestType",
     "lastName",
+    "nextButton",
     "seatRequest",
     "seatRequestArea",
     "seatRequestLabel",
@@ -21,6 +22,7 @@ export default class extends ApplicationController {
     this.guestInfoTarget.hidden = true
     this.emailAddressTarget.disabled = true
     this.guestInfoAlertTarget.hidden = true
+    this.nextButtonTarget.classList.add('disabled')
   }
 
   updateUI(e) {
@@ -48,9 +50,11 @@ export default class extends ApplicationController {
 
   notifyWizard() {
     if (!this.isComplete()) {
+      this.nextButtonTarget.classList.add('disabled')
       document.dispatchEvent(new CustomEvent('seatWizard.reset'))
       // e.stopImmediatePropagation()
     } else {
+      this.nextButtonTarget.classList.remove('disabled')
       document.dispatchEvent(new CustomEvent('seatWizard.toggleGuestType', {
         detail: {
           guestType: this.guestTypeValue,

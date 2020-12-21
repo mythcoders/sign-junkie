@@ -79,3 +79,10 @@
     .form-control-plaintext
       Enter the guests name below. We'll do our best to accomidate your request.
     = text_field_tag :seating, nil, class: 'form-control', autocomplete: false, placeholder: "First and Last name",'data-seat-wizard--guest-target': 'seatRequest'
+
+  .float-right
+    %a.btn.btn-info{href: '#',
+                    'data-action': 'seat-wizard#goToTab',
+                    'data-destination': 'project',
+                    'data-seat-wizard--guest-target': 'nextButton'}
+      Next

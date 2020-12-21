@@ -17,19 +17,21 @@
             To get started, tell us who you're purchasing this seat for and then select a project to see pricing.
 
   .col.order-1.order-md-2
-    = render partial: 'workshops/new_seat/tabs'
+    .card
+      .card-header.sticky-top
+        = render partial: 'workshops/new_seat/tabs'
+      .card-body
+        #seatPickerTabs.tab-content
+          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
+            = render partial: 'workshops/new_seat/guest'
 
-    #seatPickerTabs.tab-content
-      #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-        = render partial: 'workshops/new_seat/guest'
+          #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel", 'data-seat-wizard-target': 'projectTabContent'}
+          #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel", 'data-seat-wizard-target': 'stencilTabContent'}
+          #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel", 'data-seat-wizard-target': 'addonTabContent'}
 
-      #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel", 'data-seat-wizard-target': 'projectTabContent'}
-      #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel", 'data-seat-wizard-target': 'stencilTabContent'}
-      #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel", 'data-seat-wizard-target': 'addonTabContent'}
+          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+            = render partial: 'workshops/new_seat/review'
 
-      #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-        = render partial: 'workshops/new_seat/review'
-
-        %button.btn.btn-info.btn-block{type: 'submit'}
-          = fa_solid 'cart-plus'
-          Add to Cart
+            %button.btn.btn-info.btn-block{type: 'submit'}
+              = fa_solid 'cart-plus'
+              Add to Cart

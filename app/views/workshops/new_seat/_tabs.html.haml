@@ -1,39 +1,39 @@
-%ul#seatPickerTabs.nav.nav-tabs.nav-justified.sticky-top{:role => "tablist"}
+%ul#seatPickerTabs.nav.nav-tabs.nav-justified.card-header-tabs{:role => "tablist"}
   %li.nav-item{:role => "presentation"}
-    %a#guest-tab.nav-link.active{"aria-controls" => "guest", "aria-selected" => "true", "data-toggle" => "tab",
-                                :href => "#guest", :role => "tab"}
+    %a#guest-tab.nav-link.active{"aria-controls": "guest", "aria-selected": "true", "data-toggle": "tab",
+                                href: "#guest", role: "tab", 'data-seat-wizard-target': 'guestTab'}
       Step 1
       %br
       = fa_solid 'user', 'fa-fw'
       Guest
 
   %li.nav-item{:role => "presentation"}
-    %a#project-tab.nav-link.disabled{"aria-controls" => "project", "aria-selected" => "false", "data-toggle" => "tab",
-                                    :href => "#project", :role => "tab", 'data-seat-wizard-target': 'projectTab'}
+    %a#project-tab.nav-link.disabled{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab",
+                                    href: "#project", role: "tab", 'data-seat-wizard-target': 'projectTab'}
       Step 2
       %br
       = fa_solid 'sign', 'fa-fw'
       Project
 
   %li.nav-item{:role => "presentation"}
-    %a#addon-tab.nav-link.disabled{"aria-controls" => "addon", "aria-selected" => "false", "data-toggle" => "tab",
-                                  :href => "#addon", :role => "tab", 'data-seat-wizard-target': 'addonTab'}
+    %a#addon-tab.nav-link.disabled{"aria-controls": "addon", "aria-selected": "false", "data-toggle": "tab",
+                                  href: "#addon", role: "tab", 'data-seat-wizard-target': 'addonTab'}
       Step 3
       %br
       = fa_solid 'stamp', 'fa-fw'
       Add-Ons
 
   %li.nav-item{:role => "presentation"}
-    %a#stencil-tab.nav-link.disabled{"aria-controls" => "stencil", "aria-selected" => "false", "data-toggle" => "tab",
-                                    :href => "#stencil", :role => "tab", 'data-seat-wizard-target': 'stencilTab'}
+    %a#stencil-tab.nav-link.disabled{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab",
+                                    href: "#stencil", role: "tab", 'data-seat-wizard-target': 'stencilTab'}
       Step 4
       %br
       = fa_solid 'swatchbook', 'fa-fw'
       Stencil
 
   %li.nav-item{:role => "presentation"}
-    %a#review-tab.nav-link.disabled{"aria-controls" => "review", "aria-selected" => "false", "data-toggle" => "tab",
-                                    :href => "#review", :role => "tab", 'data-seat-wizard-target': 'reviewTab'}
+    %a#review-tab.nav-link.disabled{"aria-controls": "review", "aria-selected": "false", "data-toggle": "tab",
+                                    href: "#review", role: "tab", 'data-seat-wizard-target': 'reviewTab'}
       Step 5
       %br
       Review

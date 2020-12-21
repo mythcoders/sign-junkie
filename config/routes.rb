@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resources :invoices, only: %i[index show new create], path: 'orders'
   resources :projects, only: %i[index show] do
     get 'addons', on: :member
-    get 'sidebar', on: :member
+    post 'sidebar', on: :member
     get 'stencils', on: :member
   end
   resources :reservations, only: %i[index show new create], concerns: :cancelable do

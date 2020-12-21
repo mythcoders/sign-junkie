@@ -1,19 +1,16 @@
-import axios from "axios"
+import axios from "../lib/utils/axios_utils"
 import ApplicationController from "./application_controller"
 
 export default class extends ApplicationController {
   static classes = ["active", "disabled"]
   static targets = [
-    "addon",
     "addonTab",
     "addonTabContent",
-    "priceDisplay",
-    "project",
+    "guestTab",
     "projectTab",
     "projectTabContent",
     "reviewTab",
     "sidebarContent",
-    "stencil",
     "stencilTab",
     "stencilTabContent",
   ]
@@ -38,10 +35,6 @@ export default class extends ApplicationController {
   }
 
   registerCallbacks() {
-    document.addEventListener('seatWizard.navigation', function (event) {
-      debugger
-    }.bind(this))
-
     document.addEventListener('seatWizard.reset', function (event) {
       this.guestValue = {}
       this.projectValue = {}
@@ -69,6 +62,35 @@ export default class extends ApplicationController {
     document.addEventListener('seatWizard.updateStencils', function (event) {
       this.stencilsValue = event.detail
     }.bind(this))
+  }
+
+  goToTab(e) {
+    e.preventDefault()
+
+    switch (e.currentTarget.dataset.destination) {
+      case 'guest':
+        $(this.guestTabTarget).tab('show')
+        break
+
+      case 'project':
+        $(this.projectTabTarget).tab('show')
+        break
+
+      case 'stencil':
+        $(this.stencilTabTarget).tab('show')
+        break
+
+      case 'addon':
+        $(this.addonTabTarget).tab('show')
+        break
+
+      case 'review':
+        $(this.reviewTabTarget).tab('show')
+        break
+
+      default:
+        break
+    }
   }
 
   submit() {
@@ -160,19 +182,10 @@ export default class extends ApplicationController {
   }
 
   updateSidebarContent() {
-    //TODO: POST the params for cart!!!
-    var url = new URL(window.location.origin + `/projects/${this.projectValue.id}/sidebar`)
-
-    if (this.hasAddonIdValue) {
-      url.searchParams.append('addon_id', this.addonIdValue)
-    }
-
-    for (let i = 0; i < this.stencilsValue.length; i++) {
-      url.searchParams.append('stencil_ids[]', this.stencilsValue[i])
-    }
-
-    console.log(url.href)
-    axios.get(url.href)
+    axios.post(`/projects/${this.projectValue.id}/sidebar`, {
+      addon_id: this.addonIdValue,
+      stencil_ids: this.stencilsValue
+    })
       .then(resp => {
         this.sidebarContentTarget.innerHTML = resp.data
       })
