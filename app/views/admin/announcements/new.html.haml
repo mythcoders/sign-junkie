@@ -1,0 +1,24 @@
+- page_title 'New', 'Announcement'
+
+.header.mt-md-2
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Announcements
+        %h1.header-title
+          %i.fad.fa-sign
+          New Announcement
+
+= form_for @announcement, url: admin_announcements_path, local: true do |f|
+  .row.justify-content-center
+    .col.col-lg-8.col-md-12
+      .card.mt-3
+        .card-header
+          %h3.card-header-title Information
+        .card-body
+          = error_messages_for 'announcement'
+          = render partial: 'admin/announcements/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', admin_announcements_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Create', class: 'btn btn-success'

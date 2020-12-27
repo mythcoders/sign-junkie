@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     match 'reports/guest_list', to: 'reports#guest_list', as: 'guest_list_report', via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
+    resources :announcements
     resources :gallery_images
     resources :invoices
     resources :projects, concerns: %i[cloneable image_attachable] do

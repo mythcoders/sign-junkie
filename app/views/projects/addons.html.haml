@@ -24,3 +24,11 @@
     .card-body.text-center
       %h2 No Add-ons
       %p.text-muted.mb-0 This project does not have any available add-ons for purchase.
+
+.row
+  .col
+    %a.btn.btn-info{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'project'} Previous
+
+  .col
+    .float-right
+      %a.btn.btn-info{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'stencil'} Next

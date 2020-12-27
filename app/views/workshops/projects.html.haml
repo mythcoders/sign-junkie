@@ -1,31 +1,33 @@
 %h5.card-title.mt-2 Select your project
 
-.row#projectOptions{'data-controller': 'seat-wizard--project',
-                    'data-seat-wizard--project-active-class': 'bg-teal-light',
-                    'data-isotope': '{"layoutMode": "masonry", "itemSelector": "project"}'}
+%div{'data-controller': 'seat-wizard--project', 'data-seat-wizard--project-active-class': 'bg-teal-light'}
+  .row#projectOptions{'data-isotope': '{"layoutMode": "masonry", "itemSelector": "project"}'}
 
-  - @projects.each do |project|
-    - image = project.project_images.first
+    - @projects.each do |project|
+      - image = project.project_images.first
 
-    .col-12.col-sm-6.project
-      %a.card.shadow-light-lg.mb-3{href: '#',
-                                  'data-seat-wizard-target': 'project',
-                                  'data-action': 'seat-wizard--project#toggle',
-                                  'data-id': project.id,
-                                  'data-name': project.name,
-                                  'data-price': project.total_price,
-                                  'data-image-url': url_for(image),
-                                  'data-active-addons': project.addons.active.any?}
-        .card-zoom
-          %img.card-img{alt: "Image of #{project.name}", src: url_for(image)}
-        .card-body.text-center{'data-seat-wizard--project-target': 'project', 'data-id': project.id}
-          %h5.card-title.text-dark.mb-2= project.name
-          %h6.text-dark= number_to_currency project.total_price
-          - if project.addons.active.any?
-            .badge.badge-info Optional Add-ons!
+      .col-12.col-sm-6.project
+        %a.card.shadow-light-lg.mb-3{href: '#',
+                                    'data-seat-wizard-target': 'project',
+                                    'data-action': 'seat-wizard--project#toggle',
+                                    'data-id': project.id,
+                                    'data-name': project.name,
+                                    'data-price': project.total_price,
+                                    'data-image-url': url_for(image),
+                                    'data-active-addons': project.addons.active.any?}
+          .card-zoom
+            %img.card-img{alt: "Image of #{project.name}", src: url_for(image)}
+          .card-body.text-center{'data-seat-wizard--project-target': 'project', 'data-id': project.id}
+            %h5.card-title.text-dark.mb-2= project.name
+            %h6.text-dark= number_to_currency project.total_price
+            - if project.addons.active.any?
+              .badge.badge-info Optional Add-ons!
 
-  %a{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'guest'}
-    Previous
+  .row
+    .col
+      %a.btn.btn-info{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'guest'} Previous
 
-  %a{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'addon'}
-    Next
+    .col
+      .float-right
+        %a.btn.btn-info{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'addon',
+          'data-seat-wizard--project-target': 'nextButton'} Next

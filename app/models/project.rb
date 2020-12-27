@@ -9,6 +9,7 @@ class Project < ApplicationRecord
   has_many :stencils, through: :project_stencils
   has_many :workshops, through: :workshop_projects
   has_many_attached :project_images, dependent: :destroy
+  has_rich_text :description
 
   accepts_nested_attributes_for :addons, :stencils
   validates_presence_of :name, :material_price, :instructional_price, :allowed_stencils

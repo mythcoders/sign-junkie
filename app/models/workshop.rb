@@ -10,6 +10,7 @@ class Workshop < ApplicationRecord
   has_many :seats, dependent: :restrict_with_error
   has_many :reservations, dependent: :restrict_with_error
   has_many_attached :workshop_images, dependent: :destroy
+  has_rich_text :description
   belongs_to :workshop_type
 
   accepts_nested_attributes_for :projects

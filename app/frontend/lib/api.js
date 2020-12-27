@@ -1,6 +1,8 @@
+import { param } from "jquery"
 import axios from "../helpers/axios_helpers"
 
 const Api = {
+  cartPath: '/cart',
   projectAddonsPath: '/projects/:projectId/addons',
   projectStencilsPath: '/projects/:projectId/stencils',
   sidebarPath: '/projects/:projectId/sidebar',
@@ -27,6 +29,10 @@ const Api = {
   workshopProjects(workshopId, includeChildProjects = false) {
     const url = Api.workshopProjectsPath.replace(':workshopId', encodeURIComponent(workshopId))
     return axios.get(includeChildProjects ? `${url}?include_children=1` : url)
+  },
+
+  addToCart(params) {
+    return axios.post(Api.cartPath, params)
   }
 }
 

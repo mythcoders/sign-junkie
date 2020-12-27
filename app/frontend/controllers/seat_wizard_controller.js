@@ -1,5 +1,6 @@
 import ApplicationController from "./application_controller"
 import Api from "../lib/api"
+import axios from "axios"
 
 export default class extends ApplicationController {
   static values = { addonId: String, project: Object, guest: Object, stencils: Array, workshopId: String }
@@ -78,8 +79,27 @@ export default class extends ApplicationController {
     }
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault()
 
+    var data = {
+      cart: {
+        workshop_id: this.workshopIdValue,
+        project_id: this.projectValue.id,
+        addon_id: this.addonIdValue,
+        stencils: this.stencilsValue,
+        guest: this.guestValue
+      }
+    }
+
+    Api.addToCart(data)
+      .then(resp => {
+        document.location = resp.data
+      })
+      .catch(err => {
+        console.error(err)
+        alert('An error occurred. Please try again.')
+      })
   }
 
   // private
@@ -115,7 +135,7 @@ export default class extends ApplicationController {
   }
 
   addonIdValueChanged() {
-    if (!this.hasAddonIdValue) {
+    if (this.projectValue.id === undefined || !this.hasAddonIdValue) {
       return
     }
 
@@ -123,7 +143,7 @@ export default class extends ApplicationController {
   }
 
   stencilsValueChanged() {
-    if (this.stencilsValue.length === 0) {
+    if (this.projectValue.id === undefined || this.stencilsValue.length === 0) {
       return
     }
 

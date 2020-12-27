@@ -3,7 +3,7 @@ import Isotope from 'isotope-layout'
 
 export default class extends ApplicationController {
   static values = { visible: Boolean, maxStencils: Number, stencilIds: Array, filters: String }
-  static targets = ["stencil", "grid", "stencilColumn", "stencilPersonalization"]
+  static targets = ["stencil", "grid", "previousButton", "stencilColumn", "stencilPersonalization"]
   static classes = ["active"]
 
   connect() {

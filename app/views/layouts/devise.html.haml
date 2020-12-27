@@ -2,11 +2,9 @@
 %html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'main', 'data-turbolinks-track': 'reload'
     = stylesheet_pack_tag 'admin', 'data-turbolinks-track': 'reload', type: 'text/css'
     %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
   %body{style: "Font-Family: 'Abril Fatface'"}
     .container-fluid
       .row.align-items-center.justify-content-center
@@ -21,8 +19,3 @@
             %a.link-teal{href: root_path}= "\u00A9 #{Time.zone.today.year} #{ClientInfo.owner}"
         .col-12.col-md-6.col-lg-6.col-xl-8.d-none.d-lg-block
           .bg-cover.vh-100.mt-n1.mr-n3{:style => "background-image: url(/Private.jpeg);"}
-  :javascript
-    document.addEventListener("turbolinks:load", function() {
-        window.FontAwesome.dom.i2svg();
-        $.onmount()
-      });

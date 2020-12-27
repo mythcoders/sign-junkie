@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_221918) do
+ActiveRecord::Schema.define(version: 2020_12_27_083723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,14 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
     t.index ["name"], name: "index_addons_on_name", unique: true
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "carts", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -62,26 +70,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
     t.integer "item_description_id", null: false
     t.index ["item_description_id"], name: "index_carts_on_item_description_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
-  end
-
-  create_table "clients", force: :cascade do |t|
-    t.string "name"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "state"
-    t.string "city"
-    t.string "zip_code"
-    t.string "phone"
-    t.string "fax"
-    t.string "contact_email"
-    t.string "instagram_account"
-    t.string "facebook_account"
-    t.string "twitter_account"
-    t.string "site_url"
-    t.string "site_name"
-    t.string "site_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "customer_credits", id: :serial, force: :cascade do |t|
@@ -95,7 +83,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
   end
 
   create_table "gallery_images", force: :cascade do |t|
-    t.string "caption"
     t.integer "sort"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -150,16 +137,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
     t.boolean "gifted", default: false
   end
 
-  create_table "notifiications", id: :serial, force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "title"
-    t.string "memo"
-    t.datetime "read_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notifiications_on_user_id"
-  end
-
   create_table "payments", id: :serial, force: :cascade do |t|
     t.bigint "invoice_id"
     t.string "identifier", limit: 25
@@ -191,7 +168,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
 
   create_table "projects", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "description"
     t.decimal "instructional_price"
     t.decimal "material_price"
     t.datetime "created_at", null: false
@@ -361,7 +337,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
 
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
-    t.string "description", limit: 1000
     t.datetime "purchase_start_date"
     t.datetime "purchase_end_date"
     t.datetime "start_date"
@@ -390,7 +365,6 @@ ActiveRecord::Schema.define(version: 2020_12_19_221918) do
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_items", "item_descriptions"
   add_foreign_key "invoices", "users"
-  add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
   add_foreign_key "project_addons", "addons"
   add_foreign_key "project_addons", "projects"

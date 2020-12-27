@@ -14,11 +14,12 @@
       .card.card-sticky
         .card-body
           %p.card-text
-            To get started, tell us who you're purchasing this seat for and then select a project to see pricing.
+            To get started, tell us who you're purchasing this seat for. Then you'll be able to select a project
+            projects.
 
   .col.order-1.order-md-2
     .card
-      .card-header.sticky-top
+      .card-header
         = render partial: 'workshops/new_seat/tabs'
       .card-body
         #seatPickerTabs.tab-content
@@ -32,6 +33,6 @@
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
             = render partial: 'workshops/new_seat/review'
 
-            %button.btn.btn-info.btn-block{type: 'submit'}
+            %a.btn.btn-info.btn-block{href: '#', 'data-action': 'seat-wizard#submit'}
               = fa_solid 'cart-plus'
               Add to Cart

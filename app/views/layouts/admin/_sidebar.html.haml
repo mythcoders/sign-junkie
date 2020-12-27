@@ -49,6 +49,10 @@
       %h6.navbar-heading.mb-n1 Configuration
       %ul.navbar-nav.mb-md-3
         %li.nav-item
+          = link_to admin_announcements_path, class: 'nav-link' do
+            %i.fad.fa-megaphone.fa-lg.sidebar-icon
+            Announcements
+        %li.nav-item
           = link_to admin_gallery_images_path, class: 'nav-link' do
             %i.fad.fa-photo-video.fa-lg.sidebar-icon
             Photo Gallery

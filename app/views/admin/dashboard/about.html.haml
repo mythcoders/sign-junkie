@@ -43,7 +43,7 @@
         .form-group.row
           %label.col-sm-4.col-form-label Developed For
           .col-sm-8
-            %a{href: ClientInfo.website_link}= ClientInfo.owner
+            %a{href: EnvironmentInfo.env_url}= ClientInfo.owner
             %p #{ClientInfo.city}, #{ClientInfo.state}
             %span.badge.badge-info.badge-pill
               %i.fas.fa-rocket.fa-lg
