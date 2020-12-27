@@ -1,5 +1,5 @@
 import ApplicationController from "./application_controller"
-import Api from "../api"
+import Api from "../lib/api"
 
 export default class extends ApplicationController {
   static values = { addonId: String, project: Object, guest: Object, stencils: Array, workshopId: String }

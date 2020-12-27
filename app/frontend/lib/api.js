@@ -1,4 +1,4 @@
-import axios from "./helpers/axios_helpers"
+import axios from "../helpers/axios_helpers"
 
 const Api = {
   projectAddonsPath: '/projects/:projectId/addons',

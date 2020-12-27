@@ -59,7 +59,6 @@ import bsCustomFileInput from 'bs-custom-file-input'
         // theme.checkboxToggleClass()
         // theme.masterCheckbox()
         // theme.parallax()
-        theme.isotopes()
       },
 
 
@@ -1283,37 +1282,6 @@ import bsCustomFileInput from 'bs-custom-file-input'
 
         for (let i = 0; i < element.length; i++) {
           let parallaxInstance = new Parallax(element[i])
-        }
-      },
-
-      isotopes: () => {
-
-        let topes = document.querySelectorAll('[data-isotope]')
-        let filter = document.querySelectorAll('[data-isotope-filter]')
-
-        if (topes.length === 0) return
-
-        // on filter change filter the isotope
-        $filter.on('click', function () {
-          var $this = $(this)
-          var filter = $this.data('filter')
-          var target = $this.data('target')
-
-          $(target).isotope({
-            filter: filter
-          })
-        })
-
-        var imagesLoaded = require('imagesloaded')
-        var Isotope = require('isotope-layout')
-
-        for (let i = 0; i < topes.length; i++) {
-          let element = topes[i]
-          var iso = new Isotope(element, JSON.parse(element.dataset.isotope))
-
-          imagesLoaded(element).on('progress', function () {
-            iso.layout()
-          })
         }
       }
     }

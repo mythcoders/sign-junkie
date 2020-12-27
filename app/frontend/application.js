@@ -11,6 +11,8 @@ const imagePath = (name) => images(name, true)
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'flatpickr/dist/flatpickr'
 
+// Raven.config("#{}").install();
+
 document.addEventListener('turbolinks:load', () => {
-  require('vendor')
+  require('lib/vendor')
 })

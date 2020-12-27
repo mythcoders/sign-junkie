@@ -18,5 +18,7 @@
 %meta{property: "twitter:image", content: asset_url('/Public.jpeg')}
 -# %meta{property: "twitter:image:alt", content: '?'}
 = csrf_meta_tags
+%meta{name: 'hubble-environment', content: Rails.env}
+%meta{name: 'hubble-error-dsn', content: Rails.application.credentials.dig(:sentry, :public_dsn)}
 %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
 = yield :styles

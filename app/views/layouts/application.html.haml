@@ -5,12 +5,6 @@
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbolinks-track': 'reload'
     = stylesheet_pack_tag 'main', type: 'text/css', 'data-turbolinks-track': 'reload'
   %body#page-top
-    #pageLoading
-      #pageLoadingContent
-        %p#pageLoadingSpinner
-          = fa_spin 'spinner', 'fa-5x'
-          %br
-          %span.text-primary Loading ... Please wait...
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}

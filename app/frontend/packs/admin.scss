@@ -11,17 +11,17 @@
 // @import "select2/src/scss/core.scss";
 
 // Custom variables
-@import "admin_portal_variables";
+@import "../stylesheets/admin_portal_variables";
 
 // Dashkit variables
-@import "dashkit/variables";
+@import "../stylesheets/dashkit/variables";
 
 // Bootstrap core
 @import "bootstrap/scss/bootstrap";
 
 // Dashkit core
-@import "dashkit/dashkit";
+@import "../stylesheets/dashkit/dashkit";
 
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "../stylesheets/admin_portal";
+@import "../stylesheets/shared";

@@ -9,19 +9,19 @@
 @import "bootstrap/scss/_functions";
 
 // Custom variables
-@import "admin_portal_variables";
+@import "../stylesheets/admin_portal_variables";
 
 // Dashkit variables
-@import "dashkit/dark/variables-dark";
-@import "dashkit/variables";
+@import "../stylesheets/dashkit/dark/variables-dark";
+@import "../stylesheets/dashkit/variables";
 
 // Bootstrap core
 @import "bootstrap/scss/bootstrap";
 
 // Dashkit core
-@import "dashkit/dashkit";
-@import "dashkit/dark/overrides-dark";
+@import "../stylesheets/dashkit/dashkit";
+@import "../stylesheets/dashkit/dark/overrides-dark";
 
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "../stylesheets/admin_portal";
+@import "../stylesheets/shared";
