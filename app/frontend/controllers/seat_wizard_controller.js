@@ -1,26 +1,11 @@
-import axios from "../lib/utils/axios_utils"
 import ApplicationController from "./application_controller"
+import Api from "../api"
 
 export default class extends ApplicationController {
+  static values = { addonId: String, project: Object, guest: Object, stencils: Array, workshopId: String }
+  static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
+    "sidebarContent", "stencilTab", "stencilTabContent"]
   static classes = ["active", "disabled"]
-  static targets = [
-    "addonTab",
-    "addonTabContent",
-    "guestTab",
-    "projectTab",
-    "projectTabContent",
-    "reviewTab",
-    "sidebarContent",
-    "stencilTab",
-    "stencilTabContent",
-  ]
-  static values = {
-    addonId: String,
-    project: Object,
-    guest: Object,
-    stencils: Array,
-    workshopId: String,
-  }
 
   connect() {
     this.element[this.identifier] = this
@@ -148,8 +133,7 @@ export default class extends ApplicationController {
   }
 
   updateProjectContent(includeChildProjects) {
-    let url = `/workshops/${this.workshopIdValue}/projects`
-    axios.get(includeChildProjects ? `${url}?include_children=1` : url)
+    Api.workshopProjects(this.workshopIdValue, includeChildProjects)
       .then(resp => {
         this.projectTabContentTarget.innerHTML = resp.data
       })
@@ -160,7 +144,7 @@ export default class extends ApplicationController {
   }
 
   updateStencilContent() {
-    axios.get(`/projects/${this.projectValue.id}/stencils`)
+    Api.projectStencils(this.projectValue.id)
       .then(resp => {
         this.stencilTabContentTarget.innerHTML = resp.data
       })
@@ -171,7 +155,7 @@ export default class extends ApplicationController {
   }
 
   updateAddonContent() {
-    axios.get(`/projects/${this.projectValue.id}/addons`)
+    Api.projectAddons(this.projectValue.id)
       .then(resp => {
         this.addonTabContentTarget.innerHTML = resp.data
       })
@@ -182,10 +166,7 @@ export default class extends ApplicationController {
   }
 
   updateSidebarContent() {
-    axios.post(`/projects/${this.projectValue.id}/sidebar`, {
-      addon_id: this.addonIdValue,
-      stencil_ids: this.stencilsValue
-    })
+    Api.sidebar(this.projectValue.id, this.addonIdValue, this.stencilsValue)
       .then(resp => {
         this.sidebarContentTarget.innerHTML = resp.data
       })

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import csrf from './csrf'
+import csrf from './csrf_helpers'
 
 axios.defaults.headers.common[csrf.headerKey] = csrf.token
 // Used by Rails to check if it is a valid XHR request

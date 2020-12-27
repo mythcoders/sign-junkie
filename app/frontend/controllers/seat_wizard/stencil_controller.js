@@ -1,47 +1,32 @@
 import ApplicationController from "../application_controller"
-import isotope from 'isotope-layout'
-var imagesLoaded = require('imagesloaded')
+import Isotope from 'isotope-layout'
 
 export default class extends ApplicationController {
+  static values = { visible: Boolean, maxStencils: Number, stencilIds: Array, filters: String }
+  static targets = ["stencil", "grid", "stencilColumn", "stencilPersonalization"]
   static classes = ["active"]
-  static targets = [
-    "filterDropdown",
-    "stencil",
-    "stencilColumn",
-    "stencilPersonalization"
-  ]
-  static values = {
-    visible: Boolean,
-    maxStencils: Number,
-    stencilIds: Array,
-  }
 
   connect() {
-    $(this.element).isotope({
+    window.stencilIsotope = new Isotope(this.gridTarget, {
       layoutMode: "masonry",
       itemSelector: "stencil"
     })
 
-    $(this.filterDropdownTarget).on('change', function (event) {
-      var $select = $(event.target)
-      // get group key
-      var filterGroup = $select.attr('value-group')
-      // set filter for group
-      filters[filterGroup] = event.target.value
-      // combine filters
-      var filterValue = filters
-      // set filter for Isotope
-      $grid.isotope({ filter: filterValue })
-    })
-
-    imagesLoaded(this.element).on('progress', function () {
-      console.log('image loaded!')
-      this.element.layout()
+    var imagesLoaded = require('imagesloaded')
+    imagesLoaded(this.gridTarget).on('progress', () => {
+      window.stencilIsotope.layout()
     })
   }
 
   disconnect() {
-    this.element.isotope().destroy()
+    window.stencilIsotope.destroy()
+  }
+
+  changeCategoryFilter(e) {
+    this.filtersValue = e.currentTarget.value !== '' ? `.sc-${e.currentTarget.value}` : null
+    window.stencilIsotope.arrange({
+      filter: this.filtersValue
+    })
   }
 
   toggle(e) {

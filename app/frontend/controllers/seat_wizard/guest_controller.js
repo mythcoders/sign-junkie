@@ -1,21 +1,9 @@
 import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
-  static targets = [
-    "emailAddress",
-    "firstName",
-    "guestInfo",
-    "guestInfoAlert",
-    "guestType",
-    "lastName",
-    "nextButton",
-    "seatRequest",
-    "seatRequestArea",
-    "seatRequestLabel",
-  ]
-  static values = {
-    guestType: String,
-  }
+  static values = { guestType: String, }
+  static targets = ["emailAddress", "firstName", "guestInfo", "guestInfoAlert", "guestType", "lastName", "nextButton",
+    "seatRequest", "seatRequestArea", "seatRequestLabel"]
 
   connect() {
     this.seatRequestAreaTarget.hidden = true

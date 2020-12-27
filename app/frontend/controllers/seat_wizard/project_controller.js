@@ -1,14 +1,10 @@
 import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
+  static values = { projectId: String, projectHasAddons: Boolean }
+  static targets = ["project"]
   static classes = ["active"]
-  static targets = [
-    "project"
-  ]
-  static values = {
-    projectId: String,
-    projectHasAddons: Boolean
-  }
+
 
   toggle(e) {
     e.preventDefault()
