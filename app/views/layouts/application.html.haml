@@ -2,8 +2,9 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'main', type: 'text/css', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
+    = stylesheet_pack_tag 'main', type: 'text/css', 'data-turbo-track': 'reload'
+    = turbo_include_tags
   %body#page-top
     = render partial: 'layouts/partials/logout'
     .container

@@ -1,4 +1,4 @@
-- page_title 'Edit', @announcement.name, 'Announcements'
+- page_title 'Edit', @announcement.title, 'Announcements'
 
 .header.mt-md-2
   .header-body
@@ -8,7 +8,7 @@
           Announcements
         %h1.header-title
           %i.fad.fa-sign
-          = "Edit #{@announcement.name}"
+          = "Edit #{@announcement.title}"
 
 = form_for @announcement, url: admin_announcement_path(@announcement), method: :patch do |f|
   .row.justify-content-center

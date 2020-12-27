@@ -4,35 +4,43 @@
       %h2.card-header.bg-primary.text-white.text-center
         New Seat for #{@workshop.name}
 
-.row{'data-controller': 'seat-wizard',
-     'data-seat-wizard-workshop-id-value': @workshop.id,
-     'data-seat-wizard-active-class': 'active',
-     'data-seat-wizard-disabled-class': 'disabled'}
+= form_tag(cart_index_path,
+           method: :post,
+           'data-controller': 'seat-wizard',
+           'data-seat-wizard-workshop-id-value': @workshop.id,
+           'data-seat-wizard-active-class': 'active',
+           'data-seat-wizard-disabled-class': 'disabled') do
 
-  .col-12.col-sm-4.order-2.order-md-1
-    %div{'data-seat-wizard-target': 'sidebarContent'}
-      .card.card-sticky
+  = hidden_field_tag :workshop_id, @workshop.id
+  .row
+    .col-12.col-sm-4.order-2.order-md-1
+      %div{'data-seat-wizard-target': 'sidebarContent'}
+        .card.card-sticky
+          .card-body
+            %p.card-text
+              To get started, tell us who you're purchasing this seat for. Then you'll be able to select a project
+              projects.
+
+    .col.order-1.order-md-2
+      .card
+        .card-header
+          = render partial: 'workshops/new_seat/tabs'
         .card-body
-          %p.card-text
-            To get started, tell us who you're purchasing this seat for. Then you'll be able to select a project
-            projects.
+          #seatPickerTabs.tab-content
+            #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
+              = render partial: 'workshops/new_seat/guest'
 
-  .col.order-1.order-md-2
-    .card
-      .card-header
-        = render partial: 'workshops/new_seat/tabs'
-      .card-body
-        #seatPickerTabs.tab-content
-          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-            = render partial: 'workshops/new_seat/guest'
+            #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel", 'data-seat-wizard-target': 'projectTabContent'}
+              %turbo-frame#seatWizardProjects{src: '/projects/stencils'}
 
-          #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel", 'data-seat-wizard-target': 'projectTabContent'}
-          #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel", 'data-seat-wizard-target': 'stencilTabContent'}
-          #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel", 'data-seat-wizard-target': 'addonTabContent'}
+            #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel", 'data-seat-wizard-target': 'stencilTabContent'}
+              %turbo-frame#stencils{src: '/projects/stencils'}
 
-          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            = render partial: 'workshops/new_seat/review'
+            #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel", 'data-seat-wizard-target': 'addonTabContent'}
 
-            %a.btn.btn-info.btn-block{href: '#', 'data-action': 'seat-wizard#submit'}
-              = fa_solid 'cart-plus'
-              Add to Cart
+            #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+              = render partial: 'workshops/new_seat/review'
+
+              %a.btn.btn-info.btn-block{href: '#', 'data-action': 'seat-wizard#submit'}
+                = fa_solid 'cart-plus'
+                Add to Cart

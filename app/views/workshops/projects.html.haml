@@ -1,6 +1,11 @@
-%h5.card-title.mt-2 Select your project
+%turbo-frame.mt-2{'action': 'replace',
+                  'target': 'seatWizardProjects',
+                  'data-controller': 'seat-wizard--project',
+                  'data-seat-wizard--project-active-class': 'bg-teal-light'}
+  %h5.card-title Select your project
 
-%div{'data-controller': 'seat-wizard--project', 'data-seat-wizard--project-active-class': 'bg-teal-light'}
+  = hidden_field_tag :project_id, nil, 'data-seat-wizard--project-target': 'projectField'
+
   .row#projectOptions{'data-isotope': '{"layoutMode": "masonry", "itemSelector": "project"}'}
 
     - @projects.each do |project|

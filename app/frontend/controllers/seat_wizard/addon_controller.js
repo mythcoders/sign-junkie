@@ -2,7 +2,7 @@ import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
   static values = { addonId: String }
-  static targets = ["addon"]
+  static targets = ["addon", "addonField"]
   static classes = ["active"]
 
 
@@ -13,6 +13,7 @@ export default class extends ApplicationController {
     element.dataset.selected = !element.dataset.selected
     this.addonIdValue = element.dataset.id
 
+    this.addonFieldTarget.value = this.addonIdValue
     this.addonTargets.forEach((element) => {
       if (element.dataset.id === this.addonIdValue) {
         element.classList.add(this.activeClass)

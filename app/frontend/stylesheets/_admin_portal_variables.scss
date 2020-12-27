@@ -15,3 +15,7 @@
 // $warning: #e8c692 !default;
 
 $path-to-img: "../images" !default;
+
+// required for the login page
+$abril-font-path: "https://fonts.googleapis.com/css?family=Abril+Fatface" !default;
+@import url($abril-font-path);

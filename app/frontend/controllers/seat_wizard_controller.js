@@ -1,9 +1,8 @@
 import ApplicationController from "./application_controller"
 import Api from "../lib/api"
-import axios from "axios"
 
 export default class extends ApplicationController {
-  static values = { addonId: String, project: Object, guest: Object, stencils: Array, workshopId: String }
+  static values = { addonId: String, project: Object, guestType: String, stencils: Array, workshopId: String }
   static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
     "sidebarContent", "stencilTab", "stencilTabContent"]
   static classes = ["active", "disabled"]
@@ -14,7 +13,7 @@ export default class extends ApplicationController {
 
     if (this.projectValue.id !== undefined) {
       this.updateSidebarContent()
-      this.updateProjectContent()
+      this.updateProjectContent(false) // what is the actual guest type?
       this.updateAddonContent()
       this.updateStencilContent()
     }
@@ -22,7 +21,7 @@ export default class extends ApplicationController {
 
   registerCallbacks() {
     document.addEventListener('seatWizard.reset', function (event) {
-      this.guestValue = {}
+      this.guestTypeValue = undefined
       this.projectValue = {}
       this.stencilsValue = []
       this.addonIdValue = undefined
@@ -34,7 +33,7 @@ export default class extends ApplicationController {
     }.bind(this))
 
     document.addEventListener('seatWizard.toggleGuestType', function (event) {
-      this.guestValue = event.detail
+      this.guestTypeValue = event.detail.guestType
     }.bind(this))
 
     document.addEventListener('seatWizard.updateProject', function (event) {
@@ -79,37 +78,14 @@ export default class extends ApplicationController {
     }
   }
 
-  submit(e) {
-    e.preventDefault()
-
-    var data = {
-      cart: {
-        workshop_id: this.workshopIdValue,
-        project_id: this.projectValue.id,
-        addon_id: this.addonIdValue,
-        stencils: this.stencilsValue,
-        guest: this.guestValue
-      }
-    }
-
-    Api.addToCart(data)
-      .then(resp => {
-        document.location = resp.data
-      })
-      .catch(err => {
-        console.error(err)
-        alert('An error occurred. Please try again.')
-      })
-  }
-
   // private
 
-  guestValueChanged() {
-    if (this.guestValue.guestType === undefined) {
+  guestTypeValueChanged() {
+    if (this.guestTypeValue === undefined) {
       return
     }
 
-    this.updateProjectContent(this.guestValue.guestType === 'child')
+    this.updateProjectContent(this.guestTypeValue === 'child')
     this.projectTabTarget.classList.remove(this.disabledClass)
     this.addonTabTarget.classList.add(this.disabledClass)
     this.stencilTabTarget.classList.add(this.disabledClass)

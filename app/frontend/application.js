@@ -13,6 +13,6 @@ import 'flatpickr/dist/flatpickr'
 
 // Raven.config("#{}").install();
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
   require('lib/vendor')
 })

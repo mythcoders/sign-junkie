@@ -3,9 +3,18 @@
 // Styles used in both the public and admin portal
 //
 
-.turbolinks-progress-bar {
-  height: 5px;
+.turbo-progress-bar {
+  height: 25px;
   background-color: green;
+}
+
+turbo-frame {
+  display: block;
+  border: 1px solid blue;
+}
+
+.body-devise-login {
+  font-family: "Abril Fatface";
 }
 
 .padded-body {

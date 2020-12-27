@@ -159,10 +159,14 @@
                     = f.text_field :overridden_reservation_price, class: 'form-control', placeholder: 'Default'
       #project.tab-pane.show.active{"aria-labelledby": "project-tab", role: "tabpanel"}
         .card
-          .card-body
+          .card-body{'data-controller': 'select-all'}
+            .custom-checkbox.custom-control
+              %input#selectToggle.custom-control-input{type: "checkbox", value: "0", 'data-action': "select-all#toggle"}
+              %label.custom-control-label{for: "selectToggle", 'data-select-all-target': 'label'}
+                Select all
             = collection_check_boxes(:workshop, :project_ids, Project.order(name: :asc).all, :id, :name) do |b|
               .custom-control.custom-checkbox
-                = b.check_box(class: 'custom-control-input')
+                = b.check_box(class: 'custom-control-input', 'data-select-all-target': 'item')
                 = b.label(class: 'custom-control-label')
                 - unless b.object.active?
                   %span.badge.badge-warning.text-uppercase Inactive

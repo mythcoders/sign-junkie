@@ -1,7 +1,5 @@
-window.Turbolinks = require("turbolinks")
-Turbolinks.start()
+import { Turbo, cable } from "@hotwired/turbo-rails"
 
-require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("trix")
 require("@rails/actiontext")

@@ -16,6 +16,7 @@ gem 'elastic-apm'
 gem 'faker'
 gem 'haml'
 gem 'haml-rails'
+gem 'hotwire-rails'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder'
 gem 'kaminari', '>= 1.2.1' # Pagination

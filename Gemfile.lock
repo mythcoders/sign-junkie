@@ -194,6 +194,10 @@ GEM
       hashie (>= 3.4.0)
       mail (>= 2.5.4)
       mime-types
+    hotwire-rails (0.1.1)
+      rails (>= 6.0.0)
+      stimulus-rails
+      turbo-rails
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -459,11 +463,15 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stimulus-rails (0.1.1)
+      rails (>= 6.0.0)
     temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.2)
+    turbo-rails (0.5.1)
+      rails (>= 6.0.0)
     tzinfo (1.2.8)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
@@ -518,6 +526,7 @@ DEPENDENCIES
   haml
   haml-rails
   hermes!
+  hotwire-rails
   image_processing (~> 1.2)
   jbuilder
   kaminari (>= 1.2.1)

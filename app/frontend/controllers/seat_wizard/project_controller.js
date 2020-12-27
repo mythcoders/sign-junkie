@@ -2,7 +2,7 @@ import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
   static values = { projectId: String, projectHasAddons: Boolean }
-  static targets = ["project", "nextButton"]
+  static targets = ["project", "projectField", "nextButton"]
   static classes = ["active"]
 
 
@@ -12,6 +12,7 @@ export default class extends ApplicationController {
     this.projectIdValue = e.currentTarget.dataset.id
     this.projectHasAddonsValue = e.currentTarget.dataset.activeAddons !== undefined
 
+    this.projectFieldTarget.value = this.projectIdValue
     if (this.projectHasAddonsValue) {
       this.nextButtonTarget.dataset.destination = 'addon'
     } else {

@@ -2,17 +2,17 @@
 %html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'main', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'admin', 'data-turbolinks-track': 'reload', type: 'text/css'
-    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-  %body{style: "Font-Family: 'Abril Fatface'"}
+    = javascript_pack_tag 'main', 'data-turbo-track': 'reload'
+    = stylesheet_pack_tag 'admin', 'data-turbo-track': 'reload', type: 'text/css'
+    = turbo_include_tags
+  %body.body-devise-login
     .container-fluid
       .row.align-items-center.justify-content-center
         .col-12.col-md-6.col-lg-6.col-xl-4.px-lg-5.my-5
           %a{href: root_path}
             %img.img-system-logo{src: '/SJWlogo.svg'}
           %h1.text-center.mb-5
-            = yield :header
+            = yield :devise_header
           = render partial: 'layouts/partials/alerts'
           = yield
           .text-center.mt-3

@@ -3,7 +3,7 @@ import Isotope from 'isotope-layout'
 
 export default class extends ApplicationController {
   static values = { visible: Boolean, maxStencils: Number, stencilIds: Array, filters: String }
-  static targets = ["stencil", "grid", "previousButton", "stencilColumn", "stencilPersonalization"]
+  static targets = ["grid", "previousButton", "stencil", "column", "stencilField", "personalization"]
   static classes = ["active"]
 
   connect() {
@@ -29,7 +29,7 @@ export default class extends ApplicationController {
     })
   }
 
-  toggle(e) {
+  toggleStencil(e) {
     e.preventDefault()
 
     let element = e.currentTarget
@@ -62,13 +62,18 @@ export default class extends ApplicationController {
     this.notifySeatWizard()
   }
 
-  toggleStencilContent(e) {
+  togglePlainOption(e) {
     this.visibleValue = e.currentTarget.checked
     this.stencilIdsValue = [0]
     this.notifySeatWizard()
-    this.stencilColumnTargets.forEach((element) => {
+    this.columnTargets.forEach((element) => {
       element.hidden = this.visibleValue
     })
+  }
+
+  updateStencilPersonalization(e) {
+    // update the form field
+    // FORMAT: stencil_id|customization,
   }
 
   // private
@@ -90,7 +95,7 @@ export default class extends ApplicationController {
   }
 
   updatePersonalizationTargets() {
-    this.stencilPersonalizationTargets.forEach((element) => {
+    this.personalizationTargets.forEach((element) => {
       if (this.stencilIdsValue.includes(element.dataset.id) && element.dataset.allowPersonalization === 'true') {
         element.hidden = false
       } else {

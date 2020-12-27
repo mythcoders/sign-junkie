@@ -45,11 +45,7 @@ export default class extends ApplicationController {
       this.nextButtonTarget.classList.remove('disabled')
       document.dispatchEvent(new CustomEvent('seatWizard.toggleGuestType', {
         detail: {
-          guestType: this.guestTypeValue,
-          firstName: this.firstNameTarget.value,
-          lastName: this.lastNameTarget.value,
-          email: this.emailAddressTarget.value,
-          seatRequest: this.seatRequestTarget.value
+          guestType: this.guestTypeValue
         }
       }))
     }
