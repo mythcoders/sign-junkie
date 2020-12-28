@@ -1,90 +1,92 @@
-%div.mt-2{'data-controller': 'seat-wizard--guest'}
-  %h5.card-title
-    Who are you purchasing this seat for?
+%div{'data-controller': 'seat-wizard--guest'}
+  .card-body
+    %h5.card-title.mt-2
+      Who are you purchasing this seat for?
 
-  .form-group
-    .custom-control.custom-radio
-      - unless @already_attending
-        %input#self.custom-control-input{name: "guestType", type: "radio", value: "self",
+    .form-group
+      .custom-control.custom-radio
+        - unless @already_attending
+          %input#self.custom-control-input{name: 'cart[guestType]', type: "radio", value: "self",
+                                            'data-seat-wizard--guest-target': 'guestType',
+                                            'data-action': "seat-wizard--guest#toggleGuestType"}
+          %label.custom-control-label{for: "self"} Myself
+        - else
+          %input.custom-control-input{type: "radio", disabled: true}
+          %label.custom-control-label
+            Myself
+            %br
+            %a{href: ''} You already have a seat booked for this workhop. Click here to view your project.
+
+      .custom-control.custom-radio
+        %input#adult.custom-control-input{name: 'cart[guestType]', type: "radio", value: "adult",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
-        %label.custom-control-label{for: "self"} Myself
-      - else
-        %input.custom-control-input{type: "radio", disabled: true}
-        %label.custom-control-label
-          Myself
-          %br
-          %a{href: ''} You already have a seat booked for this workhop. Click here to view your project.
+        %label.custom-control-label{for: "adult"}
+          An adult or someone else
+          %strong.text-uppercase with
+          an email address
 
-    .custom-control.custom-radio
-      %input#adult.custom-control-input{name: "guestType", type: "radio", value: "adult",
-                                        'data-seat-wizard--guest-target': 'guestType',
-                                        'data-action': "seat-wizard--guest#toggleGuestType"}
-      %label.custom-control-label{for: "adult"}
-        An adult or someone else
-        %strong.text-uppercase with
-        an email address
-
-    .custom-control.custom-radio
-      %input#other.custom-control-input{name: "guestType", type: "radio", value: "other",
-                                        'data-seat-wizard--guest-target': 'guestType',
-                                        'data-action': "seat-wizard--guest#toggleGuestType"}
-      %label.custom-control-label{for: "other"}
-        An adult or someone
-        %strong.text-uppercase without
-        an email address
-
-    .custom-control.custom-radio
-      - if @workshop.family_friendly?
-        %input#child.custom-control-input{name: "guestType", type: "radio", value: "child",
+      .custom-control.custom-radio
+        %input#other.custom-control-input{name: 'cart[guestType]', type: "radio", value: "other",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
-        %label.custom-control-label{for: "child"} A child (ages 8-17)
-      - else
-        %input.custom-control-input{type: "radio", disabled: true}
-        %label.custom-control-label
-          A child (ages 8-17)
-          %br Sorry, this workshop is for ages 18+ only.
+        %label.custom-control-label{for: "other"}
+          An adult or someone
+          %strong.text-uppercase without
+          an email address
 
-  %div{'data-seat-wizard--guest-target': 'guestInfo'}
-    %h5.card-title
-      Guest Information
-    %p{'data-seat-wizard--guest-target': 'guestInfoAlert'}
-    .form-row
-      .form-group.col-6
-        %label{for: 'firstName'} First name
-        %input.form-control#firstName{type: 'text', autocomplete: false,
-                                      'data-seat-wizard--guest-target': 'firstName',
+      .custom-control.custom-radio
+        - if @workshop.family_friendly?
+          %input#child.custom-control-input{name: 'cart[guestType]', type: "radio", value: "child",
+                                            'data-seat-wizard--guest-target': 'guestType',
+                                            'data-action': "seat-wizard--guest#toggleGuestType"}
+          %label.custom-control-label{for: "child"} A child (ages 8-17)
+        - else
+          %input.custom-control-input{type: "radio", disabled: true}
+          %label.custom-control-label
+            A child (ages 8-17)
+            %br Sorry, this workshop is for ages 18+ only.
+
+    %div{'data-seat-wizard--guest-target': 'guestInfo'}
+      %h5.card-title
+        Guest Information
+      %p{'data-seat-wizard--guest-target': 'guestInfoAlert'}
+      .form-row
+        .form-group.col-6
+          %label{for: 'firstName'} First name
+          %input.form-control#firstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
+                                        'data-seat-wizard--guest-target': 'firstName',
+                                        'data-action': "seat-wizard--guest#updateUI"}
+        .form-group.col-6
+          %label{for: 'lastName'} Last name
+          %input.form-control#lastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
+                                      'data-seat-wizard--guest-target': 'lastName',
                                       'data-action': "seat-wizard--guest#updateUI"}
-      .form-group.col-6
-        %label{for: 'lastName'} Last name
-        %input.form-control#lastName{type: 'text', autocomplete: false,
-                                     'data-seat-wizard--guest-target': 'lastName',
-                                     'data-action': "seat-wizard--guest#updateUI"}
-      .form-group.col-12
-        %label{for: 'emailAddress'} Email address
-        %input.form-control#emailAddress{type: 'text', autocomplete: false,
-                                         'data-seat-wizard--guest-target': 'emailAddress',
-                                         'data-action': "seat-wizard--guest#updateUI"}
+        .form-group.col-12
+          %label{for: 'emailAddress'} Email address
+          %input.form-control#emailAddress{type: 'text', autocomplete: false, name: 'cart[email]',
+                                          'data-seat-wizard--guest-target': 'emailAddress',
+                                          'data-action': "seat-wizard--guest#updateUI"}
 
-  %h5.card-title
-    Seating Request
-  .form-group
-    .custom-checkbox.custom-control
-      %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--guest#toggleSeatRequest"}
-      %label.custom-control-label{for: "hasSeatRequest", 'data-seat-wizard--guest-target': 'seatRequestLabel'}
-        Would you like to sit next to someone specific?
+    %h5.card-title
+      Seating Request
+    .form-group
+      .custom-checkbox.custom-control
+        %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--guest#toggleSeatRequest"}
+        %label.custom-control-label{for: "hasSeatRequest", 'data-seat-wizard--guest-target': 'seatRequestLabel'}
+          Would you like to sit next to someone specific?
 
-  .form-group{'data-seat-wizard--guest-target': 'seatRequestArea'}
-    .form-control-plaintext
-      Enter the guests name below. We'll do our best to accomidate your request.
-    %input.form-control#seatRequest{type: 'text', autocomplete: false,
-                                    placeholder: "First and Last name",
-                                    'data-seat-wizard--guest-target': 'seatRequest'}
+    .form-group{'data-seat-wizard--guest-target': 'seatRequestArea'}
+      .form-control-plaintext
+        Enter the guests name below. We'll do our best to accomidate your request.
+      %input.form-control#seatRequest{type: 'text', autocomplete: false, name: 'cart[seat_request]',
+                                      placeholder: "First and Last name",
+                                      'data-seat-wizard--guest-target': 'seatRequest'}
 
-  .float-right
-    %a.btn.btn-info{href: '#',
-                    'data-action': 'seat-wizard#goToTab',
-                    'data-destination': 'project',
-                    'data-seat-wizard--guest-target': 'nextButton'}
-      Next
+  .card-footer.card-sticky-footer.clearfix
+    .float-right
+      %a.btn.btn-primary{href: '#',
+                         'data-action': 'seat-wizard#goToTab',
+                         'data-destination': 'project',
+                         'data-seat-wizard--guest-target': 'nextButton'}
+        Next

@@ -68,7 +68,7 @@ export default class extends ApplicationController {
   }
 
   showHideEmailAddress() {
-    if (this.guestTypeValue === 'child' || this.guestTypeValue === 'other') {
+    if (this.guestTypeValue === 'child' || this.guestTypeValue === 'other' || this.guestTypeValue === 'self') {
       this.emailAddressTarget.disabled = true
       this.emailAddressTarget.required = false
       this.emailAddressTarget.value = ''

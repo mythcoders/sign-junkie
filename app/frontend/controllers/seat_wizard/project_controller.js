@@ -13,6 +13,7 @@ export default class extends ApplicationController {
     this.projectHasAddonsValue = e.currentTarget.dataset.activeAddons !== undefined
 
     this.projectFieldTarget.value = this.projectIdValue
+    this.nextButtonTarget.disabled = false
     if (this.projectHasAddonsValue) {
       this.nextButtonTarget.dataset.destination = 'addon'
     } else {

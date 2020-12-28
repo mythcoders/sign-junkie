@@ -4,7 +4,7 @@ import Api from "../lib/api"
 export default class extends ApplicationController {
   static values = { addonId: String, project: Object, guestType: String, stencils: Array, workshopId: String }
   static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
-    "sidebarContent", "stencilTab", "stencilTabContent"]
+    "sidebarContent", "sidebarTemplate", "stencilTab", "stencilTabContent"]
   static classes = ["active", "disabled"]
 
   connect() {
@@ -16,15 +16,21 @@ export default class extends ApplicationController {
       this.updateProjectContent(false) // what is the actual guest type?
       this.updateAddonContent()
       this.updateStencilContent()
+    } else {
+      this.sidebarContentTarget.innerHTML = this.sidebarTemplateTarget.innerHTML
     }
   }
 
   registerCallbacks() {
     document.addEventListener('seatWizard.reset', function (event) {
-      this.guestTypeValue = undefined
       this.projectValue = {}
+      this.guestTypeValue = undefined
       this.stencilsValue = []
       this.addonIdValue = undefined
+
+      this.sidebarContentTarget.innerHTML = this.sidebarTemplateTarget.innerHTML
+      this.addonTabContentTarget.innerHTML = ''
+      this.stencilTabContentTarget.innerHTML = ''
 
       this.projectTabTarget.classList.add(this.disabledClass)
       this.addonTabTarget.classList.add(this.disabledClass)

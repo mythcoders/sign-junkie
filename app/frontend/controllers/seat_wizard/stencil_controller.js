@@ -1,30 +1,35 @@
 import ApplicationController from "../application_controller"
-import Isotope from 'isotope-layout'
+import { Isotope } from 'isotope-layout'
 
 export default class extends ApplicationController {
   static values = { visible: Boolean, maxStencils: Number, stencilIds: Array, filters: String }
-  static targets = ["grid", "previousButton", "stencil", "column", "stencilField", "personalization"]
+  static targets = ["grid", "nextButton", "previousButton", "stencil", "column", "stencilField", "personalization"]
   static classes = ["active"]
 
-  connect() {
-    window.stencilIsotope = new Isotope(this.gridTarget, {
+  initialize() {
+    this.iso = new Isotope(this.gridTarget, {
       layoutMode: "masonry",
       itemSelector: "stencil"
     })
+  }
 
+  connect() {
     var imagesLoaded = require('imagesloaded')
     imagesLoaded(this.gridTarget).on('progress', () => {
-      window.stencilIsotope.layout()
+      this.iso.layout()
     })
+
+    this.iso.layout()
   }
 
   disconnect() {
-    window.stencilIsotope.destroy()
+    this.iso.destroy()
   }
 
   changeCategoryFilter(e) {
     this.filtersValue = e.currentTarget.value !== '' ? `.sc-${e.currentTarget.value}` : null
-    window.stencilIsotope.arrange({
+    debugger
+    this.iso.arrange({
       filter: this.filtersValue
     })
   }
@@ -35,7 +40,7 @@ export default class extends ApplicationController {
     let element = e.currentTarget
     let stencils = this.stencilIdsValue
 
-    if (element.dataset.selected) {
+    if (element.dataset.selected === 'true') {
       let pos = stencils.indexOf(element.dataset.id)
       stencils.splice(pos, 1)
     } else {
@@ -54,8 +59,9 @@ export default class extends ApplicationController {
       stencils.push(element.dataset.id)
     }
 
-    element.dataset.selected = !element.dataset.selected
+    e.currentTarget.dataset.selected = !element.dataset.selected
     this.stencilIdsValue = stencils
+    // this.stencilFieldTarget.value =
 
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
@@ -74,6 +80,7 @@ export default class extends ApplicationController {
   updateStencilPersonalization(e) {
     // update the form field
     // FORMAT: stencil_id|customization,
+    // this.stencilFieldTarget.value =
   }
 
   // private

@@ -11,36 +11,37 @@
            'data-seat-wizard-active-class': 'active',
            'data-seat-wizard-disabled-class': 'disabled') do
 
-  = hidden_field_tag :workshop_id, @workshop.id
+  = hidden_field_tag 'cart[workshop_id]', @workshop.id
+  = hidden_field_tag 'cart[type]', 'seat'
+
+  %template{'data-seat-wizard-target': 'sidebarTemplate'}
+    .card.card-sticky
+      .card-body
+        %p.card-text
+          Tell us who you're purchasing this seat for to get started.
+          Then, you'll be able to select a project.
+
   .row
-    .col-12.col-sm-4.order-2.order-md-1
-      %div{'data-seat-wizard-target': 'sidebarContent'}
-        .card.card-sticky
-          .card-body
-            %p.card-text
-              To get started, tell us who you're purchasing this seat for. Then you'll be able to select a project
-              projects.
+    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard-target': 'sidebarContent'}
 
     .col.order-1.order-md-2
       .card
-        .card-header
-          = render partial: 'workshops/new_seat/tabs'
-        .card-body
-          #seatPickerTabs.tab-content
-            #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-              = render partial: 'workshops/new_seat/guest'
+        .card-header= render partial: 'workshops/new_seat/tabs'
+        #seatWizardTabs.tab-content
+          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
+            = render partial: 'workshops/new_seat/guest'
 
-            #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel", 'data-seat-wizard-target': 'projectTabContent'}
-              %turbo-frame#seatWizardProjects{src: '/projects/stencils'}
+          - %i[project stencil addon].each do |tab_name|
+            .tab-pane.fade{id: tab_name,
+                            role: "tabpanel",
+                            "aria-labelledby": "#{tab_name}-tab",
+                            'data-seat-wizard-target': "#{tab_name}TabContent"}
 
-            #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel", 'data-seat-wizard-target': 'stencilTabContent'}
-              %turbo-frame#stencils{src: '/projects/stencils'}
-
-            #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel", 'data-seat-wizard-target': 'addonTabContent'}
-
-            #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+            .card-body
               = render partial: 'workshops/new_seat/review'
 
-              %a.btn.btn-info.btn-block{href: '#', 'data-action': 'seat-wizard#submit'}
+            .card-footer.card-sticky-footer
+              %button.btn.btn-success.btn-block{type: 'submit'}
                 = fa_solid 'cart-plus'
                 Add to Cart

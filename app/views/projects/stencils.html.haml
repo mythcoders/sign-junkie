@@ -1,79 +1,80 @@
-%turbo-frame.mt-2#stencils{'action': 'replace',
-                           'target': 'seatWizardStencils',
-                           'data-controller': 'seat-wizard--stencil',
-                           'data-seat-wizard--stencil-max-stencils-value': @project.allowed_stencils,
-                           'data-seat-wizard--stencil-active-class': 'bg-teal-light'}
+%div{'data-controller': 'seat-wizard--stencil',
+                  'data-seat-wizard--stencil-max-stencils-value': @project.allowed_stencils,
+                  'data-seat-wizard--stencil-active-class': 'bg-teal-light'}
 
-  - if @project.stencils.active.any?
-    %h5.card-title
-      - if @project.allowed_stencils > 1
-        Select #{@project.allowed_stencils} stencils
-      - else
-        Select a stencil
+  .card-body
+    - if @project.stencils.active.any?
+      %h5.card-title.mt-2
+        - if @project.allowed_stencils > 1
+          Select #{@project.allowed_stencils} stencils
+        - else
+          Select a stencil
 
 
-    = hidden_field_tag :stencils, nil, 'data-seat-wizard--stencil-target': 'stencilField'
+      = hidden_field_tag 'cart[stencils]', nil, 'data-seat-wizard--stencil-target': 'stencilField'
 
-    .row
-      - if @project.allow_no_stencil
-        .col-12
+      .row
+        - if @project.allow_no_stencil
+          .col-12
+            .form-group
+              .custom-checkbox.custom-control
+                %input#noStencil.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--stencil#togglePlainOption"}
+                %label.custom-control-label{for: "noStencil"}
+                  Plain (no stencil or personalization)
+
+        .col-12{'data-seat-wizard--stencil-target': 'column'}
           .form-group
-            .custom-checkbox.custom-control
-              %input#noStencil.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--stencil#togglePlainOption"}
-              %label.custom-control-label{for: "noStencil"}
-                Plain (no stencil or personalization)
+            = select_tag :stencil_filter,
+              options_from_collection_for_select(StencilCategory.all, "id", "name"),
+              include_blank: 'All Stencil Categories',
+              class: 'custom-select custom-select-sm',
+              'data-target': '#stencilOptions',
+              'data-action': 'seat-wizard--stencil#changeCategoryFilter',
+              form: 'nosubmit'
 
-      .col-12{'data-seat-wizard--stencil-target': 'column'}
-        .form-group
-          = select_tag :stencil_filter,
-            options_from_collection_for_select(StencilCategory.all, "id", "name"),
-            include_blank: 'All Stencil Categories',
-            class: 'custom-select custom-select-sm',
-            'data-target': '#stencilOptions',
-            'data-action': 'seat-wizard--stencil#changeCategoryFilter'
+        %div{'data-seat-wizard--stencil-target': 'grid'}
+          - @project.stencils.active.order(:name).each do |stencil|
+            .col-12.col-sm-6.stencil{'data-seat-wizard--stencil-target': 'column', class: "sc-#{stencil.category.id}"}
+              %a.card.shadow-light-lg.mb-3{href: '#', 'data-action': 'seat-wizard--stencil#toggleStencil', 'data-id': stencil.id}
+                .card-zoom
+                  %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image)}
 
-      %div{'data-seat-wizard--stencil-target': 'grid'}
-        - @project.stencils.active.order(:name).each do |stencil|
-          .col-12.col-sm-6.stencil{'data-seat-wizard--stencil-target': 'column', class: "sc-#{stencil.category.id}"}
-            %a.card.shadow-light-lg.mb-3{href: '#', 'data-action': 'seat-wizard--stencil#toggleStencil', 'data-id': stencil.id}
-              .card-zoom
-                %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image)}
+                .card-body.text-center{'data-seat-wizard--stencil-target': 'stencil',
+                                      'data-seat-wizard-target': 'stencil',
+                                      'data-id': stencil.id,
+                                      'data-name': stencil.name,
+                                      'data-image': url_for(stencil.image),
+                                      'data-selected': 'false'}
+                  %h5.card-title.text-dark.mb-2= stencil.name
+                  %h6.text-muted= stencil.category.name
+                  - if stencil.allow_personilization
+                    .badge.badge-info Personalizable
 
-              .card-body.text-center{'data-seat-wizard--stencil-target': 'stencil',
-                                    'data-seat-wizard-target': 'stencil',
-                                    'data-id': stencil.id,
-                                    'data-name': stencil.name,
-                                    'data-image': url_for(stencil.image),
-                                    'data-selected': 'false'}
-                %h5.card-title.text-dark.mb-2= stencil.name
-                %h6.text-muted= stencil.category.name
-                - if stencil.allow_personilization
-                  .badge.badge-info Personalizable
+              .form-group{'data-seat-wizard--stencil-target': 'personalization',
+                          'data-id': stencil.id,
+                          'data-allow-personalization': "#{stencil.allow_personilization}",
+                          'hidden': true}
+                - element_id = "stencil-personalization-#{stencil.id}"
 
-            .form-group{'data-seat-wizard--stencil-target': 'personalization',
-                        'data-id': stencil.id,
-                        'data-allow-personalization': "#{stencil.allow_personilization}",
-                        'hidden': true}
-              - element_id = "stencil-personalization-#{stencil.id}"
+                = fa_solid 'palette', 'text-primary fa-fw'
+                = label_tag element_id, 'Stencil Personalization'
+                = text_field_tag element_id, nil, class: 'form-control', autocomplete: false, 'data-action': 'seat-wizard--stencil#updateStencilPersonalization', form: 'nosubmit'
+                %p.form-text.text-muted
+                  Please enter your information for personalization shown on the design you have chosen, this includes
+                  any names, dates, city, state, gps coordinates, etc.
+    - else
+      .card.mt-2
+        .card-body.text-center
+          %h2 No Stencils
+          %p.text-muted.mb-0 This project does not have any available stencils.
 
-              = fa_solid 'palette', 'text-primary fa-fw'
-              = label_tag element_id, 'Stencil Personalization'
-              = text_field_tag element_id, nil, class: 'form-control', autocomplete: false, 'data-action': 'seat-wizard--stencil#updateStencilPersonalization'
-              %p.form-text.text-muted
-                Please enter your information for personalization shown on the design you have chosen, this includes
-                any names, dates, city, state, gps coordinates, etc.
-  - else
-    .card
-      .card-body.text-center
-        %h2 No Stencils
-        %p.text-muted.mb-0 This project does not have any available stencils.
+  .card-footer.card-sticky-footer
+    %a.btn.btn-primary{href: '#',
+                    'data-action': 'seat-wizard#goToTab',
+                    'data-destination': @project.addons.active.any? ? 'addon' : 'project'} Previous
 
-  .row
-    .col
-      %a.btn.btn-info{href: '#',
-                      'data-action': 'seat-wizard#goToTab',
-                      'data-destination': @project.addons.active.any? ? 'addon' : 'project'} Previous
-
-    .col
-      .float-right
-        %a.btn.btn-info{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'review'} Next
+    .float-right
+      %a.btn.btn-primary.disabled{href: '#',
+                                  'data-action': 'seat-wizard#goToTab',
+                                  'data-destination': 'review',
+                                  'data-seat-wizard--stencil-target': 'nextButton'} Next

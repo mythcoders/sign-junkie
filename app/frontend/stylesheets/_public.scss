@@ -188,9 +188,13 @@ $light-teal: #4290a9 !default;
 }
 
 .card-sticky {
-  @include media-breakpoint-up(md) {
-    position: -webkit-sticky; /* Safari & IE */
-    position: sticky;
-    top: 0;
-  }
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 0;
+}
+
+.card-sticky-footer {
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  bottom: 0;
 }

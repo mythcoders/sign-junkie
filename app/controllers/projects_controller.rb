@@ -18,13 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   def stencils
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.update(:stencils)
-      end
-
-      format.html { render layout: false }
-    end
+    render layout: false
   end
 
   def sidebar
