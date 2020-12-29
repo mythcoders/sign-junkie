@@ -28,6 +28,7 @@ module Apollo
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/app/services]
+    config.eager_load_paths += %W[#{config.root}/app/components]
     # config.require_master_key = true
 
     # Storage

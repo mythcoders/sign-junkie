@@ -11,7 +11,7 @@
         .row
           .col
             = render partial: 'statuses/seat', locals: { seat: seat }
-            = render partial: 'admin/item_descriptions/show', locals: { item: seat }
+            = render(AdminItemDisplay::Component.new(seat))
           .col-auto
             .btn-group
               - if seat.invoice.present?

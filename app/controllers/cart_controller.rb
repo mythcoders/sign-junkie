@@ -1,16 +1,11 @@
 # frozen_string_literal: true
 
 class CartController < ApplicationController
-  helper WorkshopsHelper
   before_action :authenticate_user!
   before_action :set_cart_service, only: %i[create destroy]
 
   def index
     @cart = Cart.for(current_user)
-    @cart_subtotal = (@cart.map(&:item_amount).reduce(:+) || 0.00).round(2)
-    @cart_count = @cart.count
-    @estimated_tax = calc_est_tax
-    @cart_total = @cart_subtotal + @estimated_tax
   end
 
   def create
@@ -43,18 +38,6 @@ class CartController < ApplicationController
   end
 
   def cart_params
-    params.require(:cart)
-          .permit(:id, :quantity, :workshop_id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :type,
-                  :first_name, :last_name, :email, :amount, :gift_seat, :payment_plan, :seat_id, :reservation_id,
-                  :guest_type)
-  end
-
-  def calc_est_tax
-    taxable = @cart.select(&:taxable?)
-    if taxable.any?
-      (taxable.map(&:tax_amount).reduce(:+) || 0.00).round(2)
-    else
-      0.00
-    end
+    params.require(:cart).permit CartService.permitted_params
   end
 end

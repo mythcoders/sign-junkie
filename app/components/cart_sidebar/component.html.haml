@@ -1,0 +1,37 @@
+.card
+  %h5.card-header.bg-primary.text-white Order summary
+  .card-body
+    .media.align-items-center.mb-3
+      .font-size-1.font-weight-normal.mb-0.mr-3= "Item subtotal (#{size})"
+      .media-body.text-right
+        %span.font-weight-medium
+          - if subtotal.positive?
+            = content_tag :span, number_to_currency(subtotal)
+          - else
+            .span --
+    .media.align-items-center.mb-3
+      .font-size-1.font-weight-normal.mb-0.mr-3 Estimated tax
+      .media-body.text-right
+        %span.font-weight-medium
+          - if tax.positive?
+            = number_to_currency tax
+          - else
+            .span --
+    .media.align-items-center.mb-4
+      .font-size-1.font-weight-normal.mb-0.mr-3 Total
+      .media-body.text-right
+        %span.font-weight-medium
+          - if total.positive?
+            = number_to_currency total
+          - else
+            .span --
+    - if size.positive?
+      = form_tag new_invoice_path, method: 'get' do
+        - if @credit_balance.positive?
+          .card.border-0.mb-3
+            .card-body.p-0
+              .custom-control.custom-checkbox.small
+                = check_box_tag :gift_cards, 'true', false, class: 'custom-control-input'
+                %label.custom-control-label{for: 'gift_cards'}
+                  = "Apply #{number_to_currency @credit_balance} in gift cards towards this purchase"
+        = submit_tag 'Proceed to Checkout', class: 'btn btn-info btn-block'

@@ -9,7 +9,7 @@
     - @invoice.items.each do |i|
       %tr
         %td
-          = render partial: 'admin/item_descriptions/show', locals: {item: i.description}
+          = render(AdminItemDisplay::Component.new(i.description))}
         %td.text-right
           = number_to_currency(i.item_amount)
         %td.text-right

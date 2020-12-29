@@ -7,7 +7,7 @@
   workshop is ready for payment!
 
 %hr
-= render partial: 'item_descriptions/show', locals: {item: @seat}
+= render(SimpleItemDisplay::Component.new(@seat))
 
 .text-center
   %a.btn.btn-primary.btn-block.mt-2{href: reservation_url(@seat.reservation)} Pay now

@@ -14,6 +14,6 @@
         %tbody
           - carts.each do |cart|
             %tr
-              %td= render partial: 'admin/item_descriptions/show', locals: {item: cart}
+              %td= render(AdminItemDisplay::Component.new(cart))
               %td= number_to_currency cart.line_total
               %td= l cart.created_at

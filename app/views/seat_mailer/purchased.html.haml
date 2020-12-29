@@ -9,4 +9,4 @@
 
 %hr
 
-%p= render partial: 'item_descriptions/receipt', locals: {item: @seat}
+%p= render(ReceiptItemDisplay::Component.new(@seat))

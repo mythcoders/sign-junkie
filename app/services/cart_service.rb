@@ -3,6 +3,16 @@
 ##
 # Handles complex operations for the Cart model
 class CartService < ApplicationService
+  GENERAL_PARAMS = %i[seat_id reservation_id].freeze
+  GIFT_CARD_PARAMS = %i[amount].freeze
+  SEAT_PARAMS = %i[workshop_id project_id addon_id stencils seat_request].freeze
+  GUEST_PARAMS = %i[guest_type first_name last_name email].freeze
+  RESERVATION_PARAMS = %i[workshop_id payment_plan].freeze
+
+  def self.permitted_params
+    GENERAL_PARAMS + GIFT_CARD_PARAMS + SEAT_PARAMS + GUEST_PARAMS + RESERVATION_PARAMS
+  end
+
   # Adds a new item to the users cart
   #
   # @return [Boolean] result of +.save+
@@ -76,10 +86,15 @@ class CartService < ApplicationService
                     project_name: project.name,
                     taxable_amount: project.material_price,
                     nontaxable_amount: project.instructional_price)
-
-    cart.seat_preference = params[:seating] if params[:seating].present?
-    cart.email = params[:email] if params[:email].present?
     cart.for_child = true if params[:guest_type] == 'child'
+    cart.seat_preference = params[:seat_request] if params[:seat_request].present?
+
+    if params[:guest_type] != 'self'
+      cart.gifted = true
+      cart.first_name = params[:first_name]
+      cart.last_name = params[:last_name]
+      cart.email = params[:email] if params[:guest_type] == 'adult'
+    end
 
     if params[:stencil_id].present?
       stencil = project.stencils.where(id: params[:stencil_id]).first!
@@ -95,12 +110,6 @@ class CartService < ApplicationService
       cart.addon_id = addon.id
       cart.addon_name = addon.name
       cart.taxable_amount += addon.price
-    end
-
-    if params[:first_name].present?
-      cart.gifted = true # should we consider this a gifted seat? The UI expects the `seat` to already be populated
-      cart.first_name = params[:first_name]
-      cart.last_name = params[:last_name]
     end
 
     cart

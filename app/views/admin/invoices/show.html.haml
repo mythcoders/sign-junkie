@@ -59,8 +59,7 @@
       %table.table.card-table
         - @invoice.items.each do |i|
           %tr
-            %td
-              = render partial: 'admin/item_descriptions/show', locals: {item: i}
+            %td= render(AdminItemDisplay::Component.new(i))
             %td.text-right
               %span.font-weight-medium
                 = content_tag :span, number_to_currency(i.line_total)
