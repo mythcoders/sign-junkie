@@ -30,18 +30,20 @@
           .font-size-1.mb-1{title: 'Project'}
             = fa_duo 'sign', 'fa-fw'
             = seat.project_name
-        - if seat.stencil_name.present?
-          .card-text.mb-1{title: 'Stencil'}
-            = fa_duo 'swatchbook', 'fa-fw'
-            = seat.stencil_name
-          - if seat.stencil_personalization.present?
-            .font-size-1.mb-1{title: 'Add-on'}
-              = fa_duo 'palette', 'fa-fw'
-              = seat.stencil_personalization
         - if seat.addon_id.present?
           .font-size-1.mb-1{title: 'Add-on'}
             = fa_duo 'stamp', 'fa-fw'
             = seat.addon_name
+
+        - if seat.stencils.present?
+          - seat.stencils.each do |stencil|
+            .card-text.mb-1
+              = fa_solid 'swatchbook', 'fa-fw'
+              %span{title: 'Stencil'}= stencil['name']
+              - if stencil['personalization']
+                %br
+                = fa_solid 'palette', 'fa-fw'
+                %span{title: 'Stencil Personalization'}= stencil['personalization']
       .col-auto.mt-2
         .btn-group
           - if seat.active? && !seat.selection_made?

@@ -1,7 +1,4 @@
 .card.card-sticky
-  -# %img.card-img{src: url_for(image),
-  -#               alt: "Image of #{@project.name}",
-  -#               style: "height: #{image.metadata['height']}; width: #{image.metadata['width']}"}
   .card-body
     .media.align-items-center.mb-3
       .font-size-1.font-weight-normal.mb-0.mr-3
@@ -23,10 +20,10 @@
     - @stencils.each do |stencil|
       .media.align-items-center.mb-3
         .font-size-1.font-weight-normal.mb-0.mr-3
-          = stencil.name
-          - if stencil.personalization
+          = stencil[:name]
+          - if stencil[:personalization]
             %br
-            .text-muted= stencil.personalization
+            .text-muted= stencil[:personalization]
         .media-body.text-right
           %span.font-weight-medium
             .span --

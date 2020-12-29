@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_083723) do
+ActiveRecord::Schema.define(version: 2020_12_29_073412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 2020_12_27_083723) do
     t.datetime "refund_date"
     t.boolean "for_child", default: false
     t.boolean "gifted", default: false
+    t.jsonb "stencils"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|

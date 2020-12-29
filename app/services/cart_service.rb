@@ -3,7 +3,7 @@
 ##
 # Handles complex operations for the Cart model
 class CartService < ApplicationService
-  GENERAL_PARAMS = %i[seat_id reservation_id].freeze
+  GENERAL_PARAMS = %i[seat_id reservation_id type guestType].freeze
   GIFT_CARD_PARAMS = %i[amount].freeze
   SEAT_PARAMS = %i[workshop_id project_id addon_id stencils seat_request].freeze
   GUEST_PARAMS = %i[guest_type first_name last_name email].freeze
@@ -88,21 +88,13 @@ class CartService < ApplicationService
                     nontaxable_amount: project.instructional_price)
     cart.for_child = true if params[:guest_type] == 'child'
     cart.seat_preference = params[:seat_request] if params[:seat_request].present?
+    cart.stencils = FrontendStencilParser.new(project.id).parse(params[:stencils]) if params[:stencils].present?
 
     if params[:guest_type] != 'self'
       cart.gifted = true
       cart.first_name = params[:first_name]
       cart.last_name = params[:last_name]
       cart.email = params[:email] if params[:guest_type] == 'adult'
-    end
-
-    if params[:stencil_id].present?
-      stencil = project.stencils.where(id: params[:stencil_id]).first!
-      cart.stencil_id = stencil.id
-      cart.stencil_name = stencil.name
-      cart.stencil_personalization = params[:stencil] if params[:stencil].present?
-    else
-      cart.stencil_name = I18n.translate('seat.no_stencil')
     end
 
     if params[:addon_id].present?

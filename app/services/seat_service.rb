@@ -60,19 +60,13 @@ class SeatService < ApplicationService
     seat.project_name = project.name
     seat.taxable_amount = project.material_price
     seat.nontaxable_amount = project.instructional_price
-    seat.seat_preference = params[:seating] if params[:seating].present?
+    seat.seat_preference = params[:seat_request] if params[:seat_request].present?
     seat.first_name = params[:first_name] if params[:first_name].present?
     seat.last_name = params[:last_name] if params[:last_name].present?
     seat.email = params[:email] if params[:email].present?
-
-    if params[:stencil_id].present?
-      stencil = project.stencils.where(id: params[:stencil_id]).first!
-      seat.stencil_id = stencil.id
-      seat.stencil_name = stencil.name
-      seat.stencil_personalization = params[:stencil] if params[:stencil].present?
-    else
-      seat.stencil_name = I18n.translate('seat.no_stencil')
-    end
+    seat.stencils = FrontendStencilParser.new(project.id).parse(params[:stencils]) if params[:stencils].present?
+    # seat.gifted = params[:guest_type] != 'self'
+    # seat.for_child = true if params[:guest_type] == 'child'
 
     update_addon(seat, project, params) if params[:addon_id].present?
 

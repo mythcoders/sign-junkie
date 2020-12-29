@@ -30,22 +30,8 @@ class ProjectsController < ApplicationController
   def sidebar
     @project = Project.find params[:id]
     @addon = @project.addons.where(id: params[:addon_id]).first if params[:addon_id]
-    @stencils = find_stencils(params[:stencils]) if params[:stencils]
+    @stencils = FrontendStencilParser.new(@project.id).parse(params[:stencils]) if params[:stencils]
 
     render layout: false
-  end
-
-  private
-
-  def find_stencils(stencil_input)
-    stencil_input.split('::').map do |stencil|
-      id = stencil.split('|')[0]
-      personalization = stencil.split('|')[1]
-
-      OpenStruct.new(
-        name: @project.stencils.where(id: id).first.name,
-        personalization: personalization != 'null' ? personalization : nil
-      )
-    end
   end
 end
