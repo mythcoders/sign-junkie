@@ -9,10 +9,10 @@
 
 .card
   - if @seats.any?
-    %ul.list-group
+    %ul.list-group.list-group-flush
       - @seats.each do |r|
         %li.list-group-item
-          %a.list-group-item.list-group-item-action{href: seat_path(r)}
+          %a.list-group-item-action{href: seat_path(r)}
             = render(SimpleItemDisplay::Component.new(r))
   - else
     .card-body.text-center

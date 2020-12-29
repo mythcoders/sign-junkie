@@ -6,7 +6,7 @@
     .form-group
       .custom-control.custom-radio
         - unless @already_attending
-          %input#self.custom-control-input{name: 'cart[guestType]', type: "radio", value: "self",
+          %input#self.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "self",
                                             'data-seat-wizard--guest-target': 'guestType',
                                             'data-action': "seat-wizard--guest#toggleGuestType"}
           %label.custom-control-label{for: "self"} Myself
@@ -18,7 +18,7 @@
             %a{href: ''} You already have a seat booked for this workhop. Click here to view your project.
 
       .custom-control.custom-radio
-        %input#adult.custom-control-input{name: 'cart[guestType]', type: "radio", value: "adult",
+        %input#adult.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "adult",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
         %label.custom-control-label{for: "adult"}
@@ -27,7 +27,7 @@
           an email address
 
       .custom-control.custom-radio
-        %input#other.custom-control-input{name: 'cart[guestType]', type: "radio", value: "other",
+        %input#other.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "other",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
         %label.custom-control-label{for: "other"}
@@ -37,7 +37,7 @@
 
       .custom-control.custom-radio
         - if @workshop.family_friendly?
-          %input#child.custom-control-input{name: 'cart[guestType]', type: "radio", value: "child",
+          %input#child.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "child",
                                             'data-seat-wizard--guest-target': 'guestType',
                                             'data-action': "seat-wizard--guest#toggleGuestType"}
           %label.custom-control-label{for: "child"} A child (ages 8-17)

@@ -12,7 +12,7 @@
               %li.list-group-item
                 .row
                   .col.mb-3.mb-md-0
-                    = render(CartItemDisplay::Component.new(item))
+                    = render(SimpleItemDisplay::Component.new(item))
                   .col-auto.text-right
                     %span.font-weight-medium
                       = content_tag :span, number_to_currency(item.item_amount)
@@ -24,10 +24,10 @@
                       %span.far.fa-trash-alt.mr-1
                       %span Remove
           - else
-            %li.list-group-item
-              %a.btn.btn-info.btn-block(href=workshops_public_path)
+            %li.list-group-item.text-center
+              %a.btn.btn-info(href=workshops_public_path)
                 View PUBLIC Workshop dates
-              %a.btn.btn-info.btn-block(href=workshops_private_path)
+              %a.btn.btn-info(href=workshops_private_path)
                 View PRIVATE Workshop dates
 
   .col-12.col-lg-4

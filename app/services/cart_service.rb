@@ -3,14 +3,13 @@
 ##
 # Handles complex operations for the Cart model
 class CartService < ApplicationService
-  GENERAL_PARAMS = %i[seat_id reservation_id type guestType].freeze
+  GENERAL_PARAMS = %i[workshop_id seat_id reservation_id type].freeze
   GIFT_CARD_PARAMS = %i[amount].freeze
-  SEAT_PARAMS = %i[workshop_id project_id addon_id stencils seat_request].freeze
-  GUEST_PARAMS = %i[guest_type first_name last_name email].freeze
-  RESERVATION_PARAMS = %i[workshop_id payment_plan].freeze
+  SEAT_PARAMS = %i[project_id addon_id stencils guest_type first_name last_name email seat_request].freeze
+  RESERVATION_PARAMS = %i[payment_plan].freeze
 
   def self.permitted_params
-    GENERAL_PARAMS + GIFT_CARD_PARAMS + SEAT_PARAMS + GUEST_PARAMS + RESERVATION_PARAMS
+    GENERAL_PARAMS + GIFT_CARD_PARAMS + SEAT_PARAMS + RESERVATION_PARAMS
   end
 
   # Adds a new item to the users cart

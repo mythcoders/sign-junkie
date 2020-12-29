@@ -6,7 +6,7 @@ module SimpleItemDisplay
       super(item: item,
             icons: true,
             status: true,
-            title: false,
+            title: true,
             linkable_title: false,
             admin: false)
     end
