@@ -2,33 +2,32 @@ import ApplicationController from "./application_controller"
 import Api from "../lib/api"
 
 export default class extends ApplicationController {
-  static values = { addonId: String, project: Object, guestType: String, stencils: String, workshopId: String }
+  static values = { addonId: String, project: Object, guestType: String, purchaseMode: String, stencils: String, workshopId: String }
   static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
-    "sidebarContent", "sidebarTemplate", "stencilTab", "stencilTabContent"]
+    "stencilTab", "stencilTabContent"]
   static classes = ["active", "disabled"]
 
-  connect() {
+  initialize() {
     this.element[this.identifier] = this
     this.registerCallbacks()
+    this.purchaseModeValue = undefined
 
     if (this.projectValue.id !== undefined) {
-      this.updateSidebarContent()
+      this.refreshSidebar()
       this.updateProjectContent(false) // what is the actual guest type?
       this.updateAddonContent()
       this.updateStencilContent()
-    } else {
-      this.sidebarContentTarget.innerHTML = this.sidebarTemplateTarget.innerHTML
     }
   }
 
   registerCallbacks() {
-    document.addEventListener('seatWizard.reset', function (event) {
+    document.addEventListener('SeatWizard:reset', function (event) {
+      this.purchaseModeValue = undefined
       this.guestTypeValue = undefined
       this.projectValue = {}
       this.addonIdValue = undefined
       this.stencilsValue = undefined
 
-      this.sidebarContentTarget.innerHTML = this.sidebarTemplateTarget.innerHTML
       this.addonTabContentTarget.innerHTML = ''
       this.stencilTabContentTarget.innerHTML = ''
 
@@ -36,21 +35,38 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
       this.stencilTabTarget.classList.add(this.disabledClass)
       this.reviewTabTarget.classList.add(this.disabledClass)
+
+      this.updateTabs()
     }.bind(this))
 
-    document.addEventListener('seatWizard.toggleGuestType', function (event) {
+    document.addEventListener('SeatWizard:updateGuestType', function (event) {
+      console.log('SeatWizard:updateGuestType')
+      console.log(event.detail)
+
+      this.purchaseModeValue = event.detail.purchaseMode
       this.guestTypeValue = event.detail.guestType
+
+      this.refreshSidebar()
+
+      if (event.detail.valid) {
+        this.updateTabs()
+      } else {
+        this.projectTabTarget.classList.add(this.disabledClass)
+        this.addonTabTarget.classList.add(this.disabledClass)
+        this.stencilTabTarget.classList.add(this.disabledClass)
+        this.reviewTabTarget.classList.add(this.disabledClass)
+      }
     }.bind(this))
 
-    document.addEventListener('seatWizard.updateProject', function (event) {
+    document.addEventListener('SeatWizard:updateProject', function (event) {
       this.projectValue = event.detail
     }.bind(this))
 
-    document.addEventListener('seatWizard.updateAddon', function (event) {
+    document.addEventListener('SeatWizard:updateAddon', function (event) {
       this.addonIdValue = event.detail.id
     }.bind(this))
 
-    document.addEventListener('seatWizard.updateStencils', function (event) {
+    document.addEventListener('SeatWizard:updateStencils', function (event) {
       this.stencilsValue = event.detail
     }.bind(this))
   }
@@ -86,18 +102,6 @@ export default class extends ApplicationController {
 
   // private
 
-  guestTypeValueChanged() {
-    if (this.guestTypeValue === undefined) {
-      return
-    }
-
-    this.updateProjectContent(this.guestTypeValue === 'child')
-    this.projectTabTarget.classList.remove(this.disabledClass)
-    this.addonTabTarget.classList.add(this.disabledClass)
-    this.stencilTabTarget.classList.add(this.disabledClass)
-    this.reviewTabTarget.classList.add(this.disabledClass)
-  }
-
   projectValueChanged() {
     if (this.projectValue.id === undefined) {
       return
@@ -110,7 +114,7 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
     }
 
-    this.updateSidebarContent()
+    this.refreshSidebar()
     this.updateStencilContent()
     this.stencilTabTarget.classList.remove(this.disabledClass)
     this.reviewTabTarget.classList.add(this.disabledClass)
@@ -121,7 +125,7 @@ export default class extends ApplicationController {
       return
     }
 
-    this.updateSidebarContent()
+    this.refreshSidebar()
   }
 
   stencilsValueChanged() {
@@ -133,7 +137,24 @@ export default class extends ApplicationController {
       this.reviewTabTarget.classList.remove(this.disabledClass)
     }
 
-    this.updateSidebarContent()
+    this.refreshSidebar()
+  }
+
+  updateTabs() {
+    if (this.purchaseModeValue === 'now') {
+      this.updateProjectContent(this.guestTypeValue === 'child')
+      this.projectTabTarget.classList.remove(this.disabledClass)
+      this.addonTabTarget.classList.add(this.disabledClass)
+      this.stencilTabTarget.classList.add(this.disabledClass)
+      this.reviewTabTarget.classList.add(this.disabledClass)
+    } else if (this.purchaseModeValue === 'later') {
+      this.projectTabContentTarget.innerHTML = ''
+
+      this.projectTabTarget.classList.add(this.disabledClass)
+      this.addonTabTarget.classList.add(this.disabledClass)
+      this.stencilTabTarget.classList.add(this.disabledClass)
+      this.reviewTabTarget.classList.remove(this.disabledClass)
+    }
   }
 
   updateProjectContent(includeChildProjects) {
@@ -169,14 +190,15 @@ export default class extends ApplicationController {
       })
   }
 
-  updateSidebarContent() {
-    Api.sidebar(this.projectValue.id, this.addonIdValue, this.stencilsValue)
-      .then(resp => {
-        this.sidebarContentTarget.innerHTML = resp.data
-      })
-      .catch(err => {
-        console.error(err)
-        alert('An error occurred. Please try again.')
-      })
+  refreshSidebar() {
+    document.dispatchEvent(new CustomEvent('SeatWizard:refreshSidebar', {
+      detail: {
+        project_id: this.projectValue.id,
+        addon_id: this.addonIdValue,
+        stencils: this.stencilsValue,
+        guestType: this.guestTypeValue,
+        purchaseMode: this.purchaseModeValue
+      }
+    }))
   }
 }

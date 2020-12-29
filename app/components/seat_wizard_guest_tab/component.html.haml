@@ -1,56 +1,61 @@
-%div{'data-controller': 'seat-wizard--guest'}
+%div{'data-controller': 'seat-wizard--guest',
+     'data-seat-wizard--guest-for-reservation-value': @reservation_mode.to_s}
   .card-body
     %h5.card-title.mt-2
-      Who are you purchasing this seat for?
+      - if @reservation_mode
+        Who is this seat for?
+      - else
+        Who are you purchasing this seat for?
 
     .form-group
       .custom-control.custom-radio
-        - unless @already_attending
+        - if @self_enabled
           %input#self.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "self",
-                                            'data-seat-wizard--guest-target': 'guestType',
-                                            'data-action': "seat-wizard--guest#toggleGuestType"}
+                                           'data-seat-wizard--guest-target': 'guestType',
+                                           'data-action': "seat-wizard--guest#toggleGuestType"}
           %label.custom-control-label{for: "self"} Myself
         - else
           %input.custom-control-input{type: "radio", disabled: true}
           %label.custom-control-label
             Myself
-            %br
-            %a{href: ''} You already have a seat booked for this workhop. Click here to view your project.
+            %br= link_to t('seat_wizard.guest_type.self_disabled'), seat_path(0)
 
       .custom-control.custom-radio
         %input#adult.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "adult",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
-        %label.custom-control-label{for: "adult"}
-          An adult or someone else
-          %strong.text-uppercase with
-          an email address
+        %label.custom-control-label{for: "adult"}= t('seat_wizard.guest_type.adult')
 
       .custom-control.custom-radio
         %input#other.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "other",
                                           'data-seat-wizard--guest-target': 'guestType',
                                           'data-action': "seat-wizard--guest#toggleGuestType"}
-        %label.custom-control-label{for: "other"}
-          An adult or someone
-          %strong.text-uppercase without
-          an email address
+        %label.custom-control-label{for: "other"}= t('seat_wizard.guest_type.other')
 
       .custom-control.custom-radio
-        - if @workshop.family_friendly?
+        - if @family_friendly_enabled
           %input#child.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "child",
                                             'data-seat-wizard--guest-target': 'guestType',
                                             'data-action': "seat-wizard--guest#toggleGuestType"}
-          %label.custom-control-label{for: "child"} A child (ages 8-17)
+          %label.custom-control-label{for: "child"}= t('seat_wizard.guest_type.child')
         - else
           %input.custom-control-input{type: "radio", disabled: true}
           %label.custom-control-label
-            A child (ages 8-17)
-            %br Sorry, this workshop is for ages 18+ only.
+            = t('seat_wizard.guest_type.child')
+            %br= t('seat_wizard.guest_type.child_disabled')
 
     %div{'data-seat-wizard--guest-target': 'guestInfo'}
-      %h5.card-title
-        Guest Information
+      %h5.card-title Guest Information
+      - if @reservation_mode
+        .form-group{'data-seat-wizard--guest-target': 'purchaseModeArea'}
+          .custom-checkbox.custom-control
+            %input#purchaseMode.custom-control-input{type: "checkbox", value: "0",
+                                                     'data-seat-wizard--guest-target': 'purchaseMode',
+                                                     'data-action': "seat-wizard--guest#togglePurchaseMode"}
+            %label.custom-control-label{for: "purchaseMode"}
+              Will you be selecting the project and paying for this persons seat?
       %p{'data-seat-wizard--guest-target': 'guestInfoAlert'}
+
       .form-row
         .form-group.col-6
           %label{for: 'firstName'} First name
@@ -68,8 +73,7 @@
                                           'data-seat-wizard--guest-target': 'emailAddress',
                                           'data-action': "seat-wizard--guest#updateUI"}
 
-    %h5.card-title
-      Seating Request
+    %h5.card-title Seating Request
     .form-group
       .custom-checkbox.custom-control
         %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--guest#toggleSeatRequest"}

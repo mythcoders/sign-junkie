@@ -28,7 +28,7 @@ export default class extends ApplicationController {
   // private
 
   notifySeatWizard() {
-    document.dispatchEvent(new CustomEvent('seatWizard.updateAddon', {
+    document.dispatchEvent(new CustomEvent('SeatWizard:updateAddon', {
       detail: {
         id: this.addonIdValue
       }

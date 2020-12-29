@@ -38,14 +38,6 @@
         .card.mt-2
           .card-body
             %h4.card-title Group Reservations
-            - if @already_hosting != false
-              .alert.alert-info
-                %h4.alert-heading
-                  = fa_solid 'exclamation-triangle'
-                  Heads up!
-                You already have booked a reservation for this workshop.
-                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
-                  View your reservation
             %p.card-text
               = fa_solid 'usd-circle', 'text-primary fa-fw'
               %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
@@ -56,21 +48,23 @@
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
-            %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
-              Book GROUP reservation
+
+            - if @already_hosting != false
+              .alert.alert-info
+                %h5.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have booked a reservation for this workshop.
+                %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
+                  View in Workshop Planner
+            - else
+              %a.btn.btn-link.btn-block{href: reservation_workshop_path(@workshop)}
+                Book GROUP reservation
 
       - if @workshop.seat_purchaseable?
         .card.mt-2
           .card-body
             %h4.card-title Individual Seats
-            - if @already_attending != false
-              .alert.alert-info
-                %h4.alert-heading
-                  = fa_solid 'exclamation-triangle'
-                  Heads up!
-                You already have a seat for this workshop!
-                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
-                  View your seat
             %p.card-text
               = fa_solid 'usd-circle', 'text-primary fa-fw'
               %span= "Starting at #{number_to_currency(starting_price(@workshop))}"
@@ -82,8 +76,20 @@
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.seats_available} seats available"
 
-            %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
-              Book ONE seat
+            - if @already_attending != false
+              .alert.alert-info
+                %h5.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have a seat for this workshop!
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
+                  View your seat
+
+              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+                Book ANOTHER seat
+            - else
+              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+                Book ONE seat
     - else
       .card.mt-2
         .card-body

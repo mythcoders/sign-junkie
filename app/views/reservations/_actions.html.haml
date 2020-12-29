@@ -1,7 +1,7 @@
 - if @reservation.may_add_seat?(current_user)
   %a.btn.btn-primary.btn-block.mb-2{href: new_reservation_seat_path(@reservation)}
     = fa_solid 'user-plus'
-    Invite another guest
+    Add seat to reservation
 
 - if @reservation.unpaid_balance? && @reservation.host?(current_user)
   = form_for :cart, url: cart_index_path do |f|

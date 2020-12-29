@@ -6,15 +6,15 @@
 
 = form_tag(cart_index_path,
            method: :post,
-           'data-controller': 'seat-wizard',
+           'data-controller': 'seat-wizard seat-wizard--sidebar',
            'data-seat-wizard-workshop-id-value': @workshop.id,
            'data-seat-wizard-active-class': 'active',
            'data-seat-wizard-disabled-class': 'disabled') do
 
-  = hidden_field_tag 'cart[workshop_id]', @workshop.id
   = hidden_field_tag 'cart[type]', 'seat'
+  = hidden_field_tag 'cart[workshop_id]', @workshop.id
 
-  %template{'data-seat-wizard-target': 'sidebarTemplate'}
+  %template{'data-seat-wizard--sidebar-target': 'template'}
     .card.card-sticky
       .card-body
         %p.card-text
@@ -22,14 +22,14 @@
           Then, you'll be able to select a project.
 
   .row
-    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard-target': 'sidebarContent'}
+    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard--sidebar-target': 'content'}
 
     .col.order-1.order-md-2
       .card
-        .card-header= render partial: 'workshops/new_seat/tabs'
+        .card-header= render partial: 'seats/form/tabs'
         #seatWizardTabs.tab-content
           #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-            = render partial: 'workshops/new_seat/guest'
+            = render(SeatWizardGuestTab::Component.new(@already_attending == false, @workshop.family_friendly?))
 
           - %i[project stencil addon].each do |tab_name|
             .tab-pane.fade{id: tab_name,
@@ -39,7 +39,7 @@
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
             .card-body
-              = render partial: 'workshops/new_seat/review'
+              = render partial: 'seats/form/review', locals: { workshop: @workshop }
 
             .card-footer.card-sticky-footer
               %button.btn.btn-success.btn-block{type: 'submit'}

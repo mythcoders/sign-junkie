@@ -94,7 +94,7 @@ export default class extends ApplicationController {
   }
 
   notifySeatWizard() {
-    document.dispatchEvent(new CustomEvent('seatWizard.updateStencils', {
+    document.dispatchEvent(new CustomEvent('SeatWizard:updateStencils', {
       detail: this.inputTarget.value
     }))
   }

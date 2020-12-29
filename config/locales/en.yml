@@ -94,6 +94,13 @@ en:
       success: We're processing your void request. Any credits or refunds will be issued within 48 hours.
       failure: We couldn't void your seat at this time. Please try again.
       confirmation: The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
+  seat_wizard:
+    guest_type:
+      adult: An adult or someone else WITH an email address
+      child: A child (ages 8-17)
+      child_disabled: Sorry, this workshop is for ages 18+ only.
+      other: An adult or someone WITHOUT an email address
+      self_disabled: You already have a seat booked for this workhop. Click here to view your project.
   stencil:
     destroy:
       confirmation: This will delete the stencil, it's image, and any projects it's associated with.

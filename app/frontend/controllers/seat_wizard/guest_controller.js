@@ -1,11 +1,12 @@
 import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
-  static values = { guestType: String, }
-  static targets = ["emailAddress", "firstName", "guestInfo", "guestInfoAlert", "guestType", "lastName", "nextButton",
-    "seatRequest", "seatRequestArea", "seatRequestLabel"]
+  static values = { guestType: String, forReservation: Boolean }
+  static targets = ["emailAddress", "firstName", "guestInfo", "guestInfoAlert", "guestType", "purchaseModeArea",
+    "purchaseMode", "lastName", "nextButton", "seatRequest", "seatRequestArea", "seatRequestLabel"]
 
   connect() {
+    if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.hidden = true }
     this.seatRequestAreaTarget.hidden = true
     this.guestInfoTarget.hidden = true
     this.emailAddressTarget.disabled = true
@@ -13,14 +14,20 @@ export default class extends ApplicationController {
     this.nextButtonTarget.classList.add('disabled')
   }
 
-  updateUI(e) {
-    this.showHideEmailAddress()
-    this.showHideGuestInfo()
-    this.notifyWizard()
-  }
-
   toggleGuestType(e) {
     this.guestTypeValue = e.currentTarget.value
+
+    if (this.guestTypeValue === 'self') {
+      this.purchaseModeValue = 'now'
+    } else if (this.forReservationValue) {
+      if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
+      this.purchaseModeValue = 'later'
+    }
+  }
+
+  togglePurchaseMode(e) {
+    this.purchaseModeValue = e.currentTarget.checked ? 'now' : 'later'
+    this.updateUI() // always trigger
   }
 
   toggleSeatRequest(e) {
@@ -30,25 +37,42 @@ export default class extends ApplicationController {
 
   // private
 
+  purchaseModeValueChanged() {
+    this.updateUI()
+  }
+
   guestTypeValueChanged() {
+    this.updateUI()
+  }
+
+  updateUI() {
     this.showHideEmailAddress()
     this.showHideGuestInfo()
+    if (this.hasPurchaseModeAreaTarget) { this.showHidePurchaseMode() }
     this.notifyWizard()
   }
 
   notifyWizard() {
     if (!this.isComplete()) {
       this.nextButtonTarget.classList.add('disabled')
-      document.dispatchEvent(new CustomEvent('seatWizard.reset'))
-      // e.stopImmediatePropagation()
+      document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
     } else {
+      if (this.purchaseModeValue === 'now') {
+        this.nextButtonTarget.dataset.destination = 'project'
+      } else {
+        this.nextButtonTarget.dataset.destination = 'review'
+      }
+
       this.nextButtonTarget.classList.remove('disabled')
-      document.dispatchEvent(new CustomEvent('seatWizard.toggleGuestType', {
-        detail: {
-          guestType: this.guestTypeValue
-        }
-      }))
     }
+
+    document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {
+      detail: {
+        guestType: this.guestTypeValue,
+        purchaseMode: this.purchaseModeValue,
+        valid: this.isComplete()
+      }
+    }))
   }
 
   isComplete() {
@@ -75,6 +99,14 @@ export default class extends ApplicationController {
     } else {
       this.emailAddressTarget.required = true
       this.emailAddressTarget.disabled = false
+    }
+  }
+
+  showHidePurchaseMode() {
+    if (this.guestTypeValue === 'self') {
+      this.purchaseModeTarget.hidden = true
+    } else {
+      this.purchaseModeTarget.hidden = false
     }
   }
 

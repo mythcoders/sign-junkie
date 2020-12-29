@@ -31,7 +31,7 @@ export default class extends ApplicationController {
   }
 
   notifySeatWizard() {
-    document.dispatchEvent(new CustomEvent('seatWizard.updateProject', {
+    document.dispatchEvent(new CustomEvent('SeatWizard:updateProject', {
       detail: {
         id: this.projectIdValue,
         addons: this.hasAddonsValue
