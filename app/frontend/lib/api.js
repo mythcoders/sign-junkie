@@ -22,7 +22,7 @@ const Api = {
     const url = Api.sidebarPath.replace(':projectId', encodeURIComponent(projectId))
     return axios.post(url, {
       addon_id: addonId,
-      stencil_ids: stencils
+      stencils: stencils
     })
   },
 

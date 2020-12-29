@@ -1,26 +1,25 @@
 import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
-  static values = { projectId: String, projectHasAddons: Boolean }
-  static targets = ["project", "projectField", "nextButton"]
-  static classes = ["active"]
-
+  static values = { projectId: String, hasAddons: Boolean }
+  static targets = ["option", "input", "nextButton"]
+  static classes = ["active", "disabled"]
 
   toggle(e) {
     e.preventDefault()
 
     this.projectIdValue = e.currentTarget.dataset.id
-    this.projectHasAddonsValue = e.currentTarget.dataset.activeAddons !== undefined
+    this.hasAddonsValue = e.currentTarget.dataset.activeAddons !== undefined
 
-    this.projectFieldTarget.value = this.projectIdValue
-    this.nextButtonTarget.disabled = false
-    if (this.projectHasAddonsValue) {
+    this.inputTarget.value = this.projectIdValue
+    this.nextButtonTarget.classList.remove(this.disabledClass)
+    if (this.hasAddonsValue) {
       this.nextButtonTarget.dataset.destination = 'addon'
     } else {
       this.nextButtonTarget.dataset.destination = 'stencil'
     }
 
-    this.projectTargets.forEach((element) => {
+    this.optionTargets.forEach((element) => {
       if (element.dataset.id === this.projectIdValue) {
         element.classList.add(this.activeClass)
       } else {
@@ -35,7 +34,7 @@ export default class extends ApplicationController {
     document.dispatchEvent(new CustomEvent('seatWizard.updateProject', {
       detail: {
         id: this.projectIdValue,
-        addons: this.projectHasAddonsValue
+        addons: this.hasAddonsValue
       }
     }))
   }

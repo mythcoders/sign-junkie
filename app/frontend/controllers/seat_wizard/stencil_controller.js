@@ -1,112 +1,122 @@
 import ApplicationController from "../application_controller"
-import { Isotope } from 'isotope-layout'
 
 export default class extends ApplicationController {
-  static values = { visible: Boolean, maxStencils: Number, stencilIds: Array, filters: String }
-  static targets = ["grid", "nextButton", "previousButton", "stencil", "column", "stencilField", "personalization"]
-  static classes = ["active"]
-
-  initialize() {
-    this.iso = new Isotope(this.gridTarget, {
-      layoutMode: "masonry",
-      itemSelector: "stencil"
-    })
-  }
-
-  connect() {
-    var imagesLoaded = require('imagesloaded')
-    imagesLoaded(this.gridTarget).on('progress', () => {
-      this.iso.layout()
-    })
-
-    this.iso.layout()
-  }
-
-  disconnect() {
-    this.iso.destroy()
-  }
+  static values = { visible: Boolean, maxStencils: Number, filters: String, stencils: Object }
+  static targets = ["nextButton", "previousButton", "option", "column", "input", "personalization", "filter"]
+  static classes = ["active", "disabled"]
 
   changeCategoryFilter(e) {
-    this.filtersValue = e.currentTarget.value !== '' ? `.sc-${e.currentTarget.value}` : null
-    debugger
-    this.iso.arrange({
-      filter: this.filtersValue
+    this.filtersValue = e.currentTarget.value
+    this.reset()
+    this.columnTargets.forEach((e) => {
+      if (this.filtersValue === '' || this.filtersValue === e.dataset.categoryId) {
+        e.hidden = false
+      } else {
+        e.hidden = true
+      }
     })
   }
 
   toggleStencil(e) {
     e.preventDefault()
 
-    let element = e.currentTarget
-    let stencils = this.stencilIdsValue
+    let newStencils = this.stencilsValue
 
-    if (element.dataset.selected === 'true') {
-      let pos = stencils.indexOf(element.dataset.id)
-      stencils.splice(pos, 1)
+    if (e.currentTarget.dataset.selected === 'true') {
+      const { [e.currentTarget.dataset.id]: deletedKey, ...otherKeys } = newStencils
+      newStencils = otherKeys
     } else {
-      if (this.stencilIdsValue.length === this.maxStencilsValue) {
+      if (Object.keys(newStencils).length === this.maxStencilsValue) {
         if (this.maxStencilsValue === 1) {
           // in this scenario we want the selector to function as a toggle
           // and and we go ahead and 'unselect' the other stencil
-          stencils = []
+          newStencils = {}
         } else {
-          alert("You've reached your limit on stencils. Please unselect an existing stencil before trying to select another one.")
           e.stopImmediatePropagation()
+          alert("You've reached your limit on stencils. Please unselect an existing stencil before trying to select another one.")
           return
         }
       }
 
-      stencils.push(element.dataset.id)
+      newStencils[e.currentTarget.dataset.id] = e.currentTarget.dataset.allowPersonalization !== 'true' ? null : ''
     }
 
-    e.currentTarget.dataset.selected = !element.dataset.selected
-    this.stencilIdsValue = stencils
-    // this.stencilFieldTarget.value =
+    this.stencilsValue = newStencils
+  }
+
+  togglePlainOption(e) {
+    this.visibleValue = e.currentTarget.checked
+    this.stencilsValue = this.visibleValue ? { 0: '' } : {}
+    this.filterTarget.hidden = this.visibleValue
+    this.columnTargets.forEach((e) => { e.hidden = this.visibleValue })
+  }
+
+  updateStencilPersonalization(e) {
+    ["|", "::"].forEach(c => {
+      if (e.currentTarget.value.includes(c)) {
+        e.currentTarget.value = e.currentTarget.value.replace(c, "")
+        alert('invalid character')
+      }
+    })
+
+    let newStencils = this.stencilsValue
+    newStencils[e.currentTarget.dataset.id] = e.currentTarget.value
+    this.stencilsValue = newStencils
+  }
+
+  // private
+
+  stencilsValueChanged() {
+    this.inputTarget.value = ''
+    for (const [key, value] of Object.entries(this.stencilsValue)) {
+      // format: stencil_id|customization::
+      this.inputTarget.value += `${key}|${value}::`
+    }
+
+    if (Object.keys(this.stencilsValue).length === this.maxStencilsValue) {
+      this.nextButtonTarget.classList.remove(this.disabledClass)
+    }
 
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
     this.notifySeatWizard()
   }
 
-  togglePlainOption(e) {
-    this.visibleValue = e.currentTarget.checked
-    this.stencilIdsValue = [0]
+  reset() {
+    this.stencilsValue = {}
+
     this.notifySeatWizard()
-    this.columnTargets.forEach((element) => {
-      element.hidden = this.visibleValue
+    this.personalizationTargets.forEach((e) => { e.hidden = true })
+    this.optionTargets.forEach((e) => {
+      e.classList.remove(this.activeClass)
+      e.dataset.selected = false
     })
   }
 
-  updateStencilPersonalization(e) {
-    // update the form field
-    // FORMAT: stencil_id|customization,
-    // this.stencilFieldTarget.value =
-  }
-
-  // private
-
   notifySeatWizard() {
     document.dispatchEvent(new CustomEvent('seatWizard.updateStencils', {
-      detail: this.stencilIdsValue
+      detail: this.inputTarget.value
     }))
   }
 
   updateStencilTargets() {
-    this.stencilTargets.forEach((element) => {
-      if (this.stencilIdsValue.includes(element.dataset.id)) {
-        element.classList.add(this.activeClass)
+    this.optionTargets.forEach((e) => {
+      if (this.stencilsValue[e.dataset.id] !== undefined) {
+        e.classList.add(this.activeClass)
+        e.dataset.selected = 'true'
       } else {
-        element.classList.remove(this.activeClass)
+        e.classList.remove(this.activeClass)
+        e.dataset.selected = 'false'
       }
     })
   }
 
   updatePersonalizationTargets() {
-    this.personalizationTargets.forEach((element) => {
-      if (this.stencilIdsValue.includes(element.dataset.id) && element.dataset.allowPersonalization === 'true') {
-        element.hidden = false
+    this.personalizationTargets.forEach((e) => {
+      if (this.stencilsValue[e.dataset.id] !== undefined) {
+        e.hidden = false
       } else {
-        element.hidden = true
+        e.hidden = true
       }
     })
   }

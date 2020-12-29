@@ -38,6 +38,10 @@
         .font-size-1.mb-1{title: 'Project'}
           = fa_solid 'sign', 'text-primary fa-fw'
           = item.project_name
+      - if item.addon_id.present?
+        .font-size-1.mb-1{title: 'Add-on'}
+          = fa_solid 'stamp', 'text-primary fa-fw'
+          = item.addon_name
       - if item.stencil_name.present?
         .card-text.mb-1{title: 'Stencil'}
           = fa_solid 'swatchbook', 'text-primary fa-fw'
@@ -46,7 +50,3 @@
         .font-size-1.mb-1{title: 'Add-on'}
           = fa_solid 'palette', 'text-primary fa-fw'
           = item.stencil_personalization
-      - if item.addon_id.present?
-        .font-size-1.mb-1{title: 'Add-on'}
-          = fa_solid 'stamp', 'text-primary fa-fw'
-          = item.addon_name

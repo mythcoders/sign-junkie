@@ -13,12 +13,6 @@
           %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@seat.workshop.name}",
             src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
 
-      - @seat.workshop.projects.each do |project|
-        - project.project_images.each do |img|
-          .workshop-img-item.mb-3
-            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
-            .text-secondary.text-center= project.name
-
   .col-12.col-md-6.mb-2.order-1.order-md-2
     .card
       %h3.card-header.bg-primary.text-white #{@seat.name} seat for #{@seat.workshop.name}

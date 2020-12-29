@@ -1,6 +1,5 @@
 %div{'data-controller': 'seat-wizard--addon',
-          'data-seat-wizard--addon-active-class': 'bg-teal-light',
-          'data-isotope': '{"layoutMode": "masonry", "itemSelector": "addon"}'}
+     'data-seat-wizard--addon-active-class': 'bg-teal-light'}
 
   .card-body
     - if @project.addons.active.any?
@@ -8,9 +7,9 @@
 
       = hidden_field_tag 'cart[addon_id]', nil, 'data-seat-wizard--addon-target': 'addonField'
 
-      .row#addonOptions
+      .row
         - @project.addons.active.each do |addon|
-          .col-12.col-sm-6.addon{'data-id': addon.id}
+          .col-12.col-sm-6{'data-id': addon.id}
             %a.card.shadow-light-lg.mb-3{href: '#',
                                     'data-seat-wizard-target': 'addon',
                                     'data-id': addon.id,
@@ -19,8 +18,7 @@
                 %img.card-img{alt: "Image of #{addon.name}", src: url_for(addon.addon_images.first)}
               .card-body.text-center{'data-seat-wizard--addon-target': 'addon',
                                     'data-id': addon.id,
-                                    'data-selected': 'false',
-                                    'data-price': addon.price}
+                                    'data-selected': 'false'}
                 %h5.card-title.text-dark= addon.name
                 %h6.text-dark= number_to_currency addon.price
     - else

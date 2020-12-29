@@ -2,7 +2,7 @@ import ApplicationController from "./application_controller"
 import Api from "../lib/api"
 
 export default class extends ApplicationController {
-  static values = { addonId: String, project: Object, guestType: String, stencils: Array, workshopId: String }
+  static values = { addonId: String, project: Object, guestType: String, stencils: String, workshopId: String }
   static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
     "sidebarContent", "sidebarTemplate", "stencilTab", "stencilTabContent"]
   static classes = ["active", "disabled"]
@@ -23,10 +23,10 @@ export default class extends ApplicationController {
 
   registerCallbacks() {
     document.addEventListener('seatWizard.reset', function (event) {
-      this.projectValue = {}
       this.guestTypeValue = undefined
-      this.stencilsValue = []
+      this.projectValue = {}
       this.addonIdValue = undefined
+      this.stencilsValue = undefined
 
       this.sidebarContentTarget.innerHTML = this.sidebarTemplateTarget.innerHTML
       this.addonTabContentTarget.innerHTML = ''
@@ -125,11 +125,13 @@ export default class extends ApplicationController {
   }
 
   stencilsValueChanged() {
-    if (this.projectValue.id === undefined || this.stencilsValue.length === 0) {
+    if (this.projectValue.id === undefined) {
       return
     }
 
-    this.reviewTabTarget.classList.remove(this.disabledClass)
+    if (this.stencilsValue !== '') {
+      this.reviewTabTarget.classList.remove(this.disabledClass)
+    }
 
     this.updateSidebarContent()
   }
