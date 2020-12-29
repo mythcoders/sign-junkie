@@ -2,7 +2,10 @@
 %html{html_attrs('en-us')}
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
-    = stylesheet_pack_tag 'mailer', type: 'text/css', media: 'all'
+    - if Rails.env.production?
+      = stylesheet_pack_tag 'mailer', type: 'text/css', media: 'all'
+    - else
+      = javascript_pack_tag 'mailer'
   %body.bg-light
     .container.mt-2
       %a{href: root_url}

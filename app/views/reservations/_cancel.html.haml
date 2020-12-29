@@ -9,7 +9,7 @@
         = t('reservations.cancel.confirmation')
         %br
         %br
-        %a{href: policies_path, target: '_blank'} Our refund policy.
+        %a{href: workshop_policies_path(reservation.workshop), target: '_blank'} Our refund policy.
 
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Nevermind
