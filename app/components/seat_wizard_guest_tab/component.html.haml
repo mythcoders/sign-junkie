@@ -44,8 +44,35 @@
             = t('seat_wizard.guest_type.child')
             %br= t('seat_wizard.guest_type.child_disabled')
 
+    %div{'data-seat-wizard--guest-target': 'childInfo'}
+      %hr
+      %h5.card-title Child Information
+      - if @reservation_mode
+        .form-group
+          .custom-checkbox.custom-control
+            %input#isParent.custom-control-input{type: "checkbox", value: "0", checked: true,
+                                                'data-seat-wizard--guest-target': 'isParent',
+                                                'data-action': "seat-wizard--guest#toggleIsParent"}
+            %label.custom-control-label{for: "isParent"}
+              This seat is for my child
+      - else
+        = hidden_field_tag 'isParent', '1', 'data-seat-wizard--guest-target': 'isParent'
+
+      .form-row
+        .form-group.col-6
+          %label{for: 'childFirstName'} First name
+          %input.form-control#childFirstName{type: 'text', autocomplete: false, name: 'cart[child_first_name]',
+                                        'data-seat-wizard--guest-target': 'childFirstName',
+                                        'data-action': "seat-wizard--guest#updateUI"}
+        .form-group.col-6
+          %label{for: 'childLastName'} Last name
+          %input.form-control#childLastName{type: 'text', autocomplete: false, name: 'cart[child_last_name]',
+                                            'data-seat-wizard--guest-target': 'childLastName',
+                                            'data-action': "seat-wizard--guest#updateUI"}
+
     %div{'data-seat-wizard--guest-target': 'guestInfo'}
-      %h5.card-title Guest Information
+      %hr
+      %h5.card-title{'data-seat-wizard--guest-target': 'guestInfoHeader'} Guest Information
       - if @reservation_mode
         .form-group{'data-seat-wizard--guest-target': 'purchaseModeArea'}
           .custom-checkbox.custom-control
@@ -53,32 +80,34 @@
                                                      'data-seat-wizard--guest-target': 'purchaseMode',
                                                      'data-action': "seat-wizard--guest#togglePurchaseMode"}
             %label.custom-control-label{for: "purchaseMode"}
-              Will you be selecting the project and paying for this persons seat?
+              I'll be selecting the project and paying for this persons seat
+
       %p{'data-seat-wizard--guest-target': 'guestInfoAlert'}
 
       .form-row
         .form-group.col-6
-          %label{for: 'firstName'} First name
-          %input.form-control#firstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
-                                        'data-seat-wizard--guest-target': 'firstName',
-                                        'data-action': "seat-wizard--guest#updateUI"}
+          %label{for: 'guestFirstName'} First name
+          %input.form-control#guestFirstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
+                                            'data-seat-wizard--guest-target': 'guestFirstName',
+                                            'data-action': "seat-wizard--guest#updateUI"}
         .form-group.col-6
-          %label{for: 'lastName'} Last name
-          %input.form-control#lastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
-                                      'data-seat-wizard--guest-target': 'lastName',
-                                      'data-action': "seat-wizard--guest#updateUI"}
+          %label{for: 'guestLastName'} Last name
+          %input.form-control#guestLastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
+                                            'data-seat-wizard--guest-target': 'guestLastName',
+                                            'data-action': "seat-wizard--guest#updateUI"}
         .form-group.col-12
           %label{for: 'emailAddress'} Email address
           %input.form-control#emailAddress{type: 'text', autocomplete: false, name: 'cart[email]',
                                           'data-seat-wizard--guest-target': 'emailAddress',
                                           'data-action': "seat-wizard--guest#updateUI"}
 
+    %hr
     %h5.card-title Seating Request
     .form-group
       .custom-checkbox.custom-control
         %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--guest#toggleSeatRequest"}
         %label.custom-control-label{for: "hasSeatRequest", 'data-seat-wizard--guest-target': 'seatRequestLabel'}
-          Would you like to sit next to someone specific?
+          I would like to sit next to someone specific
 
     .form-group{'data-seat-wizard--guest-target': 'seatRequestArea'}
       .form-control-plaintext

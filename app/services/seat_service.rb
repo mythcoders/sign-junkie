@@ -5,10 +5,7 @@ class SeatService < ApplicationService
     def create(reservation)
       Seat.new(reservation: reservation,
                workshop: reservation.workshop,
-               description: ItemDescription.seat(reservation.workshop),
-               tax_amount: 0.00,
-               taxable_amount: 0.00,
-               nontaxable_amount: 0.00)
+               description: SeatItemFactory.build(reservation.workshop, {}))
     end
 
     def already_booked?(seat_owner, seat)
@@ -23,6 +20,7 @@ class SeatService < ApplicationService
     end
   end
 
+  # Create seat in the context of processing the invoice
   def reserve(invoice_item, _purchaser)
     return if invoice_item.description.seats.any?
 
@@ -55,21 +53,7 @@ class SeatService < ApplicationService
   end
 
   def update(seat, params)
-    project = seat.workshop.projects.where(id: params[:project_id]).first!
-    seat.project_id = project.id
-    seat.project_name = project.name
-    seat.taxable_amount = project.material_price
-    seat.nontaxable_amount = project.instructional_price
-    seat.seat_preference = params[:seat_request] if params[:seat_request].present?
-    seat.first_name = params[:first_name] if params[:first_name].present?
-    seat.last_name = params[:last_name] if params[:last_name].present?
-    seat.email = params[:email] if params[:email].present?
-    seat.stencils = FrontendStencilParser.new(project.id).parse(params[:stencils]) if params[:stencils].present?
-    # seat.gifted = params[:guest_type] != 'self'
-    # seat.for_child = true if params[:guest_type] == 'child'
-
-    update_addon(seat, project, params) if params[:addon_id].present?
-
+    seat.description = SeatItemFactory.build(seat.workshop, params)
     seat.save!
   end
 

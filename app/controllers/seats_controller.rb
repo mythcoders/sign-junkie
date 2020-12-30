@@ -13,6 +13,7 @@ class SeatsController < ApplicationController
   end
 
   def create
+    ## we are either creating a seat or adding something to the cart
     if SeatService.new.add(guest_params.merge(reservation: @reservation), current_user)
       flash[:success] = t('create.success')
       redirect_to reservation_path(@reservation)
@@ -47,12 +48,11 @@ class SeatsController < ApplicationController
   private
 
   def seat_params
-    params.require(:cart).permit(:id, :project_id, :addon_id, :stencil_id, :stencil, :seating, :first_name, :last_name,
-                                 :email, :guest_type)
+    params.require(:cart).permit CartService.permitted_params
   end
 
   def guest_params
-    params.require(:seat).permit(:first_name, :last_name, :email, :guest_type, :child_first_name, :child_last_name)
+    params.require(:seat).permit CartService.permitted_params
   end
 
   def add_to_cart

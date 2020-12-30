@@ -14,13 +14,6 @@ class ItemDescription < ApplicationRecord
 
   ITEM_TYPES = %i[seat reservation gift_card].freeze
 
-  def self.seat(workshop)
-    new(item_type: :seat,
-        identifier: SecureRandom.uuid,
-        workshop_name: workshop.name,
-        workshop_id: workshop.id)
-  end
-
   def self.reservation(workshop)
     new(item_type: :reservation,
         identifier: SecureRandom.uuid,

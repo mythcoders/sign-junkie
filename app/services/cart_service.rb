@@ -5,11 +5,12 @@
 class CartService < ApplicationService
   GENERAL_PARAMS = %i[workshop_id seat_id reservation_id type].freeze
   GIFT_CARD_PARAMS = %i[amount].freeze
-  SEAT_PARAMS = %i[project_id addon_id stencils guest_type first_name last_name email seat_request].freeze
   RESERVATION_PARAMS = %i[payment_plan].freeze
+  GUEST_PARAMS = %i[guest_type first_name last_name email child_first_name child_last_name seat_request].freeze
+  SEAT_PARAMS = %i[project_id addon_id stencils].freeze
 
   def self.permitted_params
-    GENERAL_PARAMS + GIFT_CARD_PARAMS + SEAT_PARAMS + RESERVATION_PARAMS
+    GENERAL_PARAMS + GIFT_CARD_PARAMS + GUEST_PARAMS + SEAT_PARAMS + RESERVATION_PARAMS
   end
 
   # Adds a new item to the users cart
@@ -78,32 +79,8 @@ class CartService < ApplicationService
   end
 
   def new_seat(user, workshop, params)
-    project = workshop.projects.where(id: params[:project_id]).first!
-    cart = Cart.new(user: user,
-                    description: ItemDescription.seat(workshop),
-                    project_id: project.id,
-                    project_name: project.name,
-                    taxable_amount: project.material_price,
-                    nontaxable_amount: project.instructional_price)
-    cart.for_child = true if params[:guest_type] == 'child'
-    cart.seat_preference = params[:seat_request] if params[:seat_request].present?
-    cart.stencils = FrontendStencilParser.new(project.id).parse(params[:stencils]) if params[:stencils].present?
-
-    if params[:guest_type] != 'self'
-      cart.gifted = true
-      cart.first_name = params[:first_name]
-      cart.last_name = params[:last_name]
-      cart.email = params[:email] if params[:guest_type] == 'adult'
-    end
-
-    if params[:addon_id].present?
-      addon = project.addons.where(id: params[:addon_id]).first
-      cart.addon_id = addon.id
-      cart.addon_name = addon.name
-      cart.taxable_amount += addon.price
-    end
-
-    cart
+    Cart.new(user: user,
+             description: SeatItemFactory.build(workshop, params))
   end
 
   def new_gift_card(user, params)

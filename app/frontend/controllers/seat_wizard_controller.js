@@ -40,9 +40,6 @@ export default class extends ApplicationController {
     }.bind(this))
 
     document.addEventListener('SeatWizard:updateGuestType', function (event) {
-      console.log('SeatWizard:updateGuestType')
-      console.log(event.detail)
-
       this.purchaseModeValue = event.detail.purchaseMode
       this.guestTypeValue = event.detail.guestType
 

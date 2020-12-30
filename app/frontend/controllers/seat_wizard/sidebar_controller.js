@@ -10,9 +10,6 @@ export default class extends ApplicationController {
   }
 
   refresh(data) {
-    console.log('SeatWizard:sidebarRefresh')
-    console.log(data)
-
     if (data.project_id !== undefined) {
       Api.sidebar(data.project_id, data.addon_id, data.stencils)
         .then(resp => {
@@ -23,9 +20,6 @@ export default class extends ApplicationController {
           alert('An error occurred. Please try again.')
         })
     }
-    // else {
-    //   this.refresh()
-    // }
 
     if (this.hasGuestPaymentClauseTarget) {
       this.guestPaymentClauseTarget.hidden = data.purchaseMode === 'now'

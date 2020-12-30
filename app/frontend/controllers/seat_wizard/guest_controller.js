@@ -1,9 +1,26 @@
 import ApplicationController from "../application_controller"
 
 export default class extends ApplicationController {
-  static values = { guestType: String, forReservation: Boolean }
-  static targets = ["emailAddress", "firstName", "guestInfo", "guestInfoAlert", "guestType", "purchaseModeArea",
-    "purchaseMode", "lastName", "nextButton", "seatRequest", "seatRequestArea", "seatRequestLabel"]
+  static values = { guestType: String, isParent: Boolean, forReservation: Boolean }
+  static targets = [
+    "childFirstName",
+    "childInfo",
+    "childLastName",
+    "emailAddress",
+    "guestFirstName",
+    "guestInfo",
+    "guestInfoAlert",
+    "guestInfoHeader",
+    "guestLastName",
+    "guestType",
+    "isParent",
+    "nextButton",
+    "purchaseMode",
+    "purchaseModeArea",
+    "seatRequest",
+    "seatRequestArea",
+    "seatRequestLabel"
+  ]
 
   connect() {
     if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.hidden = true }
@@ -16,8 +33,9 @@ export default class extends ApplicationController {
 
   toggleGuestType(e) {
     this.guestTypeValue = e.currentTarget.value
+    if (!this.hasIsParentValue) { this.isParentValue = true }
 
-    if (this.guestTypeValue === 'self') {
+    if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.purchaseModeValue = 'now'
     } else if (this.forReservationValue) {
       if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
@@ -35,6 +53,10 @@ export default class extends ApplicationController {
     this.seatRequestTarget.required = !this.seatRequestAreaTarget.hidden
   }
 
+  toggleIsParent(e) {
+    this.isParentValue = e.currentTarget.checked
+  }
+
   // private
 
   purchaseModeValueChanged() {
@@ -45,7 +67,12 @@ export default class extends ApplicationController {
     this.updateUI()
   }
 
+  isParentValueChanged() {
+    this.updateUI()
+  }
+
   updateUI() {
+    this.showHideChildInfo()
     this.showHideEmailAddress()
     this.showHideGuestInfo()
     if (this.hasPurchaseModeAreaTarget) { this.showHidePurchaseMode() }
@@ -76,23 +103,38 @@ export default class extends ApplicationController {
   }
 
   isComplete() {
-    if (this.guestTypeValue !== 'self' && this.firstNameTarget.value === '') {
+    let guestInfoRequired = this.guestTypeValue !== 'self' && (this.guestTypeValue === 'child' && !this.isParentValue)
+    let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
+
+    if (emailRequired && this.emailAddressTarget.value === '') {
       return false
     }
 
-    if (this.guestTypeValue !== 'self' && this.lastNameTarget.value === '') {
+    if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
       return false
     }
 
-    if (this.guestTypeValue === 'adult' && this.emailAddressTarget.value === '') {
+    if ((this.guestTypeValue === 'child') && (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '')) {
       return false
     }
 
     return true
   }
 
+  showHideChildInfo() {
+    if (this.guestTypeValue === 'child') {
+      this.childInfoTarget.hidden = false
+      this.childFirstNameTarget.required = true
+      this.childLastNameTarget.required = true
+    } else {
+      this.childInfoTarget.hidden = true
+      this.childFirstNameTarget.required = false
+      this.childLastNameTarget.required = false
+    }
+  }
+
   showHideEmailAddress() {
-    if (this.guestTypeValue === 'child' || this.guestTypeValue === 'other' || this.guestTypeValue === 'self') {
+    if (this.guestTypeValue === 'other' || this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.emailAddressTarget.disabled = true
       this.emailAddressTarget.required = false
       this.emailAddressTarget.value = ''
@@ -111,23 +153,27 @@ export default class extends ApplicationController {
   }
 
   showHideGuestInfo() {
-    if (this.guestTypeValue === 'self') {
+    this.seatRequestLabelTarget.innerHTML = this.guestTypeValue === 'self' ?
+      "I would like to sit next to someone specific" :
+      "My guest would like to sit next to someone specific"
+
+    if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.guestInfoTarget.hidden = true
-      this.firstNameTarget.required = false
-      this.lastNameTarget.required = false
-      this.seatRequestLabelTarget.innerHTML = "Would you like to sit next to someone specific?"
+      this.guestFirstNameTarget.required = false
+      this.guestLastNameTarget.required = false
       this.guestInfoAlertTarget.hidden = true
     } else {
+      this.guestInfoHeaderTarget.innerHTML = this.guestTypeValue === 'child' ? "Parent Information" : "Guest Information"
+      this.guestInfoAlertTarget.hidden = false
       this.guestInfoTarget.hidden = false
-      this.firstNameTarget.required = true
-      this.lastNameTarget.required = true
-      this.seatRequestLabelTarget.innerHTML = "Would your guest like to sit next to someone specific?"
+      this.guestFirstNameTarget.required = true
+      this.guestLastNameTarget.required = true
 
-      if (this.guestTypeValue === 'other' || this.guestTypeValue === 'child') {
-        this.guestInfoAlertTarget.hidden = false
+      if (this.guestTypeValue === 'other') {
         this.guestInfoAlertTarget.innerHTML = "This seat will be linked to your Sign Junkie Workshop account but under your guests name."
+      } else if (this.guestTypeValue === 'child') {
+        this.guestInfoAlertTarget.innerHTML = "This seat will be for the child listed above. However, we still require the parents information so we can associate the seat to a user account. If the parent does not have an email address then say this is your child."
       } else if (this.guestTypeValue === 'adult') {
-        this.guestInfoAlertTarget.hidden = false
         this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. After payment, you'll receive a copy of the receipt and we'll send them an invite if they don't have a Sign Junkie Workshop account."
       }
     }
