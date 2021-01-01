@@ -2,8 +2,8 @@
 %html{html_attrs('en-us')}
   %head
     = render partial: 'layouts/partials/header'
-    = javascript_pack_tag 'main', 'data-turbo-track': 'reload'
-    = stylesheet_pack_tag 'admin', 'data-turbo-track': 'reload', type: 'text/css'
+    = stylesheet_link_tag 'admin', type: 'text/css' , 'data-turbo-track': 'reload'
+    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
     = turbo_include_tags
   %body.body-devise-login
     .container-fluid

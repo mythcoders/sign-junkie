@@ -2,6 +2,7 @@
 
 require_relative 'boot'
 
+require 'rails'
 require 'active_record/railtie'
 require 'active_storage/engine'
 require 'action_controller/railtie'
@@ -12,7 +13,7 @@ require 'action_cable/engine'
 # require 'action_mailbox/engine'
 require 'action_text/engine'
 # require 'rails/test_unit/railtie'
-# require 'sprockets/railtie'
+require 'sprockets/railtie'
 require 'view_component/engine'
 
 require 'pinglish'

@@ -2,10 +2,7 @@
 %html{html_attrs('en-us')}
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
-    - if Rails.env.production?
-      = stylesheet_pack_tag 'mailer', type: 'text/css', media: 'all'
-    - else
-      = javascript_pack_tag 'mailer'
+    = stylesheet_link_tag 'mailer', type: 'text/css', media: 'all'
   %body.bg-light
     .container.mt-2
       %a{href: root_url}
@@ -13,7 +10,7 @@
       = yield
       %hr
       %p.text-center
-        = link_to ClientInfo.owner, EnvironmentInfo.env_url
+        = link_to ClientInfo.owner, Apollo.env_url
         %br= ClientInfo.address_1
         #{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}
         %br
