@@ -1,16 +1,13 @@
 // Bootstrap functions
-@import "bootstrap/scss/_functions";
-
-// require('flatpickr/dist/flatpickr.css')
-// require("../fonts/feather/feather.css")
+@import "bootstrap/scss/functions";
 
 // Custom variables
-@import "../stylesheets/public_variables";
+@import "apollo/public_variables";
 
 // Bootstrap core
 @import "bootstrap/scss/bootstrap";
 
 // Custom core
-@import "../stylesheets/bootswatch";
-@import "../stylesheets/public";
-@import "../stylesheets/shared";
+@import "apollo/bootswatch";
+@import "apollo/public";
+@import "apollo/shared";

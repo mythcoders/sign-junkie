@@ -10,7 +10,9 @@ module Admin
     end
 
     def new_customers
-      @report = NewCustomersReport.new(new_customers_params) if params[:start_date].present? || params[:end_date].present?
+      if params[:start_date].present? || params[:end_date].present?
+        @report = NewCustomersReport.new(new_customers_params)
+      end
     end
 
     def guest_list

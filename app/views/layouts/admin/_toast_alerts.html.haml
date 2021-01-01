@@ -6,7 +6,7 @@
     - delay = counter * 1750 + 3500
     .toast{"aria-atomic" => "true", "aria-live" => "assertive", :role => "alert", "data-delay": delay, :style => "bottom: auto; left: auto; min-width: 275px;"}
       .toast-header
-        %img{src: '/apollo.png', style: 'max-width: 2rem;'}
+        %img{src: asset_path('apollo.png'), style: 'max-width: 2rem;'}
         %h4.mb-0.mr-auto= type.humanize
         -# %small.text-muted just now
         %button.ml-3.mb-n1.close{"aria-label" => "Close", "data-dismiss" => "toast", :type => "button"}

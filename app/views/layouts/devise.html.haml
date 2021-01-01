@@ -10,7 +10,7 @@
       .row.align-items-center.justify-content-center
         .col-12.col-md-6.col-lg-6.col-xl-4.px-lg-5.my-5
           %a{href: root_path}
-            %img.img-system-logo{src: '/SJWlogo.svg'}
+            %img.img-system-logo{src: asset_path('SJWlogo.svg')}
           %h1.text-center.mb-5
             = yield :devise_header
           = render partial: 'layouts/partials/alerts'

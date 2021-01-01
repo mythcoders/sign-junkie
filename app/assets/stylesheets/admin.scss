@@ -6,22 +6,20 @@
  */
 
 // Bootstrap functions
-@import "bootstrap/scss/_functions";
-
-// @import "select2/src/scss/core.scss";
+@import "bootstrap/scss/functions";
 
 // Custom variables
-@import "../stylesheets/admin_portal_variables";
+@import "apollo/admin_portal_variables";
 
 // Dashkit variables
-@import "../stylesheets/dashkit/variables";
+@import "dashkit/variables";
 
 // Bootstrap core
 @import "bootstrap/scss/bootstrap";
 
 // Dashkit core
-@import "../stylesheets/dashkit/dashkit";
+@import "dashkit/dashkit";
 
 // Custom core
-@import "../stylesheets/admin_portal";
-@import "../stylesheets/shared";
+@import "apollo/admin_portal";
+@import "apollo/shared";

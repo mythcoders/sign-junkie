@@ -37,5 +37,5 @@ Sidekiq.configure_client do |config|
   config.redis = redis_config
 end
 
-Sidekiq::Client.reliable_push!
-Sidekiq::Extensions.enable_delay!
+# Sidekiq::Client.reliable_push!
+# Sidekiq::Extensions.enable_delay!

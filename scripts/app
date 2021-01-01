@@ -1,20 +1,21 @@
 #!/bin/bash
 
-figlet -f trek apollo
-
+echo '*** STARTING APOLLO ***'
 echo 'Configuring the hyperdrive...'
+
+cd "$(dirname "$0")/.."
 
 if [ "$2" == "setup" ]; then
   echo "Establsihing connection to the databank..."
-  bundle exec rails db:exists && bundle exec rails db:migrate VERBOSE=true || bundle exec rails db:setup VERBOSE=true
+  ./bin/rails db:exists && ./bin/rails db:migrate VERBOSE=true || ./bin/rails db:setup VERBOSE=true
 fi
 
 if [ "$1" == "start" ]; then
-  if [ -f "${APP_HOME}/tmp/pids/server.pid" ]; then
+  if [ -f "tmp/pids/server.pid" ]; then
     echo "Scans detected server.pid in sector 1 -- neutralizing"
-    rm -rf ${APP_HOME}/tmp/pids/server.pid
+    rm -rf tmp/pids/server.pid
   fi
 
   echo "Preparing for warp on port ${APP_PORT}..."
-  bundle exec rails s -b 0.0.0.0 -p $APP_PORT
+  ./bin/rails server -b 0.0.0.0 -p $APP_PORT
 fi

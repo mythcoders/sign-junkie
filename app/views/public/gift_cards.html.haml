@@ -10,7 +10,7 @@
         A gift card to Sign Junkie makes a wonderful present for that someone special in your life!
 
   .col-12.col-lg-6.mb-2
-    %img.card-img-top{alt: 'Gift card', src: 'GiftCard.jpg'}
+    %img.card-img-top{alt: 'Gift card', src: asset_path('GiftCard.jpg')}
   .col-12.col-lg-6
     - if user_signed_in?
       = form_for :cart, url: cart_index_path do |f|

@@ -1,7 +1,9 @@
 //
-// _user.scss
+// _shared.scss
 // Styles used in both the public and admin portal
 //
+
+@import "feathericon/build/scss/feathericon";
 
 .turbo-progress-bar {
   height: 2px;

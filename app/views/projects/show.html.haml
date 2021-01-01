@@ -17,7 +17,7 @@
         - if stencil.image.attached?
           %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image)}
         - else
-          %img.img-fluid.img-thumbnail{alt: "Default image", src: '/cover.jpg'}
+          %img.img-fluid.img-thumbnail{alt: "Default image", src: asset_path('cover.jpg')}
         .text-secondary= stencil.name
 
 -# - if @project.addons.any?

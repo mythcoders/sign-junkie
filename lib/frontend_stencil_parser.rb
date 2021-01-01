@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FrontendStencilParser
   def initialize(project_id)
     @project = Project.find project_id
@@ -12,7 +14,7 @@ class FrontendStencilParser
       {
         id: stencil.id,
         name: stencil.name,
-        personalization: personalization != 'null' ? personalization : nil
+        personalization: personalization == 'null' ? nil : personalization
       }
     end
   end

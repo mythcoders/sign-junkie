@@ -92,24 +92,24 @@ a, button {
 
 @font-face {
   font-family: 'Cerebri Sans';
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-regular.eot');
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-regular.eot?#iefix') format('embedded-opentype'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-regular.woff') format('woff'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-regular.ttf') format('truetype');
+  src: asset-url('cerebrisans/cerebrisans-regular.eot');
+  src: asset-url('cerebrisans/cerebrisans-regular.eot?#iefix') format('embedded-opentype'), asset-url('cerebrisans/cerebrisans-regular.woff') format('woff'), asset-url('cerebrisans/cerebrisans-regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Cerebri Sans';
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-medium.eot');
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-medium.eot?#iefix') format('embedded-opentype'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-medium.woff') format('woff'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-medium.ttf') format('truetype');
+  src: asset-url('cerebrisans/cerebrisans-medium.eot');
+  src: asset-url('cerebrisans/cerebrisans-medium.eot?#iefix') format('embedded-opentype'), asset-url('cerebrisans/cerebrisans-medium.woff') format('woff'), asset-url('cerebrisans/cerebrisans-medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Cerebri Sans';
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-semibold.eot');
-  src: url('#{$path-to-fonts}/cerebrisans/cerebrisans-semibold.eot?#iefix') format('embedded-opentype'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-semibold.woff') format('woff'), url('#{$path-to-fonts}/cerebrisans/cerebrisans-semibold.ttf') format('truetype');
+  src: asset-url('cerebrisans/cerebrisans-semibold.eot');
+  src: asset-url('cerebrisans/cerebrisans-semibold.eot?#iefix') format('embedded-opentype'), asset-url('cerebrisans/cerebrisans-semibold.woff') format('woff'), asset-url('cerebrisans/cerebrisans-semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
 }

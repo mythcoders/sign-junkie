@@ -9,7 +9,7 @@
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}
-        %img.img-system-logo.d-none.d-sm-block{src: '/SJWlogo.svg'}
+        %img.img-system-logo.d-none.d-sm-block{src: asset_path('/SJWlogo.svg')}
       = render partial: 'layouts/partials/navbar'
       = render partial: 'layouts/partials/alerts'
       = yield

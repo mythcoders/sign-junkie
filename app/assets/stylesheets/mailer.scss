@@ -3,7 +3,7 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Abril+Fatface" !default
 
 $font-family-sans-serif: "Abril Fatface", Calibri, Candara, Arial, sans-serif !default;
 
-@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/functions";
 @import "bootstrap/scss/bootstrap";
 
 body,

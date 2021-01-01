@@ -1,7 +1,6 @@
 #!/bin/bash
 
-figlet -f trek apollo
-
+echo 'Starting Apollo'
 echo 'Starting Webpack...'
 
 rm -rf ${APP_HOME}/public/packs

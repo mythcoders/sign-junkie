@@ -11,7 +11,7 @@
       - else
         .col-12
           %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}",
-            src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
+            src: asset_path('cover.jpg'), 'data-js-img-gallery-preview': ''}
 
       - @workshop.projects.active.each do |project|
         - project.project_images.each do |img|
