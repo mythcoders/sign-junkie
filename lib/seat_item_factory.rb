@@ -22,8 +22,8 @@ class SeatItemFactory
   def base_item
     ItemDescription.new(item_type: :seat,
                         identifier: SecureRandom.uuid,
-                        workshop_name: workshop.name,
-                        workshop_id: workshop.id,
+                        workshop_name: @workshop.name,
+                        workshop_id: @workshop.id,
                         project_id: project.id,
                         project_name: project.name,
                         taxable_amount: project.material_price,

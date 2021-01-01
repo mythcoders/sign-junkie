@@ -3,7 +3,7 @@
     .card.card-body.p-5
       .row
         .col.text-center
-          %img.img-fluid{:alt => "#{ClientInfo.name} logo", :src => "/SJWlogo.svg", :style => "max-width: 15rem;"}
+          %img.img-fluid{alt: "#{ClientInfo.name} logo", src: asset_path("SJWlogo.svg"), style: "max-width: 15rem;"}
           %p.mb-4
             = ClientInfo.address_1
             %br

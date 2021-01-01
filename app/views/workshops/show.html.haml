@@ -4,19 +4,19 @@
       - if @workshop.workshop_images.any?
         .col-12.d-flex.justify-content-center
           %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}",
-            src: url_for(@workshop.workshop_images.first), 'data-js-img-gallery-preview': ''}
+            src: url_for(@workshop.workshop_images.first)}
         - @workshop.workshop_images.each do |img|
           .workshop-img-item
-            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img)}
       - else
         .col-12
           %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}",
-            src: asset_path('cover.jpg'), 'data-js-img-gallery-preview': ''}
+            src: asset_path('cover.jpg')}
 
       - @workshop.projects.active.each do |project|
         - project.project_images.each do |img|
           .workshop-img-item.mb-3.text-center
-            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img)}
             %a{href: project_path(project)}= project.name
 
   .col-12.col-md-6.mb-2.order-1.order-md-2
@@ -58,7 +58,7 @@
                 %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
                   View in Workshop Planner
             - else
-              %a.btn.btn-link.btn-block{href: reservation_workshop_path(@workshop)}
+              %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
                 Book GROUP reservation
 
       - if @workshop.seat_purchaseable?
