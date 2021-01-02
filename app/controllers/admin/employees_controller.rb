@@ -40,7 +40,7 @@ module Admin
     private
 
     def employee_params
-      params.require(:user).permit(:id, :first_name, :last_name, :role, :email)
+      params.require(:user).permit(:first_name, :last_name, :role, :email)
     end
 
     def disable_roles

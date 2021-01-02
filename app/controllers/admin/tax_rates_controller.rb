@@ -52,7 +52,7 @@ module Admin
     end
 
     def tax_rate_params
-      params.require(:tax_rate).permit(:id, :rate, :effective_date)
+      params.require(:tax_rate).permit(:rate, :effective_date)
     end
 
     def filtered_params

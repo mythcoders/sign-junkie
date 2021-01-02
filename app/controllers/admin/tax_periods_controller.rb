@@ -51,7 +51,7 @@ module Admin
     end
 
     def tax_period_params
-      params.require(:tax_period).permit(:id, :start_date, :due_date, :amount_paid)
+      params.require(:tax_period).permit(:start_date, :due_date, :amount_paid)
     end
 
     def filtered_params

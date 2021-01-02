@@ -46,14 +46,14 @@ module Admin
     end
 
     def create_params
-      parameters = params.require(:customer_credit).permit(:id, :user_id, :starting_amount, :expiration_date)
+      parameters = params.require(:customer_credit).permit(:user_id, :starting_amount, :expiration_date)
       parameters[:expiration_date] = convert_date(parameters[:expiration_date])
       parameters[:balance] = parameters[:starting_amount]
       parameters
     end
 
     def update_params
-      parameters = params.require(:customer_credit).permit(:id, :user_id, :expiration_date)
+      parameters = params.require(:customer_credit).permit(:user_id, :expiration_date)
       parameters[:expiration_date] = convert_date(parameters[:expiration_date])
       parameters
     end

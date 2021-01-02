@@ -74,7 +74,7 @@ module Admin
     private
 
     def workshop_params
-      params.require(:workshop).permit(:id, :name, :description, :purchase_start_date, :purchase_end_date, :start_date,
+      params.require(:workshop).permit(:name, :description, :purchase_start_date, :purchase_end_date, :start_date,
                                        :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
                                        :overridden_total_seats, :overridden_reservation_allow_multiple,
                                        :overridden_reservation_price, :overridden_reservation_minimum,

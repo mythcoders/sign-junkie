@@ -53,7 +53,7 @@ module Admin
     private
 
     def addon_params
-      params.require(:addon).permit(:id, :name, :price, :active)
+      params.require(:addon).permit(:name, :price, :active)
     end
 
     def file_params

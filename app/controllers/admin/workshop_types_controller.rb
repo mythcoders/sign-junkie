@@ -39,7 +39,7 @@ module Admin
     end
 
     def workshop_type_params
-      params.require(:workshop_type).permit(:id, :name, :default_reservation_allow, :default_reservation_allow_multiple,
+      params.require(:workshop_type).permit(:name, :default_reservation_allow, :default_reservation_allow_multiple,
                                             :default_total_seats, :default_reservation_price,
                                             :default_reservation_minimum, :default_reservation_maximum,
                                             :default_reservation_cancel_minimum_not_met, :default_single_seat_allow,
