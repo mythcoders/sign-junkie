@@ -1,7 +1,6 @@
 - page_title 'Workshop Search'
 
-
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -45,6 +44,15 @@
                   .list-group-item
                     .row
                       .col
+                        %small Timeframe
+                      .col-auto
+                        %select.custom-select.custom-select-sm
+                          %option Upcoming
+                          %option Past
+                          %option All
+                  .list-group-item
+                    .row
+                      .col
                         %small Type
                       .col-auto
                         = f.select :workshop_type_id_eq,
@@ -53,6 +61,7 @@
                           class: 'custom-select custom-select-sm'
                 %button.btn.btn-block.btn-primary{type: "submit"}
                   Apply filter
+
   %table.table.table-striped.border-bottom.card-table
     %thead
       %tr

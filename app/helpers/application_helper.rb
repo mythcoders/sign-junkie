@@ -58,6 +58,15 @@ module ApplicationHelper
     render_error_messages(errors)
   end
 
+  def current_user_attributes
+    return nil unless current_user
+
+    {
+      id: current_user.id,
+      email: current_user.email
+    }
+  end
+
   private
 
   # Renders a list of error messages

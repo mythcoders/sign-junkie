@@ -7,9 +7,8 @@ application.load(definitionsFromContext(context))
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import 'flatpickr/dist/flatpickr'
+import 'helpers/sentry_helpers'
 
-// Raven.config("#{}").install();
+// document.addEventListener('turbo:load', () => {
 
-document.addEventListener('turbo:load', () => {
-  require('libraries/vendor')
-})
+// })

@@ -1,7 +1,7 @@
 //
 // dropdowns.scss
 // Extended from Bootstrap
-// 
+//
 
 //
 // Bootstrap overrides ==================================
@@ -11,47 +11,46 @@
 //
 // Replace original arrows with Feather icons
 
-.dropdown-toggle {
+// .dropdown-toggle {
 
-  &::after {
-    width: auto;
-    height: auto;
-    border: none !important;
-    vertical-align: middle;
-    font-family: 'Feather';
-  }
+//   &::after {
+//     width: auto;
+//     height: auto;
+//     border: none !important;
+//     vertical-align: middle;
+//     font-family: 'Feather';
+//   }
 
-  &::after {
-    content: '\e92e';
-  }
-}
+//   &::after {
+//     content: '\e92e';
+//   }
+// }
 
-.dropup > .dropdown-toggle {
+// .dropup > .dropdown-toggle {
 
-  &::after {
-    content: '\e931';
-  }
-}
+//   &::after {
+//     content: '\e931';
+//   }
+// }
 
-.dropright > .dropdown-toggle {
+// .dropright > .dropdown-toggle {
 
-  &::after {
-    content: '\e930';
-  }
-}
+//   &::after {
+//     content: '\e930';
+//   }
+// }
 
-.dropleft > .dropdown-toggle {
+// .dropleft > .dropdown-toggle {
 
-  &::before {
-    content: '\e92f';
-    width: auto;
-    height: auto;
-    border: none !important;
-    vertical-align: middle;
-    font-family: 'Feather';
-  }
-}
-
+//   &::before {
+//     content: '\e92f';
+//     width: auto;
+//     height: auto;
+//     border: none !important;
+//     vertical-align: middle;
+//     font-family: 'Feather';
+//   }
+// }
 
 // Dropdown toggle
 //
@@ -62,13 +61,12 @@
   justify-content: space-between;
 }
 
-
 // Dropdown menu animation
 //
 // Animate dropdown menu appearance
 
 .dropdown-menu {
-  animation: dropdownMenu .15s;
+  animation: dropdownMenu 0.15s;
 }
 
 @keyframes dropdownMenu {
@@ -81,12 +79,9 @@
   }
 }
 
-
-
 //
 // Dashkit ===================================
 //
-
 
 // Dropdown ellipses
 //
@@ -100,7 +95,6 @@
 .dropdown-ellipses::after {
   display: none;
 }
-
 
 // Dropdown card
 //
@@ -122,7 +116,6 @@
     overflow-y: auto;
   }
 }
-
 
 // Sizing
 
