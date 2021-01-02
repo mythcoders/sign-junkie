@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_30_005029) do
+ActiveRecord::Schema.define(version: 2021_01_02_173655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_005029) do
 
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.serial "identifier", limit: 10
+    t.serial "identifier", null: false
     t.string "status"
     t.date "due_date", null: false
     t.datetime "created_at", null: false
@@ -382,7 +382,6 @@ ActiveRecord::Schema.define(version: 2020_12_30_005029) do
   add_foreign_key "seats", "reservations"
   add_foreign_key "seats", "users"
   add_foreign_key "seats", "workshops"
-  add_foreign_key "stencil_categories", "stencil_categories", column: "parent_id"
   add_foreign_key "stencils", "stencil_categories"
   add_foreign_key "workshop_projects", "projects"
   add_foreign_key "workshop_projects", "workshops"

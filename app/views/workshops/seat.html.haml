@@ -38,10 +38,4 @@
                             'data-seat-wizard-target': "#{tab_name}TabContent"}
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            .card-body
-              = render partial: 'seats/form/review', locals: { workshop: @workshop }
-
-            .card-footer.card-sticky-footer
-              %button.btn.btn-success.btn-block{type: 'submit'}
-                = fa_solid 'cart-plus'
-                %span{'data-seat-wizard--sidebar-target': 'content'} Add to Cart
+            = render partial: 'seats/form/review', locals: { workshop: @workshop }

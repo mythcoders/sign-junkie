@@ -22,7 +22,6 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        set_values_for_dropdown
         render 'new'
       end
     end
@@ -32,7 +31,6 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        set_values_for_dropdown
         render 'edit'
       end
     end
@@ -50,15 +48,11 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil_category).permit(:id, :name, :parent_id)
+      params.require(:stencil_category).permit(:name)
     end
 
     def set_category
       @category = StencilCategory.find(params[:id])
-    end
-
-    def set_values_for_dropdown
-      @categories = StencilCategory.all
     end
   end
 end
