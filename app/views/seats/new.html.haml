@@ -14,7 +14,6 @@
 
   = hidden_field_tag 'cart[type]', 'seat'
   = hidden_field_tag 'cart[workshop_id]', @reservation.workshop_id
-  = hidden_field_tag 'cart[reservation_id]', @reservation.id
 
   .row
     .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard--sidebar-target': 'content'}
@@ -35,13 +34,7 @@
                             'data-seat-wizard-target': "#{tab_name}TabContent"}
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            .card-body
-              = render partial: 'seats/form/review', locals: { workshop: @reservation.workshop }
-
-            .card-footer.card-sticky-footer
-              %button.btn.btn-success.btn-block{type: 'submit'}
-                = fa_solid 'cart-plus'
-                Add to Cart
+            = render partial: 'seats/form/review', locals: { workshop: @reservation.workshop }
 
   %template{'data-seat-wizard--sidebar-target': 'template'}
     .card.card-sticky
