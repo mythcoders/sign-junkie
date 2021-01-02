@@ -1,6 +1,5 @@
 import { Turbo, cable } from "@hotwired/turbo-rails"
 
-require("@rails/activestorage").start()
-require("trix")
-require("@rails/actiontext")
+require("@rails/ujs").start()
+// require("@rails/activestorage").start()
 require("application")
