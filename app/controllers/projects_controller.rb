@@ -27,10 +27,11 @@ class ProjectsController < ApplicationController
     render layout: false
   end
 
+  # sidebar when building a seat with the SeatWizard
   def sidebar
     @project = Project.find params[:id]
-    @addon = @project.addons.where(id: params[:addon_id]).first if params[:addon_id]
-    @stencils = FrontendStencilParser.new(@project.id).parse(params[:stencils]) if params[:stencils]
+    @addon = @project.addons.find(params[:addon_id]) if params[:addon_id] != ''
+    @stencils = SeatService::StencilParser.parse(@project.id, params[:stencils]) if params[:stencils] != ''
 
     render layout: false
   end

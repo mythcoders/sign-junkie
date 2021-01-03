@@ -36,6 +36,13 @@
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
             = render partial: 'seats/form/review', locals: { workshop: @reservation.workshop }
 
+  %template{'data-seat-wizard--sidebar-target': 'updateError'}
+    .card.card-sticky
+      .card-body
+        %p.card-text.text-info
+          There was an issue updating the sidebar. Don't worry, your selections are saved
+          and you can continue your project/stencil picking experience.
+
   %template{'data-seat-wizard--sidebar-target': 'template'}
     .card.card-sticky
       .card-body

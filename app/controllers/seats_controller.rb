@@ -12,24 +12,38 @@ class SeatsController < ApplicationController
     @seats = Seat.for_user(current_user)
   end
 
+  ## we are either creating a seat or adding something to the cart
   def create
-    ## we are either creating a seat or adding something to the cart
-    if SeatService.new.add(guest_params.merge(reservation: @reservation), current_user)
+    @seat = Seat.new(reservation: @reservation, workshop: @reservation.workshop)
+
+    if SeatService::Something.perform(@seat, current_user, seat_params)
       flash[:success] = t('create.success')
-      redirect_to reservation_path(@reservation)
+
+      if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
+        Cart.save!(user: current_user, item_description_id: @seat.item_description_id)
+        redirect_to cart_index_path
+      else
+        redirect_to reservation_path(@reservation)
+      end
     else
       flash[:error] = t('seat.create.failure')
-      render 'new'
+      # return some error
     end
   end
 
   def update
-    if SeatService.new.update(@seat, seat_params)
+    if SeatService::Something.perform(@seat, current_user, seat_params)
       flash[:success] = t('update.success')
-      post_update_redirect
+
+      if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
+        Cart.save!(user: current_user, item_description_id: @seat.item_description_id)
+        redirect_to cart_index_path
+      else
+        redirect_to seat_path @seat
+      end
     else
       flash[:error] = t('update.failure')
-      render 'edit'
+      # return some error
     end
   end
 
@@ -48,25 +62,15 @@ class SeatsController < ApplicationController
   private
 
   def seat_params
-    params.require(:cart).permit CartService.permitted_params
-  end
-
-  def guest_params
-    params.require(:seat).permit CartService.permitted_params
-  end
-
-  def add_to_cart
-    CartService.new.pay_for_seat(current_user, seat_id: @seat.id)
+    params.require(:cart).permit CartFactory.permitted_params
   end
 
   def set_seat
-    @seat = Seat
-            .includes({ reservation: %i[description seats] }, :description)
-            .find params[:id]
+    @seat = Seat.includes({ reservation: %i[description seats] }, :description).find params[:id]
   end
 
   def set_reservation
-    @reservation = Reservation.find(params[:reservation_id])
+    @reservation = Reservation.find params[:reservation_id]
   end
 
   def authorize_add
@@ -80,15 +84,6 @@ class SeatsController < ApplicationController
     unless @seat.editable?(current_user)
       flash[:error] = t('seat.not_editable')
       redirect_to reservation_path(@reservation)
-    end
-  end
-
-  def post_update_redirect
-    if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
-      add_to_cart
-      redirect_to cart_index_path
-    else
-      redirect_to seat_path @seat
     end
   end
 

@@ -11,7 +11,6 @@
         - else
           Select a stencil
 
-
       = hidden_field_tag 'cart[stencils]', nil, 'data-seat-wizard--stencil-target': 'input'
 
       .row
@@ -19,9 +18,8 @@
           .col-12
             .form-group
               .custom-checkbox.custom-control
-                %input#noStencil.custom-control-input{type: "checkbox", value: "0", 'data-action': "seat-wizard--stencil#togglePlainOption", form: 'nosubmit'}
-                %label.custom-control-label{for: "noStencil"}
-                  Plain (no stencil or personalization)
+                %input#noStencil.custom-control-input{type: "checkbox", value: "PLAIN_STENCIL", 'data-action': "seat-wizard--stencil#togglePlainOption", form: 'nosubmit'}
+                %label.custom-control-label{for: "noStencil"}= t('seat.plain_stencil')
 
         .col-12{'data-seat-wizard--stencil-target': 'filter'}
           .form-group

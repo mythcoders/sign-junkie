@@ -2,7 +2,6 @@
 
 class CartController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_cart_service, only: %i[create destroy]
 
   def index
     @cart = Cart.for(current_user)
@@ -10,10 +9,13 @@ class CartController < ApplicationController
 
   def create
     begin
-      raise ProcessError, t('cart.add.failure') unless @service.add(current_user, cart_params)
+      if CartFactory.process(current_user, cart_params)
+        flash[:success] = t('cart.add.success')
 
-      flash[:success] = t('cart.add.success')
-      return redirect_to cart_index_path
+        return redirect_to cart_index_path
+      else
+        raise ProcessError, t('cart.add.failure')
+      end
     rescue ProcessError => e
       flash[:error] = e.message
     end
@@ -22,7 +24,7 @@ class CartController < ApplicationController
   end
 
   def destroy
-    if @service.remove(current_user, params)
+    if Cart.remove!(current_user, params[:id])
       flash[:success] = t('cart.update.success')
     else
       flash[:error] = t('destroy.failure')
@@ -33,11 +35,7 @@ class CartController < ApplicationController
 
   private
 
-  def set_cart_service
-    @service = CartService.new
-  end
-
   def cart_params
-    params.require(:cart).permit CartService.permitted_params
+    params.require(:cart).permit CartFactory.permitted_params
   end
 end

@@ -2,9 +2,8 @@
 
 return if ENV['ASSETS_PRECOMPILE'].present?
 
-Raven.configure do |config|
+Sentry.init do |config|
   config.dsn = Rails.application.credentials.dig(:sentry, :private_dsn)
-  config.environments = %w[review staging production]
-  config.sanitize_fields = Rails.application.config.filter_parameters.map(&:to_s)
-  config.processors -= [Raven::Processor::PostData] # Do this to send POST data
+  config.breadcrumbs_logger = [:active_support_logger]
+  config.enabled_environments = %w[review staging production]
 end

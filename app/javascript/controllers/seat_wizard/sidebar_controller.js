@@ -2,7 +2,7 @@ import ApplicationController from "../application_controller"
 import Api from "../../libraries/api"
 
 export default class extends ApplicationController {
-  static targets = ["content", "template", "guestPaymentClause"]
+  static targets = ["content", "template", "guestPaymentClause", "updateError"]
 
   initialize() {
     this.registerCallbacks()
@@ -17,7 +17,7 @@ export default class extends ApplicationController {
         })
         .catch(err => {
           console.error(err)
-          alert('An error occurred. Please try again.')
+          this.contentTarget.innerHTML = this.updateErrorTarget.innerHTML
         })
     }
 

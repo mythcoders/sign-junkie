@@ -4,7 +4,7 @@
       %h5.card-title= @item.title
       .font-size-1.mb-1{title: 'Purchased for'}
         = fa_solid 'user', 'text-primary fa-fw' if @show_icons
-        = "#{@item.first_name} #{@item.last_name}"
+        = "#{@item.owner.first_name} #{@item.owner.last_name}"
 - else
   .media
     .media-body

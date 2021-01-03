@@ -4,7 +4,6 @@ class CartCleanupWorker
   include Sidekiq::Worker
 
   def perform
-    # Appsignal.increment_counter('carts.items_cleared', expired_cart_items.count)
     expired_cart_items.delete_all
   end
 

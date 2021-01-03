@@ -1,4 +1,4 @@
-import ApplicationController from "../application_controller"
+import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
   static values = { guestType: String, isParent: Boolean, forReservation: Boolean }
@@ -40,6 +40,8 @@ export default class extends ApplicationController {
     } else if (this.forReservationValue) {
       if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
       this.purchaseModeValue = 'later'
+    } else {
+      this.purchaseModeValue = 'now'
     }
   }
 
@@ -103,8 +105,12 @@ export default class extends ApplicationController {
   }
 
   isComplete() {
-    let guestInfoRequired = this.guestTypeValue !== 'self' && (this.guestTypeValue === 'child' && !this.isParentValue)
+    let guestInfoRequired = this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
     let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
+
+    if (this.guestTypeValue === '') {
+      return false
+    }
 
     if (emailRequired && this.emailAddressTarget.value === '') {
       return false

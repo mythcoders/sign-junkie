@@ -14,13 +14,6 @@
   = hidden_field_tag 'cart[type]', 'seat'
   = hidden_field_tag 'cart[workshop_id]', @workshop.id
 
-  %template{'data-seat-wizard--sidebar-target': 'template'}
-    .card.card-sticky
-      .card-body
-        %p.card-text
-          Tell us who you're purchasing this seat for to get started.
-          Then, you'll be able to select a project.
-
   .row
     .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard--sidebar-target': 'content'}
 
@@ -39,3 +32,17 @@
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
             = render partial: 'seats/form/review', locals: { workshop: @workshop }
+
+  %template{'data-seat-wizard--sidebar-target': 'updateError'}
+    .card.card-sticky
+      .card-body
+        %p.card-text.text-info
+          There was an issue updating the sidebar. Don't worry, your selections are saved
+          and you can continue your project/stencil picking experience.
+
+  %template{'data-seat-wizard--sidebar-target': 'template'}
+    .card.card-sticky
+      .card-body
+        %p.card-text
+          Tell us who you're purchasing this seat for to get started.
+          Then, you'll be able to select a project.

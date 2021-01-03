@@ -32,6 +32,7 @@ module Apollo
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/spec/mailer_previews]
+    config.eager_load_paths += %W[#{config.root}/app/components]
     # config.require_master_key = true
 
     # Rake tasks ignore the eager loading settings, so we need to set the

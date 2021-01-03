@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2021_01_02_173655) do
 
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
-    t.serial "identifier", null: false
+    t.serial "identifier", limit: 10
     t.string "status"
     t.date "due_date", null: false
     t.datetime "created_at", null: false
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 2021_01_02_173655) do
     t.boolean "for_child", default: false
     t.boolean "gifted", default: false
     t.jsonb "stencils"
-    t.jsonb "guest_info"
+    t.jsonb "owner"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|

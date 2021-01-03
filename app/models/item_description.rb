@@ -7,26 +7,24 @@ class ItemDescription < ApplicationRecord
   include Voidable
 
   has_paper_trail
-  has_many :carts, inverse_of: :description
-  has_many :invoice_items, inverse_of: :description
-  has_many :seats, inverse_of: :description
-  has_many :reservations, inverse_of: :description
+  has_one :cart, inverse_of: :description
+  has_one :invoice_item, inverse_of: :description
+  has_one :seat, inverse_of: :description
+  has_one :reservation, inverse_of: :description
+
+  delegate :invoice, to: :invoice_item
 
   ITEM_TYPES = %i[seat reservation gift_card].freeze
-
-  def self.reservation(workshop)
-    new(item_type: :reservation,
-        identifier: SecureRandom.uuid,
-        workshop_name: workshop.name,
-        workshop_id: workshop.id)
+  ITEM_TYPES.each do |type|
+    define_method "#{type}?" do
+      item_type == type.to_s
+    end
   end
 
-  def self.gift_card(params)
-    new(item_type: :gift_card,
-        identifier: SecureRandom.uuid,
-        first_name: params[:first_name],
-        last_name: params[:last_name],
-        email: params[:email])
+  # This allows the field to be set as a Hash or anything compatible with it.
+  serialize :owner, JsonHashieMash
+  def owner=(new_value)
+    self[:owner] = JsonHashieMash.new new_value
   end
 
   def ==(other)
@@ -46,7 +44,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def guest_name
-    @guest_name ||= gifted_seat? ? "#{first_name} #{last_name}" : nil
+    @guest_name ||= gifted_seat? ? "#{owner.first_name} #{owner.last_name}" : nil
   end
 
   def guest_name_initials
@@ -55,18 +53,6 @@ class ItemDescription < ApplicationRecord
 
   def workshop
     @workshop ||= Workshop.find workshop_id
-  end
-
-  def invoice
-    @invoice ||= invoice_items.any? ? invoice_items.first.invoice : nil
-  end
-
-  def reservation
-    @reservation ||= reservations.any? ? reservations.first : nil
-  end
-
-  def seat
-    @seat ||= seats.any? ? seats.first : nil
   end
 
   def item_amount
@@ -90,13 +76,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def recipient
-    @recipient ||= User.find_by_email(email)
-  end
-
-  ITEM_TYPES.each do |type|
-    define_method "#{type}?" do
-      item_type == type.to_s
-    end
+    @recipient ||= User.find_by_email(owner.email)
   end
 
   def gifted_seat?
@@ -108,6 +88,6 @@ class ItemDescription < ApplicationRecord
   end
 
   def in_cart?
-    carts.any?
+    cart.present?
   end
 end

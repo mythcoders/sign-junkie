@@ -44,4 +44,6 @@ Rails.application.configure do
   config.assets.quiet = true
   config.web_console.whiny_requests = false
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.view_component.preview_paths << "#{Rails.root}/spec/components/previews"
 end

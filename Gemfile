@@ -28,11 +28,15 @@ gem 'rails', '~> 6.0.0'
 gem 'ransack' # Searching
 gem 'redcarpet' # Markdown rendering
 gem 'sassc-rails'
-gem 'sentry-raven' # Exceptions
 gem 'uglifier'
-gem 'view_component'
+gem 'view_component', require: "view_component/engine"
 gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
+
+# sentry exceptions
+gem 'sentry-ruby'
+gem 'sentry-rails'
+gem 'sentry-sidekiq'
 
 # sidekiq
 gem 'redis-namespace'
@@ -42,6 +46,10 @@ gem 'sidekiq-status'
 
 source 'https://rubygems.pkg.github.com/mythcoders' do
   gem 'hermes'
+end
+
+source 'https://rubygems.pkg.github.com/krystal' do
+  gem 'serialized-hashie', '~> 1.0'
 end
 
 group :development, :test do

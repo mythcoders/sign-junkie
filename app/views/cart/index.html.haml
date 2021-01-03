@@ -20,7 +20,7 @@
                       = link_to edit_reservation_seat_path(item.seat.reservation, item.seat), class: "d-block text-info font-size-1 mb-1" do
                         %span.far.fa-sign.mr-1
                         %span Make changes
-                    = link_to cart_path(item), method: :delete, class: "d-block text-danger font-size-1 mb-1", data: {confirm: 'Are you sure want to delete this image? This can not be undone!'} do
+                    = link_to cart_path(item), method: :delete, class: "d-block text-danger font-size-1 mb-1", data: {confirm: t('cart.destroy.confirmation')} do
                       %span.far.fa-trash-alt.mr-1
                       %span Remove
           - else

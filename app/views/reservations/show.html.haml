@@ -2,16 +2,26 @@
   .col-12
     .alert.alert-info
       Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before
-      entering Sign Junkie. Guests 
-      %strong MUST 
+      entering Sign Junkie. Guests
+      %strong MUST
       provide their own mask to wear throughout the entire workshop.
       Noncompliance will result in a
-      %strong NO 
+      %strong NO
       refund and you will
       %strong NOT
       be able to attend the workshop.
-  - if @reservation.host?(current_user) && !@reservation.requirements_met?
-    .col-12
+  .col-12.col-lg-5.mb-2
+    .card
+      %h4.card-header.bg-primary.text-white
+        = fa_solid 'toolbox'
+        Workshop Planner
+      - if @reservation.host?(current_user)
+        .card-body= render partial: 'reservations/host_details'
+        .card-footer= render partial: 'reservations/actions'
+      - else
+        .card-body= render partial: 'reservations/guest_details'
+  .col-12.col-lg-7.mb-2
+    - if @reservation.host?(current_user) && !@reservation.requirements_met?
       .alert.alert-info{:role => "alert"}
         %h4.alert-heading
           = fa_duo 'exclamation-triangle'
@@ -39,17 +49,6 @@
         - if @reservation.may_add_seat?(current_user)
           %br
           %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
-  .col-12.col-lg-5.mb-2
-    .card
-      %h4.card-header.bg-primary.text-white
-        = fa_solid 'toolbox'
-        Workshop Planner
-      - if @reservation.host?(current_user)
-        .card-body= render partial: 'reservations/host_details'
-        .card-footer= render partial: 'reservations/actions'
-      - else
-        .card-body= render partial: 'reservations/guest_details'
-  .col-12.col-lg-7.mb-2
     .card
       %h4.card-header.bg-primary.text-white
         = fa_duo 'users'

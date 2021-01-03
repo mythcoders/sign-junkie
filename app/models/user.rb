@@ -33,6 +33,18 @@ class User < ApplicationRecord
     User.where(email: email).first
   end
 
+  def self.find_or_invite(first_name, last_name, email)
+    user = User.find_by_email(email)
+    if user.nil?
+      user = User.invite!(email: email,
+                               first_name: first_name,
+                               last_name: last_name,
+                               role: 'customer')
+    end
+
+    user
+  end
+
   def associated_reservations
     Reservation.attending(id)
   end

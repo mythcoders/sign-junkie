@@ -45,7 +45,7 @@ export default class extends ApplicationController {
 
       this.refreshSidebar()
 
-      if (event.detail.valid) {
+      if (event.detail.valid && this.purchaseModeValue !== undefined) {
         this.updateTabs()
       } else {
         this.projectTabTarget.classList.add(this.disabledClass)
@@ -151,6 +151,8 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
       this.stencilTabTarget.classList.add(this.disabledClass)
       this.reviewTabTarget.classList.remove(this.disabledClass)
+    } else {
+      console.error('unknown purchase mode: ' + this.purchaseModeValue)
     }
   }
 

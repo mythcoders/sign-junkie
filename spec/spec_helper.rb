@@ -7,6 +7,7 @@ ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'devise'
+require 'view_component/test_helpers'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/initializers/**/*.rb')].each { |f| require f }
@@ -35,6 +36,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include FactoryBot::Syntax::Methods
+  config.include ViewComponent::TestHelpers, type: :component
 end
 
 ActiveRecord::Migration.maintain_test_schema!

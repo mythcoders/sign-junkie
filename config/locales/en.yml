@@ -12,6 +12,8 @@ en:
       confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
   cart:
     empty: You can't checkout with an empty cart.
+    destroy:
+      confirmation: Are you sure want to remove this item from your cart? This can not be undone!
     add:
       success: "The item was placed in your cart!"
       failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
@@ -38,14 +40,15 @@ en:
   order:
     refund:
       critical_failure:
-        An error occured while attempting to process your refund. Unfortunately, the error is on our end and any
+        An error occurred while attempting to process your refund. Unfortunately, the error is on our end and any
         further attempts to process your payment will also result in failure. Our support staff has been alerted and
         we'll be in touch shortly.
     payment:
       success: We're unable to accept payments for this order at this time
       failure: An error occurred while attempting to apply your payment. Please try your payment again.
       missing_token: missing authorization token. Please try your payment again.
-    critical_failure: An error occured while attempting to process your request.
+    critical_failure:
+      An error occurred while attempting to process your request.
       Unfortunately, the error is on our end and any further attempts will also result in failure.
       Please do not try again! Our support staff has been alerted and we'll be in touch shortly.
     update:
@@ -68,6 +71,8 @@ en:
       confirmation: This will delete the project, it's images, and will remove it from any workshops it's associated with.
   reservations:
     no_more_seats: No more seats can be added at this time.
+    already_booked: Reservation has already been booked
+    already_in_cart: This reservation has already been added to yours or someone elses cart
     registration_deadline_loose_deposit_warning: If not, your reservation deposit will not be refunded!
     registration_deadline_cancel_warning: If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
     minimum_not_met:
@@ -86,8 +91,10 @@ en:
         Any applicable refunds will be issued within 48 hours.
         This can not be undone.
   seat:
+    already_booked: Guest already has a seat for this workshop booked
+    already_in_cart: This seat has already been added to yours or someone elses cart
     not_editable: This seat can not be edited at this time.
-    no_stencil: Plain (no stencil or personalization)
+    plain_stencil: Plain (no stencil or personalization)
     create:
       failure: We couldn't create your seat. Please try again.
     cancel:
@@ -100,7 +107,7 @@ en:
       child: A child (ages 8-17)
       child_disabled: Sorry, this workshop is for ages 18+ only.
       other: An adult or someone WITHOUT an email address
-      self_disabled: You already have a seat booked for this workhop. Click here to view your project.
+      self_disabled: You already have a seat booked for this workshop. Click here to view your project.
   stencil:
     destroy:
       confirmation: This will delete the stencil, it's image, and any projects it's associated with.
@@ -108,10 +115,10 @@ en:
     destroy:
       confirmation: This will delete the stencil category and any stencils it's associated with.
   tax_rate:
-    uneditable: Tax Rate is already in-effect. Create a new tax rate to override the current rate.
-  user:
-    need_addresses: Unless your order is being picked up, you'll need to add an address to your account!
+    uneditable: Tax Rate is already active. Create a new tax rate to override the current rate.
   workshop:
+    reservations_full: Workshop is not accepting anymore reservations
+    seats_full: Workshop is not accepting anymore seats
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!

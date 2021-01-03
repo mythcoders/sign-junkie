@@ -6,7 +6,6 @@ class UnconfirmedAccountReminderWorker
   def perform
     unconfirmed_signups.each do |user|
       Devise::Mailer.confirmation_instructions(user).deliver_later
-      # Appsignal.increment_counter('users.confimration_reminder', 1)
     end
 
     unconfirmed_invitations.each(&:deliver_invitation)
