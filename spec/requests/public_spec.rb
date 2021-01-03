@@ -91,11 +91,4 @@ RSpec.describe 'PublicController', type: :request do
       end
     end
   end
-
-  describe 'GET policies' do
-    it 'render' do
-      get '/policies'
-      expect(response).to have_http_status(:ok)
-    end
-  end
 end

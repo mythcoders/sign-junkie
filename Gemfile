@@ -48,10 +48,6 @@ source 'https://rubygems.pkg.github.com/mythcoders' do
   gem 'hermes'
 end
 
-source 'https://rubygems.pkg.github.com/krystal' do
-  gem 'serialized-hashie', '~> 1.0'
-end
-
 group :development, :test do
   gem 'bundler-audit'
   gem 'factory_bot_rails'

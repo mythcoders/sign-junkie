@@ -2,13 +2,13 @@
 
 FactoryBot.define do
   factory :workshop do
-    name { Faker::Lorem.sentence(3) }
+    name { Faker::Lorem.sentence(word_count: 3) }
     workshop_type
 
     trait :for_sale do
       is_for_sale { true }
       purchase_start_date { purchase_end_date - 5.days }
-      start_date { Faker::Date.forward(31) }
+      start_date { Faker::Date.forward(days: 31) }
       purchase_end_date { start_date - 2.days }
       end_date { start_date + 3.hours }
     end

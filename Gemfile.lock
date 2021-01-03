@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   remote: https://rubygems.pkg.github.com/mythcoders/
-  remote: https://rubygems.pkg.github.com/krystal/
   specs:
     aasm (5.1.1)
       concurrent-ruby (~> 1.0)
@@ -194,7 +193,6 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jbuilder (2.10.1)
       activesupport (>= 5.0.0)
-    json (2.5.1)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -399,9 +397,6 @@ GEM
       faraday (>= 1.0)
     sentry-sidekiq (4.1.2)
       sentry-ruby (~> 4.1.2)
-    serialized-hashie (1.1.4)
-      hashie (>= 4.0, < 5.0)
-      json (>= 1.8, < 3.0)
     sexp_processor (4.15.1)
     shellany (0.0.1)
     shoulda-matchers (4.4.1)
@@ -524,7 +519,6 @@ DEPENDENCIES
   sentry-rails
   sentry-ruby
   sentry-sidekiq
-  serialized-hashie (~> 1.0)!
   shoulda-matchers
   sidekiq (~> 5.2)
   sidekiq-ent (~> 1.8.1)

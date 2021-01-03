@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :project do
-    name { Faker::Lorem.characters(25) }
+    name { Faker::Lorem.characters(number: 25) }
     instructional_price { Faker::Commerce.material }
     material_price { Faker::Commerce.material }
 

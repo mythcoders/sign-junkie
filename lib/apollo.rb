@@ -17,7 +17,7 @@ module Apollo
       when 'development'
         'DEV'
       when 'test'
-        Rails.env.case
+        Rails.env.upcase
       when 'review'
         'REV'
       else
