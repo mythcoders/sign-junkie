@@ -2,7 +2,7 @@
   Edit Profile
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
+  = render partial: 'devise/shared/error_messages'
 
   .form-horizontal
     .form-group
