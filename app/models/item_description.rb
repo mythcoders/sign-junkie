@@ -12,7 +12,7 @@ class ItemDescription < ApplicationRecord
   has_one :seat, inverse_of: :description
   has_one :reservation, inverse_of: :description
 
-  delegate :invoice, to: :invoice_item
+  delegate :invoice, to: :invoice_item, allow_nil: true
 
   ITEM_TYPES = %i[seat reservation gift_card].freeze
   ITEM_TYPES.each do |type|

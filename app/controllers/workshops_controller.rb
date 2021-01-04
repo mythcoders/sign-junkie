@@ -24,9 +24,10 @@ class WorkshopsController < ApplicationController
 
   def seat
     # TODO: redirect somewhere if no seat purchase
+    @seat = OpenStruct.new(workshop: @workshop, selection_made?: false, persisted?: false)
   end
 
-  def seat
+  def reservation
     # TODO: redirect somewhere if no reservation purchase
   end
 
@@ -46,20 +47,20 @@ class WorkshopsController < ApplicationController
   end
 
   def set_seat_check
-    @already_attending = if current_user
-                           seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
-                           seats.any? ? seats.first.id : false
-                         else
-                           false
-                         end
+    @existing_seat_id = if current_user
+                          seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
+                          seats.any? ? seats.first.id : false
+                        else
+                          false
+                        end
   end
 
   def set_reservation_check
-    @already_hosting = if current_user
-                         reservations = Reservation.active.for_shop(@workshop.id).for_user(current_user)
-                         reservations.any? ? reservations.first.id : false
-                       else
-                         false
-                       end
+    @existing_reservation_id = if current_user
+                                 reservations = Reservation.active.for_shop(@workshop.id).for_user(current_user)
+                                 reservations.any? ? reservations.first.id : false
+                               else
+                                 false
+                               end
   end
 end

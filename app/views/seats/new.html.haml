@@ -1,65 +1,24 @@
-.row.justify-content-center.mt-3
-  .col
-    .card.mb-3
-      %h2.card-header.bg-primary.text-white.text-center
-        = @reservation.title
+= render(SeatWizard::Component.new(seat: @seat, already_attending: @existing_seat_id != false)) do |component|
+  - component.with(:header) do
+    = @seat.reservation.title
 
-= form_tag(reservation_seats_path(@reservation),
-           method: :post,
-           'data-controller': 'seat-wizard seat-wizard--sidebar',
-           'data-seat-wizard-workshop-id-value': @reservation.workshop_id,
-           'data-seat-wizard-reservation-id-value': @reservation.id,
-           'data-seat-wizard-active-class': 'active',
-           'data-seat-wizard-disabled-class': 'disabled') do
-
-  = hidden_field_tag 'cart[type]', 'seat'
-  = hidden_field_tag 'cart[workshop_id]', @reservation.workshop_id
-
-  .row
-    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard--sidebar-target': 'content'}
-
-    .col.order-1.order-md-2
-      .card
-        .card-header= render partial: 'seats/form/tabs'
-        #seatWizardTabs.tab-content
-          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-            = render(SeatWizardGuestTab::Component.new(@already_attending == false,
-                                                       @reservation.workshop.family_friendly?,
-                                                       true))
-
-          - %i[project stencil addon].each do |tab_name|
-            .tab-pane.fade{id: tab_name,
-                            role: "tabpanel",
-                            "aria-labelledby": "#{tab_name}-tab",
-                            'data-seat-wizard-target': "#{tab_name}TabContent"}
-
-          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            = render partial: 'seats/form/review', locals: { workshop: @reservation.workshop }
-
-  %template{'data-seat-wizard--sidebar-target': 'updateError'}
-    .card.card-sticky
-      .card-body
-        %p.card-text.text-info
-          There was an issue updating the sidebar. Don't worry, your selections are saved
-          and you can continue your project/stencil picking experience.
-
-  %template{'data-seat-wizard--sidebar-target': 'template'}
+  - component.with(:sidebar_template) do
     .card.card-sticky
       .card-body
         %p.card-text
           = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-          %span= "Selections must be made by #{lifp @reservation.workshop.registration_deadline}"
+          %span= "Selections must be made by #{lifp @seat.reservation.workshop.registration_deadline}"
         %p.card-text
           = fa_solid 'chair', 'text-primary fa-fw'
-          - if @reservation.minimum_met?
+          - if @seat.reservation.minimum_met?
             %span You can invite a total of #{@reservation.remaining_seats} additional guests
           - else
             %span
               You can invite a total of #{@reservation.remaining_seats} guests but are required to invite at
               least #{@reservation.remaining_seats_until_requirements_met} more to get your deposit back.
-        %p.card-text{'data-seat-wizard--sidebar-target': 'guestPaymentClause'}
+        %p.card-text{'data-seat-wizard-sidebar--component-target': 'guestPaymentClause'}
           = fa_solid 'usd-circle', 'text-primary fa-fw'
-          - if @reservation.paid_by_host?
+          - if @seat.reservation.paid_by_host?
             %span Pricing dependent upon guests selection
           - else
             %span Guest will pay for their seat after picking their project

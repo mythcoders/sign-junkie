@@ -1,46 +1,8 @@
-.row.justify-content-center.mt-3
-  .col
-    .card.mb-3
-      %h2.card-header.bg-primary.text-white.text-center
-        New Seat for #{@workshop.name}
+= render(SeatWizard::Component.new(seat: @seat, already_attending: @existing_seat_id != false)) do |component|
+  - component.with(:header) do
+    New Seat for #{@workshop.name}
 
-= form_tag(cart_index_path,
-           method: :post,
-           'data-controller': 'seat-wizard seat-wizard--sidebar',
-           'data-seat-wizard-workshop-id-value': @workshop.id,
-           'data-seat-wizard-active-class': 'active',
-           'data-seat-wizard-disabled-class': 'disabled') do
-
-  = hidden_field_tag 'cart[type]', 'seat'
-  = hidden_field_tag 'cart[workshop_id]', @workshop.id
-
-  .row
-    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard--sidebar-target': 'content'}
-
-    .col.order-1.order-md-2
-      .card
-        .card-header= render partial: 'seats/form/tabs'
-        #seatWizardTabs.tab-content
-          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-            = render(SeatWizardGuestTab::Component.new(@already_attending == false, @workshop.family_friendly?))
-
-          - %i[project stencil addon].each do |tab_name|
-            .tab-pane.fade{id: tab_name,
-                            role: "tabpanel",
-                            "aria-labelledby": "#{tab_name}-tab",
-                            'data-seat-wizard-target': "#{tab_name}TabContent"}
-
-          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            = render partial: 'seats/form/review', locals: { workshop: @workshop }
-
-  %template{'data-seat-wizard--sidebar-target': 'updateError'}
-    .card.card-sticky
-      .card-body
-        %p.card-text.text-info
-          There was an issue updating the sidebar. Don't worry, your selections are saved
-          and you can continue your project/stencil picking experience.
-
-  %template{'data-seat-wizard--sidebar-target': 'template'}
+  - component.with(:sidebar_template) do
     .card.card-sticky
       .card-body
         %p.card-text

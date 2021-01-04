@@ -1,0 +1,90 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center= header
+
+= form_tag(form_url, form_attributes) do
+  = hidden_field_tag 'cart[type]', 'seat'
+  = hidden_field_tag 'cart[workshop_id]', workshop.id
+
+  %template{'data-seat-wizard-sidebar--component-target': 'template'}= sidebar_template
+  %template{'data-seat-wizard-sidebar--component-target': 'updateError'}
+    .card.card-sticky
+      .card-body
+        %p.card-text.text-info
+          There was an issue updating the sidebar. Don't worry, your selections are saved
+          and you can continue your project/stencil picking experience.
+
+  .row
+    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard-sidebar--component-target': 'content'}
+
+    .col.order-1.order-md-2
+      .card
+        .card-header
+          %ul#seatWizardTabs.nav.nav-tabs.nav-justified.card-header-tabs{role: "tablist"}
+            %li.nav-item{role: "presentation"}
+              %a#guest-tab.nav-link.active{"aria-controls": "guest", "aria-selected": "true", "data-toggle": "tab",
+                                          href: "#guest", role: "tab", 'data-seat-wizard--component-target': 'guestTab'}
+                Step 1
+                %br
+                %i.fas.fa-user.fa-fw
+                Guest
+
+            %li.nav-item{role: "presentation"}
+              %a#project-tab.nav-link.disabled{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab",
+                                              href: "#project", role: "tab", 'data-seat-wizard--component-target': 'projectTab'}
+                Step 2
+                %br
+                %i.fas.fa-sign.fa-fw
+                Project
+
+            %li.nav-item{role: "presentation"}
+              %a#addon-tab.nav-link.disabled{"aria-controls": "addon", "aria-selected": "false", "data-toggle": "tab",
+                                            href: "#addon", role: "tab", 'data-seat-wizard--component-target': 'addonTab'}
+                Step 3
+                %br
+                %i.fas.fa-stamp.fa-fw
+                Add-on
+
+            %li.nav-item{role: "presentation"}
+              %a#stencil-tab.nav-link.disabled{"aria-controls": "stencil", "aria-selected": "false", "data-toggle": "tab",
+                                              href: "#stencil", role: "tab", 'data-seat-wizard--component-target': 'stencilTab'}
+                Step 4
+                %br
+                %i.fas.fa-swatchbook.fa-fw
+                Stencil
+
+            %li.nav-item{role: "presentation"}
+              %a#review-tab.nav-link.disabled{"aria-controls": "review", "aria-selected": "false", "data-toggle": "tab",
+                                              href: "#review", role: "tab", 'data-seat-wizard--component-target': 'reviewTab'}
+                Step 5
+                %br
+                Review
+
+        #seatWizardTabs.tab-content
+          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
+            = render(SeatWizardGuestTab::Component.new(allow_editing: @seat.persisted?,
+                                                       already_attending: @already_attending,
+                                                       allow_child: workshop.family_friendly?,
+                                                       reservation_mode: reservation_mode?))
+
+          -# if the selection has been made render the components with selections already made
+          - if @seat.selection_made?
+            #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel",
+                                   'data-seat-wizard--component-target': "projectTabContent"}
+              = render(SeatWizardProjectTab::Component.new(projects, @seat.project_id))
+
+            #addon.tab-pane.fade{"aria-labelledby": "addon-tab", role: "tabpanel",
+                                 'data-seat-wizard--component-target': "addonTabContent"}
+              = render(SeatWizardAddonTab::Component.new(project, @seat.addon_id))
+
+            #stencil.tab-pane.fade{"aria-labelledby": "stencil-tab", role: "tabpanel",
+                                   'data-seat-wizard--component-target': "stencilTabContent"}
+              = render(SeatWizardStencilTab::Component.new(project, @seat.stencils))
+          - else
+            - %i[project addon stencil].each do |tab_name|
+              .tab-pane.fade{id: tab_name, role: "tabpanel", "aria-labelledby": "#{tab_name}-tab",
+                             'data-seat-wizard--component-target': "#{tab_name}TabContent"}
+
+          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+            = render(SeatWizardReviewTab::Component.new(workshop))

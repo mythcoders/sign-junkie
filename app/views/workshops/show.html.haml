@@ -49,13 +49,13 @@
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
 
-            - if @already_hosting != false
+            - if @existing_reservation_id != false
               .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have booked a reservation for this workshop.
-                %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@already_hosting)}
+                %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@existing_reservation_id)}
                   View in Workshop Planner
             - else
               %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
@@ -76,13 +76,13 @@
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.seats_available} seats available"
 
-            - if @already_attending != false
+            - if @existing_seat_id != false
               .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have a seat for this workshop!
-                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@already_attending)}
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@existing_seat_id)}
                   View your seat
 
               %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}

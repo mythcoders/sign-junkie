@@ -1,11 +1,11 @@
-%div{'data-controller': 'seat-wizard--review'}
+%div{'data-controller': 'seat-wizard-review-tab--component'}
   .card-body
-    .alert.alert-warning.mt-2{'data-seat-wizard--review-target': 'disclaimer'}
+    .alert.alert-warning.mt-2{'data-seat-wizard-review-tab--component-target': 'disclaimer'}
       Please review your project selection. Changes can not be made once your order has been submitted.
 
-    .form-group.mt-2{'data-seat-wizard--review-target': 'acknowledgment'}
+    .form-group.mt-2{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
       .custom-switch.custom-control
-        = check_box_tag :covid19_acknowledgment, :covid19_acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard--review-target': 'input'
+        = check_box_tag :covid19_acknowledgment, :covid19_acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
         = label_tag :covid19_acknowledgment, 'COVID-19 Acknowledgement', class: 'custom-control-label'
       %p.form-control-plaintext.text-info
         Due to COVID-19 I understand that I MUST have my temperature taken upon arrival
@@ -13,34 +13,34 @@
         entire workshop. If I DO NOT comply I will NOT be able to attend this workshop and will
         NOT receive a refund.
 
-    .form-group{'data-seat-wizard--review-target': 'acknowledgment'}
+    .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
       .custom-switch.custom-control
-        = check_box_tag :acknowledgment, :acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard--review-target': 'input'
+        = check_box_tag :acknowledgment, :acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
         = label_tag :acknowledgment, 'Acknowledgment', class: 'custom-control-label'
       %p.form-control-plaintext
         I understand this is a Wood Workshop, so my sign MAY HAVE random cracks, chips, knots, and
         other NATURAL blemishes that give it it’s characteristics.
 
-    .form-group{'data-seat-wizard--review-target': 'acknowledgment'}
+    .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
       .custom-switch.custom-control
-        = check_box_tag :design_confirmation, :design_confirmation, false, class: 'custom-control-input', required: true, 'data-seat-wizard--review-target': 'input'
+        = check_box_tag :design_confirmation, :design_confirmation, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
         = label_tag :design_confirmation, 'Design Confirmation', class: 'custom-control-label'
       %p.form-control-plaintext
         I have entered the correct design and/or customization info. I userstand that NO CHANGES
         can be made to my design choice OR any personalization once my reservation is submitted.
 
-    .form-group{'data-seat-wizard--review-target': 'acknowledgment'}
+    .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
       .custom-switch.custom-control
-        = check_box_tag :policy_agreement, :policy_agreement, false, class: 'custom-control-input', required: true, 'data-seat-wizard--review-target': 'input'
+        = check_box_tag :policy_agreement, :policy_agreement, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
         = label_tag :policy_agreement, 'Policy Agreement', class: 'custom-control-label'
       %p.form-control-plaintext
         I have read and agree to the
-        %a{href: workshop_policies_path(workshop)}= "#{workshop.workshop_type.name} Workshop Policies."
+        %a{href: workshop_policies_path(@workshop)}= "#{@workshop.workshop_type.name} Workshop Policies."
         I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
         in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
         later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
         I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
   .card-footer.card-sticky-footer
     %button.btn.btn-success.btn-block{type: 'submit'}
-      = fa_solid 'cart-plus'
-      %span{'data-seat-wizard--review-target': 'submitMessage'} Add to Cart
+      %i.fas.fa-cart-plus
+      %span{'data-seat-wizard-review-tab--component-target': 'submitMessage'} Add to Cart

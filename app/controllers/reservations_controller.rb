@@ -22,8 +22,9 @@ class ReservationsController < ApplicationController
 
   def set_reservation
     @reservation = Reservation
-                   .includes(seats: [:customer, { description: :invoice_items }])
+                   .includes(seats: [:customer, { description: :invoice_item }])
                    .attending_or_hosting(current_user.id)
                    .find params[:id]
+  end
   end
 end

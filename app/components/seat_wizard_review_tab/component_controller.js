@@ -1,4 +1,4 @@
-import ApplicationController from "../application_controller"
+import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
   static targets = ["acknowledgment", "disclaimer", "input", "submitMessage"]

@@ -1,115 +1,24 @@
-.row
-  .col-12.col-md-6.mb-2.order-2.order-md-1
-    .row
-      - if @seat.workshop.workshop_images.any?
-        .col-12.d-flex.justify-content-center
-          %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@seat.workshop.name}",
-            src: url_for(@seat.workshop.workshop_images.first), 'data-js-img-gallery-preview': ''}
-        - @seat.workshop.workshop_images.each do |img|
-          .workshop-img-item
-            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
-      - else
-        .col-12
-          %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@seat.workshop.name}",
-            src: asset_path('cover.jpg'), 'data-js-img-gallery-preview': ''}
+= render(SeatWizard::Component.new(seat: @seat, already_attending: false)) do |component|
+  - component.with(:header) do
+    = @reservation.title
 
-  .col-12.col-md-6.mb-2.order-1.order-md-2
-    .card
-      %h3.card-header.bg-primary.text-white #{@seat.name} seat for #{@seat.workshop.name}
+  - component.with(:sidebar_template) do
+    .card.card-sticky
       .card-body
         %p.card-text
-          = fa_solid 'toolbox', 'text-primary fa-fw'
-          #{@seat.workshop.workshop_type.name} Workshop on #{@seat.workshop.when}
-        - if @seat.reservation
-          %p.card-text.text-info
-            = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-            - if @seat.reservation.paid_by_host?
-              Project and stencil must be selected by #{special_date @seat.reservation.workshop.registration_deadline}
-            - else
-              Project and stencil must be selected and paid for by #{special_date @seat.reservation.payment_deadline}
-
-        = form_for :cart, url: reservation_seat_path(@seat.reservation, @seat), method: :patch do |f|
-          = f.hidden_field :workshop_id, value: @seat.workshop_id
-          = f.hidden_field :org_stencil_id, value: @seat.stencil_id
-          = f.hidden_field :org_stencil_personalization, value: @seat.stencil_personalization
-          = f.hidden_field :org_addon_id, value: @seat.addon_id
-
-          %p.card-text
-            = fa_solid 'usd-circle', 'text-primary fa-fw'
-            %span#total-price Select a project to see pricing
-            %input{id: 'base-price', value: '0.00', type: 'hidden'}
-          .form-row
-            .form-group.col
-              = fa_solid 'sign', 'text-primary fa-fw'
-              = f.label :project
-              = f.select :project_id,
-                  options_from_collection_for_select(@seat.workshop.projects.active, 'id', 'name', @seat.project_id),
-                  { include_blank: '- Please Select -' },
-                  { class: 'form-control custom-select', 'data-js-change-project': '', required: true }
-          .form-row
-            .form-group.col
-              = fa_solid 'swatchbook', 'text-primary fa-fw'
-              = f.label :stencil_design
-              .input-group
-                = f.select :stencil_id,
-                    options_from_collection_for_select([], 'id', 'name'),
-                    { include_blank: '- Select Project -' },
-                    { class: 'form-control custom-select', 'data-js-change-stencil': '', required: true, 'data-js-stencil': @seat.stencil_id }
-                .input-group-append
-                  %a.btn.btn-outline-secondary.disabled{href: '#', 'data-js-project-preview': '', target: '_blank'} Preview
-          %div{'data-js-custom-stencil-info': '', style: 'display: none;'}
-            .form-row
-              .form-group.col
-                = fa_solid 'palette', 'text-primary fa-fw'
-                = f.label :stencil_personalization
-                = f.text_field :stencil, class: 'form-control', disabled: true, 'data-js-custom-stencil-input': '',
-                    autocomplete: false, value: @seat.stencil_personalization
-                %p.form-text.text-muted
-                  Please enter your information for personalization shown on the design you have chosen, this includes
-                  any names, dates, city, state, gps coordinates, etc.
-          .form-row
-            .form-group.col
-              = fa_solid 'stamp', 'text-primary fa-fw'
-              = f.label :addons, 'Add-on'
-              = f.select :addon_id,
-                  options_from_collection_for_select([], 'id', 'name'),
-                  { include_blank: '- Select Project -' },
-                  { class: 'form-control custom-select', 'data-js-change-addon': '', 'data-js-addon': @seat.addon_id }
-          .form-row
-            .form-group.col
-              = fa_solid 'chair', 'text-primary fa-fw'
-              = f.label :seating_preference
-              = f.text_field :seating, class: 'form-control', autocomplete: false, value: @seat.seat_preference
-          %hr
-          .form-row
-            .form-group.col
-              .custom-switch.custom-control
-                = f.check_box :acknowledgment, class: 'custom-control-input', required: 'required'
-                = f.label :acknowledgment, class: 'custom-control-label'
-              %p.form-control-plaintext
-                I understand this is a Wood Workshop, so my sign MAY HAVE random cracks, chips, knots, and
-                other NATURAL blemishes that give it it’s characteristics.
-          .form-row
-            .form-group.col
-              .custom-switch.custom-control
-                = f.check_box :design_confirmation, class: 'custom-control-input', required: 'required'
-                = f.label :design_confirmation, class: 'custom-control-label'
-              %p.form-control-plaintext
-                I have entered the correct design and/or customization info. I userstand that NO CHANGES
-                can be made to my design choice OR any personalization once my reservation is submitted.
-          .form-row
-            .form-group.col
-              .custom-switch.custom-control
-                = f.check_box :policy_agreement, class: 'custom-control-input', required: 'required'
-                = f.label :policy_agreement, class: 'custom-control-label'
-              %p.form-control-plaintext
-                I have read and agree to the
-                %a{href: policies_path} Workshop Policies.
-                I understand that because projects at Sign Junkie are hand-made, there is a NO REFUND policy
-                in place. If I must cancel my reservation I must find someone to come in my place. If I arrive
-                later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
-                I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
-
-          %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
-            = fa_solid 'save'
-            Reserve Seat and Project
+          = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+          %span= "Selections must be made by #{lifp @reservation.workshop.registration_deadline}"
+        %p.card-text
+          = fa_solid 'chair', 'text-primary fa-fw'
+          - if @reservation.minimum_met?
+            %span You can invite a total of #{@reservation.remaining_seats} additional guests
+          - else
+            %span
+              You can invite a total of #{@reservation.remaining_seats} guests but are required to invite at
+              least #{@reservation.remaining_seats_until_requirements_met} more to get your deposit back.
+        %p.card-text{'data-seat-wizard-sidebar--component-target': 'guestPaymentClause'}
+          = fa_solid 'usd-circle', 'text-primary fa-fw'
+          - if @reservation.paid_by_host?
+            %span Pricing dependent upon guests selection
+          - else
+            %span Guest will pay for their seat after picking their project
