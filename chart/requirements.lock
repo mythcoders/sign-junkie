@@ -2,5 +2,5 @@ dependencies:
   - name: postgresql
     repository: https://gitlab-org.gitlab.io/cluster-integration/helm-stable-archive
     version: 0.7.1
-digest: sha256:358ce85fe4d3461ea6bb96713470a80de9c1324214a2e6f97d800298c02530e2
-generated: "2019-08-13T01:08:26.652168-04:00"
+digest: sha256:0a7e2f279e3b8063cfe6365a56601227ff8934fa70a0434df0485bce9590be56
+generated: "2020-10-21T09:35:20.464079556+07:00"
