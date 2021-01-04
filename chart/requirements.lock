@@ -1,6 +1,6 @@
 dependencies:
-- name: postgresql
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.7.1
+  - name: postgresql
+    repository: https://gitlab-org.gitlab.io/cluster-integration/helm-stable-archive
+    version: 0.7.1
 digest: sha256:358ce85fe4d3461ea6bb96713470a80de9c1324214a2e6f97d800298c02530e2
 generated: "2019-08-13T01:08:26.652168-04:00"
