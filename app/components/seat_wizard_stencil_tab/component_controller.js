@@ -93,7 +93,7 @@ export default class extends ApplicationController {
     this.personalizationTargets.forEach((e) => { e.hidden = true })
     this.optionTargets.forEach((e) => {
       e.classList.remove(this.activeClass)
-      e.dataset.selected = false
+      e.dataset.selected = 'false'
     })
   }
 

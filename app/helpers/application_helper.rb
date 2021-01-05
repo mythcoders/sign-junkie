@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include IconHelper
+  include Turbo::IncludesHelper
 
   def admin?
     controller.class.superclass == Admin::ApplicationController
