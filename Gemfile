@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 gem 'aasm'
+gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
 gem 'braintree'
 gem 'deep_cloneable'
