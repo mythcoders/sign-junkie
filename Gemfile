@@ -50,6 +50,7 @@ end
 
 group :development, :test do
   gem 'bundler-audit'
+  gem 'capybara'
   gem 'factory_bot_rails'
   gem 'guard-rspec'
   gem 'rails-controller-testing'
@@ -70,6 +71,11 @@ group :development, :test do
   gem 'pry-rails'
   gem 'ruby-debug-ide'
 end
+
+group :test do
+   gem 'selenium-webdriver'
+   gem 'webdrivers', '~> 4.0', require: false
+ end
 
 group :development do
   gem 'better_errors'
