@@ -17,6 +17,7 @@ build:
 
 test:
   stage: test
+  needs: ["build"]
   image: $CONTAINER_IMAGE
   services:
     - postgres:latest
