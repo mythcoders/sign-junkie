@@ -3,7 +3,6 @@
 module Admin
   class StencilCategoriesController < AdminController
     before_action :set_category, only: %i[update edit destroy]
-    before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
       @q = StencilCategory.ransack(params[:q])
@@ -22,7 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity, status: :unprocessable_entity
       end
     end
 
@@ -31,7 +30,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 

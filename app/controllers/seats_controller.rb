@@ -20,7 +20,7 @@ class SeatsController < ApplicationController
   def create
     @seat = Seat.new(reservation: @reservation, workshop: @reservation.workshop)
 
-    if SeatService::Something.perform(@seat, current_user, seat_params)
+    if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('create.success')
 
       if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
@@ -31,12 +31,12 @@ class SeatsController < ApplicationController
       end
     else
       flash[:error] = t('seat.create.failure')
-      # return some error
+      render 'new', status: :unprocessable_entity
     end
   end
 
   def update
-    if SeatService::Something.perform(@seat, current_user, seat_params)
+    if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('update.success')
 
       if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
@@ -47,7 +47,7 @@ class SeatsController < ApplicationController
       end
     else
       flash[:error] = t('update.failure')
-      # return some error
+      render 'edit', status: :unprocessable_entity
     end
   end
 

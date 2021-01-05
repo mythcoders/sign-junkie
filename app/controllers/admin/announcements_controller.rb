@@ -21,7 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_announcement_path @announcement
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -30,7 +30,7 @@ module Admin
         flash[:success] = t('update.success')
         redirect_to admin_announcement_path @announcement
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 

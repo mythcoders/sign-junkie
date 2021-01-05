@@ -29,7 +29,7 @@ module Admin
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -39,7 +39,7 @@ module Admin
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 

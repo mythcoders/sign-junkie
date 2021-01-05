@@ -1,8 +1,26 @@
 #### 2101 - January ??, 2021
 
+- Improvements
+  - Redesigned reservation and seat selection experience
+  - Redesigned seat management in Workshop Planner
+  - Easier for hosts to purchase seats for themselves
+  - When purchasing a seat, Guests now explicitly say if a seat belongs to a child
+  - When signing in users now have the option to have their email remembered
 - Admin Portal Improvements
-  - Several search screens received an overhaul
+  - Announcements can be created and displayed to customers on the main page
+  - Projects can be configured to allow for multiple stencils or to be only for children
   - All Refunds can now be viewed by an individual screen
+  - Search screens filters were changed and links are now more explicit
+  - When adding or editing a Workshop, you now have the option to select all projects
+  - It's now easier to tell who has paid and who hasn't when looking at seats in a Workshop
+  - Removed parent category for stencil categories
+  - When creating or updating a record incorrect fields are now highlighted in red
+  - Various interface improvements to improve consistency
+- Technical features and improvements
+  - New technology called Turbo speeds up page rendering
+  - Emails are now tracked and delivered by the MythCoders email service, Hermes
+  - Rewrote large portions of old JavaScript code
+  - Security and other updates
 
 #### 2009.1 - September 10, 2020
 

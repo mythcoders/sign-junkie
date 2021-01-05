@@ -3,7 +3,7 @@
 module SeatService
 
   # called when updating a seat on a reservation
-  class Something
+  class Updater
     def initialize(seat, current_user, params)
       @seat = seat
       @current_user = current_user

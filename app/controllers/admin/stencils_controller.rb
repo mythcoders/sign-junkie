@@ -23,7 +23,7 @@ module Admin
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -33,7 +33,7 @@ module Admin
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 

@@ -22,7 +22,7 @@ module Admin
         redirect_to admin_customer_path @customer
       else
         disabled_roles
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -32,7 +32,7 @@ module Admin
         redirect_to admin_customer_path @customer
       else
         disabled_roles
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
