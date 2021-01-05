@@ -19,7 +19,7 @@ module SeatWizard
     end
 
     def projects
-      @projects ||= @seat.workshop.projects.active
+      @projects ||= @seat.for_child? ? @seat.workshop.projects.where(only_for_children: true).active : @seat.workshop.projects.active
     end
 
     def project
