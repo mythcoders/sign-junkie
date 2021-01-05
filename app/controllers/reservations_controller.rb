@@ -26,5 +26,4 @@ class ReservationsController < ApplicationController
                    .attending_or_hosting(current_user.id)
                    .find params[:id]
   end
-  end
 end
