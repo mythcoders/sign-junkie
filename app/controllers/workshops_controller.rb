@@ -24,7 +24,7 @@ class WorkshopsController < ApplicationController
 
   def seat
     # TODO: redirect somewhere if no seat purchase
-    @seat = OpenStruct.new(workshop: @workshop, selection_made?: false, persisted?: false)
+    @seat = OpenStruct.new(workshop: @workshop, selection_made?: false, persisted?: false, guest_type: nil)
   end
 
   def reservation

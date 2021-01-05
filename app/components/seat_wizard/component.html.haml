@@ -60,10 +60,11 @@
 
         #seatWizardTabs.tab-content
           #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
-            = render(SeatWizardGuestTab::Component.new(allow_editing: @seat.persisted?,
+            = render(SeatWizardGuestTab::Component.new(allow_editing: !@seat.persisted?,
                                                        existing_seat_id: @existing_seat_id,
                                                        allow_child: workshop.family_friendly?,
-                                                       reservation_mode: reservation_mode?))
+                                                       reservation_mode: reservation_mode?,
+                                                       seat: @seat))
 
           #project.tab-pane.fade{'data-seat-wizard--component-target': "projectTabContent", "aria-labelledby": "project-tab", role: "tabpanel"}
             = render(SeatWizardProjectTab::Component.new(projects, @seat.project_id)) if @seat.selection_made?
@@ -76,3 +77,5 @@
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
             = render(SeatWizardReviewTab::Component.new(workshop))
+
+= form_attributes

@@ -24,10 +24,12 @@ export default class extends ApplicationController {
 
   connect() {
     if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.hidden = true }
+    if (this.hasGuestInfoTarget) {
+      this.emailAddressTarget.disabled = true
+      this.guestInfoAlertTarget.hidden = true
+      this.guestInfoTarget.hidden = true
+    }
     this.seatRequestAreaTarget.hidden = true
-    this.guestInfoTarget.hidden = true
-    this.emailAddressTarget.disabled = true
-    this.guestInfoAlertTarget.hidden = true
     this.nextButtonTarget.classList.add('disabled')
   }
 
@@ -79,9 +81,11 @@ export default class extends ApplicationController {
   }
 
   updateUI() {
-    this.showHideChildInfo()
-    this.showHideEmailAddress()
-    this.showHideGuestInfo()
+    if (this.hasGuestInfoTarget) {
+      this.showHideEmailAddress()
+      this.showHideGuestInfo()
+    }
+    if (this.hasChildInfoTarget) { this.showHideChildInfo() }
     if (this.hasPurchaseModeAreaTarget) { this.showHidePurchaseMode() }
   }
 
@@ -111,7 +115,7 @@ export default class extends ApplicationController {
   }
 
   isComplete() {
-    let guestInfoRequired = this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
+    let guestInfoRequired = this.hasGuestInfoTarget && this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
     let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
 
     if (this.guestTypeValue === '') {
@@ -170,9 +174,9 @@ export default class extends ApplicationController {
       "My guest would like to sit next to someone specific"
 
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
-      this.guestInfoTarget.hidden = true
       this.guestFirstNameTarget.required = false
       this.guestLastNameTarget.required = false
+      this.guestInfoTarget.hidden = true
       this.guestInfoAlertTarget.hidden = true
     } else {
       this.guestInfoHeaderTarget.innerHTML = this.guestTypeValue === 'child' ? "Parent Information" : "Guest Information"

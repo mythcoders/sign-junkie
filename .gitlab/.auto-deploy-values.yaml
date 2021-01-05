@@ -1,35 +1,10 @@
 replicaCount: 1
-image:
-  repository: gitlab.example.com/group/project
-  tag: stable
-  pullPolicy: Always
-  secrets:
-    - name: gitlab-registry
-podAnnotations: {}
-application:
-  track: stable
-  tier: web
-  migrateCommand:
-  initializeCommand:
-  secretName:
-  secretChecksum:
 hpa:
   enabled: false
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-gitlab:
-  app:
-  env:
-  envName:
 service:
-  enabled: true
-  annotations: {}
-  name: web
-  type: ClusterIP
-  url: https://my.host.com/
-  additionalHosts:
-  commonName:
   externalPort: 5000
   internalPort: 5000
 ingress:
@@ -51,17 +26,7 @@ readinessProbe:
   scheme: "HTTP"
 postgresql:
   enabled: true
-resources:
-#  limits:
-#    cpu: 100m
-#    memory: 128Mi
-  requests:
-#    cpu: 100m
-#    memory: 128Mi
 
-## Configure PodDisruptionBudget
-## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
-#
 podDisruptionBudget:
   enabled: false
   # minAvailable: 1

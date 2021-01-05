@@ -23,20 +23,19 @@ module SeatService
 
     def child_owner_attributes
       {
-        type: 'child',
+        type: @params.guest_type,
         first_name: @params.child_first_name,
         last_name: @params.child_last_name,
-        parent: {
-          first_name: @params.first_name,
-          last_name: @params.last_name,
-          email: @params.email
-        }
+        parent: owner_attributes
       }
     end
 
     def adult_owner_attributes
+      owner_attributes.merge(type: @params.guest_type)
+    end
+
+    def owner_attributes
       {
-        type: 'adult',
         first_name: @params.first_name,
         last_name: @params.last_name,
         email: @params.email

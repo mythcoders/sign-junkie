@@ -35,6 +35,7 @@ module SeatWizard
         method: @seat.persisted? ? :patch : :post,
         'data-controller': 'seat-wizard--component seat-wizard-sidebar--component',
         'data-seat-wizard--component-addon-id-value': addon_value,
+        'data-seat-wizard--component-guest-type-value': @seat.guest_type,
         'data-seat-wizard--component-project-value': project_value.to_json,
         'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? 'now' : '',
         'data-seat-wizard--component-stencils-value': stencils_value,
@@ -43,6 +44,8 @@ module SeatWizard
         'data-seat-wizard--component-disabled-class': 'disabled'
       }
     end
+
+    private
 
     def form_url
       if @seat.persisted?
@@ -64,10 +67,6 @@ module SeatWizard
 
     def addon_value
       @seat.selection_made? ? @seat.addon_id : nil
-    end
-
-    def guest_type
-      nil
     end
 
     # converts the database value to something that's in the HTML input field

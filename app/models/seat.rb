@@ -18,8 +18,8 @@ class Seat < ApplicationRecord
   validates_presence_of :user_id
 
   def name
-    if first_name.present?
-      "#{first_name} #{last_name}"
+    if owner.first_name.present?
+      "#{owner.first_name} #{owner.last_name}"
     elsif customer.nil?
       'Unassigned'
     else
@@ -52,5 +52,13 @@ class Seat < ApplicationRecord
     return false unless editable?(user)
 
     true
+  end
+
+  def guest_type
+    if persisted?
+      owner.nil? ? 'self' : owner.type
+    else
+      nil
+    end
   end
 end

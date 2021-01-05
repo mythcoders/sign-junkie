@@ -1,6 +1,0 @@
-apiVersion: v1
-appVersion: "1910"
-description: A Helm chart for Apollo
-name: apollo
-version: 1.1.0
-home: https://www.mythcoders.com
