@@ -11,9 +11,9 @@
         = f.hidden_field :id
         .form-group
           = f.label :effective_date, class: 'col-form-label'
-          #effectivepicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-            = f.text_field :effective_date, value: lifp(@tax_rate.effective_date), class: 'form-control datetimepicker-input', 'data-target': '#effectivepicker'
-            .input-group-append{"data-target": "#effectivepicker", "data-toggle": "datetimepicker"}
+          .input-group.date
+            = f.text_field :effective_date, value: lifp(@tax_rate.effective_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+            .input-group-append
               .input-group-text
                 = fa_regular 'calendar'
         .form-group

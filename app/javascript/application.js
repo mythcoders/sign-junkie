@@ -10,8 +10,10 @@ application.load(
   )
 )
 
+import Flatpickr from 'stimulus-flatpickr'
+application.register('flatpickr', Flatpickr)
+
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-import 'flatpickr/dist/flatpickr'
 import 'helpers/sentry_helpers'
 
 // document.addEventListener('turbo:load', () => {

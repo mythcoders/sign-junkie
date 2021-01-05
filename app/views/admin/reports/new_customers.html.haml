@@ -20,17 +20,17 @@
           .form-row
             .form-group
               = label_tag :start_date, nil, class: 'col-form-label'
-              #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-                = text_field_tag :start_date, value: params[:start_date], class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
-                .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
+              .input-group.date
+                = text_field_tag :start_date, value: params[:start_date], class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+                .input-group-append
                   .input-group-text
                     = fa_regular 'calendar'
           .form-row
             .form-group
               = label_tag :end_date, nil, class: 'col-form-label'
-              #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-                = text_field_tag :end_date, value: params[:end_date], class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
-                .input-group-append{"data-target": "#endpicker", "data-toggle": "datetimepicker"}
+              .input-group.date
+                = text_field_tag :end_date, value: params[:end_date], class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+                .input-group-append
                   .input-group-text
                     = fa_regular 'calendar'
         .card-footer
