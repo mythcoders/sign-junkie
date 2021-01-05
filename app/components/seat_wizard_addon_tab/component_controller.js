@@ -2,18 +2,18 @@ import ApplicationController from "../../javascript/controllers/application_cont
 
 export default class extends ApplicationController {
   static values = { addonId: String }
-  static targets = ["addon", "addonField"]
+  static targets = ["addon", "input"]
   static classes = ["active"]
-
 
   toggle(e) {
     e.preventDefault()
 
-    let element = e.currentTarget
-    element.dataset.selected = !element.dataset.selected
     this.addonIdValue = element.dataset.id
+    this.notifySeatWizard()
+  }
 
-    this.addonFieldTarget.value = this.addonIdValue
+  addonIdValueChanged() {
+    this.inputTarget.value = this.addonIdValue
     this.addonTargets.forEach((element) => {
       if (element.dataset.id === this.addonIdValue) {
         element.classList.add(this.activeClass)
@@ -21,8 +21,6 @@ export default class extends ApplicationController {
         element.classList.remove(this.activeClass)
       }
     })
-
-    this.notifySeatWizard()
   }
 
   // private

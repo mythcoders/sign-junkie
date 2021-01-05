@@ -1,11 +1,8 @@
-%div{'data-controller': 'seat-wizard-project-tab--component',
-     'data-seat-wizard-project-tab--component-active-class': 'bg-teal-light',
-     'data-seat-wizard-project-tab--component-disabled-class': 'disabled'}
-
+%div{data_attributes}
   .card-body.mt-2
     %h5.card-title Select your project
 
-    = hidden_field_tag 'cart[project_id]', @selected_id, 'data-seat-wizard-project-tab--component-target': 'input'
+    = hidden_field_tag 'cart[project_id]', nil, 'data-seat-wizard-project-tab--component-target': 'input'
 
     .row
       - @projects.each do |project|

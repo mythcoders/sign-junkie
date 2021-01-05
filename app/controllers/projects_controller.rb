@@ -19,11 +19,15 @@ class ProjectsController < ApplicationController
 
   def addons
     @project = Project.includes(:addons).find params[:id]
+    @selection = params[:selection]
+
     render layout: false
   end
 
   def stencils
     @project = Project.includes(:stencils).find params[:id]
+    @selection = params[:selection]
+
     render layout: false
   end
 

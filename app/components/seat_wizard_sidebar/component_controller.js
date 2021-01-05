@@ -6,7 +6,6 @@ export default class extends ApplicationController {
 
   initialize() {
     this.registerCallbacks()
-    this.reset()
   }
 
   refresh(data) {

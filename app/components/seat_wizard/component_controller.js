@@ -8,16 +8,7 @@ export default class extends ApplicationController {
   static classes = ["active", "disabled"]
 
   initialize() {
-    this.element[this.identifier] = this
     this.registerCallbacks()
-    this.purchaseModeValue = undefined
-
-    if (this.projectValue.id !== undefined) {
-      this.refreshSidebar()
-      this.updateProjectContent(false) // what is the actual guest type?
-      this.updateAddonContent()
-      this.updateStencilContent()
-    }
   }
 
   registerCallbacks() {
@@ -105,14 +96,20 @@ export default class extends ApplicationController {
     }
 
     if (this.projectValue.addons) {
-      this.updateAddonContent()
       this.addonTabTarget.classList.remove(this.disabledClass)
     } else {
       this.addonTabTarget.classList.add(this.disabledClass)
     }
 
-    this.refreshSidebar()
-    this.updateStencilContent()
+    if (!this.projectValue.preselected) {
+      if (this.projectValue.addons) {
+        this.updateAddonContent()
+      }
+
+      this.updateStencilContent()
+      this.refreshSidebar()
+    }
+
     this.stencilTabTarget.classList.remove(this.disabledClass)
     this.reviewTabTarget.classList.add(this.disabledClass)
   }
@@ -151,8 +148,6 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
       this.stencilTabTarget.classList.add(this.disabledClass)
       this.reviewTabTarget.classList.remove(this.disabledClass)
-    } else {
-      console.error('unknown purchase mode: ' + this.purchaseModeValue)
     }
   }
 

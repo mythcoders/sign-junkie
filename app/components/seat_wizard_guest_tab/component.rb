@@ -2,11 +2,15 @@
 
 module SeatWizardGuestTab
   class Component < ViewComponent::Base
-    def initialize(allow_editing:, already_attending:, allow_child:, reservation_mode:)
+    def initialize(allow_editing:, existing_seat_id:, allow_child:, reservation_mode:)
       @allow_editing = allow_editing
-      @already_attending = already_attending
+      @existing_seat_id = existing_seat_id
       @allow_child = allow_child
       @reservation_mode = reservation_mode
+    end
+
+    def already_attending?
+      @existing_seat_id != 0
     end
   end
 end

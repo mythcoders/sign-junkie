@@ -5,6 +5,7 @@ module SeatWizardNavLink
     def initialize(name, disabled:, active:)
       @name = name
       @disabled = disabled
+      @active = active
     end
 
     with_content_areas :body

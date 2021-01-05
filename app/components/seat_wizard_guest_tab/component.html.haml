@@ -9,7 +9,7 @@
 
     .form-group
       .custom-control.custom-radio
-        - if @self_enabled
+        - if !already_attending?
           %input#self.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "self",
                                            'data-seat-wizard-guest-tab--component-target': 'guestType',
                                            'data-action': "seat-wizard-guest-tab--component#toggleGuestType"}
@@ -18,7 +18,7 @@
           %input.custom-control-input{type: "radio", disabled: true}
           %label.custom-control-label
             Myself
-            %br= link_to t('seat_wizard.guest_type.self_disabled'), seat_path(0)
+            %br= link_to t('seat_wizard.guest_type.self_disabled'), seat_path(@existing_seat_id)
 
       .custom-control.custom-radio
         %input#adult.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "adult",

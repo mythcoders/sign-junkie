@@ -43,11 +43,15 @@ export default class extends ApplicationController {
     } else {
       this.purchaseModeValue = 'now'
     }
+
+    this.notifyWizard()
   }
 
   togglePurchaseMode(e) {
     this.purchaseModeValue = e.currentTarget.checked ? 'now' : 'later'
+
     this.updateUI() // always trigger
+    this.notifyWizard()
   }
 
   toggleSeatRequest(e) {
@@ -57,6 +61,7 @@ export default class extends ApplicationController {
 
   toggleIsParent(e) {
     this.isParentValue = e.currentTarget.checked
+    this.notifyWizard()
   }
 
   // private
@@ -78,12 +83,13 @@ export default class extends ApplicationController {
     this.showHideEmailAddress()
     this.showHideGuestInfo()
     if (this.hasPurchaseModeAreaTarget) { this.showHidePurchaseMode() }
-    this.notifyWizard()
   }
 
   notifyWizard() {
     if (!this.isComplete()) {
       this.nextButtonTarget.classList.add('disabled')
+
+      // do we always want to do this?!
       document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
     } else {
       if (this.purchaseModeValue === 'now') {

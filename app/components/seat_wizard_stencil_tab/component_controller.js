@@ -42,6 +42,7 @@ export default class extends ApplicationController {
     }
 
     this.stencilsValue = newStencils
+    this.notifySeatWizard()
   }
 
   togglePlainOption(e) {
@@ -64,28 +65,31 @@ export default class extends ApplicationController {
     this.stencilsValue = newStencils
   }
 
+  get separatedInputValue() {
+    let returnValue = ''
+    for (const [key, value] of Object.entries(this.stencilsValue)) {
+      // format: stencil_id|customization::
+      returnValue += `${key}|${value}::`
+    }
+    return returnValue
+  }
+
   // private
 
   stencilsValueChanged() {
-    this.inputTarget.value = ''
-    for (const [key, value] of Object.entries(this.stencilsValue)) {
-      // format: stencil_id|customization::
-      this.inputTarget.value += `${key}|${value}::`
-    }
-
+    this.inputTarget.value = this.separatedInputValue
     if (Object.keys(this.stencilsValue).length === this.maxStencilsValue) {
       this.nextButtonTarget.classList.remove(this.disabledClass)
     }
 
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
-    this.notifySeatWizard()
   }
 
   reset() {
     this.stencilsValue = {}
-
     this.notifySeatWizard()
+
     this.personalizationTargets.forEach((e) => { e.hidden = true })
     this.optionTargets.forEach((e) => {
       e.classList.remove(this.activeClass)
@@ -95,7 +99,7 @@ export default class extends ApplicationController {
 
   notifySeatWizard() {
     document.dispatchEvent(new CustomEvent('SeatWizard:updateStencils', {
-      detail: this.inputTarget.value
+      detail: this.separatedInputValue
     }))
   }
 

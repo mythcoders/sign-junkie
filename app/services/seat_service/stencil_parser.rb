@@ -2,6 +2,8 @@
 
 module SeatService
   class StencilParser
+    PLAIN_STENCIL_KEY = 'PLAIN_STENCIL'
+
     def initialize(project_id)
       @project = Project.find project_id
     end
@@ -10,10 +12,11 @@ module SeatService
       new(project_id).parse(input)
     end
 
+    # converts the HTML field value to a hash that can be saved in the database
     def parse(input)
       input.split('::').map do |item|
         id, personalization = item.split('|')
-        return plain_stencil_option if id == 'PLAIN_STENCIL'
+        return plain_stencil_option if id == PLAIN_STENCIL_KEY
 
         stencil = @project.stencils.find id
         {

@@ -11,14 +11,11 @@ export default class extends ApplicationController {
     this.projectIdValue = e.currentTarget.dataset.id
     this.hasAddonsValue = e.currentTarget.dataset.activeAddons !== undefined
 
-    this.inputTarget.value = this.projectIdValue
-    this.nextButtonTarget.classList.remove(this.disabledClass)
-    if (this.hasAddonsValue) {
-      this.nextButtonTarget.dataset.destination = 'addon'
-    } else {
-      this.nextButtonTarget.dataset.destination = 'stencil'
-    }
+    this.notifySeatWizard()
+  }
 
+  projectIdValueChanged() {
+    this.inputTarget.value = this.projectIdValue
     this.optionTargets.forEach((element) => {
       if (element.dataset.id === this.projectIdValue) {
         element.classList.add(this.activeClass)
@@ -26,15 +23,23 @@ export default class extends ApplicationController {
         element.classList.remove(this.activeClass)
       }
     })
+    this.nextButtonTarget.classList.remove(this.disabledClass)
+  }
 
-    this.notifySeatWizard()
+  hasAddonsValueChanged() {
+    if (this.hasAddonsValue) {
+      this.nextButtonTarget.dataset.destination = 'addon'
+    } else {
+      this.nextButtonTarget.dataset.destination = 'stencil'
+    }
   }
 
   notifySeatWizard() {
     document.dispatchEvent(new CustomEvent('SeatWizard:updateProject', {
       detail: {
         id: this.projectIdValue,
-        addons: this.hasAddonsValue
+        addons: this.hasAddonsValue,
+        preselected: false
       }
     }))
   }

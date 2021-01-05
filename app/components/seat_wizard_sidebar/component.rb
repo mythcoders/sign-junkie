@@ -5,7 +5,7 @@ module SeatWizardSidebar
     def initialize(project, addon, stencils)
       @project = project
       @addon = addon
-      @stencils = stencils
+      @stencils = stencils&.collect { |h| HashWithIndifferentAccess.new h }
     end
 
     def total_price

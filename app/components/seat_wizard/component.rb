@@ -4,9 +4,9 @@ module SeatWizard
   class Component < ViewComponent::Base
     extend Forwardable
 
-    def initialize(seat:, already_attending:)
+    def initialize(seat:, existing_seat_id:)
       @seat = seat
-      @already_attending = already_attending
+      @existing_seat_id = existing_seat_id
     end
 
     def_delegators :@seat, :reservation
@@ -26,12 +26,19 @@ module SeatWizard
       @project ||= projects.find @seat.project_id
     end
 
+    def addon
+      @addon ||= project.addons.find @seat.addon_id
+    end
+
     def form_attributes
       {
         method: @seat.persisted? ? :patch : :post,
         'data-controller': 'seat-wizard--component seat-wizard-sidebar--component',
+        'data-seat-wizard--component-addon-id-value': addon_value,
+        'data-seat-wizard--component-project-value': project_value.to_json,
+        'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? 'now' : '',
+        'data-seat-wizard--component-stencils-value': stencils_value,
         'data-seat-wizard--component-workshop-id-value': workshop.id,
-        'data-seat-wizard--component-project-value': project_json_value,
         'data-seat-wizard--component-active-class': 'active',
         'data-seat-wizard--component-disabled-class': 'disabled'
       }
@@ -39,7 +46,7 @@ module SeatWizard
 
     def form_url
       if @seat.persisted?
-        reservation_seats_path(@seat.reservation.id, @seat.id)
+        edit_reservation_seat_path(@seat.reservation.id, @seat.seat.id)
       elsif reservation_mode?
         reservation_seats_path(@seat.reservation.id)
       else
@@ -47,8 +54,33 @@ module SeatWizard
       end
     end
 
-    def project_json_value
-      @seat.selection_made? ? { id: @seat.project_id }.to_json : {}.to_json
+    def project_value
+      @seat.selection_made? ? { id: @seat.project_id, addons: project.addons.active.any?, preselected: true } : {}
+    end
+
+    def stencils_value
+      @seat.selection_made? ? unparsed_stencils : ''
+    end
+
+    def addon_value
+      @seat.selection_made? ? @seat.addon_id : nil
+    end
+
+    def guest_type
+      nil
+    end
+
+    # converts the database value to something that's in the HTML input field
+    def unparsed_stencils
+      return '' unless @seat.stencils
+
+      @seat.stencils.collect do |s|
+        if s['id'].zero?
+          "#{SeatWizard::StencilParser::PLAIN_STENCIL_KEY}|::"
+        else
+          "#{s['id']}|#{s['personalization']}"
+        end
+      end.join('::')
     end
   end
 end
