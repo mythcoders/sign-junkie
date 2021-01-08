@@ -15,6 +15,6 @@
         - invoices.each do |o|
           %tr
             %td= link_to o.identifier, admin_invoice_path(o)
-            %td= render partial: 'statuses/invoice', locals: { invoice: o }
+            %td= render partial: 'admin/statuses/invoice', locals: { invoice: o }
             %td= l o.created_at, format: :short
             %td= number_to_currency o.grand_total

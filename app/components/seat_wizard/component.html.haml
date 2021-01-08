@@ -17,7 +17,10 @@
 
   .row
     .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard-sidebar--component-target': 'content'}
-      = render(SeatWizardSidebar::Component.new(project, addon, @seat.stencils)) if @seat.selection_made?
+      - if @seat.selection_made?
+        = render(SeatWizardSidebar::Component.new(project, addon, @seat.stencils))
+      - else
+        = sidebar_template
 
     .col.order-1.order-md-2
       .card
@@ -37,7 +40,7 @@
                 %i.fas.fa-sign.fa-fw
                 Project
 
-            - addon_disabled = @seat.selection_made? ? project.addons.active.any? : false
+            - addon_disabled = project.nil? ? true : project.addons.active.any?
             = render(SeatWizardNavLink::Component.new('addon', disabled: addon_disabled, active: false)) do |component|
               - component.with(:body) do
                 Step 3

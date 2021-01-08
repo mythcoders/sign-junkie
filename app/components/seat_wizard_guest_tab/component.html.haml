@@ -1,5 +1,6 @@
 %div{'data-controller': 'seat-wizard-guest-tab--component',
      'data-seat-wizard-guest-tab--component-for-reservation-value': @reservation_mode.to_s}
+
   .card-body
     - if @allow_editing
       %h5.card-title.mt-2
@@ -11,9 +12,7 @@
       .form-group
         .custom-control.custom-radio
           - if !already_attending?
-            %input#self.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "self",
-                                            'data-seat-wizard-guest-tab--component-target': 'guestType',
-                                            'data-action': "seat-wizard-guest-tab--component#toggleGuestType"}
+            %input#self.custom-control-input{guest_type_radio_attributes, value: "self"}
             %label.custom-control-label{for: "self"} Myself
           - else
             %input.custom-control-input{type: "radio", disabled: true}
@@ -22,22 +21,16 @@
               %br= link_to t('seat_wizard.guest_type.self_disabled'), seat_path(@existing_seat_id)
 
         .custom-control.custom-radio
-          %input#adult.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "adult",
-                                            'data-seat-wizard-guest-tab--component-target': 'guestType',
-                                            'data-action': "seat-wizard-guest-tab--component#toggleGuestType"}
+          %input#adult.custom-control-input{guest_type_radio_attributes, value: "adult"}
           %label.custom-control-label{for: "adult"}= t('seat_wizard.guest_type.adult')
 
         .custom-control.custom-radio
-          %input#other.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "other",
-                                            'data-seat-wizard-guest-tab--component-target': 'guestType',
-                                            'data-action': "seat-wizard-guest-tab--component#toggleGuestType"}
+          %input#other.custom-control-input{guest_type_radio_attributes, value: "other"}
           %label.custom-control-label{for: "other"}= t('seat_wizard.guest_type.other')
 
         .custom-control.custom-radio
           - if @family_friendly_enabled
-            %input#child.custom-control-input{name: 'cart[guest_type]', type: "radio", value: "child",
-                                              'data-seat-wizard-guest-tab--component-target': 'guestType',
-                                              'data-action': "seat-wizard-guest-tab--component#toggleGuestType"}
+            %input#child.custom-control-input{guest_type_radio_attributes, value: "child"}
             %label.custom-control-label{for: "child"}= t('seat_wizard.guest_type.child')
           - else
             %input.custom-control-input{type: "radio", disabled: true}
@@ -63,13 +56,13 @@
           .form-group.col-6
             %label{for: 'childFirstName'} First name
             %input.form-control#childFirstName{type: 'text', autocomplete: false, name: 'cart[child_first_name]',
-                                          'data-seat-wizard-guest-tab--component-target': 'childFirstName',
-                                          'data-action': "seat-wizard-guest-tab--component#updateUI"}
+                                               'data-seat-wizard-guest-tab--component-target': 'childFirstName',
+                                               'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
           .form-group.col-6
             %label{for: 'childLastName'} Last name
             %input.form-control#childLastName{type: 'text', autocomplete: false, name: 'cart[child_last_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'childLastName',
-                                              'data-action': "seat-wizard-guest-tab--component#updateUI"}
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
 
       %div{'data-seat-wizard-guest-tab--component-target': 'guestInfo'}
         %hr
@@ -90,17 +83,17 @@
             %label{for: 'guestFirstName'} First name
             %input.form-control#guestFirstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'guestFirstName',
-                                              'data-action': "seat-wizard-guest-tab--component#updateUI"}
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
           .form-group.col-6
             %label{for: 'guestLastName'} Last name
             %input.form-control#guestLastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'guestLastName',
-                                              'data-action': "seat-wizard-guest-tab--component#updateUI"}
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
           .form-group.col-12
             %label{for: 'emailAddress'} Email address
             %input.form-control#emailAddress{type: 'text', autocomplete: false, name: 'cart[email]',
                                             'data-seat-wizard-guest-tab--component-target': 'emailAddress',
-                                            'data-action': "seat-wizard-guest-tab--component#updateUI"}
+                                            'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
 
       %hr
     - else
@@ -110,6 +103,8 @@
       = hidden_field_tag 'cart[email]', @seat.owner.email
       -# = hidden_field_tag 'cart[child_first_name]', @seat.first_name
       -# = hidden_field_tag 'cart[child_last_name]', @seat.first_name
+      This seat is for #{@seat.name}
+      %hr
 
     %h5.card-title Seating Request
     .form-group

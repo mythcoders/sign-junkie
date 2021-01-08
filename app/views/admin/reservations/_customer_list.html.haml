@@ -20,7 +20,7 @@
               %td= link_to res.workshop.name, admin_workshop_path(res.workshop)
               %td
                 = res.confirmation_number
-                %br= render partial: 'statuses/reservation', locals: { reservation: res }
+                %br= render partial: 'admin/statuses/reservation', locals: { reservation: res }
               %td= "#{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
               %td
                 .btn-group

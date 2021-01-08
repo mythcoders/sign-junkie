@@ -33,7 +33,7 @@
               %button.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{type: 'submit'}
                 = fa_solid 'cart-plus'
                 Add project to cart and pay now
-        = render(InvoiceItemDisplay::Component.new(@seat))
+        = render(ItemDescriptionDisplay::Component.default(@seat, linkable_title: true))
         - if @seat.reservation.present?
           %p.card-text
             = fa_solid 'toolbox', 'text-primary fa-fw'

@@ -1,41 +1,12 @@
 - if seats.any?
   - seats.each do |seat|
     %li.list-group-item
-      .row
-        .col
-          .media
-            .media-body
-              %h5.card-title= seat.name
-              - unless seat.customer.confirmed_at.present?
-                .font-size-1.mb-1{title: 'Scheduled time'}
-                  = fa_solid 'envelope-open-text', 'text-primary fa-fw'
-                  = "Invited on #{lifp seat.customer.invitation_sent_at}"
-              - if seat.gifted_seat?
-                .font-size-1.mb-1{title: 'Purchased by'}
-                  = fa_solid 'user', 'text-primary fa-fw'
-                  = seat.customer.full_name
-              - if seat.seat_preference.present?
-                .font-size-1.mb-1{title: 'Seating preference'}
-                  = fa_solid 'chair', 'text-primary fa-fw'
-                  = seat.seat_preference
-              - if seat.project_name.present?
-                .font-size-1.mb-1{title: 'Project'}
-                  = fa_solid 'sign', 'text-primary fa-fw'
-                  = seat.project_name
-              - if seat.stencil_name.present?
-                .card-text.mb-1{title: 'Stencil'}
-                  = fa_solid 'swatchbook', 'text-primary fa-fw'
-                  = seat.stencil_name
-              - if seat.stencil_personalization.present?
-                .font-size-1.mb-1{title: 'Add-on'}
-                  = fa_solid 'palette', 'text-primary fa-fw'
-                  = seat.stencil_personalization
-              - if seat.addon_id.present?
-                .font-size-1.mb-1{title: 'Add-on'}
-                  = fa_solid 'stamp', 'text-primary fa-fw'
-                  = seat.addon_name
-        - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
-          .col.text-right= render partial: 'seats/actions', locals: { seat: seat }
+      %a.list-group-item-action{href: seat_path(seat)}
+        .row
+          .col
+            = render(ItemDescriptionDisplay::Component.host_seat(seat))
+          - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
+            .col.text-right= render partial: 'seats/actions', locals: { seat: seat }
 - else
   %li.list-group-item
     No seats have been added yet.

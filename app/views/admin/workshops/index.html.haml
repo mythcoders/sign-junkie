@@ -74,7 +74,7 @@
       - @workshops.each do |workshop|
         %tr
           %td= link_to workshop.name, admin_workshop_path(workshop)
-          %td= render partial: 'statuses/workshop', locals: { workshop: workshop }
+          %td= render partial: 'admin/statuses/workshop', locals: { workshop: workshop }
           %td= workshop.when
           %td= workshop_type_name(workshop)
           %td= "#{workshop.seats_available}/#{workshop.total_seats}"

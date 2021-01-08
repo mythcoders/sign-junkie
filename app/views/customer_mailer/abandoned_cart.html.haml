@@ -21,7 +21,7 @@
           %tbody
             - @customer.carts.each do |i|
               %tr
-                %td= render(SimpleItemDisplay::Component.new(i))
+                %td= render(ItemDescriptionDisplay::Component.default(i, linkable_title: false))
                 %td.text-right= content_tag :span, number_to_currency(i.line_total)
 
 .text-center

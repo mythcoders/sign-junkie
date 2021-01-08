@@ -2,13 +2,10 @@
   = render partial: 'seats/cancel', locals: {seat: seat}
 
 .btn-group{:role => "group"}
-  - if seat.editable?(current_user)
-    %a.btn.btn-info{href: edit_reservation_seat_path(seat.reservation, seat)} Update seat
   - if seat.unpaid? && !seat.in_cart?
     = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
       = f.hidden_field :seat_id, value: seat.id
-      %button.btn.btn-primary{type: 'submit'}
-        Add project to cart
+      %button.btn.btn-primary{type: 'submit'} Add to cart
   %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
     = fa_solid 'ellipsis-h-alt'
     Actions

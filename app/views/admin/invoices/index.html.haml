@@ -38,7 +38,7 @@
             %td= o.customer.full_name
             %td= lifp(o.created_at, :short)
             %td= number_to_currency o.grand_total
-            %td= render partial: 'statuses/invoice', locals: { invoice: o }
+            %td= render partial: 'admin/statuses/invoice', locals: { invoice: o }
       %tfoot
         %tr
           %td{colspan: '100%'}

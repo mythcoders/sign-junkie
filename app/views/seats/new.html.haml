@@ -1,6 +1,6 @@
 = render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @existing_seat_id)) do |component|
   - component.with(:header) do
-    = @seat.reservation.title
+    New Seat for #{@seat.reservation.title}
 
   - component.with(:sidebar_template) do
     .card.card-sticky

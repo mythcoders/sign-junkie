@@ -41,7 +41,7 @@
                 - @invoice.items.each do |i|
                   %tr
                     %td.px-0
-                      = render(InvoiceItemDisplay::Component.new(i))
+                      = render(ItemDescriptionDisplay::Component.default(i, linkable_title: true))
                     %td.px-0.text-right
                       = content_tag :span, number_to_currency(i.item_amount)
                 %tr

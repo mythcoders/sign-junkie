@@ -14,6 +14,6 @@
         %tbody
           - carts.each do |cart|
             %tr
-              %td= render(AdminItemDisplay::Component.new(cart))
+              %td= render(ItemDescriptionDisplay::Component.admin(cart))
               %td= number_to_currency cart.line_total
               %td= l cart.created_at

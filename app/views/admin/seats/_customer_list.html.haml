@@ -10,8 +10,8 @@
       .card-body
         .row
           .col
-            = render partial: 'statuses/seat', locals: { seat: seat }
-            = render(AdminItemDisplay::Component.new(seat))
+            = render partial: 'admin/statuses/seat', locals: { seat: seat }
+            = render(ItemDescriptionDisplay::Component.admin(seat))
           .col-auto
             .btn-group
               - if seat.invoice.present?

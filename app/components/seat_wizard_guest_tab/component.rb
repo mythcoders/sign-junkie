@@ -13,5 +13,14 @@ module SeatWizardGuestTab
     def already_attending?
       @existing_seat_id != 0
     end
+
+    def guest_type_radio_attributes
+      {
+        name: 'cart[guest_type]',
+        type: "radio",
+        'data-seat-wizard-guest-tab--component-target': 'guestType',
+        'data-action': "seat-wizard-guest-tab--component#toggleGuestType"
+      }
+    end
   end
 end

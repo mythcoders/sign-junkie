@@ -13,7 +13,7 @@ class SeatsController < ApplicationController
   end
 
   def new
-    @seat = Seat.new reservation: @reservation, workshop: @reservation.workshop
+    @seat = Seat.new reservation: @reservation, workshop: @reservation.workshop, description: ItemDescription.new
   end
 
   ## we are either creating a seat or adding something to the cart

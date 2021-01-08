@@ -23,11 +23,11 @@ module SeatWizard
     end
 
     def project
-      @project ||= projects.find @seat.project_id
+      @project ||= @seat.selection_made? ? projects.find(@seat.project_id) : nil
     end
 
     def addon
-      @addon ||= project.addons.find @seat.addon_id
+      @addon ||= @seat.selection_made? ? project.addons.find(@seat.addon_id) : nil
     end
 
     def form_attributes

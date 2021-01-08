@@ -24,7 +24,7 @@
           .col
             %h5.mb-0 Status
           .col-auto
-            %small.text-muted= render partial: 'statuses/invoice', locals: { invoice: @invoice }
+            %small.text-muted= render partial: 'admin/statuses/invoice', locals: { invoice: @invoice }
         %hr
         .row.align-items-center
           .col
@@ -59,7 +59,7 @@
       %table.table.card-table
         - @invoice.items.each do |i|
           %tr
-            %td= render(AdminItemDisplay::Component.new(i))
+            %td= render(ItemDescriptionDisplay::Component.admin(i))
             %td.text-right
               %span.font-weight-medium
                 = content_tag :span, number_to_currency(i.line_total)

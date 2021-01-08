@@ -38,8 +38,9 @@ export default class extends ApplicationController {
     if (!this.hasIsParentValue) { this.isParentValue = true }
 
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
+      //clear first name and last name
       this.purchaseModeValue = 'now'
-    } else if (this.forReservationValue) {
+    } else if (this.forReservationValue && !this.guestTypeValue === 'other') {
       if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
       this.purchaseModeValue = 'later'
     } else {
@@ -63,6 +64,10 @@ export default class extends ApplicationController {
 
   toggleIsParent(e) {
     this.isParentValue = e.currentTarget.checked
+    this.notifyWizard()
+  }
+
+  updateGuestName(e) {
     this.notifyWizard()
   }
 
@@ -175,7 +180,9 @@ export default class extends ApplicationController {
 
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.guestFirstNameTarget.required = false
+      this.guestFirstNameTarget.value = ''
       this.guestLastNameTarget.required = false
+      this.guestLastNameTarget.value = ''
       this.guestInfoTarget.hidden = true
       this.guestInfoAlertTarget.hidden = true
     } else {

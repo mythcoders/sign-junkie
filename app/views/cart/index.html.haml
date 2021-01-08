@@ -12,7 +12,7 @@
               %li.list-group-item
                 .row
                   .col.mb-3.mb-md-0
-                    = render(SimpleItemDisplay::Component.new(item))
+                    = render(ItemDescriptionDisplay::Component.default(item))
                   .col-auto.text-right
                     %span.font-weight-medium
                       = content_tag :span, number_to_currency(item.item_amount)
