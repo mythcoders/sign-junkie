@@ -40,10 +40,10 @@ workers:
     livenessProbe:
       probeType: "exec"
       command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
-      initialDelaySeconds: 10
-      timeoutSeconds: 3
+      initialDelaySeconds: 20
+      timeoutSeconds: 5
     readinessProbe:
       probeType: "exec"
       command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
-      initialDelaySeconds: 10
-      timeoutSeconds: 3
+      initialDelaySeconds: 20
+      timeoutSeconds: 5
