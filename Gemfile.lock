@@ -445,6 +445,8 @@ GEM
     sidekiq-status (1.1.4)
       chronic_duration
       sidekiq (>= 3.0)
+    sidekiq_alive (2.0.4)
+      sidekiq
     simplecov (0.20.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -561,6 +563,7 @@ DEPENDENCIES
   sidekiq (~> 5.2)
   sidekiq-ent (~> 1.8.1)
   sidekiq-status
+  sidekiq_alive
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)

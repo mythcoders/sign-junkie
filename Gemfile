@@ -44,6 +44,7 @@ gem 'redis-namespace'
 gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq-status'
+gem 'sidekiq_alive'
 
 source 'https://rubygems.pkg.github.com/mythcoders' do
   gem 'hermes'
