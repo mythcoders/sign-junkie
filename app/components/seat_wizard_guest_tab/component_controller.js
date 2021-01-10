@@ -178,6 +178,12 @@ export default class extends ApplicationController {
       "I would like to sit next to someone specific" :
       "My guest would like to sit next to someone specific"
 
+    if (this.forReservationValue && this.guestTypeValue === 'other') {
+      this.purchaseModeAreaTarget.hidden = true
+    } else {
+      this.purchaseModeAreaTarget.hidden = false
+    }
+
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.guestFirstNameTarget.required = false
       this.guestFirstNameTarget.value = ''

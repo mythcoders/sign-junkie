@@ -8,7 +8,7 @@ export default class extends ApplicationController {
   toggle(e) {
     e.preventDefault()
 
-    this.addonIdValue = element.dataset.id
+    this.addonIdValue = e.currentTarget.dataset.id
     this.notifySeatWizard()
   }
 
