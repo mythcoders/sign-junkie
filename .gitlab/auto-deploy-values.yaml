@@ -38,12 +38,12 @@ workers:
     command: ["sh", "./scripts/worker", "start"]
     preStopCommand: ["sh", "./scripts/worker", "stop"]
     livenessProbe:
-      initialDelaySeconds: 15
-      timeoutSeconds: 15
       probeType: "exec"
-      command: "stat /app/tmp/pids/sidekiq_started || exit 1"
-    readinessProbe:
-      initialDelaySeconds: 5
+      command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
+      initialDelaySeconds: 10
       timeoutSeconds: 3
+    readinessProbe:
       probeType: "exec"
-      command: "stat /app/tmp/pids/sidekiq_started || exit 1"
+      command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
+      initialDelaySeconds: 10
+      timeoutSeconds: 3
