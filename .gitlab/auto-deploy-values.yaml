@@ -4,33 +4,20 @@ hpa:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-service:
-  externalPort: 5000
-  internalPort: 5000
 ingress:
   tls:
     enabled: true
   annotations:
-    kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
 livenessProbe:
   path: "/_heartbeat"
   initialDelaySeconds: 15
   timeoutSeconds: 15
-  scheme: "HTTP"
 readinessProbe:
   path: "/_heartbeat"
   initialDelaySeconds: 15
   timeoutSeconds: 15
-  scheme: "HTTP"
-postgresql:
-  enabled: true
-
-podDisruptionBudget:
-  enabled: false
-  # minAvailable: 1
-  maxUnavailable: 1
-
 workers:
   sidekiq:
     replicaCount: 1
@@ -40,10 +27,10 @@ workers:
     livenessProbe:
       probeType: "exec"
       command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
-      initialDelaySeconds: 20
+      initialDelaySeconds: 25
       timeoutSeconds: 5
     readinessProbe:
       probeType: "exec"
       command: "stat /app/tmp/pids/sidekiq.pid || exit 1"
-      initialDelaySeconds: 20
+      initialDelaySeconds: 25
       timeoutSeconds: 5
