@@ -1,7 +1,7 @@
 import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
-  static values = { guestType: String, isParent: Boolean, forReservation: Boolean }
+  static values = { forReservation: Boolean, guestType: String, isParent: Boolean, previouslyValid: Boolean }
   static targets = [
     "childFirstName",
     "childInfo",
@@ -31,6 +31,7 @@ export default class extends ApplicationController {
     }
     this.seatRequestAreaTarget.hidden = true
     this.nextButtonTarget.classList.add('disabled')
+    this.previouslyValidValue = this.isValid
   }
 
   toggleGuestType(e) {
@@ -71,6 +72,29 @@ export default class extends ApplicationController {
     this.notifyWizard()
   }
 
+  get isValid() {
+    let guestInfoRequired = this.hasGuestInfoTarget && this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
+    let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
+
+    if (this.guestTypeValue === '') {
+      return false
+    }
+
+    if (emailRequired && this.emailAddressTarget.value === '') {
+      return false
+    }
+
+    if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
+      return false
+    }
+
+    if ((this.guestTypeValue === 'child') && (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '')) {
+      return false
+    }
+
+    return true
+  }
+
   // private
 
   purchaseModeValueChanged() {
@@ -95,11 +119,10 @@ export default class extends ApplicationController {
   }
 
   notifyWizard() {
-    if (!this.isComplete()) {
-      this.nextButtonTarget.classList.add('disabled')
+    let valid = this.isValid
 
-      // do we always want to do this?!
-      document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
+    if (!valid) {
+      this.nextButtonTarget.classList.add('disabled')
     } else {
       if (this.purchaseModeValue === 'now') {
         this.nextButtonTarget.dataset.destination = 'project'
@@ -110,36 +133,19 @@ export default class extends ApplicationController {
       this.nextButtonTarget.classList.remove('disabled')
     }
 
-    document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {
-      detail: {
-        guestType: this.guestTypeValue,
-        purchaseMode: this.purchaseModeValue,
-        valid: this.isComplete()
-      }
-    }))
-  }
-
-  isComplete() {
-    let guestInfoRequired = this.hasGuestInfoTarget && this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
-    let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
-
-    if (this.guestTypeValue === '') {
-      return false
+    if (valid && !this.previouslyValidValue) {
+      document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {
+        detail: {
+          guestType: this.guestTypeValue,
+          purchaseMode: this.purchaseModeValue,
+          valid: this.isValid
+        }
+      }))
+    } else if (!valid && this.previouslyValidValue) {
+      document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
     }
 
-    if (emailRequired && this.emailAddressTarget.value === '') {
-      return false
-    }
-
-    if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
-      return false
-    }
-
-    if ((this.guestTypeValue === 'child') && (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '')) {
-      return false
-    }
-
-    return true
+    this.previouslyValidValue = valid
   }
 
   showHideChildInfo() {
