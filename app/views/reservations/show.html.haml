@@ -27,8 +27,7 @@
             = fa_solid 'ban'
             Cancel reservation
 
-        %a.btn.btn-secondary.btn-block{href: reservations_path}
-          Back to Workshop Planner
+        = link_to 'Go Back', :back, class: 'btn btn-secondary btn-block'
 
   .col-12.col-lg-7.mb-2
     = render partial: 'requirements_alerts' unless @reservation.requirements_met?

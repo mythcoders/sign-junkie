@@ -4,8 +4,8 @@ class SeatsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[new edit create update]
   before_action :set_seat, only: %i[show edit update cancel remind]
-  before_action :authorize_edit, only: %i[edit update]
   before_action :authorize_add, only: %i[new create]
+  before_action :authorize_edit, only: %i[edit update]
   before_action :set_seat_check, only: %i[new]
 
   def index
@@ -70,7 +70,7 @@ class SeatsController < ApplicationController
   end
 
   def set_seat
-    @seat = Seat.includes({ reservation: %i[description seats] }, :description).find params[:id]
+    @seat = Seat.includes({ reservation: %i[description] }, :description).find params[:id]
   end
 
   def set_reservation

@@ -10,7 +10,7 @@ class CustomerCredit < ApplicationRecord
       .or(CustomerCredit.where('expiration_date >= current_timestamp'))
   }
   scope :with_balance, -> { where('balance > 0') }
-  scope :active, -> { with_balance.not_expired }
+  scope :active, -> { CustomerCredit.with_balance.not_expired }
 
   validates_presence_of :starting_amount, :balance, :user_id
 
