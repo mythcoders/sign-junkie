@@ -166,10 +166,10 @@ export default class extends ApplicationController {
   }
 
   showHidePurchaseMode() {
-    if (this.guestTypeValue === 'self') {
-      this.purchaseModeTarget.hidden = true
+    if (this.guestTypeValue === 'self' || this.forReservationValue && this.guestTypeValue === 'other') {
+      this.purchaseModeAreaTarget.hidden = true
     } else {
-      this.purchaseModeTarget.hidden = false
+      this.purchaseModeAreaTarget.hidden = false
     }
   }
 
@@ -177,12 +177,6 @@ export default class extends ApplicationController {
     this.seatRequestLabelTarget.innerHTML = this.guestTypeValue === 'self' ?
       "I would like to sit next to someone specific" :
       "My guest would like to sit next to someone specific"
-
-    if (this.forReservationValue && this.guestTypeValue === 'other') {
-      this.purchaseModeAreaTarget.hidden = true
-    } else {
-      this.purchaseModeAreaTarget.hidden = false
-    }
 
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       this.guestFirstNameTarget.required = false
