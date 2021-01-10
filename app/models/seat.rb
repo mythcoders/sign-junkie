@@ -20,8 +20,8 @@ class Seat < ApplicationRecord
   def name
     if owner.first_name.present?
       "#{owner.first_name} #{owner.last_name}"
-    elsif customer.nil?
-      'Unassigned'
+    # elsif customer.nil?
+    #   'Unassigned'
     else
       customer.full_name
     end
@@ -29,14 +29,6 @@ class Seat < ApplicationRecord
 
   def name_initials
     name.split.map(&:first).join.upcase
-  end
-
-  def unpaid?
-    invoice.nil? && selection_made?
-  end
-
-  def paid?
-    invoice.present?
   end
 
   def editable?(user)

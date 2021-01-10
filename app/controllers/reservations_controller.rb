@@ -12,6 +12,10 @@ class ReservationsController < ApplicationController
                     .page(params[:page])
   end
 
+  def show
+    return render :show_guest unless @reservation.host?(current_user)
+  end
+
   def cancel
     ReservationCancelWorker.perform_async(@reservation.id)
     flash[:info] = t('order.cancel.success')

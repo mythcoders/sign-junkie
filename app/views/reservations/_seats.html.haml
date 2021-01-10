@@ -1,0 +1,30 @@
+- if seats.any?
+  %table.table.table-striped.table-border-fix
+    %thead
+      %tr
+        %th Guest
+        %th Project Selected?
+        %th Paid?
+        %th
+    %tbody
+      - seats.each do |seat|
+        %tr
+          %td= link_to seat.name, seat_path(seat)
+          %td
+            - if seat.selection_made?
+              = fa_solid 'check', 'text-success'
+            - else
+              = fa_solid 'times', 'text-warning'
+              Unpaid
+          %td
+            - if seat.paid?
+              = fa_solid 'check', 'text-success'
+            - else
+              = fa_solid 'times', 'text-warning'
+          %td
+            - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
+              = render partial: 'seats/actions', locals: { seat: seat }
+- else
+  .card-body.text-center
+    %h2 No Seats
+    %p.text-muted.mb-0 No seats have been added to this reservation.

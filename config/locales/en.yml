@@ -7,6 +7,10 @@ en:
     description: Sign Junkie is a DIY Workshop that offers a wide variety of practical and unique wood home decor workshops.
   feature_un: "This feature will be available in a future release!"
   unauthorized: "You're not authorized to perform this action."
+  covid_warning:
+    Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before entering
+    Sign Junkie. Guests MUST provide their own mask to wear throughout the entire workshop. Noncompliance will result
+    in a NO refund and you will NOT be able to attend the workshop.
   addon:
     delete:
       confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
@@ -77,12 +81,12 @@ en:
     registration_deadline_cancel_warning: If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
     minimum_not_met:
       Currently, your reservation doesn't meet the minimum seating requirements.
-      You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
+      You'll need to reserve %{seats} additional seats before the %{deadline} registration deadline.
     requirements_not_met:
       Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
-      them. They must select their project and stencil by %{registration_deadline}.
-    payment_host: Afterwards, you must pay for them by %{payment_deadline}.
-    payment_guest: They must also pay for their selections by %{payment_deadline}.
+      them. They must select their project and stencil by %{deadline}.
+    payment_host: Afterwards, you must pay for them by %{deadline}.
+    payment_guest: They must also pay for their selections by %{deadline}.
     forfeit:
       confirmation: This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
     cancel:

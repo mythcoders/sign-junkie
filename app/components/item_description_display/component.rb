@@ -4,50 +4,33 @@ module ItemDescriptionDisplay
   class Component < ViewComponent::Base
     include IconHelper
 
-    def initialize(item:, icons:, status:, title:, linkable_title:, admin:)
-      @item = item
-      @show_icons = icons
-      @show_status = status
-      @show_title = title
-      @linkable_title = linkable_title
-      @admin = admin
+    def initialize(args = {})
+      @item = args[:item]
+      @show_icons = args[:icons].nil? ? true : args[:icons]
+      @show_status = args[:status].nil? ?  true : args[:status]
+      @show_title = args[:title].nil? ? true : args[:title]
+      @linkable = args[:linkable].nil? ? false : args[:linkable]
+      @admin = args[:admin].nil? ? false : args[:admin]
+      @show_workshop = args[:show_workshop].nil? ? true : args[:show_workshop]
     end
 
     class << self
-      def default(item, linkable_title:)
-        new(item: item,
-            icons: true,
-            status: true,
-            title: true,
-            linkable_title: linkable_title,
-            admin: false)
+      def default(item)
+        new(item: item)
+      end
+
+      def linkable(item)
+        new(item: item, linkable: true)
       end
 
       def admin(item)
-        new(item: item,
-            icons: true,
-            status: true,
-            title: true,
-            linkable_title: true,
-            admin: true)
-      end
-
-      def host_seat(item)
-        new(item: item,
-            icons: true,
-            status: true,
-            title: false,
-            linkable_title: false,
-            admin: false)
+        new(item: item, admin: true)
       end
 
       def receipt(item)
         new(item: item,
             icons: false,
-            status: false,
-            title: true,
-            linkable_title: true,
-            admin: false)
+            status: false)
       end
     end
   end

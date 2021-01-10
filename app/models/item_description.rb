@@ -90,4 +90,12 @@ class ItemDescription < ApplicationRecord
   def in_cart?
     cart.present?
   end
+
+  def unpaid?
+    invoice.nil? && selection_made?
+  end
+
+  def paid?
+    invoice.present?
+  end
 end

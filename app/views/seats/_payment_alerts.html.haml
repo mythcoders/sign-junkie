@@ -1,0 +1,31 @@
+- if !@seat.selection_made? && @seat.editable?(current_user)
+  .alert.alert-info
+    = fa_solid 'calendar-exclamation', 'fa-fw'
+    %span
+      You have until #{lifp @seat.workshop.registration_deadline} to pick your project and stencil!
+    %a.btn.btn-info.btn-block.mb-2.text-uppercase{href: edit_reservation_seat_path(@seat)}
+      = fa_solid 'sign'
+      Select your project and stencil
+
+- elsif @seat.unpaid? && !@seat.reservation.paid_by_host?
+  - if @seat.in_cart?
+    .alert.alert-info
+      = fa_solid 'calendar-exclamation', 'fa-fw'
+      %span
+        It looks like this is already in your cart so checkout whenever you're ready. Keep in mind that the
+        deadline to pay for your seat is #{lifp @seat.reservation.payment_deadline}.
+        If you don't pay the host will loose their deposit!
+      %a.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{href: cart_index_path}
+        = fa_solid 'shopping-cart'
+        View cart
+  - else
+    .alert.alert-info
+      = fa_solid 'calendar-exclamation', 'fa-fw'
+      %span
+        The deadline to pay for your seat is #{lifp @seat.reservation.payment_deadline}.
+        If you don't pay the host will loose their deposit!
+      = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
+        = f.hidden_field :seat_id, value: @seat.id
+        %button.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{type: 'submit'}
+          = fa_solid 'cart-plus'
+          Add project to cart and pay now

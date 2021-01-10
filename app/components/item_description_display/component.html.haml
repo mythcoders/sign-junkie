@@ -1,23 +1,24 @@
-- if @item.gift_card?
-  .media
-    .media-body
+.media
+  .media-body
+    - if @item.gift_card?
       %h5.card-title= @item.title
       .font-size-1.mb-1{title: 'Purchased for'}
         = fa_solid 'user', 'text-primary fa-fw' if @show_icons
         = "#{@item.owner.first_name} #{@item.owner.last_name}"
-- else
-  .media
-    .media-body
+
+    - elsif @item.reservation?
+      %h5.card-title
+        - if @linkable
+          = link_to @item.title, reservation_path(@item.reservation.id)
+        - else
+          = @item.title
+
+    - else
       - if @show_title
         - if @admin
           %strong.text-body= link_to @item.title, admin_workshop_path(@item.workshop_id)
-        - elsif @linkable_title
-          - if @item.reservation?
-            %h5.card-title= link_to @item.title, reservation_path(@item.reservation.id)
-          - elsif @item.seat?
-            %h5.card-title= link_to @item.title, seat_path(@item.seat.id)
-          - else
-            %h5.card-title= @item.title
+        - elsif @linkable
+          %h5.card-title= link_to @item.title, seat_path(@item.seat.id)
         - else
           %h5.card-title= @item.title
 
@@ -26,15 +27,24 @@
           .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
             = fa_solid 'ban', 'fa-fw' if @show_icons
             CANCELED
-        - if @item.void_date.present?
+        - elsif @item.void_date.present?
           .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
             = fa_solid 'ban', 'fa-fw' if @show_icons
             VOIDED
 
-      .font-size-1.mb-1{title: 'Scheduled time'}
-        - if @show_icons
-          = fa_solid 'calendar-alt', 'text-primary fa-fw'
-        = @item.workshop.when
+      - if @show_workshop
+        .font-size-1.mb-1{title: 'Scheduled time'}
+          - if @show_icons
+            = fa_solid 'calendar-alt', 'text-primary fa-fw'
+          = @item.workshop.when
+
+      - if @item.reservation.present?
+        .font-size-1.mb-1
+          = fa_solid 'toolbox', 'text-primary fa-fw' if @show_icons
+          - if @linkable
+            = link_to "Reservation ##{@item.reservation.confirmation_number}", reservation_path(@item.reservation)
+          - else
+            = "Reservation ##{@item.reservation.confirmation_number}"
 
       - if @item.gifted_seat?
         .font-size-1.mb-1{title: 'Purchased for'}

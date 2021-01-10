@@ -7,11 +7,7 @@
       .custom-switch.custom-control
         = check_box_tag :covid19_acknowledgment, :covid19_acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
         = label_tag :covid19_acknowledgment, 'COVID-19 Acknowledgement', class: 'custom-control-label'
-      %p.form-control-plaintext.text-info
-        Due to COVID-19 I understand that I MUST have my temperature taken upon arrival
-        and before entering Sign Junkie. I MUST also provide my own mask to wear throughout the
-        entire workshop. If I DO NOT comply I will NOT be able to attend this workshop and will
-        NOT receive a refund.
+      %p.form-control-plaintext.text-info= t('covid_warning')
 
     .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
       .custom-switch.custom-control

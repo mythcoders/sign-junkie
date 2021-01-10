@@ -1,58 +1,69 @@
 .row
   .col-12
-    .alert.alert-info
-      Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before
-      entering Sign Junkie. Guests
-      %strong MUST
-      provide their own mask to wear throughout the entire workshop.
-      Noncompliance will result in a
-      %strong NO
-      refund and you will
-      %strong NOT
-      be able to attend the workshop.
+    .alert.alert-info= t('covid_warning')
+
   .col-12.col-lg-5.mb-2
     .card
       %h4.card-header.bg-primary.text-white
         = fa_solid 'toolbox'
         Workshop Planner
-      - if @reservation.host?(current_user)
-        .card-body= render partial: 'reservations/host_details'
-        .card-footer= render partial: 'reservations/actions'
-      - else
-        .card-body= render partial: 'reservations/guest_details'
-  .col-12.col-lg-7.mb-2
-    - if @reservation.host?(current_user) && !@reservation.requirements_met?
-      .alert.alert-info{:role => "alert"}
-        %h4.alert-heading
-          = fa_duo 'exclamation-triangle'
-          Heads up!
-
-        - if !@reservation.minimum_met?
-          = t('reservations.minimum_not_met',
-            seats: @reservation.remaining_seats_until_minimum_met,
-            registration_deadline: lifp(@reservation.workshop.registration_deadline))
-        - else
-          = t('reservations.requirements_not_met',
-            seats: @reservation.remaining_seats_until_requirements_met,
-            registration_deadline: lifp(@reservation.workshop.registration_deadline))
-
-          - if @reservation.paid_by_host?
-            = t('reservations.payment_host', payment_deadline: lifp(@reservation.payment_deadline))
-          - else
-            = t('reservations.payment_guest', payment_deadline: lifp(@reservation.payment_deadline))
-
-        - if @reservation.workshop.reservations_void_minimum_not_met?
-          = t('reservations.registration_deadline_cancel_warning')
-        - else
-          = t('reservations.registration_deadline_loose_deposit_warning')
-
+      .card-body= render partial: 'reservations/host_details'
+      .card-footer
         - if @reservation.may_add_seat?(current_user)
-          %br
-          %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
+          %a.btn.btn-primary.btn-block.mb-2{href: new_reservation_seat_path(@reservation)}
+            = fa_solid 'user-plus'
+            Add seat to reservation
+
+        - if @reservation.unpaid_balance?
+          = form_for :cart, url: cart_index_path do |f|
+            = f.hidden_field :reservation_id, value: @reservation.id
+            %button.btn.btn-info.btn-block.mb-2{type: 'submit'}
+              = fa_solid 'cart-plus'
+              Add unpaid projects to cart
+
+        - if @reservation.cancelable?
+          = render partial: 'cancel', locals: {reservation: @reservation}
+          %a.btn.btn-danger.btn-block{"data-target": "#cancel-reservation-#{@reservation.id}-modal", "data-toggle": "modal", href: "#"}
+            = fa_solid 'ban'
+            Cancel reservation
+
+        %a.btn.btn-secondary.btn-block{href: reservations_path}
+          Back to Workshop Planner
+
+  .col-12.col-lg-7.mb-2
+    = render partial: 'requirements_alerts' unless @reservation.requirements_met?
+
     .card
       %h4.card-header.bg-primary.text-white
-        = fa_duo 'users'
+        = fa_solid 'users'
         Invited Guests
         %span.badge.badge-light.float-right= @reservation.active_seats.count
-      %ul.list-group.list-group-flush
-        = render partial: 'seats/list', locals: { seats: @reservation.active_seats }
+
+      - if @reservation.active_seats.any?
+        %table.table.table-striped.table-border-fix
+          %thead
+            %tr
+              %th Guest
+              %th Project Selected?
+              %th Paid?
+              %th
+          %tbody
+            - @reservation.active_seats.each do |seat|
+              %tr
+                %td= link_to seat.name, seat_path(seat)
+                %td
+                  - if seat.selection_made?
+                    = fa_solid 'check', 'text-success'
+                  - else
+                    = fa_solid 'times', 'text-warning'
+                %td
+                  - if seat.paid?
+                    = fa_solid 'check', 'text-success'
+                  - else
+                    = fa_solid 'times', 'text-warning'
+                %td
+                  = render partial: 'seat_actions', locals: { seat: seat }
+      - else
+        .card-body.text-center
+          %h2 No Seats
+          %p.text-muted.mb-0 No seats have been added to this reservation.
