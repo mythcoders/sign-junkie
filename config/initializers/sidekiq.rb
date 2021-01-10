@@ -25,6 +25,18 @@ Sidekiq.configure_server do |config|
     mgr.register('0 6 * * *', RegistrationDeadlineReminderWorker)
     mgr.register('0 6 * * *', UnconfirmedAccountReminderWorker)
   end
+
+  # Touch a file so we know Sidekiq worker has started.
+  # Used for health checks
+  config.on(:startup) do
+    FileUtils.touch(Rails.root.join('tmp', 'pids', 'sidekiq_started'))
+  end
+
+  # Delete the touched file so we know Sidekiq worker has stopped.
+  # Used for health checks
+  config.on(:shutdown) do
+    FileUtils.rm(Rails.root.join('tmp', 'pids', 'sidekiq_started'))
+  end
 end
 
 Sidekiq.configure_client do |config|
