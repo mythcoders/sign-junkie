@@ -16,13 +16,13 @@
           and you can continue your project picking experience.
 
   .row
-    .col-12.col-sm-4.order-2.order-md-1{'data-seat-wizard-sidebar--component-target': 'content'}
+    .col-12.col-sm-4.mb-3{'data-seat-wizard-sidebar--component-target': 'content'}
       - if @seat.selection_made?
         = render(SeatWizardSidebar::Component.new(project, addon, @seat.stencils))
       - else
         = sidebar_template
 
-    .col.order-1.order-md-2
+    .col
       .card
         .card-header
           %ul#seatWizardTabs.nav.nav-tabs.nav-justified.card-header-tabs{role: "tablist"}

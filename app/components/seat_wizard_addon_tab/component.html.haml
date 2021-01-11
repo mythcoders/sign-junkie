@@ -10,7 +10,7 @@
 
       .row
         - @project.addons.active.each do |addon|
-          .col-12.col-sm-6{'data-id': addon.id}
+          .col-6{'data-id': addon.id}
             %a.card.shadow-light-lg.mb-3{href: '#',
                                          'data-seat-wizard-target': 'addon',
                                          'data-id': addon.id,
