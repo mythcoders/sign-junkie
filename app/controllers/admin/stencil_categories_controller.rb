@@ -21,7 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        render 'new', status: :unprocessable_entity, status: :unprocessable_entity
+        render 'new', status: :unprocessable_entity
       end
     end
 

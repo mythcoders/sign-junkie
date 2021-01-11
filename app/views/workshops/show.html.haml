@@ -49,7 +49,7 @@
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
 
-            - if @existing_reservation_id != false
+            - unless @existing_reservation_id.zero?
               .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'
@@ -76,7 +76,7 @@
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
               = "#{@workshop.seats_available} seats available"
 
-            - if @existing_seat_id != false
+            - unless @existing_seat_id.zero?
               .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'

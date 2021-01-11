@@ -14,13 +14,13 @@
             - if seat.selection_made?
               = fa_solid 'check', 'text-success'
             - else
-              = fa_solid 'times', 'text-warning'
+              = fa_solid 'times', 'text-danger'
               Unpaid
           %td
             - if seat.paid?
               = fa_solid 'check', 'text-success'
             - else
-              = fa_solid 'times', 'text-warning'
+              = fa_solid 'times', 'text-danger'
           %td
             - if seat.reservation.host?(current_user) || seat.user_id == current_user.id
               = render partial: 'seats/actions', locals: { seat: seat }

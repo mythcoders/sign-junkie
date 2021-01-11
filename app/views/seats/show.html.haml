@@ -7,11 +7,11 @@
         = render partial: 'payment_alerts' if @seat.active? && @seat.reservation.present?
         = render(ItemDescriptionDisplay::Component.linkable(@seat))
       .card-footer
-        - if @seat.paid?
+        - if @seat.paid? && @seat.invoice.user_id == current_user.id
           %a.btn.btn-primary.btn-block.mb-2{href: invoice_path(@seat.invoice.id)}
             = fa_solid 'file-invoice'
             View Invoice
-        - elsif @seat.cancelable?
+        - elsif @seat.editable?(current_user) && @seat.cancelable?
           = render partial: 'seats/cancel', locals: {seat: @seat}
           %a.btn.btn-danger.btn-block{"data-target": "#cancel-seat-#{@seat.id}-modal", "data-toggle": "modal", href: "#"}
             = fa_solid 'ban'
