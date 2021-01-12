@@ -70,13 +70,17 @@
           = fa_solid 'chair'
           Workshops
       %li.nav-item
+        %a#credit-tab.nav-link{"aria-controls": "credit", "aria-selected": "false", "data-toggle": "tab", href: "#credit", role: "tab"}
+          = fa_solid 'gift-card'
+          Credits
+      %li.nav-item
+        %a#email-tab.nav-link{"aria-controls": "email", "aria-selected": "false", "data-toggle": "tab", href: "#email", role: "tab"}
+          = fa_solid 'envelope'
+          Emails
+      %li.nav-item
         %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
           = fa_solid 'file-invoice-dollar'
           Invoices
-      %li.nav-item
-        %a#credit-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#credit", role: "tab"}
-          = fa_solid 'gift-card'
-          Credits
       %li.nav-item
         %a#cart-tab.nav-link{"aria-controls": "cart", "aria-selected": "false", "data-toggle": "tab", href: "#cart", role: "tab"}
           = fa_solid 'shopping-cart'
@@ -89,7 +93,9 @@
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
         .card
           = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices.order(created_at: :desc) }
-      #credit.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+      #credit.tab-pane.fade{"aria-labelledby": "credit-tab", role: "tabpanel"}
         = render partial: 'admin/customer_credits/list', locals: { credits: @customer.credits.with_balance.order(created_at: :desc) }
       #cart.tab-pane.fade{"aria-labelledby": "cart-tab", role: "tabpanel"}
-        = render partial: 'admin/customers/cart', locals: { carts: @customer.carts.order(created_at: :desc) }
+        = render partial: 'cart', locals: { carts: @customer.carts.order(created_at: :desc) }
+      #email.tab-pane.fade{"aria-labelledby": "email-tab", role: "tabpanel"}
+        = render partial: 'email_log', locals: { emails: @customer.email_logs.order(created_at: :desc) }

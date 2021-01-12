@@ -16,6 +16,7 @@ class User < ApplicationRecord
   }
   has_many :credits, class_name: 'CustomerCredit'
   has_many :carts
+  has_many :email_logs, dependent: :destroy
   has_many :invoices, dependent: :restrict_with_error
   has_many :seats, dependent: :restrict_with_error
   has_many :reservations, dependent: :restrict_with_error
