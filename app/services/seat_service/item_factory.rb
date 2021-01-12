@@ -15,6 +15,7 @@ module SeatService
     def perform
       @item = base_item
       apply_owner
+      apply_project if @params.project_id.present?
       apply_addon if @params.addon_id.present?
       apply_stencils if @params.stencils.present?
 
@@ -28,10 +29,8 @@ module SeatService
                           identifier: SecureRandom.uuid,
                           workshop_name: @workshop.name,
                           workshop_id: @workshop.id,
-                          project_id: project.id,
-                          project_name: project.name,
-                          taxable_amount: project.material_price,
-                          nontaxable_amount: project.instructional_price)
+                          taxable_amount: 0.00,
+                          nontaxable_amount: 0.00)
     end
 
     def project
@@ -44,6 +43,13 @@ module SeatService
 
     def apply_stencils
       @item.stencils = SeatService::StencilParser.parse(project.id, @params.stencils)
+    end
+
+    def apply_project
+      @item.project_id = project.id
+      @item.project_name = project.name
+      @item.taxable_amount = project.material_price
+      @item.nontaxable_amount = project.instructional_price
     end
 
     def apply_addon

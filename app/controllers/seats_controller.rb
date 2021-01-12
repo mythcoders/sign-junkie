@@ -23,6 +23,7 @@ class SeatsController < ApplicationController
   end
 
   # /reservation/:reservation_id/seats
+  # rubocop:disable Metrics/AbcSize
   def create
     @seat = Seat.new(reservation: @reservation, workshop: @reservation.workshop)
 
@@ -30,13 +31,14 @@ class SeatsController < ApplicationController
       flash[:success] = t('create.success')
 
       if add_seat_to_cart?
-        Cart.create!(user: current_user, item_description_id: @seat.item_description_id)
+        Cart.create! user: current_user, item_description_id: @seat.item_description_id
         redirect_to cart_index_path
       else
         redirect_to reservation_path(@reservation)
       end
     else
       flash[:error] = t('seat.create.failure')
+      set_seat_check
       render 'new', status: :unprocessable_entity
     end
   end
@@ -47,7 +49,7 @@ class SeatsController < ApplicationController
       flash[:success] = t('update.success')
 
       if add_seat_to_cart?
-        Cart.create!(user: current_user, item_description_id: @seat.item_description_id)
+        Cart.create! user: current_user, item_description_id: @seat.item_description_id
         redirect_to cart_index_path
       else
         redirect_to seat_path @seat
@@ -57,6 +59,7 @@ class SeatsController < ApplicationController
       render 'edit', status: :unprocessable_entity
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # /reservation/:reservation_id/seats/:id/remind
   def remind
