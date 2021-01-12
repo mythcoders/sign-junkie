@@ -19,7 +19,7 @@ module SeatService
       @seat.customer = SeatService::CalculateOwner.perform(@seat, @current_user) unless @seat.customer
       return false unless @seat.valid? && @seat.save!
 
-      notify_guest if @seat.owner.type == 'adult' && !@seat.selection_made?
+      notify_guest if @seat.owner.type == 'adult' && !@seat.selection_made? && !@seat.persisted?
 
       true
     end

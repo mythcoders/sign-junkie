@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CartFactory
   GENERAL_PARAMS = %i[workshop_id seat_id reservation_id type].freeze
   GIFT_CARD_PARAMS = %i[amount].freeze
@@ -10,46 +12,58 @@ class CartFactory
     @params = cart_params
   end
 
-  def self.process(user, cart_params)
-    new(user, cart_params).build
-  end
-
   def self.permitted_params
     GENERAL_PARAMS + GIFT_CARD_PARAMS + GUEST_PARAMS + SEAT_PARAMS + RESERVATION_PARAMS
   end
 
+  def self.process(user, cart_params)
+    new(user, cart_params).build
+  end
+
   def build
     if @params[:reservation_id]
-      add_reservation
+      add_unpaid_reservation_seats
     elsif @params[:seat_id]
-      add_seat
+      add_existing_seat
     elsif @params[:type] == 'gift_card'
-      Cart.create!(user: @current_user, description: GiftCardService::ItemFactory.build(@params))
+      add_gift_card
     elsif @params[:type] == 'reservation'
-      Cart.create!(user: @current_user, description: ReservationService::ItemFactory.build(workshop, @params))
+      add_reservation
     else
-      Cart.create!(user: @current_user, description: SeatService::ItemFactory.build(workshop, @params))
+      add_seat
     end
   end
 
   private
 
   def workshop
-    @workshop ||= Workshop.find(@params[:workshop_id])
+    @workshop ||= Workshop.find @params[:workshop_id]
   end
 
-  def add_reservation(user, cart_params)
+  def add_unpaid_reservation_seats
     reservation = Reservation.find @params[:reservation_id]
 
     reservation.unpaid_seats.each do |seat|
-      Cart.create!(user: @current_user, item_description_id: seat.item_description_id)
+      Cart.create! user: @current_user, item_description_id: seat.item_description_id
     rescue StandardError => e
       Sentry.capture_exception e
     end
   end
 
-  def add_seat
+  def add_existing_seat
     seat = Seat.find @params[:seat_id]
-    Cart.create!(user: @current_user, item_description_id: seat.item_description_id)
+    Cart.create! user: @current_user, item_description_id: seat.item_description_id
+  end
+
+  def add_gift_card
+    Cart.create! user: @current_user, description: GiftCardService::ItemFactory.build(@params)
+  end
+
+  def add_reservation
+    Cart.create! user: @current_user, description: ReservationService::ItemFactory.build(workshop, @params)
+  end
+
+  def add_seat
+    Cart.create! user: @current_user, description: SeatService::ItemFactory.build(workshop, @params)
   end
 end

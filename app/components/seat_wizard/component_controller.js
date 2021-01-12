@@ -141,7 +141,7 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
       this.stencilTabTarget.classList.add(this.disabledClass)
       this.reviewTabTarget.classList.add(this.disabledClass)
-    } else if (this.purchaseModeValue === 'later') {
+    } else if (this.purchaseModeValue !== undefined) {
       this.projectTabContentTarget.innerHTML = ''
 
       this.projectTabTarget.classList.add(this.disabledClass)

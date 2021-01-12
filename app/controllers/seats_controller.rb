@@ -9,23 +9,28 @@ class SeatsController < ApplicationController
   before_action :authorize_edit, only: %i[edit update]
   before_action :set_seat_check, only: %i[new]
 
+  # /seats
   def index
     @seats = Seat.for_user(current_user)
   end
 
+  # /seats/:id
+  # def show
+
+  # /reservation/:reservation_id/seats
   def new
     @seat = Seat.new reservation: @reservation, workshop: @reservation.workshop, description: ItemDescription.new
   end
 
-  ## we are either creating a seat or adding something to the cart
+  # /reservation/:reservation_id/seats
   def create
     @seat = Seat.new(reservation: @reservation, workshop: @reservation.workshop)
 
     if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('create.success')
 
-      if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
-        Cart.save!(user: current_user, item_description_id: @seat.item_description_id)
+      if add_seat_to_cart?
+        Cart.create!(user: current_user, item_description_id: @seat.item_description_id)
         redirect_to cart_index_path
       else
         redirect_to reservation_path(@reservation)
@@ -36,12 +41,13 @@ class SeatsController < ApplicationController
     end
   end
 
+  # /reservation/:reservation_id/seats/:seat_id
   def update
     if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('update.success')
 
-      if @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
-        Cart.save!(user: current_user, item_description_id: @seat.item_description_id)
+      if add_seat_to_cart?
+        Cart.create!(user: current_user, item_description_id: @seat.item_description_id)
         redirect_to cart_index_path
       else
         redirect_to seat_path @seat
@@ -52,12 +58,14 @@ class SeatsController < ApplicationController
     end
   end
 
+  # /reservation/:reservation_id/seats/:id/remind
   def remind
     SeatMailer.with(seat_id: @seat.id).remind.deliver_later
     flash[:success] = 'Reminder sent'
     redirect_to reservation_path(@seat.reservation.id)
   end
 
+  # /seats/:id/cancel
   def cancel
     SeatCancelWorker.perform_async(@seat.id)
     flash[:info] = t('seat.cancel.success')
@@ -104,9 +112,13 @@ class SeatsController < ApplicationController
   def set_seat_check
     @existing_seat_id = if current_user
                           seats = Seat.active.for_shop(@reservation.workshop_id).for_user(current_user)
-                          seats.any? ? seats.first.id : false
+                          seats.any? ? seats.first.id : 0
                         else
-                          false
+                          0
                         end
+  end
+
+  def add_seat_to_cart?
+    @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
   end
 end

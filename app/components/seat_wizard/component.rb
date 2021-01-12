@@ -40,6 +40,7 @@ module SeatWizard
         'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? 'now' : '',
         'data-seat-wizard--component-stencils-value': stencils_value,
         'data-seat-wizard--component-workshop-id-value': workshop.id,
+        'data-seat-wizard--component-for-reservation-value': reservation_mode?,
         'data-seat-wizard--component-active-class': 'active',
         'data-seat-wizard--component-disabled-class': 'disabled'
       }

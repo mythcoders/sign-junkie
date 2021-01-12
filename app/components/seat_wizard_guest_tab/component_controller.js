@@ -41,9 +41,9 @@ export default class extends ApplicationController {
     if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
       //clear first name and last name
       this.purchaseModeValue = 'now'
-    } else if (this.forReservationValue && !this.guestTypeValue === 'other') {
+    } else if (this.forReservationValue) {
       if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
-      this.purchaseModeValue = 'later'
+      this.purchaseModeValue = this.guestTypeValue === 'other' ? 'now' : 'later'
     } else {
       this.purchaseModeValue = 'now'
     }
