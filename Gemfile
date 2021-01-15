@@ -26,6 +26,7 @@ gem 'pinglish'
 gem 'premailer-rails'
 gem 'puma'
 gem 'rails', '~> 6.0.0'
+gem 'rack-cors'
 gem 'ransack' # Searching
 gem 'redcarpet' # Markdown rendering
 gem 'sassc-rails'
@@ -43,7 +44,6 @@ gem 'sentry-sidekiq'
 gem 'redis-namespace'
 gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-ent', '~> 1.8.1'
-gem 'sidekiq-status'
 gem 'sidekiq_alive'
 
 source 'https://rubygems.pkg.github.com/mythcoders' do
