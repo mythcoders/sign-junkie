@@ -6,7 +6,7 @@
 .row.text-center.text-lg-left.mb-3
   - @project.project_images.each do |image|
     .col-12.col-md-6.col-lg-4
-      %img.img-fluid.img-thumbnail{alt: "Image of #{@project.name}", src: url_for(image)}
+      %img.img-fluid.img-thumbnail{alt: "Image of #{@project.name}", src: url_for(image), loading: 'lazy'}
 
 %h3.text-danger Available Stencils
 - @project.stencils.active.group_by(&:category).sort_by { |cat, _| cat[:name].downcase }.each do |category, stencils|
@@ -15,9 +15,9 @@
     - stencils.sort_by { |s| s.name.downcase }.each do |stencil|
       .row-item.text-center
         - if stencil.image.attached?
-          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image)}
+          %img.img-fluid.img-thumbnail{alt: "Preview of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
         - else
-          %img.img-fluid.img-thumbnail{alt: "Default image", src: asset_path('cover.jpg')}
+          %img.img-fluid.img-thumbnail{alt: "Default image", src: asset_path('cover.jpg'), loading: 'lazy'}
         .text-secondary= stencil.name
 
 -# - if @project.addons.any?

@@ -1,3 +1,5 @@
+= error_messages_for 'seat'
+
 = render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @existing_seat_id)) do |component|
   - component.with(:header) do
     New Seat for #{@seat.reservation.title}

@@ -44,7 +44,7 @@
                                          'data-id': stencil.id,
                                          'data-allow-personalization': stencil.allow_personilization.to_s}
               .card-zoom
-                %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image)}
+                %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
 
               .card-body.text-center{'data-seat-wizard-stencil-tab--component-target': 'option',
                                     'data-seat-wizard-target': 'stencil',

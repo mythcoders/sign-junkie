@@ -10,7 +10,7 @@
   - @projects.each do |project|
     .row-item.text-center
       - if project.project_images.any?
-        %img.img-fluid.img-thumbnail{alt: "Preview of #{project.name}", src: url_for(project.project_images.first)}
+        %img.img-fluid.img-thumbnail{alt: "Preview of #{project.name}", src: url_for(project.project_images.first), loading: 'lazy'}
       - else
-        %img.img-fluid.img-thumbnail{alt: "Image of #{project.name}", src: asset_path('cover.jpg')}
+        %img.img-fluid.img-thumbnail{alt: "Image of #{project.name}", src: asset_path('cover.jpg'), loading: 'lazy'}
       .text-secondary= link_to project.name, project_path(project.id), class: 'card-link'
