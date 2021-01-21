@@ -1,18 +1,29 @@
 import AdminController from "./admin_controller"
 
 export default class extends AdminController {
-  static targets = ["singleSeatAllow", "reservationAllow", "reservationCancelMinimum", "reservationsEnd",
+  static targets = ["singleSeatAllow", "reservationAllow", "reservationCancelMinimum", "reservationsEnd", "input",
     "reservationAllowMultiple", "totalSeats", "reservationPrice", "reservationMinimum", "reservationMaximum"]
 
+  connect() {
+    let element = this.inputTargets.find(p => p.checked)
+    if (element != null) {
+      this.updateUI(element)
+    }
+  }
+
   toggleType(e) {
-    this.reservationAllowMultipleTarget.innerHTML = e.currentTarget.dataset.reservationAllowMultiple
-    this.reservationAllowTarget.innerHTML = e.currentTarget.dataset.reservationAllow
-    this.reservationCancelMinimumTarget.innerHTML = e.currentTarget.dataset.reservationCancelMinimum
-    this.reservationMaximumTarget.innerHTML = e.currentTarget.dataset.reservationMaximum
-    this.reservationMinimumTarget.innerHTML = e.currentTarget.dataset.reservationMinimum
-    this.reservationPriceTarget.innerHTML = e.currentTarget.dataset.reservationPrice
-    this.reservationsEndTarget.innerHTML = e.currentTarget.dataset.reservationsEnd
-    this.singleSeatAllowTarget.innerHTML = e.currentTarget.dataset.singleSeatAllow
-    this.totalSeatsTarget.innerHTML = e.currentTarget.dataset.totalSeats
+    this.updateUI(e.currentTarget)
+  }
+
+  updateUI(element) {
+    this.reservationAllowMultipleTarget.innerHTML = element.dataset.reservationAllowMultiple
+    this.reservationAllowTarget.innerHTML = element.dataset.reservationAllow
+    this.reservationCancelMinimumTarget.innerHTML = element.dataset.reservationCancelMinimum
+    this.reservationMaximumTarget.innerHTML = element.dataset.reservationMaximum
+    this.reservationMinimumTarget.innerHTML = element.dataset.reservationMinimum
+    this.reservationPriceTarget.innerHTML = element.dataset.reservationPrice
+    this.reservationsEndTarget.innerHTML = element.dataset.reservationsEnd
+    this.singleSeatAllowTarget.innerHTML = element.dataset.singleSeatAllow
+    this.totalSeatsTarget.innerHTML = element.dataset.totalSeats
   }
 }

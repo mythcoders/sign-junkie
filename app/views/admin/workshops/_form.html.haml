@@ -21,6 +21,7 @@
             - @workshop_types.each do |type|
               .custom-control.custom-radio
                 = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
+                  'data-admin--workshop-edit-target': 'input',
                   'data-action': 'admin--workshop-edit#toggleType',
                   'data-reservation-allow': human_boolean(type.default_reservation_allow),
                   'data-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
