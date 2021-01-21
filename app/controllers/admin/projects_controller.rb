@@ -73,7 +73,7 @@ module Admin
     def project_params
       parameters = params.require(:project)
                          .permit(:name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
-                                 :instructional_price, :active, addon_ids: [], stencil_ids: [])
+                                 :instructional_price, :active, :only_for_children, addon_ids: [], stencil_ids: [])
       parameters[:addon_ids]&.reject!(&:blank?)
       parameters[:stencil_ids]&.reject!(&:blank?)
       parameters
