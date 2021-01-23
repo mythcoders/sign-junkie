@@ -98,19 +98,31 @@
 
       %hr
     - else
-      = @seat.guest_type
-      = hidden_field_tag 'cart[first_name]', @seat.owner.first_name
-      = hidden_field_tag 'cart[last_name]', @seat.owner.last_name
-      = hidden_field_tag 'cart[email]', @seat.owner.email
-      -# = hidden_field_tag 'cart[child_first_name]', @seat.first_name
-      -# = hidden_field_tag 'cart[child_last_name]', @seat.first_name
-      This seat is for #{@seat.name}
+      = hidden_field_tag 'cart[guest_type]', @seat.owner.type
+
+      - if @seat.owner.type == 'child'
+        = hidden_field_tag 'cart[child_first_name]', @seat.owner.first_name
+        = hidden_field_tag 'cart[child_last_name]', @seat.owner.last_name
+        = hidden_field_tag 'cart[first_name]', @seat.owner.parent.first_name
+        = hidden_field_tag 'cart[last_name]', @seat.owner.parent.last_name
+        = hidden_field_tag 'cart[email]', @seat.owner.parent.email
+      - else
+        = hidden_field_tag 'cart[first_name]', @seat.owner.first_name
+        = hidden_field_tag 'cart[last_name]', @seat.owner.last_name
+        = hidden_field_tag 'cart[email]', @seat.owner.email
+
+      %p.card-text= @seat.name
+      - if @seat.owner.email
+        %p.card-text= mail_to @seat.owner.email
+
+      If you'd like to change to make a change delete the seat and add a new one.
       %hr
 
     %h5.card-title Seating Request
     .form-group
       .custom-checkbox.custom-control
         %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0",
+                                                   checked: @seat.seat_preference.nil? ? '' : "checked",
                                                    'data-action': "seat-wizard-guest-tab--component#toggleSeatRequest"}
         %label.custom-control-label{for: "hasSeatRequest",
                                     'data-seat-wizard-guest-tab--component-target': 'seatRequestLabel'}
@@ -120,6 +132,7 @@
       .form-control-plaintext
         Enter the guests name below. We'll do our best to accomidate your request.
       %input.form-control#seatRequest{type: 'text', autocomplete: false, name: 'cart[seat_request]',
+                                      value: @seat.seat_preference,
                                       placeholder: "First and Last name",
                                       'data-seat-wizard-guest-tab--component-target': 'seatRequest'}
 

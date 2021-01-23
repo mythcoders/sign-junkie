@@ -60,7 +60,7 @@ module SeatService
 
     def apply_owner
       @item.owner = SeatService::GuestParser.parse(@params)
-      @item.seat_preference = @params.seat_preference
+      @item.seat_preference = @params.seat_request
       @item.for_child = @params.guest_type == 'child'
       @item.gifted = @params.guest_type != 'self'
     end
