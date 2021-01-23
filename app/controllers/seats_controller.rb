@@ -23,19 +23,13 @@ class SeatsController < ApplicationController
   end
 
   # /reservation/:reservation_id/seats
-  # rubocop:disable Metrics/AbcSize
   def create
     @seat = Seat.new(reservation: @reservation, workshop: @reservation.workshop)
 
     if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('create.success')
-
-      if add_seat_to_cart?
-        Cart.create! user: current_user, item_description_id: @seat.item_description_id
-        redirect_to cart_index_path
-      else
-        redirect_to reservation_path(@reservation)
-      end
+      add_to_cart_if_not_present
+      redirect_to reservation_path(@reservation)
     else
       flash[:error] = t('seat.create.failure')
       set_seat_check
@@ -47,19 +41,13 @@ class SeatsController < ApplicationController
   def update
     if SeatService::Updater.perform(@seat, current_user, seat_params)
       flash[:success] = t('update.success')
-
-      if add_seat_to_cart?
-        Cart.create! user: current_user, item_description_id: @seat.item_description_id
-        redirect_to cart_index_path
-      else
-        redirect_to seat_path @seat
-      end
+      add_to_cart_if_not_present
+      redirect_to seat_path @seat
     else
       flash[:error] = t('update.failure')
       render 'edit', status: :unprocessable_entity
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   # /reservation/:reservation_id/seats/:id/remind
   def remind
@@ -90,26 +78,24 @@ class SeatsController < ApplicationController
   end
 
   def authorize_add
-    unless @reservation.may_add_seat?(current_user)
-      flash[:error] = t('reservations.no_more_seats')
-      redirect_to reservation_path(@reservation)
-    end
+    return if @reservation.may_add_seat?(current_user)
+
+    flash[:error] = t('reservations.no_more_seats')
+    redirect_to reservation_path(@reservation)
   end
 
   def authorize_edit
-    unless @seat.editable?(current_user)
-      flash[:error] = t('seat.not_editable')
-      redirect_to reservation_path(@reservation)
-    end
+    return if @seat.editable?(current_user)
+
+    flash[:error] = t('seat.not_editable')
+    redirect_to reservation_path(@reservation)
   end
 
   def authorize_seat
-    if @seat.user_id == current_user.id || (@seat.reservation && @seat.reservation.user_id == current_user.id)
-      true
-    else
-      flash[:error] = t('seat.not_editable')
-      redirect_back(fallback_location: seats_path)
-    end
+    return if @seat.showable?(current_user)
+
+    flash[:error] = t('seat.not_editable')
+    redirect_back(fallback_location: seats_path)
   end
 
   def set_seat_check
@@ -121,7 +107,10 @@ class SeatsController < ApplicationController
                         end
   end
 
-  def add_seat_to_cart?
-    @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
+  def add_to_cart_if_not_present
+    return unless @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
+
+    Cart.create! user: current_user, item_description_id: @seat.item_description_id
+    flash[:success] = t('cart.add.success')
   end
 end

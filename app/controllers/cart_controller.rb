@@ -8,18 +8,12 @@ class CartController < ApplicationController
   end
 
   def create
-    begin
-      if CartFactory.process(current_user, cart_params)
-        flash[:success] = t('cart.add.success')
+    raise ProcessError, t('cart.add.failure') unless CartFactory.process!(current_user, cart_params)
 
-        return redirect_to cart_index_path
-      else
-        raise ProcessError, t('cart.add.failure')
-      end
-    rescue ProcessError => e
-      flash[:error] = e.message
-    end
-
+    flash[:success] = t('cart.add.success')
+    redirect_to cart_index_path
+  rescue ProcessError => e
+    flash[:error] = e.message
     redirect_back(fallback_location: root_path)
   end
 

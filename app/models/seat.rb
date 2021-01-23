@@ -31,6 +31,13 @@ class Seat < ApplicationRecord
     name.split.map(&:first).join.upcase
   end
 
+  def showable?(user)
+    return true if user.id != customer.id
+    return true if reservation&.host?(user)
+
+    false
+  end
+
   def editable?(user)
     return false if invoice.present?
     return false if reservation.workshop.registration_deadline.past?
@@ -47,10 +54,8 @@ class Seat < ApplicationRecord
   end
 
   def guest_type
-    if persisted?
-      owner.nil? ? 'self' : owner.type
-    else
-      nil
-    end
+    return unless persisted?
+
+    owner.nil? ? 'self' : owner.type
   end
 end

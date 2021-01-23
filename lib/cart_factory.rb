@@ -16,11 +16,11 @@ class CartFactory
     GENERAL_PARAMS + GIFT_CARD_PARAMS + GUEST_PARAMS + SEAT_PARAMS + RESERVATION_PARAMS
   end
 
-  def self.process(user, cart_params)
-    new(user, cart_params).build
+  def self.process!(user, cart_params)
+    new(user, cart_params).process!
   end
 
-  def build
+  def process!
     if @params[:reservation_id]
       add_unpaid_reservation_seats
     elsif @params[:seat_id]
