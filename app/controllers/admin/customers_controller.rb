@@ -55,7 +55,7 @@ module Admin
     private
 
     def customer_params
-      params.require(:user).permit(:first_name, :last_name, :role, :email)
+      params.require(:user).permit(:first_name, :last_name, :role, :email, :locked_at, :failed_attempts)
     end
 
     def disabled_roles

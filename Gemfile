@@ -28,6 +28,7 @@ gem 'puma'
 gem 'rails', '~> 6.0.0'
 gem 'rack-cors'
 gem 'ransack' # Searching
+gem 'recaptcha' # Google recaptcha
 gem 'redcarpet' # Markdown rendering
 gem 'sassc-rails'
 gem 'uglifier'
