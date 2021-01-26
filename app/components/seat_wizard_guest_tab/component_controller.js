@@ -73,23 +73,28 @@ export default class extends ApplicationController {
   }
 
   get isValid() {
-    let guestInfoRequired = this.hasGuestInfoTarget && this.guestTypeValue !== 'self' || (this.guestTypeValue === 'child' && !this.isParentValue)
-    let emailRequired = this.guestTypeValue === 'adult' || (this.guestTypeValue === 'child' && !this.isParentValue)
-
     if (this.guestTypeValue === '') {
       return false
     }
 
-    if (emailRequired && this.emailAddressTarget.value === '') {
-      return false
+    if (this.hasChildInfoTarget && this.guestTypeValue === 'child') {
+      if (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '') {
+        return false
+      }
     }
 
-    if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
-      return false
-    }
+    if (this.hasGuestInfoTarget) {
+      let isNotKidsParent = this.guestTypeValue === 'child' && !this.isParentValue
+      let guestInfoRequired = this.guestTypeValue === 'adult' || this.guestTypeValue === 'other' || isNotKidsParent
+      let emailRequired = this.guestTypeValue === 'adult' || isNotKidsParent
 
-    if ((this.guestTypeValue === 'child') && (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '')) {
-      return false
+      if (emailRequired && this.emailAddressTarget.value === '') {
+        return false
+      }
+
+      if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
+        return false
+      }
     }
 
     return true
@@ -120,6 +125,12 @@ export default class extends ApplicationController {
 
   notifyWizard() {
     let valid = this.isValid
+
+    console.log({
+      guestType: this.guestTypeValue,
+      purchaseMode: this.purchaseModeValue,
+      valid: this.isValid
+    })
 
     if (!valid) {
       this.nextButtonTarget.classList.add('disabled')
