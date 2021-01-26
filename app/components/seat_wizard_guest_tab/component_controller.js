@@ -1,7 +1,7 @@
 import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
-  static values = { forReservation: Boolean, guestType: String, isParent: Boolean, previouslyValid: Boolean }
+  static values = { forReservation: Boolean, guestType: String, isParent: Boolean, previousNotify: Object }
   static targets = [
     "childFirstName",
     "childInfo",
@@ -31,7 +31,11 @@ export default class extends ApplicationController {
     }
     this.seatRequestAreaTarget.hidden = true
     this.nextButtonTarget.classList.add('disabled')
-    this.previouslyValidValue = this.isValid
+    this.previousNotifyValue = {
+      guestType: this.guestTypeValue,
+      purchaseMode: this.purchaseModeValue,
+      valid: this.isValid
+    }
   }
 
   toggleGuestType(e) {
@@ -48,6 +52,7 @@ export default class extends ApplicationController {
       this.purchaseModeValue = 'now'
     }
 
+    this.updateUI() // always trigger
     this.notifyWizard()
   }
 
@@ -115,6 +120,12 @@ export default class extends ApplicationController {
   }
 
   updateUI() {
+    if (this.purchaseModeValue === 'now') {
+      this.nextButtonTarget.dataset.destination = 'project'
+    } else {
+      this.nextButtonTarget.dataset.destination = 'review'
+    }
+
     if (this.hasGuestInfoTarget) {
       this.showHideEmailAddress()
       this.showHideGuestInfo()
@@ -125,38 +136,33 @@ export default class extends ApplicationController {
 
   notifyWizard() {
     let valid = this.isValid
+    let shouldNotifyWizard = valid && !this.previousNotifyValue.valid ||
+      this.guestTypeValue != this.previousNotifyValue.guestType ||
+      this.purchaseModeValue != this.previousNotifyValue.purchaseMode
 
-    console.log({
-      guestType: this.guestTypeValue,
-      purchaseMode: this.purchaseModeValue,
-      valid: this.isValid
-    })
-
-    if (!valid) {
-      this.nextButtonTarget.classList.add('disabled')
-    } else {
-      if (this.purchaseModeValue === 'now') {
-        this.nextButtonTarget.dataset.destination = 'project'
-      } else {
-        this.nextButtonTarget.dataset.destination = 'review'
-      }
-
+    if (valid) {
       this.nextButtonTarget.classList.remove('disabled')
+    } else {
+      this.nextButtonTarget.classList.add('disabled')
     }
 
-    if (valid && !this.previouslyValidValue) {
+    if (valid && shouldNotifyWizard) {
       document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {
         detail: {
           guestType: this.guestTypeValue,
           purchaseMode: this.purchaseModeValue,
-          valid: this.isValid
+          valid: valid
         }
       }))
-    } else if (!valid && this.previouslyValidValue) {
+    } else if (!valid && this.previousNotifyValue.valid) {
       document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
     }
 
-    this.previouslyValidValue = valid
+    this.previousNotifyValue = {
+      guestType: this.guestTypeValue,
+      purchaseMode: this.purchaseModeValue,
+      valid: valid
+    }
   }
 
   showHideChildInfo() {
