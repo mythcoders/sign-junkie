@@ -4,7 +4,9 @@ require 'sidekiq-ent/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-  devise_for :users # , path: 'security'
+  devise_for :users, controllers: {
+    registrations: 'security/registrations'
+  }
 
   concern :cancelable do
     post 'cancel', action: :cancel, on: :member
@@ -42,6 +44,7 @@ Rails.application.routes.draw do
 
   resources :addons, only: %i[index show]
   resources :cart, only: %i[index create destroy]
+  get 'cart/meh', to: 'cart#meh'
   resources :invoices, only: %i[index show new create], path: 'orders'
   resources :projects, only: %i[index show] do
     get 'addons', on: :member
