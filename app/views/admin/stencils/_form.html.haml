@@ -19,12 +19,6 @@
     = f.label :allow_personilization, class: 'custom-control-label'
 
 .form-group
-  .custom-file
+  .custom-file{'data-controller': 'file-upload'}
     = f.file_field :image, class: 'custom-file-input'
     = f.label :select_stencil_image, class: 'custom-file-label'
-
-- content_for :scripts do
-  :javascript
-    document.addEventListener('DOMContentLoaded', function() {
-      bsCustomFileInput.init()
-    });
