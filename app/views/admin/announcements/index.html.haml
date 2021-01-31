@@ -32,7 +32,7 @@
     %tbody
       - @announcements.each do |announcement|
         %tr
-          %td= link_to announcement.title, admin_announcement_path(announcement)
+          %td= link_to announcement.title, edit_admin_announcement_path(announcement)
           %td
             - if announcement.active?
               %span.text-success ●

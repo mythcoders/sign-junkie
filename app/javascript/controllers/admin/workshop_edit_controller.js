@@ -2,7 +2,8 @@ import AdminController from "./admin_controller"
 
 export default class extends AdminController {
   static targets = ["singleSeatAllow", "reservationAllow", "reservationCancelMinimum", "reservationsEnd", "input",
-    "reservationAllowMultiple", "totalSeats", "reservationPrice", "reservationMinimum", "reservationMaximum"]
+    "reservationAllowMultiple", "totalSeats", "reservationPrice", "reservationMinimum", "reservationMaximum",
+    "reservationAllowGuestCancelSeat"]
 
   connect() {
     let element = this.inputTargets.find(p => p.checked)
@@ -19,6 +20,7 @@ export default class extends AdminController {
     this.reservationAllowMultipleTarget.innerHTML = element.dataset.reservationAllowMultiple
     this.reservationAllowTarget.innerHTML = element.dataset.reservationAllow
     this.reservationCancelMinimumTarget.innerHTML = element.dataset.reservationCancelMinimum
+    this.reservationAllowGuestCancelSeatTarget.innerHTML = element.dataset.reservationAllowGuestCancelSeat
     this.reservationMaximumTarget.innerHTML = element.dataset.reservationMaximum
     this.reservationMinimumTarget.innerHTML = element.dataset.reservationMinimum
     this.reservationPriceTarget.innerHTML = element.dataset.reservationPrice

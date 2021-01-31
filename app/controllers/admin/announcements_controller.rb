@@ -2,7 +2,7 @@
 
 module Admin
   class AnnouncementsController < AdminController
-    before_action :set_announcement, only: %i[show edit update destroy]
+    before_action :set_announcement, only: %i[edit update destroy]
 
     def index
       @q = Announcement.ransack(params[:q])

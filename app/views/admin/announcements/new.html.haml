@@ -9,15 +9,13 @@
         %h6.header-pretitle
           Announcements
         %h1.header-title
-          %i.fad.fa-sign
+          %i.fad.fa-megaphone
           New Announcement
 
 = form_for @announcement, url: admin_announcements_path, local: true do |f|
   .row.justify-content-center
     .col.col-lg-8.col-md-12
       .card.mt-3
-        .card-header
-          %h3.card-header-title Information
         .card-body
           = error_messages_for 'announcement'
           = render partial: 'admin/announcements/form', locals: { f: f }

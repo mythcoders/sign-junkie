@@ -9,18 +9,16 @@
         %h6.header-pretitle
           Announcements
         %h1.header-title
-          %i.fad.fa-sign
+          %i.fad.fa-megaphone
           = "Edit #{@announcement.title}"
 
 = form_for @announcement, url: admin_announcement_path(@announcement), method: :patch do |f|
   .row.justify-content-center
     .col.col-lg-8.col-md-12
       .card.mt-3
-        .card-header
-          %h3.card-header-title Information
         .card-body
           = error_messages_for 'announcement'
           = render partial: 'admin/announcements/form', locals: { f: f }
         .card-footer
-          = link_to 'Cancel', admin_announcement_path(@announcement), class: 'btn btn-outline-secondary'
+          = link_to 'Cancel', admin_announcements_path, class: 'btn btn-outline-secondary'
           = f.submit 'Save', class: 'btn btn-success'
