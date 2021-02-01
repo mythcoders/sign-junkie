@@ -12,10 +12,8 @@
 
 .row
   .col-12.col-lg-4.d-print-none
-    = form_tag url: admin_sales_tax_report_path do |f|
+    = form_tag admin_sales_tax_report_path, method: :post do |f|
       .card
-        .card-header
-          Parameters
         .card-body
           .form-row
             .form-group.col
@@ -24,35 +22,11 @@
                   options_from_collection_for_select(@tax_periods, 'id', 'name', params[:tax_period_id]),
                   { class: 'form-control custom-select', required: true, include_blank: '- Please Select -' }
         .card-footer
-          = submit_tag 'Submit', class: 'btn btn-primary'
+          = link_to 'Go Back', admin_reports_path, class: 'btn btn-white'
+          = submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: false }
 
   .col-12.col-lg-8
-    .card
-      - if @report
-        .table-responsive.mb-0
-          %table.table.table-nowrap.card-table
-            %tr
-              %th.text-center{colspan: 3}= ClientInfo.owner
-            %tr
-              %th{colspan: 3}= short_date_out @report.start_date, @report.end_date
-            %tr
-              %td{colspan: 2} Sales
-              %td.text-right= number_to_currency @report.total_sales
-            %tr
-              %td
-              %td Taxable Amount
-              %td.text-right= number_to_currency @report.taxable_sales
-            %tr
-              %td
-              %td Non-Taxable Amount
-              %td.text-right= number_to_currency @report.nontaxable_sales
-            %tr
-              %td{colspan: 2} Tax Collected
-              %td.text-right= number_to_currency @report.tax_collected
-            %tr
-              %td.text-uppercase{colspan: 2}
-                %strong Total Sales with Tax
-              %td.text-right= number_to_currency @report.total_sales + @report.tax_collected
-      - else
+    %turbo-frame{id: 'report_contents'}
+      .card
         .card-body
-          .card-text No results found.
+          .card-text Run report using parameters on the left.

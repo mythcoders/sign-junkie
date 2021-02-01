@@ -7,7 +7,7 @@
     = stylesheet_link_tag @admin_ui_theme, type: 'text/css', 'data-turbo-track': 'reload'
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
     = turbo_include_tags
-  %body
+  %body{'data-turbo': 'true'}
     = render partial: "layouts/admin/toast_alerts"
     = render partial: "layouts/admin/sidebar"
     .main-content

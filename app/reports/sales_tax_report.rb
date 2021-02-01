@@ -43,7 +43,7 @@ class SalesTaxReport
 
   def purchased_items
     ItemDescription
-      .joins(:invoice_items)
+      .joins(:invoice_item)
       .where('invoice_items.created_at BETWEEN ? and ?', start_date, end_date)
       .where(cancel_date: nil, void_date: nil, refund_date: nil)
   end

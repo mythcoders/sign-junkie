@@ -5,7 +5,7 @@
     = stylesheet_link_tag 'application', type: 'text/css', 'data-turbo-track': 'reload'
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
     = turbo_include_tags
-  %body#page-top
+  %body#page-top{'data-turbo': 'false'}
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}

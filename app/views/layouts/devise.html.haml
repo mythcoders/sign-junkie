@@ -4,7 +4,7 @@
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'admin', type: 'text/css' , 'data-turbo-track': 'reload'
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
-  %body.body-devise-login
+  %body.body-devise-login{'data-turbo': 'false'}
     .container-fluid
       .row.align-items-center.justify-content-center
         .col-12.col-md-6.col-lg-6.col-xl-4.px-lg-5.my-5

@@ -1,0 +1,25 @@
+%turbo-stream{action: 'replace', target: 'report_contents'}
+  %template
+    %turbo-frame{id: 'report_contents'}
+      .card
+        - if report
+          .table-responsive.mb-0
+            %table.table.table-nowrap.card-table
+              %thead
+                %tr
+                  %th.text-center{colspan: 4}
+                    %h3= ClientInfo.owner
+                    %br Attendess for #{report.workshop_name}
+              %tbody
+                - report.raw_data.each do |seat|
+                  %tr
+                    %td= seat.name
+                    %td= seat.project_name
+                    %td
+                      = seat.stencil_name
+                      = seat.stencil_personalization
+                    %td= seat.addon_name
+
+        - else
+          .card-body
+            .card-text No results found.
