@@ -38,9 +38,9 @@ class User < ApplicationRecord
     user = User.find_by_email(email)
     if user.nil?
       user = User.invite!(email: email,
-                               first_name: first_name,
-                               last_name: last_name,
-                               role: 'customer')
+                          first_name: first_name,
+                          last_name: last_name,
+                          role: 'customer')
     end
 
     user

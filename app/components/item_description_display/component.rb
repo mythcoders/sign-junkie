@@ -7,7 +7,7 @@ module ItemDescriptionDisplay
     def initialize(args = {})
       @item = args[:item]
       @show_icons = args[:icons].nil? ? true : args[:icons]
-      @show_status = args[:status].nil? ?  true : args[:status]
+      @show_status = args[:status].nil? ? true : args[:status]
       @show_title = args[:title].nil? ? true : args[:title]
       @linkable = args[:linkable].nil? ? false : args[:linkable]
       @admin = args[:admin].nil? ? false : args[:admin]

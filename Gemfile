@@ -8,6 +8,7 @@ ruby '2.6.3'
 gem 'aasm'
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
+gem 'bootstrap-email'
 gem 'braintree'
 gem 'deep_cloneable'
 gem 'devise'
@@ -23,29 +24,28 @@ gem 'lograge' # Logging'
 gem 'paper_trail'
 gem 'pg'
 gem 'pinglish'
-gem 'premailer-rails'
 gem 'puma'
-gem 'rails', '~> 6.0.0'
 gem 'rack-cors'
+gem 'rails', '~> 6.0.0'
 gem 'ransack' # Searching
 gem 'recaptcha' # Google recaptcha
 gem 'redcarpet' # Markdown rendering
 gem 'sassc-rails'
 gem 'uglifier'
-gem 'view_component', require: "view_component/engine"
+gem 'view_component', require: 'view_component/engine'
 gem 'webpacker'
 gem 'websocket-extensions', '>= 0.1.5'
 
 # sentry exceptions
-gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'sentry-ruby'
 gem 'sentry-sidekiq'
 
 # sidekiq
 gem 'redis-namespace'
 gem 'sidekiq', '~> 5.2'
-gem 'sidekiq-ent', '~> 1.8.1'
 gem 'sidekiq_alive'
+gem 'sidekiq-ent', '~> 1.8.1'
 
 source 'https://rubygems.pkg.github.com/mythcoders' do
   gem 'hermes'
@@ -76,9 +76,9 @@ group :development, :test do
 end
 
 group :test do
-   gem 'selenium-webdriver'
-   gem 'webdrivers', '~> 4.0', require: false
- end
+  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 4.0', require: false
+end
 
 group :development do
   gem 'better_errors'

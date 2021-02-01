@@ -29,7 +29,7 @@ module SeatWizardStencilTab
                               end
                               hash
                             else
-                              { }
+                              {}
                             end
     end
   end

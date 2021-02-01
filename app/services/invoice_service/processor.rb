@@ -47,8 +47,8 @@ module InvoiceService
         if payment.gift_card?
           # TODO: refunded back to the original credit
           CustomerCredit.create!(customer: payment.invoice.customer,
-                                starting_amount: payment.amount,
-                                balance: payment.amount)
+                                 starting_amount: payment.amount,
+                                 balance: payment.amount)
         else
           BraintreeService.new.void! payment
         end

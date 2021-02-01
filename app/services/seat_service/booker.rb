@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module SeatService
-
   # Create seat in the context of processing the invoice
   class Booker
     def initialize(invoice_item, current_user)

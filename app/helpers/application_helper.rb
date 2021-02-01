@@ -13,6 +13,7 @@ module ApplicationHelper
      (@admin_ui_theme == 'admin' ? 'navbar-dark' : 'navbar-light')]
   end
 
+  # l if present
   def lifp(value, format = :default)
     l(value, format: format) if value.present?
   end

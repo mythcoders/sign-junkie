@@ -21,7 +21,7 @@ module SeatService
     private
 
     def validate_workshop_accepting_seats
-      raise ProcessError, I18n.translate('workshop.seats_full') if !@item.workshop.seat_purchaseable?
+      raise ProcessError, I18n.translate('workshop.seats_full') unless @item.workshop.seat_purchaseable?
     end
 
     def validate_not_already_in_cart

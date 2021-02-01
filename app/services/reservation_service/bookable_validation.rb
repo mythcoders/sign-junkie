@@ -26,7 +26,10 @@ module ReservationService
     end
 
     def validate_not_already_booked
-      raise ProcessError, I18n.translate('reservations.already_booked') if already_booked_reservation? || similar_cart_items?
+      if already_booked_reservation? || similar_cart_items?
+        raise ProcessError,
+              I18n.translate('reservations.already_booked')
+      end
     end
 
     def already_booked_reservation?

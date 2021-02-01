@@ -24,9 +24,6 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
   config.action_mailer.asset_host = "http://#{Apollo.env_url(protocol: false)}"
-  config.action_mailer.default_options = {
-    skip_premailer: true
-  }
   config.action_mailer.default_url_options = {
     host: Apollo.env_url(protocol: false),
     protocol: 'https://'

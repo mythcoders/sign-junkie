@@ -88,6 +88,11 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.6.0)
       msgpack (~> 1.0)
+    bootstrap-email (0.3.4)
+      actionmailer (>= 3)
+      nokogiri (~> 1.6)
+      premailer-rails (~> 1.9)
+      rails (>= 3)
     braintree (3.2.0)
       builder (>= 3.2.4)
       libxml-ruby (>= 3.2.0)
@@ -521,6 +526,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  bootstrap-email
   braintree
   bundler-audit
   byebug
@@ -544,7 +550,6 @@ DEPENDENCIES
   paper_trail
   pg
   pinglish
-  premailer-rails
   pry-byebug
   pry-rails
   puma

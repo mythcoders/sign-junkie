@@ -7,8 +7,8 @@ class InvoiceMailer < ApplicationMailer
   before_action { @invoice = Invoice.find params[:invoice_id] }
 
   def receipt
-    mail(to: "#{@invoice.customer.full_name} <#{@invoice.customer.email}>",
-         subject: "Receipt for Order ##{@invoice.identifier}",
-         template_name: 'receipt')
+    make_bootstrap_mail(to: "#{@invoice.customer.full_name} <#{@invoice.customer.email}>",
+                        subject: "Receipt for Order ##{@invoice.identifier}",
+                        template_name: 'receipt')
   end
 end

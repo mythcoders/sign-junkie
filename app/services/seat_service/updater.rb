@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module SeatService
-
   # called when updating a seat on a reservation
   class Updater
     def initialize(seat, current_user, params)
