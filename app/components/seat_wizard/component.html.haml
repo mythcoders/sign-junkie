@@ -79,4 +79,4 @@
             = render(SeatWizardStencilTab::Component.new(project, @seat.stencils)) if @seat.selection_made?
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
-            = render(SeatWizardReviewTab::Component.new(workshop))
+            = render(SeatWizardReviewTab::Component.new(@seat))

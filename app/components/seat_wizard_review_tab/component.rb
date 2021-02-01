@@ -4,8 +4,14 @@ module SeatWizardReviewTab
   class Component < ViewComponent::Base
     include WorkshopsHelper
 
-    def initialize(workshop)
-      @workshop = workshop
+    def initialize(seat)
+      @seat = seat
+    end
+
+    delegate :workshop, to: :@seat
+
+    def require_affirmations
+      !@seat.persisted? && !@seat.selection_made?
     end
   end
 end

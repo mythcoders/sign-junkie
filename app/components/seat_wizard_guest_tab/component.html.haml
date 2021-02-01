@@ -122,7 +122,7 @@
     .form-group
       .custom-checkbox.custom-control
         %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0",
-                                                   checked: @seat.seat_preference.nil? ? false : 'checked',
+                                                   checked: @seat.seat_preference.blank? ? false : 'checked',
                                                    'data-action': "seat-wizard-guest-tab--component#toggleSeatRequest"}
         %label.custom-control-label{for: "hasSeatRequest",
                                     'data-seat-wizard-guest-tab--component-target': 'seatRequestLabel'}
