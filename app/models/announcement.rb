@@ -7,6 +7,6 @@ class Announcement < ApplicationRecord
   scope :active, -> { where('start_at <= current_timestamp and (end_at is null or end_at >= current_timestamp)') }
 
   def active?
-    start_at.past? && (end_at.nil? || end_at.future?)
+    start_at&.past? && (end_at.nil? || end_at.future?)
   end
 end

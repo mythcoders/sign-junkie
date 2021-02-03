@@ -11,6 +11,10 @@
       %h6.navbar-heading.mb-n1 Your Business
       %ul.navbar-nav.mb-md-3
         %li.nav-item
+          = link_to admin_announcements_path, class: 'nav-link' do
+            %i.fad.fa-megaphone.fa-lg.sidebar-icon
+            Announcements
+        %li.nav-item
           = link_to admin_customers_path, class: 'nav-link' do
             %i.fad.fa-address-book.fa-lg.sidebar-icon
             Customers
@@ -27,10 +31,6 @@
             %i.fad.fa-file-invoice-dollar.fa-lg.sidebar-icon
             Invoices
         %li.nav-item
-          = link_to admin_projects_path, class: 'nav-link' do
-            %i.fad.fa-sign.fa-lg.sidebar-icon
-            Projects
-        %li.nav-item
           = link_to admin_refunds_path, class: 'nav-link' do
             %i.fad.fa-gift-card.fa-lg.sidebar-icon
             Refunds
@@ -39,32 +39,6 @@
             %i.fad.fa-analytics.fa-lg.sidebar-icon
             Reports
         %li.nav-item
-          = link_to admin_stencils_path, class: 'nav-link' do
-            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
-            Stencils
-        %li.nav-item
-          = link_to admin_workshops_path('grid[f][start_date]': 'future'), class: 'nav-link' do
-            %i.fad.fa-toolbox.fa-lg.sidebar-icon
-            Workshops
-      %h6.navbar-heading.mb-n1 Configuration
-      %ul.navbar-nav.mb-md-3
-        %li.nav-item
-          = link_to admin_announcements_path, class: 'nav-link' do
-            %i.fad.fa-megaphone.fa-lg.sidebar-icon
-            Announcements
-        %li.nav-item
-          = link_to admin_gallery_images_path, class: 'nav-link' do
-            %i.fad.fa-photo-video.fa-lg.sidebar-icon
-            Photo Gallery
-        %li.nav-item
-          = link_to admin_addons_path, class: 'nav-link' do
-            %i.fad.fa-stamp.fa-lg.sidebar-icon
-            Project Add-ons
-        %li.nav-item
-          = link_to admin_stencil_categories_path, class: 'nav-link' do
-            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
-            Stencil Categories
-        %li.nav-item
           = link_to admin_tax_periods_path, class: 'nav-link' do
             %i.fad.fa-calendar-alt.fa-lg.sidebar-icon
             Tax Periods
@@ -72,6 +46,32 @@
           = link_to admin_tax_rates_path, class: 'nav-link' do
             %i.fad.fa-percent.fa-lg.sidebar-icon
             Tax Rates
+      %h6.navbar-heading.mb-n1 Configuration
+      %ul.navbar-nav.mb-md-3
+        %li.nav-item
+          = link_to admin_gallery_images_path, class: 'nav-link' do
+            %i.fad.fa-photo-video.fa-lg.sidebar-icon
+            Photo Gallery
+        %li.nav-item
+          = link_to admin_projects_path, class: 'nav-link' do
+            %i.fad.fa-sign.fa-lg.sidebar-icon
+            Projects
+        %li.nav-item
+          = link_to admin_addons_path, class: 'nav-link' do
+            %i.fad.fa-stamp.fa-lg.sidebar-icon
+            Project Add-ons
+        %li.nav-item
+          = link_to admin_stencils_path, class: 'nav-link' do
+            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
+            Stencils
+        %li.nav-item
+          = link_to admin_stencil_categories_path, class: 'nav-link' do
+            %i.fad.fa-swatchbook.fa-lg.sidebar-icon
+            Stencil Categories
+        %li.nav-item
+          = link_to admin_workshops_path('grid[f][start_date]': 'future'), class: 'nav-link' do
+            %i.fad.fa-toolbox.fa-lg.sidebar-icon
+            Workshops
         %li.nav-item
           = link_to admin_workshop_types_path, class: 'nav-link' do
             %i.fad.fa-chalkboard-teacher.fa-lg.sidebar-icon
