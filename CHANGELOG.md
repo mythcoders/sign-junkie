@@ -1,4 +1,4 @@
-#### 2102 - February 2, 2021
+#### 2102 - February 7, 2021
 
 - Improvements
   - Redesigned reservation and seat selection experience
