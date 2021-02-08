@@ -17,7 +17,7 @@
         - if @reservation.unpaid_balance?
           = form_for :cart, url: cart_index_path do |f|
             = f.hidden_field :reservation_id, value: @reservation.id
-            %button.btn.btn-warning.btn-block.mb-2{type: 'submit'}
+            %button.btn.btn-info.btn-block.mb-2{type: 'submit'}
               = fa_solid 'cart-plus'
               Add unpaid projects to cart
 

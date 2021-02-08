@@ -55,7 +55,7 @@
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have booked a reservation for this workshop.
-                %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@existing_reservation_id)}
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@existing_reservation_id)}
                   View in Workshop Planner
             - else
               %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}

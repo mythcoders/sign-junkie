@@ -1,6 +1,6 @@
 %div{'data-controller': 'seat-wizard-review-tab--component'}
   .card-body
-    .alert.alert-warning.mt-2{'data-seat-wizard-review-tab--component-target': 'disclaimer'}
+    .alert.alert-info.mt-2{'data-seat-wizard-review-tab--component-target': 'disclaimer'}
       Please review your project selection. Changes can not be made once your order has been submitted.
 
     - if require_affirmations
@@ -38,6 +38,6 @@
           later than 20 minutes after the start time, the reservation fee I am about to pay will be forfeited.
           I also understand that NO unfinsihed projects will be given if I fail to attend this workshop.
   .card-footer.card-sticky-footer
-    %button.btn.btn-success.btn-block{type: 'submit'}
+    %button.btn.btn-info.btn-block{type: 'submit'}
       %i.fas.fa-cart-plus
       %span{'data-seat-wizard-review-tab--component-target': 'submitMessage'} Add to Cart
