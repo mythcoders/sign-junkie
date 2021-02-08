@@ -7,32 +7,26 @@ class UserMailer < Devise::Mailer
   default template_path: 'devise/mailer'
 
   def confirmation_instructions(record, token, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 
   def reset_password_instructions(record, token, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 
   def unlock_instructions(record, token, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 
   def email_changed(record, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 
   def password_change(record, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 
   def invitation_instructions(record, token, opts = {})
-    bootstrap = BootstrapEmail::Compiler.new(super)
-    bootstrap.perform_full_compile
+    super
   end
 end

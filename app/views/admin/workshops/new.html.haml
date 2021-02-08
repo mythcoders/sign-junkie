@@ -1,8 +1,9 @@
+- content_for :head do
+  = javascript_pack_tag 'actiontext', type: 'text/javascript', 'data-turbo-track': 'reload'
 - page_title 'New', 'Workshop'
 
-
 = form_for @workshop, url: admin_workshops_path, local: true do |f|
-  .header.mt-md-2
+  .header
     .header-body
       .row.align-items-center
         .col

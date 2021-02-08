@@ -75,6 +75,12 @@ $lighter: $gray-100 !default;
 $yiq-text-dark: $gray-900 !default;
 $yiq-text-light: $white !default;
 
+// Characters which are escaped by the escape-svg function
+$escaped-characters: (("<", "%3c"),
+  (">", "%3e"),
+  ("#", "%23"),
+) !default;
+
 
 // Options
 //
@@ -249,10 +255,6 @@ $input-btn-padding-y-sm: .125rem !default;
 $input-btn-padding-x-sm: .5rem !default;
 $input-btn-line-height-sm: $line-height-sm !default;
 
-$input-btn-padding-y-lg: .5rem !default;
-$input-btn-padding-x-lg: 1rem !default;
-$input-btn-line-height-lg: $line-height-lg !default;
-
 
 // Buttons
 //
@@ -311,9 +313,15 @@ $form-group-margin-bottom: 1.375rem !default;
 $input-group-addon-bg: $input-bg !default;
 $input-group-addon-color: $text-muted !default;
 
-$custom-select-focus-border-color: $input-focus-border-color !default;
-$custom-select-focus-box-shadow: inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5) !default;
+$custom-select-indicator-padding: 1.25rem !default;
+$custom-select-bg-size: .75em .75em !default;
+$custom-select-indicator-color: $gray-600 !default;
+$custom-select-indicator: url("data:image/svg+xml,<svg viewBox='0 0 9 5' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M1 1L4.25 4.25L7.5 1' stroke='#{$custom-select-indicator-color}' stroke-width='1.08333' stroke-linecap='round' stroke-linejoin='round'/></svg>") !default;
 
+$custom-select-focus-border-color: $input-focus-border-color !default;
+$custom-select-focus-box-shadow: $input-focus-box-shadow !default;
+
+$custom-control-cursor: pointer !default;
 $custom-control-indicator-bg: $border-color !default;
 $custom-control-indicator-border-width: 0 !default;
 
@@ -375,9 +383,16 @@ $navbar-light-toggler-border-color: transparent !default;
 
 // Pagination
 
+$pagination-padding-y: $input-btn-padding-y !default;
+$pagination-padding-x: $input-btn-padding-x !default;
+$pagination-padding-y-sm: $input-btn-padding-y-sm !default;
+$pagination-padding-x-sm: $input-btn-padding-x-sm !default;
+$pagination-padding-y-lg: $input-btn-padding-y-lg !default;
+$pagination-padding-x-lg: $input-btn-padding-x-lg !default;
+
 $pagination-color: $black !default;
 
-$pagination-focus-box-shadow: $input-btn-focus-box-shadow !default;
+$pagination-focus-box-shadow: none !default;
 
 $pagination-hover-color: $dark !default;
 $pagination-hover-bg: $gray-100 !default;
@@ -446,6 +461,7 @@ $toast-header-border-color: $border-color !default;
 
 // Badges
 
+$badge-font-size: 76% !default;
 $badge-font-weight: $font-weight-normal !default;
 $badge-padding-y: .33em !default;
 
@@ -485,9 +501,11 @@ $progress-border-radius: 200px !default; // Always rounds even if height is manu
 // List groups
 
 $list-group-bg: transparent !default;
-$list-group-border-color: $border-color !default;
+$list-group-border-color: $gray-200 !default;
 
 $list-group-item-padding-y: 1rem !default;
+
+$list-group-action-color: $body-color !default;
 
 
 // Figures
@@ -525,7 +543,16 @@ $code-color: $blue !default;
 // Paths
 
 $path-to-fonts: '../fonts' !default;
-$path-to-img: '../img' !default;
+$path-to-img: '../images' !default;
+
+
+// Components
+
+$border-sizing: () !default;
+$border-sizing: map-merge(("2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5), $border-sizing);
 
 
 // Type
@@ -635,6 +662,11 @@ $dropdown-card-border-color: $dropdown-border-color !default;
 $dropdown-card-header-min-height: 3.125rem !default;
 $dropdown-card-body-max-height: 350px !default;
 
+$dropdown-padding-y-sm: .25rem !default;
+$dropdown-font-size-sm: $font-size-sm !default;
+$dropdown-item-padding-y-sm: .1875rem !default;
+$dropdown-item-padding-x-sm: .75rem !default;
+
 
 // Header
 
@@ -683,6 +715,7 @@ $nav-tabs-sm-link-margin-x: .5rem !default;
 
 $navbar-vertical-width: 250px !default;
 $navbar-vertical-width-sm: 66px !default;
+$navbar-vertical-expand-breakpoint: 'md' !default; // Doesn't affect the actual breakpoint at which the navbar expands. Used for positioning of other elements only (e.g. `.select-alert`)
 
 $navbar-vertical-padding-x: 1.5rem !default;
 $navbar-vertical-padding-x-sm: 0.75rem !default;
@@ -716,6 +749,19 @@ $navbar-light-brand-filter: none;
 $navbar-dropdown-toggle-on-hover: true !default;
 
 
+// Pagination
+
+$pagination-tabs-padding-y: 1.25rem !default;
+$pagination-tabs-padding-x: .75rem !default;
+
+$pagination-tabs-bg-color: transparent !default;
+$pagination-tabs-border-color: $border-color !default;
+
+$pagination-tabs-color: $text-muted !default;
+$pagination-tabs-hover-color: $body-color !default;
+$pagination-tabs-active-color: $body-color !default;
+
+
 // Progress bars
 
 $progress-height-sm: 0.25rem !default;
@@ -728,6 +774,13 @@ $custom-switch-spacing: ($custom-switch-height - $custom-switch-indicator-size) 
 
 $custom-switch-indicator-bg: $white !default;
 $custom-switch-indicator-active-bg: $white !default;
+
+$custom-control-circle-indicator-size: 1.375rem !default;
+
+$custom-control-circle-indicator-border-radius: 50% !default;
+$custom-control-circle-indicator-icon-checked: url(escape-svg("data:image/svg+xml,<svg viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M11.3333 1L3.99996 8.33333L0.666626 5' stroke='#{$white}' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/></svg>")) !default;
+
+$custom-control-circle-indicator-bg-size: .75rem .5625rem !default;
 
 
 // Close
@@ -755,3 +808,8 @@ $checklist-control-checked-color: $gray-700 !default;
 // Backgrounds
 
 $bg-soft-level: -11 !default;
+
+
+// List
+
+$list-alert-min-width: 350px !default;

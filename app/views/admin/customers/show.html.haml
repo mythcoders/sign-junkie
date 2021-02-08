@@ -1,6 +1,6 @@
 - page_title @customer.full_name, 'Customers'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -20,6 +20,12 @@
           .dropdown-menu
             %a.dropdown-item{href: new_admin_customer_credit_path(@customer)} Credit
         %a.btn.btn-primary.lift{href: edit_admin_customer_path(@customer)} Edit
+      - if allow_resent_confirmation_email?(@customer)
+        = form_for :seat, url: resend_confirmation_admin_customer_path(@customer) do |f|
+          = f.hidden_field :id, value: @customer.id
+          %button.btn.btn-info{type: 'submit'}
+            = fa_duo 'shield', 'fa-fw'
+            Send Confirmation Email
       - if @customer.carts.any?
         = form_for :seat, url: remind_cart_admin_customer_path(@customer) do |f|
           = f.hidden_field :id, value: @customer.id
@@ -38,25 +44,30 @@
           .col-auto
             %span.badge{class: status_badge_class(@customer)}= @customer.status[:title]
       .card-body
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'envelope'
-            Email
-          .media-body.text-right
-            %span.font-weight-medium
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'envelope'
+              Email
+          .col-auto
+            %small.text-muted
               %a{href: "mailto:#{@customer.email}"}= @customer.email
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'shield'
-            = status_date_title @customer
-          .media-body.text-right
-            %span.font-weight-medium= lifp @customer.status[:date]
-        .media.align-items-center.mb-4
-          .font-size-1.font-weight-normal.mb-0.mr-3
-            = fa_duo 'hammer-war'
-            Failed Login Attempts
-          .media-body.text-right
-            %span.font-weight-medium= @customer.failed_attempts
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'shield'
+              = status_date_title @customer
+          .col-auto
+            %small.text-muted= lifp @customer.status[:date]
+        %hr
+        .row.align-items-center
+          .col
+            %h5.mb-0
+              = fa_duo 'hammer-war'
+              Failed Login Attempts
+          .col-auto
+            %small.text-muted= @customer.failed_attempts
 
   .col-12.col-lg-8
     %ul#customerTab.nav.nav-tabs.mb-2{role: "tablist"}
@@ -65,13 +76,17 @@
           = fa_solid 'chair'
           Workshops
       %li.nav-item
+        %a#credit-tab.nav-link{"aria-controls": "credit", "aria-selected": "false", "data-toggle": "tab", href: "#credit", role: "tab"}
+          = fa_solid 'gift-card'
+          Credits
+      %li.nav-item
+        %a#email-tab.nav-link{"aria-controls": "email", "aria-selected": "false", "data-toggle": "tab", href: "#email", role: "tab"}
+          = fa_solid 'envelope'
+          Emails
+      %li.nav-item
         %a#project-tab.nav-link{"aria-controls": "project", "aria-selected": "false", "data-toggle": "tab", href: "#project", role: "tab"}
           = fa_solid 'file-invoice-dollar'
           Invoices
-      %li.nav-item
-        %a#credit-tab.nav-link{"aria-controls": "image", "aria-selected": "false", "data-toggle": "tab", href: "#credit", role: "tab"}
-          = fa_solid 'gift-card'
-          Credits
       %li.nav-item
         %a#cart-tab.nav-link{"aria-controls": "cart", "aria-selected": "false", "data-toggle": "tab", href: "#cart", role: "tab"}
           = fa_solid 'shopping-cart'
@@ -84,7 +99,9 @@
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
         .card
           = render partial: 'admin/invoices/list', locals: { invoices: @customer.invoices.order(created_at: :desc) }
-      #credit.tab-pane.fade{"aria-labelledby": "image-tab", role: "tabpanel"}
+      #credit.tab-pane.fade{"aria-labelledby": "credit-tab", role: "tabpanel"}
         = render partial: 'admin/customer_credits/list', locals: { credits: @customer.credits.with_balance.order(created_at: :desc) }
       #cart.tab-pane.fade{"aria-labelledby": "cart-tab", role: "tabpanel"}
-        = render partial: 'admin/customers/cart', locals: { carts: @customer.carts.order(created_at: :desc) }
+        = render partial: 'cart', locals: { carts: @customer.carts.order(created_at: :desc) }
+      #email.tab-pane.fade{"aria-labelledby": "email-tab", role: "tabpanel"}
+        = render partial: 'email_log', locals: { emails: @customer.email_logs.order(created_at: :desc) }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-figlet -f trek apollo
+echo 'Starting Apollo'
 
 if [ "$1" == "stop" ]; then
   echo "Halting androids..."

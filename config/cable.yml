@@ -1,0 +1,21 @@
+default: &default
+  adapter: redis
+  url: ENV['REDIS_URL']
+
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+review:
+  <<: *default
+  channel_prefix: sign_junkie_review
+
+staging:
+  <<: *default
+  channel_prefix: sign_junkie_staging
+
+production:
+  <<: *default
+  channel_prefix: sign_junkie_production

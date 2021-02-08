@@ -1,8 +1,8 @@
-- content_for :header do
+- content_for :devise_header do
   Sign in
 
 = form_for resource, as: resource_name, url: session_path(resource_name) do |f|
-  = devise_error_messages!
+  = render partial: 'devise/shared/error_messages'
   .form-group
     %label Email Address
     .input-group
@@ -23,6 +23,13 @@
         %span.input-group-text
           = fa_solid 'key'
       = f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'Enter your password'
+
+  - if devise_mapping.rememberable?
+    .form-group
+      .custom-control.custom-checkbox
+        = f.check_box :remember_me, class: 'custom-control-input'
+        %label.custom-control-label{for: 'user_remember_me'} Keep me signed in
+
   .form-group
     = f.submit 'Sign in', class: 'btn btn-teal btn-block btn-login'
 

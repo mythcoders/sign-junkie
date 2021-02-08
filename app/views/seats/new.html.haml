@@ -1,82 +1,26 @@
-.row
-  .col-12.col-lg-5
-    .card
-      %h3.card-header.bg-primary.text-white= @reservation.title
+= error_messages_for 'seat'
+
+= render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @existing_seat_id)) do |component|
+  - component.with(:header) do
+    New Seat for #{@seat.reservation.title}
+
+  - component.with(:sidebar_template) do
+    .card.card-sticky
       .card-body
         %p.card-text
-          = fa_solid 'calendar-alt', 'text-primary fa-fw'
-          = @reservation.workshop.when
-        %p.card-text
           = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-          %span= "Selections must be made by #{lifp @reservation.workshop.registration_deadline}"
+          %span= "Selections must be made by #{lifp @seat.reservation.workshop.registration_deadline}"
         %p.card-text
           = fa_solid 'chair', 'text-primary fa-fw'
-          - if @reservation.minimum_met?
+          - if @seat.reservation.minimum_met?
             %span You can invite a total of #{@reservation.remaining_seats} additional guests
           - else
             %span
               You can invite a total of #{@reservation.remaining_seats} guests but are required to invite at
               least #{@reservation.remaining_seats_until_requirements_met} more to get your deposit back.
-        %p.card-text
+        %p.card-text{'data-seat-wizard-sidebar--component-target': 'guestPaymentClause'}
           = fa_solid 'usd-circle', 'text-primary fa-fw'
-          - if @reservation.paid_by_host?
+          - if @seat.reservation.paid_by_host?
             %span Pricing dependent upon guests selection
           - else
             %span Guest will pay for their seat after picking their project
-  .col-12.col-lg-7
-    .card
-      %h3.card-header.bg-primary.text-white Add seat to reservation
-      .card-body
-        = form_for :seat, url: reservation_seats_path(@reservation), html: { 'data-js-single-submit-form': '' } do |f|
-          .form-row
-            .form-group.col
-              = fa_solid 'chair', 'text-primary fa-fw'
-              = f.label :guest_type
-              .custom-control.custom-radio
-                = f.radio_button :guest_type, 'adult', class: 'custom-control-input', 'data-js-guest-type': ''
-                = f.label :guest_type, value: 'adult', class: 'custom-control-label' do
-                  This seat is for an adult or someone with an email address
-              .custom-control.custom-radio
-                = f.radio_button :guest_type, 'guest', class: 'custom-control-input', 'data-js-guest-type': ''
-                = f.label :guest_type, value: 'guest', class: 'custom-control-label' do
-                  This seat is being purchased by myself for someone without an email address
-              - if @reservation.workshop.family_friendly?
-                .custom-control.custom-radio
-                  = f.radio_button :guest_type, 'child', class: 'custom-control-input', 'data-js-guest-type': ''
-                  = f.label :guest_type, value: 'child', class: 'custom-control-label' do
-                    This seat is for a child
-          .form-row
-            .form-group.col
-              %div{'data-js-guest-info': '', style: 'display: none;'}
-                %h6.card-title
-                  = fa_solid 'user-friends', 'text-primary fa-fw'
-                  %span#guest-info-title Parent Information
-                .form-row
-                  .form-group.col-6
-                    = f.label :first_name
-                    = f.text_field :first_name, class: 'form-control', autocomplete: false
-                  .form-group.col-6
-                    = f.label :last_name
-                    = f.text_field :last_name, class: 'form-control', autocomplete: false
-                  .form-group.col-12
-                    = f.label :email_address
-                    = f.email_field :email, class: 'form-control', autocomplete: false
-
-              %div{'data-js-child-info': '', style: 'display: none;'}
-                %p{'data-js-child-warning': '', style: 'display: none;'}
-                  This seat will be for the child listed below, but we still require the parents
-                  information so we can associate the seat to a user account.
-                %h6.card-title
-                  = fa_solid 'user', 'text-primary fa-fw'
-                  %span#child-info-title Child Information
-                .form-row
-                  .form-group.col-6
-                    = f.label :child_first_name, 'First name'
-                    = f.text_field :child_first_name, class: 'form-control', autocomplete: false
-                  .form-group.col-6
-                    = f.label :child_last_name, 'Last name'
-                    = f.text_field :child_last_name, class: 'form-control', autocomplete: false
-          %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
-            = fa_solid 'save'
-            Invite Guest
-          = link_to 'Cancel', reservation_path(@reservation), class: 'btn btn-secondary btn-block'

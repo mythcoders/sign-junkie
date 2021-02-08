@@ -7,11 +7,17 @@ en:
     description: Sign Junkie is a DIY Workshop that offers a wide variety of practical and unique wood home decor workshops.
   feature_un: "This feature will be available in a future release!"
   unauthorized: "You're not authorized to perform this action."
+  covid_warning:
+    Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before entering
+    Sign Junkie. Guests MUST provide their own mask to wear throughout the entire workshop. Noncompliance will result
+    in a NO refund and you will NOT be able to attend the workshop.
   addon:
     delete:
       confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
   cart:
     empty: You can't checkout with an empty cart.
+    destroy:
+      confirmation: Are you sure want to remove this item from your cart? This can not be undone!
     add:
       success: "The item was placed in your cart!"
       failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
@@ -38,7 +44,7 @@ en:
   order:
     refund:
       critical_failure:
-        An error occured while attempting to process your refund. Unfortunately, the error is on our end and any
+        An error occurred while attempting to process your refund. Unfortunately, the error is on our end and any
         further attempts to process your payment will also result in failure. Our support staff has been alerted and
         we'll be in touch shortly.
     payment:
@@ -46,7 +52,7 @@ en:
       failure: An error occurred while attempting to apply your payment. Please try your payment again.
       missing_token: missing authorization token. Please try your payment again.
     critical_failure:
-      An error occured while attempting to process your request.
+      An error occurred while attempting to process your request.
       Unfortunately, the error is on our end and any further attempts will also result in failure.
       Please do not try again! Our support staff has been alerted and we'll be in touch shortly.
     update:
@@ -66,43 +72,46 @@ en:
       failure: We couldn't cancel your order at this time. Please try again.
   project:
     delete:
-      confirmation:
-        This will delete the project, it's images, and will remove it from any workshops it's associated with.
+      confirmation: This will delete the project, it's images, and will remove it from any workshops it's associated with.
   reservations:
     no_more_seats: No more seats can be added at this time.
-    registration_deadline_loose_deposit_warning:
-      If not, your reservation deposit will not be refunded!
-    registration_deadline_cancel_warning:
-      If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
+    already_booked: Reservation has already been booked
+    already_in_cart: This reservation has already been added to yours or someone elses cart
+    registration_deadline_loose_deposit_warning: If not, your reservation deposit will not be refunded!
+    registration_deadline_cancel_warning: If not, your reservation will be voided, the workshop canceled, and your deposit will not be refunded!
     minimum_not_met:
       Currently, your reservation doesn't meet the minimum seating requirements.
-      You'll need to reserve %{seats} additional seats before the %{registration_deadline} registration deadline.
+      You'll need to reserve %{seats} additional seats before the %{deadline} registration deadline.
     requirements_not_met:
       Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
-      them. They must select their project and stencil by %{registration_deadline}.
-    payment_host:
-      Afterwards, you must pay for them by %{payment_deadline}.
-    payment_guest:
-      They must also pay for their selections by %{payment_deadline}.
+      them. They must select their project and stencil by %{deadline}.
+    payment_host: Afterwards, you must pay for them by %{deadline}.
+    payment_guest: They must also pay for their selections by %{deadline}.
     forfeit:
-      confirmation:
-        This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
+      confirmation: This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
     cancel:
       confirmation:
         This will also cancel any seats associated to this reservation and notify all hosts and guests.
         Any applicable refunds will be issued within 48 hours.
         This can not be undone.
   seat:
+    already_booked: Guest already has a seat for this workshop booked
+    already_in_cart: This seat has already been added to yours or someone elses cart
     not_editable: This seat can not be edited at this time.
-    no_stencil: Plain (no stencil or personalization)
+    plain_stencil: Plain (no stencil or personalization)
     create:
       failure: We couldn't create your seat. Please try again.
     cancel:
-      success:
-        We're processing your void request. Any credits or refunds will be issued within 48 hours.
+      success: We're processing your void request. Any credits or refunds will be issued within 48 hours.
       failure: We couldn't void your seat at this time. Please try again.
-      confirmation:
-        The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
+      confirmation: The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
+  seat_wizard:
+    guest_type:
+      adult: An adult or someone else WITH an email address
+      child: A child (ages 8-17)
+      child_disabled: Sorry, this workshop is for ages 18+ only.
+      other: An adult or someone WITHOUT an email address
+      self_disabled: You already have a seat booked for this workshop. Click here to view your project.
   stencil:
     destroy:
       confirmation: This will delete the stencil, it's image, and any projects it's associated with.
@@ -110,15 +119,13 @@ en:
     destroy:
       confirmation: This will delete the stencil category and any stencils it's associated with.
   tax_rate:
-    uneditable: Tax Rate is already in-effect. Create a new tax rate to override the current rate.
-  user:
-    need_addresses: Unless your order is being picked up, you'll need to add an address to your account!
+    uneditable: Tax Rate is already active. Create a new tax rate to override the current rate.
   workshop:
+    reservations_full: Workshop is not accepting anymore reservations
+    seats_full: Workshop is not accepting anymore seats
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!
-    hostess_note:
-      "Note to Hostess: Please Select Group Reservation to make your deposit and begin the reservation process."
     adult_only_warning:
       These are adult only workshops unless specified otherwise!
       If specified FAMILY FRIENDLY these workshops are geared toward children ages 8 and up
@@ -138,7 +145,7 @@ en:
       project:
         allow_no_stencil: Allow option to select no stencil
         allowed_stencils: Number of stencils allowed to be selected
-        restrict_adult: Restrict adults from purchasing this project
+        only_for_children: Only allow children to purchase this project
       workshop_type:
         active: Is Active?
         default_single_seat_allow: Are individual seats allowed?

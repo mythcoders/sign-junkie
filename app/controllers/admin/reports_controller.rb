@@ -7,14 +7,31 @@ module Admin
 
     def sales_tax
       @report = SalesTaxReport.new(sales_tax_params) if params[:tax_period_id].present?
+
+      respond_to do |format|
+        format.turbo_stream { render 'sales_tax', locals: { report: @report } }
+        format.html
+      end
     end
 
     def new_customers
-      @report = NewCustomersReport.new(new_customers_params) if params[:start_date].present? || params[:end_date].present?
+      if params[:start_date].present? || params[:end_date].present?
+        @report = NewCustomersReport.new(new_customers_params)
+      end
+
+      respond_to do |format|
+        format.turbo_stream { render 'new_customers', locals: { report: @report } }
+        format.html
+      end
     end
 
     def guest_list
       @report = GuestListReport.new(guest_list_params) if params[:workshop_id].present?
+
+      respond_to do |format|
+        format.turbo_stream { render 'guest_list', locals: { report: @report } }
+        format.html
+      end
     end
 
     private

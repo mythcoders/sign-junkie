@@ -6,7 +6,9 @@ module Admin
     before_action :check_editable, only: %i[edit update destroy]
 
     def index
-      @tax_rates_grid = initialize_grid(TaxRate, order: 'effective_date')
+      @q = TaxRate.ransack(params[:q])
+      @q.sorts = 'effective_date asc' if @q.sorts.empty?
+      @tax_rates = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -20,7 +22,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_tax_rates_path
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -29,7 +31,7 @@ module Admin
         flash[:success] = t('update.success')
         redirect_to admin_tax_rates_path
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -50,7 +52,7 @@ module Admin
     end
 
     def tax_rate_params
-      params.require(:tax_rate).permit(:id, :rate, :effective_date)
+      params.require(:tax_rate).permit(:rate, :effective_date)
     end
 
     def filtered_params

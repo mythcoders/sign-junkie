@@ -7,30 +7,40 @@
         = fa_solid 'toolbox'
         Workshop Planner
 
-.table-responsive-md
-  %table.table.table-bordered.table-striped.table-hover
-    %thead.bg-primary.text-white
-      %tr
-        %th Confirmation Number
-        %th Workshop
-        %th Host
-        %th Guests
-        %th Date Booked
-    %tbody
-      - @reservations.each do |r|
-        %tr{data: { 'clickable-row': '', 'href': reservation_path(r) }}
-          %td
-            = r.confirmation_number
-            %br
-            = render partial: 'statuses/reservation', locals: { reservation: r }
-          %td
-            = r.workshop.name
-            %br= r.workshop.when
-          %td= r.host.full_name
-          %td= r.active_seats.count
-          %td= lifp(r.created_at, :short)
-    %tfoot
-      %tr
-        %td{colspan: '100%'}
-          = paginate @reservations
-          = page_entries_info @reservations
+- if @reservations.any?
+  .table-responsive-md
+    %table.table.table-bordered.table-striped.table-hover
+      %thead.bg-primary.text-white
+        %tr
+          %th Confirmation Number
+          %th Workshop
+          %th Host
+          %th Guests
+          %th Date Booked
+      %tbody
+        - @reservations.each do |r|
+          %tr
+            %td
+              = link_to r.confirmation_number, reservation_path(r)
+              %br
+              = render partial: 'statuses/reservation', locals: { reservation: r }
+            %td
+              = r.workshop.name
+              %br= r.workshop.when
+            %td= r.host.full_name
+            %td= r.active_seats.count
+            %td= lifp(r.created_at, :short)
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @reservations
+            = page_entries_info @reservations
+- else
+  .card
+    .card-body.text-center
+      %h2 No Purchased Reservations
+      %p Any reservations that you've booked will appear here.
+      %a.btn.btn-info(href=workshops_public_path)
+        View PUBLIC Workshop dates
+      %a.btn.btn-info(href=workshops_private_path)
+        View PRIVATE Workshop dates

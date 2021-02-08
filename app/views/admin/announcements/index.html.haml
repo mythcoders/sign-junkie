@@ -1,0 +1,47 @@
+- page_title 'Announcement Search'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Announcements
+        %h1.header-title
+          %i.fad.fa-megaphone
+          Search
+      .col-auto
+        = link_to 'New Announcement', new_admin_announcement_path, class: 'btn btn-primary lift'
+
+.card
+  .card-header
+    = search_form_for(@q, url: admin_announcements_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :title_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :title)
+        %th Status
+    %tbody
+      - @announcements.each do |announcement|
+        %tr
+          %td= link_to announcement.title, edit_admin_announcement_path(announcement)
+          %td
+            - if announcement.active?
+              %span.text-success ●
+              Active
+            - else
+              %span.text-warning ●
+              Inactive
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @announcements
+          = page_entries_info @announcements

@@ -1,0 +1,50 @@
+- page_title 'Refund Search'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Refunds
+        %h1.header-title
+          %i.fad.fa-gift-card
+          Search
+
+.card
+  .card-header
+    = search_form_for(@q, url: admin_refunds_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :invoice_customer_first_name_or_invoice_customer_last_name_cont, class: 'form-control list-search', placeholder: 'Customer Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  .table-responsive
+    %table.table.card-table.table-hover
+      %thead
+        %tr
+          %th Invoice
+          %th Customer
+          %th Amount
+          %th Form
+          %th= sort_link(@q, :created_at, 'Date')
+      %tbody
+        - @refunds.each do |o|
+          %tr
+            %td= link_to o.invoice.identifier, admin_invoice_path(o.invoice)
+            %td= link_to o.invoice.customer.full_name, admin_customer_path(o.invoice.customer)
+            %td= number_to_currency o.amount
+            %td
+              - if o.customer_credit
+                Credit
+              - else
+                Payment Method
+            %td= lifp(o.created_at, :short)
+      %tfoot
+        %tr
+          %td{colspan: '100%'}
+            = paginate @refunds
+            = page_entries_info @refunds

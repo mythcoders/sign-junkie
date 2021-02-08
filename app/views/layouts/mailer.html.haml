@@ -2,17 +2,17 @@
 %html
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
-    = stylesheet_link_tag "mailer", media: "all"
+    = stylesheet_link_tag 'mailer', type: 'text/css', media: 'all'
   %body.bg-light
     .container.mt-2
       %a{href: root_url}
-        %img.img-system-logo.mb-2{src: asset_url('/SJWlogo.svg')}
+        %img.img-system-logo.mb-2{src: asset_path('SJWlogo.svg')}
       = yield
       %hr
       %p.text-center
-        = link_to ClientInfo.owner, ClientInfo.website_link
-        %br 11235 Ridenour Rd
-        Thornville, OH 43076
+        = link_to ClientInfo.owner, Apollo.env_url
+        %br= ClientInfo.address_1
+        #{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}
         %br
         Find us on
         %a{href: ClientInfo.facebook_link} Facebook

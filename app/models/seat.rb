@@ -18,10 +18,10 @@ class Seat < ApplicationRecord
   validates_presence_of :user_id
 
   def name
-    if first_name.present?
-      "#{first_name} #{last_name}"
-    elsif customer.nil?
-      'Unassigned'
+    if owner.first_name.present?
+      "#{owner.first_name} #{owner.last_name}"
+    # elsif customer.nil?
+    #   'Unassigned'
     else
       customer.full_name
     end
@@ -31,12 +31,11 @@ class Seat < ApplicationRecord
     name.split.map(&:first).join.upcase
   end
 
-  def unpaid?
-    invoice.nil? && selection_made?
-  end
+  def showable?(user)
+    return true if user.id != customer.id
+    return true if reservation&.host?(user)
 
-  def paid?
-    invoice.present?
+    false
   end
 
   def editable?(user)
@@ -52,5 +51,11 @@ class Seat < ApplicationRecord
     return false unless editable?(user)
 
     true
+  end
+
+  def guest_type
+    return unless persisted?
+
+    owner.nil? ? 'self' : owner.type
   end
 end

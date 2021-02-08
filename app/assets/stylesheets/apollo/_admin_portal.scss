@@ -1,0 +1,39 @@
+//
+// _admin_portal.scss
+// Styles specific to the Admin Portal
+//
+
+@import "flatpickr/dist/flatpickr.css";
+@import "trix/dist/trix.css";
+@import "actiontext";
+
+.bootstrap-datetimepicker-widget {
+  &.dropdown-menu {
+    width: unset;
+  }
+}
+
+.sidebar-icon {
+  min-width: $navbar-icon-min-width;
+  padding-bottom: 0.125em;
+  line-height: ($font-size-base * $line-height-base);
+  margin-left: -5px;
+  margin-right: 5px;
+}
+
+.btn-teal {
+  @include button-variant(teal, teal);
+  //   @include bg-gradient-variant(
+  //   ".bg-teal-light",
+  //   $light-teal,
+  //   $ignore-warning: false
+  // );
+}
+
+.link-teal {
+  color: teal;
+}
+
+.link-teal:hover {
+  color: #003434;
+}

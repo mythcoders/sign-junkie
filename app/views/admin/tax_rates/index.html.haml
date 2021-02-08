@@ -1,6 +1,6 @@
 - page_title 'Tax Rates'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -13,9 +13,18 @@
         = link_to 'New Tax Rate', new_admin_tax_rate_path, class: 'btn btn-primary lift'
 
 .card
-  = grid(@tax_rates_grid) do |g|
-    - g.row_attributes do |t|
-      - { data: { 'clickable-row': '', 'href': edit_admin_tax_rate_path(t) } }
-    - g.column name: 'Rate', attribute: 'rate' do |t|
-      - number_to_percentage t.rate * 100
-    - g.column name: 'Effective Date', attribute: 'effective_date', filter_type: :timeframe_picker
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th Rate
+        %th= sort_link(@q, :start_date)
+    %tbody
+      - @tax_rates.each do |tax_rate|
+        %tr
+          %td= link_to number_to_percentage(tax_rate.rate * 100), admin_tax_rate_path(tax_rate)
+          %td= tax_rate.effective_date
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @tax_rates
+          = page_entries_info @tax_rates

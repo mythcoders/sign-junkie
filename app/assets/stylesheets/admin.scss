@@ -1,5 +1,5 @@
 /**
- * Dashkit v1.4.2
+ * Dashkit v1.6.1
  *
  * Custom variables followed by Dashkit variables followed by Bootstrap variables
  * to ensure cascade of styles.
@@ -8,10 +8,8 @@
 // Bootstrap functions
 @import "bootstrap/scss/functions";
 
-// @import "select2/src/scss/core.scss";
-
 // Custom variables
-@import "admin_portal_variables";
+@import "apollo/admin_portal_variables";
 
 // Dashkit variables
 @import "dashkit/variables";
@@ -22,8 +20,6 @@
 // Dashkit core
 @import "dashkit/dashkit";
 
-@import "wice_grid";
-
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "apollo/admin_portal";
+@import "apollo/shared";

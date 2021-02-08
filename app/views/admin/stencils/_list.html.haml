@@ -12,11 +12,12 @@
               %td{colspan: 2}= t('seat.no_stencil')
           - stencils.order(:name).each do |c|
             %tr
-              %td
+              %td.d-flex.justify-content-between.align-items-center
                 = link_to c.name, admin_stencil_path(c)
                 - unless c.active?
-                  %span.badge.badge-warning.text-uppercase Inactive
+                  %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
               %td= c.category.name
   - else
-    .card-body
-      No stencils were found.
+    .card-body.text-center
+      %h2 No Stencils
+      %p.text-muted.mb-0 Any associated stencils will appear here.

@@ -16,19 +16,24 @@
 }
 
 
-// List group large
+// List group sizing
 
 .list-group-lg .list-group-item {
   padding-top: $list-group-item-padding-y-lg;
   padding-bottom: $list-group-item-padding-y-lg;
 }
 
-
 // List group flush
 
 .list-group-flush > .list-group-item {
   padding-left: 0;
   padding-right: 0;
+}
+
+// List group focus
+
+.list-group-focus .list-group-item:focus .text-focus {
+  color: $link-color !important;
 }
 
 

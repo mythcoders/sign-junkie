@@ -4,11 +4,9 @@ require 'sidekiq-ent/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-  devise_for :users
-
-  concern :pageable do
-    get '(page/:page)', action: :index, on: :collection, as: ''
-  end
+  devise_for :users, controllers: {
+    registrations: 'security/registrations'
+  }
 
   concern :cancelable do
     post 'cancel', action: :cancel, on: :member
@@ -24,6 +22,47 @@ Rails.application.routes.draw do
   end
 
   root to: 'public#index'
+
+  # customer facing
+  get 'my_account', to: 'public#my_account'
+  get 'my_credits', to: 'public#my_credits'
+  get 'gift_cards', to: 'public#gift_cards'
+  get 'about', to: 'public#about'
+  get 'contact', to: 'public#contact'
+  get 'faq', to: 'public#faq'
+  get 'waiver', to: 'public#waiver'
+  get 'how_it_works', to: 'public#how_it_works'
+  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
+  get 'privacy', to: 'public#privacy'
+  get 'workshops/public', to: 'workshops#public'
+  get 'workshops/private', to: 'workshops#private'
+
+  get 'public_policies', to: 'public#public_policies'
+  get 'public_hostess', to: 'public#public_hostess'
+  get 'private_policies', to: 'public#private_policies'
+  get 'private_hostess', to: 'public#private_hostess'
+
+  resources :addons, only: %i[index show]
+  resources :cart, only: %i[index create destroy]
+  get 'cart/meh', to: 'cart#meh'
+  resources :invoices, only: %i[index show new create], path: 'orders'
+  resources :projects, only: %i[index show] do
+    get 'addons', on: :member
+    post 'sidebar', on: :member
+    get 'stencils', on: :member
+  end
+  resources :reservations, only: %i[index show new create], concerns: :cancelable do
+    resources :seats, only: %i[show edit new create update] do
+      post 'remind', action: :remind, on: :member
+    end
+  end
+  resources :seats, only: %i[index show], concerns: :cancelable
+  resources :stencils, only: %i[index show]
+  resources :workshops, only: %i[index show] do
+    get 'seat', on: :member
+    get 'reservation', on: :member
+    get 'projects', on: :member
+  end
 
   # admin portal
   namespace :admin do
@@ -44,6 +83,7 @@ Rails.application.routes.draw do
     match 'reports/guest_list', to: 'reports#guest_list', as: 'guest_list_report', via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
+    resources :announcements, except: %i[show]
     resources :gallery_images
     resources :invoices
     resources :projects, concerns: %i[cloneable image_attachable] do
@@ -58,45 +98,16 @@ Rails.application.routes.draw do
     resources :stencil_categories
     resources :users, as: 'customers', path: 'customers', controller: 'customers' do
       post 'remind_cart', action: :remind, on: :member
+      post 'resend_confirmation', action: :resend_confirmation, on: :member
       resources :customer_credits, only: %i[new edit create update destroy], as: 'credits', path: 'credits'
     end
     resources :users, as: 'employees', path: 'employees', controller: 'employees'
+    resources :refunds, only: %i[index]
     resources :reservations, only: %i[], concerns: [:cancelable] do
       post 'forfeit', action: :forfeit, on: :member
     end
     resources :workshops, concerns: %i[cloneable image_attachable]
     resources :workshop_types
   end
-
-  # customer facing
-  get 'my_account', to: 'public#my_account'
-  get 'my_credits', to: 'public#my_credits'
-  get 'gift_cards', to: 'public#gift_cards'
-  get 'about', to: 'public#about'
-  get 'contact', to: 'public#contact'
-  get 'faq', to: 'public#faq'
-  get 'waiver', to: 'public#waiver'
-  get 'how_it_works', to: 'public#how_it_works'
-  get 'policies', to: 'workshops#public_policies'
-  get 'projects/gallery', to: 'projects#gallery', as: 'gallery'
-  get 'privacy', to: 'public#privacy'
-  get 'private_policies', to: 'workshops#private_policies'
-  get 'private_hostess', to: 'workshops#hostess_policies'
-  get 'workshops/public', to: 'workshops#public'
-  get 'workshops/private', to: 'workshops#private'
-  get 'workshops/bookings', to: 'workshops#hostess_public_policies'
-
-  resources :addons, only: %i[index show]
-  resources :cart, only: %i[index create destroy]
-  resources :invoices, only: %i[index show new create], path: 'orders'
-  resources :projects, only: %i[index show]
-  resources :reservations, only: %i[index show new create], concerns: :cancelable do
-    resources :seats, only: %i[show edit new create update] do
-      post 'remind', action: :remind, on: :member
-    end
-  end
-  resources :seats, only: %i[index show], concerns: :cancelable
-  resources :stencils, only: %i[index show]
-  resources :workshops, only: %i[index show]
 end
 # rubocop:enable Metrics/BlockLength

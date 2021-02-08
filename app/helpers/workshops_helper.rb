@@ -24,13 +24,13 @@ module WorkshopsHelper
   def workshop_policies_path(workshop)
     return private_policies_path if private?(workshop)
 
-    policies_path
+    public_policies_path
   end
 
   def workshop_hosting_path(workshop)
     return private_hostess_path if private?(workshop)
 
-    workshops_bookings_path
+    public_hostess_path
   end
 
   private

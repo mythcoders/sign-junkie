@@ -3,7 +3,7 @@
     - if workshop.workshop_images.any?
       %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.workshop_images.first)}
     - else
-      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: '/cover.jpg'}
+      %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: asset_path('cover.jpg')}
 
     %div.d-lg-none
       %a.pt-3{href: workshop_path(workshop)}

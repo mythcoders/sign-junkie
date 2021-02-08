@@ -1,0 +1,5 @@
+%ul.nav.nav-tabs.nav-overflow.header-tabs
+  - @tabs.each do |tab|
+    %li.nav-item
+      %a.nav-link.text-nowrap{href: scope_path(tab.value), class: ('active' if @current_tab == tab.value)}
+        = tab.label

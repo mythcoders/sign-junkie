@@ -12,7 +12,7 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = Invoice.new_from_cart(current_user, params[:gift_cards])
+    @invoice = InvoiceService::Factory.build(current_user, params[:gift_cards])
     if @invoice.items.empty?
       flash[:error] = t('cart.empty')
       redirect_to cart_index_path
@@ -21,11 +21,11 @@ class InvoicesController < ApplicationController
     return process_invoice unless @invoice.balance.positive?
 
     @payment = Payment.new
-    @client_token = BraintreeService.new.token
+    @client_token = BraintreeService.new_token
   end
 
   def create
-    @invoice = Invoice.new_from_cart(current_user, params[:gift_cards], invoice_params[:created_at])
+    @invoice = InvoiceService::Factory.build(current_user, params[:gift_cards], invoice_params[:created_at])
     create_payment if @invoice.balance.positive?
 
     if @invoice.valid?
@@ -35,11 +35,11 @@ class InvoicesController < ApplicationController
       redirect_to cart_index_path
     end
   rescue BraintreeService::PaymentError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     flash[:error] = "Payment Error: #{e.message}"
     redirect_to cart_index_path
     # rescue ProcessError => e
-    #   Raven.capture_exception(e.message, level: 'warning')
+    #   Sentry.capture_exception(e.message, level: 'warning')
     #   flash[:error] = if Rails.env.development?
     #                     "Critical Error: #{e.message}"
     #                   else
@@ -63,9 +63,8 @@ class InvoicesController < ApplicationController
   end
 
   def process_invoice
-    if InvoiceService.new(@invoice).place!
+    if InvoiceService::Processor.perform(@invoice)
       flash[:success] = t('order.placed.success')
-      # Appsignal.increment_counter('orders.placed', 1)
       redirect_to my_account_path
     else
       flash[:error] = '?' # t('order.critical_failure')

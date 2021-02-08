@@ -3,7 +3,7 @@
     .card.card-body.p-5
       .row
         .col.text-center
-          %img.img-fluid{:alt => "#{ClientInfo.name} logo", :src => "/SJWlogo.svg", :style => "max-width: 15rem;"}
+          %img.img-fluid{alt: "#{ClientInfo.name} logo", src: asset_path("SJWlogo.svg"), style: "max-width: 15rem;"}
           %p.mb-4
             = ClientInfo.address_1
             %br
@@ -41,7 +41,7 @@
                 - @invoice.items.each do |i|
                   %tr
                     %td.px-0
-                      = render partial: 'item_descriptions/invoice', locals: {item: i}
+                      = render(ItemDescriptionDisplay::Component.linkable(i))
                     %td.px-0.text-right
                       = content_tag :span, number_to_currency(i.item_amount)
                 %tr

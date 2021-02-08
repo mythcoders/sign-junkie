@@ -49,9 +49,5 @@ module ClientInfo
     def facebook_link
       'https://www.facebook.com/signjunkieworkshop/'
     end
-
-    def website_link
-      'http://' + (ENV['GITLAB_ENVIRONMENT_URL'] || 'apollo.localhost')
-    end
   end
 end

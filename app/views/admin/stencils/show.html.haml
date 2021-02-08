@@ -1,6 +1,6 @@
 - page_title @stencil.name, 'Stencils'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -21,9 +21,11 @@
           .col-auto
             %small.text-muted
               - if @stencil.active
-                %span.badge.badge-success.text-uppercase active
+                %span.text-success ●
+                Active
               - else
-                %span.badge.badge-warning.text-uppercase inactive
+                %span.text-warning ●
+                Inactive
         %hr
         .row.align-items-center
           .col

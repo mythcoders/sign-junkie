@@ -2,8 +2,9 @@
   .card-header
     Reservations
   - if reservations.empty?
-    .card-body
-      .text-muted Customer has no reservations
+    .card-body.text-center
+      %h2 No Reservations
+      %p.text-muted.mb-0 Any reservations the customer purchases will appear here.
   - else
     .table-responsive.mb-0
       %table.table.table-sm.table-nowrap.card-table.table-hover
@@ -19,7 +20,7 @@
               %td= link_to res.workshop.name, admin_workshop_path(res.workshop)
               %td
                 = res.confirmation_number
-                %br= render partial: 'statuses/reservation', locals: { reservation: res }
+                %br= render partial: 'admin/statuses/reservation', locals: { reservation: res }
               %td= "#{res.payment_plan.capitalize} by #{lifp res.payment_deadline}"
               %td
                 .btn-group

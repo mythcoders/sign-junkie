@@ -3,63 +3,100 @@
     .row
       - if @workshop.workshop_images.any?
         .col-12.d-flex.justify-content-center
-          %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}",
-            src: url_for(@workshop.workshop_images.first), 'data-js-img-gallery-preview': ''}
+          %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}", loading: 'lazy',
+            src: url_for(@workshop.workshop_images.first)}
         - @workshop.workshop_images.each do |img|
           .workshop-img-item
-            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), loading: 'lazy'}
       - else
         .col-12
-          %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}",
-            src: '/cover.jpg', 'data-js-img-gallery-preview': ''}
+          %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}", loading: 'lazy',
+            src: asset_path('cover.jpg')}
 
       - @workshop.projects.active.each do |project|
         - project.project_images.each do |img|
           .workshop-img-item.mb-3.text-center
-            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), 'data-js-img-gallery-thumbnail': ''}
+            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), loading: 'lazy'}
             %a{href: project_path(project)}= project.name
 
   .col-12.col-md-6.mb-2.order-1.order-md-2
     .card
       %h3.card-header.bg-primary.text-white
         = @workshop.name
-      - if @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
-        - if user_signed_in?
-          .card-body
-            = render partial: 'body', locals: { workshop: @workshop }
-            - if @workshop.seat_purchaseable? && @workshop.reservation_purchaseable?
-              %p.card-text.text-info= t('workshop.hostess_note')
-            - if @already_hosting != false
-              = render partial: 'already_hosting'
-            - if @already_attending != false
-              = render partial: 'already_attending'
+      .card-body
+        %p.card-text
+          = fa_solid 'calendar-alt', 'text-primary fa-fw'
+          = @workshop.when
+        %p.card-text
+          = fa_solid 'toolbox', 'text-primary fa-fw'
+          = "#{workshop_type_name(@workshop)} Workshop"
+        - if @workshop.description
+          %p.card-text= @workshop.description
 
-          .card-header
-            %ul#workshopTab.nav.nav-tabs.card-header-tabs{role: "tablist"}
-              - if @workshop.seat_purchaseable?
-                = render partial: 'general/tab_header', locals: { id: 'seat', active: @workshop.seat_purchaseable?, title: 'Individual Seat' }
-              - if @workshop.reservation_purchaseable?
-                = render partial: 'general/tab_header', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, title: 'Group Reservation' }
+    - if user_signed_in? && @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
+      - if @workshop.reservation_purchaseable?
+        .card.mt-2
+          .card-body
+            %h4.card-title Group Reservations
+            %p.card-text
+              = fa_solid 'usd-circle', 'text-primary fa-fw'
+              %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
+              %input{id: 'base-price', value: '0.00', type: 'hidden'}
+            %p.card-text
+              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+              Reservation must be booked by #{special_date @workshop.booking_deadline}
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
 
+            - unless @existing_reservation_id.zero?
+              .alert.alert-info
+                %h5.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have booked a reservation for this workshop.
+                %a.btn.btn-link.btn-block.btn-sm.text-uppercase{href: reservation_path(@existing_reservation_id)}
+                  View in Workshop Planner
+            - else
+              %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
+                Book GROUP reservation
+
+      - if @workshop.seat_purchaseable?
+        .card.mt-2
           .card-body
-            #workshopTabContent.tab-content
-              - if @workshop.seat_purchaseable?
-                = render partial: 'general/tab_pane', locals: { id: 'seat', active: @workshop.seat_purchaseable?, view_name: 'seat_form' }
-              - if @workshop.reservation_purchaseable?
-                = render partial: 'general/tab_pane', locals: { id: 'reservation', active: !@workshop.seat_purchaseable?, view_name: 'reservation_form' }
-        - else
-          .card-body
-            = render partial: 'body', locals: { workshop: @workshop }
+            %h4.card-title Individual Seats
+            %p.card-text
+              = fa_solid 'usd-circle', 'text-primary fa-fw'
+              %span= "Starting at #{number_to_currency(starting_price(@workshop))}"
+              %input{id: 'base-price', value: '0.00', type: 'hidden'}
+            %p.card-text
+              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+              Seats must be purchased by #{special_date @workshop.purchase_end_date}
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.seats_available} seats available"
+
+            - unless @existing_seat_id.zero?
+              .alert.alert-info
+                %h5.alert-heading
+                  = fa_solid 'exclamation-triangle'
+                  Heads up!
+                You already have a seat for this workshop!
+                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@existing_seat_id)}
+                  View your seat
+
+              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+                Book ANOTHER seat
+            - else
+              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+                Book ONE seat
+    - else
+      .card.mt-2
+        .card-body
+          - unless user_signed_in?
             %a.btn.btn-primary.btn-block{href: new_user_session_path}
               = fa_light 'sign-in'
               Log In or Sign up to add this to your cart
-      - else
-        .card-body
-          = render partial: 'body', locals: { workshop: @workshop }
-          - if @already_hosting != false
-            = render partial: 'already_hosting'
-          - if @already_attending != false
-            = render partial: 'already_attending'
           - else
             %p= t('workshop.empty')
 

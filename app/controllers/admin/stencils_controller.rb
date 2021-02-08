@@ -6,7 +6,9 @@ module Admin
     before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
-      @stencils_grid = initialize_grid(Stencil, order: 'name')
+      @q = Stencil.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @stencils = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -21,7 +23,7 @@ module Admin
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -31,7 +33,7 @@ module Admin
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -48,7 +50,7 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil).permit(:id, :name, :stencil_category_id, :image, :allow_personilization, :active)
+      params.require(:stencil).permit(:name, :stencil_category_id, :image, :allow_personilization, :active)
     end
 
     def set_stencil

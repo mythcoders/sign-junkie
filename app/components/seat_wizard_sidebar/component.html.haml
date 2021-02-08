@@ -1,0 +1,36 @@
+.card.card-sticky.border-warning.text-warning
+  .card-body
+    .media.align-items-center.mb-3
+      .font-size-1.font-weight-normal.mb-0.mr-3
+        = @project.name
+      .media-body.text-right
+        %span.font-weight-medium
+          = number_to_currency @project.total_price
+
+    - if @addon
+      .media.align-items-center.mb-3
+        .font-size-1.font-weight-normal.mb-0.mr-3= @addon.name
+        .media-body.text-right
+          %span.font-weight-medium
+            - if @addon.price.positive?
+              = number_to_currency @addon.price
+            - else
+              .span --
+    - if @stencils
+      - @stencils.each do |stencil|
+        .media.align-items-center.mb-3
+          .font-size-1.font-weight-normal.mb-0.mr-3
+            = stencil[:name]
+            - if stencil[:personalization]
+              %br
+              .text-muted= stencil[:personalization]
+    %hr
+
+    .media.align-items-center
+      .font-size-1.font-weight-normal.mb-0.mr-3 Total
+      .media-body.text-right
+        %span.font-weight-medium
+          - if total_price.positive?
+            = number_to_currency total_price
+          - else
+            .span --

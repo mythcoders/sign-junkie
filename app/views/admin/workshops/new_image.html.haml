@@ -1,6 +1,6 @@
 - page_title 'New', 'Workshop Image'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -20,16 +20,9 @@
       = error_messages_for 'workshop'
       = f.hidden_field :id
       .form-group
-        .custom-file
+        .custom-file{'data-controller': 'file-upload'}
           = f.file_field :images, multiple: true, class: 'custom-file-input'
           = f.label :select_one_or_more_images_to_upload, class: 'custom-file-label'
     .card-footer
       = link_to 'Cancel', admin_workshop_path(@workshop), class: 'btn btn-outline-secondary'
       = f.submit 'Upload', class: 'btn btn-success'
-
-
-- content_for :scripts do
-  :javascript
-    document.addEventListener('DOMContentLoaded', function() {
-      bsCustomFileInput.init()
-    });

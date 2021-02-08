@@ -2,15 +2,18 @@
 
 module ApplicationHelper
   include IconHelper
+  include Turbo::IncludesHelper
 
   def admin?
     controller.class.superclass == Admin::ApplicationController
   end
 
   def sidebar_classes
-    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md', (@ui_theme == 'light' ? 'navbar-dark' : 'navbar-light')]
+    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md',
+     (@admin_ui_theme == 'admin' ? 'navbar-dark' : 'navbar-light')]
   end
 
+  # l if present
   def lifp(value, format = :default)
     l(value, format: format) if value.present?
   end
@@ -55,6 +58,15 @@ module ApplicationHelper
     objects = objects.map { |o| o.is_a?(String) ? instance_variable_get("@#{o}") : o }.compact
     errors = objects.map { |o| o.errors.full_messages }.flatten
     render_error_messages(errors)
+  end
+
+  def current_user_attributes
+    return nil unless current_user
+
+    {
+      id: current_user.id,
+      email: current_user.email
+    }
   end
 
   private

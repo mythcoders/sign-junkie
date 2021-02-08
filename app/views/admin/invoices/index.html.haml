@@ -1,6 +1,6 @@
 - page_title 'Invoice Search'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -11,23 +11,34 @@
           Search
 
 .card
+  .card-header
+    = search_form_for(@q, url: admin_invoices_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :customer_first_name_or_customer_last_name_cont, class: 'form-control list-search', placeholder: 'Customer Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
   .table-responsive
-    %table.table.card-table.table-hover
+    %table.table.card-table.table-striped
       %thead
         %tr
           %th Number
-          %th Customer
-          %th Date
+          %th= sort_link(@q, :user_last_name, 'Customer')
+          %th= sort_link(@q, :created_at, 'Date')
           %th Amount
-          %th Status
+          %th= sort_link(@q, :status)
       %tbody
         - @invoices.each do |o|
-          %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
-            %td= o.identifier
+          %tr
+            %td= link_to o.identifier, admin_invoice_path(o)
             %td= o.customer.full_name
             %td= lifp(o.created_at, :short)
             %td= number_to_currency o.grand_total
-            %td= render partial: 'statuses/invoice', locals: { invoice: o }
+            %td= render partial: 'admin/statuses/invoice', locals: { invoice: o }
       %tfoot
         %tr
           %td{colspan: '100%'}

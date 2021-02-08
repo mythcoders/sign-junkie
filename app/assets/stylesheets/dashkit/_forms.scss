@@ -33,10 +33,13 @@
 
 .form-control-flush {
   padding-left: 0;
-  padding-right: 0;
   border-color: transparent !important;
   background-color: transparent !important;
   resize: none;
+}
+
+.form-control:not(.custom-select) {
+  padding-right: 0;
 }
 
 

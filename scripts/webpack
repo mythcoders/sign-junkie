@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo 'Starting Apollo'
+echo 'Starting Webpack...'
+
+rm -rf ${APP_HOME}/public/packs
+${APP_HOME}/bin/webpack-dev-server

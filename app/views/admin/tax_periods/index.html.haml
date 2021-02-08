@@ -1,6 +1,6 @@
 - page_title 'Tax Rates'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -13,9 +13,18 @@
         = link_to 'New Tax Period', new_admin_tax_period_path, class: 'btn btn-primary lift'
 
 .card
-  = grid(@tax_periods_grid) do |g|
-    - g.row_attributes do |t|
-      - {data: { 'clickable-row': '', 'href': edit_admin_tax_period_path(t)}}
-    - g.column name: 'Name' do |t|
-      - t.name
-    - g.column name: 'Start Date', attribute: 'start_date', filter_type: :timeframe_picker
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th Name
+        %th= sort_link(@q, :start_date)
+    %tbody
+      - @tax_periods.each do |tax_period|
+        %tr
+          %td= link_to tax_period.name, admin_tax_period_path(tax_period)
+          %td= tax_period.start_date
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @tax_periods
+          = page_entries_info @tax_periods

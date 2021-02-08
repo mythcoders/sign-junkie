@@ -1,0 +1,19 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center= @stencil.name
+
+- if @stencil.image.attached?
+  .row.text-center.text-lg-left.mb-3
+    .col-12.col-md-6.col-lg-4
+      %img.img-fluid.img-thumbnail{alt: "Image of #{@stencil.name}", src: url_for(@stencil.image), loading: 'lazy'}
+
+%h3.text-danger Available Projects
+.d-flex.flex-wrap.mb-3
+  - @stencil.projects.active.each do |project|
+    .row-item.text-center
+      - if project.project_images.attached?
+        %img.img-fluid.img-thumbnail{alt: "Preview of #{project.name}", src: url_for(project.project_images.first), loading: 'lazy'}
+      - else
+        %img.img-fluid.img-thumbnail{alt: "Default image", src: asset_path('cover.jpg'), loading: 'lazy'}
+      = link_to project.name, project_path(project)

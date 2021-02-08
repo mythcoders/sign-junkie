@@ -11,7 +11,7 @@ Rails.application.configure do
     config.action_controller.asset_host = ENV['CDN_URL']
     config.action_mailer.asset_host = ENV['CDN_URL']
   else
-    config.action_mailer.asset_host = "https://#{ENV['GITLAB_ENVIRONMENT_URL']}"
+    config.action_mailer.asset_host = Apollo.env_url
   end
 
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
@@ -36,18 +36,17 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
-    host: ENV['GITLAB_ENVIRONMENT_URL']
-
+    host: Apollo.env_url(protocol: false),
+    protocol: 'https://'
   }
   config.action_mailer.smtp_settings = {
     user_name: Rails.application.credentials.dig(:email, :username),
     password: Rails.application.credentials.dig(:email, :password),
-    domain: 'columbus.rr.com',
+    domain: 'signjunkieworkshop.com',
     address: 'email-smtp.us-east-1.amazonaws.com',
     port: 587,
     authentication: :plain,

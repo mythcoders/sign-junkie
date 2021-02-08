@@ -3,7 +3,7 @@
 module Admin
   class GalleryImagesController < AdminController
     def index
-      @images = GalleryImage.all_images
+      @images = GalleryImage.all_images.page(params[:page])
     end
 
     def create

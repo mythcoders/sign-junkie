@@ -1,4 +1,4 @@
-.row
+.row{'data-controller': 'admin--workshop-edit'}
   .col-12.col-lg-5
     .card
       .card-header
@@ -14,23 +14,25 @@
           = f.text_field :name, class: 'form-control'
         .form-group
           = f.label :description, class: 'col-form-label'
-          = f.text_area :description, class: 'form-control', rows: 2
+          = f.rich_text_area :description
         .form-row
           .form-group.col
             = f.label :workshop_type_id, class: 'col-form-label'
             - @workshop_types.each do |type|
               .custom-control.custom-radio
                 = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
-                  'data-js-workshop-type': '',
-                  'data-workshop-type-single-seat-allow': human_boolean(type.default_single_seat_allow),
-                  'data-workshop-type-reservation-allow': human_boolean(type.default_reservation_allow),
-                  'data-workshop-type-reservations-end': 8,
-                  'data-workshop-type-reservation-cancel-minimum': human_boolean(type.default_reservation_cancel_minimum_not_met),
-                  'data-workshop-type-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
-                  'data-workshop-type-total-seats': type.default_total_seats,
-                  'data-workshop-type-reservation-price': number_to_currency(type.default_reservation_price),
-                  'data-workshop-type-reservation-minimum': type.default_reservation_minimum,
-                  'data-workshop-type-reservation-maximum': type.default_reservation_maximum
+                  'data-admin--workshop-edit-target': 'input',
+                  'data-action': 'admin--workshop-edit#toggleType',
+                  'data-reservation-allow': human_boolean(type.default_reservation_allow),
+                  'data-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
+                  'data-reservation-allow-guest-cancel-seat': human_boolean(type.default_reservation_allow_guest_cancel_seat),
+                  'data-reservation-cancel-minimum': human_boolean(type.default_reservation_cancel_minimum_not_met),
+                  'data-reservation-maximum': type.default_reservation_maximum,
+                  'data-reservation-minimum': type.default_reservation_minimum,
+                  'data-reservation-price': number_to_currency(type.default_reservation_price),
+                  'data-reservations-end': 8,
+                  'data-single-seat-allow': human_boolean(type.default_single_seat_allow),
+                  'data-total-seats': type.default_total_seats
                 %label.custom-control-label{for: "workshop_workshop_type_id_#{type.id}"}= type.name
 
           .form-group.col
@@ -43,30 +45,30 @@
               = f.label :family_friendly, class: 'custom-control-label'
         .form-group
           = f.label :start_date, class: 'col-form-label'
-          #startpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-            = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control datetimepicker-input', 'data-target': '#startpicker'
-            .input-group-append{"data-target": "#startpicker", "data-toggle": "datetimepicker"}
+          .input-group.date
+            = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+            .input-group-append
               .input-group-text
                 = fa_regular 'calendar'
         .form-group
           = f.label :end_date, class: 'col-form-label'
-          #endpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-            = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control datetimepicker-input', 'data-target': '#endpicker'
-            .input-group-append{"data-target": "#endpicker", "data-toggle": "datetimepicker"}
+          .input-group.date
+            = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+            .input-group-append
               .input-group-text
                 = fa_regular 'calendar'
         .form-group
           = f.label :purchase_start_date, class: 'col-form-label'
-          #purchasestartpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-            = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control datetimepicker-input', 'data-target': '#purchasestartpicker'
-            .input-group-append{"data-target": "#purchasestartpicker", "data-toggle": "datetimepicker"}
+          .input-group.date
+            = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+            .input-group-append
               .input-group-text
                 = fa_regular 'calendar'
         .form-group
           = f.label :purchase_end_date, class: 'col-form-label'
-          #purchaseendpicker.input-group.date{"data-target-input": "nearest", 'data-date-time-picker': ''}
-            = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control datetimepicker-input', 'data-target': '#purchaseendpicker'
-            .input-group-append{"data-target": "#purchaseendpicker", "data-toggle": "datetimepicker"}
+          .input-group.date
+            = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
+            .input-group-append
               .input-group-text
                 = fa_regular 'calendar'
   .col-12.col-lg-7
@@ -94,13 +96,13 @@
                 %td
                   Are individual seats allowed?
                   %small.form-text.text-muted Allow customers to purchase individual seats (not associated with a reservation) as long as there are enough seats available
-                %td{'data-js-workshop-type-single-seat-allow': ''}
+                %td{'data-admin--workshop-edit-target': 'singleSeatAllow'}
                 %td= f.select :overridden_single_seat_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Total seat count
-                  %small.form-text.text-muted Total number of guests that can attend this type of workshop
-                %td{'data-js-workshop-type-total-seats': ''}
+                  %small.form-text.text-muted Total number of guests that can attend this type of workshop.
+                %td{'data-admin--workshop-edit-target': 'totalSeats'}
                 %td
                   = f.text_field :overridden_total_seats, class: 'form-control', placeholder: 'Default'
               %tr
@@ -108,50 +110,57 @@
               %tr
                 %td
                   Are reservations allowed?
-                  %small.form-text.text-muted Allow reservations to be booked as long as there are enough seats available to meet the reservation minimum seat count
-                %td{'data-js-workshop-type-reservation-allow': ''}
+                  %small.form-text.text-muted Allow reservations to be booked as long as there are enough seats available to meet the reservation minimum seat count.
+                %td{'data-admin--workshop-edit-target': 'reservationAllow'}
                 %td= f.select :overridden_reservation_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Are multiple reservations allowed?
-                  %small.form-text.text-muted Allow multiple reservations to be booked by different customers
-                %td{'data-js-workshop-type-reservation-allow-multiple': ''}
+                  %small.form-text.text-muted Allow multiple reservations to be booked by different customers.
+                %td{'data-admin--workshop-edit-target': 'reservationAllowMultiple'}
                 %td= f.select :overridden_reservation_allow_multiple, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
-                  Reservations stopped...
-                  %small.form-text.text-muted Number of days before the workshop when reservations are no longer accepted
-                %td{'data-js-workshop-type-reservations-end': ''}
+                  Reservations Cut Off
+                  %small.form-text.text-muted Number of days before the workshop when reservations are no longer accepted.
+                %td{'data-admin--workshop-edit-target': 'reservationsEnd'}
                 %td
                   %input.form-control{:placeholder => "Default", :disabled => "disabled", :type => "text"}
               %tr
                 %td
-                  Cancel reservation if seating requirements not met?
+                  Void reservation if seating requirements not met?
                   %small.form-text.text-muted
-                    Cancel reservations if the minimum number of guests have not met the requirements by the
-                    registration/payment deadlines
-                %td{'data-js-workshop-type-reservation-cancel-minimum': ''}
+                    Automatically void reservations if the minimum number of guests have not met the requirements by the
+                    registration/payment deadlines.
+                %td{'data-admin--workshop-edit-target': 'reservationCancelMinimum'}
                 %td= f.select :overridden_reservation_cancel_minimum_not_met, overriden_boolean_select_options, {}, { class: 'custom-select' }
+              %tr
+                %td
+                  Are hosts or guests allowed to cancel seats?
+                  %small.form-text.text-muted
+                    Should the host or guests that are associated to a reservation be allowed to cancel a seat after it's already been claimed?
+                %td{'data-admin--workshop-edit-target': 'reservationAllowGuestCancelSeat'}
+                %td= f.select :overridden_reservation_allow_guest_cancel_seat, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Minimum seat count
                   %small.form-text.text-muted
-                    Minimum number of guests that can be on a single reservation
-                %td{'data-js-workshop-type-reservation-minimum': ''}
+                    Minimum number of guests that can be on a single reservation.
+                %td{'data-admin--workshop-edit-target': 'reservationMinimum'}
                 %td= f.text_field :overridden_reservation_minimum, class: 'form-control', placeholder: 'Default'
               %tr
                 %td
                   Maximum seat count
                   %small.form-text.text-muted
                     Maximum number of guests that can be on a single reservation.
-                    Can not be larger than the total seat count,
-                %td{'data-js-workshop-type-reservation-maximum': ''}
+                    Can not be larger than the total seat count.
+                %td{'data-admin--workshop-edit-target': 'reservationMaximum'}
                 %td= f.text_field :overridden_reservation_maximum, class: 'form-control', placeholder: 'Default'
               %tr
                 %td
                   Deposit fee
-                  %small.form-text.text-muted The price it costs for customers to book a reservation
-                %td{'data-js-workshop-type-reservation-price': ''}
+                  %small.form-text.text-muted The price it costs for customers to book a reservation.
+                %td{'data-admin--workshop-edit-target': 'reservationPrice'}
                 %td
                   .input-group
                     .input-group-prepend
@@ -159,10 +168,14 @@
                     = f.text_field :overridden_reservation_price, class: 'form-control', placeholder: 'Default'
       #project.tab-pane.show.active{"aria-labelledby": "project-tab", role: "tabpanel"}
         .card
-          .card-body
+          .card-body{'data-controller': 'select-all'}
+            .custom-checkbox.custom-control
+              %input#selectToggle.custom-control-input{type: "checkbox", value: "0", 'data-action': "select-all#toggle"}
+              %label.custom-control-label{for: "selectToggle", 'data-select-all-target': 'label'}
+                Select all
             = collection_check_boxes(:workshop, :project_ids, Project.order(name: :asc).all, :id, :name) do |b|
               .custom-control.custom-checkbox
-                = b.check_box(class: 'custom-control-input')
+                = b.check_box(class: 'custom-control-input', 'data-select-all-target': 'item')
                 = b.label(class: 'custom-control-label')
                 - unless b.object.active?
                   %span.badge.badge-warning.text-uppercase Inactive

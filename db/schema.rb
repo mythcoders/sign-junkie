@@ -2,18 +2,28 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_193505) do
+ActiveRecord::Schema.define(version: 2021_01_10_084103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -45,6 +55,14 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.index ["name"], name: "index_addons_on_name", unique: true
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "carts", id: :serial, force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -52,26 +70,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.integer "item_description_id", null: false
     t.index ["item_description_id"], name: "index_carts_on_item_description_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
-  end
-
-  create_table "clients", force: :cascade do |t|
-    t.string "name"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "state"
-    t.string "city"
-    t.string "zip_code"
-    t.string "phone"
-    t.string "fax"
-    t.string "contact_email"
-    t.string "instagram_account"
-    t.string "facebook_account"
-    t.string "twitter_account"
-    t.string "site_url"
-    t.string "site_name"
-    t.string "site_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "customer_credits", id: :serial, force: :cascade do |t|
@@ -84,8 +82,15 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.index ["user_id"], name: "index_customer_credits_on_user_id"
   end
 
+  create_table "email_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "subject", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_email_logs_on_user_id"
+  end
+
   create_table "gallery_images", force: :cascade do |t|
-    t.string "caption"
     t.integer "sort"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -138,16 +143,8 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.datetime "refund_date"
     t.boolean "for_child", default: false
     t.boolean "gifted", default: false
-  end
-
-  create_table "notifiications", id: :serial, force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "title"
-    t.string "memo"
-    t.datetime "read_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notifiications_on_user_id"
+    t.jsonb "stencils"
+    t.jsonb "owner"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -181,7 +178,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
 
   create_table "projects", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "description"
     t.decimal "instructional_price"
     t.decimal "material_price"
     t.datetime "created_at", null: false
@@ -189,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.boolean "allow_no_stencil", default: false, null: false
     t.integer "allowed_stencils", default: 1
     t.boolean "active", default: true, null: false
+    t.boolean "only_for_children", default: false, null: false
     t.index ["name"], name: "index_projects_on_name", unique: true
   end
 
@@ -350,7 +347,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
 
   create_table "workshops", id: :serial, force: :cascade do |t|
     t.string "name", limit: 50, null: false
-    t.string "description", limit: 1000
     t.datetime "purchase_start_date"
     t.datetime "purchase_end_date"
     t.datetime "start_date"
@@ -366,19 +362,19 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
     t.boolean "overridden_reservation_allow_multiple"
     t.integer "overridden_reservation_minimum"
     t.integer "overridden_reservation_maximum"
-    t.boolean "overridden_single_seat_allow"
-    t.boolean "overridden_reservation_cancel_minimum_not_met"
+    t.boolean "overridden_single_seat_allow", default: true
+    t.boolean "overridden_reservation_cancel_minimum_not_met", default: true
     t.boolean "overridden_reservation_allow_guest_cancel_seat"
     t.boolean "family_friendly", default: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "carts", "item_descriptions"
   add_foreign_key "carts", "users"
   add_foreign_key "customer_credits", "users"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_items", "item_descriptions"
   add_foreign_key "invoices", "users"
-  add_foreign_key "notifiications", "users"
   add_foreign_key "payments", "invoices"
   add_foreign_key "project_addons", "addons"
   add_foreign_key "project_addons", "projects"
@@ -394,7 +390,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_193505) do
   add_foreign_key "seats", "reservations"
   add_foreign_key "seats", "users"
   add_foreign_key "seats", "workshops"
-  add_foreign_key "stencil_categories", "stencil_categories", column: "parent_id"
   add_foreign_key "stencils", "stencil_categories"
   add_foreign_key "workshop_projects", "projects"
   add_foreign_key "workshop_projects", "workshops"

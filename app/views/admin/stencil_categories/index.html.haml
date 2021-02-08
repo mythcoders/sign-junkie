@@ -1,6 +1,6 @@
 - page_title 'Stencil Category Search'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -13,19 +13,26 @@
         = link_to 'New Stencil Category', new_admin_stencil_category_path, class: 'btn btn-primary lift'
 
 .card
+  .card-header
+    = search_form_for(@q, url: admin_stencil_categories_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
   .table-responsive
-    %table.table.card-table.table-hover
+    %table.table.card-table.table-striped
       %thead
         %tr
           %th Name
-          %th Parent
       %tbody
         - @categories.each do |c|
-          %tr{data: { 'clickable-row': '', 'href': edit_admin_stencil_category_path(c) }}
-            %td= c.name
-            %td
-              - if c.parent_category.present?
-                = c.parent_category.name
+          %tr
+            %td= link_to c.name, edit_admin_stencil_category_path(c)
       %tfoot
         %tr
           %td{colspan: '100%'}

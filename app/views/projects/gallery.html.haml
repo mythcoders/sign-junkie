@@ -16,4 +16,4 @@
   - @images.each do |img|
     .row-item.text-center
       %a{href: rails_blob_path(img), target: '_blank'}
-        %img.img-fluid.img-thumbnail{alt: '', src: rails_blob_path(img)}
+        %img.img-fluid.img-thumbnail{alt: 'Gallery image', src: rails_blob_path(img), loading: 'lazy'}

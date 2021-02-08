@@ -1,0 +1,82 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center= header
+
+= form_tag(form_url, form_attributes) do
+  = hidden_field_tag 'cart[type]', 'seat'
+  = hidden_field_tag 'cart[workshop_id]', workshop.id
+
+  %template{'data-seat-wizard-sidebar--component-target': 'template'}= sidebar_template
+  %template{'data-seat-wizard-sidebar--component-target': 'updateError'}
+    .card.card-sticky
+      .card-body
+        %p.card-text.text-info
+          There was an issue updating the sidebar. Don't worry, your selections are still saved
+          and you can continue your project picking experience.
+
+  .row
+    .col-12.col-sm-4.mb-3{'data-seat-wizard-sidebar--component-target': 'content'}
+      - if @seat.selection_made?
+        = render(SeatWizardSidebar::Component.new(project, addon, @seat.stencils))
+      - else
+        = sidebar_template
+
+    .col
+      .card
+        .card-header
+          %ul#seatWizardTabs.nav.nav-tabs.nav-justified.card-header-tabs{role: "tablist"}
+            = render(SeatWizardNavLink::Component.new('guest', disabled: false, active: true)) do |component|
+              - component.with(:body) do
+                Step 1
+                %br
+                %i.fas.fa-user.fa-fw
+                Guest
+
+            = render(SeatWizardNavLink::Component.new('project', disabled: !@seat.selection_made?, active: false)) do |component|
+              - component.with(:body) do
+                Step 2
+                %br
+                %i.fas.fa-sign.fa-fw
+                Project
+
+            - addon_disabled = project.nil? ? true : project.addons.active.any?
+            = render(SeatWizardNavLink::Component.new('addon', disabled: addon_disabled, active: false)) do |component|
+              - component.with(:body) do
+                Step 3
+                %br
+                %i.fas.fa-stamp.fa-fw
+                Add-on
+
+            = render(SeatWizardNavLink::Component.new('stencil', disabled: !@seat.selection_made?, active: false)) do |component|
+              - component.with(:body) do
+                Step 4
+                %br
+                %i.fas.fa-swatchbook.fa-fw
+                Stencil
+
+            = render(SeatWizardNavLink::Component.new('review', disabled: !@seat.selection_made?, active: false)) do |component|
+              - component.with(:body) do
+                Step 5
+                %br
+                Review
+
+        #seatWizardTabs.tab-content
+          #guest.tab-pane.fade.show.active{"aria-labelledby": "guest-tab", role: "tabpanel"}
+            = render(SeatWizardGuestTab::Component.new(allow_editing: !@seat.persisted?,
+                                                       existing_seat_id: @existing_seat_id,
+                                                       allow_child: workshop.family_friendly?,
+                                                       reservation_mode: reservation_mode?,
+                                                       seat: @seat))
+
+          #project.tab-pane.fade{'data-seat-wizard--component-target': "projectTabContent", "aria-labelledby": "project-tab", role: "tabpanel"}
+            = render(SeatWizardProjectTab::Component.new(projects, @seat.project_id)) if @seat.selection_made?
+
+          #addon.tab-pane.fade{'data-seat-wizard--component-target': "addonTabContent", "aria-labelledby": "addon-tab", role: "tabpanel"}
+            = render(SeatWizardAddonTab::Component.new(project, @seat.addon_id)) if @seat.selection_made?
+
+          #stencil.tab-pane.fade{'data-seat-wizard--component-target': "stencilTabContent", "aria-labelledby": "stencil-tab", role: "tabpanel"}
+            = render(SeatWizardStencilTab::Component.new(project, @seat.stencils)) if @seat.selection_made?
+
+          #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}
+            = render(SeatWizardReviewTab::Component.new(@seat))

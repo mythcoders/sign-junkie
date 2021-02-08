@@ -5,7 +5,9 @@ module Admin
     before_action :set_tax_period, only: %i[show edit update destroy]
 
     def index
-      @tax_periods_grid = initialize_grid(TaxPeriod, order: 'start_date')
+      @q = TaxPeriod.ransack(params[:q])
+      @q.sorts = 'start_date asc' if @q.sorts.empty?
+      @tax_periods = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -19,7 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_tax_periods_path
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -28,7 +30,7 @@ module Admin
         flash[:success] = t('update.success')
         redirect_to admin_tax_periods_path
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -49,7 +51,7 @@ module Admin
     end
 
     def tax_period_params
-      params.require(:tax_period).permit(:id, :start_date, :due_date, :amount_paid)
+      params.require(:tax_period).permit(:start_date, :due_date, :amount_paid)
     end
 
     def filtered_params

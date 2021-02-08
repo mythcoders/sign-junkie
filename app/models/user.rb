@@ -16,6 +16,7 @@ class User < ApplicationRecord
   }
   has_many :credits, class_name: 'CustomerCredit'
   has_many :carts
+  has_many :email_logs, dependent: :destroy
   has_many :invoices, dependent: :restrict_with_error
   has_many :seats, dependent: :restrict_with_error
   has_many :reservations, dependent: :restrict_with_error
@@ -31,6 +32,18 @@ class User < ApplicationRecord
   def self.system_admin
     email = Rails.env.production? ? ClientInfo.contact_email : SystemInfo.support_key
     User.where(email: email).first
+  end
+
+  def self.find_or_invite(first_name, last_name, email)
+    user = User.find_by_email(email)
+    if user.nil?
+      user = User.invite!(email: email,
+                          first_name: first_name,
+                          last_name: last_name,
+                          role: 'customer')
+    end
+
+    user
   end
 
   def associated_reservations

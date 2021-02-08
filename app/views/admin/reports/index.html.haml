@@ -1,6 +1,6 @@
 - page_title 'Reports'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -9,17 +9,17 @@
         %h1.header-title
           %i.fad.fa-analytics
           All Reports
-
-%table.table
-  %tr
-    %th Report Title
-    %th Description
-  %tr{data: { 'clickable-row': '', href: admin_new_customers_report_path }}
-    %td New Customers
-    %td List of all new customers that were added between a certain timeframe.
-  %tr{data: { 'clickable-row': '', href: admin_sales_tax_report_path }}
-    %td Sales Tax Liability
-    %td Summary of all taxable and non-taxable sales with a total of sales tax collected.
-  %tr{data: { 'clickable-row': '', href: admin_guest_list_report_path }}
-    %td Workshop Guest List
-    %td Attendee list for a workshop.
+  .card
+    %table.table.table-striped.card-table
+      %tr
+        %th Title
+        %th Description
+      %tr
+        %td= link_to 'New Customers', admin_new_customers_report_path
+        %td List of all new customers that were added between a certain timeframe.
+      %tr
+        %td= link_to 'Sales Tax Liability', admin_sales_tax_report_path
+        %td Summary of all taxable and non-taxable sales with a total of sales tax collected.
+      %tr
+        %td= link_to 'Workshop Guest List', admin_guest_list_report_path
+        %td Attendee list for a workshop.

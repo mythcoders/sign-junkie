@@ -21,7 +21,7 @@
           %tbody
             - @customer.carts.each do |i|
               %tr
-                %td= render partial: 'item_descriptions/basic_cart', locals: {item: i}
+                %td= render(ItemDescriptionDisplay::Component.default(i))
                 %td.text-right= content_tag :span, number_to_currency(i.line_total)
 
 .text-center

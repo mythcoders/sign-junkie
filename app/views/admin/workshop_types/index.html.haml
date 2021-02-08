@@ -1,6 +1,6 @@
 - page_title 'Workshop Search'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -14,7 +14,7 @@
 
 .card
   .table-responsive
-    %table.table.card-table.table-hover
+    %table.table.card-table.table-striped
       %thead
         %tr
           %th Name
@@ -23,8 +23,8 @@
           %th Reservations?
       %tbody
         - @types.each do |t|
-          %tr{data: { 'clickable-row': '', 'href': edit_admin_workshop_type_path(t) }}
-            %td= t.name
+          %tr
+            %td= link_to t.name, edit_admin_workshop_type_path(t)
             %td= human_boolean t.active
             %td= human_boolean t.default_single_seat_allow
             %td= human_boolean t.default_reservation_allow

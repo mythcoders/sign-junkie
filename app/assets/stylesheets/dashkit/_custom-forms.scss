@@ -35,3 +35,36 @@
     }
   }
 }
+
+
+// Select
+
+.custom-select-sm {
+  line-height: $input-line-height-sm;
+}
+
+
+//
+// Dashkit ===================================
+//
+
+// Control circle
+
+.custom-control-circle {
+  padding-left: $custom-control-gutter + $custom-control-circle-indicator-size;
+}
+
+.custom-control-circle .custom-control-label::after,
+.custom-control-circle .custom-control-label::before {
+  top: ($font-size-base * $line-height-base - $custom-control-circle-indicator-size) / 2;
+  left: -($custom-control-gutter + $custom-control-circle-indicator-size);
+  width: $custom-control-circle-indicator-size;
+  height: $custom-control-circle-indicator-size;
+  border-radius: $custom-control-circle-indicator-border-radius;
+}
+
+.custom-control-circle .custom-control-label::after,
+.custom-control-circle .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: escape-svg($custom-control-circle-indicator-icon-checked);
+  background-size: $custom-control-circle-indicator-bg-size;
+}

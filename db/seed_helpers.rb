@@ -4,7 +4,7 @@ require 'open-uri'
 
 def random_image
   puts 'Fetching backup image'
-  open("https://robohash.org/#{Faker::Lorem.characters(12)}.png?set=set4")
+  open("https://robohash.org/#{Faker::Lorem.characters(number: 12)}.png?set=set4")
 rescue StandardError
   puts 'Fatal error!'
 end

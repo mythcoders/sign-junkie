@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Invoice < ApplicationRecord
+  include AASM
   has_paper_trail
   has_many :items, class_name: 'InvoiceItem', dependent: :restrict_with_error
   has_many :payments, dependent: :restrict_with_error
@@ -12,46 +13,9 @@ class Invoice < ApplicationRecord
 
   scope :recently_created, -> { where('created_at > ?', Time.zone.now - 24.hours) }
 
-  def self.new_from_cart(user, pay_with_gift_card, created_at = Time.zone.now)
-    invoice = Invoice.new(user_id: user.id,
-                          status: :draft,
-                          due_date: Time.zone.today,
-                          created_at: created_at)
-
-    Cart.for(user).as_of(invoice.created_at).each do |cart|
-      invoice.items << InvoiceItem.new(item_description_id: cart.description.id)
-    end
-
-    if pay_with_gift_card == 'true' && user.credit_balance.positive?
-      invoice.payments << if invoice.grand_total <= user.credit_balance
-                            Payment.new(amount: invoice.grand_total, method: 'gift_card')
-                          else
-                            Payment.new(amount: user.credit_balance, method: 'gift_card')
-                          end
-    end
-
-    invoice
-  end
-
-  def self.new_from_seat(user, pay_with_gift_card, seat_id)
-    invoice = Invoice.new(user_id: user.id,
-                          status: :draft,
-                          due_date: Time.zone.today,
-                          created_at: created_at)
-
-    Seat.find(seat_id) do |seat|
-      invoice.items << InvoiceItem.new(item_description_id: seat.description.id)
-    end
-
-    if pay_with_gift_card == 'true' && user.credit_balance.positive?
-      invoice.payments << if invoice.grand_total <= user.credit_balance
-                            Payment.new(amount: invoice.grand_total, method: 'gift_card')
-                          else
-                            Payment.new(amount: user.credit_balance, method: 'gift_card')
-                          end
-    end
-
-    invoice
+  aasm column: :status do
+    state :draft, initial: true
+    state :paid
   end
 
   # total balance remaining that needs paid
@@ -81,14 +45,6 @@ class Invoice < ApplicationRecord
 
   def taxed?
     items.any?(&:taxed?)
-  end
-
-  def draft?
-    status == 'draft'
-  end
-
-  def paid?
-    status == 'paid'
   end
 
   def past_due?

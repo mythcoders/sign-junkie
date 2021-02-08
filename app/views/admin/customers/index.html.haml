@@ -1,6 +1,6 @@
 - page_title 'Customer Search'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -13,9 +13,31 @@
         = link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary lift'
 
 .card
-  = grid(@customers_grid) do |g|
-    - g.row_attributes do |t|
-      - {data: { 'clickable-row': '', 'href': admin_customer_path(t)}}
-    - g.column name: 'First Name', attribute: 'first_name'
-    - g.column name: 'Last Name', attribute: 'last_name'
-    - g.column name: 'Email Address', attribute: 'email'
+  .card-header
+    = search_form_for(@q, url: admin_customers_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :email_or_first_name_or_last_name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :first_name)
+        %th= sort_link(@q, :last_name)
+        %th= sort_link(@q, :email)
+    %tbody
+      - @customers.each do |customer|
+        %tr
+          %td= link_to customer.first_name, admin_customer_path(customer)
+          %td= customer.last_name
+          %td= customer.email
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @customers
+          = page_entries_info @customers, entry_name: 'customer'

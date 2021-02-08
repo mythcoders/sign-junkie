@@ -1,5 +1,7 @@
 - unless invoices.any?
-  .card-body No invoices were found
+  .card-body.text-center
+    %h2 No Invoices
+    %p.text-muted.mb-0 Any invoices associated with this customer will appear here.
 - else
   .table-responsive.mb-0
     %table.table.table-sm.table-nowrap.card-table.table-hover
@@ -11,8 +13,8 @@
           %th Amount
       %tbody
         - invoices.each do |o|
-          %tr{data: { 'clickable-row': '', 'href': admin_invoice_path(o) }}
-            %td= o.identifier
-            %td= render partial: 'statuses/invoice', locals: { invoice: o }
+          %tr
+            %td= link_to o.identifier, admin_invoice_path(o)
+            %td= render partial: 'admin/statuses/invoice', locals: { invoice: o }
             %td= l o.created_at, format: :short
             %td= number_to_currency o.grand_total

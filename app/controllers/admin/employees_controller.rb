@@ -6,7 +6,9 @@ module Admin
     before_action :disable_roles, only: %i[edit update]
 
     def index
-      @employees = User.employees.order(:last_name).page(params[:page])
+      @q = User.employees.ransack(params[:q])
+      @q.sorts = 'last_name asc' if @q.sorts.empty?
+      @employees = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -21,7 +23,7 @@ module Admin
         redirect_to admin_employee_path @employee
       else
         disabled_roles
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -31,14 +33,14 @@ module Admin
         redirect_to admin_employee_path @employee
       else
         disabled_roles
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
     private
 
     def employee_params
-      params.require(:user).permit(:id, :first_name, :last_name, :role, :email)
+      params.require(:user).permit(:first_name, :last_name, :role, :email)
     end
 
     def disable_roles

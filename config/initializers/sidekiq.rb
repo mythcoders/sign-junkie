@@ -25,17 +25,11 @@ Sidekiq.configure_server do |config|
     mgr.register('0 6 * * *', RegistrationDeadlineReminderWorker)
     mgr.register('0 6 * * *', UnconfirmedAccountReminderWorker)
   end
-
-  config.death_handlers << lambda { |job, ex|
-    Raven.extra_context job_id: job['jid']
-    Raven.extra_context job_class: job['class']
-    Raven.capture_exception(ex)
-  }
 end
 
 Sidekiq.configure_client do |config|
   config.redis = redis_config
 end
 
-Sidekiq::Client.reliable_push!
-Sidekiq::Extensions.enable_delay!
+# Sidekiq::Client.reliable_push!
+# Sidekiq::Extensions.enable_delay!

@@ -5,14 +5,14 @@ require 'rails_helper'
 RSpec.describe 'WorkshopsController', type: :request do
   describe 'GET bookings' do
     it 'renders' do
-      get '/workshops/bookings'
+      get '/public_hostess'
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe 'GET policies' do
     it 'renders' do
-      get '/policies'
+      get '/public_policies'
       expect(response).to have_http_status(:ok)
     end
   end

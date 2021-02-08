@@ -40,7 +40,7 @@ RSpec.describe Workshop, type: :model do
 
       it { is_expected.to be(false) }
 
-      context 'but they are cancled' do
+      context 'but they are canclled' do
         before do
           seat.update(cancel_date: Time.zone.now)
         end
@@ -62,7 +62,7 @@ RSpec.describe Workshop, type: :model do
 
       it { is_expected.to be(false) }
 
-      context 'but are cancled' do
+      context 'but are canclled' do
         before do
           reservation.update(cancel_date: Time.zone.now)
         end

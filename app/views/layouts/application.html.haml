@@ -2,27 +2,15 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
-    - if @client_token
-      %script{src: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'}
-  %body#page-top
-    #pageLoading
-      #pageLoadingContent
-        %p#pageLoadingSpinner
-          = fa_spin 'spinner', 'fa-5x'
-          %br
-          %span.text-primary Loading ... Please wait...
+    = stylesheet_link_tag 'application', type: 'text/css', 'data-turbo-track': 'reload'
+    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
+    = turbo_include_tags
+  %body#page-top{'data-turbo': 'true'}
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}
-        %img.img-system-logo.d-none.d-sm-block{src: '/SJWlogo.svg'}
+        %img.img-system-logo.d-none.d-sm-block{src: asset_path('SJWlogo.svg')}
       = render partial: 'layouts/partials/navbar'
       = render partial: 'layouts/partials/alerts'
-      = yield :breadcrumbs
       = yield
     = render partial: 'layouts/partials/footer'
-    = yield :scripts

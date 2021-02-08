@@ -1,31 +1,17 @@
 - page_title 'Admin Portal'
 
 !!!
-%html{html_attrs('en-us')}
+%html
   %head
     = render partial: 'layouts/partials/header'
-    - if @ui_theme == 'light'
-      = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    - elsif @ui_theme == 'dark'
-      = stylesheet_link_tag 'admin_dark', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    - else
-      = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload', id: 'maincss'
-    = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
-    %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
-    - if Rails.env.production?
-      %script{crossorigin: "anonymous", defer: "defer", src: "https://cdn.ravenjs.com/3.26.4/raven.min.js"}
-  %body
+    = stylesheet_link_tag @admin_ui_theme, type: 'text/css', 'data-turbo-track': 'reload'
+    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
+    = turbo_include_tags
+  %body{'data-turbo': 'true'}
     = render partial: "layouts/admin/toast_alerts"
     = render partial: "layouts/admin/sidebar"
     .main-content
       = render partial: "layouts/partials/logout"
       = render partial: "layouts/partials/user_preferences"
       .container-fluid
-        = yield :breadcrumbs
         = yield
-    = yield :scripts
-    - if Rails.env.production?
-      :javascript
-        $(function() {
-          Raven.config("#{Rails.application.credentials.dig(:sentry, :public_dsn)}").install();
-        });

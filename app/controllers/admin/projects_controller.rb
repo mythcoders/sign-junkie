@@ -5,8 +5,9 @@ module Admin
     before_action :set_project, only: %i[edit update show destroy new_image upload_images]
 
     def index
-      @projects_grid = initialize_grid(Project,
-                                       order: 'name')
+      @q = Project.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @projects = @q.result(distinct: true).page(params[:page])
     end
 
     def show
@@ -24,7 +25,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_project_path @project
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -33,7 +34,7 @@ module Admin
         flash[:success] = t('update.success')
         redirect_to admin_project_path @project
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -71,8 +72,8 @@ module Admin
 
     def project_params
       parameters = params.require(:project)
-                         .permit(:id, :name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
-                                 :instructional_price, :active, addon_ids: [], stencil_ids: [])
+                         .permit(:name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
+                                 :instructional_price, :active, :only_for_children, addon_ids: [], stencil_ids: [])
       parameters[:addon_ids]&.reject!(&:blank?)
       parameters[:stencil_ids]&.reject!(&:blank?)
       parameters

@@ -1,21 +1,33 @@
+:css
+  .turbo-progress-bar {
+    height: 5px;
+    background-color: teal;
+  }
 %title= page_title('Sign Junkie Workshop')
 %meta{charset: 'utf-8'}
 %meta{'http-equiv': 'X-UA-Compatible', content: 'IE=edge'}
 %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+%meta{name: 'keywords', content: 'diy,thornville,ohio,workshop'}
 %meta{name: 'author', content: SystemInfo::developer}
 %meta{name: 'description', content: t('site.description')}
-%meta{name: 'keywords', content: 'diy,thornville,ohio,workshop'}
+
+%meta{name: 'sign-junkie-current-user', content: current_user_attributes.to_json}
+%meta{name: 'sign-junkie-environment', content: Rails.env}
+%meta{name: 'sign-junkie-error-dsn', content: Rails.application.credentials.dig(:sentry, :public_dsn)}
+%meta{name: 'sign-junkie-version', content: SystemInfo.release}
+
 %meta{property: "og:site_name", content: t('site.title')}
 %meta{property: "og:type", content: 'website'}
 %meta{property: "og:url", content: request.base_url + request.path}
 %meta{property: "og:title", content: t('site.title')}
 %meta{property: "og:description", content: t('site.description')}
-%meta{property: "og:image", content: asset_url('/Public.jpeg')}
+%meta{property: "og:image", content: asset_url('Public')}
 %meta{property: "twitter:card", content: 'summary_large_image'}
--# %meta{property: "twitter:site", content: '@adkinsforohio'}
+-# %meta{property: "twitter:site", content: ''}
 %meta{property: "twitter:title", content: t('site.title_long')}
 %meta{property: "twitter:description", content: t('site.description')}
-%meta{property: "twitter:image", content: asset_url('/Public.jpeg')}
--# %meta{property: "twitter:image:alt", content: '?'}
+%meta{property: "twitter:image", content: asset_url('Public')}
+
 = csrf_meta_tags
-= yield :styles
+%script{src: "https://kit.fontawesome.com/41aacffc34.js"}
+= yield :head

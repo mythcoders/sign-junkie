@@ -74,3 +74,10 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+
+// Links
+
+.table a[class*="text-reset"]:hover {
+  color: $link-color !important;
+}

@@ -3,10 +3,11 @@
 module Admin
   class StencilCategoriesController < AdminController
     before_action :set_category, only: %i[update edit destroy]
-    before_action :set_values_for_dropdown, only: %i[new edit]
 
     def index
-      @categories = StencilCategory.order(:name).page(params[:page])
+      @q = StencilCategory.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @categories = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -20,8 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        set_values_for_dropdown
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -30,8 +30,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_stencil_categories_path
       else
-        set_values_for_dropdown
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -48,15 +47,11 @@ module Admin
     private
 
     def stencil_params
-      params.require(:stencil_category).permit(:id, :name, :parent_id)
+      params.require(:stencil_category).permit(:name)
     end
 
     def set_category
       @category = StencilCategory.find(params[:id])
-    end
-
-    def set_values_for_dropdown
-      @categories = StencilCategory.all
     end
   end
 end

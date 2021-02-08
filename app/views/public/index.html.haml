@@ -4,29 +4,20 @@
       %h2.card-header.bg-primary.text-white.text-center
         Book a Workshop
 
-  .col-12
-    .alert.alert-info
-      Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before
-      entering Sign Junkie. Guests 
-      %strong MUST 
-      provide their own mask to wear throughout the entire workshop.
-      Noncompliance will result in a
-      %strong NO 
-      refund and you will
-      %strong NOT
-      be able to attend the workshop.
-      There has been temporary changes to the number of guests allowed at a workshop.
-      The maximum number of guests is now 12 instead of 18.
-
+  - if @announcements.any?
+    .col-12
+      - @announcements.each do |announcement|
+        .alert.alert-info
+          = announcement.content
 .row
   .col-12.col-md-6
     .card.mb-3
       %h5.card-header.text-center
         Public Workshops
-      %img.card-img-top{:alt => "A group of DIY-ers with their creations", :src => "/Public.jpeg"}
+      %img.card-img-top{:alt => "A group of DIY-ers with their creations", src: asset_path("Public.jpeg")}
       .card-body
         .card-text
-          Register to come alone or with family or friends! If you have a small group (minimum 4 guests and maximum 8) 
+          Register to come alone or with family or friends! If you have a small group (minimum 4 guests and maximum 8)
           you can reserve a group reservation within a public workshop.
       .card-footer.text-center
         %a.btn.btn-primary.btn-block(href=workshops_public_path)
@@ -36,7 +27,7 @@
     .card.mb-3
       %h5.card-header.text-center
         Private Workshops
-      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', :src => "/Private.jpeg"}
+      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', src: asset_path("Private.jpeg")}
       .card-body
         .card-text
           Want the place to yourself? If you have a large group (minimum 6 guests and maximum 12 depending on the size

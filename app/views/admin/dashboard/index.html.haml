@@ -1,6 +1,6 @@
 - page_title 'Dashboard'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -37,7 +37,7 @@
             %span.h2.mb-0= @stats.total_invoices
             %span.badge.badge-soft-primary.mt-n1= "+ #{@stats.recent_invoices.count} last 24/hrs"
           .col-auto
-            = fa_solid 'file-invoice', 'h2 text-muted mb-0'
+            = fa_solid 'file-invoice-dollar', 'h2 text-muted mb-0'
   .col-12.col-lg-6.col-xl
     .card
       .card-body
@@ -83,7 +83,7 @@
                 Seating Availability
           %tbody
             - @stats.upcoming_workshops.each do |w|
-              %tr{data: { 'clickable-row': '', 'href': admin_workshop_path(w) }}
+              %tr
                 %td
                   - if w.workshop_images.any?
                     .avatar.avatar-sm.d-inline-block.mr-2{}
@@ -91,7 +91,7 @@
                   - else
                     .avatar.avatar-sm.d-inline-block.mr-2{}
                       %img.avatar-img.rounded-circle{:alt => 'Placeholder image', :src => "cover.jpg"}
-                  %span= w.name
+                  %span= link_to w.name, admin_workshop_path(w)
                 %td
                   = w.when
                 %td
@@ -111,7 +111,7 @@
               Recent Invoices
           .col-auto
             %a.small{:href => admin_invoices_path} View all
-      = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices }
+      = render partial: 'admin/invoices/list', locals: { invoices: @stats.recent_invoices.order(created_at: :desc) }
 
     .card
       .card-header
@@ -132,6 +132,6 @@
                 %th Number of Items
             %tbody
               - @stats.abandoned_carts.each do |o|
-                %tr{data: { 'clickable-row': '', 'href': admin_customer_path(o) }}
-                  %td= o.full_name
+                %tr
+                  %td= link_to o.full_name, admin_customer_path(o)
                   %td= o.carts.count

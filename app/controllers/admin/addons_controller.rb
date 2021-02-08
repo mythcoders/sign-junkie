@@ -5,7 +5,9 @@ module Admin
     before_action :set_addon, only: %i[show edit update destroy new_image upload_images]
 
     def index
-      @addons = Addon.order(:name).page(params[:page])
+      @q = Addon.ransack(params[:q])
+      @q.sorts = 'name asc' if @q.sorts.empty?
+      @addons = @q.result(distinct: true).page(params[:page])
     end
 
     def new
@@ -19,7 +21,7 @@ module Admin
         flash[:success] = t('create.success')
         redirect_to admin_addon_path @addon
       else
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -28,7 +30,7 @@ module Admin
         flash[:success] = t('update.success')
         redirect_to admin_addon_path @addon
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -51,7 +53,7 @@ module Admin
     private
 
     def addon_params
-      params.require(:addon).permit(:id, :name, :price, :active)
+      params.require(:addon).permit(:name, :price, :active)
     end
 
     def file_params

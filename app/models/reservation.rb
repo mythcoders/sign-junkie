@@ -22,6 +22,10 @@ class Reservation < ApplicationRecord
       .distinct
   }
 
+  def self.already_booked?(user, workshop_id)
+    for_user(user).for_shop(workshop_id).active.any?
+  end
+
   def may_add_seat?(user)
     host?(user) && can_add_seat?
   end

@@ -6,9 +6,16 @@ module Admin
     before_action :set_workshop_types, only: %i[edit update new]
 
     def index
-      @workshops_grid = initialize_grid(Workshop,
-                                        include: [:workshop_type],
-                                        order: 'start_date')
+      @q = if params[:scope] == 'all'
+             Workshop.all
+           elsif params[:scope] == 'past'
+             Workshop.where('start_date <= current_timestamp')
+           else
+             Workshop.where('start_date >= current_timestamp')
+           end.ransack(params[:q])
+
+      @q.sorts = 'start_date desc' if @q.sorts.empty?
+      @workshops = @q.result(distinct: true).includes(:workshop_type).page(params[:page])
     end
 
     def new
@@ -22,7 +29,7 @@ module Admin
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
     end
 
@@ -32,7 +39,7 @@ module Admin
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
     end
 
@@ -67,7 +74,7 @@ module Admin
     private
 
     def workshop_params
-      params.require(:workshop).permit(:id, :name, :description, :purchase_start_date, :purchase_end_date, :start_date,
+      params.require(:workshop).permit(:name, :description, :purchase_start_date, :purchase_end_date, :start_date,
                                        :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
                                        :overridden_total_seats, :overridden_reservation_allow_multiple,
                                        :overridden_reservation_price, :overridden_reservation_minimum,

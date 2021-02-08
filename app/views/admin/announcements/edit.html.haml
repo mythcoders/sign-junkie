@@ -1,0 +1,27 @@
+- content_for :head do
+  = javascript_pack_tag 'actiontext', type: 'text/javascript', 'data-turbo-track': 'reload'
+- page_title 'Edit', @announcement.title, 'Announcements'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Announcements
+        %h1.header-title
+          %i.fad.fa-megaphone
+          = "Edit #{@announcement.title}"
+
+= form_for @announcement, url: admin_announcement_path(@announcement), method: :patch do |f|
+  .row.justify-content-center
+    .col.col-lg-8.col-md-12
+      .card.mt-3
+        .card-body
+          = error_messages_for 'announcement'
+          = render partial: 'admin/announcements/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', admin_announcements_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Save', class: 'btn btn-success'
+          .float-right
+            = link_to "Delete", admin_announcement_path(@announcement), method: :delete, class: 'btn btn-outline-danger',
+              data: {confirm: 'Are you sure want to delete this announcement? This can not be undone!'}

@@ -1,0 +1,26 @@
+- if seat.cancelable?
+  = render partial: 'seats/cancel', locals: {seat: seat}
+
+.btn-group{:role => "group"}
+  - if seat.unpaid? && !seat.in_cart?
+    = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
+      = f.hidden_field :seat_id, value: seat.id
+      %button.btn.btn-light{type: 'submit', title: 'Add to Cart'}
+        %i.fas.fa-cart-plus
+  %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", type: "button"}
+    = fa_solid 'ellipsis-h-alt'
+    Actions
+  .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+    - if seat.cancelable?
+      %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
+        = fa_duo 'user-slash', 'fa-fw'
+        Uninvite guest
+    %a.dropdown-item{href: "mailto:#{seat.customer.email}"}
+      = fa_duo 'comment-alt-lines', 'fa-fw'
+      Send email
+    - if !seat.selection_made?
+      = form_for :seat, url: remind_reservation_seat_path(seat.reservation, seat), class: 'form-inline' do |f|
+        = f.hidden_field :id, value: seat.id
+        %button.dropdown-item{type: 'submit'}
+          = fa_duo 'bell-exclamation', 'fa-fw'
+          Send reminder

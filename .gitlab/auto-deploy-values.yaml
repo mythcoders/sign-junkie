@@ -1,0 +1,39 @@
+replicaCount: 1
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+ingress:
+  tls:
+    enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "5m"
+livenessProbe:
+  path: "/_heartbeat"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+readinessProbe:
+  path: "/_heartbeat"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+workers:
+  sidekiq:
+    replicaCount: 1
+    terminationGracePeriodSeconds: 60
+    command: ["sh", "./scripts/worker", "start"]
+    preStopCommand: ["sh", "./scripts/worker", "stop"]
+    livenessProbe:
+      probeType: "httpGet"
+      internalPort: 5000
+      path: "/"
+      initialDelaySeconds: 25
+      timeoutSeconds: 5
+    readinessProbe:
+      probeType: "httpGet"
+      internalPort: 5000
+      path: "/"
+      initialDelaySeconds: 25
+      timeoutSeconds: 5

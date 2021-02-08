@@ -16,16 +16,6 @@
     %span.font-weight-medium
       %a{href: "mailto:#{@reservation.host.email}"}= @reservation.host.full_name
 .media.align-items-center.mb-4
-  .font-size-1.font-weight-normal.mb-0.mr-3 Confirmation Number
-  .media-body.text-right
-    %span.font-weight-medium
-      .span= @reservation.confirmation_number
-.media.align-items-center.mb-4
-  .font-size-1.font-weight-normal.mb-0.mr-3 Date booked
-  .media-body.text-right
-    %span.font-weight-medium
-      .span= lifp @reservation.created_at
-.media.align-items-center.mb-4
   .font-size-1.font-weight-normal.mb-0.mr-3 Payment plan
   .media-body.text-right
     %span.font-weight-medium

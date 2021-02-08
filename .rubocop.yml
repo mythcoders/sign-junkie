@@ -1,12 +1,14 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - bin/**/*
     - db/**/*
+    - node_modules/**/*
 
 Style/Documentation:
   Enabled: No
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/MethodLength:

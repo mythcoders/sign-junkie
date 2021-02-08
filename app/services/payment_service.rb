@@ -2,7 +2,7 @@
 
 class PaymentService < ApplicationService
   def process!(payment)
-    Raven.extra_context payment: payment.attributes
+    Sentry.set_extras payment: payment.attributes
 
     if payment.gift_card?
       deduct_credit(payment)
@@ -16,7 +16,7 @@ class PaymentService < ApplicationService
   def deduct_credit(payment)
     return true if CustomerCredit.deduct!(payment)
 
-    Raven.capture_exception('Unable to deducet from gift card', transaction: 'Post Payment')
+    Sentry.capture_exception('Unable to deducet from gift card', transaction: 'Post Payment')
     raise ProcessError, 'Unable to deduct from gift card'
   end
 

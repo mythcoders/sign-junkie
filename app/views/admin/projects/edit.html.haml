@@ -1,6 +1,6 @@
 - page_title 'Edit', @project.name, 'Projects'
 
-.header.mt-md-2
+.header
   .header-body
     .row.align-items-center
       .col
@@ -35,4 +35,4 @@
               = b.check_box(class: 'custom-control-input')
               = b.label(class: 'custom-control-label')
               - unless b.object.active?
-                %span.badge.badge-warning.text-uppercase Inactive
+                %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive

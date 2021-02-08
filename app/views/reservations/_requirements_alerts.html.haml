@@ -1,0 +1,27 @@
+.alert.alert-warning{role: "alert"}
+  %h4.alert-heading
+    = fa_duo 'exclamation-triangle'
+    Heads up!
+
+  - if !@reservation.minimum_met?
+    = t('reservations.minimum_not_met',
+        seats: @reservation.remaining_seats_until_minimum_met,
+        deadline: lifp(@reservation.workshop.registration_deadline))
+  - else
+    = t('reservations.requirements_not_met',
+        seats: @reservation.remaining_seats_until_requirements_met,
+        deadline: lifp(@reservation.workshop.registration_deadline))
+
+    - if @reservation.paid_by_host?
+      = t('reservations.payment_host', deadline: lifp(@reservation.payment_deadline))
+    - else
+      = t('reservations.payment_guest', deadline: lifp(@reservation.payment_deadline))
+
+  - if @reservation.workshop.reservations_void_minimum_not_met?
+    = t('reservations.registration_deadline_cancel_warning')
+  - else
+    = t('reservations.registration_deadline_loose_deposit_warning')
+
+  - if @reservation.may_add_seat?(current_user)
+    %br
+    %a.btn.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now

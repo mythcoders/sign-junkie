@@ -1,0 +1,8 @@
+- if invoice.paid?
+  %span.text-success ●
+- elsif invoice.past_due?
+  %span.text-danger ●
+- else
+  %span.text-warning ●
+
+= invoice.status.humanize

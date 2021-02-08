@@ -8,8 +8,7 @@ class SeatVoidWorker
     return if seat.voided?
 
     Rails.logger.info "SeatVoidWorker #{seat_id}"
-    SeatService.new.void(seat)
+    SeatService::Void.call(seat)
     SeatMailer.with(seat_id: seat.id).voided.deliver_later
-    # Appsignal.increment_counter('seats.voided', 1)
   end
 end

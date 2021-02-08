@@ -28,7 +28,7 @@
     // Feather icon
 
     > .fe {
-      mask-image: url(#{$path-to-img}/masks/icon-status.svg);
+      mask-image: asset-url('masks/icon-status.svg');
       mask-size: 100% 100%;
     }
 

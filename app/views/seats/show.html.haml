@@ -4,51 +4,24 @@
       %h3.card-header.bg-primary.text-white
         = "#{@seat.customer.full_name}'s Seat"
       .card-body
-        - if @seat.active? && @seat.reservation.present? && !@seat.selection_made? && @seat.editable?(current_user)
-          .alert.alert-info
-            = fa_solid 'calendar-exclamation', 'fa-fw'
-            %span
-              You have until #{lifp @seat.workshop.registration_deadline} to pick your project and stencil!
-            %a.btn.btn-info.btn-block.mb-2.text-uppercase{href: edit_reservation_seat_path(@seat)}
-              = fa_solid 'sign'
-              Select your project and stencil
-        - elsif @seat.unpaid? && @seat.in_cart?
-          .alert.alert-info
-            = fa_solid 'calendar-exclamation', 'fa-fw'
-            %span
-              It looks like this is already in your cart so checkout whenever you're ready. However, the deadline to
-              pay for your seat is #{lifp @seat.reservation.payment_deadline}. If you don't pay the host will loose
-              their deposit!
-            %a.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{href: cart_index_path}
-              = fa_solid 'shopping-cart'
-              View cart
-        - elsif @seat.unpaid? && !@seat.reservation.paid_by_host?
-          .alert.alert-info
-            = fa_solid 'calendar-exclamation', 'fa-fw'
-            %span
-              The deadline to pay for your seat is #{lifp @seat.reservation.payment_deadline}.
-              If you don't pay the host will loose their deposit!
-            = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
-              = f.hidden_field :seat_id, value: @seat.id
-              %button.btn.btn-info.btn-block.btn-sm.mt-2.text-uppercase{type: 'submit'}
-                = fa_solid 'cart-plus'
-                Add project to cart and pay now
-        = render partial: 'item_descriptions/invoice', locals: {item: @seat}
-        - if @seat.reservation.present?
-          %p.card-text
-            = fa_solid 'toolbox', 'text-primary fa-fw'
-            = link_to "Reservation ##{@seat.reservation.confirmation_number}", reservation_path(@seat.reservation)
+        = render partial: 'payment_alerts' if @seat.active? && @seat.reservation.present?
+        = render(ItemDescriptionDisplay::Component.linkable(@seat))
       .card-footer
-        - if @seat.selection_made? && @seat.editable?(current_user)
-          %a.btn.btn-primary.btn-block.mb-2{href: edit_reservation_seat_path(@seat.reservation, @seat)}
-            Update your project or stencil
-        - if @seat.invoice.present?
+        - if @seat.paid? && @seat.invoice.user_id == current_user.id
           %a.btn.btn-primary.btn-block.mb-2{href: invoice_path(@seat.invoice.id)}
             = fa_solid 'file-invoice'
             View Invoice
-        - if @seat.cancelable?
+        - elsif @seat.editable?(current_user) && @seat.cancelable?
           = render partial: 'seats/cancel', locals: {seat: @seat}
           %a.btn.btn-danger.btn-block{"data-target": "#cancel-seat-#{@seat.id}-modal", "data-toggle": "modal", href: "#"}
             = fa_solid 'ban'
             Cancel seat
-        = link_to 'Back', seats_path, class: 'btn btn-secondary btn-block'
+
+        - if @seat.editable?(current_user)
+          %a.btn.btn-primary.btn-block.mb-2{href: edit_reservation_seat_path(@seat.reservation, @seat)}
+            - if @seat.selection_made?
+              Update project or stencil
+            - else
+              Select project and stencil
+
+        = link_to 'Go Back', :back, class: 'btn btn-secondary btn-block'

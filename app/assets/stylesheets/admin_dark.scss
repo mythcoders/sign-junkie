@@ -1,15 +1,15 @@
 /**
- * Dashkit v1.4.2
+ * Dashkit v1.6.1
  *
  * Custom variables followed by Dashkit variables followed by Bootstrap variables
  * to ensure cascade of styles.
  */
 
 // Bootstrap functions
-@import "bootstrap/scss/functions";
+@import "bootstrap/scss/_functions";
 
 // Custom variables
-@import "admin_portal_variables";
+@import "apollo/admin_portal_variables";
 
 // Dashkit variables
 @import "dashkit/dark/variables-dark";
@@ -23,5 +23,5 @@
 @import "dashkit/dark/overrides-dark";
 
 // Custom core
-@import "admin_portal";
-@import "shared";
+@import "apollo/admin_portal";
+@import "apollo/shared";

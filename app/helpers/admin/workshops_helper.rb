@@ -2,6 +2,12 @@
 
 module Admin
   module WorkshopsHelper
+    def workshop_tabs
+      [OpenStruct.new(label: 'Upcoming', value: nil),
+       OpenStruct.new(label: 'Past', value: 'past'),
+       OpenStruct.new(label: 'All', value: 'all')]
+    end
+
     def overriden_boolean_select_options
       [
         ['Default', ''],

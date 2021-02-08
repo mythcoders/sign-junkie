@@ -1,0 +1,10 @@
+= render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @existing_seat_id)) do |component|
+  - component.with(:header) do
+    New Seat for #{@workshop.name}
+
+  - component.with(:sidebar_template) do
+    .card.card-sticky
+      .card-body
+        %p.card-text
+          Tell us who you're purchasing this seat for to get started.
+          Then, you'll be able to select a project.

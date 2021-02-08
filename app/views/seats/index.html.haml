@@ -2,19 +2,23 @@
 
 .row.justify-content-center.mt-3
   .col
-    .card
+    .card.mb-3
       %h2.card-header.bg-primary.text-white.text-center
         = fa_solid 'chair'
         My Seats
-      %ul.list-group
-        - if @seats.empty?
-          %li.list-group-item
-            %h5.card-title It looks like you don't have any seats yet.
 
-            %a.btn.btn-info.btn-block(href=workshops_public_path)
-              View PUBLIC Workshop dates
-            %a.btn.btn-info.btn-block(href=workshops_private_path)
-              View PRIVATE Workshop dates
-        - @seats.each do |r|
-          %a.list-group-item.list-group-item-action{href: seat_path(r)}
-            = render partial: 'item_descriptions/show', locals: {item: r}
+.card
+  - if @seats.any?
+    %ul.list-group.list-group-flush
+      - @seats.each do |r|
+        %li.list-group-item
+          %a.list-group-item-action{href: seat_path(r)}
+            = render(ItemDescriptionDisplay::Component.default(r))
+  - else
+    .card-body.text-center
+      %h2 No Purchased Seats
+      %p Any seats that you've purchased (and the ones that were purhcased for you) will appear here.
+      %a.btn.btn-info(href=workshops_public_path)
+        View PUBLIC Workshop dates
+      %a.btn.btn-info(href=workshops_private_path)
+        View PRIVATE Workshop dates

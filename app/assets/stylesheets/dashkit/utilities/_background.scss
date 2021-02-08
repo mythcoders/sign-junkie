@@ -57,7 +57,7 @@
 // Hero
 
 .bg-hero {
-  background-image: linear-gradient(to bottom, fade-out($black, .15), fade-out($black, .15)), url(#{$path-to-img}/covers/header-cover.jpg);
+  background-image: linear-gradient(to bottom, fade-out($black, .15), fade-out($black, .15)), asset-url('covers/header-cover.jpg');
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
   background-size: cover, cover;

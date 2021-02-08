@@ -7,11 +7,11 @@ FactoryBot.define do
     balance { starting_amount }
 
     trait :expired do
-      expiration_date { Faker::Date.backward(14) }
+      expiration_date { Faker::Date.backward(days: 14) }
     end
 
     trait :unexpired do
-      expiration_date { Faker::Date.forward(23) }
+      expiration_date { Faker::Date.forward(days: 23) }
     end
   end
 end

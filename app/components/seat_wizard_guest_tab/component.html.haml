@@ -1,0 +1,146 @@
+%div{'data-controller': 'seat-wizard-guest-tab--component',
+     'data-seat-wizard-guest-tab--component-for-reservation-value': @reservation_mode.to_s,
+     'data-seat-wizard-guest-tab--component-guest-type-value': @seat.owner&.type,
+     'data-seat-wizard-guest-tab--component-is-parent-value': 'true',
+     'data-seat-wizard-guest-tab--component-purchase-mode-value': 'now'}
+
+  .card-body
+    - if @allow_editing
+      %h5.card-title.mt-2
+        - if @reservation_mode
+          Who is this seat for?
+        - else
+          Who are you purchasing this seat for?
+
+      .form-group
+        .custom-control.custom-radio
+          - if !already_attending?
+            %input#self.custom-control-input{guest_type_radio_attributes, value: "self"}
+            %label.custom-control-label{for: "self"} Myself
+          - else
+            %input.custom-control-input{type: "radio", disabled: true}
+            %label.custom-control-label
+              Myself
+              %br= link_to t('seat_wizard.guest_type.self_disabled'), seat_path(@existing_seat_id)
+
+        .custom-control.custom-radio
+          %input#adult.custom-control-input{guest_type_radio_attributes, value: "adult"}
+          %label.custom-control-label{for: "adult"}= t('seat_wizard.guest_type.adult')
+
+        .custom-control.custom-radio
+          %input#other.custom-control-input{guest_type_radio_attributes, value: "other"}
+          %label.custom-control-label{for: "other"}= t('seat_wizard.guest_type.other')
+
+        .custom-control.custom-radio
+          - if @family_friendly_enabled
+            %input#child.custom-control-input{guest_type_radio_attributes, value: "child"}
+            %label.custom-control-label{for: "child"}= t('seat_wizard.guest_type.child')
+          - else
+            %input.custom-control-input{type: "radio", disabled: true}
+            %label.custom-control-label
+              = t('seat_wizard.guest_type.child')
+              %br= t('seat_wizard.guest_type.child_disabled')
+
+      %div{'data-seat-wizard-guest-tab--component-target': 'childInfo'}
+        %hr
+        %h5.card-title Child Information
+        - if @reservation_mode
+          .form-group
+            .custom-checkbox.custom-control
+              %input#isParent.custom-control-input{type: "checkbox", value: "0", checked: true,
+                                                  'data-seat-wizard-guest-tab--component-target': 'isParent',
+                                                  'data-action': "seat-wizard-guest-tab--component#toggleIsParent"}
+              %label.custom-control-label{for: "isParent"}
+                This seat is for my child
+        - else
+          = hidden_field_tag 'isParent', '1', 'data-seat-wizard-guest-tab--component-target': 'isParent'
+
+        .form-row
+          .form-group.col-6
+            %label{for: 'childFirstName'} First name
+            %input.form-control#childFirstName{type: 'text', autocomplete: false, name: 'cart[child_first_name]',
+                                               'data-seat-wizard-guest-tab--component-target': 'childFirstName',
+                                               'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
+          .form-group.col-6
+            %label{for: 'childLastName'} Last name
+            %input.form-control#childLastName{type: 'text', autocomplete: false, name: 'cart[child_last_name]',
+                                              'data-seat-wizard-guest-tab--component-target': 'childLastName',
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
+
+      %div{'data-seat-wizard-guest-tab--component-target': 'guestInfo'}
+        %hr
+        %h5.card-title{'data-seat-wizard-guest-tab--component-target': 'guestInfoHeader'} Guest Information
+
+        - if @reservation_mode
+          .form-group{'data-seat-wizard-guest-tab--component-target': 'purchaseModeArea'}
+            .custom-checkbox.custom-control
+              %input#purchaseMode.custom-control-input{type: "checkbox", value: "0",
+                                                      'data-seat-wizard-guest-tab--component-target': 'purchaseMode',
+                                                      'data-action': "seat-wizard-guest-tab--component#togglePurchaseMode"}
+              %label.custom-control-label{for: "purchaseMode"}
+                I'll be selecting the project and paying for this persons seat
+
+        %p{'data-seat-wizard-guest-tab--component-target': 'guestInfoAlert'}
+
+        .form-row
+          .form-group.col-6
+            %label{for: 'guestFirstName'} First name
+            %input.form-control#guestFirstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
+                                              'data-seat-wizard-guest-tab--component-target': 'guestFirstName',
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
+          .form-group.col-6
+            %label{for: 'guestLastName'} Last name
+            %input.form-control#guestLastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
+                                              'data-seat-wizard-guest-tab--component-target': 'guestLastName',
+                                              'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
+          .form-group.col-12
+            %label{for: 'emailAddress'} Email address
+            %input.form-control#emailAddress{type: 'text', autocomplete: false, name: 'cart[email]',
+                                            'data-seat-wizard-guest-tab--component-target': 'emailAddress',
+                                            'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
+
+      %hr
+    - else
+      = hidden_field_tag 'cart[guest_type]', @seat.owner.type
+      - if @seat.owner.type == 'child'
+        = hidden_field_tag 'cart[child_first_name]', @seat.owner.first_name
+        = hidden_field_tag 'cart[child_last_name]', @seat.owner.last_name
+        = hidden_field_tag 'cart[first_name]', @seat.owner.parent.first_name
+        = hidden_field_tag 'cart[last_name]', @seat.owner.parent.last_name
+        = hidden_field_tag 'cart[email]', @seat.owner.parent.email
+      - else
+        = hidden_field_tag 'cart[first_name]', @seat.owner.first_name
+        = hidden_field_tag 'cart[last_name]', @seat.owner.last_name
+        = hidden_field_tag 'cart[email]', @seat.owner.email
+
+      %p.card-text= @seat.name
+      - if @seat.owner.email
+        %p.card-text= mail_to @seat.owner.email
+      %hr
+
+    %h5.card-title Seating Request
+    .form-group
+      .custom-checkbox.custom-control
+        %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0",
+                                                   checked: @seat.seat_preference.blank? ? false : 'checked',
+                                                   'data-seat-wizard-guest-tab--component-target': 'seatRequestToggle',
+                                                   'data-action': "seat-wizard-guest-tab--component#toggleSeatRequest"}
+        %label.custom-control-label{for: "hasSeatRequest",
+                                    'data-seat-wizard-guest-tab--component-target': 'seatRequestLabel'}
+          I would like to sit next to someone specific
+
+    .form-group{'data-seat-wizard-guest-tab--component-target': 'seatRequestArea'}
+      .form-control-plaintext
+        Enter the guests name below. We'll do our best to accomidate your request.
+      %input.form-control#seatRequest{type: 'text', autocomplete: false, name: 'cart[seat_request]',
+                                      value: @seat.seat_preference,
+                                      placeholder: "First and Last name",
+                                      'data-seat-wizard-guest-tab--component-target': 'seatRequest'}
+
+  .card-footer.card-sticky-footer.clearfix
+    .float-right
+      %a.btn.btn-primary{href: '#',
+                         'data-action': 'seat-wizard--component#goToTab',
+                         'data-destination': 'project',
+                         'data-seat-wizard-guest-tab--component-target': 'nextButton'}
+        Next
