@@ -1,5 +1,8 @@
 %div{'data-controller': 'seat-wizard-guest-tab--component',
-     'data-seat-wizard-guest-tab--component-for-reservation-value': @reservation_mode.to_s}
+     'data-seat-wizard-guest-tab--component-for-reservation-value': @reservation_mode.to_s,
+     'data-seat-wizard-guest-tab--component-guest-type-value': @seat.owner&.type,
+     'data-seat-wizard-guest-tab--component-is-parent-value': 'true',
+     'data-seat-wizard-guest-tab--component-purchase-mode-value': 'now'}
 
   .card-body
     - if @allow_editing
@@ -99,7 +102,6 @@
       %hr
     - else
       = hidden_field_tag 'cart[guest_type]', @seat.owner.type
-
       - if @seat.owner.type == 'child'
         = hidden_field_tag 'cart[child_first_name]', @seat.owner.first_name
         = hidden_field_tag 'cart[child_last_name]', @seat.owner.last_name
@@ -114,8 +116,6 @@
       %p.card-text= @seat.name
       - if @seat.owner.email
         %p.card-text= mail_to @seat.owner.email
-
-      If you'd like to change to make a change delete the seat and add a new one.
       %hr
 
     %h5.card-title Seating Request
@@ -123,6 +123,7 @@
       .custom-checkbox.custom-control
         %input#hasSeatRequest.custom-control-input{type: "checkbox", value: "0",
                                                    checked: @seat.seat_preference.blank? ? false : 'checked',
+                                                   'data-seat-wizard-guest-tab--component-target': 'seatRequestToggle',
                                                    'data-action': "seat-wizard-guest-tab--component#toggleSeatRequest"}
         %label.custom-control-label{for: "hasSeatRequest",
                                     'data-seat-wizard-guest-tab--component-target': 'seatRequestLabel'}

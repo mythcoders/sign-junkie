@@ -15,6 +15,7 @@
   - It's now easier to tell who has paid and who hasn't when looking at seats in a Workshop
   - Removed parent category for stencil categories
   - When creating or updating a record incorrect fields are now highlighted in red
+  - Easily resend confirmation instructions to customers that haven't confirmed their account yet
   - Various interface improvements to improve consistency
 - Technical features and improvements
   - New technology called Turbo speeds up page rendering

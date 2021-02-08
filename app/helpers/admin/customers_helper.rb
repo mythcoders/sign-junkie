@@ -27,5 +27,9 @@ module Admin
         'Invited Date'
       end
     end
+
+    def allow_resent_confirmation_email?(customer)
+      %i[pending invited].include? customer.status[:title]
+    end
   end
 end

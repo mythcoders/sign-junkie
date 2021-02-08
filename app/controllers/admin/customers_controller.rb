@@ -2,7 +2,7 @@
 
 module Admin
   class CustomersController < AdminController
-    before_action :get, only: %i[edit show update destroy]
+    before_action :set_customer, only: %i[edit show update destroy resend_confirmation]
     before_action :disabled_roles, only: %i[edit update]
 
     def index
@@ -39,7 +39,7 @@ module Admin
     def destroy
       if @customer.destroy
         flash['success'] = t('destroy.success')
-        redirect_to admin_customer_path @customer
+        redirect_to admin_customers_path
       else
         flash[:error] = t('destroy.failure')
         redirect_to edit_admin_customer_path(@customer)
@@ -52,6 +52,17 @@ module Admin
       redirect_to admin_customer_path params[:id]
     end
 
+    def resend_confirmation
+      if @customer.invitation_sent_at
+        @customer.invitation_instructions
+      else
+        @customer.send_confirmation_instructions
+      end
+
+      flash[:success] = 'Confirmation Instructions resent'
+      redirect_to admin_customer_path @customer
+    end
+
     private
 
     def customer_params
@@ -62,8 +73,8 @@ module Admin
       @disabled_roles = current_user.operator? ? %i[] : %i[employee admin operator]
     end
 
-    def get
-      @customer = User.includes(:invoices).find(params[:id])
+    def set_customer
+      @customer = User.find(params[:id])
     end
   end
 end

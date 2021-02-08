@@ -1,7 +1,13 @@
 import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
-  static values = { forReservation: Boolean, guestType: String, isParent: Boolean, previousNotify: Object }
+  static values = {
+    forReservation: Boolean,
+    guestType: String,
+    isParent: Boolean,
+    purchaseMode: String,
+    previousNotify: Object
+  }
   static targets = [
     "childFirstName",
     "childInfo",
@@ -12,14 +18,14 @@ export default class extends ApplicationController {
     "guestInfoAlert",
     "guestInfoHeader",
     "guestLastName",
-    "guestType",
     "isParent",
     "nextButton",
     "purchaseMode",
     "purchaseModeArea",
     "seatRequest",
     "seatRequestArea",
-    "seatRequestLabel"
+    "seatRequestLabel",
+    "seatRequestToggle"
   ]
 
   connect() {
@@ -29,8 +35,8 @@ export default class extends ApplicationController {
       this.guestInfoAlertTarget.hidden = true
       this.guestInfoTarget.hidden = true
     }
-    this.seatRequestAreaTarget.hidden = true
-    this.nextButtonTarget.classList.add('disabled')
+    this.seatRequestAreaTarget.hidden = !this.seatRequestToggleTarget.checked
+    this.seatRequestTarget.required = !this.seatRequestAreaTarget.hidden
     this.previousNotifyValue = {
       guestType: this.guestTypeValue,
       purchaseMode: this.purchaseModeValue,
@@ -40,17 +46,14 @@ export default class extends ApplicationController {
 
   toggleGuestType(e) {
     this.guestTypeValue = e.currentTarget.value
-    if (!this.hasIsParentValue) { this.isParentValue = true }
 
-    if (this.guestTypeValue === 'self' || (this.guestTypeValue === 'child' && this.isParentValue)) {
-      //clear first name and last name
-      this.purchaseModeValue = 'now'
-    } else if (this.forReservationValue) {
-      if (this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
-      this.purchaseModeValue = this.guestTypeValue === 'other' ? 'now' : 'later'
+    if (this.forReservationValue && this.guestTypeValue !== 'other') {
+      this.purchaseModeValue = 'later'
     } else {
       this.purchaseModeValue = 'now'
     }
+
+    if (this.forReservationValue && this.hasPurchaseModeAreaTarget) { this.purchaseModeTarget.checked = false }
 
     this.updateUI() // always trigger
     this.notifyWizard()
@@ -74,6 +77,7 @@ export default class extends ApplicationController {
   }
 
   updateGuestName(e) {
+    this.updateUI() // always trigger
     this.notifyWizard()
   }
 
@@ -126,6 +130,12 @@ export default class extends ApplicationController {
       this.nextButtonTarget.dataset.destination = 'review'
     }
 
+    if (this.isValid) {
+      this.nextButtonTarget.classList.remove('disabled')
+    } else {
+      this.nextButtonTarget.classList.add('disabled')
+    }
+
     if (this.hasGuestInfoTarget) {
       this.showHideEmailAddress()
       this.showHideGuestInfo()
@@ -139,12 +149,6 @@ export default class extends ApplicationController {
     let shouldNotifyWizard = valid && !this.previousNotifyValue.valid ||
       this.guestTypeValue != this.previousNotifyValue.guestType ||
       this.purchaseModeValue != this.previousNotifyValue.purchaseMode
-
-    if (valid) {
-      this.nextButtonTarget.classList.remove('disabled')
-    } else {
-      this.nextButtonTarget.classList.add('disabled')
-    }
 
     if (valid && shouldNotifyWizard) {
       document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {

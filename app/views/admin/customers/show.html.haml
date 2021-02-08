@@ -20,6 +20,12 @@
           .dropdown-menu
             %a.dropdown-item{href: new_admin_customer_credit_path(@customer)} Credit
         %a.btn.btn-primary.lift{href: edit_admin_customer_path(@customer)} Edit
+      - if allow_resent_confirmation_email?(@customer)
+        = form_for :seat, url: resend_confirmation_admin_customer_path(@customer) do |f|
+          = f.hidden_field :id, value: @customer.id
+          %button.btn.btn-info{type: 'submit'}
+            = fa_duo 'shield', 'fa-fw'
+            Send Confirmation Email
       - if @customer.carts.any?
         = form_for :seat, url: remind_cart_admin_customer_path(@customer) do |f|
           = f.hidden_field :id, value: @customer.id

@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     resources :stencil_categories
     resources :users, as: 'customers', path: 'customers', controller: 'customers' do
       post 'remind_cart', action: :remind, on: :member
+      post 'resend_confirmation', action: :resend_confirmation, on: :member
       resources :customer_credits, only: %i[new edit create update destroy], as: 'credits', path: 'credits'
     end
     resources :users, as: 'employees', path: 'employees', controller: 'employees'

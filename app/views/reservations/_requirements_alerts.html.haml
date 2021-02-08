@@ -1,4 +1,4 @@
-.alert.alert-info{role: "alert"}
+.alert.alert-warning{role: "alert"}
   %h4.alert-heading
     = fa_duo 'exclamation-triangle'
     Heads up!
@@ -24,4 +24,4 @@
 
   - if @reservation.may_add_seat?(current_user)
     %br
-    %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
+    %a.btn.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
