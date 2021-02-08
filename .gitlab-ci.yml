@@ -49,21 +49,15 @@ staging:
   environment:
     name: staging
     url: http://$KUBE_INGRESS_BASE_DOMAIN
-    kubernetes:
-      namespace: sign-junkie-staging
 
 production:
   stage: production
   environment:
     name: production
     url: http://$KUBE_INGRESS_BASE_DOMAIN
-    kubernetes:
-      namespace: sign-junkie-prod
 
 production_manual:
   stage: production
   environment:
     name: production
     url: http://$KUBE_INGRESS_BASE_DOMAIN
-    kubernetes:
-      namespace: sign-junkie-prod

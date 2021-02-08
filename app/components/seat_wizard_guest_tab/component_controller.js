@@ -47,7 +47,7 @@ export default class extends ApplicationController {
   toggleGuestType(e) {
     this.guestTypeValue = e.currentTarget.value
 
-    if (this.forReservationValue && this.guestTypeValue !== 'other') {
+    if (this.forReservationValue && this.guestTypeValue === 'adult') {
       this.purchaseModeValue = 'later'
     } else {
       this.purchaseModeValue = 'now'
