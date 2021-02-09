@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module SeatService
-  class GuestParser
+  # Parses form params from creating/updating a seat into a Hash
+  class GuestOwnerParser
     def initialize(params)
       @params = params
     end
@@ -14,7 +15,7 @@ module SeatService
       case @params.guest_type
       when 'child'
         child_owner_attributes
-      when 'adult', 'other'
+      else
         adult_owner_attributes
       end
     end

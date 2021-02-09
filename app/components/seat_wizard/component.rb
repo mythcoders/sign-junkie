@@ -19,7 +19,11 @@ module SeatWizard
     end
 
     def projects
-      @projects ||= @seat.for_child? ? @seat.workshop.projects.where(only_for_children: true).active : @seat.workshop.projects.active
+      @projects ||= if @seat.guest_type == 'child'
+                      @seat.workshop.projects.where(only_for_children: true).active
+                    else
+                      @seat.workshop.projects.active
+                    end
     end
 
     def project
@@ -50,7 +54,7 @@ module SeatWizard
 
     def form_url
       if @seat.persisted?
-        edit_reservation_seat_path(@seat.reservation.id, @seat.seat.id)
+        reservation_seat_path(@seat.reservation.id, @seat.seat.id)
       elsif reservation_mode?
         reservation_seats_path(@seat.reservation.id)
       else

@@ -26,7 +26,7 @@
           I have entered the correct design and/or customization info. I userstand that NO CHANGES
           can be made to my design choice OR any personalization once my reservation is submitted.
 
-      .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
+      .form-group.mb-0{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
         .custom-switch.custom-control
           = check_box_tag :policy_agreement, :policy_agreement, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
           = label_tag :policy_agreement, 'Policy Agreement', class: 'custom-control-label'

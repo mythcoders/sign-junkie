@@ -32,7 +32,7 @@ class Seat < ApplicationRecord
   end
 
   def showable?(user)
-    return true if user.id != customer.id
+    return true if user.id == customer.id
     return true if reservation&.host?(user)
 
     false
@@ -51,11 +51,5 @@ class Seat < ApplicationRecord
     return false unless editable?(user)
 
     true
-  end
-
-  def guest_type
-    return unless persisted?
-
-    owner.nil? ? 'self' : owner.type
   end
 end

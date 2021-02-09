@@ -31,7 +31,7 @@
             = select_tag :stencil_filter,
               options_from_collection_for_select(categories, "id", "name"),
               include_blank: 'All Stencil Categories',
-              class: 'custom-select custom-select-sm',
+              class: 'custom-select',
               'data-target': '#stencilOptions',
               'data-action': 'seat-wizard-stencil-tab--component#changeCategoryFilter',
               form: 'nosubmit'
@@ -50,8 +50,9 @@
                                     'data-seat-wizard-target': 'stencil',
                                     'data-id': stencil.id,
                                     'data-selected': 'false'}
-                %h5.card-title.text-dark.mb-2= stencil.name
-                %h6.text-muted= stencil.category.name
+                .text-primary= stencil.name
+                %br
+                .text-dark= stencil.category.name
                 - if stencil.allow_personilization
                   .badge.badge-info Personalizable
 

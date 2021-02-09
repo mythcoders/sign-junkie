@@ -11,6 +11,10 @@ export default class extends ApplicationController {
     this.registerCallbacks()
   }
 
+  disconnect() {
+    document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
+  }
+
   registerCallbacks() {
     document.addEventListener('SeatWizard:reset', function (event) {
       this.purchaseModeValue = undefined
@@ -48,6 +52,8 @@ export default class extends ApplicationController {
 
     document.addEventListener('SeatWizard:updateProject', function (event) {
       this.projectValue = event.detail
+      this.addonIdValue = undefined
+      this.stencilsValue = undefined
     }.bind(this))
 
     document.addEventListener('SeatWizard:updateAddon', function (event) {

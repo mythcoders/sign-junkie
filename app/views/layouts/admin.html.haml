@@ -4,13 +4,12 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag @admin_ui_theme, type: 'text/css', 'data-turbo-track': 'reload'
+    = stylesheet_link_tag @admin_ui_theme, type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
-    = turbo_include_tags
   %body{'data-turbo': 'true'}
     = render partial: "layouts/admin/toast_alerts"
     = render partial: "layouts/admin/sidebar"
-    .main-content
+    .main-content.d-print-inline
       = render partial: "layouts/partials/logout"
       = render partial: "layouts/partials/user_preferences"
       .container-fluid

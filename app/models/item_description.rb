@@ -75,10 +75,6 @@ class ItemDescription < ApplicationRecord
     project_name.present?
   end
 
-  def recipient
-    @recipient ||= User.find_by_email(owner.email)
-  end
-
   def gifted_seat?
     seat? && gifted?
   end
@@ -97,5 +93,12 @@ class ItemDescription < ApplicationRecord
 
   def paid?
     invoice.present?
+  end
+
+  def guest_type
+    # this check accomidates records created before v2102
+    # In prior releases, the seat customer was the owner
+    # if no other owner was explicitily set
+    owner.nil? || owner.empty? ? 'self' : owner.type
   end
 end

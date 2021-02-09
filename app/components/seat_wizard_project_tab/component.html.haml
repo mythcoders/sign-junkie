@@ -17,8 +17,9 @@
             .card-zoom
               %img.card-img{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
             .card-body.text-center{'data-seat-wizard-project-tab--component-target': 'option', 'data-id': project.id}
-              %h5.card-title.text-dark.mb-2= project.name
-              %h6.text-dark= number_to_currency project.total_price
+              %strong.text-primary= project.name
+              %br
+              .text-dark= number_to_currency project.total_price
               - if project.addons.active.any?
                 .badge.badge-info Optional Add-ons!
 

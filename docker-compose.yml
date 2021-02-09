@@ -10,8 +10,8 @@ x-shared-environment-variables: &shared-environment-variables
   REDIS_URL: redis://myth-redis:6379/0
   REDIS_NAMESPACE: sign-junkie-dev
   WORKER_REDIS_NAMESPACE: sign-junkie-worker-dev
-  HERMES_API_KEY: fsdfsdf
-  HERMES_API_SECRET: fsdfsdf
+  HERMES_API_KEY: key
+  HERMES_API_SECRET: secret
 
 services:
   app:

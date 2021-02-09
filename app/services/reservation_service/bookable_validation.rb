@@ -26,18 +26,17 @@ module ReservationService
     end
 
     def validate_not_already_booked
-      if already_booked_reservation? || similar_cart_items?
-        raise ProcessError,
-              I18n.translate('reservations.already_booked')
-      end
+      return unless already_booked_reservation? || similar_cart_items?
+
+      raise ProcessError, I18n.translate('reservations.already_booked')
     end
 
     def already_booked_reservation?
-      @existing_reservation ||= Reservation.already_booked?(@current_user, @item.workshop_id)
+      Reservation.for_user(@current_user).for_shop(@item.workshop_id).active.any?
     end
 
     def similar_cart_items?
-      @existing_cart_items ||= Cart.for(@current_user).for_shop(@item.workshop_id).reservations.any?
+      CartService::SimilarReservation.check(@item, @current_user)
     end
   end
 end

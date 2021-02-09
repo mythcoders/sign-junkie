@@ -69,18 +69,26 @@ module InvoiceService
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def send_emails
       InvoiceMailer.with(invoice_id: @invoice.id).receipt.deliver_later
 
       @invoice.items.each do |item|
         if item.gift_card?
-          CustomerMailer.with(customer_id: item.recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
+          send_gift_card_email item
         elsif item.reservation?
           ReservationMailer.with(reservation_id: item.reservation.id).placed.deliver_later
         elsif item.gifted_seat?
           SeatMailer.with(seat_id: item.seat.id).purchased.deliver_later
         end
       end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def send_gift_card_email(item)
+      recipient = User.find_by_email(item.owner.email)
+
+      CustomerMailer.with(customer_id: recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
     end
   end
 end

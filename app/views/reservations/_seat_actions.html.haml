@@ -5,12 +5,12 @@
   - if seat.unpaid? && !seat.in_cart?
     = form_for :cart, url: cart_index_path, class: 'form-inline' do |f|
       = f.hidden_field :seat_id, value: seat.id
-      %button.btn.btn-light{type: 'submit', title: 'Add to Cart'}
+      %button.btn.btn-info{type: 'submit', title: 'Add to Cart'}
         %i.fas.fa-cart-plus
   %button#btnGroupDrop1.btn.btn-light.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", type: "button"}
     = fa_solid 'ellipsis-h-alt'
     Actions
-  .dropdown-menu{"aria-labelledby" => "btnGroupDrop1"}
+  .dropdown-menu{"aria-labelledby": "btnGroupDrop1"}
     - if seat.cancelable?
       %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
         = fa_duo 'user-slash', 'fa-fw'

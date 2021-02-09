@@ -18,8 +18,9 @@ class GuestListReport
   private
 
   def customers
-    Seat.joins(:customer)
+    Seat.joins(:customer, :description)
         .where(workshop_id: workshop_id)
-        .order(:last_name)
+        .where(item_descriptions: { void_date: nil, cancel_date: nil, refund_date: nil })
+        .order('users.last_name')
   end
 end

@@ -13,12 +13,13 @@
               %tbody
                 - report.raw_data.each do |seat|
                   %tr
-                    %td= seat.name
-                    %td= seat.project_name
                     %td
-                      = seat.stencil_name
-                      = seat.stencil_personalization
-                    %td= seat.addon_name
+                      %strong= seat.name
+                      - if seat.selection_made?
+                        = render(ItemDescriptionDisplay::Component.admin_report(seat))
+                      - else
+                        %br
+                        %em Selection not yet made
 
         - else
           .card-body

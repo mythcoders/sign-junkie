@@ -42,6 +42,11 @@ export default class extends ApplicationController {
       purchaseMode: this.purchaseModeValue,
       valid: this.isValid
     }
+
+    if (this.previousNotifyValue.valid) {
+      this.updateUI()
+      this.notifyWizard()
+    }
   }
 
   toggleGuestType(e) {

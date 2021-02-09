@@ -25,7 +25,7 @@ module SeatService
     private
 
     def seat_owner
-      SeatService::CalculateOwner.perform(@item, @item.invoice.customer)
+      SeatService::CalculateCustomer.perform(@item, @item.invoice.customer)
     end
   end
 end

@@ -2,7 +2,7 @@
 
 class Cart < ApplicationRecord
   has_paper_trail
-  belongs_to :user
+  belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id', dependent: :destroy
 
   scope :for, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
@@ -30,9 +30,9 @@ class Cart < ApplicationRecord
 
   def validate_can_book
     if seat?
-      SeatService::BookableValidation.perform(description, user)
+      SeatService::BookableValidation.perform(description, customer)
     elsif reservation?
-      ReservationService::BookableValidation.perform(description, user)
+      ReservationService::BookableValidation.perform(description, customer)
     end
   end
 end

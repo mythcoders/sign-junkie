@@ -4,12 +4,12 @@
        'data-checkout-purchase-amount-value': "#{number_to_currency(@invoice.grand_total)}"}
     .col-12.col-lg-8
       .card.card-primary.mb-2
-        %h4.card-header.bg-primary.text-white
+        %h3.card-header.bg-primary.text-white
           Select your payment method
         = render partial: 'invoices/form', locals: { f: f }
     .col-12.col-lg-4
       .card
-        %h5.card-header.bg-primary.text-white Order summary
+        %h3.card-header.bg-primary.text-white Summary
         .card-body
           - @invoice.items.each do |i|
             .media.align-items-center.mb-3
@@ -17,15 +17,15 @@
               .media-body.text-right
                 %span.font-weight-medium= number_to_currency(i.item_amount)
           .media.align-items-center.mb-3
-            .font-size-1.font-weight-normal.mb-0.mr-3 Sales tax
+            .font-size-1.font-weight-normal.mb-0.mr-3 Sales Tax
             .media-body.text-right
               %span.font-weight-medium
                 - if @invoice.tax_total.positive?
                   = number_to_currency @invoice.tax_total
                 - else
                   .span --
-          .media.align-items-center.mb-4
-            .font-size-1.font-weight-normal.mb-0.mr-3 Total due today
+          .media.align-items-center
+            .font-size-1.font-weight-normal.mb-0.mr-3 Total
             .media-body.text-right
               %span.font-weight-medium
                 = content_tag :span, number_to_currency(@invoice.balance)

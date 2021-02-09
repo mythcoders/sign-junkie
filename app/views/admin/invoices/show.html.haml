@@ -7,7 +7,7 @@
         %h1.header-title
           %i.fad.fa-file-invoice-dollar
           = "Invoice ##{@invoice.identifier}"
-      .col-auto
+      .col-auto.d-print-none
         = render partial: 'admin/invoices/header'
 
 - if @invoice.status == :draft

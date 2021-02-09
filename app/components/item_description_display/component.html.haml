@@ -31,6 +31,14 @@
           .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
             = fa_solid 'ban', 'fa-fw' if @show_icons
             VOIDED
+        - elsif @item.unpaid? && @customer
+          .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+            = fa_solid 'exclamation-triangle', 'fa-fw' if @show_icons
+            UNPAID
+        - elsif !@item.selection_made? && @customer
+          .font-size-1.mb-1.text-warning{title: 'Cancel Date'}
+            = fa_solid 'exclamation-triangle', 'fa-fw' if @show_icons
+            PROJECT NOT PICKED
 
       - if @show_workshop
         .font-size-1.mb-1{title: 'Scheduled time'}
@@ -38,7 +46,7 @@
             = fa_solid 'calendar-alt', 'text-primary fa-fw'
           = @item.workshop.when
 
-      - if @item.reservation.present?
+      - if @show_reservation && @item.reservation.present?
         .font-size-1.mb-1
           = fa_solid 'toolbox', 'text-primary fa-fw' if @show_icons
           - if @linkable
@@ -46,7 +54,7 @@
           - else
             = "Reservation ##{@item.reservation.confirmation_number}"
 
-      - if @item.gifted_seat?
+      - if @show_gift && @item.gifted_seat?
         .font-size-1.mb-1{title: 'Purchased for'}
           = fa_solid 'user', 'text-primary fa-fw' if @show_icons
           = @item.guest_name

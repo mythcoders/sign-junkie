@@ -4,7 +4,7 @@ import Api from "../../javascript/libraries/api"
 export default class extends ApplicationController {
   static targets = ["content", "template", "guestPaymentClause", "updateError"]
 
-  initialize() {
+  connect() {
     this.registerCallbacks()
   }
 

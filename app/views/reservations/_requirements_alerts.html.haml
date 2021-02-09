@@ -17,11 +17,14 @@
     - else
       = t('reservations.payment_guest', deadline: lifp(@reservation.payment_deadline))
 
-  - if @reservation.workshop.reservations_void_minimum_not_met?
-    = t('reservations.registration_deadline_cancel_warning')
-  - else
-    = t('reservations.registration_deadline_loose_deposit_warning')
+  %br
+
+  .mt-2
+    - if @reservation.workshop.reservations_void_minimum_not_met?
+      = t('reservations.registration_deadline_cancel_warning')
+    - else
+      = t('reservations.registration_deadline_loose_deposit_warning')
 
   - if @reservation.may_add_seat?(current_user)
     %br
-    %a.btn.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now
+    %a.alert-link{href: new_reservation_seat_path(@reservation)} Add more seats now

@@ -1,5 +1,5 @@
-%navbar#sidebar{class: sidebar_classes}
-  .container-fluid.d-print-none
+%navbar#sidebar.d-print-none{class: sidebar_classes}
+  .container-fluid
     %button.navbar-toggler{"aria-controls": "navbarVertical", "aria-expanded": "false", "aria-label": "Toggle navigation", "data-target": "#navbarVertical", "data-toggle": "collapse", type: "button"}
       %span.navbar-toggler-icon
     = link_to admin_dashboard_path, class: 'navbar-brand' do

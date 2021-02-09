@@ -14,6 +14,10 @@ module SeatWizardGuestTab
       @existing_seat_id != 0
     end
 
+    def default_guest_type
+      @seat.guest_type if @seat.persisted?
+    end
+
     def guest_type_radio_attributes
       {
         name: 'cart[guest_type]',

@@ -1,3 +1,24 @@
+#### 2102.1 - February 14, 2021
+
+- Improvements
+  - Customers are redirected back to their cart after editing a seat from the cart
+  - Redesign of Workshop detail page
+  - Sizing of project, add-on, and stencil names in the Seat Picker
+  - Sizing of Invited Guests table in Workshop Planner
+  - Show a message in the Invited Guests Table when a seat has been added to someones cart
+  - Consistent color usage throughout the Workshop Planner and Seat Picker
+  - Grammar and style improvements to the Workshop Planner 'Heads Up!' alert
+- Admin Portal Improvements
+  - Layout changes to reports
+  - Workshop Attendee List report will no longer display cancelled or voided seats
+- Fixes
+  - An issue that prevented customers from editing a seat after the project had already been selected
+  - An issue that prevented pages in the Admin Portal from being printed correctly
+  - An issue that caused certain images to appear stretched
+  - An issue that allowed a customer to purchase multiple seats at the same time for a guest with the same email address
+  - An issue that prevented Turbo from loading properly on certain devices
+  - The Seat Picker will no longer remember the previous add-on or stencil selections when the project is changed
+
 #### 2102 - February 7, 2021
 
 - Improvements
