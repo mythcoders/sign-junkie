@@ -2,6 +2,7 @@ import ApplicationController from "./application_controller"
 
 export default class extends ApplicationController {
   disableOnSubmit(e) {
-    e.eventTarget.disabled = true
+    e.target.disabled = true
+    e.target.form.submit()
   }
 }

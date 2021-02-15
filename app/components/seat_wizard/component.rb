@@ -37,7 +37,7 @@ module SeatWizard
     def form_attributes
       {
         method: @seat.persisted? ? :patch : :post,
-        'data-controller': 'seat-wizard--component seat-wizard-sidebar--component',
+        'data-controller': 'seat-wizard--component seat-wizard-sidebar--component single-form-submit',
         'data-seat-wizard--component-addon-id-value': addon_value,
         'data-seat-wizard--component-guest-type-value': @seat.guest_type,
         'data-seat-wizard--component-project-value': project_value.to_json,
