@@ -5,15 +5,15 @@ export default class extends ApplicationController {
   static targets = ["addon", "input"]
   static classes = ["active"]
 
-  reset(e) {
-    e.preventDefault()
-    this.addonIdValue = undefined
-  }
-
   toggle(e) {
     e.preventDefault()
 
-    this.addonIdValue = e.currentTarget.dataset.id
+    if (this.addonIdValue == e.currentTarget.dataset.id) {
+      this.addonIdValue = undefined
+    } else {
+      this.addonIdValue = e.currentTarget.dataset.id
+    }
+
     this.notifySeatWizard()
   }
 
