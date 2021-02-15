@@ -30,8 +30,6 @@ export default class extends ApplicationController {
       this.addonTabTarget.classList.add(this.disabledClass)
       this.stencilTabTarget.classList.add(this.disabledClass)
       this.reviewTabTarget.classList.add(this.disabledClass)
-
-      this.updateTabs()
     }.bind(this))
 
     document.addEventListener('SeatWizard:updateGuestType', function (event) {
