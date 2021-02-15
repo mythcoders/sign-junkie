@@ -9,13 +9,7 @@ module SeatService
     def initialize(seat, current_user, params)
       @seat = seat
       @current_user = current_user
-      @raw_params = if params[:first_name].present?
-                      params
-                    else
-                      params.merge(first_name: @current_user.first_name,
-                                   last_name: @current_user.last_name,
-                                   email: @current_user.email)
-                    end
+      @raw_params = SeatService::ParamParser.perform(params, current_user)
     end
 
     def self.perform(seat, current_user, params)

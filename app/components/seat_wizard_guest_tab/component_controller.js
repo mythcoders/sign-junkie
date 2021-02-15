@@ -80,8 +80,6 @@ export default class extends ApplicationController {
     this.isParentValue = e.currentTarget.checked
     this.purchaseModeValue = this.isParentValue ? 'now' : 'later'
 
-
-    // make sure parents info is there?!
     this.updateUI() // always trigger
     this.notifyWizard()
   }

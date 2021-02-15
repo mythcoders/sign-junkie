@@ -20,9 +20,9 @@ module SeatWizard
 
     def projects
       @projects ||= if @seat.guest_type == 'child'
-                      @seat.workshop.projects.where(only_for_children: true).active
-                    else
                       @seat.workshop.projects.active
+                    else
+                      @seat.workshop.projects.where(only_for_children: false).active
                     end
     end
 

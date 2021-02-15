@@ -16,7 +16,7 @@ module SeatService
       when 'child'
         child_owner_attributes
       else
-        adult_owner_attributes
+        non_child_owner_attributes
       end
     end
 
@@ -27,15 +27,15 @@ module SeatService
         type: @params.guest_type,
         first_name: @params.child_first_name,
         last_name: @params.child_last_name,
-        parent: owner_attributes
+        parent: person_attributes
       }
     end
 
-    def adult_owner_attributes
-      owner_attributes.merge(type: @params.guest_type)
+    def non_child_owner_attributes
+      person_attributes.merge(type: @params.guest_type)
     end
 
-    def owner_attributes
+    def person_attributes
       {
         first_name: @params.first_name,
         last_name: @params.last_name,
