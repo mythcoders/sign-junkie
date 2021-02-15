@@ -40,10 +40,10 @@ export default class extends ApplicationController {
     this.previousNotifyValue = {
       guestType: this.guestTypeValue,
       purchaseMode: this.purchaseModeValue,
-      valid: this.isValid
+      valid: false
     }
 
-    if (this.previousNotifyValue.valid) {
+    if (this.isValid) {
       this.updateUI()
       this.notifyWizard()
     }

@@ -33,7 +33,7 @@ module WorkshopsHelper
     public_hostess_path
   end
 
-  def workshop_image(workshop)
+  def image_for_workshop(workshop)
     if workshop.workshop_images.any?
       url_for workshop.workshop_images.first
     else

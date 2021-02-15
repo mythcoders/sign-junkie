@@ -2,7 +2,7 @@
   .col-12.col-md-6
     .card
       %h3.card-header.bg-primary.text-white= @workshop.name
-      %img.card-img-top{alt: "Image of #{@workshop.name}", src: workshop_image(@workshop), loading: 'lazy'}
+      %img.card-img-top{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
       .card-body
         %p.card-text
           = fa_solid 'calendar-alt', 'text-primary fa-fw'
