@@ -52,7 +52,7 @@ export default class extends ApplicationController {
   toggleGuestType(e) {
     this.guestTypeValue = e.currentTarget.value
 
-    if (this.forReservationValue && (this.guestTypeValue === 'adult' || this.guestTypeValue === 'child')) {
+    if (this.forReservationValue && this.guestTypeValue === 'adult') {
       this.purchaseModeValue = 'later'
     } else {
       this.purchaseModeValue = 'now'
@@ -65,6 +65,8 @@ export default class extends ApplicationController {
   }
 
   togglePurchaseMode(e) {
+    console.log('TOGGLE purchaseMode')
+
     this.purchaseModeValue = e.currentTarget.checked ? 'now' : 'later'
 
     this.updateUI() // always trigger
@@ -77,7 +79,14 @@ export default class extends ApplicationController {
   }
 
   toggleIsParent(e) {
+    console.log('TOGGLE isParent')
+
     this.isParentValue = e.currentTarget.checked
+    this.purchaseModeValue = this.isParentValue ? 'now' : 'later'
+
+
+    // make sure parents info is there?!
+    this.updateUI() // always trigger
     this.notifyWizard()
   }
 
@@ -88,11 +97,13 @@ export default class extends ApplicationController {
 
   get isValid() {
     if (this.guestTypeValue === '') {
+      console.log('isValid 1')
       return false
     }
 
     if (this.hasChildInfoTarget && this.guestTypeValue === 'child') {
       if (this.childFirstNameTarget.value === '' || this.childLastNameTarget.value === '') {
+        console.log('isValid 2')
         return false
       }
     }
@@ -103,14 +114,17 @@ export default class extends ApplicationController {
       let emailRequired = this.guestTypeValue === 'adult' || isNotKidsParent
 
       if (emailRequired && this.emailAddressTarget.value === '') {
+        console.log('isValid 3')
         return false
       }
 
       if (guestInfoRequired && (this.guestFirstNameTarget.value === '' || this.guestLastNameTarget.value === '')) {
+        console.log('isValid 4')
         return false
       }
     }
 
+    console.log('isValid $$$')
     return true
   }
 
@@ -156,6 +170,7 @@ export default class extends ApplicationController {
       this.purchaseModeValue != this.previousNotifyValue.purchaseMode
 
     if (valid && shouldNotifyWizard) {
+      console.log('notifyWizard 1')
       document.dispatchEvent(new CustomEvent('SeatWizard:updateGuestType', {
         detail: {
           guestType: this.guestTypeValue,
@@ -164,9 +179,11 @@ export default class extends ApplicationController {
         }
       }))
     } else if (!valid && this.previousNotifyValue.valid) {
+      console.log('notifyWizard 2')
       document.dispatchEvent(new CustomEvent('SeatWizard:reset'))
     }
 
+    console.log('notifyWizard 3')
     this.previousNotifyValue = {
       guestType: this.guestTypeValue,
       purchaseMode: this.purchaseModeValue,

@@ -1,4 +1,4 @@
-#### 2102.1 - February 14, 2021
+#### 2102.1 - February 15, 2021
 
 - Improvements
   - Customers are redirected back to their cart after editing a seat from the cart
