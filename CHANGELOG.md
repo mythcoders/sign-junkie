@@ -8,6 +8,7 @@
   - Show a message in the Invited Guests Table when a seat has been added to someones cart
   - Consistent color usage throughout the Workshop Planner and Seat Picker
   - Grammar and style improvements to the Workshop Planner 'Heads Up!' alert
+  - Shopping Cart page slightly redesigned and branded as My Cart
   - Formatting changes for printed Invoices
 - Admin Portal Improvements
   - Layout changes to reports
