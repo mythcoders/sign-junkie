@@ -8,7 +8,7 @@
       - @projects.each do |project|
         - image = project.project_images.first
 
-        .col-6
+        .col-2.col-md-4
           %a.card.shadow-light-lg.mb-3{href: '#',
                                       'data-seat-wizard-target': 'project',
                                       'data-action': 'seat-wizard-project-tab--component#toggle',
@@ -21,7 +21,7 @@
               %br
               .text-dark= number_to_currency project.total_price
               - if project.addons.active.any?
-                .badge.badge-info Optional Add-ons!
+                .badge.badge-info Add-ons!
 
   .card-footer.card-sticky-footer
     %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard--component#goToTab', 'data-destination': 'guest'} Previous

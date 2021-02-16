@@ -38,7 +38,7 @@
 
       .row
         - @project.stencils.active.order(:name).each do |stencil|
-          .col-6{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
+          .col-2.col-md-4{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
             %a.card.shadow-light-lg.mb-3{href: '#',
                                          'data-action': 'seat-wizard-stencil-tab--component#toggleStencil',
                                          'data-id': stencil.id,
