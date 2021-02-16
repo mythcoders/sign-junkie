@@ -39,33 +39,34 @@
         %span.badge.badge-light.float-right= @reservation.active_seats.count
 
       - if @reservation.active_seats.any?
-        %table.table.table-striped.table-border-fix.table-sm
-          %thead
-            %tr
-              %th Guest
-              %th Picked Project?
-              %th Paid?
-              %th
-          %tbody
-            - @reservation.active_seats.each do |seat|
+        .table-responsive
+          %table.table.table-striped.table-border-fix.table-sm
+            %thead
               %tr
-                %td= link_to seat.name, seat_path(seat)
-                %td
-                  - if seat.selection_made?
-                    = fa_solid 'check', 'text-success'
-                  - else
-                    = fa_solid 'times', 'text-warning'
-                %td
-                  - if seat.paid?
-                    = fa_solid 'check', 'text-success'
-                  - else
-                    = fa_solid 'times', 'text-warning'
+                %th Guest
+                %th Picked Project?
+                %th Paid?
+                %th
+            %tbody
+              - @reservation.active_seats.each do |seat|
+                %tr
+                  %td= link_to seat.name, seat_path(seat)
+                  %td
+                    - if seat.selection_made?
+                      = fa_solid 'check', 'text-success'
+                    - else
+                      = fa_solid 'times', 'text-warning'
+                  %td
+                    - if seat.paid?
+                      = fa_solid 'check', 'text-success'
+                    - else
+                      = fa_solid 'times', 'text-warning'
 
-                    - if seat.selection_made? && seat.in_cart?
-                      %br
-                      %em In someones cart
-                %td
-                  .float-right= render partial: 'seat_actions', locals: { seat: seat }
+                      - if seat.selection_made? && seat.in_cart?
+                        %br
+                        %em In someones cart
+                  %td
+                    .float-right= render partial: 'seat_actions', locals: { seat: seat }
       - else
         .card-body.text-center
           %h4.card-title No Seats
