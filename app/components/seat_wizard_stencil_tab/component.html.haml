@@ -38,7 +38,7 @@
 
       .row
         - @project.stencils.active.order(:name).each do |stencil|
-          .col-4.p-1{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
+          .col-4.col-md-3.p-1{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
             %a.card.shadow-light-lg.mb-1{href: '#',
                                          'data-action': 'seat-wizard-stencil-tab--component#toggleStencil',
                                          'data-id': stencil.id,
@@ -46,13 +46,12 @@
               .card-zoom
                 %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
 
-              .card-body.text-center{'data-seat-wizard-stencil-tab--component-target': 'option',
-                                    'data-seat-wizard-target': 'stencil',
-                                    'data-id': stencil.id,
-                                    'data-selected': 'false'}
-                .text-primary= stencil.name
-                %br
-                .text-dark= stencil.category.name
+              .card-body.text-center.card-body-tight{'data-seat-wizard-stencil-tab--component-target': 'option',
+                                                     'data-seat-wizard-target': 'stencil',
+                                                     'data-id': stencil.id,
+                                                     'data-selected': 'false'}
+                %p.card-text.text-primary.mb-2= stencil.name
+                %p.card-text.text-muted= stencil.category.name
                 - if stencil.allow_personilization
                   .badge.badge-info Personalizable
 

@@ -10,7 +10,7 @@
 
       .row
         - @project.addons.active.each do |addon|
-          .col-4.p-1{'data-id': addon.id}
+          .col-4.col-md-3.p-1{'data-id': addon.id}
             %a.card.shadow-light-lg.mb-1{href: '#',
                                          'data-seat-wizard-target': 'addon',
                                          'data-id': addon.id,
@@ -20,9 +20,8 @@
               .card-body.text-center.card-body-tight{'data-seat-wizard-addon-tab--component-target': 'addon',
                                                      'data-id': addon.id,
                                                      'data-selected': (@selected_id == addon.id).to_s}
-                %strong.text-primary= addon.name
-                %br
-                .text-dark= number_to_currency addon.price
+                %p.card-text.text-primary.mb-2= addon.name
+                %p.card-text.text-dark= number_to_currency addon.price
     - else
       .card.mt-2
         .card-body.text-center

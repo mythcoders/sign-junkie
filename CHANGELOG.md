@@ -1,9 +1,9 @@
-#### 2102.1 - February 15, 2021
+#### 2102.1 - February 16, 2021
 
 - Improvements
   - Customers are redirected back to their cart after editing a seat from the cart
   - Redesign of Workshop detail page
-  - Sizing of project, add-on, and stencil names in the Seat Picker
+  - Sizing of project, add-on, and stencils in the Seat Picker
   - Sizing of Invited Guests table in Workshop Planner
   - Show a message in the Invited Guests Table when a seat has been added to someones cart
   - Consistent color usage throughout the Workshop Planner and Seat Picker
