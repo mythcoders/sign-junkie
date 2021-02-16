@@ -50,7 +50,7 @@
                                                      'data-seat-wizard-target': 'stencil',
                                                      'data-id': stencil.id,
                                                      'data-selected': 'false'}
-                %img.img-fluid.d-none.d-md-none{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
+                %img.img-fluid.d-md-none{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
                 %p.card-text.text-primary.mb-2= stencil.name
                 %p.card-text.text-muted= stencil.category.name
                 - if stencil.allow_personilization
