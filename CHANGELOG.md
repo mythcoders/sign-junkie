@@ -20,6 +20,7 @@
   - An issue that caused certain images to appear stretched
   - An issue that allowed a customer to purchase multiple seats at the same time for a guest with the same email address
   - An issue that prevented Turbo from loading properly on certain devices
+  - The seat purchased email is no longer sent out for seats gifted to children and guests without an email address
   - The Seat Picker will no longer remember the previous add-on or stencil selections when the project is changed
 
 #### 2102 - February 7, 2021
@@ -47,7 +48,7 @@
   - Rewrote large portions of old JavaScript code
   - Security and other updates
 
-#### 2009.1 - September 10, 2020
+#### 2003.2 - September 10, 2020
 
 - Improvements
   - Projects, Stencils, and Addons can now be marked as Active or Inactive. When inactive, they'll no longer be

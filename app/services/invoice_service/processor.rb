@@ -78,7 +78,7 @@ module InvoiceService
           send_gift_card_email item
         elsif item.reservation?
           ReservationMailer.with(reservation_id: item.reservation.id).placed.deliver_later
-        elsif item.gifted_seat?
+        elsif item.gifted_seat? && item.guest_type == 'adult'
           SeatMailer.with(seat_id: item.seat.id).purchased.deliver_later
         end
       end

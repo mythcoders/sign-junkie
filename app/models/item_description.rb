@@ -97,8 +97,7 @@ class ItemDescription < ApplicationRecord
 
   def guest_type
     # this check accomidates records created before v2102
-    # In prior releases, the seat customer was the owner
-    # if no other owner was explicitily set
+    # In prior releases, the seat customer was the owner if no other owner was explicitily set
     owner.nil? || owner.empty? ? 'self' : owner.type
   end
 end
