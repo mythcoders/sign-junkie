@@ -23,6 +23,7 @@
   - Casing of customers email addresses is now ignored
   - The seat purchased email is no longer sent out for seats gifted to children and guests without an email address
   - The Seat Picker will no longer remember the previous add-on or stencil selections when the project is changed
+  - The Seat Picker and Stencil detail page in the Admin Portal won't error if a Stencil doesn't have an attached image
   - Turbo now loads only once
 
 #### 2102 - February 7, 2021

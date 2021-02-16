@@ -52,6 +52,6 @@
 
     #tabContent.tab-content
       #image.tab-pane.fade.show.active{"aria-labelledby": "image-tab", role: "tabpanel"}
-        = render partial: 'admin/images/list', locals: { images: [@stencil.image] }
+        = render partial: 'admin/images/list', locals: { images: @stencil.image.attached? ? [@stencil.image] : [] }
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
         = render partial: 'admin/projects/list', locals: { projects: @stencil.projects }

@@ -47,8 +47,9 @@
                                                      'data-seat-wizard-target': 'stencil',
                                                      'data-id': stencil.id,
                                                      'data-selected': 'false'}
-                .card-zoom
-                  %img.zoom-img.img-fluid{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
+                - if stencil.image.attached?
+                  .card-zoom
+                    %img.zoom-img.img-fluid{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
                 %p.card-text.text-primary.mb-2= stencil.name
                 %p.card-text.text-muted= stencil.category.name
                 - if stencil.allow_personilization

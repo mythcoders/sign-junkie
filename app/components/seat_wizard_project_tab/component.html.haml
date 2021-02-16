@@ -6,8 +6,6 @@
 
     .row
       - @projects.each do |project|
-        - image = project.project_images.first
-
         .col-4.col-md-3.p-1
           %a.card.shadow-light-lg.mb-1{href: '#',
                                        'data-seat-wizard-target': 'project',
@@ -16,8 +14,10 @@
                                        'data-active-addons': project.addons.active.any?}
             .card-body.text-center.card-body-tight{'data-seat-wizard-project-tab--component-target': 'option',
                                                    'data-id': project.id}
-              .card-zoom
-                %img.zoom-img.img-fluid{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
+              - if project.project_images.any?
+                .card-zoom
+                  %img.zoom-img.img-fluid{alt: "Image of #{project.name}", loading: 'lazy',
+                                          src: url_for(project.project_images.first)}
               %p.card-text.text-primary.mb-2= project.name
               %p.card-text.text-dark.mb-0= number_to_currency project.total_price
               - if project.addons.active.any?
