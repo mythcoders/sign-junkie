@@ -8,9 +8,11 @@
   - Show a message in the Invited Guests Table when a seat has been added to someones cart
   - Consistent color usage throughout the Workshop Planner and Seat Picker
   - Grammar and style improvements to the Workshop Planner 'Heads Up!' alert
+  - Formatting changes for printed Invoices
 - Admin Portal Improvements
   - Layout changes to reports
   - Workshop Attendee List report will no longer display cancelled or voided seats
+  - Formatting changes for printed Invoices
 - Fixes
   - An issue that prevented customers from editing a seat after the project had already been selected
   - An issue that prevented pages in the Admin Portal from being printed correctly

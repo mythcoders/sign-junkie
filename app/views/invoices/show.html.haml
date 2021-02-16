@@ -1,109 +1,89 @@
-.row.justify-content-center
-  .col-12.col-lg-10
-    .card.card-body.p-5
-      .row
-        .col.text-center
-          %img.img-fluid{alt: "#{ClientInfo.name} logo", src: asset_path("SJWlogo.svg"), style: "max-width: 15rem;"}
-          %p.mb-4
-            = ClientInfo.address_1
-            %br
-            = "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
+.card.card-body.p-5
+  .row.d-none.d-print-block
+    .col.text-center
+      %img.img-fluid{alt: "#{ClientInfo.name} logo", src: asset_path("SJWlogo.svg"), style: "max-width: 15rem;"}
+      %p.mb-4
+        = ClientInfo.address_1
+        %br
+        = "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
 
-      .row
-        .col-12.col-md-6
-          %h6.text-uppercase.text-muted
-            Invoiced to
-          %p.mb-4
-            %strong.text-body= @invoice.customer.full_name
-            %br
-            = @invoice.customer.email
-          %h6.text-uppercase.text-muted Invoice ID
-          %p.mb-4= "##{@invoice.identifier}"
-          %h6.text-uppercase.text-muted Invoice Status
-          %p.mb-4= render partial: 'statuses/invoice', locals: { invoice: @invoice }
-        .col-12.col-md-6.text-md-right
-          %h6.text-uppercase.text-muted
-            Create date
-          %p.mb-4= lifp @invoice.created_at
-          - unless @invoice.paid?
-            %h6.text-uppercase.text-muted
-              Due date
-            %p.mb-4= lifp @invoice.due_date
+  .row
+    .col-12.col-md-6
+      %h6.text-uppercase.text-muted
+        Invoiced to
+      %p.mb-4
+        %strong.text-body= @invoice.customer.full_name
+        %br
+        = @invoice.customer.email
+      %h6.text-uppercase.text-muted Invoice Status
+      %p.mb-4= render partial: 'statuses/invoice', locals: { invoice: @invoice }
+    .col-12.col-md-6.text-md-right
+      %h6.text-uppercase.text-muted
+        Create date
+      %p.mb-4= lifp @invoice.created_at
+      %h6.text-uppercase.text-muted Invoice ID
+      %p.mb-4= "##{@invoice.identifier}"
+      - unless @invoice.paid?
+        %h6.text-uppercase.text-muted
+          Due date
+        %p.mb-4= lifp @invoice.due_date
 
-      .row
-        .col-12
-          %h4.mt-4
-            = fa_duo 'bags-shopping', 'text-primary'
-            Items
-          .table-responsive
-            %table.table
-              %tbody
-                - @invoice.items.each do |i|
-                  %tr
-                    %td.px-0
-                      = render(ItemDescriptionDisplay::Component.linkable(i))
-                    %td.px-0.text-right
-                      = content_tag :span, number_to_currency(i.item_amount)
-                %tr
-                  %td.px-0
-                    Sales Tax
-                  %td.px-0.text-right
-                    = content_tag :span, number_to_currency(@invoice.tax_total)
-                %tr
-                  %td.px-0
-                    Grand Total
-                  %td.px-0.text-right
-                    = content_tag :span, number_to_currency(@invoice.grand_total)
+  .row
+    .col-12
+      %h5.mt-4
+        = fa_duo 'bags-shopping'
+        ITEMS
+      .table-responsive
+        %table.table.table-sm
+          %tbody
+            - @invoice.items.each do |i|
+              %tr
+                %td.px-0
+                  = render(ItemDescriptionDisplay::Component.linkable(i))
+                %td.px-0.text-right
+                  = content_tag :span, number_to_currency(i.item_amount)
+            %tr
+              %td.px-0
+                Sales Tax
+              %td.px-0.text-right
+                = content_tag :span, number_to_currency(@invoice.tax_total)
+            %tr
+              %td.px-0
+                Grand Total
+              %td.px-0.text-right
+                = content_tag :span, number_to_currency(@invoice.grand_total)
 
       - if @invoice.payments.any?
-        .row
-          .col-12
-            %h4.mt-4
-              = fa_duo 'money-check', 'text-primary'
-              Payments
-            .table-responsive
-              %table.table
-                %thead
-                  %tr
-                    %th.px-0.bg-transparent.border-top-0
-                      %span.h6 Method
-                    %th.px-0.bg-transparent.border-top-0
-                      %span.h6 Date
-                    %th.px-0.bg-transparent.border-top-0.text-right
-                      %span.h6 Amount
-                %tbody
-                  - @invoice.payments.each do |p|
-                    %tr
-                      %td.px-0= p.method.humanize
-                      %td.px-0= l p.created_at, format: :short
-                      %td.px-0.text-right
-                        = content_tag :span, number_to_currency(p.amount)
+        %h5.mt-4
+          = fa_duo 'money-check'
+          PAYMENTS
+        .table-responsive
+          %table.table.table-sm
+            %tbody
+              - @invoice.payments.each do |p|
+                %tr
+                  %td.px-0
+                    = l p.created_at, format: :short
+                    %span.ml-4= p.method.humanize
+                  %td.px-0
+                  %td.px-0.text-right
+                    = content_tag :span, number_to_currency(p.amount)
 
       - if @invoice.refunds.any?
-        .row
-          .col-12
-            %h4.mt-4
-              = fa_duo 'gift-card'
-              Refunds
-            .table-responsive
-              %table.table
-                %thead
-                  %tr
-                    %th.px-0.bg-transparent.border-top-0
-                      %span.h6 Method
-                    %th.px-0.bg-transparent.border-top-0
-                      %span.h6 Date
-                    %th.px-0.bg-transparent.border-top-0.text-right
-                      %span.h6 Amount
-                %tbody
-                  - @invoice.refunds.each do |r|
-                    %tr
-                      %td.px-0
-                        %span.badge.badge-primary
-                          - if r.customer_credit.present?
-                            Credit
-                          - else
-                            Credit Card
-                      %td.px-0= l r.created_at, format: :short
-                      %td.px-0.text-right
-                        = content_tag :span, number_to_currency(r.amount)
+        %h5.mt-4
+          = fa_duo 'gift-card'
+          REFUNDS
+        .table-responsive
+          %table.table.table-sm
+            %tbody
+              - @invoice.refunds.each do |r|
+                %tr
+                  %td.px-0
+                    %span.badge.badge-primary
+                      - if r.customer_credit.present?
+                        Credit
+                      - else
+                        Credit Card
+                  %td.px-0= l r.created_at, format: :short
+                  %td.px-0.text-right
+                    = content_tag :span, number_to_currency(r.amount)

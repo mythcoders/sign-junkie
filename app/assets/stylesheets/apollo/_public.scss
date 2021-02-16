@@ -185,12 +185,12 @@
   border-radius: inherit;
 }
 
-.card-zoom > [class*="card-img"] {
+.card-zoom > [class*="zoom-img"] {
   transition: all 0.3s ease;
   transform-origin: center center;
 }
 
-.card:hover > .card-zoom > [class*="card-img"] {
+.card-body:hover > .card-zoom > [class*="zoom-img"] {
   transform: scale(1.1);
 }
 

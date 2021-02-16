@@ -14,11 +14,10 @@
                                        'data-action': 'seat-wizard-project-tab--component#toggle',
                                        'data-id': project.id,
                                        'data-active-addons': project.addons.active.any?}
-            .card-zoom.d-none.d-md-block
-              %img.card-img{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
             .card-body.text-center.card-body-tight{'data-seat-wizard-project-tab--component-target': 'option',
                                                    'data-id': project.id}
-              %img.img-fluid.d-md-none{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
+              .card-zoom
+                %img.zoom-img.img-fluid{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
               %p.card-text.text-primary.mb-2= project.name
               %p.card-text.text-dark.mb-0= number_to_currency project.total_price
               - if project.addons.active.any?

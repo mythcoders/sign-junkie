@@ -2,13 +2,13 @@
 %html
   %head
     = render partial: 'layouts/partials/header'
-    = stylesheet_link_tag 'application', type: 'text/css', 'data-turbo-track': 'reload'
+    = stylesheet_link_tag 'application', type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
     = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
   %body#page-top{'data-turbo': 'true'}
     = render partial: 'layouts/partials/logout'
     .container
       %a{href: root_path}
-        %img.img-system-logo.d-none.d-sm-block{src: asset_path('SJWlogo.svg')}
+        %img.img-system-logo.d-none.d-sm-block.d-print-none{src: asset_path('SJWlogo.svg')}
       = render partial: 'layouts/partials/navbar'
       = render partial: 'layouts/partials/alerts'
       = yield
