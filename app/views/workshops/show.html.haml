@@ -32,7 +32,10 @@
               Reservation must be booked by #{special_date @workshop.booking_deadline}
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
+              = "#{@workshop.seats_available} seats remaining"
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
 
             - unless @existing_reservation_id.zero?
               .alert.alert-info
@@ -59,7 +62,7 @@
               Seats must be purchased by #{special_date @workshop.purchase_end_date}
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.seats_available} seats available"
+              = "#{@workshop.seats_available} seats remaining"
 
             - unless @existing_seat_id.zero?
               .alert.alert-info
