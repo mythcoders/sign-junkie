@@ -8,7 +8,7 @@
         = fa_solid 'toolbox'
         Workshop Planner
       .card-body= render partial: 'reservations/host_details'
-      .card-footer
+      .card-footer.d-print-none
         - if @reservation.may_add_seat?(current_user)
           %a.btn.btn-primary.btn-block.mb-2{href: new_reservation_seat_path(@reservation)}
             = fa_solid 'user-plus'

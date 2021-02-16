@@ -42,10 +42,11 @@
                   = render(ItemDescriptionDisplay::Component.linkable(i))
                 %td.px-0.text-right
                   = content_tag :span, number_to_currency(i.item_amount)
+          %tfoot
             %tr
               %td.px-0
                 Sales Tax
-              %td.px-0.text-right
+              %td.text-right
                 = content_tag :span, number_to_currency(@invoice.tax_total)
             %tr
               %td.px-0
@@ -62,12 +63,8 @@
             %tbody
               - @invoice.payments.each do |p|
                 %tr
-                  %td.px-0
-                    = l p.created_at, format: :short
-                    %span.ml-4= p.method.humanize
-                  %td.px-0
-                  %td.px-0.text-right
-                    = content_tag :span, number_to_currency(p.amount)
+                  %td.px-0= p.method.humanize
+                  %td.px-0.text-right= content_tag :span, number_to_currency(p.amount)
 
       - if @invoice.refunds.any?
         %h5.mt-4
@@ -80,10 +77,9 @@
                 %tr
                   %td.px-0
                     %span.badge.badge-primary
-                      - if r.customer_credit.present?
-                        Credit
-                      - else
-                        Credit Card
+                    - if r.customer_credit.present?
+                      Account Credit
+                    - else
+                      Back to original payment method
                   %td.px-0= l r.created_at, format: :short
-                  %td.px-0.text-right
-                    = content_tag :span, number_to_currency(r.amount)
+                  %td.px-0.text-right= content_tag :span, number_to_currency(r.amount)
