@@ -50,7 +50,7 @@
               = fa_duo 'envelope'
               Email
           .col-auto
-            %small.text-muted
+            %small
               %a{href: "mailto:#{@customer.email}"}= @customer.email
         %hr
         .row.align-items-center
@@ -59,7 +59,7 @@
               = fa_duo 'shield'
               = status_date_title @customer
           .col-auto
-            %small.text-muted= lifp @customer.status[:date]
+            %small= lifp @customer.status[:date]
         %hr
         .row.align-items-center
           .col
@@ -67,7 +67,7 @@
               = fa_duo 'hammer-war'
               Failed Login Attempts
           .col-auto
-            %small.text-muted= @customer.failed_attempts
+            %small= @customer.failed_attempts
 
   .col-12.col-lg-8
     %ul#customerTab.nav.nav-tabs.mb-2{role: "tablist"}

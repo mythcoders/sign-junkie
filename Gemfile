@@ -38,8 +38,8 @@ gem 'websocket-extensions', '>= 0.1.5'
 
 # sentry exceptions
 gem 'sentry-rails'
-gem 'sentry-ruby'
-gem 'sentry-sidekiq'
+gem 'sentry-ruby', '>= 4.2.0'
+gem 'sentry-sidekiq', '>= 4.2.0'
 
 # sidekiq
 gem 'redis-namespace'

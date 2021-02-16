@@ -24,31 +24,31 @@
           .col
             %h5.mb-0 Status
           .col-auto
-            %small.text-muted= render partial: 'admin/statuses/invoice', locals: { invoice: @invoice }
+            %small= render partial: 'admin/statuses/invoice', locals: { invoice: @invoice }
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Customer
           .col-auto
-            %small.text-muted= link_to @invoice.customer.full_name, admin_customer_path(@invoice.customer)
+            %small= link_to @invoice.customer.full_name, admin_customer_path(@invoice.customer)
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Date Created
           .col-auto
-            %small.text-muted= lifp(@invoice.created_at, :short)
+            %small= lifp(@invoice.created_at, :short)
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Total Sales Tax
           .col-auto
-            %small.text-muted= number_to_currency(@invoice.tax_total)
+            %small= number_to_currency(@invoice.tax_total)
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Grand Total
           .col-auto
-            %small.text-muted= number_to_currency(@invoice.grand_total)
+            %small= number_to_currency(@invoice.grand_total)
 
   .col-12.col-lg-7
     .card

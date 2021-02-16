@@ -20,7 +20,7 @@
           .col
             %h5.mb-0 Status
           .col-auto
-            %small.text-muted
+            %small
               - if @project.active
                 %span.text-success ●
                 Active
@@ -32,25 +32,25 @@
           .col
             %h5.mb-0 Material price
           .col-auto
-            %small.text-muted= number_to_currency @project.material_price
+            %small= number_to_currency @project.material_price
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Instructional price
           .col-auto
-            %small.text-muted= number_to_currency @project.instructional_price
+            %small= number_to_currency @project.instructional_price
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 No. stencils allowed
           .col-auto
-            %small.text-muted= @project.allowed_stencils
+            %small= @project.allowed_stencils
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Only for Children?
           .col-auto
-            %small.text-muted= human_boolean @project.only_for_children
+            %small= human_boolean @project.only_for_children
     - if @project.addons.any?
       .card
         .card-header

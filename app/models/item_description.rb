@@ -7,7 +7,7 @@ class ItemDescription < ApplicationRecord
   include Voidable
 
   has_paper_trail
-  has_one :cart, inverse_of: :description
+  has_one :cart, inverse_of: :description, dependent: :destroy
   has_one :invoice_item, inverse_of: :description
   has_one :seat, inverse_of: :description
   has_one :reservation, inverse_of: :description

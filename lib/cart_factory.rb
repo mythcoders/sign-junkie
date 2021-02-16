@@ -64,6 +64,7 @@ class CartFactory
   end
 
   def add_seat
-    Cart.create! customer: @current_user, description: SeatService::ItemFactory.build(workshop, @params)
+    seat_params = SeatService::ParamParser.perform(@params, @current_user)
+    Cart.create! customer: @current_user, description: SeatService::ItemFactory.build(workshop, seat_params)
   end
 end

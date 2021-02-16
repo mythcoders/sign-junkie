@@ -18,13 +18,13 @@ module SeatService
       Seat.create!(
         item_description_id: @item.description.id,
         workshop_id: @item.workshop_id,
-        customer: seat_owner
+        customer: customer
       )
     end
 
     private
 
-    def seat_owner
+    def customer
       SeatService::CalculateCustomer.perform(@item, @item.invoice.customer)
     end
   end
