@@ -56,12 +56,12 @@
           = hidden_field_tag 'isParent', '1', 'data-seat-wizard-guest-tab--component-target': 'isParent'
 
         .form-row
-          .form-group.col-6
+          .form-group.col-12.col-md-6
             %label{for: 'childFirstName'} First name
             %input.form-control#childFirstName{type: 'text', autocomplete: false, name: 'cart[child_first_name]',
                                                'data-seat-wizard-guest-tab--component-target': 'childFirstName',
                                                'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
-          .form-group.col-6
+          .form-group.col-12.col-md-6
             %label{for: 'childLastName'} Last name
             %input.form-control#childLastName{type: 'text', autocomplete: false, name: 'cart[child_last_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'childLastName',
@@ -83,12 +83,12 @@
         %p{'data-seat-wizard-guest-tab--component-target': 'guestInfoAlert'}
 
         .form-row
-          .form-group.col-6
+          .form-group.col-12.col-md-6
             %label{for: 'guestFirstName'} First name
             %input.form-control#guestFirstName{type: 'text', autocomplete: false, name: 'cart[first_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'guestFirstName',
                                               'data-action': "seat-wizard-guest-tab--component#updateGuestName"}
-          .form-group.col-6
+          .form-group.col-12.col-md-6
             %label{for: 'guestLastName'} Last name
             %input.form-control#guestLastName{type: 'text', autocomplete: false, name: 'cart[last_name]',
                                               'data-seat-wizard-guest-tab--component-target': 'guestLastName',

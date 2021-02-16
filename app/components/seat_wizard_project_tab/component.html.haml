@@ -8,15 +8,15 @@
       - @projects.each do |project|
         - image = project.project_images.first
 
-        .col-4
-          %a.card.shadow-light-lg.mb-3{href: '#',
-                                      'data-seat-wizard-target': 'project',
-                                      'data-action': 'seat-wizard-project-tab--component#toggle',
-                                      'data-id': project.id,
-                                      'data-active-addons': project.addons.active.any?}
+        .col-4.p-1
+          %a.card.shadow-light-lg.mb-1{href: '#',
+                                       'data-seat-wizard-target': 'project',
+                                       'data-action': 'seat-wizard-project-tab--component#toggle',
+                                       'data-id': project.id,
+                                       'data-active-addons': project.addons.active.any?}
             .card-zoom
               %img.card-img{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
-            .card-body.text-center{'data-seat-wizard-project-tab--component-target': 'option', 'data-id': project.id}
+            .card-body.text-center.card-body-tight{'data-seat-wizard-project-tab--component-target': 'option', 'data-id': project.id}
               %strong.text-primary= project.name
               %br
               .text-dark= number_to_currency project.total_price
