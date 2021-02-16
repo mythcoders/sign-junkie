@@ -1,9 +1,13 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center= @workshop.name
+
 .row
   .col-12.col-md-6
     .card
-      %h3.card-header.bg-primary.text-white= @workshop.name
-      %img.card-img-top{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
       .card-body
+        %img.img-fluid.mx-auto.d-block.mb-3{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
         %p.card-text
           = fa_solid 'calendar-alt', 'text-primary fa-fw'
           = @workshop.when
