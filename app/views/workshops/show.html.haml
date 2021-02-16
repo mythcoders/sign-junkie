@@ -35,7 +35,7 @@
               = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
 
             - unless @existing_reservation_id.zero?
-              .alert.alert-warning
+              .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'
                   Heads up!
@@ -62,7 +62,7 @@
               = "#{@workshop.seats_available} seats available"
 
             - unless @existing_seat_id.zero?
-              .alert.alert-warning
+              .alert.alert-info
                 %h5.alert-heading
                   = fa_solid 'exclamation-triangle'
                   Heads up!

@@ -19,7 +19,7 @@
             %span.text-danger ●
             Canceled
         - if seat.gifted_seat?
-          .font-size-1.mb-1{title: 'Purchased for'}
+          .font-size-1.mb-1{title: 'Purchased by'}
             = fa_solid 'shopping-bag', 'fa-fw'
             = link_to seat.customer.full_name, admin_customer_path(seat.user_id)
         - if seat.seat_preference.present?

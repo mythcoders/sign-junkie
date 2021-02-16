@@ -13,6 +13,8 @@ module ReservationService
       validate_workshop_accepting_reservations
       validate_not_already_in_cart
       validate_not_already_booked
+
+      true
     end
 
     private

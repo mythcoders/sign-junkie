@@ -36,11 +36,25 @@ module SeatService
     end
 
     def person_attributes
-      {
-        first_name: @params.first_name,
-        last_name: @params.last_name,
-        email: @params.email
-      }
+      binding.pry
+
+      if existing_customer.present?
+        {
+          first_name: existing_customer.first_name,
+          last_name: existing_customer.last_name,
+          email: existing_customer.email
+        }
+      else
+        {
+          first_name: @params.first_name,
+          last_name: @params.last_name,
+          email: @params.email
+        }
+      end
+    end
+
+    def existing_customer
+      @existing_customer ||= User.where('email ILIKE ?', @params.email).first
     end
   end
 end

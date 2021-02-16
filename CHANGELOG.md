@@ -15,13 +15,15 @@
   - Workshop Attendee List report will no longer display cancelled or voided seats
   - Formatting changes for printed Invoices
 - Fixes
-  - An issue that prevented customers from editing a seat after the project had already been selected
-  - An issue that prevented pages in the Admin Portal from being printed correctly
-  - An issue that caused certain images to appear stretched
-  - An issue that allowed a customer to purchase multiple seats at the same time for a guest with the same email address
-  - An issue that prevented Turbo from loading properly on certain devices
+  - Customers should now be able to edit a seat when they should be allowed to
+  - Pages in the Admin Portal can be printed again
+  - Images should no longer appear stretched in the Seat Picker
+  - Customers are no longer allowed to purchase multiple seats at the same time for a guest with the same email address
+  - Customers are no longer able to purchase seats for other adults using their own email address
+  - Casing of customers email addresses is now ignored
   - The seat purchased email is no longer sent out for seats gifted to children and guests without an email address
   - The Seat Picker will no longer remember the previous add-on or stencil selections when the project is changed
+  - Turbo now loads only once
 
 #### 2102 - February 7, 2021
 

@@ -84,7 +84,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def in_cart?
-    cart.present?
+    cart.present? # && cart.persisted?
   end
 
   def unpaid?

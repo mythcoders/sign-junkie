@@ -13,12 +13,19 @@ module SeatService
     end
 
     def perform
+      validate_not_booking_adult_seat_with_own_email
       validate_workshop_accepting_seats unless @item.persisted?
       validate_not_already_in_cart
       validate_not_already_booked
+
+      true
     end
 
     private
+
+    def validate_not_booking_adult_seat_with_own_email
+      raise ProcessError, I18n.translate('workshop.booking_adult_own_email') if booking_adult_seat_with_own_email?
+    end
 
     def validate_workshop_accepting_seats
       raise ProcessError, I18n.translate('workshop.seats_full') unless @item.workshop.seat_purchaseable?
@@ -50,7 +57,7 @@ module SeatService
     end
 
     def new_user_from_guest
-      User.find_or_initialize_by(email: @item.owner.email)
+      User.find_or_initialize_by(email: @item.owner.email.downcase)
     end
 
     def current_active_seats
@@ -65,6 +72,12 @@ module SeatService
       current_active_seats.select(&:paid?).any? do |seat|
         SeatService::Matcher.match(seat, @item)
       end
+    end
+
+    def booking_adult_seat_with_own_email?
+      return false unless @item.guest_type == 'adult'
+
+      @item.owner.email == @current_user.email
     end
   end
 end

@@ -123,6 +123,9 @@ en:
   workshop:
     reservations_full: Workshop is not accepting anymore reservations
     seats_full: Workshop is not accepting anymore seats
+    booking_adult_own_email:
+      You can't book a seat for someone with an email using your own email address.
+      If this guest doesn't have their own email address then select 'An adult or someone WITHOUT an email address'
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!

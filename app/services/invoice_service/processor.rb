@@ -86,7 +86,7 @@ module InvoiceService
     # rubocop:enable Metrics/AbcSize
 
     def send_gift_card_email(item)
-      recipient = User.find_by_email(item.owner.email)
+      recipient = User.where('email ILIKE ?', item.owner.email).first
 
       CustomerMailer.with(customer_id: recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
     end

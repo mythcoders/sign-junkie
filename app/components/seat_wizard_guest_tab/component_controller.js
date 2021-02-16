@@ -232,7 +232,7 @@ export default class extends ApplicationController {
       } else if (this.guestTypeValue === 'child') {
         this.guestInfoAlertTarget.innerHTML = "This seat will be for the child listed above. However, we still require the parents information so we can associate the seat to a user account. If the parent does not have an email address then say this is your child."
       } else if (this.guestTypeValue === 'adult') {
-        this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. After payment, you'll receive a copy of the receipt and we'll send them an invite if they don't have a Sign Junkie Workshop account."
+        this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. If the guest has a Sign Junkie Workshop account we'll link the seat to their account and use the name they already have on file; If the guest doesn't have an account we'll invite them. After payment, you'll receive a copy of the receipt."
       }
     }
   }
