@@ -54,7 +54,7 @@ module InvoiceService
         end
       end
     rescue Braintree::NotFoundError => e
-      raise e unless Rails.env.development?
+      raise e if Rails.env.production?
     end
 
     def process_items

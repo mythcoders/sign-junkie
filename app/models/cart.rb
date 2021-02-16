@@ -30,11 +30,11 @@ class Cart < ApplicationRecord
 
   def validate_can_book
     if seat?
-      errors.add(:base, 'Seat not bookable') unless SeatService::BookableValidation.perform(description, customer)
+      SeatService::BookableValidation.perform(description, customer)
     elsif reservation?
-      return if ReservationService::BookableValidation.perform(description, customer)
-
-      errors.add(:base, 'Reservation not bookable')
+      ReservationService::BookableValidation.perform(description, customer)
     end
+  rescue ProcessError => e
+    errors.add(:base, e.message)
   end
 end
