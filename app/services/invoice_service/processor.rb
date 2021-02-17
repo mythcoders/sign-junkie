@@ -78,7 +78,7 @@ module InvoiceService
           send_gift_card_email item
         elsif item.reservation?
           ReservationMailer.with(reservation_id: item.reservation.id).placed.deliver_later
-        elsif item.gifted_seat? && item.guest_type == 'adult'
+        elsif item.gifted_seat? && should_notify_purchased_seat?
           SeatMailer.with(seat_id: item.seat.id).purchased.deliver_later
         end
       end
@@ -89,6 +89,10 @@ module InvoiceService
       recipient = User.where('email ILIKE ?', item.owner.email).first
 
       CustomerMailer.with(customer_id: recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
+    end
+
+    def should_notify_purchased_seat?
+      item.guest_type == 'adult' || (item.guest_type == 'child' && item.owner.parent.email != @invoice.customer.email)
     end
   end
 end
