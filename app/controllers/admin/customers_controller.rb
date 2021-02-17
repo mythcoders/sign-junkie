@@ -54,7 +54,7 @@ module Admin
 
     def resend_confirmation
       if @customer.invitation_sent_at
-        @customer.invitation_instructions
+        @customer.deliver_invitation
       else
         @customer.send_confirmation_instructions
       end

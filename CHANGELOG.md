@@ -1,3 +1,8 @@
+#### 2102.2 - February 17, 2021
+
+- Fixes
+  - Resolved an issue with logging emails that are sent
+
 #### 2102.1 - February 17, 2021
 
 - Improvements
