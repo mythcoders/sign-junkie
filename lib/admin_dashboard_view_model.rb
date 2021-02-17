@@ -28,7 +28,7 @@ class AdminDashboardViewModel
   end
 
   def upcoming_workshops
-    @upcoming_workshops ||= Workshop.for_sale.order(:start_date)
+    @upcoming_workshops ||= Workshop.for_sale.order(start_date: :desc)
   end
 
   def abandoned_carts

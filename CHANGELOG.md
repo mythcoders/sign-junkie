@@ -14,6 +14,7 @@
   - Layout changes to reports
   - Workshop Attendee List report will no longer display cancelled or voided seats
   - Formatting changes for printed Invoices
+  - Upcoming Workshops in the Admin Portal are created by
 - Fixes
   - Customers should now be able to edit a seat when they should be allowed to
   - Pages in the Admin Portal can be printed again

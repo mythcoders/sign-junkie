@@ -32,10 +32,10 @@
               Reservation must be booked by #{special_date @workshop.booking_deadline}
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.seats_available} seats remaining"
+              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
+              = "#{@workshop.seats_available} seats remaining"
 
             - unless @existing_reservation_id.zero?
               .alert.alert-info
@@ -43,8 +43,9 @@
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have booked a reservation for this workshop.
-                %a.alert-link.text-uppercase{href: reservation_path(@existing_reservation_id)}
-                  View in Workshop Planner
+                .text-center
+                  %a.alert-link.text-uppercase{href: reservation_path(@existing_reservation_id)}
+                    View in Workshop Planner
             - else
               %a.btn.btn-info.btn-block{href: reservation_workshop_path(@workshop)}
                 Book GROUP reservation
@@ -71,8 +72,9 @@
                   Heads up!
                 You already have a seat for this workshop!
                 %br
-                %a.alert-link.text-uppercase{href: seat_path(@existing_seat_id)}
-                  View your seat
+                .text-center
+                  %a.alert-link.text-uppercase{href: seat_path(@existing_seat_id)}
+                    View your seat
 
               %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
                 Book ANOTHER seat
