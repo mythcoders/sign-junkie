@@ -36,8 +36,6 @@ module SeatService
     end
 
     def person_attributes
-      binding.pry
-
       if existing_customer.present?
         {
           first_name: existing_customer.first_name,
