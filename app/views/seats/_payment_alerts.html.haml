@@ -3,7 +3,7 @@
     = fa_solid 'calendar-exclamation', 'fa-fw'
     %span
       You have until #{lifp @seat.workshop.registration_deadline} to pick your project and stencil!
-    %a.btn.btn-info.btn-block.mb-2.text-uppercase{href: edit_reservation_seat_path(@seat)}
+    %a.btn.btn-info.btn-block.mb-2.text-uppercase{href: edit_reservation_seat_path(@seat.reservation, @seat)}
       = fa_solid 'sign'
       Select your project and stencil
 

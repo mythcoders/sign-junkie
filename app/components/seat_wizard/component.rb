@@ -19,7 +19,11 @@ module SeatWizard
     end
 
     def projects
-      @projects ||= @seat.for_child? ? @seat.workshop.projects.where(only_for_children: true).active : @seat.workshop.projects.active
+      @projects ||= if @seat.guest_type == 'child'
+                      @seat.workshop.projects.active
+                    else
+                      @seat.workshop.projects.where(only_for_children: false).active
+                    end
     end
 
     def project
@@ -33,7 +37,7 @@ module SeatWizard
     def form_attributes
       {
         method: @seat.persisted? ? :patch : :post,
-        'data-controller': 'seat-wizard--component seat-wizard-sidebar--component',
+        'data-controller': 'seat-wizard--component seat-wizard-sidebar--component single-form-submit',
         'data-seat-wizard--component-addon-id-value': addon_value,
         'data-seat-wizard--component-guest-type-value': @seat.guest_type,
         'data-seat-wizard--component-project-value': project_value.to_json,
@@ -50,7 +54,7 @@ module SeatWizard
 
     def form_url
       if @seat.persisted?
-        edit_reservation_seat_path(@seat.reservation.id, @seat.seat.id)
+        reservation_seat_path(@seat.reservation.id, @seat.seat.id)
       elsif reservation_mode?
         reservation_seats_path(@seat.reservation.id)
       else

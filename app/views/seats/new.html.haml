@@ -1,3 +1,6 @@
+- content_for :head do
+  %meta{name: 'turbo-cache-control', content: 'no-cache'}
+
 = error_messages_for 'seat'
 
 = render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @existing_seat_id)) do |component|

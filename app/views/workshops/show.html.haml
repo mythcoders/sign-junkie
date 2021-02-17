@@ -1,29 +1,13 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center= @workshop.name
+
 .row
-  .col-12.col-md-6.mb-2.order-2.order-md-1
-    .row
-      - if @workshop.workshop_images.any?
-        .col-12.d-flex.justify-content-center
-          %img.mb-2.img-fluid.img-pointer{alt: "Image of #{@workshop.name}", loading: 'lazy',
-            src: url_for(@workshop.workshop_images.first)}
-        - @workshop.workshop_images.each do |img|
-          .workshop-img-item
-            %img.mb-2.img-fluid.img-thumbnail.img-pointer{src: url_for(img), loading: 'lazy'}
-      - else
-        .col-12
-          %img.mb-3.img-fluid.img-thumbnail.img-pointer{alt: "Image of #{@workshop.name}", loading: 'lazy',
-            src: asset_path('cover.jpg')}
-
-      - @workshop.projects.active.each do |project|
-        - project.project_images.each do |img|
-          .workshop-img-item.mb-3.text-center
-            %img.img-fluid.img-thumbnail.img-pointer{src: url_for(img), loading: 'lazy'}
-            %a{href: project_path(project)}= project.name
-
-  .col-12.col-md-6.mb-2.order-1.order-md-2
+  .col-12.col-md-6
     .card
-      %h3.card-header.bg-primary.text-white
-        = @workshop.name
       .card-body
+        %img.img-fluid.mx-auto.d-block.mb-3{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
         %p.card-text
           = fa_solid 'calendar-alt', 'text-primary fa-fw'
           = @workshop.when
@@ -33,11 +17,12 @@
         - if @workshop.description
           %p.card-text= @workshop.description
 
+  .col-12.col-md-6.mb-2.order-1.order-md-2
     - if user_signed_in? && @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
       - if @workshop.reservation_purchaseable?
         .card.mt-2
+          %h5.card-header.bg-primary.text-white Group Reservations
           .card-body
-            %h4.card-title Group Reservations
             %p.card-text
               = fa_solid 'usd-circle', 'text-primary fa-fw'
               %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
@@ -47,7 +32,10 @@
               Reservation must be booked by #{special_date @workshop.booking_deadline}
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests allowed"
+              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
+            %p.card-text
+              = fa_solid 'ticket-alt', 'text-primary fa-fw'
+              = "#{@workshop.seats_available} seats remaining"
 
             - unless @existing_reservation_id.zero?
               .alert.alert-info
@@ -55,16 +43,17 @@
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have booked a reservation for this workshop.
-                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: reservation_path(@existing_reservation_id)}
-                  View in Workshop Planner
+                .text-center
+                  %a.alert-link.text-uppercase{href: reservation_path(@existing_reservation_id)}
+                    View in Workshop Planner
             - else
-              %a.btn.btn-primary.btn-block{href: reservation_workshop_path(@workshop)}
+              %a.btn.btn-info.btn-block{href: reservation_workshop_path(@workshop)}
                 Book GROUP reservation
 
       - if @workshop.seat_purchaseable?
         .card.mt-2
+          %h5.card-header.bg-primary.text-white Individual Seats
           .card-body
-            %h4.card-title Individual Seats
             %p.card-text
               = fa_solid 'usd-circle', 'text-primary fa-fw'
               %span= "Starting at #{number_to_currency(starting_price(@workshop))}"
@@ -74,7 +63,7 @@
               Seats must be purchased by #{special_date @workshop.purchase_end_date}
             %p.card-text
               = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.seats_available} seats available"
+              = "#{@workshop.seats_available} seats remaining"
 
             - unless @existing_seat_id.zero?
               .alert.alert-info
@@ -82,13 +71,15 @@
                   = fa_solid 'exclamation-triangle'
                   Heads up!
                 You already have a seat for this workshop!
-                %a.btn.btn-info.btn-block.btn-sm.text-uppercase{href: seat_path(@existing_seat_id)}
-                  View your seat
+                %br
+                .text-center
+                  %a.alert-link.text-uppercase{href: seat_path(@existing_seat_id)}
+                    View your seat
 
-              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+              %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
                 Book ANOTHER seat
             - else
-              %a.btn.btn-primary.btn-block{href: seat_workshop_path(@workshop)}
+              %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
                 Book ONE seat
     - else
       .card.mt-2
@@ -105,3 +96,11 @@
 
           %a.btn.btn-primary.btn-block{href: workshops_private_path}
             View PRIVATE Workshop dates
+
+%h3.text-info.text-center.mt-3 Projects available at this Workshop
+.row
+  - @workshop.projects.active.each do |project|
+    - project.project_images.each do |img|
+      .row-item.mb-3.text-center
+        %img.img-fluid.img-thumbnail{src: url_for(img), loading: 'lazy', alt: "Image of #{project.name}"}
+        = project.name

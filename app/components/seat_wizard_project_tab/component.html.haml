@@ -6,21 +6,22 @@
 
     .row
       - @projects.each do |project|
-        - image = project.project_images.first
-
-        .col-6
-          %a.card.shadow-light-lg.mb-3{href: '#',
-                                      'data-seat-wizard-target': 'project',
-                                      'data-action': 'seat-wizard-project-tab--component#toggle',
-                                      'data-id': project.id,
-                                      'data-active-addons': project.addons.active.any?}
-            .card-zoom
-              %img.card-img{alt: "Image of #{project.name}", src: url_for(image), loading: 'lazy'}
-            .card-body.text-center{'data-seat-wizard-project-tab--component-target': 'option', 'data-id': project.id}
-              %h5.card-title.text-dark.mb-2= project.name
-              %h6.text-dark= number_to_currency project.total_price
+        .col-4.col-md-3.p-1
+          %a.card.shadow-light-lg.mb-1{href: '#',
+                                       'data-seat-wizard-target': 'project',
+                                       'data-action': 'seat-wizard-project-tab--component#toggle',
+                                       'data-id': project.id,
+                                       'data-active-addons': project.addons.active.any?}
+            .card-body.text-center.card-body-tight{'data-seat-wizard-project-tab--component-target': 'option',
+                                                   'data-id': project.id}
+              - if project.project_images.any?
+                .card-zoom
+                  %img.zoom-img.img-fluid{alt: "Image of #{project.name}", loading: 'lazy',
+                                          src: url_for(project.project_images.first)}
+              %p.card-text.text-primary.mb-2= project.name
+              %p.card-text.text-dark.mb-0= number_to_currency project.total_price
               - if project.addons.active.any?
-                .badge.badge-info Optional Add-ons!
+                .badge.badge-info Add-ons!
 
   .card-footer.card-sticky-footer
     %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard--component#goToTab', 'data-destination': 'guest'} Previous

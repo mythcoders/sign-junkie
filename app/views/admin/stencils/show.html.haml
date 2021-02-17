@@ -19,7 +19,7 @@
           .col
             %h5.mb-0 Status
           .col-auto
-            %small.text-muted
+            %small
               - if @stencil.active
                 %span.text-success ●
                 Active
@@ -31,13 +31,13 @@
           .col
             %h5.mb-0 Allowed to be personalized?
           .col-auto
-            %small.text-muted= human_boolean @stencil.allow_personilization
+            %small= human_boolean @stencil.allow_personilization
         %hr
         .row.align-items-center
           .col
             %h5.mb-0 Category
           .col-auto
-            %small.text-muted
+            %small
               = link_to @stencil.category.name, edit_admin_stencil_category_path(@stencil.category)
   .col-12.col-lg-8
     %ul#tab.nav.nav-tabs.mb-2{role: "tablist"}
@@ -52,6 +52,6 @@
 
     #tabContent.tab-content
       #image.tab-pane.fade.show.active{"aria-labelledby": "image-tab", role: "tabpanel"}
-        = render partial: 'admin/images/list', locals: { images: [@stencil.image] }
+        = render partial: 'admin/images/list', locals: { images: @stencil.image.attached? ? [@stencil.image] : [] }
       #project.tab-pane.fade{"aria-labelledby": "project-tab", role: "tabpanel"}
         = render partial: 'admin/projects/list', locals: { projects: @stencil.projects }

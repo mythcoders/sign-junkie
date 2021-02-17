@@ -4,11 +4,11 @@
 
   .col-12.col-lg-5.mb-2
     .card
-      %h4.card-header.bg-primary.text-white
+      %h3.card-header.bg-primary.text-white
         = fa_solid 'toolbox'
         Workshop Planner
       .card-body= render partial: 'reservations/host_details'
-      .card-footer
+      .card-footer.d-print-none
         - if @reservation.may_add_seat?(current_user)
           %a.btn.btn-primary.btn-block.mb-2{href: new_reservation_seat_path(@reservation)}
             = fa_solid 'user-plus'
@@ -33,36 +33,41 @@
     = render partial: 'requirements_alerts' unless @reservation.requirements_met?
 
     .card
-      %h4.card-header.bg-primary.text-white
+      %h3.card-header.bg-primary.text-white
         = fa_solid 'users'
         Invited Guests
         %span.badge.badge-light.float-right= @reservation.active_seats.count
 
       - if @reservation.active_seats.any?
-        %table.table.table-striped.table-border-fix
-          %thead
-            %tr
-              %th Guest
-              %th Project Selected?
-              %th Paid?
-              %th
-          %tbody
-            - @reservation.active_seats.each do |seat|
+        .table-responsive
+          %table.table.table-striped.table-border-fix.table-sm
+            %thead
               %tr
-                %td= link_to seat.name, seat_path(seat)
-                %td
-                  - if seat.selection_made?
-                    = fa_solid 'check', 'text-success'
-                  - else
-                    = fa_solid 'times', 'text-warning'
-                %td
-                  - if seat.paid?
-                    = fa_solid 'check', 'text-success'
-                  - else
-                    = fa_solid 'times', 'text-warning'
-                %td
-                  = render partial: 'seat_actions', locals: { seat: seat }
+                %th Guest
+                %th Picked Project?
+                %th Paid?
+                %th
+            %tbody
+              - @reservation.active_seats.each do |seat|
+                %tr
+                  %td= link_to seat.name, seat_path(seat)
+                  %td
+                    - if seat.selection_made?
+                      = fa_solid 'check', 'text-success'
+                    - else
+                      = fa_solid 'times', 'text-warning'
+                  %td
+                    - if seat.paid?
+                      = fa_solid 'check', 'text-success'
+                    - else
+                      = fa_solid 'times', 'text-warning'
+
+                      - if seat.selection_made? && seat.in_cart?
+                        %br
+                        %em In someones cart
+                  %td
+                    .float-right= render partial: 'seat_actions', locals: { seat: seat }
       - else
         .card-body.text-center
-          %h2 No Seats
-          %p.text-muted.mb-0 No seats have been added to this reservation.
+          %h4.card-title No Seats
+          %p.card-text.text-muted No seats have been added to this reservation.

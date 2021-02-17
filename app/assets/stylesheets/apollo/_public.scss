@@ -82,10 +82,19 @@
 }
 
 .workshop-img-item {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 50%;
-  flex: 0 0 50%;
-  max-width: 50%;
+  @include media-breakpoint-up(md) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33%;
+    flex: 0 0 33%;
+    max-width: 33%;
+  }
 }
 
 .bd-footer {
@@ -176,12 +185,12 @@
   border-radius: inherit;
 }
 
-.card-zoom > [class*="card-img"] {
+.card-zoom > [class*="zoom-img"] {
   transition: all 0.3s ease;
   transform-origin: center center;
 }
 
-.card:hover > .card-zoom > [class*="card-img"] {
+.card-body:hover > .card-zoom > [class*="zoom-img"] {
   transform: scale(1.1);
 }
 
@@ -195,4 +204,8 @@
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   bottom: 0;
+}
+
+.card-body-tight {
+  padding: 5px;
 }

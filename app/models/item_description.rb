@@ -7,7 +7,7 @@ class ItemDescription < ApplicationRecord
   include Voidable
 
   has_paper_trail
-  has_one :cart, inverse_of: :description
+  has_one :cart, inverse_of: :description, dependent: :destroy
   has_one :invoice_item, inverse_of: :description
   has_one :seat, inverse_of: :description
   has_one :reservation, inverse_of: :description
@@ -75,10 +75,6 @@ class ItemDescription < ApplicationRecord
     project_name.present?
   end
 
-  def recipient
-    @recipient ||= User.find_by_email(owner.email)
-  end
-
   def gifted_seat?
     seat? && gifted?
   end
@@ -88,7 +84,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def in_cart?
-    cart.present?
+    cart.present? # && cart.persisted?
   end
 
   def unpaid?
@@ -97,5 +93,11 @@ class ItemDescription < ApplicationRecord
 
   def paid?
     invoice.present?
+  end
+
+  def guest_type
+    # this check accomidates records created before v2102
+    # In prior releases, the seat customer was the owner if no other owner was explicitily set
+    owner.nil? || owner.empty? ? 'self' : owner.type
   end
 end

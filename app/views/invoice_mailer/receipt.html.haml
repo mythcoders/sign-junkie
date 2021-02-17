@@ -10,7 +10,7 @@
       .card-body.p-4
         %h6
           %strong ORDER SUMMARY
-        %table.table
+        %table.table.table-sm
           %tbody
             - @invoice.items.each do |i|
               %tr
@@ -28,7 +28,7 @@
         - if @invoice.payments.any?
           %h6
             %strong PAYMENTS
-          %table.table
+          %table.table.table-sm
             %tbody
               - @invoice.payments.each_with_index do |payment, index|
                 %tr
@@ -38,7 +38,7 @@
         - if @invoice.refunds.any?
           %h6
             %strong Refunds
-          %table.table
+          %table.table.table-sm
             %thead
               %tr
                 %th Method

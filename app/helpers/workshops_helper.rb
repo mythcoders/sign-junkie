@@ -33,6 +33,14 @@ module WorkshopsHelper
     public_hostess_path
   end
 
+  def image_for_workshop(workshop)
+    if workshop.workshop_images.any?
+      url_for workshop.workshop_images.first
+    else
+      asset_path 'cover.jpg'
+    end
+  end
+
   private
 
   def private?(workshop)

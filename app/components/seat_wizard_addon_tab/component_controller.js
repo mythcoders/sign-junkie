@@ -8,7 +8,12 @@ export default class extends ApplicationController {
   toggle(e) {
     e.preventDefault()
 
-    this.addonIdValue = e.currentTarget.dataset.id
+    if (this.addonIdValue == e.currentTarget.dataset.id) {
+      this.addonIdValue = undefined
+    } else {
+      this.addonIdValue = e.currentTarget.dataset.id
+    }
+
     this.notifySeatWizard()
   }
 

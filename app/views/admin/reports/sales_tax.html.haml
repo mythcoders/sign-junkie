@@ -1,6 +1,6 @@
 - page_title 'Sales Tax', 'Reports'
 
-.header
+.header.d-print-none
   .header-body
     .row.align-items-center
       .col
@@ -25,7 +25,7 @@
           = link_to 'Go Back', admin_reports_path, class: 'btn btn-white'
           = submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: false }
 
-  .col-12.col-lg-8
+  .col
     %turbo-frame{id: 'report_contents'}
       .card
         .card-body

@@ -1,5 +1,4 @@
 .card
-  %h5.card-header.bg-primary.text-white Order summary
   .card-body
     - if size.positive?
       .media.align-items-center.mb-3
@@ -7,11 +6,11 @@
         .media-body.text-right
           %span.font-weight-medium= number_to_currency subtotal
       .media.align-items-center.mb-3
-        .font-size-1.font-weight-normal.mb-0.mr-3 Estimated tax
+        .font-size-1.font-weight-normal.mb-0.mr-3 Sales Tax
         .media-body.text-right
           %span.font-weight-medium= number_to_currency tax
       .media.align-items-center.mb-4
-        .font-size-1.font-weight-normal.mb-0.mr-3 Total
+        .font-size-1.font-weight-normal.mb-0.mr-3 Total due today
         .media-body.text-right
           %span.font-weight-medium= number_to_currency total
       = form_tag new_invoice_path, method: 'get' do
@@ -25,5 +24,5 @@
         = submit_tag 'Proceed to Checkout', class: 'btn btn-info btn-block'
     - else
       .text-center
-        %h2 Empty Cart
-        %p Add some items to your cart to see pricing
+        %h4.card-title Empty Cart
+        %p.card-text.text-muted Add some items to your cart to see pricing

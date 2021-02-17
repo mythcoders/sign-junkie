@@ -110,7 +110,7 @@ class SeatsController < ApplicationController
   def add_to_cart_if_not_present
     return unless @seat.selection_made? && !@seat.in_cart? && !@reservation.paid_by_host?
 
-    Cart.create! user: current_user, item_description_id: @seat.item_description_id
+    Cart.create! customer: current_user, item_description_id: @seat.item_description_id
     flash[:success] = t('cart.add.success')
   end
 end

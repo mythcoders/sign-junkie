@@ -1,4 +1,9 @@
-= render(SeatWizard::Component.new(seat: @seat, existing_seat_id: 0)) do |component|
+- content_for :head do
+  %meta{name: 'turbo-cache-control', content: 'no-cache'}
+
+= error_messages_for 'seat'
+
+= render(SeatWizard::Component.new(seat: @seat, existing_seat_id: @seat.id)) do |component|
   - component.with(:header) do
     #{@seat.name} Seat
 

@@ -44,7 +44,7 @@ class CartFactory
     reservation = Reservation.find @params[:reservation_id]
 
     reservation.unpaid_seats.each do |seat|
-      Cart.create! user: @current_user, item_description_id: seat.item_description_id
+      Cart.create! customer: @current_user, item_description_id: seat.item_description_id
     rescue StandardError => e
       Sentry.capture_exception e
     end
@@ -52,18 +52,19 @@ class CartFactory
 
   def add_existing_seat
     seat = Seat.find @params[:seat_id]
-    Cart.create! user: @current_user, item_description_id: seat.item_description_id
+    Cart.create! customer: @current_user, item_description_id: seat.item_description_id
   end
 
   def add_gift_card
-    Cart.create! user: @current_user, description: GiftCardService::ItemFactory.build(@params)
+    Cart.create! customer: @current_user, description: GiftCardService::ItemFactory.build(@params)
   end
 
   def add_reservation
-    Cart.create! user: @current_user, description: ReservationService::ItemFactory.build(workshop, @params)
+    Cart.create! customer: @current_user, description: ReservationService::ItemFactory.build(workshop, @params)
   end
 
   def add_seat
-    Cart.create! user: @current_user, description: SeatService::ItemFactory.build(workshop, @params)
+    seat_params = SeatService::ParamParser.perform(@params, @current_user)
+    Cart.create! customer: @current_user, description: SeatService::ItemFactory.build(workshop, seat_params)
   end
 end

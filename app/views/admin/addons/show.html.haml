@@ -20,7 +20,7 @@
           .col
             %h5.mb-0 Status
           .col-auto
-            %small.text-muted
+            %small
               - if @addon.active?
                 %span.text-success ●
                 Active
@@ -32,6 +32,6 @@
           .col
             %h5.mb-0 Price
           .col-auto
-            %small.text-muted= number_to_currency @addon.price
+            %small= number_to_currency @addon.price
   .col-12.col-lg-8
     = render partial: 'admin/images/list', locals: { images: @addon.addon_images.order(:created_at) }

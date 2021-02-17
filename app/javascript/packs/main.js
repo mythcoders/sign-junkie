@@ -1,4 +1,4 @@
-import { Turbo, cable } from "@hotwired/turbo-rails"
+import "@hotwired/turbo-rails"
 
 require("@rails/ujs").start()
 // require("@rails/activestorage").start()

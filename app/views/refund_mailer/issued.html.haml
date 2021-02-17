@@ -1,5 +1,5 @@
 %h5= "#{@refund.invoice.customer.first_name} #{@refund.invoice.customer.last_name},"
 - if @refund.customer_credit_id.present?
-  %p= "A refund was issued in the amount of #{number_to_currency @refund.amount}. This is available as a credit on your account and is avaible for immediate use."
+  %p= "A refund was issued in the amount of #{number_to_currency @refund.amount}. This is available as a credit on your account and is available for immediate use."
 - else
   %p= "A refund was issued in the amount of #{number_to_currency @refund.amount}. Please allow 24-48 hours for it to be credited back to your account."

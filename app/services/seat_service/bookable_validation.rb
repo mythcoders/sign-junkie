@@ -13,12 +13,19 @@ module SeatService
     end
 
     def perform
+      validate_not_booking_adult_seat_with_own_email
       validate_workshop_accepting_seats unless @item.persisted?
       validate_not_already_in_cart
       validate_not_already_booked
+
+      true
     end
 
     private
+
+    def validate_not_booking_adult_seat_with_own_email
+      raise ProcessError, I18n.translate('workshop.booking_adult_own_email') if booking_adult_seat_with_own_email?
+    end
 
     def validate_workshop_accepting_seats
       raise ProcessError, I18n.translate('workshop.seats_full') unless @item.workshop.seat_purchaseable?
@@ -33,30 +40,15 @@ module SeatService
     end
 
     def similar_cart_items?
-      if @item.gifted_seat?
-        query = if @item.owner.email.present?
-                  { email: @item.owner.email }
-                else
-                  { first_name: @item.owner.first_name, last_name: @item.owner.last_name }
-                end
-
-        Cart.for_shop(@item.workshop_id).seats.where('item_descriptions.owner @> ?', query.to_json).any?
-      else
-        Cart.for_shop(@item.workshop_id).non_gift_seat.for(seat_owner).any?
-      end
+      CartService::SimilarSeat.check(@item, @current_user)
     end
 
     def already_booked_seats?
-      active_seats = Seat.for_shop(@item.workshop_id).active
-
-      if @item.gifted_seat? && @item.owner.email.present?
-        active_seats.for_user(@item.recipient).select(&:paid?).any?
-      elsif @item.gifted_seat?
-        active_seats.select(&:paid?).any? do |a|
-          a.owner.first_name == @item.owner.first_name && a.owner.last_name == @item.owner.last_name
-        end
+      case @item.guest_type
+      when 'other', 'child'
+        check_paid_seats_by_first_and_last_name
       else
-        active_seats.for_user(seat_owner).select(&:paid?).any?
+        check_paid_seats_by_user seat_owner
       end
     end
 
@@ -64,12 +56,28 @@ module SeatService
       @seat_owner ||= @item.gifted? && @item.owner.email ? new_user_from_guest : @current_user
     end
 
-    def existing_reservation
-      @existing_reservation ||= Reservation.already_booked?(seat_owner, @item.workshop_id)
+    def new_user_from_guest
+      User.find_or_initialize_by(email: @item.owner.email.downcase)
     end
 
-    def new_user_from_guest
-      User.find_or_initialize_by(email: @item.owner.email)
+    def current_active_seats
+      @current_active_seats ||= Seat.for_shop(@item.workshop_id).active
+    end
+
+    def check_paid_seats_by_user(user)
+      current_active_seats.for_user(user).select(&:paid?).any?
+    end
+
+    def check_paid_seats_by_first_and_last_name
+      current_active_seats.select(&:paid?).any? do |seat|
+        SeatService::Matcher.match(seat, @item)
+      end
+    end
+
+    def booking_adult_seat_with_own_email?
+      return false unless @item.guest_type == 'adult'
+
+      @item.owner.email == @current_user.email
     end
   end
 end

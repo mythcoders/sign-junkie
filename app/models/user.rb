@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def self.find_or_invite(first_name, last_name, email)
-    user = User.find_by_email(email)
+    user = User.where('email ILIKE ?', email).first
     if user.nil?
       user = User.invite!(email: email,
                           first_name: first_name,

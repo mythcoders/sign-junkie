@@ -31,27 +31,27 @@
             = select_tag :stencil_filter,
               options_from_collection_for_select(categories, "id", "name"),
               include_blank: 'All Stencil Categories',
-              class: 'custom-select custom-select-sm',
+              class: 'custom-select',
               'data-target': '#stencilOptions',
               'data-action': 'seat-wizard-stencil-tab--component#changeCategoryFilter',
               form: 'nosubmit'
 
       .row
         - @project.stencils.active.order(:name).each do |stencil|
-          .col-6{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
-            %a.card.shadow-light-lg.mb-3{href: '#',
+          .col-4.col-md-3.p-1{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
+            %a.card.shadow-light-lg.mb-1{href: '#',
                                          'data-action': 'seat-wizard-stencil-tab--component#toggleStencil',
                                          'data-id': stencil.id,
                                          'data-allow-personalization': stencil.allow_personilization.to_s}
-              .card-zoom
-                %img.card-img{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
-
-              .card-body.text-center{'data-seat-wizard-stencil-tab--component-target': 'option',
-                                    'data-seat-wizard-target': 'stencil',
-                                    'data-id': stencil.id,
-                                    'data-selected': 'false'}
-                %h5.card-title.text-dark.mb-2= stencil.name
-                %h6.text-muted= stencil.category.name
+              .card-body.text-center.card-body-tight{'data-seat-wizard-stencil-tab--component-target': 'option',
+                                                     'data-seat-wizard-target': 'stencil',
+                                                     'data-id': stencil.id,
+                                                     'data-selected': 'false'}
+                - if stencil.image.attached?
+                  .card-zoom
+                    %img.zoom-img.img-fluid{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
+                %p.card-text.text-primary.mb-2= stencil.name
+                %p.card-text.text-muted= stencil.category.name
                 - if stencil.allow_personilization
                   .badge.badge-info Personalizable
 

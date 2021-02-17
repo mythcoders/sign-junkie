@@ -1,34 +1,36 @@
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center
+        = fa_solid 'shopping-cart'
+        My Cart
+
 .row
   .col-12.col-lg-8.mb-2
-    .row.justify-content-center
-      .col
-        .card
-          %h3.card-header.bg-primary.text-white
-            = fa_solid 'shopping-cart'
-            Shopping cart
-        %ul.list-group
-          - if @cart.any?
-            - @cart.each do |item|
-              %li.list-group-item
-                .row
-                  .col.mb-3.mb-md-0
-                    = render(ItemDescriptionDisplay::Component.default(item))
-                  .col-auto.text-right
-                    %span.font-weight-medium
-                      = content_tag :span, number_to_currency(item.item_amount)
-                    - if item.reservation_seat?
-                      = link_to edit_reservation_seat_path(item.seat.reservation, item.seat), class: "d-block text-info font-size-1 mb-1" do
-                        %span.far.fa-sign.mr-1
-                        %span Make changes
-                    = link_to cart_path(item), method: :delete, class: "d-block text-danger font-size-1 mb-1", data: {confirm: t('cart.destroy.confirmation')} do
-                      %span.far.fa-trash-alt.mr-1
-                      %span Remove
-          - else
-            %li.list-group-item.text-center
-              %a.btn.btn-info(href=workshops_public_path)
-                View PUBLIC Workshop dates
-              %a.btn.btn-info(href=workshops_private_path)
-                View PRIVATE Workshop dates
+    - if @cart.any?
+      %ul.list-group
+        - @cart.each do |item|
+          %li.list-group-item
+            .row
+              .col.mb-3.mb-md-0
+                = render(ItemDescriptionDisplay::Component.default(item))
+              .col-auto.text-right
+                %span.font-weight-medium
+                  = content_tag :span, number_to_currency(item.item_amount)
+                - if item.reservation_seat?
+                  = link_to edit_reservation_seat_path(item.seat.reservation, item.seat), class: "d-block text-info font-size-1 mb-1" do
+                    %span.far.fa-sign.mr-1
+                    %span Make changes
+                = link_to cart_path(item), method: :delete, class: "d-block text-danger font-size-1 mb-1", data: {confirm: t('cart.destroy.confirmation')} do
+                  %span.far.fa-trash-alt.mr-1
+                  %span Remove
+    - else
+      .card
+        .card-body.text-center
+          %a.btn.btn-info(href=workshops_public_path)
+            View PUBLIC Workshop dates
+          %a.btn.btn-info(href=workshops_private_path)
+            View PRIVATE Workshop dates
 
   .col-12.col-lg-4
     = render(CartSidebar::Component.new(@cart, current_user.credit_balance))

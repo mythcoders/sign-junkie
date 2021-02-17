@@ -83,9 +83,9 @@ en:
       Currently, your reservation doesn't meet the minimum seating requirements.
       You'll need to reserve %{seats} additional seats before the %{deadline} registration deadline.
     requirements_not_met:
-      Your reservation has the minimum number of seats but %{seats} of them have yet to select their projects or pay for
-      them. They must select their project and stencil by %{deadline}.
-    payment_host: Afterwards, you must pay for them by %{deadline}.
+      Your reservation has met the minimum seating requirement! However, %{seats} seats have yet to select their
+      projects and/or pay. The deadline to do so is %{deadline}.
+    payment_host: Afterwards, you have until %{deadline} to pay for everything.
     payment_guest: They must also pay for their selections by %{deadline}.
     forfeit:
       confirmation: This will prevent the reservation deposit from being refunded. Currently, this action can not be reversed.
@@ -123,6 +123,9 @@ en:
   workshop:
     reservations_full: Workshop is not accepting anymore reservations
     seats_full: Workshop is not accepting anymore seats
+    booking_adult_own_email:
+      You can't book a seat for someone with an email using your own email address.
+      If this guest doesn't have their own email address then select 'An adult or someone WITHOUT an email address'
     destroy:
       confirmation: This will delete the workshop and it's images.
     empty: Sorry, but all seats to this workshop have already been booked. Check out some of our workshops!

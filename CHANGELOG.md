@@ -1,3 +1,32 @@
+#### 2102.1 - February 17, 2021
+
+- Improvements
+  - Customers are redirected back to their cart after editing a seat from the cart
+  - Redesign of Workshop detail page
+  - Sizing of project, add-on, and stencils in the Seat Picker
+  - Sizing of Invited Guests table in Workshop Planner
+  - Show a message in the Invited Guests Table when a seat has been added to someones cart
+  - Consistent color usage throughout the Workshop Planner and Seat Picker
+  - Grammar and style improvements to the Workshop Planner 'Heads Up!' alert
+  - Shopping Cart page slightly redesigned and branded as My Cart
+  - Formatting changes for printed Invoices
+- Admin Portal Improvements
+  - Layout changes to reports
+  - Workshop Attendee List report will no longer display cancelled or voided seats
+  - Formatting changes for printed Invoices
+  - Upcoming Workshops in the Admin Portal are created by
+- Fixes
+  - Customers should now be able to edit a seat when they should be allowed to
+  - Pages in the Admin Portal can be printed again
+  - Images should no longer appear stretched in the Seat Picker
+  - Customers are no longer allowed to purchase multiple seats at the same time for a guest with the same email address
+  - Customers are no longer able to purchase seats for other adults using their own email address
+  - Casing of customers email addresses is now ignored
+  - The seat purchased email is no longer sent out for seats gifted to children and guests without an email address
+  - The Seat Picker will no longer remember the previous add-on or stencil selections when the project is changed
+  - The Seat Picker and Stencil detail page in the Admin Portal won't error if a Stencil doesn't have an attached image
+  - Turbo now loads only once
+
 #### 2102 - February 7, 2021
 
 - Improvements
@@ -23,7 +52,7 @@
   - Rewrote large portions of old JavaScript code
   - Security and other updates
 
-#### 2009.1 - September 10, 2020
+#### 2003.2 - September 10, 2020
 
 - Improvements
   - Projects, Stencils, and Addons can now be marked as Active or Inactive. When inactive, they'll no longer be
