@@ -5,6 +5,7 @@
 - Fixes
   - Sales tax is applied to updated seats correctly
   - Loading preselected values in the Seat Picker now works as expected
+  - Non-gifted seats can be added to the cart as expected
   - Attempts to fix an issue being caused by a dependency
 
 #### 2102.2 - February 17, 2021
