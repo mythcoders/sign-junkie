@@ -3,7 +3,8 @@
   = error_messages_for 'payment'
   = f.hidden_field :created_at
   %input{type: :hidden, id: :gift_cards, name: :gift_cards, value: params[:gift_cards]}
-  %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce}
+  %input{type: :hidden, id: :payment_method_nonce, name: :payment_method_nonce,
+         'data-checkout-target': 'paymentNonce'}
 
   %p.card-text
     If you're purchasing seats or a gift card for someone else we'll send them an email letting them know about your purchase.
@@ -11,11 +12,19 @@
 
   - unless Rails.env.production?
     .alert.alert-warning
-      %strong Test Credit Card
-      %p Use the following Credit Card information when checking out with a card
-      %samp 4111-1111-1111-1111
-      %br
-      %samp 01/23     100
+      %h4.alert-heading Test Payment Information
+      %h5.alert-heading.text-uppercase Credit Card
+      %samp
+        4111-1111-1111-1111
+        %br
+        01/23     100
+
+      %hr
+      %h5.alert-heading.text-uppercase PayPal
+      %samp
+        sb-ktgec5181585@personal.example.com
+        %br
+        e8#7q>UR
 
   #payment-container
 

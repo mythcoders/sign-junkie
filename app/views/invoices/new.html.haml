@@ -1,7 +1,8 @@
-= form_for @invoice, url: invoices_path do |f|
-  .row{'data-controller': 'checkout',
-       'data-checkout-client-token-value': "#{@client_token}",
-       'data-checkout-purchase-amount-value': "#{number_to_currency(@invoice.grand_total)}"}
+= form_for @invoice, url: invoices_path,
+                    html: {'data-controller': 'checkout',
+                    'data-checkout-client-token-value': "#{@client_token}",
+                    'data-checkout-purchase-amount-value': "#{@invoice.grand_total}"} do |f|
+  .row
     .col-12.col-lg-8
       .card.card-primary.mb-2
         %h3.card-header.bg-primary.text-white

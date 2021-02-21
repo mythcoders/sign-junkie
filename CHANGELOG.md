@@ -1,3 +1,8 @@
+#### 2102.4 - February 21, 2021
+
+- Fixes
+  - An issue that prevented PayPal payments from being made
+
 #### 2102.3 - February 21, 2021
 
 - Improvements
