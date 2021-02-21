@@ -27,11 +27,11 @@ module SeatWizard
     end
 
     def project
-      @project ||= @seat.selection_made? ? projects.find(@seat.project_id) : nil
+      @project ||= @seat.project_id? ? projects.find(@seat.project_id) : nil
     end
 
     def addon
-      @addon ||= @seat.selection_made? ? project.addons.find(@seat.addon_id) : nil
+      @addon ||= @seat.addon_id? ? project.addons.find(@seat.addon_id) : nil
     end
 
     def form_attributes
@@ -42,7 +42,7 @@ module SeatWizard
         'data-seat-wizard--component-guest-type-value': @seat.guest_type,
         'data-seat-wizard--component-project-value': project_value.to_json,
         'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? 'now' : '',
-        'data-seat-wizard--component-stencils-value': stencils_value,
+        'data-seat-wizard--component-stencils-value': unparsed_stencils,
         'data-seat-wizard--component-workshop-id-value': workshop.id,
         'data-seat-wizard--component-for-reservation-value': reservation_mode?,
         'data-seat-wizard--component-active-class': 'active',
@@ -66,12 +66,8 @@ module SeatWizard
       @seat.selection_made? ? { id: @seat.project_id, addons: project.addons.active.any?, preselected: true } : {}
     end
 
-    def stencils_value
-      @seat.selection_made? ? unparsed_stencils : ''
-    end
-
     def addon_value
-      @seat.selection_made? ? @seat.addon_id : nil
+      @seat.addon_id
     end
 
     # converts the database value to something that's in the HTML input field

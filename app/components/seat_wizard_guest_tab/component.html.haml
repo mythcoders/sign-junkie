@@ -2,15 +2,14 @@
      'data-seat-wizard-guest-tab--component-for-reservation-value': @reservation_mode.to_s,
      'data-seat-wizard-guest-tab--component-guest-type-value': default_guest_type,
      'data-seat-wizard-guest-tab--component-is-parent-value': 'true',
-     'data-seat-wizard-guest-tab--component-purchase-mode-value': 'now'}
+     'data-seat-wizard-guest-tab--component-purchase-mode-value': 'now',
+     'data-seat-wizard-guest-tab--component-other-guest-help-text-value': t('seat_wizard.guest_type.other_help_text'),
+     'data-seat-wizard-guest-tab--component-adult-guest-help-text-value': t('seat_wizard.guest_type.adult_help_text'),
+     'data-seat-wizard-guest-tab--component-child-guest-help-text-value': t('seat_wizard.guest_type.child_help_text')}
 
   .card-body
     - if @allow_editing
-      %h5.card-title.mt-2
-        - if @reservation_mode
-          Who is this seat for?
-        - else
-          Who are you purchasing this seat for?
+      %h5.card-title.mt-2 Who is this seat for?
 
       .form-group
         .custom-control.custom-radio

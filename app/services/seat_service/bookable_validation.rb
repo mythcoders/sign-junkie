@@ -13,7 +13,7 @@ module SeatService
     end
 
     def perform
-      validate_not_booking_adult_seat_with_own_email
+      validate_not_booking_adult_seat_with_own_email unless @item.persisted?
       validate_workshop_accepting_seats unless @item.persisted?
       validate_not_already_in_cart
       validate_not_already_booked
@@ -65,7 +65,7 @@ module SeatService
     end
 
     def check_paid_seats_by_user(user)
-      current_active_seats.for_user(user).select(&:paid?).any?
+      current_active_seats.for_user(user).not_gifted.select(&:paid?).any?
     end
 
     def check_paid_seats_by_first_and_last_name

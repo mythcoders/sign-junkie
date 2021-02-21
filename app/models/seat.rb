@@ -9,6 +9,7 @@ class Seat < ApplicationRecord
 
   scope :for_user, ->(user) { where(user_id: user.id).order(created_at: :desc) unless user.nil? }
   scope :for_shop, ->(id) { where(workshop_id: id) }
+  scope :not_gifted, -> { includes(:description).where(item_descriptions: { gifted: false }) }
   scope :active, lambda {
     includes(:description).where(item_descriptions: { cancel_date: nil, void_date: nil, refund_date: nil })
   }

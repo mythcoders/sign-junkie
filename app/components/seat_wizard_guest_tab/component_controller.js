@@ -2,11 +2,14 @@ import ApplicationController from "../../javascript/controllers/application_cont
 
 export default class extends ApplicationController {
   static values = {
+    adultGuestHelpText: String,
+    childGuestHelpText: String,
     forReservation: Boolean,
     guestType: String,
     isParent: Boolean,
+    otherGuestHelpText: String,
+    previousNotify: Object,
     purchaseMode: String,
-    previousNotify: Object
   }
   static targets = [
     "childFirstName",
@@ -228,11 +231,11 @@ export default class extends ApplicationController {
       this.guestLastNameTarget.required = true
 
       if (this.guestTypeValue === 'other') {
-        this.guestInfoAlertTarget.innerHTML = "This seat will be linked to your Sign Junkie Workshop account but under your guests name."
+        this.guestInfoAlertTarget.innerHTML = this.otherGuestHelpTextValue
       } else if (this.guestTypeValue === 'child') {
-        this.guestInfoAlertTarget.innerHTML = "This seat will be for the child listed above. However, we still require the parents information so we can associate the seat to a user account. If the parent does not have an email address then say this is your child."
+        this.guestInfoAlertTarget.innerHTML = this.childGuestHelpTextValue
       } else if (this.guestTypeValue === 'adult') {
-        this.guestInfoAlertTarget.innerHTML = "Enter the name and email of your guest below. If the guest has a Sign Junkie Workshop account we'll link the seat to their account and use the name they already have on file; If the guest doesn't have an account we'll invite them. After payment, you'll receive a copy of the receipt."
+        this.guestInfoAlertTarget.innerHTML = this.adultGuestHelpTextValue
       }
     }
   }

@@ -45,8 +45,10 @@ class CartFactory
 
     reservation.unpaid_seats.each do |seat|
       Cart.create! customer: @current_user, item_description_id: seat.item_description_id
+    # rescue ProcessError
+    #   # nothing
     rescue StandardError => e
-      Sentry.capture_exception e
+      Sentry.capture_message e.message, level: :warning
     end
   end
 
