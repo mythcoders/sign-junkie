@@ -1,3 +1,12 @@
+#### 2102.3 - February 21, 2021
+
+- Improvements
+  - Updated help text used in Seat Picker
+- Fixes
+  - Sales tax is applied to updated seats correctly
+  - Loading preselected values in the Seat Picker now works as expected
+  - Attempts to fix an issue being caused by a dependency
+
 #### 2102.2 - February 17, 2021
 
 - Fixes
