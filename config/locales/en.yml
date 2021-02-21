@@ -13,15 +13,15 @@ en:
     in a NO refund and you will NOT be able to attend the workshop.
   addon:
     delete:
-      confirmation: "This will delete the addon and it's images. It will also remove it from any existing projects."
+      confirmation: This will delete the addon and it's images. It will also remove it from any existing projects.
   cart:
     empty: You can't checkout with an empty cart.
     destroy:
       confirmation: Are you sure want to remove this item from your cart? This can not be undone!
     add:
-      success: "The item was placed in your cart!"
-      failure: "An error occurred while adding that item to your cart. Please try again in a few moments."
-      already: "That item is already present in your cart."
+      success: The item was placed in your cart!
+      failure: An error occurred while adding that item to your cart. Please try again in a few moments.
+      already: That item is already present in your cart.
     update:
       success: Cart updated!
       failure: Please try again.
@@ -107,10 +107,19 @@ en:
       confirmation: The guest will be notified of this action. Any applicable refunds will be issued within 48 hours.
   seat_wizard:
     guest_type:
-      adult: An adult or someone else WITH an email address
+      adult: An adult WITH their OWN email address
+      adult_help_text:
+        Enter the name and email of your guest below. If the email address you enter is matched to a Sign Junkie
+        Workshop account we'll link the seat to that account and assign the seat to that customer regardless of the name
+        you enter below; If the guest doesn't already have an account we'll invite them. After payment, you'll receive
+        a copy of the receipt.
       child: A child (ages 8-17)
       child_disabled: Sorry, this workshop is for ages 18+ only.
-      other: An adult or someone WITHOUT an email address
+      child_help_text:
+        This seat will be for the child listed above. However, we still require the parents information so we can
+        associate the seat to a user account. If the parent does not have an email address then say this is your child.
+      other: An adult WITHOUT their OWN email address (purchased by myself)
+      other_help_text: This seat will be linked to your Sign Junkie Workshop account but under your guests name.
       self_disabled: You already have a seat booked for this workshop. Click here to view your project.
   stencil:
     destroy:

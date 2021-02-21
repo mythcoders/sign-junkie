@@ -139,7 +139,12 @@ export default class extends ApplicationController {
   }
 
   updateTabs() {
-    if (this.purchaseModeValue === 'now') {
+    if (this.projectValue.preselected) {
+      // if the project was preselected -- i.e. loaded from the database
+      // we don't want to update the UI since the component was rendered correctly server side.
+
+      return
+    } else if (this.purchaseModeValue === 'now') {
       this.updateProjectContent(this.guestTypeValue === 'child')
       this.projectTabTarget.classList.remove(this.disabledClass)
       this.addonTabTarget.classList.add(this.disabledClass)

@@ -81,14 +81,14 @@ class Reservation < ApplicationRecord
   end
 
   def unpaid_seats
-    seats.select(&:unpaid?)
+    seats.includes(:description).select(&:unpaid?)
   end
 
   def active_seats
-    seats.select(&:active?)
+    seats.includes(:description).select(&:active?)
   end
 
   def paid_seats
-    seats.select(&:paid?)
+    seats.includes(:description).select(&:paid?)
   end
 end

@@ -78,7 +78,7 @@ module Workshopable
   end
 
   def seats_available
-    total_seats - seats.select(&:active?).count
+    total_seats - seats.includes(:description).select(&:active?).count
   end
 
   def seating_availability
