@@ -1,13 +1,13 @@
 import ApplicationController from "./application_controller"
+import * as Sentry from "@sentry/browser"
 
 export default class extends ApplicationController {
   static values = { clientToken: String, purchaseAmount: String }
+  static targets = ["paymentNonce"]
 
   connect() {
-    var form = document.querySelector(".new_invoice")
-    var nonceInput = document.querySelector("#payment_method_nonce")
-
     var dropin = require('braintree-web-drop-in')
+
     dropin.create({
       authorization: this.clientTokenValue,
       container: "#payment-container",
@@ -16,24 +16,25 @@ export default class extends ApplicationController {
         amount: this.purchaseAmountValue,
         currency: "USD"
       },
-    }, function (err, dropinInstance) {
-      // HideLoader()
-      if (err) {
-        console.error(err)
+    }, function (error, dropinInstance) {
+      if (error) {
+        Sentry.captureException(error)
         return
       }
-      form.addEventListener("submit", function (event) {
+
+      this.element.addEventListener("submit", function (event) {
         event.preventDefault()
-        dropinInstance.requestPaymentMethod(function (err, payload) {
-          if (err) {
+        dropinInstance.requestPaymentMethod(function (paymentError, payload) {
+          if (paymentError) {
             dropinInstance.clearSelectedPaymentMethod()
-            console.error(err)
+            Sentry.captureException(paymentError)
             return
           }
-          nonceInput.value = payload.nonce
-          form.submit()
-        })
-      })
-    })
+
+          this.paymentNonceTarget.value = payload.nonce
+          this.element.submit()
+        }.bind(this))
+      }.bind(this))
+    }.bind(this))
   }
 }
