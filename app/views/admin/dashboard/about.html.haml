@@ -36,12 +36,8 @@
           %label.col-sm-4.col-form-label Developed By
           .col-sm-8
             %a{href: SystemInfo.developer_url}= SystemInfo.developer
-            %br= "\u00A9 Copyright #{Time.zone.today.year}"
-            Made with
-            = fa_solid 'heart', 'text-danger'
-            in Ohio
         .form-group.row
-          %label.col-sm-4.col-form-label Developed For
+          %label.col-sm-4.col-form-label Licensed To
           .col-sm-8
             %a{href: Apollo.env_url}= ClientInfo.owner
             %p #{ClientInfo.city}, #{ClientInfo.state}

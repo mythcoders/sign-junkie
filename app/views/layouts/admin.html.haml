@@ -14,3 +14,10 @@
       = render partial: "layouts/partials/user_preferences"
       .container-fluid
         = yield
+        %hr
+        .text-center
+          = "\u00A9 #{Time.zone.today.year} MythCoders, LLC. All Rights Reserved."
+          %br
+          Made with
+          = fa_solid 'heart', 'text-danger'
+          in Ohio
