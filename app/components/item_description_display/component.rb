@@ -31,7 +31,7 @@ module ItemDescriptionDisplay
       end
 
       def admin(item)
-        new(item: item, admin: true)
+        new(item: item, admin: true, linkable: true)
       end
 
       def receipt(item)
