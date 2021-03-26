@@ -1,21 +1,27 @@
+- content_for :head do
+  = stylesheet_link_tag 'map', type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
+  = javascript_pack_tag 'map', type: 'text/javascript', 'data-turbo-track': 'reload'
+
 .row.justify-content-center.mt-3
   .col
     .card.mb-3
       %h2.card-header.bg-primary.text-white.text-center
         Contact Us
 .row
-  .col-12.col-md-6.mb-2
-    %div#googleMap{style: "width:100%;height:400px;"}
-  .col-12.col-md-6.text-center
+  .col-12.col-lg-8.mb-2
+    %div#contact-map{style: "width:100%;height:400px;",
+                     'data-controller': 'map',
+                     'data-map-access-token-value': @mapbox_token,
+                     'data-map-marker-position-value': [-82.434, 39.8644078],
+                     'data-map-marker-label-value': 'Sign Junkie'}
+  .col-4.text-center
     %h5.text-info.text-uppercase Our Address
     %address.address.mb-2
       %strong
         = ClientInfo.address_1
         %br= "#{ClientInfo.city}, #{ClientInfo.state} #{ClientInfo.zip_code}"
-    %a.btn.btn-outline-primary.btn-block.btn-lg{href: "mailto:#{ClientInfo.contact_email}"}
-      %h5
-        = fa_solid 'envelope-open'
-        = ClientInfo.contact_email
+      %a{href: "mailto:#{ClientInfo.contact_email}"}= ClientInfo.contact_email
+    %hr
     %a.btn.btn-outline-primary.btn-block.btn-lg{href: ClientInfo.facebook_link}
       %h5
         = fa_brands 'facebook-square'
@@ -24,21 +30,3 @@
       %h5
         = fa_brands 'instagram-square'
         Instagram
-
-= content_for :scripts do
-  :javascript
-    function renderMap() {
-      var location = new google.maps.LatLng(39.8644078,-82.434);
-      var props = {
-        center: location,
-        zoom: 17,
-        mapTypeId: google.maps.MapTypeId.HYBRID
-      };
-      var map = new google.maps.Map(document.getElementById('googleMap'), props);
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        title: 'Sign Junkie'
-      });
-    }
-  %script{src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBMAZg6UEdBTJCgUqgneFCeiDZdDs0uBYA&callback=renderMap"}
