@@ -2,7 +2,7 @@
 
 module Admin
   class ProjectsController < AdminController
-    before_action :set_project, only: %i[edit update show destroy new_image upload_images]
+    before_action :set_project, only: %i[edit update show destroy new_image upload_images clone]
 
     def index
       @q = Project.ransack(params[:q])
@@ -46,15 +46,14 @@ module Admin
     end
 
     def clone
-      project = Project.find(project_params[:id])
-      clone = project.deep_clone include: %i[project_addons project_stencils]
+      clone = @project.deep_clone include: %i[project_addons project_stencils]
       clone.name += ' copy'
       if clone.save!
         flash[:success] = 'Project was successfully cloned!'
         redirect_to admin_project_path(clone)
       else
         flash[:error] = 'Sorry, an error occurred.'
-        redirect_to admin_project_path project
+        redirect_to admin_project_path @project
       end
     end
 
