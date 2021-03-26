@@ -4,11 +4,10 @@
   - Child projects are not shown under 'Available Projects' for adult-only workshops.
   - Page titles on public facing pages.
 - Admin Portal Improvements
-
-  - Invoices with a Reservation now include the workshop date and a link to the Workshop
+  - Invoices with a Reservation now include the workshop date and a link to the Workshop.
   - Seat Types are shown on the Workshop detail page.
-
 - Fixes
+  - Admins are once again able to cancel a reservation or seat.
   - Projects and Workshops clone as expected.
   - The Seat purchased email is no longer sent when a guest on a reservation purchases a seat for themselves.
 

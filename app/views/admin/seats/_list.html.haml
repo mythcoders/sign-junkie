@@ -65,7 +65,7 @@
           %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
             = fa_solid 'ellipsis-h-alt'
           .dropdown-menu.dropdown-menu-right
-            - if seat.cancelable?
+            - if seat.cancelable?(true)
               %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
                 = fa_duo 'ban'
                 Cancel Seat

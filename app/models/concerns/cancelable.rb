@@ -3,12 +3,12 @@
 module Cancelable
   extend ActiveSupport::Concern
 
-  def cancelable?
+  def cancelable?(is_admin = false)
     return false if refunded? ||
                     canceled? ||
                     voided? ||
                     workshop.start_date.past? ||
-                    reservation_seat? && !workshop.reservation_allow_guest_cancel_seat?
+                    !is_admin && reservation_seat? && !workshop.reservation_allow_guest_cancel_seat?
 
     true
   end
