@@ -3,6 +3,8 @@
 - Improvements
   - Child projects are not shown under 'Available Projects' for adult-only workshops.
   - Page titles on public facing pages.
+- Admin Portal Improvements
+  - Seat Types are shown on the Workshop detail page.
 - Fixes
   - Projects and Workshops clone as expected.
   - The Seat purchased email is no longer sent when a guest on a reservation purchases a seat for themselves.
