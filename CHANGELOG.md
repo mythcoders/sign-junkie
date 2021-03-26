@@ -8,6 +8,7 @@
   - Seat Types are shown on the Workshop detail page.
 - Fixes
   - Admins are once again able to cancel a reservation or seat.
+  - DateTime picker loads existing times correctly.
   - Projects and Workshops clone as expected.
   - The Seat purchased email is no longer sent when a guest on a reservation purchases a seat for themselves.
 
