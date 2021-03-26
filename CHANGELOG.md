@@ -1,4 +1,4 @@
-#### 2102.5 - March ??, 2021
+#### 2102.5 - March 26, 2021
 
 - Improvements
   - Child projects are not shown under 'Available Projects' for adult-only workshops.
