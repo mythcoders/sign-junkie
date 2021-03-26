@@ -92,7 +92,9 @@ module InvoiceService
     end
 
     def should_notify_purchased_seat?(item)
-      item.guest_type == 'adult' || (item.guest_type == 'child' && item.owner.parent.email != @invoice.customer.email)
+      item.guest_type == 'adult' ||
+        (item.guest_type == 'child' && item.owner.parent.email != @invoice.customer.email) ||
+        (item.guest_type == 'guest' && item.owner.email != @invoice.customer.email)
     end
   end
 end
