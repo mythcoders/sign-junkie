@@ -99,7 +99,7 @@
 
 %h3.text-info.text-center.mt-3 Projects available at this Workshop
 .row
-  - @workshop.projects.active.each do |project|
+  - @workshop.available_projects.each do |project|
     - project.project_images.each do |img|
       .row-item.mb-3.text-center
         %img.img-fluid.img-thumbnail{src: url_for(img), loading: 'lazy', alt: "Image of #{project.name}"}

@@ -100,4 +100,12 @@ module Workshopable
   def registration_deadline
     start_date.end_of_day - 7.days
   end
+
+  def available_projects
+    if family_friendly?
+      projects.active
+    else
+      projects.where(only_for_children: false).active
+    end
+  end
 end

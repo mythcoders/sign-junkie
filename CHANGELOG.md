@@ -1,7 +1,10 @@
 #### 2102.5 - March ??, 2021
 
+- Improvements
+  - Child projects are not shown under 'Available Projects' for adult-only workshops.
 - Fixes
   - Projects and Workshops clone as expected.
+  - The Seat purchased email is no longer sent when a guest on a reservation purchases a seat for themselves.
 
 #### 2102.4 - February 21, 2021
 
