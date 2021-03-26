@@ -40,7 +40,7 @@ module Apollo
     config.autoload_paths = config.eager_load_paths.dup
 
     # Storage
-    config.active_storage.variant_processor = :mini_magick
+    config.active_storage.variant_processor = :vips
     config.active_storage.routes_prefix = '/storage'
 
     # Logging
