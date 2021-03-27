@@ -12,6 +12,10 @@ class PublicController < ApplicationController
     @credits = current_user.credits.active
   end
 
+  def contact
+    @mapbox_token = Rails.application.credentials[:mapbox_api]
+  end
+
   private
 
   def set_announcements

@@ -6,7 +6,13 @@
         %a.avatar.avatar-lg{:href => admin_customer_path(seat.customer)}
           %span.avatar-title.rounded-circle= seat.name_initials
       .col.ml-n2
-        %h4.card-title.mb-1= link_to seat.name, admin_customer_path(seat.user_id)
+        %h4.card-title.mb-1
+          = link_to seat.name, admin_customer_path(seat.user_id)
+          %span.badge.badge-info
+            - if seat.guest_type == 'child'
+              Child
+            - else
+              Adult
         %p.card-text.small.text-muted.mb-1
           Created at
           = lifp seat.created_at
@@ -59,7 +65,7 @@
           %a.btn.btn-sm.btn-white.dropdown-toggle{"aria-haspopup" => "true", "data-expanded" => "false", "data-toggle" => "dropdown", :href => "#!", :role => "button"}
             = fa_solid 'ellipsis-h-alt'
           .dropdown-menu.dropdown-menu-right
-            - if seat.cancelable?
+            - if seat.cancelable?(true)
               %a.dropdown-item{"data-target": "#cancel-seat-#{seat.id}-modal", "data-toggle": "modal", href: "#"}
                 = fa_duo 'ban'
                 Cancel Seat

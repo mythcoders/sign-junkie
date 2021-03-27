@@ -4,7 +4,7 @@ ADD Gemfile* $APP_HOME/
 
 RUN apk add --no-cache --virtual build-deps build-base && \
   apk upgrade && \
-  apk add figlet imagemagick libxml2-dev libxslt-dev && \
+  apk add figlet vips libxml2-dev libxslt-dev && \
   wget http://www.figlet.org/fonts/trek.flf -P /usr/share/figlet/fonts && \
   bundle install --jobs=4 && \
   apk del build-deps

@@ -8,7 +8,7 @@
       .modal-body Are you sure?
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Cancel
-        = form_for @workshop, url: clone_admin_workshop_path, method: :post do |f|
+        = form_for @workshop, url: clone_admin_workshop_path(@workshop), method: :post do |f|
           = f.hidden_field :id
           = button_tag(type: 'submit', class: 'btn btn-primary') do
             Yes, clone

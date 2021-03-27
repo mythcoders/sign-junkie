@@ -9,9 +9,15 @@
     - elsif @item.reservation?
       %h5.card-title
         - if @linkable
-          = link_to @item.title, reservation_path(@item.reservation.id)
+          - if @admin
+            = link_to @item.title, admin_workshop_path(@item.reservation.workshop_id)
+          - else
+            = link_to @item.title, reservation_path(@item.reservation.id)
         - else
           = @item.title
+      .font-size-1.mb-1{title: 'Scheduled time'}
+        = fa_solid 'calendar-alt', 'text-primary fa-fw' if @show_icons
+        = @item.workshop.when
 
     - else
       - if @show_title

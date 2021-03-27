@@ -192,7 +192,7 @@ en:
     am: am
     pm: pm
     formats:
-      default: "%m/%d/%Y %l:%M %p"
+      default: "%m/%d/%Y %I:%M %p"
       long: "%a, %d %b %Y %I:%M:%S %p %Z"
       short: "%-m/%-d/%y %I:%M %p"
       no_time: "%-m/%-d/%Y"

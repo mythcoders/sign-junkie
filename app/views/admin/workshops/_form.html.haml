@@ -179,3 +179,5 @@
                 = b.label(class: 'custom-control-label')
                 - unless b.object.active?
                   %span.badge.badge-warning.text-uppercase Inactive
+                - if b.object.only_for_children?
+                  %span.badge.badge-info.text-uppercase Child Only
