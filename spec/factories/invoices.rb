@@ -6,6 +6,10 @@ FactoryBot.define do
     status { 'draft' }
     due_date { Time.zone.today }
 
+    after(:build) do |invoice|
+      invoice.items << build(:gift_card_invoice_item, invoice: invoice)
+    end
+
     trait :paid do
       status { 'paid' }
 
