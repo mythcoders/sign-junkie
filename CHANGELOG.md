@@ -1,8 +1,10 @@
-#### 2102.5 - March 26, 2021
+#### 2102.5 - March 27, 2021
 
 - Improvements
   - Child projects are not shown under 'Available Projects' for adult-only workshops.
   - Page titles on public facing pages.
+- Changes
+  - Public and Private policies update
 - Admin Portal Improvements
   - Invoices with a Reservation now include the workshop date and a link to the Workshop.
   - Seat Types are shown on the Workshop detail page.
