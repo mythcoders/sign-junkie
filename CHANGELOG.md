@@ -1,3 +1,8 @@
+#### 2102.6 - March 27, 2021
+
+- Fixes
+  - Seat Picker now requires personalizations to be entered.
+
 #### 2102.5 - March 27, 2021
 
 - Improvements
