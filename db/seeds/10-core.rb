@@ -22,7 +22,7 @@ unless WorkshopType.any?
                        default_single_seat_allow: false,
                        default_reservation_allow: true,
                        default_reservation_allow_multiple: false,
-                       default_reservation_cancel_minimum_not_met: true,
+                       default_reservation_cancel_minimum_not_met: false,
                        default_reservation_allow_guest_cancel_seat: true,
                        default_total_seats: 18,
                        default_reservation_price: BigDecimal('50.00'),
