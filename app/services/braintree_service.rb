@@ -49,29 +49,36 @@ class BraintreeService < ApplicationService
 
   attr_reader :gateway
 
-  # rubocop:disable Metrics/AbcSize
   def log_failed_transaction_and_raise!(result, error_klass)
-    Sentry.set_extras transaction: result.transaction
     Sentry.set_extras parameters: result.params
 
-    error_message = case result.transaction.status
-                    when 'processor_declined'
-                      Sentry.set_extras response_code: result.transaction.processor_response_code
+    if result.transaction.processor_response_code
+      Sentry.set_extras processor_response_code: result.transaction.processor_response_code
+    end
 
-                      result.transaction.processor_response_text
-                    when 'settlement_declined'
-                      Sentry.set_extras response_code: result.transaction.processor_settlement_response_code
+    if result.transaction.processor_settlement_response_code
+      Sentry.set_extras settlement_response_code: result.transaction.processor_settlement_response_code
+    end
 
-                      result.transaction.processor_settlement_response_text
-                    when 'gateway_rejected'
-                      result.transaction.gateway_rejection_reason
-                    else
-                      result.errors.map(&:message).join(', ')
-                    end
+    error_message = extract_error_message_from_result(result)
 
-    Sentry.set_extras response_message: error_message
+    Sentry.set_extras error_message: error_message
     Sentry.capture_message('Braintree Failure', level: :warning)
     raise error_klass, error_message
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def extract_error_message_from_result(result)
+    case result.transaction.status
+    when 'processor_declined'
+      result.transaction.processor_response_text
+    when 'settlement_declined'
+      result.transaction.processor_settlement_response_text
+    when 'gateway_rejected'
+      result.transaction.gateway_rejection_reason
+    else
+      return result.errors.map(&:message).join(', ') if result.errors.any?
+
+      'Processor Network Unavailable'
+    end
+  end
 end
