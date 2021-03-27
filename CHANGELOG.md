@@ -1,7 +1,10 @@
 #### 2102.6 - March 27, 2021
 
+- Improvements
+  - Descriptive, user friendly error messages for failed payments
 - Fixes
-  - Seat Picker now requires personalizations to be entered.
+  - Seat Picker now requires personalizations to be entered
+  - An issue that caused an empty invoice to be created on failed payments
 
 #### 2102.5 - March 27, 2021
 

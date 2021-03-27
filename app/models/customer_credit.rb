@@ -5,10 +5,7 @@ class CustomerCredit < ApplicationRecord
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
   has_one :refund, dependent: :restrict_with_error
 
-  scope :not_expired, lambda {
-    where(expiration_date: nil)
-      .or(where('expiration_date >= current_timestamp'))
-  }
+  scope :not_expired, -> { where(expiration_date: nil).or(where('expiration_date >= current_timestamp')) }
   scope :with_balance, -> { where('balance > 0') }
   scope :active, -> { with_balance.not_expired }
 

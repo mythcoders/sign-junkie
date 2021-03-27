@@ -21,14 +21,14 @@ class PaymentService < ApplicationService
   end
 
   def post_to_braintree(payment)
-    result = gateway.post_sale payment
+    result = braintree.post_sale payment
     payment.identifier = result.transaction.id
     payment.method = result.transaction.payment_instrument_type
 
     true
   end
 
-  def gateway
-    @gateway ||= BraintreeService.new
+  def braintree
+    @braintree ||= BraintreeService.new
   end
 end

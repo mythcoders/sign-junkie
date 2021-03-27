@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class InvoicesController < ApplicationController
+  include BraintreePayments
+
   before_action :authenticate_user!
+  before_action :build_invoice, only: %i[new create]
+  before_action :set_client_token, only: %i[new]
 
   def index
     @invoices = current_user.invoices.page(params[:page]).order(created_at: :desc)
@@ -12,7 +16,6 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = InvoiceService::Factory.build(current_user, params[:gift_cards])
     if @invoice.items.empty?
       flash[:error] = t('cart.empty')
       redirect_to cart_index_path
@@ -21,45 +24,34 @@ class InvoicesController < ApplicationController
     return process_invoice unless @invoice.balance.positive?
 
     @payment = Payment.new
-    @client_token = BraintreeService.new_token
   end
 
   def create
-    @invoice = InvoiceService::Factory.build(current_user, params[:gift_cards], invoice_params[:created_at])
-    create_payment if @invoice.balance.positive?
+    add_payment_to_invoice if @invoice.balance.positive?
+    return process_invoice if @invoice.valid?
 
-    if @invoice.valid?
-      process_invoice
-    else
-      flash[:error] = @invoice.errors.full_messages.to_sentence
-      redirect_to cart_index_path
-    end
-  rescue BraintreeService::PaymentError => e
-    Sentry.capture_exception(e)
-    flash[:error] = "Payment Error: #{e.message}"
+    flash[:error] = @invoice.errors.full_messages.to_sentence
     redirect_to cart_index_path
-    # rescue ProcessError => e
-    #   Sentry.capture_exception(e.message, level: 'warning')
-    #   flash[:error] = if Rails.env.development?
-    #                     "Critical Error: #{e.message}"
-    #                   else
-    #                     t('order.critical_failure')
-    #                   end
-    #   redirect_to cart_index_path
   end
 
   private
 
-  def invoice_params
-    params.require(:invoice).permit(:created_at)
+  def created_at_param
+    params.fetch(:invoice, {}).fetch(:created_at, nil)
   end
 
-  def payment_method_nonce
+  def payment_method_nonce_param
     params.fetch(:payment_method_nonce, nil)
   end
 
-  def create_payment
-    @invoice.payments << Payment.new(amount: @invoice.balance, auth_token: payment_method_nonce)
+  def build_invoice
+    @invoice = InvoiceService::Factory.build(current_user,
+                                             params[:gift_cards],
+                                             created_at_param || Time.zone.now)
+  end
+
+  def add_payment_to_invoice
+    @invoice.payments << Payment.new(amount: @invoice.balance, auth_token: payment_method_nonce_param)
   end
 
   def process_invoice
@@ -67,7 +59,7 @@ class InvoicesController < ApplicationController
       flash[:success] = t('order.placed.success')
       redirect_to my_account_path
     else
-      flash[:error] = '?' # t('order.critical_failure')
+      flash[:error] = t('order.critical_failure')
       redirect_to cart_index_path
     end
   end

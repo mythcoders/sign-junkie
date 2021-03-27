@@ -9,6 +9,7 @@ class Invoice < ApplicationRecord
   belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
 
   validates_presence_of :due_date
+  validate :invoice_has_items
   accepts_nested_attributes_for :payments, :items
 
   scope :recently_created, -> { where('created_at > ?', Time.zone.now - 24.hours) }
@@ -53,5 +54,11 @@ class Invoice < ApplicationRecord
 
   def cancelable_items
     items.select(&:refundable?)
+  end
+
+  private
+
+  def invoice_has_items
+    errors.add(:base, I18n.t('cart.empty')) if items.empty?
   end
 end

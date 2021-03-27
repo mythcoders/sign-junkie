@@ -17,6 +17,7 @@ class Seat < ApplicationRecord
   delegate_missing_to :description
   accepts_nested_attributes_for :description
   validates_presence_of :user_id
+  validates_uniqueness_of :user_id, scope: %i[workshop_id item_description_id]
 
   def name
     if owner.first_name.present?
