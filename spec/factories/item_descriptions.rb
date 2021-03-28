@@ -33,8 +33,9 @@ FactoryBot.define do
       workshop_name { workshop.name }
       project_id { project.id }
       project_name { project.name }
-      stencil_id { stencil.id }
-      stencil_name { stencil.name }
+      stencils do
+        SeatService::StencilParser.parse(project.id, "#{stencil.id}|TEST::")
+      end
 
       trait :with_addon do
         transient do
@@ -46,9 +47,16 @@ FactoryBot.define do
       end
 
       factory :gifted_seat_item do
-        first_name { Faker::Name.first_name }
-        last_name { Faker::Name.last_name }
-        email { Faker::Internet.email }
+        owner do
+          SeatService::GuestOwnerParser.parse(
+            Hashie::Mash.new(
+              first_name: Faker::Name.first_name,
+              last_name: Faker::Name.last_name,
+              email: Faker::Internet.email,
+              guest_type: 'guest'
+            )
+          )
+        end
       end
     end
 
@@ -62,9 +70,16 @@ FactoryBot.define do
     factory :gift_card_item do
       item_type { 'gift_card' }
       nontaxable_amount { Faker::Commerce.material }
-      first_name { Faker::Name.first_name }
-      last_name { Faker::Name.last_name }
-      email { Faker::Internet.email }
+      owner do
+        SeatService::GuestOwnerParser.parse(
+          Hashie::Mash.new(
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            email: Faker::Internet.email,
+            guest_type: 'guest'
+          )
+        )
+      end
     end
   end
 end
