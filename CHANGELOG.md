@@ -6,6 +6,8 @@
   - Seat Picker now requires personalizations to be entered
   - Seat Picker sidebar is updated with stencil personalization text
   - An issue that caused an empty invoice to be created on failed payments
+- Technical features and improvements
+  - Enabled Content Delivery Network (CDN) for certain assets to speed up page loading
 
 #### 2102.5 - March 27, 2021
 
