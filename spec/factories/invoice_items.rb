@@ -3,20 +3,21 @@
 FactoryBot.define do
   factory :invoice_item do
     invoice
+    association :description, factory: :item_description
   end
 
   factory :seat_invoice_item, class: InvoiceItem do
     invoice
-    seat_item
+    association :description, factory: :seat_item
   end
 
   factory :reservation_invoice_item, class: InvoiceItem do
     invoice
-    reservation_item
+    association :description, factory: :reservation_item
   end
 
   factory :gift_card_invoice_item, class: InvoiceItem do
     invoice
-    gift_card_item
+    association :description, factory: :gift_card_item
   end
 end

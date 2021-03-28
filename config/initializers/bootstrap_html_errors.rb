@@ -9,7 +9,7 @@ ActionView::Base.field_error_proc = proc do |html_tag, instance|
     select
   ]
 
-  elements = Nokogiri::HTML::DocumentFragment.parse(html_tag).css 'label, ' + form_fields.join(', ')
+  elements = Nokogiri::HTML::DocumentFragment.parse(html_tag).css "label, #{form_fields.join(', ')}"
   elements.each do |e|
     if e.node_name.eql? 'label'
       html = e.to_s.html_safe

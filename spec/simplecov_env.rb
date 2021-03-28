@@ -4,7 +4,7 @@ require 'simplecov'
 require 'active_support/core_ext/numeric/time'
 
 module SimpleCovEnv
-  extend self
+  module_function
 
   def start!
     configure_profile

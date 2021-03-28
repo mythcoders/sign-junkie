@@ -13,7 +13,7 @@ class TaxRate < ApplicationRecord
   end
 
   def self.enabled?
-    TaxRate.current.rate.positive?
+    TaxRate.current&.rate&.positive? || false
   end
 
   def editable?

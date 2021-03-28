@@ -82,7 +82,7 @@ module Workshopable
   end
 
   def seating_availability
-    (seats_available.to_f / total_seats.to_f) * 100
+    (seats_available.to_f / total_seats) * 100
   end
 
   def when

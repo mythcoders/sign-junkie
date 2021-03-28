@@ -19,6 +19,10 @@ module SeatWizardStencilTab
       stencils_as_hash[id] || nil
     end
 
+    def plain_stencil_text
+      SeatService::StencilParser::PLAIN_STENCIL_KEY
+    end
+
     private
 
     def stencils_as_hash

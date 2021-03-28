@@ -16,14 +16,17 @@ module SeatService
     def parse(input)
       input.split('::').map do |item|
         id, personalization = item.split('|')
-        return plain_stencil_option if id == PLAIN_STENCIL_KEY
 
-        stencil = @project.stencils.find id
-        {
-          id: stencil.id,
-          name: stencil.name,
-          personalization: personalization == 'null' ? nil : personalization
-        }
+        if id == '0' && personalization == PLAIN_STENCIL_KEY
+          plain_stencil_option
+        else
+          stencil = @project.stencils.find id
+          {
+            id: stencil.id,
+            name: stencil.name,
+            personalization: personalization == 'null' ? nil : personalization
+          }
+        end
       end
     end
 

@@ -12,6 +12,14 @@ if (errorDsn !== '') {
     release: "sign-junkie@" + release,
     tracesSampleRate: env == "production" ? 0.5 : 1.0,
     beforeSend(event, hint) {
+      const error = hint.originalException
+      if (error &&
+        error.message &&
+        error.message.match('Fetch is aborted')) {
+
+        return null
+      }
+
       // Check if it is an exception, and if so, show the report dialog
       if (event.exception) {
         Sentry.showReportDialog({ eventId: event.event_id })

@@ -6,9 +6,10 @@ module Admin
     before_action :set_workshop_types, only: %i[edit update new]
 
     def index
-      @q = if params[:scope] == 'all'
+      @q = case params[:scope]
+           when 'all'
              Workshop.all
-           elsif params[:scope] == 'past'
+           when 'past'
              Workshop.where('start_date <= current_timestamp')
            else
              Workshop.where('start_date >= current_timestamp')

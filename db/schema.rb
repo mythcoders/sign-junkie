@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_084103) do
+ActiveRecord::Schema.define(version: 2021_03_28_042122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,20 +128,13 @@ ActiveRecord::Schema.define(version: 2021_01_10_084103) do
     t.string "workshop_name"
     t.integer "project_id"
     t.string "project_name"
-    t.integer "stencil_id"
-    t.string "stencil_name"
-    t.string "stencil_personalization"
     t.integer "addon_id"
     t.string "addon_name"
     t.string "seat_preference"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "payment_plan"
     t.datetime "refund_date"
-    t.boolean "for_child", default: false
     t.boolean "gifted", default: false
     t.jsonb "stencils"
     t.jsonb "owner"

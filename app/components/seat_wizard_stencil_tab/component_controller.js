@@ -1,7 +1,7 @@
 import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
-  static values = { visible: Boolean, maxStencils: Number, filters: String, stencils: Object }
+  static values = { plainStencilSelected: Boolean, maxStencils: Number, filters: String, stencils: Object, plainStencilText: String }
   static targets = ["nextButton", "previousButton", "option", "column", "input", "personalization", "filter"]
   static classes = ["active", "disabled"]
 
@@ -25,6 +25,7 @@ export default class extends ApplicationController {
     if (e.currentTarget.dataset.selected === 'true') {
       const { [e.currentTarget.dataset.id]: deletedKey, ...otherKeys } = newStencils
       newStencils = otherKeys
+      e.currentTarget.dataset.selected = 'false'
     } else {
       if (Object.keys(newStencils).length === this.maxStencilsValue) {
         if (this.maxStencilsValue === 1) {
@@ -39,6 +40,7 @@ export default class extends ApplicationController {
       }
 
       newStencils[e.currentTarget.dataset.id] = e.currentTarget.dataset.allowPersonalization !== 'true' ? null : ''
+      e.currentTarget.dataset.selected = 'true'
     }
 
     this.stencilsValue = newStencils
@@ -46,10 +48,10 @@ export default class extends ApplicationController {
   }
 
   togglePlainOption(e) {
-    this.visibleValue = e.currentTarget.checked
-    this.stencilsValue = this.visibleValue ? { 0: '' } : {}
-    this.filterTarget.hidden = this.visibleValue
-    this.columnTargets.forEach((e) => { e.hidden = this.visibleValue })
+    this.plainStencilSelectedValue = e.currentTarget.checked
+    this.stencilsValue = this.plainStencilSelectedValue ? { 0: this.plainStencilTextValue } : {}
+    this.filterTarget.hidden = this.plainStencilSelectedValue
+    this.columnTargets.forEach((e) => { e.hidden = this.plainStencilSelectedValue })
   }
 
   updateStencilPersonalization(e) {
@@ -74,21 +76,38 @@ export default class extends ApplicationController {
     return returnValue
   }
 
+  get hasEmptyPersonalizations() {
+    for (const [key, value] of Object.entries(this.stencilsValue)) {
+      if (value === '') {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  get maxStencilsSelected() {
+    return Object.keys(this.stencilsValue).length === this.maxStencilsValue
+  }
+
   // private
 
   stencilsValueChanged() {
     this.inputTarget.value = this.separatedInputValue
-    if (Object.keys(this.stencilsValue).length === this.maxStencilsValue) {
+
+    if (this.plainStencilSelectedValue || !this.hasEmptyPersonalizations && this.maxStencilsSelected) {
       this.nextButtonTarget.classList.remove(this.disabledClass)
+    } else {
+      this.nextButtonTarget.classList.add(this.disabledClass)
     }
 
+    this.notifySeatWizard()
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
   }
 
   reset() {
     this.stencilsValue = {}
-    this.notifySeatWizard()
 
     this.personalizationTargets.forEach((e) => { e.hidden = true })
     this.optionTargets.forEach((e) => {

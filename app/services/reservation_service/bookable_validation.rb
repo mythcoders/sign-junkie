@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReservationService
   class BookableValidation
     def initialize(cart, current_user)

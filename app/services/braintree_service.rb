@@ -5,8 +5,11 @@ class BraintreeService < ApplicationService
   RefundError = Class.new(StandardError)
   VoidError = Class.new(StandardError)
 
-  def self.env
-    ENV['PAYMENT_ENV']
+  def initialize
+    gateway_params = Rails.application.credentials.payment[ENV['PAYMENT_ENV'].to_sym]
+    @gateway ||= Braintree::Gateway.new(gateway_params)
+
+    super
   end
 
   def self.new_token
@@ -20,11 +23,7 @@ class BraintreeService < ApplicationService
       options: { submit_for_settlement: true }
     )
 
-    unless result.success?
-      log_failed_braintree(result, 'post_sale')
-      raise PaymentError, result.errors.map(&:message).join(', ')
-    end
-
+    log_failed_transaction_and_raise!(result, PaymentError) unless result.success?
     result
   end
 
@@ -32,10 +31,7 @@ class BraintreeService < ApplicationService
     raise RefundError 'Incorrect refund method' if payment.gift_card?
 
     result = gateway.transaction.refund(payment.identifier, amount)
-    unless result.success?
-      log_failed_braintree(result, 'post_refund')
-      raise RefundError, result.errors.map(&:message).join(', ')
-    end
+    log_failed_transaction_and_raise!(result, RefundError) unless result.success?
 
     result
   end
@@ -44,42 +40,45 @@ class BraintreeService < ApplicationService
     raise VoidError 'Unvoidable payment type' if payment.gift_card?
 
     result = gateway.transaction.void(payment.identifier)
-    unless result.success?
-      log_failed_braintree(result, 'post_void')
-      raise VoidError, result.errors.map(&:message).join(', ')
-    end
+    log_failed_transaction_and_raise!(result, VoidError) unless result.success?
 
     result
   end
 
   protected
 
-  def gateway
-    env = BraintreeService.env.to_sym
-    @gateway ||= Braintree::Gateway.new(environment: env,
-                                        merchant_id: merchant_id(env),
-                                        public_key: public_key(env),
-                                        private_key: private_key(env))
-  end
+  attr_reader :gateway
 
-  def merchant_id(env)
-    Rails.application.credentials.payment[env][:merchant_id]
-  end
-
-  def public_key(env)
-    Rails.application.credentials.payment[env][:public_key]
-  end
-
-  def private_key(env)
-    Rails.application.credentials.payment[env][:private_key]
-  end
-
-  def log_failed_braintree(result, transaction)
-    errors = result.errors.map do |error|
-      { attribute: error.attribute, code: error.code, message: error.message }
-    end
+  def log_failed_transaction_and_raise!(result, error_klass)
     Sentry.set_extras parameters: result.params
-    Sentry.set_extras errors: errors
-    Sentry.capture_exception(result.message, transaction: transaction)
+
+    if result.transaction.processor_response_code
+      Sentry.set_extras processor_response_code: result.transaction.processor_response_code
+    end
+
+    if result.transaction.processor_settlement_response_code
+      Sentry.set_extras settlement_response_code: result.transaction.processor_settlement_response_code
+    end
+
+    error_message = extract_error_message_from_result(result)
+
+    Sentry.set_extras error_message: error_message
+    Sentry.capture_message('Braintree Failure', level: :warning)
+    raise error_klass, error_message
+  end
+
+  def extract_error_message_from_result(result)
+    case result.transaction.status
+    when 'processor_declined'
+      result.transaction.processor_response_text
+    when 'settlement_declined'
+      result.transaction.processor_settlement_response_text
+    when 'gateway_rejected'
+      result.transaction.gateway_rejection_reason
+    else
+      return result.errors.map(&:message).join(', ') if result.errors.any?
+
+      'Processor Network Unavailable'
+    end
   end
 end
