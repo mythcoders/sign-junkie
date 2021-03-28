@@ -1,7 +1,7 @@
 import ApplicationController from "../../javascript/controllers/application_controller"
 
 export default class extends ApplicationController {
-  static values = { visible: Boolean, maxStencils: Number, filters: String, stencils: Object }
+  static values = { plainStencilSelected: Boolean, maxStencils: Number, filters: String, stencils: Object, plainStencilText: String }
   static targets = ["nextButton", "previousButton", "option", "column", "input", "personalization", "filter"]
   static classes = ["active", "disabled"]
 
@@ -48,10 +48,10 @@ export default class extends ApplicationController {
   }
 
   togglePlainOption(e) {
-    this.visibleValue = e.currentTarget.checked
-    this.stencilsValue = this.visibleValue ? { 0: '' } : {}
-    this.filterTarget.hidden = this.visibleValue
-    this.columnTargets.forEach((e) => { e.hidden = this.visibleValue })
+    this.plainStencilSelectedValue = e.currentTarget.checked
+    this.stencilsValue = this.plainStencilSelectedValue ? { 0: this.plainStencilTextValue } : {}
+    this.filterTarget.hidden = this.plainStencilSelectedValue
+    this.columnTargets.forEach((e) => { e.hidden = this.plainStencilSelectedValue })
   }
 
   updateStencilPersonalization(e) {
@@ -95,19 +95,19 @@ export default class extends ApplicationController {
   stencilsValueChanged() {
     this.inputTarget.value = this.separatedInputValue
 
-    if (!this.hasEmptyPersonalizations && this.maxStencilsSelected) {
+    if (this.plainStencilSelectedValue || !this.hasEmptyPersonalizations && this.maxStencilsSelected) {
       this.nextButtonTarget.classList.remove(this.disabledClass)
     } else {
       this.nextButtonTarget.classList.add(this.disabledClass)
     }
 
+    this.notifySeatWizard()
     this.updateStencilTargets()
     this.updatePersonalizationTargets()
   }
 
   reset() {
     this.stencilsValue = {}
-    this.notifySeatWizard()
 
     this.personalizationTargets.forEach((e) => { e.hidden = true })
     this.optionTargets.forEach((e) => {
