@@ -1,3 +1,10 @@
+#### 2102.7 - April 3, 2021
+
+- Fixes
+  - Workshops clone as expected
+- Technical features and improvements
+  - Updates to system dependencies
+
 #### 2102.6 - March 28, 2021
 
 - Improvements
