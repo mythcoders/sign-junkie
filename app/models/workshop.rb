@@ -29,6 +29,7 @@ class Workshop < ApplicationRecord
   def self.clone(id)
     find(id).deep_clone include: [:workshop_projects], exclude: [:is_for_sale] do |original, kopy|
       if kopy.is_a?(Workshop) && original.workshop_images.any?
+        kopy.name += ' copy'
         original.workshop_images.each do |image|
           kopy.workshop_images.attach(
             io: StringIO.new(image.download),
@@ -55,8 +56,8 @@ class Workshop < ApplicationRecord
                         projects.count.positive? &&
                         reservations_allowed? &&
                         Time.zone.now.between?(purchase_start_date, booking_deadline)
-    return false if seats_available <= reservation_minimum_seats ||
-                    reservations.any? && !multiple_reservations_allowed?
+    return false if seats_available <= reservation_minimum_seats
+    return false if reservations.any? && !multiple_reservations_allowed?
 
     true
   end
@@ -72,8 +73,9 @@ class Workshop < ApplicationRecord
   private
 
   def workshop_type_not_changed
-    if workshop_type_id_changed? && (reservations.any? || seats.any?)
-      errors.add(:workshop_type_id, 'not allowed to be changed if reservations or seats exist')
-    end
+    return unless workshop_type_id_changed?
+    return unless reservations.any? || seats.any?
+
+    errors.add(:workshop_type_id, 'not allowed to be changed if reservations or seats exist')
   end
 end
