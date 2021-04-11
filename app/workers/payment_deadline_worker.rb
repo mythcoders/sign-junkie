@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Enforces the _PaymentDeadline_ for +Workshop+ +Reservations+.
-# Kicks off a +VoidSeatWorker+ for every +Seat+ that hasn't been paid for.
+# Kicks off a +SeatVoidWorker+ for every +Seat+ that hasn't been paid for.
 class PaymentDeadlineWorker
   include Sidekiq::Worker
 
@@ -53,7 +53,7 @@ class PaymentDeadlineWorker
     batch.on(:success, PaymentDeadlineWorker, reservation_id: reservation.id)
     batch.jobs do
       reservation.active_seats.select(&:active?).each do |seat|
-        VoidSeatWorker.perform_async(seat.id) if seat.unpaid?
+        SeatVoidWorker.perform_async(seat.id) if seat.unpaid?
       end
     end
 

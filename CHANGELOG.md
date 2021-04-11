@@ -1,7 +1,10 @@
-#### 2102.7 - April 3, 2021
+#### 2102.7 - April ?, 2021
 
+- Improvements
+  - Project pricing is now displayed everywhere
 - Fixes
-  - Workshops clone as expected
+  - Workshop images clone as expected
+  - Seats are now properly being voided after a deadline has passed
 - Technical features and improvements
   - Updates to system dependencies
 
