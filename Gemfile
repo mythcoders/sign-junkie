@@ -26,7 +26,7 @@ gem 'pg'
 gem 'pinglish'
 gem 'puma'
 gem 'rack-cors'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.0'
 gem 'ransack' # Searching
 gem 'recaptcha' # Google recaptcha
 gem 'redcarpet' # Markdown rendering

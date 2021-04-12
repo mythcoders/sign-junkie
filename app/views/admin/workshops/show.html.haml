@@ -8,7 +8,7 @@
           - if @workshop.workshop_images.any?
             %img.avatar-img.rounded{:alt => "Image of #{@workshop.name}", :src => url_for(@workshop.workshop_images.first)}
           - else
-            %img.avatar-img.rounded{:alt => 'Placed holder image', :src => "/cover.jpg"}
+            %img.avatar-img.rounded{:alt => 'Placed holder image', :src => asset_path("cover.jpg")}
       .col.ml-n3.ml-md-n2
         %h6.header-pretitle Workshops
         %h1.header-title

@@ -105,4 +105,6 @@
     - project.project_images.each do |img|
       .row-item.mb-3.text-center
         %img.img-fluid.img-thumbnail{src: url_for(img), loading: 'lazy', alt: "Image of #{project.name}"}
-        = project.name
+        .text-secondary
+          = project.name
+          %br= number_to_currency project.total_price

@@ -13,4 +13,6 @@
         %img.img-fluid.img-thumbnail{alt: "Preview of #{project.name}", src: url_for(project.project_images.first), loading: 'lazy'}
       - else
         %img.img-fluid.img-thumbnail{alt: "Image of #{project.name}", src: asset_path('cover.jpg'), loading: 'lazy'}
-      .text-secondary= link_to project.name, project_path(project.id), class: 'card-link'
+      .text-secondary
+        = link_to project.name, project_path(project.id), class: 'card-link'
+        %br= number_to_currency project.total_price

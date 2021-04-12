@@ -2,7 +2,7 @@
 
 module Admin
   class WorkshopsController < AdminController
-    before_action :populate_workshop, only: %i[edit update show destroy new_image upload_images clone]
+    before_action :populate_workshop, only: %i[edit update show destroy new_image upload_images]
     before_action :set_workshop_types, only: %i[edit update new]
 
     def index
@@ -61,10 +61,9 @@ module Admin
     end
 
     def clone
-      clone = @workshop.clone
-      clone.name += ' copy'
+      clone = Workshop.clone params[:id]
       if clone.save!
-        flash[:success] = 'Project was successfully cloned!'
+        flash[:success] = 'Workshop was successfully cloned!'
         redirect_to admin_workshop_path(clone)
       else
         flash[:error] = 'Sorry, an error occurred.'
