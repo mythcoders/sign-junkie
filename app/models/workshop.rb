@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Workshop < ApplicationRecord
-  include ApplicationHelper
+  # include ApplicationHelper
   include Workshopable
 
   has_paper_trail
@@ -28,21 +28,12 @@ class Workshop < ApplicationRecord
 
   def self.clone(id)
     find(id).deep_clone include: [:workshop_projects], exclude: [:is_for_sale] do |original, kopy|
-      if kopy.is_a?(Workshop) && original.workshop_images.any?
-        kopy.name += ' copy'
-        original.workshop_images.each do |image|
-          kopy.workshop_images.attach(
-            io: StringIO.new(image.download),
-            filename: image.filename,
-            content_type: image.content_type
-          )
-        end
-      end
+      kopy.name = "#{original.name} copy" if kopy.is_a?(Workshop)
     end
   end
 
   def seat_purchaseable?
-    return false unless is_for_sale &&
+    return false unless is_for_sale? &&
                         projects.count.positive? &&
                         Time.zone.now.between?(purchase_start_date, purchase_end_date) &&
                         single_seats_allowed? &&

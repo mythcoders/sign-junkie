@@ -90,7 +90,7 @@
                       %img.avatar-img.rounded-circle{:alt => "Image of #{w.name}", :src => url_for(w.workshop_images.first)}
                   - else
                     .avatar.avatar-sm.d-inline-block.mr-2{}
-                      %img.avatar-img.rounded-circle{:alt => 'Placeholder image', :src => "cover.jpg"}
+                      %img.avatar-img.rounded-circle{:alt => 'Placeholder image', :src => asset_path("cover.jpg")}
                   %span= link_to w.name, admin_workshop_path(w)
                 %td
                   = w.when

@@ -1,4 +1,4 @@
-#### 2102.7 - April ?, 2021
+#### 2102.7 - April 12, 2021
 
 - Improvements
   - Project pricing is now displayed everywhere
