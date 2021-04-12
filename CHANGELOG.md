@@ -3,7 +3,7 @@
 - Improvements
   - Project pricing is now displayed everywhere
 - Fixes
-  - Workshop images clone as expected
+  - Workshop clone as expected
   - Seats are now properly being voided after a deadline has passed
 - Technical features and improvements
   - Updates to system dependencies
