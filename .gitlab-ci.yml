@@ -5,7 +5,6 @@ variables:
   CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
   LICENSE_MANAGEMENT_DISABLED: 1
   CODE_QUALITY_DISABLED: 1
-  ELASTIC_APM_ACTIVE: "false"
 
 build:
   stage: build
@@ -26,11 +25,10 @@ test:
     PAYMENT_ENV: sandbox
     STORAGE_BUCKET: mcdig-rvstg-com1
     DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
-    ELASTIC_APM_ACTIVE: "false"
   before_script:
     - bundle exec rails db:setup
   script:
-    - ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=test bundle exec rake assets:precompile
+    - ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=test bundle exec rake assets:precompile
     - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
   artifacts:
     paths:
