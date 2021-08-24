@@ -9,9 +9,13 @@ redis_config = {
   network_timeout: 3
 }
 
+# This is the recommendation from sidekiq-scheduler:
+#   https://github.com/moove-it/sidekiq-scheduler#notes-about-connection-pooling
+redis_pool_size = Sidekiq.options[:concurrency] + 5 + Rufus::Scheduler::MAX_WORK_THREADS
+
 Sidekiq.configure_server do |config|
   config.log_formatter = Sidekiq::Logger::Formatters::JSON.new
-  config.redis = ConnectionPool.new(size: 25) { Redis.new(**redis_config) }
+  config.redis = ConnectionPool.new(size: redis_pool_size) { Redis.new(**redis_config) }
 
   # https://github.com/mperham/sidekiq/issues/4496#issuecomment-677838552
   config.death_handlers << ->(job, exception) do
@@ -21,7 +25,7 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = ConnectionPool.new(size: 5) { Redis.new(**redis_config) }
+  config.redis = ConnectionPool.new(size: redis_pool_size) { Redis.new(**redis_config) }
 end
 
 Sidekiq.default_worker_options = {retry: 3}
