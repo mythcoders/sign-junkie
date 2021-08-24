@@ -32,18 +32,18 @@ readinessProbe:
   timeoutSeconds: 15
 resources:
   limits:
-    memory: 1500Mi
-    cpu: 1500m
-  requests:
-    memory: 512Mi
-    cpu: 500m
-workerResources:
-  limits:
-    memory: 2Gi
-    cpu: 2000m
+    memory: 1Gi
+    cpu: 1000m
   requests:
     memory: 256Mi
-    cpu: 250m
+    cpu: 300m
+workerResources:
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+  requests:
+    memory: 256Mi
+    cpu: 300m
 podDisruptionBudget:
   enabled: true
 #   minAvailable: 2
