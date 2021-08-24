@@ -32,11 +32,11 @@ module SeatService
 
     def owner
       @owner ||= case @seat.guest_type
-                 when 'other', 'child'
+                 when "other", "child"
                    @seat.owner
                  else
                    @seat.customer
-                 end
+      end
     end
   end
 end

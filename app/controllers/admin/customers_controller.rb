@@ -7,7 +7,7 @@ module Admin
 
     def index
       @q = User.customers.ransack(params[:q])
-      @q.sorts = 'last_name asc' if @q.sorts.empty?
+      @q.sorts = "last_name asc" if @q.sorts.empty?
       @customers = @q.result(distinct: true).page(params[:page])
     end
 
@@ -18,37 +18,37 @@ module Admin
     def create
       @customer = User.invite!(customer_params.except(:id))
       if @customer
-        flash['success'] = t('create.success')
+        flash["success"] = t("create.success")
         redirect_to admin_customer_path @customer
       else
         disabled_roles
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @customer.update(customer_params)
-        flash['success'] = t('update.success')
+        flash["success"] = t("update.success")
         redirect_to admin_customer_path @customer
       else
         disabled_roles
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @customer.destroy
-        flash['success'] = t('destroy.success')
+        flash["success"] = t("destroy.success")
         redirect_to admin_customers_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to edit_admin_customer_path(@customer)
       end
     end
 
     def remind
       CustomerMailer.with(customer_id: params[:id]).abandoned_cart.deliver_later
-      flash[:success] = 'Reminder sent'
+      flash[:success] = "Reminder sent"
       redirect_to admin_customer_path params[:id]
     end
 
@@ -59,7 +59,7 @@ module Admin
         @customer.send_confirmation_instructions
       end
 
-      flash[:success] = 'Confirmation Instructions resent'
+      flash[:success] = "Confirmation Instructions resent"
       redirect_to admin_customer_path @customer
     end
 

@@ -7,15 +7,15 @@ module Admin
 
     def index
       @q = case params[:scope]
-           when 'all'
+           when "all"
              Workshop.all
-           when 'past'
-             Workshop.where('start_date <= current_timestamp')
+           when "past"
+             Workshop.where("start_date <= current_timestamp")
            else
-             Workshop.where('start_date >= current_timestamp')
-           end.ransack(params[:q])
+             Workshop.where("start_date >= current_timestamp")
+      end.ransack(params[:q])
 
-      @q.sorts = 'start_date desc' if @q.sorts.empty?
+      @q.sorts = "start_date desc" if @q.sorts.empty?
       @workshops = @q.result(distinct: true).includes(:workshop_type).page(params[:page])
     end
 
@@ -26,47 +26,47 @@ module Admin
     def create
       @workshop = Workshop.new(filtered_params)
       if @workshop.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @workshop.update(filtered_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_workshop_path @workshop
       else
         set_workshop_types
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @workshop.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_workshops_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_workshop_path @workshop
       end
     end
 
     def upload_images
       @workshop.workshop_images.attach(file_params)
-      flash[:success] = t('upload.success')
+      flash[:success] = t("upload.success")
       redirect_to admin_workshop_path(@workshop)
     end
 
     def clone
       clone = Workshop.clone params[:id]
       if clone.save!
-        flash[:success] = 'Workshop was successfully cloned!'
+        flash[:success] = "Workshop was successfully cloned!"
         redirect_to admin_workshop_path(clone)
       else
-        flash[:error] = 'Sorry, an error occurred.'
+        flash[:error] = "Sorry, an error occurred."
         redirect_to admin_workshop_path @workshop
       end
     end
@@ -75,12 +75,12 @@ module Admin
 
     def workshop_params
       params.require(:workshop).permit(:name, :description, :purchase_start_date, :purchase_end_date, :start_date,
-                                       :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
-                                       :overridden_total_seats, :overridden_reservation_allow_multiple,
-                                       :overridden_reservation_price, :overridden_reservation_minimum,
-                                       :overridden_reservation_cancel_minimum_not_met, :overridden_reservation_maximum,
-                                       :overridden_reservation_allow_guest_cancel_seat, :is_for_sale, :workshop_type_id,
-                                       :family_friendly, project_ids: [])
+        :end_date, :overridden_single_seat_allow, :overridden_reservation_allow,
+        :overridden_total_seats, :overridden_reservation_allow_multiple,
+        :overridden_reservation_price, :overridden_reservation_minimum,
+        :overridden_reservation_cancel_minimum_not_met, :overridden_reservation_maximum,
+        :overridden_reservation_allow_guest_cancel_seat, :is_for_sale, :workshop_type_id,
+        :family_friendly, project_ids: [])
     end
 
     def project_params

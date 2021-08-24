@@ -36,13 +36,13 @@ class SeatMailerPreview < ActionMailer::Preview
   end
 
   def seat_with_reservation
-    @seat_with_reservation ||= Seat.where('reservation_id IS NOT NULL').first
+    @seat_with_reservation ||= Seat.where("reservation_id IS NOT NULL").first
   end
 
   def guest_seat
     @guest_seat ||= Seat.joins(:description)
-                        .where('item_descriptions.email IS NOT NULL')
-                        .where('item_descriptions.item_type = ?', :seat)
-                        .first
+      .where("item_descriptions.email IS NOT NULL")
+      .where("item_descriptions.item_type = ?", :seat)
+      .first
   end
 end

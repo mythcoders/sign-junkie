@@ -21,10 +21,10 @@ module CartSidebar
 
     def tax
       @tax ||= if @cart_items.select(&:taxable?).any?
-                 sum_and_round @cart_items.select(&:taxable?).map(&:tax_amount)
-               else
-                 0.00
-               end
+        sum_and_round @cart_items.select(&:taxable?).map(&:tax_amount)
+      else
+        0.00
+      end
     end
 
     private

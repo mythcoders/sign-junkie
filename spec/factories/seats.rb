@@ -13,8 +13,8 @@ FactoryBot.define do
     trait :paid do
       after(:create) do |seat|
         create(:invoice, :paid,
-               customer: seat.customer,
-               items: [create(:invoice_item, item_description_id: seat.item_description_id)])
+          customer: seat.customer,
+          items: [create(:invoice_item, item_description_id: seat.item_description_id)])
       end
     end
   end

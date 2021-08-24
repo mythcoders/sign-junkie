@@ -24,19 +24,19 @@ module SeatService
     private
 
     def validate_not_booking_adult_seat_with_own_email
-      raise ProcessError, I18n.translate('workshop.booking_adult_own_email') if booking_adult_seat_with_own_email?
+      raise ProcessError, I18n.translate("workshop.booking_adult_own_email") if booking_adult_seat_with_own_email?
     end
 
     def validate_workshop_accepting_seats
-      raise ProcessError, I18n.translate('workshop.seats_full') unless @item.workshop.seat_purchaseable?
+      raise ProcessError, I18n.translate("workshop.seats_full") unless @item.workshop.seat_purchaseable?
     end
 
     def validate_not_already_in_cart
-      raise ProcessError, I18n.translate('seat.already_in_cart') if @item.in_cart?
+      raise ProcessError, I18n.translate("seat.already_in_cart") if @item.in_cart?
     end
 
     def validate_not_already_booked
-      raise ProcessError, I18n.translate('seat.already_booked') if already_booked_seats? || similar_cart_items?
+      raise ProcessError, I18n.translate("seat.already_booked") if already_booked_seats? || similar_cart_items?
     end
 
     def similar_cart_items?
@@ -45,7 +45,7 @@ module SeatService
 
     def already_booked_seats?
       case @item.guest_type
-      when 'other', 'child'
+      when "other", "child"
         check_paid_seats_by_first_and_last_name
       else
         check_paid_seats_by_user seat_owner
@@ -75,7 +75,7 @@ module SeatService
     end
 
     def booking_adult_seat_with_own_email?
-      return false unless @item.guest_type == 'adult'
+      return false unless @item.guest_type == "adult"
 
       @item.owner.email == @current_user.email
     end

@@ -13,7 +13,7 @@ module SeatService
 
     def parse
       case @params.guest_type
-      when 'child'
+      when "child"
         child_owner_attributes
       else
         non_child_owner_attributes
@@ -52,7 +52,7 @@ module SeatService
     end
 
     def existing_customer
-      @existing_customer ||= User.where('email ILIKE ?', @params.email).first
+      @existing_customer ||= User.where("email ILIKE ?", @params.email).first
     end
   end
 end

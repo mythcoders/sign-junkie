@@ -8,9 +8,9 @@ module Admin
 
     def create
       if GalleryImage.mass_attach(params[:gallery][:images])
-        flash['success'] = t('upload.success')
+        flash["success"] = t("upload.success")
       else
-        flash['error'] = t('upload.failure')
+        flash["error"] = t("upload.failure")
       end
 
       redirect_to admin_gallery_images_path
@@ -19,7 +19,7 @@ module Admin
     def destroy
       image = ActiveStorage::Attachment.find(params[:id])
       image.purge
-      flash[:success] = 'Image deleted successfully!'
+      flash[:success] = "Image deleted successfully!"
       redirect_back(fallback_location: admin_gallery_images_path)
     end
   end

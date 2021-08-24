@@ -7,7 +7,7 @@ module Admin
 
     def index
       @q = Stencil.ransack(params[:q])
-      @q.sorts = 'name asc' if @q.sorts.empty?
+      @q.sorts = "name asc" if @q.sorts.empty?
       @stencils = @q.result(distinct: true).page(params[:page])
     end
 
@@ -19,30 +19,30 @@ module Admin
       @stencil = Stencil.new(stencil_params)
 
       if @stencil.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @stencil.update(stencil_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_stencil_path @stencil
       else
         set_values_for_dropdown
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @stencil.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_stencils_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_stencil_path(@project)
       end
     end

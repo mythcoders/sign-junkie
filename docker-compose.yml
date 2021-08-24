@@ -7,9 +7,8 @@ x-shared-environment-variables: &shared-environment-variables
   GITLAB_ENVIRONMENT_URL: http://signjunkie.mythcoders.dev
   PAYMENT_ENV: sandbox
   STORAGE_BUCKET: none
-  REDIS_URL: redis://myth-redis:6379/0
+  REDIS_URL: redis://myth-redis:6379/2
   REDIS_NAMESPACE: sign-junkie-dev
-  WORKER_REDIS_NAMESPACE: sign-junkie-worker-dev
   HERMES_API_KEY: key
   HERMES_API_SECRET: secret
 
@@ -25,7 +24,7 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:signjunkie.mythcoders.dev"
     volumes:
-      - .:/app
+      - .:/opt/sign-junkie
     environment:
       <<: *shared-environment-variables
       WEBPACKER_DEV_SERVER_HOST: webpacker
@@ -37,7 +36,7 @@ services:
     container_name: sign-junkie-worker
     command: ["sh", "./scripts/worker", "start"]
     volumes:
-      - .:/app
+      - .:/opt/sign-junkie
     environment:
       <<: *shared-environment-variables
     depends_on:
@@ -51,7 +50,7 @@ services:
       <<: *shared-environment-variables
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     volumes:
-      - .:/app
+      - .:/opt/sign-junkie
 
 networks:
   default:

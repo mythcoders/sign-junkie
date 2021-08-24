@@ -7,7 +7,7 @@ module Admin
 
     def demo_data
       DemoDataWorker.perform_async
-      flash[:success] = 'Started! This may take some time.'
+      flash[:success] = "Started! This may take some time."
       redirect_to admin_dashboard_path
     end
 
@@ -30,7 +30,7 @@ module Admin
     end
 
     def file_path
-      Rails.root.join('CHANGELOG.md')
+      Rails.root.join("CHANGELOG.md")
     end
   end
 end

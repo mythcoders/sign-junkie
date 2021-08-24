@@ -8,18 +8,18 @@ class WorkshopsController < ApplicationController
 
   def public
     @workshops = Workshop
-                 .includes(:workshop_type)
-                 .where(workshop_types: { name: 'Public' })
-                 .for_sale
-                 .order(:start_date)
+      .includes(:workshop_type)
+      .where(workshop_types: {name: "Public"})
+      .for_sale
+      .order(:start_date)
   end
 
   def private
     @workshops = Workshop
-                 .includes(:workshop_type)
-                 .where(workshop_types: { name: 'Private' })
-                 .for_sale
-                 .order(:start_date)
+      .includes(:workshop_type)
+      .where(workshop_types: {name: "Private"})
+      .for_sale
+      .order(:start_date)
   end
 
   def seat
@@ -33,10 +33,10 @@ class WorkshopsController < ApplicationController
 
   def projects
     @projects = if params[:include_children]
-                  @workshop.projects.active
-                else
-                  @workshop.projects.where(only_for_children: false).active
-                end
+      @workshop.projects.active
+    else
+      @workshop.projects.where(only_for_children: false).active
+    end
     render layout: false
   end
 
@@ -48,19 +48,19 @@ class WorkshopsController < ApplicationController
 
   def set_seat_check
     @existing_seat_id = if current_user
-                          seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
-                          seats.any? ? seats.first.id : 0
-                        else
-                          0
-                        end
+      seats = Seat.active.for_shop(@workshop.id).for_user(current_user)
+      seats.any? ? seats.first.id : 0
+    else
+      0
+    end
   end
 
   def set_reservation_check
     @existing_reservation_id = if current_user
-                                 reservations = Reservation.active.for_shop(@workshop.id).for_user(current_user)
-                                 reservations.any? ? reservations.first.id : 0
-                               else
-                                 0
-                               end
+      reservations = Reservation.active.for_shop(@workshop.id).for_user(current_user)
+      reservations.any? ? reservations.first.id : 0
+    else
+      0
+    end
   end
 end

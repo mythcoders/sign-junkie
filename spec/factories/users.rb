@@ -7,18 +7,18 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     confirmed_at { Time.zone.today }
-    role { 'customer' }
+    role { "customer" }
 
     factory :employee do
-      role { 'employee' }
+      role { "employee" }
     end
 
     factory :admin do
-      role { 'admin' }
+      role { "admin" }
     end
 
     factory :operator do
-      role { 'operator' }
+      role { "operator" }
     end
   end
 end

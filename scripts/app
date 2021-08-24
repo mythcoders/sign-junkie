@@ -1,21 +1,20 @@
 #!/bin/bash
 
-echo '*** STARTING APOLLO ***'
-echo 'Configuring the hyperdrive...'
+echo '*** STARTING SIGN JUNKIE ***'
 
 cd "$(dirname "$0")/.."
 
 if [ "$2" == "setup" ]; then
-  echo "Establsihing connection to the databank..."
+  echo "Checking Database..."
   ./bin/rails db:exists && ./bin/rails db:migrate VERBOSE=true || ./bin/rails db:setup VERBOSE=true
 fi
 
 if [ "$1" == "start" ]; then
   if [ -f "tmp/pids/server.pid" ]; then
-    echo "Scans detected server.pid in sector 1 -- neutralizing"
+    echo "Detected existing server.pid -- neutralizing"
     rm -rf tmp/pids/server.pid
   fi
 
-  echo "Preparing for warp on port ${APP_PORT}..."
-  ./bin/rails server -b 0.0.0.0 -p $APP_PORT
+  echo "Starting rails on port 5000..."
+  ./bin/rails server -b 0.0.0.0 -p 5000
 fi

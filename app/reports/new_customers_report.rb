@@ -18,7 +18,7 @@ class NewCustomersReport
 
   def customers
     User.customers
-        .where('created_at BETWEEN :start_date AND :end_date', start_date: start_date, end_date: end_date)
-        .order(:created_at)
+      .where("created_at BETWEEN :start_date AND :end_date", start_date: start_date, end_date: end_date)
+      .order(:created_at)
   end
 end

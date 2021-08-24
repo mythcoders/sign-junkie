@@ -27,14 +27,14 @@ module SeatWizardStencilTab
 
     def stencils_as_hash
       @stencils_as_hash ||= if @stencils
-                              hash = {}
-                              @stencils.each do |s|
-                                hash[s['id']] = s['personalization']
-                              end
-                              hash
-                            else
-                              {}
-                            end
+        hash = {}
+        @stencils.each do |s|
+          hash[s["id"]] = s["personalization"]
+        end
+        hash
+      else
+        {}
+      end
     end
   end
 end

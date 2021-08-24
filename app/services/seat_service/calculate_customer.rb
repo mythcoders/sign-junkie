@@ -15,9 +15,9 @@ module SeatService
 
     def perform
       case @item.guest_type
-      when 'child'
+      when "child"
         find_or_invite_user @item.owner.parent
-      when 'adult'
+      when "adult"
         find_or_invite_user @item.owner
       else
         @current_user

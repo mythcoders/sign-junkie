@@ -1,0 +1,47 @@
+---
+:concurrency: 5
+
+development:
+  :concurrency: 15
+production:
+  :concurrency: 20
+
+:queues:
+  - critical
+  - callbacks
+  - mailers
+  - default
+  - census
+
+:schedule:
+  ReservationDepositRefundWorker:
+    cron: '0 4 * * *'
+    class: ReservationDepositRefundWorker
+
+  RegistrationDeadlineWorker:
+    cron: '15 4 * * *'
+    class: RegistrationDeadlineWorker
+
+  PaymentDeadlineWorker:
+    cron: '35 4 * * *'
+    class: PaymentDeadlineWorker
+
+  CartCleanupWorker:
+    cron: '0 5 * * *'
+    class: CartCleanupWorker
+
+  AbandonedCartReminderWorker:
+    cron: '0 6 * * *'
+    class: AbandonedCartReminderWorker
+
+  PaymentDeadlineReminderWorker:
+    cron: '0 6 * * *'
+    class: PaymentDeadlineReminderWorker
+
+  RegistrationDeadlineReminderWorker:
+    cron: '0 6 * * *'
+    class: RegistrationDeadlineReminderWorker
+
+  UnconfirmedAccountReminderWorker:
+    cron: '0 6 * * *'
+    class: UnconfirmedAccountReminderWorker

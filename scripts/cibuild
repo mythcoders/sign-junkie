@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# script/cibuild: Run stuff
+
+if [ "$1" = "audit" ]; then
+  echo "==> Running bundler audit…"
+  bundle audit check --update
+elif [ "$1" = "brakeman" ]; then
+  echo "==> Running brakeman…"
+  brakeman -q -w2
+elif [ "$1" = "linter" ]; then
+  echo "==> Running linter…"
+  bundle exec standardrb --format progress --parallel
+elif [ "$1" = "rspec" ]; then
+  echo "==> Running rspec…"
+  bundle exec rspec --format documentation
+else
+  echo "Unknown arg $1. Usage: $0 {audit|linter|rspec}"
+  exit 1
+fi

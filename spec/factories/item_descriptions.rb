@@ -25,7 +25,7 @@ FactoryBot.define do
         stencil { project.stencils.first }
       end
 
-      item_type { 'seat' }
+      item_type { "seat" }
       taxable_amount { project.material_price }
       nontaxable_amount { project.instructional_price }
 
@@ -53,7 +53,7 @@ FactoryBot.define do
               first_name: Faker::Name.first_name,
               last_name: Faker::Name.last_name,
               email: Faker::Internet.email,
-              guest_type: 'guest'
+              guest_type: "guest"
             )
           )
         end
@@ -61,14 +61,14 @@ FactoryBot.define do
     end
 
     factory :reservation_item do
-      item_type { 'reservation' }
+      item_type { "reservation" }
       # fill in workshop info
       nontaxable_amount { Faker::Commerce.material }
-      payment_plan { 'host' }
+      payment_plan { "host" }
     end
 
     factory :gift_card_item do
-      item_type { 'gift_card' }
+      item_type { "gift_card" }
       nontaxable_amount { Faker::Commerce.material }
       owner do
         SeatService::GuestOwnerParser.parse(
@@ -76,7 +76,7 @@ FactoryBot.define do
             first_name: Faker::Name.first_name,
             last_name: Faker::Name.last_name,
             email: Faker::Internet.email,
-            guest_type: 'guest'
+            guest_type: "guest"
           )
         )
       end

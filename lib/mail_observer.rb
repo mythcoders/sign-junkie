@@ -11,7 +11,7 @@ class MailObserver
 
   def log_delivered_email
     recipients.each do |recipient|
-      user = User.where('email ILIKE ?', recipient).first
+      user = User.where("email ILIKE ?", recipient).first
       next if user.nil?
 
       EmailLog.create!(

@@ -4,7 +4,7 @@ module SeatService
   # called when creating or updating a seat on a reservation
   class Updater
     NON_UPDATEABLE_ATTRIBUTES = %w[id identifier created_at updated_at refund_date cancel_date void_date workshop_id
-                                   workshop_name].freeze
+      workshop_name].freeze
 
     def initialize(seat, current_user, params)
       @seat = seat
@@ -46,7 +46,7 @@ module SeatService
     end
 
     def notify_guest_if_applicable
-      notify_guest if @seat.owner.type == 'adult' && !@seat.selection_made? && !@seat.persisted?
+      notify_guest if @seat.owner.type == "adult" && !@seat.selection_made? && !@seat.persisted?
     end
 
     def notify_guest

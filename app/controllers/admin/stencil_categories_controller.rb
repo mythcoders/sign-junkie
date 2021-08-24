@@ -6,7 +6,7 @@ module Admin
 
     def index
       @q = StencilCategory.ransack(params[:q])
-      @q.sorts = 'name asc' if @q.sorts.empty?
+      @q.sorts = "name asc" if @q.sorts.empty?
       @categories = @q.result(distinct: true).page(params[:page])
     end
 
@@ -18,28 +18,28 @@ module Admin
       @category = StencilCategory.new(stencil_params)
 
       if @category.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_stencil_categories_path
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @category.update(stencil_params)
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_stencil_categories_path
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @category.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_stencil_categories_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to edit_admin_stencil_category_path(@category)
       end
     end

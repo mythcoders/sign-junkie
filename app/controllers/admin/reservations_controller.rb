@@ -6,15 +6,15 @@ module Admin
 
     def cancel
       ReservationCancelWorker.perform_async(@reservation.id)
-      flash[:info] = t('order.cancel.success')
+      flash[:info] = t("order.cancel.success")
       redirect_to admin_workshop_path(@reservation.workshop_id)
     end
 
     def forfeit
       if @reservation.update(forfeit_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
       else
-        flash[:error] = t('update.failure')
+        flash[:error] = t("update.failure")
       end
       redirect_to admin_workshop_path(@reservation.workshop_id)
     end
@@ -22,7 +22,7 @@ module Admin
     private
 
     def forfeit_params
-      { forfeit_deposit: true }
+      {forfeit_deposit: true}
     end
 
     def set_reservation

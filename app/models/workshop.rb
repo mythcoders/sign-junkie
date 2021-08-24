@@ -15,10 +15,10 @@ class Workshop < ApplicationRecord
 
   accepts_nested_attributes_for :projects
 
-  scope :upcoming, -> { where('end_date <= CURRENT_TIMESTAMP') }
+  scope :upcoming, -> { where("end_date <= CURRENT_TIMESTAMP") }
   scope :for_sale, lambda {
     where(is_for_sale: true)
-      .where('purchase_start_date <= CURRENT_TIMESTAMP AND start_date >= CURRENT_TIMESTAMP')
+      .where("purchase_start_date <= CURRENT_TIMESTAMP AND start_date >= CURRENT_TIMESTAMP")
   }
 
   validates_presence_of :name
@@ -34,19 +34,19 @@ class Workshop < ApplicationRecord
 
   def seat_purchaseable?
     return false unless is_for_sale? &&
-                        projects.count.positive? &&
-                        Time.zone.now.between?(purchase_start_date, purchase_end_date) &&
-                        single_seats_allowed? &&
-                        seats_available.positive?
+      projects.count.positive? &&
+      Time.zone.now.between?(purchase_start_date, purchase_end_date) &&
+      single_seats_allowed? &&
+      seats_available.positive?
 
     true
   end
 
   def reservation_purchaseable?
     return false unless is_for_sale &&
-                        projects.count.positive? &&
-                        reservations_allowed? &&
-                        Time.zone.now.between?(purchase_start_date, booking_deadline)
+      projects.count.positive? &&
+      reservations_allowed? &&
+      Time.zone.now.between?(purchase_start_date, booking_deadline)
     return false if seats_available <= reservation_minimum_seats
     return false if reservations.any? && !multiple_reservations_allowed?
 
@@ -58,7 +58,7 @@ class Workshop < ApplicationRecord
   end
 
   def name_with_date
-    "#{start_date.strftime('%-m/%-d/%Y')} - #{name}"
+    "#{start_date.strftime("%-m/%-d/%Y")} - #{name}"
   end
 
   private
@@ -67,6 +67,6 @@ class Workshop < ApplicationRecord
     return unless workshop_type_id_changed?
     return unless reservations.any? || seats.any?
 
-    errors.add(:workshop_type_id, 'not allowed to be changed if reservations or seats exist')
+    errors.add(:workshop_type_id, "not allowed to be changed if reservations or seats exist")
   end
 end

@@ -11,9 +11,9 @@ module SeatWizardNavLink
     with_content_areas :body
 
     def css_class
-      css = 'nav-link'
-      css += ' disabled' if @disabled
-      css += ' active' if @active
+      css = "nav-link"
+      css += " disabled" if @disabled
+      css += " active" if @active
       css
     end
   end

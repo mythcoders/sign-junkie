@@ -12,29 +12,29 @@ module Admin
       @credit = CustomerCredit.new(create_params)
 
       if @credit.save
-        flash['success'] = t('create.success')
+        flash["success"] = t("create.success")
         CustomerMailer.with(customer_id: @credit.customer.id, gift_amount: @credit.balance).gift_card.deliver_later
         redirect_to admin_customer_path @credit.customer
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @credit.update(update_params)
-        flash['success'] = t('update.success')
+        flash["success"] = t("update.success")
         redirect_to admin_customer_path @credit.customer
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @credit.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_customer_path @credit.customer
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_customer_credit_path(@credit)
       end
     end

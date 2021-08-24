@@ -17,7 +17,7 @@ Rails.application.configure do
 
   # end
 
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], namespace: ENV['REDIS_NAMESPACE'] }
+  config.cache_store = :redis_cache_store, {url: ENV["REDIS_URL"], namespace: ENV["REDIS_NAMESPACE"]}
   config.action_controller.perform_caching = true
 
   # config.action_mailer.perform_deliveries = false
@@ -26,7 +26,7 @@ Rails.application.configure do
   config.action_mailer.asset_host = "http://#{Apollo.env_url(protocol: false)}"
   config.action_mailer.default_url_options = {
     host: Apollo.env_url(protocol: false),
-    protocol: 'https://'
+    protocol: "https://"
   }
 
   config.active_record.verbose_query_logs = true

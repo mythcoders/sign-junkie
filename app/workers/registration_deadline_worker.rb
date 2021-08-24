@@ -14,16 +14,16 @@ class RegistrationDeadlineWorker
       if status.total.positive?
         Rails.logger.debug "RegistrationDeadlineWorker started batch #{batch.bid}"
       else
-        on_success(status, 'reservation_id' => reservation.id)
+        on_success(status, "reservation_id" => reservation.id)
       end
     end
   end
 
   def on_success(status, options)
-    Rails.logger.debug "RegistrationDeadlineWorker#on_success - #{options['reservation_id']}"
-    Rails.logger.warning 'Sidekiq batch has failures' if status.failures != 0
+    Rails.logger.debug "RegistrationDeadlineWorker#on_success - #{options["reservation_id"]}"
+    Rails.logger.warning "Sidekiq batch has failures" if status.failures != 0
 
-    reservation = Reservation.find(options['reservation_id'])
+    reservation = Reservation.find(options["reservation_id"])
     if reservation.voidable?
       Rails.logger.debug "checked reservation #{reservation.id} - ReservationVoidWorker"
       ReservationVoidWorker.perform_async(reservation.id)
@@ -38,8 +38,8 @@ class RegistrationDeadlineWorker
 
   def reservations(as_of = Time.zone.yesterday)
     Reservation.active
-               .joins(:workshop)
-               .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)
+      .joins(:workshop)
+      .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)
   end
 
   def create_void_seats_batch(reservation)

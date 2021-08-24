@@ -1,42 +1,19 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
+.auto-deploy:
+  image: "registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image:v2.12.0"
+
 variables:
   CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-  LICENSE_MANAGEMENT_DISABLED: 1
-  CODE_QUALITY_DISABLED: 1
-  ELASTIC_APM_ACTIVE: "false"
 
 build:
   stage: build
   before_script:
     - docker login ghcr.io --username $GITHUB_PACKAGES_USERNAME --password $GITHUB_PACKAGES_PASSWORD
-    - docker pull ghcr.io/mythcoders/gaia:latest
+    - docker pull ghcr.io/mythcoders/gaia-ruby2.7:latest
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
-
-test:
-  stage: test
-  needs: ["build"]
-  image: $CONTAINER_IMAGE
-  services:
-    - postgres:latest
-  variables:
-    RAILS_ENV: test
-    PAYMENT_ENV: sandbox
-    STORAGE_BUCKET: mcdig-rvstg-com1
-    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
-    ELASTIC_APM_ACTIVE: "false"
-  before_script:
-    - bundle exec rails db:setup
-  script:
-    - ELASTIC_APM_ACTIVE=false ASSETS_PRECOMPILE=1 SECRET_KEY_BASE=1 RAILS_ENV=test bundle exec rake assets:precompile
-    - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
-  artifacts:
-    paths:
-      - rspec.xml
-    reports:
-      junit: rspec.xml
 
 review:
   stage: review

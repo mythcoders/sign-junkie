@@ -15,7 +15,8 @@
         = render partial: "layouts/partials/alerts"
         = yield
         %footer.text-muted.text-center.pt-5.small.mb-3
-          = "\u00A9 #{Time.zone.today.year} MythCoders, LLC."
+          %a.text-muted{href: 'https://mythcoders.com', target: '_blank'}
+            = "\u00A9 MythCoders #{Time.zone.today.year}"
           %br
           %span
             Made with

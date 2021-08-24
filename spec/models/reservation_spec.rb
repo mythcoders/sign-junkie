@@ -1,65 +1,65 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Reservation, type: :model do
   subject { create(:reservation) }
 
-  describe '#may_add_seat?' do
+  describe "#may_add_seat?" do
   end
 
-  describe '#can_add_seat?' do
+  describe "#can_add_seat?" do
   end
 
-  describe '#payment_deadline' do
+  describe "#payment_deadline" do
   end
 
-  describe '#minimum_seats' do
+  describe "#minimum_seats" do
   end
 
-  describe '#maximum_seats' do
+  describe "#maximum_seats" do
   end
 
-  describe '#host?' do
+  describe "#host?" do
   end
 
-  describe '#paid_by_host?' do
-    context 'when to be paid by host' do
-      let(:payment_plan) { 'host' }
+  describe "#paid_by_host?" do
+    context "when to be paid by host" do
+      let(:payment_plan) { "host" }
     end
 
-    context 'when guests are responsible for paying' do
-      let(:payment_plan) { 'guest' }
+    context "when guests are responsible for paying" do
+      let(:payment_plan) { "guest" }
     end
   end
 
-  describe '#requirements_met?' do
+  describe "#requirements_met?" do
   end
 
-  describe '#remaining_seats_until_requirements_met' do
+  describe "#remaining_seats_until_requirements_met" do
   end
 
-  describe '#minimum_met?' do
+  describe "#minimum_met?" do
   end
 
-  describe '#remaining_seats_until_minimum_met' do
+  describe "#remaining_seats_until_minimum_met" do
   end
 
-  describe '#remaining_seats' do
+  describe "#remaining_seats" do
   end
 
-  describe '#balance' do
+  describe "#balance" do
   end
 
-  describe '#unpaid_balance' do
+  describe "#unpaid_balance" do
   end
 
-  describe '#unpaid_seats' do
+  describe "#unpaid_seats" do
   end
 
-  describe '#active_seats' do
+  describe "#active_seats" do
   end
 
-  describe '#paid_seats' do
+  describe "#paid_seats" do
   end
 end

@@ -4,24 +4,24 @@ class Initial < ActiveRecord::Migration[5.2]
   def change
     # Core module
     create_table :users do |t|
-      t.string   :first_name, null: false, limit: 50
-      t.string   :last_name, null: false, limit: 50
-      t.string   :role, null: false, default: 'customer'
-      t.string   :email, null: false, default: ''
-      t.string   :encrypted_password, null: false, default: ''
-      t.string   :reset_password_token
+      t.string :first_name, null: false, limit: 50
+      t.string :last_name, null: false, limit: 50
+      t.string :role, null: false, default: "customer"
+      t.string :email, null: false, default: ""
+      t.string :encrypted_password, null: false, default: ""
+      t.string :reset_password_token
       t.datetime :reset_password_sent_at
       t.datetime :remember_created_at
-      t.integer  :sign_in_count, default: 0, null: false
+      t.integer :sign_in_count, default: 0, null: false
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
-      t.inet     :current_sign_in_ip
-      t.inet     :last_sign_in_ip
-      t.string   :confirmation_token
+      t.inet :current_sign_in_ip
+      t.inet :last_sign_in_ip
+      t.string :confirmation_token
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
-      t.string   :unconfirmed_email
-      t.integer  :failed_attempts, default: 0, null: false
+      t.string :unconfirmed_email
+      t.integer :failed_attempts, default: 0, null: false
       t.datetime :locked_at
       t.timestamps null: false
     end

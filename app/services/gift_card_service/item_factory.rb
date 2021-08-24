@@ -13,14 +13,14 @@ module GiftCardService
 
     def perform
       ItemDescription.new(item_type: :gift_card,
-                          identifier: SecureRandom.uuid,
-                          nontaxable_amount: @params.amount,
-                          taxable_amount: 0.00,
-                          owner: {
-                            first_name: @params.first_name,
-                            last_name: @params.last_name,
-                            email: @params.email
-                          })
+        identifier: SecureRandom.uuid,
+        nontaxable_amount: @params.amount,
+        taxable_amount: 0.00,
+        owner: {
+          first_name: @params.first_name,
+          last_name: @params.last_name,
+          email: @params.email
+        })
     end
   end
 end

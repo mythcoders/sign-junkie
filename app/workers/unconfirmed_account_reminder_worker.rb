@@ -15,13 +15,13 @@ class UnconfirmedAccountReminderWorker
 
   def unconfirmed_signups(as_of = Time.zone.today)
     User.customers
-        .where('confirmation_token IS NOT NULL')
-        .where("date_trunc('day', confirmation_sent_at + interval '48 hours') = date_trunc('day', ?::date)", as_of)
+      .where("confirmation_token IS NOT NULL")
+      .where("date_trunc('day', confirmation_sent_at + interval '48 hours') = date_trunc('day', ?::date)", as_of)
   end
 
   def unconfirmed_invitations(as_of = Time.zone.today)
     User.customers
-        .where('invitation_token IS NOT NULL')
-        .where("date_trunc('day', invitation_sent_at + interval '72 hours') = date_trunc('day', ?::date)", as_of)
+      .where("invitation_token IS NOT NULL")
+      .where("date_trunc('day', invitation_sent_at + interval '72 hours') = date_trunc('day', ?::date)", as_of)
   end
 end

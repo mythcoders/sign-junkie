@@ -3,23 +3,23 @@
 module SystemInfo
   class << self
     def app_name
-      'Apollo'
+      "Apollo"
     end
 
     def developer
-      'MythCoders, LLC'
+      "MythCoders, LLC"
     end
 
     def developer_url
-      'https://www.mythcoders.com'
+      "https://www.mythcoders.com"
     end
 
     def support_url
-      'https://mythcoders.atlassian.net/servicedesk/customer/portal/2'
+      "https://mythcoders.atlassian.net/servicedesk/customer/portal/2"
     end
 
     def support_mail
-      'support@mythcoders.com'
+      "support@mythcoders.com"
     end
 
     def support_key
@@ -31,15 +31,15 @@ module SystemInfo
     end
 
     def modules
-      %w[core customer_portal diy_workshops sales].join(',')
+      %w[core customer_portal diy_workshops sales].join(",")
     end
 
     def release
-      Rails.root.join('RELEASE').read.chomp
+      Rails.root.join("RELEASE").read.chomp
     end
 
     def long_version
-      Rails.root.join('VERSION').read.chomp
+      Rails.root.join("VERSION").read.chomp
     end
 
     def version
@@ -47,9 +47,9 @@ module SystemInfo
     end
 
     def branch
-      value = Rails.root.join('BRANCH').read.chomp
-      if value.include?('refs/')
-        value.sub!(%r{refs/(heads/|tags/)}, '')
+      value = Rails.root.join("BRANCH").read.chomp
+      if value.include?("refs/")
+        value.sub!(%r{refs/(heads/|tags/)}, "")
       else
         value
       end
@@ -60,17 +60,17 @@ module SystemInfo
     end
 
     def prerelease?
-      release.include? '-'
+      release.include? "-"
     end
 
     def phase
-      prerelease? ? release.split('-').last : 'release'
+      prerelease? ? release.split("-").last : "release"
     end
 
     def license
       s = "#{ClientInfo.owner}\n"
       s << "Licensed\n"
-      s << '99/99/9999 - 99/99/9999'
+      s << "99/99/9999 - 99/99/9999"
       s
     end
   end

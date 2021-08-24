@@ -8,7 +8,7 @@ class InvoiceMailer < ApplicationMailer
 
   def receipt
     make_bootstrap_mail(to: "#{@invoice.customer.full_name} <#{@invoice.customer.email}>",
-                        subject: "Receipt for Order ##{@invoice.identifier}",
-                        template_name: 'receipt')
+      subject: "Receipt for Order ##{@invoice.identifier}",
+      template_name: "receipt")
   end
 end

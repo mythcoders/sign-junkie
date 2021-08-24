@@ -23,6 +23,6 @@ class PublicController < ApplicationController
   end
 
   def faq_file_path
-    Rails.root.join('lib', 'faq.yaml')
+    Rails.root.join("lib", "faq.yaml")
   end
 end

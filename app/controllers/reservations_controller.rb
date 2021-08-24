@@ -6,10 +6,10 @@ class ReservationsController < ApplicationController
 
   def index
     @reservations = Reservation
-                    .includes(seats: [:description])
-                    .attending_or_hosting(current_user.id)
-                    .order(created_at: :desc)
-                    .page(params[:page])
+      .includes(seats: [:description])
+      .attending_or_hosting(current_user.id)
+      .order(created_at: :desc)
+      .page(params[:page])
   end
 
   def show
@@ -18,7 +18,7 @@ class ReservationsController < ApplicationController
 
   def cancel
     ReservationCancelWorker.perform_async(@reservation.id)
-    flash[:info] = t('order.cancel.success')
+    flash[:info] = t("order.cancel.success")
     redirect_to reservations_path
   end
 
@@ -26,8 +26,8 @@ class ReservationsController < ApplicationController
 
   def set_reservation
     @reservation = Reservation
-                   .includes(seats: [:customer, { description: :invoice_item }])
-                   .attending_or_hosting(current_user.id)
-                   .find params[:id]
+      .includes(seats: [:customer, {description: :invoice_item}])
+      .attending_or_hosting(current_user.id)
+      .find params[:id]
   end
 end

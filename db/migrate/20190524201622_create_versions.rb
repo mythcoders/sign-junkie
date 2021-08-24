@@ -7,12 +7,12 @@ class CreateVersions < ActiveRecord::Migration[5.2]
     drop_table :audits
 
     create_table :versions do |t|
-      t.string   :item_type, null: false
-      t.integer  :item_id,   null: false, limit: 8
-      t.string   :event,     null: false
-      t.string   :whodunnit
-      t.jsonb    :object
-      t.jsonb    :object_changes
+      t.string :item_type, null: false
+      t.integer :item_id, null: false, limit: 8
+      t.string :event, null: false
+      t.string :whodunnit
+      t.jsonb :object
+      t.jsonb :object_changes
 
       # Known issue in MySQL: fractional second precision
       # -------------------------------------------------

@@ -7,7 +7,7 @@ module Admin
 
     def index
       @q = User.employees.ransack(params[:q])
-      @q.sorts = 'last_name asc' if @q.sorts.empty?
+      @q.sorts = "last_name asc" if @q.sorts.empty?
       @employees = @q.result(distinct: true).page(params[:page])
     end
 
@@ -19,21 +19,21 @@ module Admin
     def create
       @employee = User.invite!(employee_params.except(:id))
       if @employee
-        flash['success'] = t('create.success')
+        flash["success"] = t("create.success")
         redirect_to admin_employee_path @employee
       else
         disabled_roles
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @employee.update(employee_params)
-        flash['success'] = t('update.success')
+        flash["success"] = t("update.success")
         redirect_to admin_employee_path @employee
       else
         disabled_roles
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 

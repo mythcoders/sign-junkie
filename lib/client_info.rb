@@ -3,15 +3,15 @@
 module ClientInfo
   class << self
     def name
-      'Sign Junkie Workshop'
+      "Sign Junkie Workshop"
     end
 
     def owner
-      'Sign Junkie, LLC'
+      "Sign Junkie, LLC"
     end
 
     def address_1
-      '11235 Ridenour Rd'
+      "11235 Ridenour Rd"
     end
 
     def address_2
@@ -19,19 +19,19 @@ module ClientInfo
     end
 
     def state
-      'OH'
+      "OH"
     end
 
     def city
-      'Thornville'
+      "Thornville"
     end
 
     def zip_code
-      '43076-9690'
+      "43076-9690"
     end
 
     def domain
-      'signjunkieworkshop.com'
+      "signjunkieworkshop.com"
     end
 
     def contact_email
@@ -43,11 +43,11 @@ module ClientInfo
     end
 
     def instagram_link
-      'https://www.instagram.com/signjunkiediy/'
+      "https://www.instagram.com/signjunkiediy/"
     end
 
     def facebook_link
-      'https://www.facebook.com/signjunkieworkshop/'
+      "https://www.facebook.com/signjunkieworkshop/"
     end
   end
 end
