@@ -1,35 +1,27 @@
 # frozen_string_literal: true
 
-require 'sidekiq/pro/web'
+require "sidekiq"
+require "sidekiq-scheduler"
 
 redis_config = {
-  url: ENV['REDIS_URL'],
-  namespace: ENV['WORKER_REDIS_NAMESPACE'],
+  url: ENV["REDIS_URL"],
+  namespace: "#{ENV["REDIS_NAMESPACE"]}-sidekiq",
   network_timeout: 3
 }
 
-Sidekiq.default_worker_options = { retry: 3 }
-
 Sidekiq.configure_server do |config|
-  config.redis = redis_config
-  config.reliable_scheduler!
-  config.super_fetch!
+  config.log_formatter = Sidekiq::Logger::Formatters::JSON.new
+  config.redis = ConnectionPool.new(size: 25) { Redis.new(**redis_config) }
 
-  config.periodic do |mgr|
-    mgr.register('0 4 * * *', ReservationDepositRefundWorker)
-    mgr.register('15 4 * * *', RegistrationDeadlineWorker)
-    mgr.register('35 4 * * *', PaymentDeadlineWorker)
-    mgr.register('0 5 * * *', CartCleanupWorker)
-    mgr.register('0 6 * * *', AbandonedCartReminderWorker)
-    mgr.register('0 6 * * *', PaymentDeadlineReminderWorker)
-    mgr.register('0 6 * * *', RegistrationDeadlineReminderWorker)
-    mgr.register('0 6 * * *', UnconfirmedAccountReminderWorker)
+  # https://github.com/mperham/sidekiq/issues/4496#issuecomment-677838552
+  config.death_handlers << ->(job, exception) do
+    worker = job["wrapped"].safe_constantize
+    worker&.sidekiq_retries_exhausted_block&.call(job, exception)
   end
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = redis_config
+  config.redis = ConnectionPool.new(size: 5) { Redis.new(**redis_config) }
 end
 
-# Sidekiq::Client.reliable_push!
-# Sidekiq::Extensions.enable_delay!
+Sidekiq.default_worker_options = {retry: 3}

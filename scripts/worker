@@ -1,19 +1,27 @@
 #!/bin/bash
 
-echo 'Starting Apollo'
+# kill -3 Wait for child to finish processing then exit
 
-if [ "$1" == "stop" ]; then
-  echo "Halting androids..."
-  for f in tmp/pids/sidekiq*.pid; do
-    bundle exec sidekiqctl stop $f;
-  done
-else
-  echo "Starting androids..."
+if [ "$1" == "start" ]; then
+  echo '*** STARTING SIGN JUNKIE WORKERS ***'
 
   if [ -f "${APP_HOME}/tmp/pids/sidekiq.pid" ]; then
-    echo "Scans detected sidekiq.pid in sector 12 -- neutralizing"
+    echo "==> Flushing worker pid"
     rm -rf ${APP_HOME}/tmp/pids/sidekiq.pid
   fi
 
+  mkdir -p ${APP_HOME}/tmp/health_checks && touch ${APP_HOME}/tmp/health_checks/worker
   bundle exec sidekiq
+elif [ "$1" == "stop" ]; then
+  echo '*** STOPPING SIGN JUNKIE WORKERS ***'
+  for f in tmp/pids/sidekiq*.pid; do
+    echo "==> worker $f..."
+    bundle exec sidekiqctl stop $f;
+  done
+
+  rm -rf ${APP_HOME}/tmp/health_checks/worker
+  echo "==> Stopped!"
+else
+  echo "Unknown arg $1. Usage: $0 {start|stop}"
+  exit 1
 fi

@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.3'
+ruby '2.7.4'
 
 gem 'aasm'
 gem 'aws-sdk-s3'
@@ -41,10 +41,9 @@ gem 'sentry-ruby', '>= 4.2.0'
 gem 'sentry-sidekiq', '>= 4.2.0'
 
 # sidekiq
-gem 'redis-namespace'
-gem 'sidekiq', '~> 5.2'
-gem 'sidekiq_alive'
-gem 'sidekiq-ent', '~> 1.8.1'
+gem "redis-namespace"
+gem "sidekiq"
+gem "sidekiq-scheduler"
 
 source 'https://rubygems.pkg.github.com/mythcoders' do
   gem 'hermes'
@@ -56,14 +55,11 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'guard-rspec'
   gem 'rails-controller-testing'
-  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
-  gem 'rubocop'
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rspec_junit_formatter'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'standard'
   gem 'timecop'
 
   # development experience and debugging

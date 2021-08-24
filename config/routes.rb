@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'sidekiq-ent/web'
+require 'sidekiq/web'
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do

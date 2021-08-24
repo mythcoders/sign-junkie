@@ -1,16 +1,17 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
+.auto-deploy:
+  image: "registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image:v2.12.0"
+
 variables:
   CONTAINER_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-  LICENSE_MANAGEMENT_DISABLED: 1
-  CODE_QUALITY_DISABLED: 1
 
 build:
   stage: build
   before_script:
     - docker login ghcr.io --username $GITHUB_PACKAGES_USERNAME --password $GITHUB_PACKAGES_PASSWORD
-    - docker pull ghcr.io/mythcoders/gaia:latest
+    - docker pull ghcr.io/mythcoders/gaia-ruby2.7:latest
     - echo $CI_BUILD_REF_NAME > BRANCH
     - echo $CI_COMMIT_SHA > VERSION
 
