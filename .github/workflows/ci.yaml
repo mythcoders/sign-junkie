@@ -76,5 +76,10 @@ jobs:
       - name: setup database
         run: ./bin/rails db:setup
 
+      - name: precompile assets
+        env:
+          ASSETS_PRECOMPILE: 1
+        run: ./bin/rails assets:precompile
+
       - name: rspec
         run: ./scripts/cibuild rspec
