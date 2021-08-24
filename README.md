@@ -4,7 +4,7 @@ Sign Junkie Workshop is a website for Sign Junkie in Thornville, OH.
 
 ## Software stack
 
-- Ruby (MRI) 2.6.3
+- Ruby (MRI) 2.7.x
 - PostgreSQL
 - Redis 2.8+
 
@@ -16,5 +16,5 @@ Sign Junkie Workshop is a website for Sign Junkie in Thornville, OH.
 ## Getting Started
 
 1. Populate `master.key`
-2. Pull `mythcoders/gaia:latest` docker image
-3. Run `docker-compose up`
+2. Run `docker pull ghcr.io/mythcoders/gaia-ruby2.7:latest`
+3. Run `docker compose up -d`
