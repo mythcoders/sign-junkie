@@ -4,7 +4,7 @@ class StencilsController < ApplicationController
   before_action :set_stencil, only: %i[show]
 
   def index
-    @categories = StencilCategory.includes(stencils: [{ image_attachment: :blob }])
+    @categories = StencilCategory.includes(stencils: [{image_attachment: :blob}])
   end
 
   private

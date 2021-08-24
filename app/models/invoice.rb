@@ -3,16 +3,16 @@
 class Invoice < ApplicationRecord
   include AASM
   has_paper_trail
-  has_many :items, class_name: 'InvoiceItem', dependent: :restrict_with_error
+  has_many :items, class_name: "InvoiceItem", dependent: :restrict_with_error
   has_many :payments, dependent: :restrict_with_error
   has_many :refunds, dependent: :restrict_with_error
-  belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :customer, class_name: "User", foreign_key: "user_id"
 
   validates_presence_of :due_date
   validate :invoice_has_items
   accepts_nested_attributes_for :payments, :items
 
-  scope :recently_created, -> { where('created_at > ?', Time.zone.now - 24.hours) }
+  scope :recently_created, -> { where("created_at > ?", Time.zone.now - 24.hours) }
 
   aasm column: :status do
     state :draft, initial: true
@@ -59,6 +59,6 @@ class Invoice < ApplicationRecord
   private
 
   def invoice_has_items
-    errors.add(:base, I18n.t('cart.empty')) if items.empty?
+    errors.add(:base, I18n.t("cart.empty")) if items.empty?
   end
 end

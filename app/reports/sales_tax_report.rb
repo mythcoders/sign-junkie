@@ -44,7 +44,7 @@ class SalesTaxReport
   def purchased_items
     ItemDescription
       .joins(:invoice_item)
-      .where('invoice_items.created_at BETWEEN ? and ?', start_date, end_date)
+      .where("invoice_items.created_at BETWEEN ? and ?", start_date, end_date)
       .where(cancel_date: nil, void_date: nil, refund_date: nil)
   end
 
@@ -53,7 +53,7 @@ class SalesTaxReport
   end
 
   def next_tax_period
-    periods = TaxPeriod.where('start_date > ?', start_date).order(:start_date)
+    periods = TaxPeriod.where("start_date > ?", start_date).order(:start_date)
     @next_tax_period ||= periods.any? ? periods.first : nil
   end
 end

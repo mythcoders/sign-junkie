@@ -10,9 +10,9 @@ module WorkshopsHelper
   end
 
   def sold_out_text(workshop)
-    return 'BOOKED!' if private?(workshop)
+    return "BOOKED!" if private?(workshop)
 
-    'SOLD OUT!'
+    "SOLD OUT!"
   end
 
   def workshop_type_name(workshop)
@@ -37,13 +37,13 @@ module WorkshopsHelper
     if workshop.workshop_images.any?
       url_for workshop.workshop_images.first
     else
-      asset_path 'cover.jpg'
+      asset_path "cover.jpg"
     end
   end
 
   private
 
   def private?(workshop)
-    workshop.workshop_type.name.include? 'Private'
+    workshop.workshop_type.name.include? "Private"
   end
 end

@@ -6,7 +6,7 @@ module Admin
 
     def index
       @q = Addon.ransack(params[:q])
-      @q.sorts = 'name asc' if @q.sorts.empty?
+      @q.sorts = "name asc" if @q.sorts.empty?
       @addons = @q.result(distinct: true).page(params[:page])
     end
 
@@ -18,34 +18,34 @@ module Admin
       @addon = Addon.new(addon_params)
 
       if @addon.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_addon_path @addon
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @addon.update(addon_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_addon_path @addon
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def upload_images
       @addon.addon_images.attach(file_params)
-      flash['success'] = t('upload.success')
+      flash["success"] = t("upload.success")
       redirect_to admin_addon_path(@addon)
     end
 
     def destroy
       if @addon.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_addons_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_addon_path(@addon)
       end
     end

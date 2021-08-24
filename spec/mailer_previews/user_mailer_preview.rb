@@ -3,12 +3,12 @@
 class UserMailerPreview < ActionMailer::Preview
   # tested
   def invitation_instructions
-    UserMailer.invitation_instructions(User.first, 'faketoken')
+    UserMailer.invitation_instructions(User.first, "faketoken")
   end
 
   # tested
   def reset_password_instructions
-    UserMailer.reset_password_instructions(User.first, 'faketoken')
+    UserMailer.reset_password_instructions(User.first, "faketoken")
   end
 
   def email_changed
@@ -21,11 +21,11 @@ class UserMailerPreview < ActionMailer::Preview
 
   # ERROR!
   def unlock_instructions
-    UserMailer.unlock_instructions(User.first, 'faketoken')
+    UserMailer.unlock_instructions(User.first, "faketoken")
   end
 
   # tested
   def confirmation_instructions
-    UserMailer.confirmation_instructions(User.first, 'faketoken')
+    UserMailer.confirmation_instructions(User.first, "faketoken")
   end
 end

@@ -17,7 +17,7 @@ class InvoicesController < ApplicationController
 
   def new
     if @invoice.items.empty?
-      flash[:error] = t('cart.empty')
+      flash[:error] = t("cart.empty")
       redirect_to cart_index_path
     end
 
@@ -46,8 +46,8 @@ class InvoicesController < ApplicationController
 
   def build_invoice
     @invoice = InvoiceService::Factory.build(current_user,
-                                             params[:gift_cards],
-                                             created_at_param || Time.zone.now)
+      params[:gift_cards],
+      created_at_param || Time.zone.now)
   end
 
   def add_payment_to_invoice
@@ -56,10 +56,10 @@ class InvoicesController < ApplicationController
 
   def process_invoice
     if InvoiceService::Processor.perform(@invoice)
-      flash[:success] = t('order.placed.success')
+      flash[:success] = t("order.placed.success")
       redirect_to my_account_path
     else
-      flash[:error] = t('order.critical_failure')
+      flash[:error] = t("order.critical_failure")
       redirect_to cart_index_path
     end
   end

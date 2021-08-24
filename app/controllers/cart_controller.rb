@@ -8,9 +8,9 @@ class CartController < ApplicationController
   end
 
   def create
-    raise ProcessError, t('cart.add.failure') unless CartFactory.process!(current_user, cart_params)
+    raise ProcessError, t("cart.add.failure") unless CartFactory.process!(current_user, cart_params)
 
-    flash[:success] = t('cart.add.success')
+    flash[:success] = t("cart.add.success")
     redirect_to cart_index_path
   rescue ProcessError => e
     flash[:error] = e.message
@@ -19,9 +19,9 @@ class CartController < ApplicationController
 
   def destroy
     if Cart.remove!(current_user, params[:id])
-      flash[:success] = t('cart.update.success')
+      flash[:success] = t("cart.update.success")
     else
-      flash[:error] = t('destroy.failure')
+      flash[:error] = t("destroy.failure")
     end
 
     redirect_to cart_index_path

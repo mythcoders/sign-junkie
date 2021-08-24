@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-return if ENV['ASSETS_PRECOMPILE'].present?
+return if ENV["ASSETS_PRECOMPILE"].present?
 
 Sentry.init do |config|
   config.dsn = Rails.application.credentials.dig(:sentry, :private_dsn)

@@ -14,12 +14,12 @@ module ReservationService
 
     def perform
       ItemDescription.new(item_type: :reservation,
-                          identifier: SecureRandom.uuid,
-                          workshop_name: @workshop.name,
-                          workshop_id: @workshop.id,
-                          payment_plan: @params.payment_plan,
-                          nontaxable_amount: @workshop.reservation_price,
-                          taxable_amount: 0.00)
+        identifier: SecureRandom.uuid,
+        workshop_name: @workshop.name,
+        workshop_id: @workshop.id,
+        payment_plan: @params.payment_plan,
+        nontaxable_amount: @workshop.reservation_price,
+        taxable_amount: 0.00)
     end
   end
 end

@@ -37,7 +37,7 @@ class ItemDescription < ApplicationRecord
     elsif reservation?
       "Reservation for #{workshop_name}"
     elsif gift_card?
-      'Gift Card'
+      "Gift Card"
     else
       workshop_name
     end
@@ -64,7 +64,7 @@ class ItemDescription < ApplicationRecord
   end
 
   def confirmation_number
-    @confirmation_number ||= "#{id}#{identifier.split('-').first.upcase}"
+    @confirmation_number ||= "#{id}#{identifier.split("-").first.upcase}"
   end
 
   def active?
@@ -98,6 +98,6 @@ class ItemDescription < ApplicationRecord
   def guest_type
     # this check accomidates records created before v2102
     # In prior releases, the seat customer was the owner if no other owner was explicitily set
-    owner.nil? || owner.empty? ? 'self' : owner.type
+    owner.nil? || owner.empty? ? "self" : owner.type
   end
 end

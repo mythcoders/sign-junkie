@@ -5,7 +5,7 @@ module Admin
     def destroy
       image = ActiveStorage::Attachment.find(params[:id])
       image.purge
-      flash[:success] = 'Image deleted successfully!'
+      flash[:success] = "Image deleted successfully!"
       redirect_back(fallback_location: admin_dashboard_path)
     end
   end

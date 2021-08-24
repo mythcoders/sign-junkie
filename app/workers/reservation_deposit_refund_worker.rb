@@ -13,7 +13,7 @@ class ReservationDepositRefundWorker
   end
 
   def reservations
-    Reservation.includes(:workshop).where(workshops: { start_date: two_days_ago.all_day })
+    Reservation.includes(:workshop).where(workshops: {start_date: two_days_ago.all_day})
   end
 
   def two_days_ago

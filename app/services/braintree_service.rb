@@ -6,7 +6,7 @@ class BraintreeService < ApplicationService
   VoidError = Class.new(StandardError)
 
   def initialize
-    gateway_params = Rails.application.credentials.payment[ENV['PAYMENT_ENV'].to_sym]
+    gateway_params = Rails.application.credentials.payment[ENV["PAYMENT_ENV"].to_sym]
     @gateway ||= Braintree::Gateway.new(gateway_params)
 
     super
@@ -20,7 +20,7 @@ class BraintreeService < ApplicationService
     result = gateway.transaction.sale(
       payment_method_nonce: payment.auth_token,
       amount: payment.amount,
-      options: { submit_for_settlement: true }
+      options: {submit_for_settlement: true}
     )
 
     log_failed_transaction_and_raise!(result, PaymentError) unless result.success?
@@ -28,7 +28,7 @@ class BraintreeService < ApplicationService
   end
 
   def post_refund(payment, amount)
-    raise RefundError 'Incorrect refund method' if payment.gift_card?
+    raise RefundError "Incorrect refund method" if payment.gift_card?
 
     result = gateway.transaction.refund(payment.identifier, amount)
     log_failed_transaction_and_raise!(result, RefundError) unless result.success?
@@ -37,7 +37,7 @@ class BraintreeService < ApplicationService
   end
 
   def void!(payment)
-    raise VoidError 'Unvoidable payment type' if payment.gift_card?
+    raise VoidError "Unvoidable payment type" if payment.gift_card?
 
     result = gateway.transaction.void(payment.identifier)
     log_failed_transaction_and_raise!(result, VoidError) unless result.success?
@@ -63,22 +63,22 @@ class BraintreeService < ApplicationService
     error_message = extract_error_message_from_result(result)
 
     Sentry.set_extras error_message: error_message
-    Sentry.capture_message('Braintree Failure', level: :warning)
+    Sentry.capture_message("Braintree Failure", level: :warning)
     raise error_klass, error_message
   end
 
   def extract_error_message_from_result(result)
     case result.transaction.status
-    when 'processor_declined'
+    when "processor_declined"
       result.transaction.processor_response_text
-    when 'settlement_declined'
+    when "settlement_declined"
       result.transaction.processor_settlement_response_text
-    when 'gateway_rejected'
+    when "gateway_rejected"
       result.transaction.gateway_rejection_reason
     else
-      return result.errors.map(&:message).join(', ') if result.errors.any?
+      return result.errors.map(&:message).join(", ") if result.errors.any?
 
-      'Processor Network Unavailable'
+      "Processor Network Unavailable"
     end
   end
 end

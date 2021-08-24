@@ -2,15 +2,15 @@
 
 class Cart < ApplicationRecord
   has_paper_trail
-  belongs_to :customer, class_name: 'User', foreign_key: 'user_id'
-  belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id', dependent: :destroy
+  belongs_to :customer, class_name: "User", foreign_key: "user_id"
+  belongs_to :description, class_name: "ItemDescription", foreign_key: "item_description_id", dependent: :destroy
 
   scope :for, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
-  scope :as_of, ->(date_created) { where('created_at <= ?', date_created) }
-  scope :for_shop, ->(id) { includes(:description).where(item_descriptions: { workshop_id: id }) }
-  scope :seats, -> { includes(:description).where(item_descriptions: { item_type: 'seat' }) }
-  scope :reservations, -> { includes(:description).where(item_descriptions: { item_type: 'reservation' }) }
-  scope :non_gift_seat, -> { seats.where(item_descriptions: { gifted: false }) }
+  scope :as_of, ->(date_created) { where("created_at <= ?", date_created) }
+  scope :for_shop, ->(id) { includes(:description).where(item_descriptions: {workshop_id: id}) }
+  scope :seats, -> { includes(:description).where(item_descriptions: {item_type: "seat"}) }
+  scope :reservations, -> { includes(:description).where(item_descriptions: {item_type: "reservation"}) }
+  scope :non_gift_seat, -> { seats.where(item_descriptions: {gifted: false}) }
 
   delegate_missing_to :description
   validate :validate_can_book, on: :create

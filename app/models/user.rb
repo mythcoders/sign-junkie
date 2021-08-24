@@ -3,18 +3,18 @@
 class User < ApplicationRecord
   include Nameable
   has_paper_trail ignore: %i[current_sign_in_at last_sign_in_at sign_in_count
-                             last_sign_in_ip current_sign_in_ip failed_attempts
-                             encrypted_password reset_password_token confirmation_token]
+    last_sign_in_ip current_sign_in_ip failed_attempts
+    encrypted_password reset_password_token confirmation_token]
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :trackable, :validatable, :confirmable, :lockable, :timeoutable, :invitable
+    :trackable, :validatable, :confirmable, :lockable, :timeoutable, :invitable
 
   enum role: {
-    customer: 'customer',
-    employee: 'employee',
-    admin: 'admin',
-    operator: 'operator'
+    customer: "customer",
+    employee: "employee",
+    admin: "admin",
+    operator: "operator"
   }
-  has_many :credits, class_name: 'CustomerCredit'
+  has_many :credits, class_name: "CustomerCredit"
   has_many :carts
   has_many :email_logs, dependent: :destroy
   has_many :invoices, dependent: :restrict_with_error
@@ -24,9 +24,9 @@ class User < ApplicationRecord
   validates_presence_of :first_name, :last_name, :role
   validates :email, presence: true, uniqueness: true, email: true
 
-  scope :recently_created, -> { customers.where('created_at > ?', Time.zone.now - 24.hours) }
-  scope :customers, -> { where('role = ?', User.roles[:customer]) }
-  scope :employees, -> { where('role <> ?', User.roles[:customer]) }
+  scope :recently_created, -> { customers.where("created_at > ?", Time.zone.now - 24.hours) }
+  scope :customers, -> { where("role = ?", User.roles[:customer]) }
+  scope :employees, -> { where("role <> ?", User.roles[:customer]) }
   scope :with_items_in_cart, -> { joins(:carts).distinct }
 
   def self.system_admin
@@ -35,12 +35,12 @@ class User < ApplicationRecord
   end
 
   def self.find_or_invite(first_name, last_name, email)
-    user = User.where('email ILIKE ?', email).first
+    user = User.where("email ILIKE ?", email).first
     if user.nil?
       user = User.invite!(email: email,
-                          first_name: first_name,
-                          last_name: last_name,
-                          role: 'customer')
+        first_name: first_name,
+        last_name: last_name,
+        role: "customer")
     end
 
     user
@@ -68,13 +68,13 @@ class User < ApplicationRecord
 
   def status
     if locked_at.present?
-      { title: :locked, date: locked_at }
+      {title: :locked, date: locked_at}
     elsif confirmed_at.present?
-      { title: :confirmed, date: confirmed_at }
+      {title: :confirmed, date: confirmed_at}
     elsif invitation_sent_at.present?
-      { title: :invited, date: invitation_sent_at }
+      {title: :invited, date: invitation_sent_at}
     elsif confirmation_sent_at.present?
-      { title: :pending, date: confirmation_sent_at }
+      {title: :pending, date: confirmation_sent_at}
     end
   end
 end

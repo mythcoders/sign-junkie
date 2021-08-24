@@ -36,19 +36,19 @@ module ItemDescriptionDisplay
 
       def receipt(item)
         new(item: item,
-            icons: false,
-            status: false)
+          icons: false,
+          status: false)
       end
 
       def admin_report(item)
         new(item: item,
-            admin: true,
-            show_workshop: false,
-            icons: false,
-            linkable: false,
-            title: false,
-            show_reservation: false,
-            show_gift: false)
+          admin: true,
+          show_workshop: false,
+          icons: false,
+          linkable: false,
+          title: false,
+          show_reservation: false,
+          show_gift: false)
       end
     end
   end

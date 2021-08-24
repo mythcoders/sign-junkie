@@ -7,7 +7,7 @@ module Admin
 
     def index
       @q = TaxRate.ransack(params[:q])
-      @q.sorts = 'effective_date asc' if @q.sorts.empty?
+      @q.sorts = "effective_date asc" if @q.sorts.empty?
       @tax_rates = @q.result(distinct: true).page(params[:page])
     end
 
@@ -19,28 +19,28 @@ module Admin
       @tax_rate = TaxRate.new(filtered_params)
 
       if @tax_rate.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_tax_rates_path
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @tax_rate.update(filtered_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_tax_rates_path
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @tax_rate.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_tax_rates_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to edit_admin_tax_rate_path(@tax_rate)
       end
     end
@@ -66,7 +66,7 @@ module Admin
     def check_editable
       return if @tax_rate.editable?
 
-      flash[:error] = t('tax_rate.uneditable')
+      flash[:error] = t("tax_rate.uneditable")
       redirect_to admin_tax_rates_path
     end
   end

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'simplecov_env'
+require "simplecov_env"
 
-ENV['RAILS_ENV'] = 'test'
+ENV["RAILS_ENV"] = "test"
 
-require File.expand_path('../config/environment', __dir__)
-require 'rspec/rails'
-require 'devise'
-require 'view_component/test_helpers'
+require File.expand_path("../config/environment", __dir__)
+require "rspec/rails"
+require "devise"
+require "view_component/test_helpers"
 
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec/initializers/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+Dir[Rails.root.join("spec/initializers/**/*.rb")].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -25,7 +25,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
-  config.example_status_persistence_file_path = 'spec/examples.txt'
+  config.example_status_persistence_file_path = "spec/examples.txt"
   config.disable_monkey_patching!
 
   config.order = :random

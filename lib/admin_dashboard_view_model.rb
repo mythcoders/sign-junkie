@@ -18,13 +18,13 @@ class AdminDashboardViewModel
   end
 
   def sales_today
-    @sales_today ||= Payment.where('created_at > ?', Time.zone.now - 24.hours)
-                            .where.not(method: 'gift_card')
-                            .sum('amount - amount_refunded')
+    @sales_today ||= Payment.where("created_at > ?", Time.zone.now - 24.hours)
+      .where.not(method: "gift_card")
+      .sum("amount - amount_refunded")
   end
 
   def refunds_today
-    @refunds_today ||= Refund.where('created_at > ?', Time.zone.now - 24.hours).sum(:amount)
+    @refunds_today ||= Refund.where("created_at > ?", Time.zone.now - 24.hours).sum(:amount)
   end
 
   def upcoming_workshops

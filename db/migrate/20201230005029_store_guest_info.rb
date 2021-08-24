@@ -12,27 +12,27 @@ class StoreGuestInfo < ActiveRecord::Migration[6.0]
           email: item.email
         }
       elsif item.seat?
-        item.owner =  if item.for_child
-                        parent = User.find_by_email(item.email)
+        item.owner = if item.for_child
+          parent = User.find_by_email(item.email)
 
-                        {
-                          type: 'child',
-                          first_name: item.first_name,
-                          last_name: item.last_name,
-                          parent: {
-                            first_name: parent&.first_name,
-                            last_name: parent&.last_name,
-                            email: item.email
-                          }
-                        }
-                      else
-                        {
-                          type: 'adult',
-                          first_name: item.first_name,
-                          last_name: item.last_name,
-                          email: item.email
-                        }
-                      end
+          {
+            type: "child",
+            first_name: item.first_name,
+            last_name: item.last_name,
+            parent: {
+              first_name: parent&.first_name,
+              last_name: parent&.last_name,
+              email: item.email
+            }
+          }
+        else
+          {
+            type: "adult",
+            first_name: item.first_name,
+            last_name: item.last_name,
+            email: item.email
+          }
+        end
       end
 
       item.save!

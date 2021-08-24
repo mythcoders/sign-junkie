@@ -12,13 +12,13 @@ Rails.application.configure do
   }
 
   config.assets.compile = true
-  config.assets.prefix = 'assets_test'
+  config.assets.prefix = "assets_test"
   config.action_controller.asset_host = "file://#{::Rails.root}/public"
   config.serve_static_assets = true
   config.assets.js_compressor = Uglifier.new(harmony: true)
   config.assets.css_compressor = :sass
 
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
   config.require_master_key = true
   config.action_dispatch.show_exceptions = false
@@ -27,7 +27,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.default_url_options = {
-    host: 'http://apollo.localhost'
+    host: "http://apollo.localhost"
   }
 
   config.active_support.deprecation = :stderr

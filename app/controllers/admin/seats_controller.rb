@@ -6,13 +6,13 @@ module Admin
 
     def cancel
       SeatCancelWorker.perform_async(@seat.id)
-      flash[:info] = t('order.cancel.success')
+      flash[:info] = t("order.cancel.success")
       redirect_to admin_workshop_path(@seat.workshop_id)
     end
 
     def remind
       SeatMailer.with(seat_id: @seat.id).remind.deliver_later
-      flash[:success] = 'Reminder sent'
+      flash[:success] = "Reminder sent"
       redirect_to admin_workshop_path(@seat.workshop_id)
     end
 

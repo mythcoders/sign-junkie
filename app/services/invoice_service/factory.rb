@@ -27,14 +27,14 @@ module InvoiceService
 
     def new_invoice
       Invoice.new(user_id: @user.id,
-                  status: :draft,
-                  due_date: Time.zone.today,
-                  created_at: @created_at)
+        status: :draft,
+        due_date: Time.zone.today,
+        created_at: @created_at)
     end
 
     def new_gift_card_payment
-      Payment.new(method: 'gift_card',
-                  amount: [@invoice.grand_total, @user.credit_balance].min)
+      Payment.new(method: "gift_card",
+        amount: [@invoice.grand_total, @user.credit_balance].min)
     end
 
     def can_pay_with_gift_card?

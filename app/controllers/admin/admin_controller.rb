@@ -5,19 +5,19 @@ module Admin
     before_action :authenticate_user!
     before_action :authorize_user!
     before_action :set_theme
-    layout 'admin'
+    layout "admin"
 
     def authorize_user!
       redirect_to new_user_session_path unless current_user.astronaut?
     end
 
     def set_theme
-      @admin_ui_theme = case request.cookies['apollo_ui_theme']
-                        when 'dark'
-                          'admin_dark'
+      @admin_ui_theme = case request.cookies["apollo_ui_theme"]
+                        when "dark"
+                          "admin_dark"
                         else
-                          'admin'
-                        end
+                          "admin"
+      end
     end
   end
 end

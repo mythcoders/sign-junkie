@@ -14,7 +14,7 @@ module CartService
 
     def similar_cart_items?
       case @item.guest_type
-      when 'other', 'child'
+      when "other", "child"
         check_cart_seats_by_first_and_last_name
       else
         check_cart_seats_by_user seat_owner

@@ -26,11 +26,11 @@ module SeatService
 
     def base_item
       ItemDescription.new(item_type: :seat,
-                          identifier: SecureRandom.uuid,
-                          workshop_name: @workshop.name,
-                          workshop_id: @workshop.id,
-                          taxable_amount: 0.00,
-                          nontaxable_amount: 0.00)
+        identifier: SecureRandom.uuid,
+        workshop_name: @workshop.name,
+        workshop_id: @workshop.id,
+        taxable_amount: 0.00,
+        nontaxable_amount: 0.00)
     end
 
     def project
@@ -61,7 +61,7 @@ module SeatService
     def apply_owner
       @item.owner = SeatService::GuestOwnerParser.parse(@params)
       @item.seat_preference = @params.seat_request
-      @item.gifted = @params.guest_type != 'self'
+      @item.gifted = @params.guest_type != "self"
     end
   end
 end

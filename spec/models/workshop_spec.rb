@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Workshop, type: :model do
   it { should validate_presence_of :name }
 
-  context 'when for sale' do
+  context "when for sale" do
     subject { create(:workshop, :for_sale) }
     it { should validate_presence_of :purchase_start_date }
     it { should validate_presence_of :purchase_end_date }
@@ -27,20 +27,20 @@ RSpec.describe Workshop, type: :model do
   # describe '.seats_available' do
   # end
 
-  describe '#deleteable?' do
+  describe "#deleteable?" do
     let(:workshop) { create(:bookable_workshop) }
     subject { workshop.deleteable? }
 
-    context 'when no seats or reservations' do
+    context "when no seats or reservations" do
       it { is_expected.to be(true) }
     end
 
-    context 'when seats have already been purchased' do
+    context "when seats have already been purchased" do
       let!(:seat) { create(:seat, workshop: workshop) }
 
       it { is_expected.to be(false) }
 
-      context 'but they are canclled' do
+      context "but they are canclled" do
         before do
           seat.update(cancel_date: Time.zone.now)
         end
@@ -48,7 +48,7 @@ RSpec.describe Workshop, type: :model do
         it { is_expected.to be(true) }
       end
 
-      context 'but are voided' do
+      context "but are voided" do
         before do
           seat.update(void_date: Time.zone.now)
         end
@@ -57,12 +57,12 @@ RSpec.describe Workshop, type: :model do
       end
     end
 
-    context 'when reservations have already been purchased' do
+    context "when reservations have already been purchased" do
       let!(:reservation) { create(:reservation, workshop: workshop) }
 
       it { is_expected.to be(false) }
 
-      context 'but are canclled' do
+      context "but are canclled" do
         before do
           reservation.update(cancel_date: Time.zone.now)
         end
@@ -70,7 +70,7 @@ RSpec.describe Workshop, type: :model do
         it { is_expected.to be(true) }
       end
 
-      context 'but are voided' do
+      context "but are voided" do
         before do
           reservation.update(void_date: Time.zone.now)
         end

@@ -4,21 +4,21 @@ class Reservation < ApplicationRecord
   has_paper_trail
   has_many :seats
   belongs_to :workshop
-  belongs_to :host, class_name: 'User', foreign_key: 'user_id'
-  belongs_to :description, class_name: 'ItemDescription', foreign_key: 'item_description_id'
+  belongs_to :host, class_name: "User", foreign_key: "user_id"
+  belongs_to :description, class_name: "ItemDescription", foreign_key: "item_description_id"
   delegate_missing_to :description
   accepts_nested_attributes_for :description
 
-  scope :active, -> { includes(:description).where(item_descriptions: { void_date: nil, cancel_date: nil }) }
+  scope :active, -> { includes(:description).where(item_descriptions: {void_date: nil, cancel_date: nil}) }
   scope :for_user, ->(user) { where(user_id: user.id).order(:id) unless user.nil? }
-  scope :paid_by_guest, -> { includes(:description).where(item_descriptions: { payment_plan: 'guest' }) }
+  scope :paid_by_guest, -> { includes(:description).where(item_descriptions: {payment_plan: "guest"}) }
   scope :for_shop, ->(id) { where(workshop_id: id) }
-  scope :paid_by_host, -> { includes(:description).where(item_descriptions: { payment_plan: 'host' }) }
-  scope :attending, ->(user_id) { joins(:seats).where(seats: { user_id: user_id }) }
+  scope :paid_by_host, -> { includes(:description).where(item_descriptions: {payment_plan: "host"}) }
+  scope :attending, ->(user_id) { joins(:seats).where(seats: {user_id: user_id}) }
   scope :hosting, ->(user_id) { where(user_id: user_id) }
   scope :attending_or_hosting, lambda { |user_id|
     left_outer_joins(:seats)
-      .where('reservations.user_id = :user_id OR seats.user_id = :user_id', user_id: user_id)
+      .where("reservations.user_id = :user_id OR seats.user_id = :user_id", user_id: user_id)
       .distinct
   }
 
@@ -47,7 +47,7 @@ class Reservation < ApplicationRecord
   end
 
   def paid_by_host?
-    payment_plan == 'host'
+    payment_plan == "host"
   end
 
   def requirements_met?

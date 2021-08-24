@@ -9,8 +9,8 @@ module ApplicationHelper
   end
 
   def sidebar_classes
-    ['navbar', 'navbar-vertical', 'fixed-left', 'navbar-expand-md',
-     (@admin_ui_theme == 'admin' ? 'navbar-dark' : 'navbar-light')]
+    ["navbar", "navbar-vertical", "fixed-left", "navbar-expand-md",
+      (@admin_ui_theme == "admin" ? "navbar-dark" : "navbar-light")]
   end
 
   # l if present
@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def human_boolean(boolean)
-    boolean ? 'Yes' : 'No'
+    boolean ? "Yes" : "No"
   end
 
   def special_date(date)
@@ -27,7 +27,7 @@ module ApplicationHelper
   end
 
   def short_date(date)
-    date.strftime('%-m%-d/%Y')
+    date.strftime("%-m%-d/%Y")
   end
 
   # Handles HTML title element
@@ -39,17 +39,17 @@ module ApplicationHelper
 
   def date_out(start_date, end_date)
     if start_date.day == end_date.day
-      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%I:%M %p')}"
+      "#{start_date.strftime("%b %d, %Y %I:%M %p")} - #{end_date.strftime("%I:%M %p")}"
     else
-      "#{start_date.strftime('%b %d, %Y %I:%M %p')} - #{end_date.strftime('%b %d, %Y %I:%M %p')}"
+      "#{start_date.strftime("%b %d, %Y %I:%M %p")} - #{end_date.strftime("%b %d, %Y %I:%M %p")}"
     end
   end
 
   def short_date_out(start_date, end_date)
     if start_date.day == end_date.day
-      start_date.strftime('%b %d, %Y')
+      start_date.strftime("%b %d, %Y")
     else
-      "#{start_date.strftime('%b %d, %Y')} - #{end_date.strftime('%b %d, %Y')}"
+      "#{start_date.strftime("%b %d, %Y")} - #{end_date.strftime("%b %d, %Y")}"
     end
   end
 
@@ -73,7 +73,7 @@ module ApplicationHelper
 
   # Renders a list of error messages
   def render_error_messages(errors)
-    html = ''
+    html = ""
     if errors.present?
       html += "<div id='errorExplanation' class='text-danger'><ul>\n"
       errors.each do |error|

@@ -5,6 +5,6 @@ FactoryBot.define do
     association :workshop, factory: :bookable_workshop
     association :description, factory: :reservation_item
     host
-    payment_plan { 'host' }
+    payment_plan { "host" }
   end
 end

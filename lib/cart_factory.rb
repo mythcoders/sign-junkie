@@ -25,9 +25,9 @@ class CartFactory
       add_unpaid_reservation_seats
     elsif @params[:seat_id]
       add_existing_seat
-    elsif @params[:type] == 'gift_card'
+    elsif @params[:type] == "gift_card"
       add_gift_card
-    elsif @params[:type] == 'reservation'
+    elsif @params[:type] == "reservation"
       add_reservation
     else
       add_seat
@@ -47,7 +47,7 @@ class CartFactory
       Cart.create! customer: @current_user, item_description_id: seat.item_description_id
     # rescue ProcessError
     #   # nothing
-    rescue StandardError => e
+    rescue => e
       Sentry.capture_message e.message, level: :warning
     end
   end

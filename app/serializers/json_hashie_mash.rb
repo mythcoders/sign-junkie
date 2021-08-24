@@ -9,7 +9,7 @@ class JsonHashieMash < Hashie::Mash
 
     # takes the database value and returns an instance of the specified class
     def load(input)
-      hash = ActiveSupport::JSON.decode(input || '{}')
+      hash = ActiveSupport::JSON.decode(input || "{}")
       new(hash || {})
     end
   end

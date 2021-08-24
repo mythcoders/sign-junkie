@@ -21,7 +21,7 @@ module InvoiceService
           @invoice.status = :paid
           @invoice.save!
         else
-          Sentry.capture_exception(@invoice, transaction: 'Invoice creation failed')
+          Sentry.capture_exception(@invoice, transaction: "Invoice creation failed")
 
           raise ActiveRecord::Rollback
         end
@@ -47,8 +47,8 @@ module InvoiceService
         if payment.gift_card?
           # TODO: refunded back to the original credit
           CustomerCredit.create!(customer: payment.invoice.customer,
-                                 starting_amount: payment.amount,
-                                 balance: payment.amount)
+            starting_amount: payment.amount,
+            balance: payment.amount)
         else
           BraintreeService.new.void! payment
         end
@@ -86,15 +86,15 @@ module InvoiceService
     # rubocop:enable Metrics/AbcSize
 
     def send_gift_card_email(item)
-      recipient = User.where('email ILIKE ?', item.owner.email).first
+      recipient = User.where("email ILIKE ?", item.owner.email).first
 
       CustomerMailer.with(customer_id: recipient.id, gift_amount: item.item_amount).gift_card.deliver_later
     end
 
     def should_notify_purchased_seat?(item)
-      item.guest_type == 'adult' ||
-        (item.guest_type == 'child' && item.owner.parent.email != @invoice.customer.email) ||
-        (item.guest_type == 'guest' && item.owner.email != @invoice.customer.email)
+      item.guest_type == "adult" ||
+        (item.guest_type == "child" && item.owner.parent.email != @invoice.customer.email) ||
+        (item.guest_type == "guest" && item.owner.email != @invoice.customer.email)
     end
   end
 end

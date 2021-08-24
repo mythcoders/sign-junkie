@@ -19,11 +19,11 @@ module SeatWizard
     end
 
     def projects
-      @projects ||= if @seat.guest_type == 'child'
-                      @seat.workshop.projects.active
-                    else
-                      @seat.workshop.projects.where(only_for_children: false).active
-                    end
+      @projects ||= if @seat.guest_type == "child"
+        @seat.workshop.projects.active
+      else
+        @seat.workshop.projects.where(only_for_children: false).active
+      end
     end
 
     def project
@@ -37,16 +37,16 @@ module SeatWizard
     def form_attributes
       {
         method: @seat.persisted? ? :patch : :post,
-        'data-controller': 'seat-wizard--component seat-wizard-sidebar--component single-form-submit',
+        'data-controller': "seat-wizard--component seat-wizard-sidebar--component single-form-submit",
         'data-seat-wizard--component-addon-id-value': addon_value,
         'data-seat-wizard--component-guest-type-value': @seat.guest_type,
         'data-seat-wizard--component-project-value': project_value.to_json,
-        'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? 'now' : '',
+        'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? "now" : "",
         'data-seat-wizard--component-stencils-value': unparsed_stencils,
         'data-seat-wizard--component-workshop-id-value': workshop.id,
         'data-seat-wizard--component-for-reservation-value': reservation_mode?,
-        'data-seat-wizard--component-active-class': 'active',
-        'data-seat-wizard--component-disabled-class': 'disabled'
+        'data-seat-wizard--component-active-class': "active",
+        'data-seat-wizard--component-disabled-class': "disabled"
       }
     end
 
@@ -63,7 +63,7 @@ module SeatWizard
     end
 
     def project_value
-      @seat.selection_made? ? { id: @seat.project_id, addons: project.addons.active.any?, preselected: true } : {}
+      @seat.selection_made? ? {id: @seat.project_id, addons: project.addons.active.any?, preselected: true} : {}
     end
 
     def addon_value
@@ -72,15 +72,15 @@ module SeatWizard
 
     # converts the database value to something that's in the HTML input field
     def unparsed_stencils
-      return '' unless @seat.stencils
+      return "" unless @seat.stencils
 
       @seat.stencils.collect do |s|
-        if s['id'].zero?
+        if s["id"].zero?
           "#{SeatWizard::StencilParser::PLAIN_STENCIL_KEY}|::"
         else
-          "#{s['id']}|#{s['personalization']}"
+          "#{s["id"]}|#{s["personalization"]}"
         end
-      end.join('::')
+      end.join("::")
     end
   end
 end

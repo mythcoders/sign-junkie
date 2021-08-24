@@ -1,24 +1,26 @@
 # frozen_string_literal: true
 
-require 'open-uri'
+require "open-uri"
 
 def random_image
-  puts 'Fetching backup image'
+  puts "Fetching backup image"
   open("https://robohash.org/#{Faker::Lorem.characters(number: 12)}.png?set=set4")
-rescue StandardError
-  puts 'Fatal error!'
+rescue
+  puts "Fatal error!"
 end
 
+# standard:disable Security/Open
 def fetch_new_image
-  puts 'Fetching image'
+  puts "Fetching image"
   open(Faker::Avatar.image)
 rescue OpenURI::HTTPError
-  puts 'HTTP error fetching image'
+  puts "HTTP error fetching image"
   random_image
-rescue StandardError
-  puts 'Generic error fetching image'
+rescue
+  puts "Generic error fetching image"
   random_image
 end
+# standard:enable Security/Open
 
 def new_image
   {

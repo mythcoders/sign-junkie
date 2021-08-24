@@ -6,7 +6,7 @@ module Admin
 
     def index
       @q = Announcement.ransack(params[:q])
-      @q.sorts = 'start_at asc' if @q.sorts.empty?
+      @q.sorts = "start_at asc" if @q.sorts.empty?
       @announcements = @q.result(distinct: true).page(params[:page])
     end
 
@@ -18,28 +18,28 @@ module Admin
       @announcement = Announcement.new(announcement_params)
 
       if @announcement.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_announcement_path @announcement
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @announcement.update(announcement_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_announcement_path @announcement
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @announcement.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_announcements_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_announcement_path(@announcement)
       end
     end

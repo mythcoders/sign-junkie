@@ -45,31 +45,31 @@ class ApplicationController < ActionController::Base
   def convert_datetime(value)
     return nil if value.blank?
 
-    Time.zone.strptime(value, t('time.formats.default'))
+    Time.zone.strptime(value, t("time.formats.default"))
   end
 
   def convert_date(value)
     return nil if value.blank?
 
-    Date.strptime(value, '%m-%d-%Y')
+    Date.strptime(value, "%m-%d-%Y")
   end
 
   def render_404
     respond_to do |format|
-      format.html { render file: 'public/404.html', status: 404 }
+      format.html { render file: "public/404.html", status: 404 }
       format.all { render nothing: true, status: 404 }
     end
   end
 
   def render_401
     respond_to do |format|
-      format.html { render file: 'public/401.html', status: 401 }
+      format.html { render file: "public/401.html", status: 401 }
       format.all { render nothing: true, status: 401 }
     end
   end
 
   def layout_by_resource
-    'devise' if devise_controller?
+    "devise" if devise_controller?
   end
 
   def after_sign_out_path_for(user)

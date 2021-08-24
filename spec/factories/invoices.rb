@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :invoice do
     customer
-    status { 'draft' }
+    status { "draft" }
     due_date { Time.zone.today }
 
     after(:build) do |invoice|
@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     trait :paid do
-      status { 'paid' }
+      status { "paid" }
 
       after(:create) do |invoice|
         create(:payment, invoice: invoice, amount: invoice.grand_total)

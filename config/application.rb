@@ -1,33 +1,33 @@
 # frozen_string_literal: true
 
-require_relative 'boot'
+require_relative "boot"
 
-require 'active_record/railtie'
-require 'active_storage/engine'
-require 'action_controller/railtie'
-require 'action_view/railtie'
-require 'action_mailer/railtie'
-require 'active_job/railtie'
-require 'action_cable/engine'
+require "active_record/railtie"
+require "active_storage/engine"
+require "action_controller/railtie"
+require "action_view/railtie"
+require "action_mailer/railtie"
+require "active_job/railtie"
+require "action_cable/engine"
 # require 'action_mailbox/engine'
-require 'action_text/engine'
+require "action_text/engine"
 # require 'rails/test_unit/railtie'
-require 'sprockets/railtie'
-require 'view_component/engine'
+require "sprockets/railtie"
+require "view_component/engine"
 
-require 'pinglish'
+require "pinglish"
 
 Bundler.require(*Rails.groups)
 
 module Apollo
   class Application < Rails::Application
-    require_dependency Rails.root.join('lib/apollo')
+    require_dependency Rails.root.join("lib/apollo")
 
     config.load_defaults 5.2 # Initialize generated Rails version
     config.autoloader = :zeitwerk
 
-    config.encoding = 'utf-8'
-    config.time_zone = 'Eastern Time (US & Canada)'
+    config.encoding = "utf-8"
+    config.time_zone = "Eastern Time (US & Canada)"
     config.public_file_server.enabled
     config.eager_load_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/spec/mailer_previews]
@@ -40,7 +40,7 @@ module Apollo
 
     # Storage
     # config.active_storage.variant_processor = :vips
-    config.active_storage.routes_prefix = '/storage'
+    config.active_storage.routes_prefix = "/storage"
 
     # Logging
     config.lograge.enabled = true

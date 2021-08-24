@@ -20,13 +20,13 @@ class PaymentDeadlineReminderWorker
 
   def reservations_paid_by_guest(as_of)
     Reservation.active.paid_by_guest
-               .joins(:workshop)
-               .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)
+      .joins(:workshop)
+      .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)
   end
 
   def reservations_paid_by_host(as_of)
     Reservation.active.paid_by_host
-               .joins(:workshop)
-               .where("date_trunc('day', workshops.start_date - interval '5 days') = date_trunc('day', ?::date)", as_of)
+      .joins(:workshop)
+      .where("date_trunc('day', workshops.start_date - interval '5 days') = date_trunc('day', ?::date)", as_of)
   end
 end

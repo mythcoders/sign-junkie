@@ -10,20 +10,20 @@ class RefundService < ApplicationService
     refund = Refund.new(invoice: item.invoice, amount: item.amount_refundable)
 
     success = if item.reservation? # && paid_with_card?
-                Rails.logger.debug 'Issuing refund via BrainTree'
-                issue_card_refund(item, refund)
-              else
-                Rails.logger.debug 'Issuing refund as credit'
-                issue_credit_refund(item, refund)
-              end
+      Rails.logger.debug "Issuing refund via BrainTree"
+      issue_card_refund(item, refund)
+    else
+      Rails.logger.debug "Issuing refund as credit"
+      issue_credit_refund(item, refund)
+    end
 
     if success
       item.refund_date = Time.zone.now
       item.save! && RefundMailer.with(refund_id: refund.id).issued.deliver_later
     else
       Sentry.set_extras refund: refund.attributes, item: item.attributes
-      Sentry.capture_exception('Unable to process refund', transaction: 'Post Refund')
-      raise ProcessError, 'Unable to process refund'
+      Sentry.capture_exception("Unable to process refund", transaction: "Post Refund")
+      raise ProcessError, "Unable to process refund"
     end
   end
 
@@ -56,8 +56,8 @@ class RefundService < ApplicationService
 
   def issue_credit_refund(_item, refund)
     refund.customer_credit = CustomerCredit.new(customer: refund.invoice.customer,
-                                                starting_amount: refund.amount,
-                                                balance: refund.amount)
+      starting_amount: refund.amount,
+      balance: refund.amount)
 
     remaining = refund.amount
     refund.invoice.payments.each do |payment|

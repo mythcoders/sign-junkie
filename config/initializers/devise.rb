@@ -2,7 +2,7 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-# rubocop:disable Metrics/LineLength
+# rubocop:disable Layout/LineLength
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -13,7 +13,7 @@ Devise.setup do |config|
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
-  config.parent_controller = 'TurboController'
+  config.parent_controller = "TurboController"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -22,7 +22,7 @@ Devise.setup do |config|
   config.mailer_sender = "#{ClientInfo.name} <notifications@#{ClientInfo.domain}>"
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'UserMailer'
+  config.mailer = "UserMailer"
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'Devise::Mailer' or 'ApplicationMailer'
@@ -31,7 +31,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -287,4 +287,4 @@ Devise.setup do |config|
   # When invite_for is 0 (the default), the invitation won't expire.
   # config.invite_for = 2.weeks
 end
-# rubocop:enable Metrics/LineLength
+# rubocop:enable Layout/LineLength

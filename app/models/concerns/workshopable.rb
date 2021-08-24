@@ -45,10 +45,10 @@ module Workshopable
 
   def reservation_maximum_seats
     reservation_maximum = if overridden_reservation_maximum.nil?
-                            workshop_type.default_reservation_maximum
-                          else
-                            overridden_reservation_maximum
-                          end
+      workshop_type.default_reservation_maximum
+    else
+      overridden_reservation_maximum
+    end
 
     reservation_maximum > total_seats ? total_seats : reservation_maximum
   end
@@ -78,7 +78,7 @@ module Workshopable
   end
 
   def seats_available
-    total_seats - seats.includes(:description).select(&:active?).count
+    total_seats - seats.includes(:description).count(&:active?)
   end
 
   def seating_availability

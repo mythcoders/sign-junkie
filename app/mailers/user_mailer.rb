@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class UserMailer < Devise::Mailer
-  layout 'mailer'
+  layout "mailer"
   default from: "#{ClientInfo.name} <notifications@#{ClientInfo.domain}>"
   default reply_to: "Martha Rusler <#{ClientInfo.admin_email}>"
-  default template_path: 'devise/mailer'
+  default template_path: "devise/mailer"
 
   def confirmation_instructions(record, token, opts = {})
     super

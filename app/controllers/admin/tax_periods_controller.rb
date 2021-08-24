@@ -6,7 +6,7 @@ module Admin
 
     def index
       @q = TaxPeriod.ransack(params[:q])
-      @q.sorts = 'start_date asc' if @q.sorts.empty?
+      @q.sorts = "start_date asc" if @q.sorts.empty?
       @tax_periods = @q.result(distinct: true).page(params[:page])
     end
 
@@ -18,28 +18,28 @@ module Admin
       @tax_period = TaxPeriod.new(filtered_params)
 
       if @tax_period.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_tax_periods_path
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @tax_period.update(filtered_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_tax_periods_path
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def destroy
       if @tax_period.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_tax_periods_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to edit_admin_tax_period_path(@tax_period)
       end
     end

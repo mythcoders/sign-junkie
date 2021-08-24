@@ -6,7 +6,7 @@ module Admin
 
     def index
       @q = Project.ransack(params[:q])
-      @q.sorts = 'name asc' if @q.sorts.empty?
+      @q.sorts = "name asc" if @q.sorts.empty?
       @projects = @q.result(distinct: true).page(params[:page])
     end
 
@@ -22,47 +22,47 @@ module Admin
       @project = Project.new(project_params)
 
       if @project.save
-        flash[:success] = t('create.success')
+        flash[:success] = t("create.success")
         redirect_to admin_project_path @project
       else
-        render 'new', status: :unprocessable_entity
+        render "new", status: :unprocessable_entity
       end
     end
 
     def update
       if @project.update(project_params)
-        flash[:success] = t('update.success')
+        flash[:success] = t("update.success")
         redirect_to admin_project_path @project
       else
-        render 'edit', status: :unprocessable_entity
+        render "edit", status: :unprocessable_entity
       end
     end
 
     def upload_images
-      Rails.logger.debug '#upload_images'
+      Rails.logger.debug "#upload_images"
       @project.project_images.attach(file_params)
-      flash['success'] = t('upload.success')
+      flash["success"] = t("upload.success")
       redirect_to admin_project_path(@project)
     end
 
     def clone
       clone = @project.deep_clone include: %i[project_addons project_stencils]
-      clone.name += ' copy'
+      clone.name += " copy"
       if clone.save!
-        flash[:success] = 'Project was successfully cloned!'
+        flash[:success] = "Project was successfully cloned!"
         redirect_to admin_project_path(clone)
       else
-        flash[:error] = 'Sorry, an error occurred.'
+        flash[:error] = "Sorry, an error occurred."
         redirect_to admin_project_path @project
       end
     end
 
     def destroy
       if @project.destroy
-        flash[:success] = t('destroy.success')
+        flash[:success] = t("destroy.success")
         redirect_to admin_projects_path
       else
-        flash[:error] = t('destroy.failure')
+        flash[:error] = t("destroy.failure")
         redirect_to admin_project_path(@project)
       end
     end
@@ -71,8 +71,8 @@ module Admin
 
     def project_params
       parameters = params.require(:project)
-                         .permit(:name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
-                                 :instructional_price, :active, :only_for_children, addon_ids: [], stencil_ids: [])
+        .permit(:name, :description, :material_price, :allow_no_stencil, :allowed_stencils,
+          :instructional_price, :active, :only_for_children, addon_ids: [], stencil_ids: [])
       parameters[:addon_ids]&.reject!(&:blank?)
       parameters[:stencil_ids]&.reject!(&:blank?)
       parameters

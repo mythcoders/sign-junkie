@@ -5,7 +5,7 @@ class GalleryImage < ApplicationRecord
 
   class << self
     def all_images
-      ActiveStorage::Attachment.where(record_type: 'GalleryImage')
+      ActiveStorage::Attachment.where(record_type: "GalleryImage")
     end
 
     def mass_attach(params)
