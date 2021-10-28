@@ -4,12 +4,6 @@
       Please review your project selection. Changes can not be made once your order has been submitted.
 
     - if require_affirmations
-      .form-group.mt-2{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
-        .custom-switch.custom-control
-          = check_box_tag :covid19_acknowledgment, :covid19_acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
-          = label_tag :covid19_acknowledgment, 'COVID-19 Acknowledgement', class: 'custom-control-label'
-        %p.form-control-plaintext.text-info= t('covid_warning')
-
       .form-group{'data-seat-wizard-review-tab--component-target': 'acknowledgment'}
         .custom-switch.custom-control
           = check_box_tag :acknowledgment, :acknowledgment, false, class: 'custom-control-input', required: true, 'data-seat-wizard-review-tab--component-target': 'input'
