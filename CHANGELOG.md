@@ -1,3 +1,10 @@
+#### 2102.10 - January 14, 2022
+
+- Changes
+  - Removed the ability to puchase gift cards
+- Technical features and improvements
+  - Updates to system dependencies
+
 #### 2102.9 - November 10, 2021
 
 - Fixes
