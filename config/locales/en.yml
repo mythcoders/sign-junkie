@@ -1,6 +1,3 @@
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   site:
     title: Sign Junkie Workshop
@@ -11,6 +8,7 @@ en:
     Due to COVID-19, all guests will be required to have their temperature taken upon arrival and before entering
     Sign Junkie. Guests MUST provide their own mask to wear throughout the entire workshop. Noncompliance will result
     in a NO refund and you will NOT be able to attend the workshop.
+  gift_cards: No more gift cards can be purchased at this time.
   addon:
     delete:
       confirmation: This will delete the addon and it's images. It will also remove it from any existing projects.
