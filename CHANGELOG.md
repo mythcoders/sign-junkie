@@ -1,4 +1,4 @@
-#### 2102.10 - January 14, 2022
+#### 2102.10 - January 16, 2022
 
 - Changes
   - Removed the ability to puchase gift cards
