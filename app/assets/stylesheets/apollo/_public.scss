@@ -5,8 +5,8 @@
 
 @include bg-gradient-variant(".bg-blue", $blue, $ignore-warning: false);
 @include bg-gradient-variant(
-  ".bg-teal-light",
-  $light-teal,
+  ".bg-selected",
+  $gray-500,
   $ignore-warning: false
 );
 

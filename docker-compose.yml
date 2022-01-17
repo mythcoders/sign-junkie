@@ -3,8 +3,8 @@ version: "3.7"
 x-shared-environment-variables: &shared-environment-variables
   RAILS_ENV: development
   NODE_ENV: development
-  GITLAB_ENVIRONMENT_NAME: development
-  GITLAB_ENVIRONMENT_URL: http://signjunkie.mythcoders.dev
+  ENVIRONMENT_NAME: development
+  ENVIRONMENT_URL: http://signjunkie.mythcoders.dev
   PAYMENT_ENV: sandbox
   STORAGE_BUCKET: none
   REDIS_URL: redis://myth-redis:6379/2

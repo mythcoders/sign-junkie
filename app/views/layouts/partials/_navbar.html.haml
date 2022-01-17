@@ -54,9 +54,9 @@
             %a.dropdown-item{href: how_it_works_path} How It Works
             %a.dropdown-item{href: waiver_path} Waiver of Liability
             %a.dropdown-item{href: faq_path} FAQs
-        %li.nav-item
-          %a.nav-link{href: gift_cards_path}
-            Gift Cards
+        -# %li.nav-item
+        -#   %a.nav-link{href: gift_cards_path}
+        -#     Gift Cards
         - if user_signed_in?
           %li.nav-item
             = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do

@@ -22,8 +22,4 @@ Rails.application.config.middleware.use Pinglish, path: "/_ping" do |ping|
   ping.check :version do
     SystemInfo.long_version
   end
-
-  ping.check :release do
-    SystemInfo.release
-  end
 end

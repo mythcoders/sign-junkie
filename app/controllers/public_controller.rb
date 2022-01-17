@@ -16,6 +16,11 @@ class PublicController < ApplicationController
     @mapbox_token = Rails.application.credentials[:mapbox_api]
   end
 
+  def gift_cards
+    flash[:info] = t("gift_cards")
+    redirect_to root_path
+  end
+
   private
 
   def set_announcements

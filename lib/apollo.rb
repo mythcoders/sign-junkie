@@ -9,7 +9,7 @@ module Apollo
     end
 
     def client
-      "Worthington Noon Lions Club"
+      "Sign Junkie, LLC"
     end
 
     def env_name
@@ -39,10 +39,10 @@ module Apollo
     end
 
     def env_url(protocol: true)
-      if ENV["GITLAB_ENVIRONMENT_URL"].present? && protocol
-        ENV["GITLAB_ENVIRONMENT_URL"].gsub("HTTP", "HTTPS").gsub("http", "https")
-      elsif ENV["GITLAB_ENVIRONMENT_URL"].present?
-        ENV["GITLAB_ENVIRONMENT_URL"].split("//").last
+      if ENV["ENVIRONMENT_URL"].present? && protocol
+        ENV["ENVIRONMENT_URL"].gsub("HTTP", "HTTPS").gsub("http", "https")
+      elsif ENV["ENVIRONMENT_URL"].present?
+        ENV["ENVIRONMENT_URL"].split("//").last
       else
         "wnlc.mythcoders.dev"
       end
