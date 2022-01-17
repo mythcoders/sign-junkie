@@ -48,7 +48,7 @@ RSpec.describe "PublicController", type: :request do
   describe "GET gift_cards" do
     it "renders" do
       get "/gift_cards"
-      expect(response).to have_http_status(:ok)
+      expect(response).to redirect_to(root_path)
     end
   end
 

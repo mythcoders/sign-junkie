@@ -4,6 +4,7 @@ job "sign-junkie" {
   meta {
     id = "master"
     image = "master"
+    deployed_at = "[[ timeNowUTC ]]"
   }
 
   group "app" {
@@ -108,7 +109,7 @@ job "sign-junkie" {
       driver = "docker"
 
       config {
-        image = "ghcr.io/mythcoders/sign-junkie:master"
+        image = "ghcr.io/mythcoders/sign-junkie:main"
         ports = ["puma"]
       }
 
@@ -146,7 +147,7 @@ job "sign-junkie" {
       driver = "docker"
 
       config {
-        image = "ghcr.io/mythcoders/sign-junkie:master"
+        image = "ghcr.io/mythcoders/sign-junkie:main"
         entrypoint = ["./bin/rails", "db:migrate"]
         ports = ["puma"]
       }
@@ -295,7 +296,7 @@ job "sign-junkie" {
       }
 
       config {
-        image = "ghcr.io/mythcoders/sign-junkie:master"
+        image = "ghcr.io/mythcoders/sign-junkie:main"
         entrypoint = ["sh", "./scripts/worker", "start"]
       }
     }
