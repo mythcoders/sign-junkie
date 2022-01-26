@@ -1,3 +1,11 @@
+#### 2102.11 - January 27, 2022
+
+- Admin Portal Improvements
+  - Datepicker
+  - Credit Balances report
+- Technical features and improvements
+  - Updates to system dependencies
+
 #### 2102.10 - January 16, 2022
 
 - Changes

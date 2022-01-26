@@ -1,0 +1,30 @@
+- page_title 'Credit Balances', 'Reports'
+
+.header.d-print-none
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Reports
+        %h1.header-title
+          %i.fad.fa-analytics
+          Credit Balances
+
+.row
+  .col-12.col-lg-4.d-print-none
+    = form_tag admin_credit_balances_report_path, method: :post do |f|
+      .card
+        .card-body
+          .form-group
+            .custom-checkbox.custom-control
+              %input#include_zero_balances.custom-control-input{type: "checkbox", value: "1", checked: false, name: "include_zero_balances"}
+              %label.custom-control-label{for: "include_zero_balances"} Include zero balances?
+        .card-footer
+          = link_to 'Go Back', admin_reports_path, class: 'btn btn-white'
+          = submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: false }
+
+  .col
+    %turbo-frame{id: 'report_contents'}
+      .card
+        .card-body
+          .card-text Run report using parameters on the left.

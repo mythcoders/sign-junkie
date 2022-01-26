@@ -34,6 +34,15 @@ module Admin
       end
     end
 
+    def credit_balances
+      @report = CreditBalancesReport.new(credit_balances_params) if request.post?
+
+      respond_to do |format|
+        format.turbo_stream { render "credit_balances", locals: {report: @report} }
+        format.html
+      end
+    end
+
     private
 
     def sales_tax_params
@@ -52,6 +61,12 @@ module Admin
     def guest_list_params
       {
         workshop_id: params[:workshop_id]
+      }
+    end
+
+    def credit_balances_params
+      {
+        include_zero_balances: ActiveModel::Type::Boolean.new.cast(params[:include_zero_balances])
       }
     end
 

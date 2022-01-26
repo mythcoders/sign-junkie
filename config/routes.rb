@@ -77,9 +77,10 @@ Rails.application.routes.draw do
     get "finances", as: "finances", to: "finances#index"
     delete "images/:id", to: "images#destroy", as: "delete_image"
     get "reports", as: "reports", to: "reports#index"
-    match "reports/sales_tax", to: "reports#sales_tax", as: "sales_tax_report", via: %i[get post]
-    match "reports/new_customers", to: "reports#new_customers", as: "new_customers_report", via: %i[get post]
+    match "reports/credit_balances", to: "reports#credit_balances", as: "credit_balances_report", via: %i[get post]
     match "reports/guest_list", to: "reports#guest_list", as: "guest_list_report", via: %i[get post]
+    match "reports/new_customers", to: "reports#new_customers", as: "new_customers_report", via: %i[get post]
+    match "reports/sales_tax", to: "reports#sales_tax", as: "sales_tax_report", via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
     resources :announcements, except: %i[show]
