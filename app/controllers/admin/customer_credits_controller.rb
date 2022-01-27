@@ -4,6 +4,12 @@ module Admin
   class CustomerCreditsController < AdminController
     before_action :set_credit, only: %i[edit update destroy]
 
+    def index
+      @q = CustomerCredit.joins(:customer).ransack(params[:q])
+      @q.sorts = "customer_last_name asc" if @q.sorts.empty?
+      @credits = @q.result.page(params[:page])
+    end
+
     def new
       @credit = CustomerCredit.new(user_id: params[:customer_id])
     end

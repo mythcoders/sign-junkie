@@ -1,0 +1,42 @@
+- page_title 'Credits'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Credits
+        %h1.header-title
+          %i.fad.fa-gift-card
+          Search
+
+.card
+  .card-header
+    = search_form_for(@q, url: admin_credits_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :customer_first_name_or_customer_last_name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :customer_last_name, 'Customer')
+        %th= sort_link(@q, :expiration_date)
+        %th.text-right= sort_link(@q, :balance)
+    %tbody
+      - @credits.each do |credit|
+        %tr
+          %td= link_to credit.customer.full_name, edit_admin_customer_credit_path(credit.customer, credit)
+          %td= credit.expiration_date
+          %td.text-right
+            #{number_to_currency credit.balance} / #{number_to_currency credit.starting_amount}
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @credits
+          = page_entries_info @credits, entry_name: 'credit'
