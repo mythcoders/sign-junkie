@@ -19,6 +19,8 @@
       .form-row
         .form-group.col-12.col-md-6
           .form-group
+            = f.label :customer, class: 'col-form-label'
+            .form-control-plaintext= link_to @credit.customer.full_name, admin_customer_path(@credit.customer)
             = f.label :remaining_balance, class: 'col-form-label'
             .form-control-plaintext= number_to_currency @credit.balance
             = f.label :starting_amount, class: 'col-form-label'
@@ -27,7 +29,7 @@
           = f.label :expiration_date, class: 'col-form-label'
           = f.date_field :expiration_date, class: 'form-control'
     .card-footer
-      = link_to 'Cancel', admin_customer_path(@credit.customer), class: 'btn btn-outline-secondary'
+      = link_to 'Cancel', :back, class: 'btn btn-outline-secondary'
       = f.submit 'Save Changes', class: 'btn btn-success'
       = form_for :seat, url: admin_addon_path(@credit), method:'delete', class: 'form-inline' do |f|
         = f.hidden_field :id, value: @credit.id

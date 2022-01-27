@@ -39,7 +39,7 @@ module SystemInfo
     end
 
     def long_version
-      Rails.root.join("VERSION").read.chomp
+      Rails.root.join("REVISION").read.chomp
     end
 
     def version
