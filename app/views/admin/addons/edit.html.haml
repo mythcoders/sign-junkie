@@ -12,8 +12,6 @@
 
 = form_for @addon, url: admin_addon_path(@addon), method: :patch do |f|
   .card
-    .card-header
-      %h3.card-header-title Edit Add-on
     .card-body
       = error_messages_for 'addon'
       = render partial: 'admin/addons/form', locals: { f: f }

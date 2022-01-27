@@ -12,8 +12,6 @@
 
 = form_for @stencil, url: admin_stencils_path do |f|
   .card
-    .card-header
-      %h5.card-header-title Information
     .card-body
       = error_messages_for 'stencil'
       = render partial: 'admin/stencils/form', locals: { f: f }

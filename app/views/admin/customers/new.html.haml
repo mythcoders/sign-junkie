@@ -12,8 +12,6 @@
 
 = form_for @customer, url: admin_customers_path do |f|
   .card
-    .card-header
-      %h3.card-header-title Information
     .card-body
       = error_messages_for 'customer'
       = render partial: 'admin/customers/form', locals: { f: f }
