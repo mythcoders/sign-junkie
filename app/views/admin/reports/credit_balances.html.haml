@@ -1,4 +1,4 @@
-- page_title 'Sales Tax', 'Reports'
+- page_title 'Credit Balances', 'Reports'
 
 .header.d-print-none
   .header-body
@@ -8,21 +8,17 @@
           Reports
         %h1.header-title
           %i.fad.fa-analytics
-          New Customers
+          Credit Balances
 
 .row
   .col-12.col-lg-4.d-print-none
-    = form_tag admin_new_customers_report_path, method: :post do |f|
+    = form_tag admin_credit_balances_report_path, method: :post do |f|
       .card
         .card-body
-          .form-row
-            .form-group
-              = label_tag :start_date, nil, class: 'col-form-label'
-              = date_field_tag :start_date, nil, class: 'form-control'
-          .form-row
-            .form-group
-              = label_tag :end_date, nil, class: 'col-form-label'
-              = date_field_tag :end_date, nil, class: 'form-control'
+          .form-group
+            .custom-checkbox.custom-control
+              %input#include_zero_balances.custom-control-input{type: "checkbox", value: "1", checked: false, name: "include_zero_balances"}
+              %label.custom-control-label{for: "include_zero_balances"} Include zero balances?
         .card-footer
           = link_to 'Go Back', admin_reports_path, class: 'btn btn-white'
           = submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: false }
@@ -32,4 +28,3 @@
       .card
         .card-body
           .card-text Run report using parameters on the left.
-

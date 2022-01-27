@@ -16,8 +16,6 @@
           = link_to "Delete", admin_customer_path(@customer), method: :delete, class: 'btn btn-outline-danger',
             data: {confirm: 'Are you sure want to delete this customer? This can not be undone!'}
   .card
-    .card-header
-      %h3.card-header-title Information
     .card-body
       = error_messages_for 'customer'
       = render partial: 'admin/customers/form', locals: { f: f }

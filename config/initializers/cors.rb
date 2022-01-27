@@ -6,7 +6,7 @@ Rails.application.config.middleware.insert_before ActionDispatch::Static, Rack::
   allow do
     origins ENV["CDN_URL"], Apollo.env_url(protocol: false)
 
-    resource "/assets/*", headers: :any, methods: %i[get options]
-    resource "/packs/*", headers: :any, methods: %i[get options]
+    resource "/assets/*", headers: :any, methods: %i[get options head]
+    resource "/packs/*", headers: :any, methods: %i[get options head]
   end
 end

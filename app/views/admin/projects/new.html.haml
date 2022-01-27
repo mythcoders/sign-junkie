@@ -14,8 +14,6 @@
   .row
     .col-12.col-md-5
       .card
-        .card-header
-          %h3.card-header-title Project Information
         .card-body
           = error_messages_for 'project'
           = render partial: 'admin/projects/form', locals: { f: f }

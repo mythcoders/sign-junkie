@@ -42,18 +42,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:role])
   end
 
-  def convert_datetime(value)
-    return nil if value.blank?
-
-    Time.zone.strptime(value, t("time.formats.default"))
-  end
-
-  def convert_date(value)
-    return nil if value.blank?
-
-    Date.strptime(value, "%m-%d-%Y")
-  end
-
   def render_404
     respond_to do |format|
       format.html { render file: "public/404.html", status: 404 }

@@ -47,10 +47,7 @@ module Admin
     private
 
     def announcement_params
-      parameters = params.require(:announcement).permit(:title, :content, :start_at, :end_at)
-      parameters[:start_at] = convert_datetime(parameters[:start_at])
-      parameters[:end_at] = convert_datetime(parameters[:end_at])
-      parameters
+      params.require(:announcement).permit(:title, :content, :start_at, :end_at)
     end
 
     def set_announcement

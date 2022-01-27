@@ -12,8 +12,6 @@
 
 = form_for @stencil, url: admin_stencil_path(@stencil), method: :patch do |f|
   .card
-    .card-header
-      %h2.card-header-title Information
     .card-body
       = error_messages_for 'stenci'
       = render partial: 'admin/stencils/form', locals: { f: f }

@@ -15,8 +15,6 @@
   .row
     .col-12.col-lg-5
       .card
-        .card-header
-          %h5.card-header-title Information
         .card-body
           = error_messages_for 'category'
           = render partial: 'admin/stencil_categories/form', locals: { f: f }

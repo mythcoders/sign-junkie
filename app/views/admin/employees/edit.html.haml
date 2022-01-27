@@ -13,8 +13,6 @@
 
 = form_for @employee, url: admin_employee_path(@employee), method: :patch do |f|
   .card
-    .card-header
-      %h2.card-header-title Information
     .card-body
       = error_messages_for 'employee'
       = render partial: 'admin/employees/form', locals: { f: f }

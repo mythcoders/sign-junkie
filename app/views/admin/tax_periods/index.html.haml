@@ -21,7 +21,7 @@
     %tbody
       - @tax_periods.each do |tax_period|
         %tr
-          %td= link_to tax_period.name, admin_tax_period_path(tax_period)
+          %td= link_to tax_period.name, edit_admin_tax_period_path(tax_period)
           %td= tax_period.start_date
     %tfoot
       %tr

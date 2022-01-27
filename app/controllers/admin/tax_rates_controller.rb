@@ -58,8 +58,6 @@ module Admin
     def filtered_params
       parameters = tax_rate_params
       parameters[:rate] = (parameters[:rate].to_d / 100).to_s
-      parameters[:effective_date] = convert_datetime(parameters[:effective_date])
-
       parameters
     end
 
