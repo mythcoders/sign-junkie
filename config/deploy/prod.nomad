@@ -22,8 +22,8 @@ job "sign-junkie" {
 
     constraint {
       attribute = "${node.class}"
-      operator  = "!="
-      value     = "web"
+      operator  = "="
+      value     = "app"
     }
 
     network {
