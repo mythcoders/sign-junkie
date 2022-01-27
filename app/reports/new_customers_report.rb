@@ -2,8 +2,8 @@
 
 class NewCustomersReport
   def initialize(params)
-    @start_date = params[:start_date]
-    @end_date = params[:end_date] ||= Time.zone.now
+    @start_date = Date.parse params[:start_date]
+    @end_date = Date.parse params[:end_date] ||= Time.zone.now
   end
 
   attr_reader :start_date, :end_date
