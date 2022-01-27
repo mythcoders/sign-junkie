@@ -1,8 +1,8 @@
 #### 2102.11 - January 27, 2022
 
 - Admin Portal Improvements
-  - Datepicker
   - Credit Balances report
+  - Removed custom datetime picker infavor of pickers offered by the users browser
 - Technical features and improvements
   - Updates to system dependencies
 

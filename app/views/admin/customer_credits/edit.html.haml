@@ -12,8 +12,6 @@
 
 = form_for @credit, url: admin_customer_credit_path(@credit), method: :patch do |f|
   .card
-    .card-header
-      %h5.card-header-title Information
     .card-body
       = error_messages_for 'credit'
       = f.hidden_field :id
@@ -27,11 +25,7 @@
             .form-control-plaintext= number_to_currency @credit.starting_amount
         .form-group.col-12.col-md-6
           = f.label :expiration_date, class: 'col-form-label'
-          #expirationpicker.input-group.date{"data-target-input": "nearest", 'data-date-picker': ''}
-            = f.text_field :expiration_date, value: lifp(@credit.expiration_date), class: 'form-control datepicker-input', 'data-target': '#expirationpicker'
-            .input-group-append{"data-target": "#expirationpicker", "data-toggle": "datetimepicker"}
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.date_field :expiration_date, class: 'form-control'
     .card-footer
       = link_to 'Cancel', admin_customer_path(@credit.customer), class: 'btn btn-outline-secondary'
       = f.submit 'Save Changes', class: 'btn btn-success'

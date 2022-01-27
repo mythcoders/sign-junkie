@@ -1,28 +1,14 @@
 .row
   .col
     .card
-      .card-header
-        .row.align-items-center
-          .col
-            %h2.card-header-title
-              Basic Information
       .card-body
         = error_messages_for 'tax_period'
-        = f.hidden_field :id
         .form-group
           = f.label :start_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :start_date, value: lifp(@tax_period.start_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.date_field :start_date, class: 'form-control'
         .form-group
           = f.label :due_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :due_date, value: lifp(@tax_period.due_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.date_field :due_date, class: 'form-control'
         .form-group
           = f.label :amount_paid, class: 'col-form-label'
           .input-group

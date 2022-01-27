@@ -21,7 +21,7 @@
     %tbody
       - @tax_rates.each do |tax_rate|
         %tr
-          %td= link_to number_to_percentage(tax_rate.rate * 100), admin_tax_rate_path(tax_rate)
+          %td= link_to number_to_percentage(tax_rate.display), edit_admin_tax_rate_path(tax_rate)
           %td= tax_rate.effective_date
     %tfoot
       %tr

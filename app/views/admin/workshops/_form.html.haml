@@ -1,11 +1,6 @@
 .row{'data-controller': 'admin--workshop-edit'}
   .col-12.col-lg-5
     .card
-      .card-header
-        .row.align-items-center
-          .col
-            %h2.card-header-title
-              Basic Information
       .card-body
         = error_messages_for 'workshop'
         = f.hidden_field :id
@@ -45,32 +40,16 @@
               = f.label :family_friendly, class: 'custom-control-label'
         .form-group
           = f.label :start_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :start_date, value: lifp(@workshop.start_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.datetime_field :start_date, class: 'form-control'
         .form-group
           = f.label :end_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :end_date, value: lifp(@workshop.end_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.datetime_field :end_date, class: 'form-control'
         .form-group
           = f.label :purchase_start_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :purchase_start_date, value: lifp(@workshop.purchase_start_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.datetime_field :purchase_start_date, class: 'form-control'
         .form-group
           = f.label :purchase_end_date, class: 'col-form-label'
-          .input-group.date
-            = f.text_field :purchase_end_date, value: lifp(@workshop.purchase_end_date), class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-            .input-group-append
-              .input-group-text
-                = fa_regular 'calendar'
+          = f.datetime_field :purchase_end_date, class: 'form-control'
   .col-12.col-lg-7
     %ul#workshopTab.nav.nav-tabs.mb-2{role: "tablist"}
       %li.nav-item

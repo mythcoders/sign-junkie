@@ -18,19 +18,11 @@
           .form-row
             .form-group
               = label_tag :start_date, nil, class: 'col-form-label'
-              .input-group.date
-                = text_field_tag :start_date, params[:start_date], class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-                .input-group-append
-                  .input-group-text
-                    = fa_regular 'calendar'
+              = date_field_tag :start_date, class: 'form-control'
           .form-row
             .form-group
               = label_tag :end_date, nil, class: 'col-form-label'
-              .input-group.date
-                = text_field_tag :end_date, params[:end_date], class: 'form-control', data: { controller: "flatpickr", flatpickr_date_format: t('time.formats.default'), flatpickr_enable_time: true }
-                .input-group-append
-                  .input-group-text
-                    = fa_regular 'calendar'
+              = date_field_tag :end_date, class: 'form-control'
         .card-footer
           = link_to 'Go Back', admin_reports_path, class: 'btn btn-white'
           = submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: false }

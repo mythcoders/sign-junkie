@@ -102,10 +102,6 @@ module Admin
     def filtered_params
       parameters = workshop_params
       parameters[:project_ids]&.reject!(&:blank?)
-      parameters[:purchase_start_date] = convert_datetime(parameters[:purchase_start_date])
-      parameters[:purchase_end_date] = convert_datetime(parameters[:purchase_end_date])
-      parameters[:start_date] = convert_datetime(parameters[:start_date])
-      parameters[:end_date] = convert_datetime(parameters[:end_date])
       parameters
     end
   end

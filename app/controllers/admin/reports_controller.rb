@@ -53,8 +53,8 @@ module Admin
 
     def new_customers_params
       {
-        start_date: convert_datetime(params[:start_date]),
-        end_date: convert_datetime(params[:end_date])
+        start_date: params[:start_date],
+        end_date: params[:end_date]
       }
     end
 
