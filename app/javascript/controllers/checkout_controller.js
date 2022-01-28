@@ -1,5 +1,5 @@
 import ApplicationController from "./application_controller"
-import * as Sentry from "@sentry/browser"
+// import * as Sentry from "@sentry/browser"
 
 export default class extends ApplicationController {
   static values = { clientToken: String, purchaseAmount: String }
@@ -18,7 +18,8 @@ export default class extends ApplicationController {
       },
     }, function (error, dropinInstance) {
       if (error) {
-        Sentry.captureException(error)
+        // Sentry.captureException(error)
+        console.error(error)
         return
       }
 
@@ -27,7 +28,8 @@ export default class extends ApplicationController {
         dropinInstance.requestPaymentMethod(function (paymentError, payload) {
           if (paymentError) {
             dropinInstance.clearSelectedPaymentMethod()
-            Sentry.captureException(paymentError)
+            // Sentry.captureException(paymentError)
+            console.error(paymentError)
             return
           }
 

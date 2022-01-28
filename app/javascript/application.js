@@ -1,14 +1,8 @@
-import { Application } from "stimulus"
-import { definitionsFromContext } from "stimulus/webpack-helpers"
+// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 
-const application = Application.start()
-const context = require.context("controllers", true, /.js$/)
-const context_components = require.context("../components", true, /_controller.js$/)
-application.load(
-  definitionsFromContext(context).concat(
-    definitionsFromContext(context_components)
-  )
-)
+import "@hotwired/turbo-rails"
+import "./controllers"
+import * as bootstrap from "bootstrap"
 
-import 'bootstrap/dist/js/bootstrap.bundle.min'
-import 'helpers/sentry_helpers'
+// require("@rails/ujs").start()
+// require("@rails/activestorage").start()

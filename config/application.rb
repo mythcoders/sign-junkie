@@ -13,25 +13,22 @@ require "action_cable/engine"
 require "action_text/engine"
 # require 'rails/test_unit/railtie'
 require "sprockets/railtie"
-require "view_component/engine"
 
 require "pinglish"
+require "./lib/apollo"
 
 Bundler.require(*Rails.groups)
 
 module Apollo
   class Application < Rails::Application
-    require_dependency Rails.root.join("lib/apollo")
-
     config.load_defaults 5.2 # Initialize generated Rails version
-    config.autoloader = :zeitwerk
 
     config.encoding = "utf-8"
     config.time_zone = "Eastern Time (US & Canada)"
     config.public_file_server.enabled
-    config.eager_load_paths += %W[#{config.root}/lib]
-    config.eager_load_paths += %W[#{config.root}/spec/mailer_previews]
-    config.eager_load_paths += %W[#{config.root}/app/components]
+    config.eager_load_paths.push("#{config.root}/lib")
+    config.eager_load_paths.push("#{config.root}/spec/mailer_previews")
+    config.eager_load_paths.push("#{config.root}/app/components")
     # config.require_master_key = true
 
     # Rake tasks ignore the eager loading settings, so we need to set the

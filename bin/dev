@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if ! command -v foreman &> /dev/null
+then
+  echo "Installing foreman..."
+  gem install foreman
+fi
+
+# echo "==> Verifying database..."
+# ./bin/rails db:exists && ./bin/rails db:migrate VERBOSE=true || ./bin/rails db:setup VERBOSE=true
+
+foreman start -f Procfile.dev

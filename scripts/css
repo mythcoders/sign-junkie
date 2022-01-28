@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo '==> Watching css...'
+
+sass ./app/assets/stylesheets/admin_dark.scss:./app/assets/builds/admin_dark.css \
+  ./app/assets/stylesheets/admin.scss:./app/assets/builds/admin.css \
+  ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css \
+  ./app/assets/stylesheets/mailer.scss:./app/assets/builds/mailer.css \
+  ./app/assets/stylesheets/map.scss:./app/assets/builds/map.css \
+  --no-source-map --load-path=./node_modules --watch

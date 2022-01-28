@@ -15,7 +15,7 @@ x-shared-environment-variables: &shared-environment-variables
 services:
   app:
     image: sign-junkie
-    command: ["sh", "./scripts/app", "start", "setup"]
+    command: ['sh', './bin/dev']
     build:
       context: .
       target: base
@@ -27,7 +27,6 @@ services:
       - .:/opt/sign-junkie
     environment:
       <<: *shared-environment-variables
-      WEBPACKER_DEV_SERVER_HOST: webpacker
     stdin_open: true
     tty: true
 
@@ -41,16 +40,6 @@ services:
       <<: *shared-environment-variables
     depends_on:
       - app
-
-  webpacker:
-    image: sign-junkie
-    container_name: sign-junkie-webpacker
-    command: ["sh", "./scripts/webpack"]
-    environment:
-      <<: *shared-environment-variables
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
-    volumes:
-      - .:/opt/sign-junkie
 
 networks:
   default:

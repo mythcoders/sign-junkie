@@ -1,5 +1,5 @@
 import ApplicationController from "../controllers/application_controller"
-import mapboxgl from '!mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 
 export default class extends ApplicationController {
   static values = { accessToken: String, markerLabel: String, markerPosition: Array }
