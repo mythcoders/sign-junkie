@@ -1,10 +1,19 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 if ! command -v foreman &> /dev/null
 then
-  echo "Installing foreman..."
+  echo "==> Installing foreman"
   gem install foreman
 fi
+
+if [ -f "tmp/pids/server.pid" ]; then
+  echo "==> Flushing server.pid"
+  rm -rf tmp/health_checks/app
+  rm -rf tmp/pids/server.pid
+fi
+
+echo "==> Installing foreman"
+yarn install
 
 # echo "==> Verifying database..."
 # ./bin/rails db:exists && ./bin/rails db:migrate VERBOSE=true || ./bin/rails db:setup VERBOSE=true

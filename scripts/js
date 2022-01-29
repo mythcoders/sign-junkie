@@ -1,10 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 echo '==> Watching js...'
 esbuild app/javascript/*.* --bundle --sourcemap \
   --external:@hotwired/stimulus \
   --external:@hotwired/stimulus-loading \
-  --external:@hotwired/turbo-rails \
   --external:jquery \
   --external:mapbox-gl \
   --external:trix \

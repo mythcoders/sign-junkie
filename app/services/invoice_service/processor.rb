@@ -69,7 +69,6 @@ module InvoiceService
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def send_emails
       InvoiceMailer.with(invoice_id: @invoice.id).receipt.deliver_later
 

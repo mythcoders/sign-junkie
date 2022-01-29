@@ -3,7 +3,7 @@
   %head
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag 'application', type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
-    = javascript_pack_tag 'main', type: 'text/javascript', 'data-turbo-track': 'reload'
+    = javascript_include_tag 'application', type: 'text/javascript', defer: true, 'data-turbo-track': 'reload'
   %body#page-top{'data-turbo': 'true'}
     = render partial: 'layouts/partials/logout'
     .container

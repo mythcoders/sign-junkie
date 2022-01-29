@@ -1,7 +1,7 @@
 - page_title 'Contact Us'
 - content_for :head do
   = stylesheet_link_tag 'map', type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
-  = javascript_pack_tag 'map', type: 'text/javascript', 'data-turbo-track': 'reload'
+  = javascript_include_tag 'map', type: 'text/javascript', 'data-turbo-track': 'reload', defer: true
 
 .row.justify-content-center.mt-3
   .col

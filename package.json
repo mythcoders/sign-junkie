@@ -2,13 +2,14 @@
   "name": "app",
   "private": "true",
   "dependencies": {
+    "@hotwired/turbo-rails": "^7.1.1",
     "bootstrap": "^4.4",
     "esbuild": "^0.14.14",
     "popper.js": "^1.16.0",
     "sass": "^1.49.0"
   },
   "scripts": {
-    "build": "./scripts/js",
-    "build:css": "./scripts/css"
+    "build": "scripts/js",
+    "build:css": "scripts/css"
   }
 }
