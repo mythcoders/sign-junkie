@@ -2,14 +2,7 @@
 
 import "@hotwired/turbo-rails"
 import "controllers"
-
-// import { $, jQuery } from 'jquery'
-
-// window.$ = $
-// window.jQuery = jQuery
-// import "bootstrap"
+import "bootstrap"
 
 // require("@rails/ujs").start()
 // require("@rails/activestorage").start()
-
-console.log("Hello, world!")
