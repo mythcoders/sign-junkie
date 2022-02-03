@@ -21,7 +21,7 @@ module Admin
         user = User.find version.whodunnit
         user.nil? ? "Unknown user" : user.full_name
       else
-        "Apollo System"
+        "Sign Junkie System"
       end
     end
 

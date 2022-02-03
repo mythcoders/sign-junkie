@@ -15,6 +15,6 @@ elif [ "$1" = "rspec" ]; then
   echo "==> Running rspec…"
   bundle exec rspec --format documentation
 else
-  echo "Unknown arg $1. Usage: $0 {audit|linter|rspec}"
+  echo "Unknown arg $1. Usage: $0 {assets|audit|breakman|linter|rspec}"
   exit 1
 fi

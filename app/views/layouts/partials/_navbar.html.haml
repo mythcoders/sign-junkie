@@ -3,7 +3,7 @@
     = link_to root_path, class: 'navbar-brand d-inline d-sm-none' do
       Sign Junkie
       - unless Rails.env.production?
-        %span.text-warning= "- #{Apollo.env_name.upcase}"
+        %span.text-warning= "- #{SignJunkie.env_name.upcase}"
     - if user_signed_in?
       %small
         = link_to my_account_path, title: 'My Acount', class: 'd-inline d-sm-none' do

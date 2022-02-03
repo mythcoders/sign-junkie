@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  config.hosts << Apollo.env_url(protocol: false)
+  config.hosts << SignJunkie.env_url(protocol: false)
   config.cache_classes = false
   config.eager_load = false
   config.consider_all_requests_local = true
@@ -23,9 +23,9 @@ Rails.application.configure do
   # config.action_mailer.perform_deliveries = false
   config.action_mailer.perform_caching = false
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
-  config.action_mailer.asset_host = "http://#{Apollo.env_url(protocol: false)}"
+  config.action_mailer.asset_host = "http://#{SignJunkie.env_url(protocol: false)}"
   config.action_mailer.default_url_options = {
-    host: Apollo.env_url(protocol: false),
+    host: SignJunkie.env_url(protocol: false),
     protocol: "https://"
   }
 

@@ -4,7 +4,7 @@
   .header-body
     .row.align-items-center
       .col
-        %h6.header-pretitle #{SystemInfo.app_name} Mission Control
+        %h6.header-pretitle #{SystemInfo.app_name}
         %h1.header-title
           %i.fad.fa-info-circle
           About
@@ -17,42 +17,21 @@
           Contact Support
 
 .row
-  .col-12.col-md-7
-    .row
-      .col-4
-        %img.img-fluid{src: asset_path('apollo.png')}
-      .col-8
-        .form-group
-          %h1
-            Apollo
-            %small.text-uppercase mission control for your business
-        .form-group.row
-          %label.col-sm-4.col-form-label Release
-          .col-sm-8.mt-3
-            = SystemInfo.release
-            - if SystemInfo.prerelease?
-              %span.badge.badge-warning.badge-pill.ml-3 PRE-RELEASE
-        .form-group.row
-          %label.col-sm-4.col-form-label Developed By
-          .col-sm-8
-            %a{href: SystemInfo.developer_url}= SystemInfo.developer
-        .form-group.row
-          %label.col-sm-4.col-form-label Licensed To
-          .col-sm-8
-            %a{href: Apollo.env_url}= ClientInfo.owner
-            %p #{ClientInfo.city}, #{ClientInfo.state}
-            %span.badge.badge-info.badge-pill
-              %i.fas.fa-rocket.fa-lg
-              Core
-            %span.badge.badge-info.badge-pill
-              %i.fas.fa-address-book.fa-lg
-              Customer Portal
-            %span.badge.badge-info.badge-pill
-              %i.fas.fa-toolbox.fa-lg
-              DIY Workshops
-            %span.badge.badge-info.badge-pill
-              %i.fas.fa-database.fa-lg
-              Sales
+  .col-12
+    .form-group.row
+      %label.col-sm-2.col-form-label Release
+      .col-sm-10.mt-3
+        = SystemInfo.release
+        - if SystemInfo.prerelease?
+          %span.badge.badge-warning.badge-pill.ml-3 PRE-RELEASE
+    .form-group.row
+      %label.col-sm-2.col-form-label Developed By
+      .col-sm-10
+        %a{href: SystemInfo.developer_url}= SystemInfo.developer
+    .form-group.row
+      %label.col-sm-2.col-form-label Licensed To
+      .col-sm-10
+        %a{href: SignJunkie.env_url}= ClientInfo.owner
 .row
   .col-12
     %h3 Release Notes

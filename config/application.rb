@@ -15,11 +15,11 @@ require "action_text/engine"
 require "sprockets/railtie"
 
 require "pinglish"
-require "./lib/apollo"
+require "./lib/sign_junkie"
 
 Bundler.require(*Rails.groups)
 
-module Apollo
+module SignJunkie
   class Application < Rails::Application
     config.load_defaults 5.2 # Initialize generated Rails version
 

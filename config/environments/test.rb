@@ -26,7 +26,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.default_url_options = {
-    host: "http://apollo.localhost"
+    host: "http://sign-junkie.localhost"
   }
 
   config.active_support.deprecation = :stderr

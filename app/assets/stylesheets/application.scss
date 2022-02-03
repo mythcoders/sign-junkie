@@ -2,12 +2,12 @@
 @import "bootstrap/scss/functions";
 
 // Custom variables
-@import "apollo/public_variables";
+@import "sign-junkie/public_variables";
 
 // Bootstrap core
 @import "bootstrap/scss/bootstrap";
 
 // Custom core
-@import "apollo/bootswatch";
-@import "apollo/public";
-@import "apollo/shared";
+@import "sign-junkie/bootswatch";
+@import "sign-junkie/public";
+@import "sign-junkie/shared";

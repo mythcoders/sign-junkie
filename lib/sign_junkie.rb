@@ -2,7 +2,7 @@
 
 require "pathname"
 
-module Apollo
+module SignJunkie
   class << self
     def root
       Pathname.new(File.expand_path("..", __dir__))

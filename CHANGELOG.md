@@ -1,6 +1,7 @@
-#### 2202 - February ??, 2022
+#### 2102.12 - February ??, 2022
 
 - Admin Portal Improvements
+  - Business branding
   - Customize the Affirmations that customers must agree to when checking out
 - Technical features and improvements
   - Updates to system dependencies

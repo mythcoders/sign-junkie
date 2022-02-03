@@ -12,7 +12,7 @@ module Admin
     end
 
     def set_theme
-      @admin_ui_theme = case request.cookies["apollo_ui_theme"]
+      @admin_ui_theme = case request.cookies["sign_junkie_ui_theme"]
                         when "dark"
                           "admin_dark"
                         else

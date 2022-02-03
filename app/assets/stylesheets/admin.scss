@@ -9,7 +9,7 @@
 @import "bootstrap/scss/functions";
 
 // Custom variables
-@import "apollo/admin_portal_variables";
+@import "sign-junkie/admin_portal_variables";
 
 // Dashkit variables
 @import "dashkit/variables";
@@ -21,5 +21,5 @@
 @import "dashkit/dashkit";
 
 // Custom core
-@import "apollo/admin_portal";
-@import "apollo/shared";
+@import "sign-junkie/admin_portal";
+@import "sign-junkie/shared";

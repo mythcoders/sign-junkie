@@ -11,7 +11,7 @@ Rails.application.configure do
     config.action_controller.asset_host = ENV["CDN_URL"]
     config.action_mailer.asset_host = ENV["CDN_URL"]
   else
-    config.action_mailer.asset_host = Apollo.env_url
+    config.action_mailer.asset_host = SignJunkie.env_url
   end
 
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
-    host: Apollo.env_url(protocol: false),
+    host: SignJunkie.env_url(protocol: false),
     protocol: "https://"
   }
   config.action_mailer.smtp_settings = {

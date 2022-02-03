@@ -24,8 +24,8 @@
   flex-direction: row;
   align-items: center;
   height: $card-header-height;
-  padding-top: $card-spacer-y / 2;
-  padding-bottom: $card-spacer-y / 2;
+  padding-top: calc($card-spacer-y / 2);
+  padding-bottom: calc($card-spacer-y / 2);
 
   > *:first-child {
     flex: 1;
@@ -39,7 +39,7 @@
 // Title
 
 .card-title {
-  margin-bottom: $card-spacer-y / 2;
+  margin-bottom: calc($card-spacer-y / 2);
 }
 
 //

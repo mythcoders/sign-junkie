@@ -1,9 +1,9 @@
-// 
+//
 // variables.scss
 // Extended from Bootstrap
 //
 
-// 
+//
 // Bootstrap Overrides ===================================
 //
 
@@ -327,7 +327,7 @@ $custom-control-indicator-border-width: 0 !default;
 
 $custom-switch-width: 3rem !default;
 $custom-switch-indicator-size: 1.125rem !default;
-$custom-switch-indicator-border-radius: $custom-switch-indicator-size / 2 !default;
+$custom-switch-indicator-border-radius: calc($custom-switch-indicator-size / 2) !default;
 
 
 // Dropdowns
@@ -536,7 +536,7 @@ $close-text-shadow: none !default;
 $code-color: $blue !default;
 
 
-// 
+//
 // Dashkit =====================================
 //
 
@@ -770,7 +770,7 @@ $progress-height-sm: 0.25rem !default;
 // Forms
 
 $custom-switch-height: 1.5rem !default;
-$custom-switch-spacing: ($custom-switch-height - $custom-switch-indicator-size) / 2 !default;
+$custom-switch-spacing: calc(calc($custom-switch-height - $custom-switch-indicator-size) / 2) !default;
 
 $custom-switch-indicator-bg: $white !default;
 $custom-switch-indicator-active-bg: $white !default;

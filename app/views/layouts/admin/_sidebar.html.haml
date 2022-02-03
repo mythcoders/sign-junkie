@@ -3,10 +3,9 @@
     %button.navbar-toggler{"aria-controls": "navbarVertical", "aria-expanded": "false", "aria-label": "Toggle navigation", "data-target": "#navbarVertical", "data-toggle": "collapse", type: "button"}
       %span.navbar-toggler-icon
     = link_to admin_dashboard_path, class: 'navbar-brand' do
-      %img.navbar-brand-img.mx-auto{src: asset_path('apollo.png')}
-      = SystemInfo.app_name
+      %img.navbar-brand-img.mx-auto{src: asset_path('SJWlogo.svg')}
       - unless Rails.env.production?
-        %strong.text-warning.text-uppercase= Apollo.env_name
+        %strong.text-warning.text-uppercase= SignJunkie.env_name
     #navbarVertical.collapse.navbar-collapse
       %h6.navbar-heading.mb-n1 Your Business
       %ul.navbar-nav.mb-md-3

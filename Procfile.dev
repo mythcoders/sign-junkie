@@ -1,2 +1,2 @@
 web: bin/rails server -b 0.0.0.0 -p 5000
-css: yarn build:css --watch
+css: yarn build:css:dev

@@ -5,11 +5,11 @@ export default class extends Controller {
   static targets = ["selectedAmount"]
 
   setTheme(event) {
-    setCookie('apollo_ui_theme', colorScheme)
+    setCookie('sign_junkie_ui_theme', colorScheme)
   }
 
   saveUserPreferences() {
-    toggleColorScheme(document.querySelector('[name="apollo_ui_theme"]:checked').value)
+    toggleColorScheme(document.querySelector('[name="sign_junkie_ui_theme"]:checked').value)
     location.reload()
   }
 }

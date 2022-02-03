@@ -7,7 +7,7 @@
         .text-center
           %img.img-fluid.mb-3{:alt => 'Placeholder image', src: asset_path("illustrations/designer-life.svg")}
         %h2.text-center.mb-2
-          Make Apollo Your Own
+          User Preferences
         %p.text-center.mb-4
           Set preferences that will be saved for you.
         %hr.mb-4
@@ -17,11 +17,11 @@
           Overall light or dark presentation.
         .btn-group-toggle.d-flex.mb-4{"data-toggle" => "buttons"}
           %label.btn.btn-white.col{class: ('active' if @ui_theme == 'light')}
-            = radio_button_tag 'apollo_ui_theme', 'light', @ui_theme == 'light'
+            = radio_button_tag 'sign_junkie_ui_theme', 'light', @ui_theme == 'light'
             %i.fad.fa-sun.mr-2
             Light Mode
           %label.btn.btn-white.col.ml-2{class: ('active' if @ui_theme == 'dark')}
-            = radio_button_tag 'apollo_ui_theme', 'dark', @ui_theme == 'dark'
+            = radio_button_tag 'sign_junkie_ui_theme', 'dark', @ui_theme == 'dark'
             %i.fad.fa-moon.mr-2
             Dark Mode
       .modal-footer.border-0
