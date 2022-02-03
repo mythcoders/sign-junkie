@@ -37,16 +37,16 @@ module SeatWizard
     def form_attributes
       {
         method: @seat.persisted? ? :patch : :post,
-        'data-controller': "seat-wizard--component seat-wizard-sidebar--component single-form-submit",
-        'data-seat-wizard--component-addon-id-value': addon_value,
-        'data-seat-wizard--component-guest-type-value': @seat.guest_type,
-        'data-seat-wizard--component-project-value': project_value.to_json,
-        'data-seat-wizard--component-purchase-mode-value': @seat.persisted? ? "now" : "",
-        'data-seat-wizard--component-stencils-value': unparsed_stencils,
-        'data-seat-wizard--component-workshop-id-value': workshop.id,
-        'data-seat-wizard--component-for-reservation-value': reservation_mode?,
-        'data-seat-wizard--component-active-class': "active",
-        'data-seat-wizard--component-disabled-class': "disabled"
+        'data-controller': "seat-wizard seat-wizard-sidebar single-form-submit",
+        'data-seat-wizard-addon-id-value': addon_value,
+        'data-seat-wizard-guest-type-value': @seat.guest_type,
+        'data-seat-wizard-project-value': project_value.to_json,
+        'data-seat-wizard-purchase-mode-value': @seat.persisted? ? "now" : "",
+        'data-seat-wizard-stencils-value': unparsed_stencils,
+        'data-seat-wizard-workshop-id-value': workshop.id,
+        'data-seat-wizard-for-reservation-value': reservation_mode?,
+        'data-seat-wizard-active-class': "active",
+        'data-seat-wizard-disabled-class': "disabled"
       }
     end
 

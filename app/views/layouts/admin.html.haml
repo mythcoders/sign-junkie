@@ -5,7 +5,6 @@
   %head
     = render partial: 'layouts/partials/header'
     = stylesheet_link_tag @admin_ui_theme, type: 'text/css', 'data-turbo-track': 'reload', media: 'all'
-    = javascript_include_tag 'application', type: 'text/javascript', 'data-turbo-track': 'reload', defer: true
   %body{'data-turbo': 'true'}
     = render partial: "layouts/admin/sidebar"
     .main-content.d-print-inline

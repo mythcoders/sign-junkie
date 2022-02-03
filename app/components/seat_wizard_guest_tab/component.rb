@@ -22,8 +22,8 @@ module SeatWizardGuestTab
       {
         name: "cart[guest_type]",
         type: "radio",
-        'data-seat-wizard-guest-tab--component-target': "guestType",
-        'data-action': "seat-wizard-guest-tab--component#toggleGuestType"
+        'data-seat-wizard-guest-target': "guestType",
+        'data-action': "seat-wizard-guest#toggleGuestType"
       }
     end
   end

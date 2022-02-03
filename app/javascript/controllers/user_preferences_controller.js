@@ -1,7 +1,7 @@
-import ApplicationController from "./application_controller"
+import { Controller } from "@hotwired/stimulus"
 import { setCookie } from "../helpers/cookie_helpers"
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static targets = ["selectedAmount"]
 
   setTheme(event) {

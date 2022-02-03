@@ -1,6 +1,6 @@
-import ApplicationController from "../../javascript/controllers/application_controller"
+import { Controller } from "@hotwired/stimulus"
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static values = { plainStencilSelected: Boolean, maxStencils: Number, filters: String, stencils: Object, plainStencilText: String }
   static targets = ["nextButton", "previousButton", "option", "column", "input", "personalization", "filter"]
   static classes = ["active", "disabled"]

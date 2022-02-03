@@ -9,11 +9,11 @@ module SeatWizardProjectTab
 
     def data_attributes
       {
-        'data-controller': "seat-wizard-project-tab--component",
-        'data-seat-wizard-project-tab--component-project-id-value': @selected_id,
-        'data-seat-wizard-project-tab--component-has-addons-value': addons_value,
-        'data-seat-wizard-project-tab--component-active-class': "bg-selected",
-        'data-seat-wizard-project-tab--component-disabled-class': "disabled"
+        'data-controller': "seat-wizard-project",
+        'data-seat-wizard-project-project-id-value': @selected_id,
+        'data-seat-wizard-project-has-addons-value': addons_value,
+        'data-seat-wizard-project-active-class': "bg-selected",
+        'data-seat-wizard-project-disabled-class': "disabled"
       }
     end
 

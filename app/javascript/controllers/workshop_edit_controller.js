@@ -1,6 +1,6 @@
-import AdminController from "./admin_controller"
+import { Controller } from "@hotwired/stimulus"
 
-export default class extends AdminController {
+export default class extends Controller {
   static targets = ["singleSeatAllow", "reservationAllow", "reservationCancelMinimum", "reservationsEnd", "input",
     "reservationAllowMultiple", "totalSeats", "reservationPrice", "reservationMinimum", "reservationMaximum",
     "reservationAllowGuestCancelSeat"]

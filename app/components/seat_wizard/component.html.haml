@@ -7,8 +7,8 @@
   = hidden_field_tag 'cart[type]', 'seat'
   = hidden_field_tag 'cart[workshop_id]', workshop.id
 
-  %template{'data-seat-wizard-sidebar--component-target': 'template'}= sidebar_template
-  %template{'data-seat-wizard-sidebar--component-target': 'updateError'}
+  %template{'data-seat-wizard-sidebar-target': 'template'}= sidebar_template
+  %template{'data-seat-wizard-sidebar-target': 'updateError'}
     .card.card-sticky
       .card-body
         %p.card-text.text-info
@@ -16,7 +16,7 @@
           and you can continue your project picking experience.
 
   .row
-    .col-12.col-sm-4.mb-3{'data-seat-wizard-sidebar--component-target': 'content'}
+    .col-12.col-sm-4.mb-3{'data-seat-wizard-sidebar-target': 'content'}
       - if @seat.selection_made?
         = render(SeatWizardSidebar::Component.new(project, addon, @seat.stencils))
       - else
@@ -69,13 +69,13 @@
                                                        reservation_mode: reservation_mode?,
                                                        seat: @seat))
 
-          #project.tab-pane.fade{'data-seat-wizard--component-target': "projectTabContent", "aria-labelledby": "project-tab", role: "tabpanel"}
+          #project.tab-pane.fade{'data-seat-wizard-target': "projectTabContent", "aria-labelledby": "project-tab", role: "tabpanel"}
             = render(SeatWizardProjectTab::Component.new(projects, @seat.project_id)) if @seat.selection_made?
 
-          #addon.tab-pane.fade{'data-seat-wizard--component-target': "addonTabContent", "aria-labelledby": "addon-tab", role: "tabpanel"}
+          #addon.tab-pane.fade{'data-seat-wizard-target': "addonTabContent", "aria-labelledby": "addon-tab", role: "tabpanel"}
             = render(SeatWizardAddonTab::Component.new(project, @seat.addon_id)) if @seat.selection_made?
 
-          #stencil.tab-pane.fade{'data-seat-wizard--component-target': "stencilTabContent", "aria-labelledby": "stencil-tab", role: "tabpanel"}
+          #stencil.tab-pane.fade{'data-seat-wizard-target': "stencilTabContent", "aria-labelledby": "stencil-tab", role: "tabpanel"}
             = render(SeatWizardStencilTab::Component.new(project, @seat.stencils)) if @seat.selection_made?
 
           #review.tab-pane.fade{"aria-labelledby": "review-tab", role: "tabpanel"}

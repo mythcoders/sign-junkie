@@ -1,7 +1,7 @@
-import ApplicationController from "./application_controller"
+import { Controller } from "@hotwired/stimulus"
 // import * as Sentry from "@sentry/browser"
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static values = { clientToken: String, purchaseAmount: String }
   static targets = ["paymentNonce"]
 

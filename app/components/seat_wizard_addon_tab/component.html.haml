@@ -1,12 +1,12 @@
-%div{'data-controller': 'seat-wizard-addon-tab--component',
-     'data-seat-wizard-addon-tab--component-addon-id-value': @selected_id,
-     'data-seat-wizard-addon-tab--component-active-class': 'bg-selected'}
+%div{'data-controller': 'seat-wizard-addon',
+     'data-seat-wizard-addon-addon-id-value': @selected_id,
+     'data-seat-wizard-addon-active-class': 'bg-selected'}
 
   .card-body
     - if @project.addons.active.any?
       %h5.card-title.mt-2 Select an optional add-on
 
-      = hidden_field_tag 'cart[addon_id]', nil, 'data-seat-wizard-addon-tab--component-target': 'input'
+      = hidden_field_tag 'cart[addon_id]', nil, 'data-seat-wizard-addon-target': 'input'
 
       .row
         - @project.addons.active.each do |addon|
@@ -14,8 +14,8 @@
             %a.card.shadow-light-lg.mb-1{href: '#',
                                          'data-seat-wizard-target': 'addon',
                                          'data-id': addon.id,
-                                         'data-action': 'seat-wizard-addon-tab--component#toggle'}
-              .card-body.text-center.card-body-tight{'data-seat-wizard-addon-tab--component-target': 'addon',
+                                         'data-action': 'seat-wizard-addon#toggle'}
+              .card-body.text-center.card-body-tight{'data-seat-wizard-addon-target': 'addon',
                                                      'data-id': addon.id,
                                                      'data-selected': (@selected_id == addon.id).to_s}
                 - if addon.addon_images.any?
@@ -31,7 +31,7 @@
           %p.text-muted.mb-0 This project does not have any available add-ons for purchase.
 
   .card-footer.card-sticky-footer
-    %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard--component#goToTab', 'data-destination': 'project'} Previous
+    %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'project'} Previous
 
     .float-right
-      %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard--component#goToTab', 'data-destination': 'stencil'} Next
+      %a.btn.btn-primary{href: '#', 'data-action': 'seat-wizard#goToTab', 'data-destination': 'stencil'} Next

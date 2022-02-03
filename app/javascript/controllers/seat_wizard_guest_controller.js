@@ -1,6 +1,6 @@
-import ApplicationController from "../../javascript/controllers/application_controller"
+import { Controller } from "@hotwired/stimulus"
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static values = {
     adultGuestHelpText: String,
     childGuestHelpText: String,

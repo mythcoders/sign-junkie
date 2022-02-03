@@ -1,7 +1,7 @@
-import ApplicationController from "../controllers/application_controller"
+import { Controller } from "@hotwired/stimulus"
 import mapboxgl from 'mapbox-gl'
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static values = { accessToken: String, markerLabel: String, markerPosition: Array }
 
   connect() {

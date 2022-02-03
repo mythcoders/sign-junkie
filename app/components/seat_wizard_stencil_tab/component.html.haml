@@ -1,9 +1,9 @@
-%div{'data-controller': 'seat-wizard-stencil-tab--component',
-     'data-seat-wizard-stencil-tab--component-max-stencils-value': @project.allowed_stencils,
-     'data-seat-wizard-stencil-tab--component-stencils-value': stencils_as_js_object,
-     'data-seat-wizard-stencil-tab--component-plain-stencil-text-value': plain_stencil_text,
-     'data-seat-wizard-stencil-tab--component-active-class': 'bg-selected',
-     'data-seat-wizard-stencil-tab--component-disabled-class': 'disabled'}
+%div{'data-controller': 'seat-wizard-stencil',
+     'data-seat-wizard-stencil-max-stencils-value': @project.allowed_stencils,
+     'data-seat-wizard-stencil-stencils-value': stencils_as_js_object,
+     'data-seat-wizard-stencil-plain-stencil-text-value': plain_stencil_text,
+     'data-seat-wizard-stencil-active-class': 'bg-selected',
+     'data-seat-wizard-stencil-disabled-class': 'disabled'}
 
   .card-body
     - if @project.stencils.active.any?
@@ -13,7 +13,7 @@
         - else
           Select a stencil
 
-      = hidden_field_tag 'cart[stencils]', nil, 'data-seat-wizard-stencil-tab--component-target': 'input'
+      = hidden_field_tag 'cart[stencils]', nil, 'data-seat-wizard-stencil-target': 'input'
 
       .row
         - if @project.allow_no_stencil
@@ -22,11 +22,11 @@
               .custom-checkbox.custom-control
                 %input#noStencil.custom-control-input{type: "checkbox",
                                                       value: "PLAIN_STENCIL",
-                                                      'data-action': "seat-wizard-stencil-tab--component#togglePlainOption",
+                                                      'data-action': "seat-wizard-stencil#togglePlainOption",
                                                       form: 'nosubmit'}
                 %label.custom-control-label{for: "noStencil"}= t('seat.plain_stencil')
 
-        .col-12{'data-seat-wizard-stencil-tab--component-target': 'filter'}
+        .col-12{'data-seat-wizard-stencil-target': 'filter'}
           .form-group
             - categories = @project.stencils.active.map { |p| p.category }.uniq
             = select_tag :stencil_filter,
@@ -34,17 +34,17 @@
               include_blank: 'All Stencil Categories',
               class: 'custom-select',
               'data-target': '#stencilOptions',
-              'data-action': 'seat-wizard-stencil-tab--component#changeCategoryFilter',
+              'data-action': 'seat-wizard-stencil#changeCategoryFilter',
               form: 'nosubmit'
 
       .row
         - @project.stencils.active.order(:name).each do |stencil|
-          .col-4.col-md-3.p-1{'data-seat-wizard-stencil-tab--component-target': 'column', 'data-category-id': stencil.category.id}
+          .col-4.col-md-3.p-1{'data-seat-wizard-stencil-target': 'column', 'data-category-id': stencil.category.id}
             %a.card.shadow-light-lg.mb-1{href: '#',
-                                         'data-action': 'seat-wizard-stencil-tab--component#toggleStencil',
+                                         'data-action': 'seat-wizard-stencil#toggleStencil',
                                          'data-id': stencil.id,
                                          'data-allow-personalization': stencil.allow_personilization.to_s}
-              .card-body.text-center.card-body-tight{'data-seat-wizard-stencil-tab--component-target': 'option',
+              .card-body.text-center.card-body-tight{'data-seat-wizard-stencil-target': 'option',
                                                      'data-seat-wizard-target': 'stencil',
                                                      'data-id': stencil.id,
                                                      'data-selected': 'false'}
@@ -57,13 +57,13 @@
                   .badge.badge-info Personalizable
 
             - if stencil.allow_personilization
-              .form-group{'data-seat-wizard-stencil-tab--component-target': 'personalization', 'data-id': stencil.id, 'hidden': true}
+              .form-group{'data-seat-wizard-stencil-target': 'personalization', 'data-id': stencil.id, 'hidden': true}
                 - element_id = "stencil-personalization-#{stencil.id}"
 
                 %i.fas.fa-palette.text-primary.fa-fw
                 = label_tag element_id, 'Stencil Personalization'
                 = text_field_tag element_id, personilized_stencil_text(stencil.id), class: 'form-control', autocomplete: false, 'data-id': stencil.id,
-                                             'data-action': 'seat-wizard-stencil-tab--component#updateStencilPersonalization',
+                                             'data-action': 'seat-wizard-stencil#updateStencilPersonalization',
                                              form: 'nosubmit'
 
                 %p.form-text.text-muted
@@ -77,11 +77,11 @@
 
   .card-footer.card-sticky-footer
     %a.btn.btn-primary{href: '#',
-                    'data-action': 'seat-wizard--component#goToTab',
+                    'data-action': 'seat-wizard#goToTab',
                     'data-destination': @project.addons.active.any? ? 'addon' : 'project'} Previous
 
     .float-right
       %a.btn.btn-primary.disabled{href: '#',
-                                  'data-action': 'seat-wizard--component#goToTab',
+                                  'data-action': 'seat-wizard#goToTab',
                                   'data-destination': 'review',
-                                  'data-seat-wizard-stencil-tab--component-target': 'nextButton'} Next
+                                  'data-seat-wizard-stencil-target': 'nextButton'} Next

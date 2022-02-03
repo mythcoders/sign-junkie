@@ -1,4 +1,3 @@
-// require("@rails/actiontext")
-// require("trix")
-
-import "trix"
+import actiontext from "@rails/actiontext"
+import activestorage from "@rails/actionstorage"
+import trix from "trix"

@@ -28,8 +28,9 @@
 %meta{property: "twitter:description", content: t('site.description')}
 %meta{property: "twitter:image", content: asset_url('Public')}
 = csrf_meta_tags
+= csp_meta_tag
 
 = javascript_importmap_tags
-%script{:async => "", :src => "https://ga.jspm.io/npm:es-module-shims@1.4.3/dist/es-module-shims.js"}
+= javascript_include_tag 'application', 'data-turbo-track': 'reload'
 %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
 = yield :head

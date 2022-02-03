@@ -1,7 +1,7 @@
-import ApplicationController from "../../javascript/controllers/application_controller"
-import Api from "../../javascript/libraries/api"
+import { Controller } from "@hotwired/stimulus"
+import Api from "../libraries/api"
 
-export default class extends ApplicationController {
+export default class extends Controller {
   static values = { addonId: String, project: Object, guestType: String, purchaseMode: String, stencils: String, workshopId: String }
   static targets = ["addonTab", "addonTabContent", "guestTab", "projectTab", "projectTabContent", "reviewTab",
     "stencilTab", "stencilTabContent"]
