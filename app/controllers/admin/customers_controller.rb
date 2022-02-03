@@ -17,7 +17,7 @@ module Admin
 
     def create
       @customer = User.invite!(customer_params.except(:id))
-      if @customer
+      if @customer.id
         flash["success"] = t("create.success")
         redirect_to admin_customer_path @customer
       else
