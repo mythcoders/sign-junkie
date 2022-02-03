@@ -1,4 +1,4 @@
-FROM ghcr.io/mythcoders/gaia-ruby2.7:latest AS base
+FROM ghcr.io/mythcoders/gaia-ruby3:latest AS base
 
 ENV APP_HOME=/opt/sign-junkie
 RUN mkdir $APP_HOME

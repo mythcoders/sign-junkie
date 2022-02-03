@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.0.3"
 gem "rails", "~> 7.0.0"
 
 gem "cssbundling-rails"
@@ -61,7 +61,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "rspec_junit_formatter"
   gem "shoulda-matchers"
-  gem "simplecov", require: false
   gem "standard"
   gem "timecop"
 end
