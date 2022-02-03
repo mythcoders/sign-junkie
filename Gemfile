@@ -8,7 +8,6 @@ gem "rails", "~> 7.0.0"
 
 gem "cssbundling-rails"
 gem "importmap-rails"
-gem "sassc-rails"
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "turbo-rails"
