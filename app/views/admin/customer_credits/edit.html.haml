@@ -9,12 +9,15 @@
         %h1.header-title
           %i.fad.fa-address-book
           = "Edit credit for #{@credit.customer.full_name}"
+      .col-auto
+        = form_for :seat, url: admin_addon_path(@credit), method:'delete', class: 'form-inline' do |f|
+          = f.hidden_field :id, value: @credit.id
+          %button.btn.btn-danger{type: 'submit'} Delete
 
 = form_for @credit, url: admin_customer_credit_path(@credit), method: :patch do |f|
   .card
     .card-body
       = error_messages_for 'credit'
-      = f.hidden_field :id
 
       .form-row
         .form-group.col-12.col-md-6
@@ -31,6 +34,3 @@
     .card-footer
       = link_to 'Cancel', :back, class: 'btn btn-outline-secondary'
       = f.submit 'Save Changes', class: 'btn btn-success'
-      = form_for :seat, url: admin_addon_path(@credit), method:'delete', class: 'form-inline' do |f|
-        = f.hidden_field :id, value: @credit.id
-        %button.btn.btn-danger{type: 'submit'} Delete
