@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Api from "../libraries/api"
+import $ from "jquery"
 
 export default class extends Controller {
   static values = { addonId: String, project: Object, guestType: String, purchaseMode: String, stencils: String, workshopId: String }
