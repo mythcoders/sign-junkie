@@ -2,11 +2,15 @@
 %html
   %head
     %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
+    %meta{content: "ie=edge", "http-equiv": "x-ua-compatible"}
+    %meta{name: "x-apple-disable-message-reformatting"}
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}
+    %meta{content: "telephone=no, date=no, address=no, email=no", name: "format-detection"}
     = stylesheet_link_tag 'mailer', type: 'text/css', media: 'all'
   %body.bg-light
     .container.mt-2
       %a{href: root_url}
-        %img.img-system-logo.mb-2{src: asset_path('SJWlogo.svg')}
+        %img.mb-2{src: asset_path('SJWlogo.svg'), style: "display: block; margin-left: auto; margin-right: auto;"}
       = yield
       %hr
       %p.text-center
