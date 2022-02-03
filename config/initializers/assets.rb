@@ -5,7 +5,7 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "3.0"
 
-Rails.application.config.assets.precompile += %w( action_text editor trix )
+Rails.application.config.assets.precompile += %w[action_text editor trix]
 
 Rails.application.config.assets.paths << Rails.root.join("node_modules")
 Rails.application.config.assets.paths << Rails.root.join("app", "assets", "fonts")
