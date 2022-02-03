@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     match "reports/sales_tax", to: "reports#sales_tax", as: "sales_tax_report", via: %i[get post]
 
     resources :addons, concerns: [:image_attachable]
+    resources :affirmations
     resources :announcements, except: %i[show]
     resources :customer_credits, only: %i[index], as: "credits", path: "credits"
     resources :gallery_images

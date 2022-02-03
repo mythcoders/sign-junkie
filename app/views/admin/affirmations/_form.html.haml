@@ -1,0 +1,25 @@
+.form-group
+  = f.label :title, class: 'col-form-label'
+  = f.text_field :title, class: 'form-control'
+.form-row
+  .col
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :for_reservations, class: 'custom-control-input'
+        = f.label :for_reservations, class: 'custom-control-label'
+        %small.form-text.text-muted
+          This affirmation will be displayed when booking a group reservation.
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :for_seats, class: 'custom-control-input'
+        = f.label :for_seats, class: 'custom-control-label'
+        %small.form-text.text-muted
+          This affirmation will be displayed when booking a single seat.
+  .form-group.col
+    = f.label :workshop_type_id, class: 'col-form-label'
+    - @workshop_types.each do |type|
+      .custom-control.custom-radio
+        = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input'
+        %label.custom-control-label{for: "affirmation_workshop_type_id_#{type.id}"}= type.name
+.form-group
+  = f.rich_text_area :content

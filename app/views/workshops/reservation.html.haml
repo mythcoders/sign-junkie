@@ -34,22 +34,14 @@
             = f.radio_button :payment_plan, 'host', class: 'custom-control-input', required: 'required'
             = f.label :payment_plan, value: 'host', class: 'custom-control-label' do
               Host will pay for all guests and the projects they select
-      .form-row
-        .form-group.col
-          .custom-switch.custom-control
-            = f.check_box :booking_agreement, class: 'custom-control-input', required: 'required'
-            = f.label :booking_agreement, class: 'custom-control-label'
-          %p.form-control-plaintext
-            I have read and agree to the
-            %a{href: workshop_hosting_path(@workshop)} Hostess Guidelines
-      .form-row
-        .form-group.col
-          .custom-switch.custom-control
-            = f.check_box :reservation_agreement, class: 'custom-control-input', required: 'required'
-            = f.label :reservation_agreement, class: 'custom-control-label'
-          %p.form-control-plaintext
-            I have read and agree to the
-            %a{href: workshop_policies_path(@workshop)}= "#{@workshop.workshop_type.name} Workshop Policies."
+
+      - @affirmations.each do |affirmation|
+        .form-row
+          .form-group.col
+            .custom-switch.custom-control
+              = f.check_box "affirm-#{affirmation.id}", class: 'custom-control-input', required: 'required'
+              = f.label "affirm-#{affirmation.id}", affirmation.title, class: 'custom-control-label'
+            = affirmation.content
 
       %button{type: 'submit', name: 'save', class: 'btn btn-info btn-block'}
         = fa_solid 'cart-plus'

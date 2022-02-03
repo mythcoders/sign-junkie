@@ -29,6 +29,9 @@ class WorkshopsController < ApplicationController
 
   def reservation
     # TODO: redirect somewhere if no reservation purchase
+    @affirmations = Affirmation
+      .where(active: true, for_reservations: true, workshop_type_id: @workshop.workshop_type_id)
+      .order(:title)
   end
 
   def projects

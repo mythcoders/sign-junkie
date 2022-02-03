@@ -1,0 +1,24 @@
+- content_for :head do
+  = javascript_import_module_tag "editor"
+- page_title 'New', 'Affirmation'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Affirmations
+        %h1.header-title
+          %i.fad.fa-file-contract
+          New Affirmation
+
+= form_for @affirmation, url: admin_affirmations_path, local: true do |f|
+  .row.justify-content-center
+    .col.col-lg-8.col-md-12
+      .card.mt-3
+        .card-body
+          = error_messages_for 'affirmation'
+          = render partial: 'admin/affirmations/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', admin_affirmations_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Create', class: 'btn btn-success'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_073312) do
+ActiveRecord::Schema.define(version: 2022_02_03_054816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,17 @@ ActiveRecord::Schema.define(version: 2022_01_27_073312) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.index ["name"], name: "index_addons_on_name", unique: true
+  end
+
+  create_table "affirmations", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "workshop_type_id", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "for_seats", default: true, null: false
+    t.boolean "for_reservations", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["workshop_type_id"], name: "index_affirmations_on_workshop_type_id"
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -370,6 +381,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_073312) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "affirmations", "workshop_types"
   add_foreign_key "carts", "item_descriptions"
   add_foreign_key "carts", "users"
   add_foreign_key "customer_credits", "users"

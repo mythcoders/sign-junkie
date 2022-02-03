@@ -2,6 +2,7 @@
 
 class WorkshopType < ApplicationRecord
   has_paper_trail
+  has_many :affirmations
   has_many :workshops
 
   class << self

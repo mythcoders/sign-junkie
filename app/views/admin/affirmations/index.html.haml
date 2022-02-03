@@ -1,0 +1,49 @@
+- page_title 'Affirmation Search'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Affirmations
+        %h1.header-title
+          %i.fad.fa-file-contract
+          Search
+      .col-auto
+        = link_to 'New Affirmation', new_admin_affirmation_path, class: 'btn btn-primary lift'
+
+.card
+  .card-header
+    = search_form_for(@q, url: admin_affirmations_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :title_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :title)
+        %th Workshop Type
+        %th Status
+    %tbody
+      - @affirmations.each do |affirmation|
+        %tr
+          %td= link_to affirmation.title, edit_admin_affirmation_path(affirmation)
+          %td= affirmation.workshop_type.name
+          %td
+            - if affirmation.active?
+              %span.text-success ●
+              Active
+            - else
+              %span.text-warning ●
+              Inactive
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @affirmations
+          = page_entries_info @affirmations
