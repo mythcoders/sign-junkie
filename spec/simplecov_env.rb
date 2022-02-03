@@ -2,6 +2,7 @@
 
 require "simplecov"
 require "active_support/core_ext/numeric/time"
+require 'active_support/isolated_execution_state' if ActiveSupport::VERSION::MAJOR > 6
 
 module SimpleCovEnv
   module_function
