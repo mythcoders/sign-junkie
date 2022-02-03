@@ -20,18 +20,18 @@ jobs:
           bundler-cache: true
 
       - name: standardrb
-        run: ./scripts/cibuild linter
+        run: ./scripts/ci linter
 
       - name: brakeman
         continue-on-error: true
         run: |
           gem install brakeman
-          ./scripts/cibuild brakeman
+          ./scripts/ci brakeman
 
       - name: bundler audit
         run: |
           gem install bundler-audit
-          ./scripts/cibuild audit
+          ./scripts/ci audit
   tests:
     runs-on: ubuntu-latest
     env:
@@ -80,4 +80,4 @@ jobs:
         run: ASSETS_PRECOMPILE=1 ./bin/rails assets:precompile
 
       - name: rspec
-        run: ./scripts/cibuild rspec
+        run: ./scripts/ci rspec
