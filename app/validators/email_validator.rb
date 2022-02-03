@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EmailValidator < ActiveModel::EachValidator
-  EMAIL_FORMAT = /\A([\w.%+\-]+)@([\w\-]+\.)+(\w{2,})\z/i.freeze
+  EMAIL_FORMAT = /\A([\w.%+\-]+)@([\w\-]+\.)+(\w{2,})\z/i
 
   def validate_each(record, attribute, value)
     if EMAIL_FORMAT.match?(value)
