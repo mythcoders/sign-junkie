@@ -24,13 +24,12 @@
 %meta{property: "og:image", content: asset_url('Public')}
 %meta{property: "twitter:card", content: 'summary_large_image'}
 -# %meta{property: "twitter:site", content: ''}
-%meta{property: "twitter:title", content: t('site.title_long')}
+%meta{property: "twitter:title", content: t('site.title')}
 %meta{property: "twitter:description", content: t('site.description')}
 %meta{property: "twitter:image", content: asset_url('Public')}
 = csrf_meta_tags
 = csp_meta_tag
 
 = javascript_importmap_tags
-= javascript_include_tag 'application', 'data-turbo-track': 'reload'
 %script{src: "https://kit.fontawesome.com/41aacffc34.js"}
 = yield :head

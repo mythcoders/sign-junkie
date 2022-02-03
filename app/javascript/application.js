@@ -3,6 +3,3 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
-
-// require("@rails/ujs").start()
-// require("@rails/activestorage").start()

@@ -1,4 +1,4 @@
-.row{'data-controller': 'admin--workshop-edit'}
+.row{'data-controller': 'workshop-edit'}
   .col-12.col-lg-5
     .card
       .card-body
@@ -16,8 +16,8 @@
             - @workshop_types.each do |type|
               .custom-control.custom-radio
                 = f.radio_button :workshop_type_id, type.id, class: 'custom-control-input',
-                  'data-admin--workshop-edit-target': 'input',
-                  'data-action': 'admin--workshop-edit#toggleType',
+                  'data-workshop-edit-target': 'input',
+                  'data-action': 'workshop-edit#toggleType',
                   'data-reservation-allow': human_boolean(type.default_reservation_allow),
                   'data-reservation-allow-multiple': human_boolean(type.default_reservation_allow_multiple),
                   'data-reservation-allow-guest-cancel-seat': human_boolean(type.default_reservation_allow_guest_cancel_seat),
@@ -75,13 +75,13 @@
                 %td
                   Are individual seats allowed?
                   %small.form-text.text-muted Allow customers to purchase individual seats (not associated with a reservation) as long as there are enough seats available
-                %td{'data-admin--workshop-edit-target': 'singleSeatAllow'}
+                %td{'data-workshop-edit-target': 'singleSeatAllow'}
                 %td= f.select :overridden_single_seat_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Total seat count
                   %small.form-text.text-muted Total number of guests that can attend this type of workshop.
-                %td{'data-admin--workshop-edit-target': 'totalSeats'}
+                %td{'data-workshop-edit-target': 'totalSeats'}
                 %td
                   = f.text_field :overridden_total_seats, class: 'form-control', placeholder: 'Default'
               %tr
@@ -90,19 +90,19 @@
                 %td
                   Are reservations allowed?
                   %small.form-text.text-muted Allow reservations to be booked as long as there are enough seats available to meet the reservation minimum seat count.
-                %td{'data-admin--workshop-edit-target': 'reservationAllow'}
+                %td{'data-workshop-edit-target': 'reservationAllow'}
                 %td= f.select :overridden_reservation_allow, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Are multiple reservations allowed?
                   %small.form-text.text-muted Allow multiple reservations to be booked by different customers.
-                %td{'data-admin--workshop-edit-target': 'reservationAllowMultiple'}
+                %td{'data-workshop-edit-target': 'reservationAllowMultiple'}
                 %td= f.select :overridden_reservation_allow_multiple, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Reservations Cut Off
                   %small.form-text.text-muted Number of days before the workshop when reservations are no longer accepted.
-                %td{'data-admin--workshop-edit-target': 'reservationsEnd'}
+                %td{'data-workshop-edit-target': 'reservationsEnd'}
                 %td
                   %input.form-control{:placeholder => "Default", :disabled => "disabled", :type => "text"}
               %tr
@@ -111,21 +111,21 @@
                   %small.form-text.text-muted
                     Automatically void reservations if the minimum number of guests have not met the requirements by the
                     registration/payment deadlines.
-                %td{'data-admin--workshop-edit-target': 'reservationCancelMinimum'}
+                %td{'data-workshop-edit-target': 'reservationCancelMinimum'}
                 %td= f.select :overridden_reservation_cancel_minimum_not_met, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Are hosts or guests allowed to cancel seats?
                   %small.form-text.text-muted
                     Should the host or guests that are associated to a reservation be allowed to cancel a seat after it's already been claimed?
-                %td{'data-admin--workshop-edit-target': 'reservationAllowGuestCancelSeat'}
+                %td{'data-workshop-edit-target': 'reservationAllowGuestCancelSeat'}
                 %td= f.select :overridden_reservation_allow_guest_cancel_seat, overriden_boolean_select_options, {}, { class: 'custom-select' }
               %tr
                 %td
                   Minimum seat count
                   %small.form-text.text-muted
                     Minimum number of guests that can be on a single reservation.
-                %td{'data-admin--workshop-edit-target': 'reservationMinimum'}
+                %td{'data-workshop-edit-target': 'reservationMinimum'}
                 %td= f.text_field :overridden_reservation_minimum, class: 'form-control', placeholder: 'Default'
               %tr
                 %td
@@ -133,13 +133,13 @@
                   %small.form-text.text-muted
                     Maximum number of guests that can be on a single reservation.
                     Can not be larger than the total seat count.
-                %td{'data-admin--workshop-edit-target': 'reservationMaximum'}
+                %td{'data-workshop-edit-target': 'reservationMaximum'}
                 %td= f.text_field :overridden_reservation_maximum, class: 'form-control', placeholder: 'Default'
               %tr
                 %td
                   Deposit fee
                   %small.form-text.text-muted The price it costs for customers to book a reservation.
-                %td{'data-admin--workshop-edit-target': 'reservationPrice'}
+                %td{'data-workshop-edit-target': 'reservationPrice'}
                 %td
                   .input-group
                     .input-group-prepend
