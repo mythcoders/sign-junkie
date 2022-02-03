@@ -27,12 +27,6 @@ module WorkshopsHelper
     public_policies_path
   end
 
-  def workshop_hosting_path(workshop)
-    return private_hostess_path if private?(workshop)
-
-    public_hostess_path
-  end
-
   def image_for_workshop(workshop)
     if workshop.workshop_images.any?
       url_for workshop.workshop_images.first
