@@ -15,7 +15,7 @@ Rails.application.configure do
   config.assets.prefix = "assets_test"
   config.action_controller.asset_host = "file://#{::Rails.root}/public"
   config.serve_static_assets = true
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = :terser
   config.assets.css_compressor = :sass
 
   config.consider_all_requests_local = true

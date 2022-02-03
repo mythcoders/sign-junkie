@@ -12,7 +12,6 @@ gem "sassc-rails"
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "turbo-rails"
-gem "uglifier"
 
 gem "aasm"
 gem "aws-sdk-s3"
@@ -36,6 +35,7 @@ gem "rack-cors"
 gem "ransack" # Searching
 gem "recaptcha" # Google recaptcha
 gem "redcarpet" # Markdown rendering
+gem "terser" # JS compressor
 gem "view_component"
 
 # sentry exceptions

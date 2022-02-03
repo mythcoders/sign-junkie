@@ -442,6 +442,8 @@ GEM
       railties (>= 6.0.0)
     strscan (3.0.1)
     temple (0.8.2)
+    terser (1.1.8)
+      execjs (>= 0.3.0, < 3)
     thor (1.2.1)
     thwait (0.2.0)
       e2mmap
@@ -453,8 +455,6 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.1.0)
     view_component (2.48.0)
       activesupport (>= 5.0.0, < 8.0)
@@ -533,10 +533,10 @@ DEPENDENCIES
   sprockets-rails
   standard
   stimulus-rails
+  terser
   timecop
   turbo-rails
   tzinfo-data
-  uglifier
   view_component
   web-console (>= 3.3.0)
 
