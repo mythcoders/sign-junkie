@@ -16,7 +16,6 @@ Rails.application.configure do
   config.action_controller.asset_host = "file://#{::Rails.root}/public"
   config.serve_static_assets = true
   config.assets.js_compressor = :terser
-  config.assets.css_compressor = :sass
 
   config.consider_all_requests_local = true
   config.action_controller.perform_caching = false

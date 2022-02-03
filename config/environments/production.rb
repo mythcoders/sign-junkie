@@ -17,7 +17,6 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   config.assets.js_compressor = :terser
-  config.assets.css_compressor = :sass
 
   config.log_level = :info
   config.log_tags = [:request_id]
