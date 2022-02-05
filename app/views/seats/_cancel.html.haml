@@ -7,7 +7,7 @@
           %span{"aria-hidden" => "true"} ×
       .modal-body
         A refund or credit will be issued per the
-        %a{href: workshop_policies_path(seat.workshop)} refund policy.
+        %a{href: policy_path(seat.workshop.workshop_type.guest_policy)} refund policy.
         This can not be undone.
 
       .modal-footer

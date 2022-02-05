@@ -8,8 +8,9 @@
       .modal-body
         = t('reservations.cancel.confirmation')
         %br
-        %br
-        %a{href: workshop_policies_path(reservation.workshop), target: '_blank'} Our refund policy.
+        - if reservation.workshop.workshop_type.host_policy?
+          %br
+          %a{href: policies_path(reservation.workshop.workshop_type.host_policy.slug), target: '_blank'} Our refund policy.
 
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss": "modal", type: "button"} Nevermind

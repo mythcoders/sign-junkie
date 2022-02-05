@@ -58,7 +58,7 @@
           .card-body
             %p.card-text
               = fa_solid 'usd-circle', 'text-primary fa-fw'
-              %span= "Starting at #{number_to_currency(starting_price(@workshop))}"
+              %span= "Starting at #{number_to_currency(@workshop.starting_price)}"
               %input{id: 'base-price', value: '0.00', type: 'hidden'}
             %p.card-text
               = fa_solid 'calendar-exclamation', 'text-primary fa-fw'

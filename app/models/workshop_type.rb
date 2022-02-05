@@ -4,6 +4,7 @@ class WorkshopType < ApplicationRecord
   has_paper_trail
   has_many :affirmations
   has_many :workshops
+  has_rich_text :description
 
   belongs_to :guest_policy, class_name: "Policy", optional: true
   belongs_to :host_policy, class_name: "Policy", optional: true

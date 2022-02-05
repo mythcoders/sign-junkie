@@ -61,6 +61,14 @@ class Workshop < ApplicationRecord
     "#{start_date.strftime("%-m/%-d/%Y")} - #{name}"
   end
 
+  def starting_price
+    @starting_price ||= if projects.any?
+      projects.pluck(:material_price, :instructional_price).map(&:sum).min
+    else
+      0.00
+    end
+  end
+
   private
 
   def workshop_type_not_changed

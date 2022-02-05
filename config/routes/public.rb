@@ -15,8 +15,6 @@ module Routes
       get "how_it_works", to: "public#how_it_works"
       get "projects/gallery", to: "projects#gallery", as: "gallery"
       get "privacy", to: "public#privacy"
-      get "workshops/public", to: "workshops#public"
-      get "workshops/private", to: "workshops#private"
       get "workshops/custom_order", to: "workshops#custom_order"
 
       resources :addons, only: %i[index show]

@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 module WorkshopsHelper
-  def starting_price(workshop)
-    if workshop.projects.any?
-      workshop.projects.pluck(:material_price, :instructional_price).map(&:sum).min
-    else
-      0.00
-    end
-  end
-
   def sold_out_text(workshop)
-    return "BOOKED!" if private?(workshop)
-
-    "SOLD OUT!"
+    if workshop.reservations_allowed? && !workshop.multiple_reservations_allowed?
+      "BOOKED!"
+    else
+      "SOLD OUT!"
+    end
   end
 
   def workshop_type_name(workshop)
@@ -21,23 +15,11 @@ module WorkshopsHelper
     workshop.workshop_type.name
   end
 
-  def workshop_policies_path(workshop)
-    return private_policies_path if private?(workshop)
-
-    public_policies_path
-  end
-
   def image_for_workshop(workshop)
     if workshop.workshop_images.any?
       url_for workshop.workshop_images.first
     else
       asset_path "cover.jpg"
     end
-  end
-
-  private
-
-  def private?(workshop)
-    workshop.workshop_type.name.include? "Private"
   end
 end

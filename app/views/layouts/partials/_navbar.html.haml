@@ -30,7 +30,7 @@
             %a.dropdown-item{href: addons_path} Project Add-ons
             %a.dropdown-item{href: gallery_path} Photo Gallery
         %li.nav-item
-          %a.nav-link{href: gift_cards_path}
+          %a.nav-link{href: workshops_path}
             Workshops
         %li.nav-item
           %a.nav-link{href: workshops_custom_order_path}
@@ -52,13 +52,12 @@
             %a.dropdown-item{href: faq_path} FAQs
         - if user_signed_in?
           %li.nav-item
-            = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do
-              = fa_solid 'shopping-cart'
-              Cart
-          %li.nav-item
             = link_to my_account_path, title: 'My Acount', class: 'nav-link' do
               = fa_solid 'user-circle'
               My Account
+          %li.nav-item
+            = link_to cart_index_path, title: 'Shopping cart', class: 'nav-link' do
+              = fa_solid 'shopping-cart'
           - if current_user.astronaut?
             %li.nav-item
               = link_to admin_dashboard_path, title: "#{SystemInfo.app_name} Mission Control", class: 'nav-link' do

@@ -6,20 +6,10 @@ class WorkshopsController < ApplicationController
   before_action :set_seat_check, only: %i[show seat]
   before_action :set_reservation_check, only: %i[show reservation]
 
-  def public
-    @workshops = Workshop
-      .includes(:workshop_type)
-      .where(workshop_types: {name: "Public"})
-      .for_sale
-      .order(:start_date)
-  end
-
-  def private
-    @workshops = Workshop
-      .includes(:workshop_type)
-      .where(workshop_types: {name: "Private"})
-      .for_sale
-      .order(:start_date)
+  def index
+    @q = Workshop.includes(:workshop_type).for_sale.ransack(params[:q])
+    @q.sorts = "start_date asc" if @q.sorts.empty?
+    @workshops = @q.result(distinct: true).page(params[:page])
   end
 
   def custom_order
