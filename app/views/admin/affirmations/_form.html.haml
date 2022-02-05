@@ -1,6 +1,10 @@
 .form-group
   = f.label :title, class: 'col-form-label'
   = f.text_field :title, class: 'form-control'
+.form-group
+  .custom-control.custom-checkbox
+    = f.check_box :active, class: 'custom-control-input'
+    = f.label :active, class: 'custom-control-label'
 .form-row
   .col
     .form-group

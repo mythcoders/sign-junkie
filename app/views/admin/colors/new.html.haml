@@ -1,0 +1,22 @@
+- page_title 'New', 'Color'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Colors
+        %h1.header-title
+          %i.fad.fa-palette
+          New Color
+
+= form_for @color, url: admin_colors_path, local: true do |f|
+  .row.justify-content-center
+    .col.col-lg-8.col-md-12
+      .card.mt-3
+        .card-body
+          = error_messages_for 'color'
+          = render partial: 'admin/colors/form', locals: { f: f }
+        .card-footer
+          = link_to 'Cancel', admin_colors_path, class: 'btn btn-outline-secondary'
+          = f.submit 'Create', class: 'btn btn-success'

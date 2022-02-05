@@ -84,6 +84,7 @@ Rails.application.routes.draw do
     resources :addons, concerns: [:image_attachable]
     resources :affirmations
     resources :announcements, except: %i[show]
+    resources :colors
     resources :customer_credits, only: %i[index], as: "credits", path: "credits"
     resources :gallery_images
     resources :invoices

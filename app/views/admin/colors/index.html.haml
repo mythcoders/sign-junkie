@@ -1,0 +1,49 @@
+- page_title 'Color Search'
+
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Colors
+        %h1.header-title
+          %i.fad.fa-palette
+          Search
+      .col-auto
+        = link_to 'New Color', new_admin_color_path, class: 'btn btn-primary lift'
+
+.card
+  .card-header
+    = search_form_for(@q, url: admin_colors_path) do |f|
+      .row.align-items-center
+        .col
+          .input-group.input-group-flush
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-search
+            = f.search_field :name_cont, class: 'form-control list-search', placeholder: 'Search'
+        .col-auto.mr-n3
+          = f.submit 'Search', class: 'btn btn-white'
+  %table.table.table-striped.border-bottom.card-table
+    %thead
+      %tr
+        %th= sort_link(@q, :name)
+        %th Color Type
+        %th Status
+    %tbody
+      - @colors.each do |color|
+        %tr
+          %td= link_to color.name, edit_admin_color_path(color)
+          %td= Color.human_enum_name :color_type, color.color_type
+          %td
+            - if color.active?
+              %span.text-success ●
+              Active
+            - else
+              %span.text-warning ●
+              Inactive
+    %tfoot
+      %tr
+        %td{colspan: '100%'}
+          = paginate @colors
+          = page_entries_info @colors

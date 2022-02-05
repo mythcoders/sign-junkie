@@ -60,7 +60,7 @@
               .form-group{'data-seat-wizard-stencil-target': 'personalization', 'data-id': stencil.id, 'hidden': true}
                 - element_id = "stencil-personalization-#{stencil.id}"
 
-                %i.fas.fa-palette.text-primary.fa-fw
+                %i.fas.fa-input-text.text-primary.fa-fw
                 = label_tag element_id, 'Stencil Personalization'
                 = text_field_tag element_id, personilized_stencil_text(stencil.id), class: 'form-control', autocomplete: false, 'data-id': stencil.id,
                                              'data-action': 'seat-wizard-stencil#updateStencilPersonalization',

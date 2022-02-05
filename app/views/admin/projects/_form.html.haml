@@ -1,35 +1,82 @@
-= f.hidden_field :id
-.form-group
-  = f.label :name, class: 'col-form-label'
-  = f.text_field :name, class: 'form-control'
-.form-row
-  .form-group.col-12.col-md-6
-    = f.label :material_price, class: 'col-form-label'
-    .input-group
-      .input-group-prepend
-        %span.input-group-text= fa_regular 'dollar-sign'
-      = f.text_field :material_price, class: 'form-control'
-  .form-group.col-12.col-md-6
-    = f.label :instructional_price, class: 'col-form-label'
-    .input-group
-      .input-group-prepend
-        %span.input-group-text= fa_regular 'dollar-sign'
-      = f.text_field :instructional_price, class: 'form-control'
-.form-group
-  = f.label :allowed_stencils, class: 'col-form-label'
-  = f.text_field :allowed_stencils, class: 'form-control'
-.form-group
-  .custom-control.custom-checkbox
-    = f.check_box :active, class: 'custom-control-input'
-    = f.label :active, class: 'custom-control-label'
-  .custom-control.custom-checkbox
-    = f.check_box :only_for_children, class: 'custom-control-input'
-    = f.label :only_for_children, class: 'custom-control-label'
-.form-group
-  = f.label :addons, class: 'col-form-label'
-  = collection_check_boxes(:project, :addon_ids, Addon.order(name: :asc).all, :id, :name) do |b|
-    .custom-control.custom-checkbox
-      = b.check_box(class: 'custom-control-input')
-      = b.label(class: 'custom-control-label')
-      - unless b.object.active?
-        %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
+= error_messages_for 'project'
+
+.row
+  .col-12.col-md-5
+    .card
+      .card-body
+        .form-group
+          = f.label :name, class: 'col-form-label'
+          = f.text_field :name, class: 'form-control'
+        .form-row
+          .form-group.col-12.col-md-6
+            = f.label :material_price, class: 'col-form-label'
+            .input-group
+              .input-group-prepend
+                %span.input-group-text= fa_regular 'dollar-sign'
+              = f.text_field :material_price, class: 'form-control'
+          .form-group.col-12.col-md-6
+            = f.label :instructional_price, class: 'col-form-label'
+            .input-group
+              .input-group-prepend
+                %span.input-group-text= fa_regular 'dollar-sign'
+              = f.text_field :instructional_price, class: 'form-control'
+        .form-group
+          .custom-control.custom-checkbox
+            = f.check_box :active, class: 'custom-control-input'
+            = f.label :active, class: 'custom-control-label'
+          .custom-control.custom-checkbox
+            = f.check_box :only_for_children, class: 'custom-control-input'
+            = f.label :only_for_children, class: 'custom-control-label'
+  .col-12.col-md-7
+    %ul#projectTab.nav.nav-tabs.mb-2{role: "tablist"}
+      %li.nav-item
+        %a#addons-tab.nav-link.active{"aria-controls": "addons", "aria-selected": "false", "data-toggle": "tab", href: "#addons", role: "tab"}
+          = fa_solid 'stamp'
+          Add-ons
+      %li.nav-item
+        %a#colors-tab.nav-link{"aria-controls": "colors", "aria-selected": "true", "data-toggle": "tab", href: "#colors", role: "tab"}
+          = fa_solid 'palette'
+          Colors
+      %li.nav-item
+        %a#stencils-tab.nav-link{"aria-controls": "stencils", "aria-selected": "true", "data-toggle": "tab", href: "#stencils", role: "tab"}
+          = fa_solid 'swatchbook'
+          Stencils
+
+    #projectTabContent.tab-content
+      #addons.tab-pane.fade.show.active{"aria-labelledby": "addons-tab", role: "tabpanel"}
+        .card
+          .card-body
+            = collection_check_boxes(:project, :addon_ids, Addon.order(name: :asc).all, :id, :name) do |b|
+              .custom-control.custom-checkbox
+                = b.check_box(class: 'custom-control-input')
+                = b.label(class: 'custom-control-label')
+                - unless b.object.active?
+                  %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
+      #colors.tab-pane.fade.fade{"aria-labelledby": "colors-tab", role: "tabpanel"}
+        .card
+          .card-body
+            = collection_check_boxes(:project, :color_ids, Color.order(name: :asc).all, :id, :name) do |b|
+              .custom-control.custom-checkbox
+                = b.check_box(class: 'custom-control-input')
+                = b.label(class: 'custom-control-label')
+                - unless b.object.active?
+                  %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
+
+      #stencils.tab-pane.fade.fade{"aria-labelledby": "stencils-tab", role: "tabpanel"}
+        .card
+          .card-body
+            .form-group
+              = f.label :allowed_stencils, class: 'col-form-label'
+              = f.text_field :allowed_stencils, class: 'form-control'
+            .custom-control.custom-checkbox
+              = f.check_box :allow_no_stencil, class: 'custom-control-input'
+              = f.label :allow_no_stencil, class: 'custom-control-label'
+
+        .card
+          .card-body
+            = collection_check_boxes(:project, :stencil_ids, Stencil.order(name: :asc).all, :id, :name) do |b|
+              .custom-control.custom-checkbox
+                = b.check_box(class: 'custom-control-input')
+                = b.label(class: 'custom-control-label')
+                - unless b.object.active?
+                  %span.badge.badge-soft-warning.text-uppercase.badge-pill Inactive
