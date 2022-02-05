@@ -10,39 +10,38 @@
         .alert.alert-info
           = announcement.content
 .row
-  .col-12.col-md-4
-    .card.mb-3
-      %h5.card-header.text-center
-        Public Workshops
-      %img.card-img-top{:alt => "A group of DIY-ers with their creations", src: asset_path("Public.jpeg")}
-      .card-body
-        .card-text
-          Register to come alone or with family or friends! If you have a small group (minimum 4 guests and maximum 8)
-          you can reserve a group reservation within a public workshop.
-      .card-footer.text-center
-        %a.btn.btn-primary.btn-block(href=workshops_public_path)
-          View our PUBLIC Workshop Dates
-
-  .col-12.col-md-4
-    .card.mb-3
-      %h5.card-header.text-center
-        Private Workshops
-      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', src: asset_path("Private.jpeg")}
-      .card-body
-        .card-text
-          Want the place to yourself? If you have a large group (minimum 6 guests and maximum 12 depending on the size
-          of the project), you can reserve the entire space.
-      .card-footer.text-center
-        %a.btn.btn-primary.btn-block(href=workshops_private_path)
-          View our PRIVATE Workshop Dates
-
-  .col-12.col-md-4
-    .card.mb-3
-      %h5.card-header.text-center Custom Sign Orders
-      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', src: asset_path("Private.jpeg")}
-      .card-body
-        .card-text
-          TBD
-      .card-footer.text-center
-        %a.btn.btn-primary.btn-block(href=workshops_private_path)
-          CUSTOM SIGN ORDERS
+  .col-3
+    .rendered-form
+      .formbuilder-radio-group.form-group.field-workshop_type_ids
+        %label.formbuilder-radio-group-label{:for => "workshop_type_ids"} Type
+        .radio-group
+          .formbuilder-radio
+            %input#workshop_type_ids-0{:access => "false", :checked => "checked", :name => "workshop_type_ids", :type => "radio", :value => "1"}/
+            %label{:for => "workshop_type_ids-0"} Public Workshops
+          .formbuilder-radio
+            %input#workshop_type_ids-1{:access => "false", :name => "workshop_type_ids", :type => "radio", :value => "2"}/
+            %label{:for => "workshop_type_ids-1"} Private Workshops
+      .formbuilder-radio-group.form-group.field-workshop_type_ids
+        %label.formbuilder-radio-group-label{:for => "workshop_type_ids"} Ages
+        .radio-group
+          .formbuilder-radio
+            %input#workshop_type_ids-0{:access => "false", :checked => "checked", :name => "workshop_type_ids", :type => "radio", :value => "1"}/
+            %label{:for => "workshop_type_ids-0"} Adult Only
+          .formbuilder-radio
+            %input#workshop_type_ids-1{:access => "false", :name => "workshop_type_ids", :type => "radio", :value => "2"}/
+            %label{:for => "workshop_type_ids-1"} Family Friendly
+      .formbuilder-date.form-group.field-start_date
+        %label.formbuilder-date-label{:for => "start_date"} Price Range
+        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "text"}
+      .formbuilder-date.form-group.field-start_date
+        %label.formbuilder-date-label{:for => "start_date"} Start Date
+        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "date"}
+      .formbuilder-date.form-group.field-end_date
+        %label.formbuilder-date-label{:for => "end_date"} End Date
+        %input#end_date.form-control{:access => "false", :name => "end_date", :type => "date"}
+      .formbuilder-date.form-group.field-start_date
+        %label.formbuilder-date-label{:for => "start_date"} Seats Available
+        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "text"}
+  .col-9
+    %turbo-frame#results
+      = render WorkshopSearchResults::Component.new(@workshops)

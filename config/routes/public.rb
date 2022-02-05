@@ -11,7 +11,6 @@ module Routes
       get "about", to: "public#about"
       get "contact", to: "public#contact"
       get "faq", to: "public#faq"
-      get "waiver", to: "public#waiver"
       get "how_it_works", to: "public#how_it_works"
       get "projects/gallery", to: "projects#gallery", as: "gallery"
       get "privacy", to: "public#privacy"
@@ -33,7 +32,7 @@ module Routes
       end
       resources :seats, only: %i[index show], concerns: :cancelable
       resources :stencils, only: %i[index show]
-      resources :workshops, only: %i[index show] do
+      resources :workshops, only: %i[show] do
         get "seat", on: :member
         get "reservation", on: :member
         get "projects", on: :member

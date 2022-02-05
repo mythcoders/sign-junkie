@@ -21,6 +21,12 @@
       %ul.navbar-nav.nav-fill.w-100
         %li.nav-item
           = link_to 'Home', root_path, class: 'nav-link'
+        %li.nav-item
+          %a.nav-link{href: workshops_custom_order_path}
+            Custom Orders
+        %li.nav-item
+          %a.nav-link{href: gift_cards_path}
+            Gift Cards
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
             Projects
@@ -29,18 +35,6 @@
             %a.dropdown-item{href: stencils_path} Stencil Designs
             %a.dropdown-item{href: addons_path} Project Add-ons
             %a.dropdown-item{href: gallery_path} Photo Gallery
-        %li.nav-item
-          %a.nav-link{href: workshops_path}
-            Workshops
-        %li.nav-item
-          %a.nav-link{href: workshops_custom_order_path}
-            Custom Orders
-        %li.nav-item
-          %a.nav-link{href: policies_path}
-            Policies
-        %li.nav-item
-          %a.nav-link{href: gift_cards_path}
-            Gift Cards
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
             About
@@ -48,7 +42,7 @@
             %a.dropdown-item{href: about_path} About Us
             %a.dropdown-item{href: contact_path} Contact Us
             %a.dropdown-item{href: how_it_works_path} How It Works
-            %a.dropdown-item{href: waiver_path} Waiver of Liability
+            %a.dropdown-item{href: policies_path} Policies
             %a.dropdown-item{href: faq_path} FAQs
         - if user_signed_in?
           %li.nav-item
