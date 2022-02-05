@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_180035) do
+ActiveRecord::Schema.define(version: 2022_02_05_181940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,8 +181,6 @@ ActiveRecord::Schema.define(version: 2022_02_05_180035) do
   create_table "project_addons", id: :serial, force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "addon_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["addon_id"], name: "index_project_addons_on_addon_id"
     t.index ["project_id", "addon_id"], name: "index_project_addons_on_project_id_and_addon_id", unique: true
   end
@@ -197,8 +195,6 @@ ActiveRecord::Schema.define(version: 2022_02_05_180035) do
   create_table "project_stencils", id: :serial, force: :cascade do |t|
     t.bigint "stencil_id", null: false
     t.bigint "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_stencils_on_project_id"
     t.index ["stencil_id", "project_id"], name: "index_project_stencils_on_stencil_id_and_project_id", unique: true
   end
@@ -350,8 +346,6 @@ ActiveRecord::Schema.define(version: 2022_02_05_180035) do
   create_table "workshop_projects", id: :serial, force: :cascade do |t|
     t.bigint "workshop_id", null: false
     t.bigint "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_workshop_projects_on_project_id"
     t.index ["workshop_id", "project_id"], name: "index_workshop_projects_on_workshop_id_and_project_id", unique: true
   end
