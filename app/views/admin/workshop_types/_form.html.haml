@@ -15,17 +15,29 @@
           Workshops of this type can be created
     .form-group
       .custom-switch.custom-control
-        = f.check_box :default_single_seat_allow, class: 'custom-control-input'
-        = f.label :default_single_seat_allow, class: 'custom-control-label'
+        = f.check_box :in_person, class: 'custom-control-input'
+        = f.label :in_person, class: 'custom-control-label'
         %small.form-text.text-muted
-          Allow customers to purchase seats to workshops of this type without a reservation
-  .col-12.col-md-6
+          Customers will be charged the instructional price of their selected project
     .form-group
       = f.label :default_total_seats, class: 'col-form-label'
       = f.text_field :default_total_seats, class: 'form-control'
       %small.form-text.text-muted
         Default total number of guests that can attend this type of workshop.
         This can be changed on a per-workshop basis later.
+  .col-12.col-md-6
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :default_single_seat_allow, class: 'custom-control-input'
+        = f.label :default_single_seat_allow, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Allow customers to purchase seats to workshops of this type without a reservation
+    .form-group
+      .custom-switch.custom-control
+        = f.check_box :multiple_seats, class: 'custom-control-input'
+        = f.label :multiple_seats, class: 'custom-control-label'
+        %small.form-text.text-muted
+          Customers can purchase multiple seats to workshops of this type
 
 %h3.mb-4 Reservation Options
 .row

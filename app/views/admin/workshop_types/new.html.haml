@@ -1,17 +1,17 @@
 - page_title 'Edit', 'Workshop Types'
 
+.header
+  .header-body
+    .row.align-items-center
+      .col
+        %h6.header-pretitle
+          Workshop Types
+        %h1.header-title
+          %i.fas.fa-chalkboard-teacher
+          New Workshop Type
+
 .row.justify-content-center
   .col-12.col-lg-10.col-xl-8
-    .header.mt-md-5
-      .header-body
-        .row.align-items-center
-          .col
-            %h6.header-pretitle
-              Workshop Types
-            %h1.header-title
-              %i.fas.fa-chalkboard-teacher
-              New Workshop Type
-
     = form_for @workshop_type, url: admin_workshop_types_path do |f|
       = error_messages_for 'workshop_type'
       = render partial: 'admin/workshop_types/form', locals: { f: f }

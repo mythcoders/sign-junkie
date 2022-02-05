@@ -49,7 +49,7 @@ module SeatService
       @item.project_id = project.id
       @item.project_name = project.name
       @item.taxable_amount = project.material_price
-      @item.nontaxable_amount = project.instructional_price
+      @item.nontaxable_amount = project.instructional_price if @workshop.workshop_type.in_person?
     end
 
     def apply_addon

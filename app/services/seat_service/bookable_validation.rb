@@ -44,6 +44,8 @@ module SeatService
     end
 
     def already_booked_seats?
+      return false if @item.workshop.workshop_type.multiple_seats?
+
       case @item.guest_type
       when "other", "child"
         check_paid_seats_by_first_and_last_name

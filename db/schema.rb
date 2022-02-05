@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_054816) do
+ActiveRecord::Schema.define(version: 2022_02_05_172249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,8 @@ ActiveRecord::Schema.define(version: 2022_02_03_054816) do
     t.boolean "default_single_seat_allow"
     t.boolean "default_reservation_cancel_minimum_not_met"
     t.boolean "default_reservation_allow_guest_cancel_seat", default: true
+    t.boolean "multiple_seats", default: false
+    t.boolean "in_person", default: true
   end
 
   create_table "workshops", id: :serial, force: :cascade do |t|

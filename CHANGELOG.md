@@ -1,5 +1,7 @@
 #### 2202 - February ??, 2022
 
+- Improvements
+  - ?
 - Admin Portal Improvements
   - Business branding
   - Customize the Affirmations that customers must agree to when checking out
