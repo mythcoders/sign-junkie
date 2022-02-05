@@ -34,6 +34,10 @@
             %i.fad.fa-file-invoice-dollar.fa-lg.sidebar-icon
             Invoices
         %li.nav-item
+          = link_to admin_policies_path, class: 'nav-link' do
+            %i.fad.fa-file-contract.fa-lg.sidebar-icon
+            Policies
+        %li.nav-item
           = link_to admin_refunds_path, class: 'nav-link' do
             %i.fad.fa-gift-card.fa-lg.sidebar-icon
             Refunds
@@ -95,7 +99,7 @@
           -#     %i.fad.fa-history.fa-lg.sidebar-icon
           -#     Data History
           %li.nav-item
-            = link_to admin_sidekiq_web_path, class: 'nav-link', target: '_blank' do
+            = link_to sidekiq_web_path, class: 'nav-link', target: '_blank' do
               %i.fad.fa-server.fa-lg.sidebar-icon
               Sidekiq
       .mt-auto

@@ -1,0 +1,12 @@
+- page_title 'Policies'
+
+.row.justify-content-center.mt-3
+  .col
+    .card.mb-3
+      %h2.card-header.bg-primary.text-white.text-center
+        Our Policies
+
+%ul.list-group
+  - @policies.each do |policy|
+    %li.list-group-item
+      %a{href: policy_path(policy.slug)}= policy.title

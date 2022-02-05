@@ -1,7 +1,8 @@
 #### 2202 - February ??, 2022
 
 - Improvements
-  - ?
+  - Dynamic Policies
+  - Custom Sign Orders
 - Admin Portal Improvements
   - Business branding
   - Customize the Affirmations that customers must agree to when checking out

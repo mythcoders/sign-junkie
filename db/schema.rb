@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_181940) do
+ActiveRecord::Schema.define(version: 2022_02_05_194411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,16 @@ ActiveRecord::Schema.define(version: 2022_02_05_181940) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+  end
+
+  create_table "policies", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_policies_on_name", unique: true
+    t.index ["slug"], name: "index_policies_on_slug", unique: true
   end
 
   create_table "project_addons", id: :serial, force: :cascade do |t|
@@ -366,6 +376,10 @@ ActiveRecord::Schema.define(version: 2022_02_05_181940) do
     t.boolean "default_reservation_allow_guest_cancel_seat", default: true
     t.boolean "multiple_seats", default: false
     t.boolean "in_person", default: true
+    t.bigint "guest_policy_id"
+    t.bigint "host_policy_id"
+    t.index ["guest_policy_id"], name: "index_workshop_types_on_guest_policy_id"
+    t.index ["host_policy_id"], name: "index_workshop_types_on_host_policy_id"
   end
 
   create_table "workshops", id: :serial, force: :cascade do |t|
@@ -418,5 +432,7 @@ ActiveRecord::Schema.define(version: 2022_02_05_181940) do
   add_foreign_key "stencils", "stencil_categories"
   add_foreign_key "workshop_projects", "projects"
   add_foreign_key "workshop_projects", "workshops"
+  add_foreign_key "workshop_types", "policies", column: "guest_policy_id"
+  add_foreign_key "workshop_types", "policies", column: "host_policy_id"
   add_foreign_key "workshops", "workshop_types"
 end

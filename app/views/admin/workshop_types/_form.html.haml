@@ -87,3 +87,22 @@
       %small.form-text.text-muted
         Default minimum and maximum number of guests that can be on a single reservation.
         Maximum can not be larger than the default total seats,
+
+%h3.mb-4.mt-4 Policies
+.form-row
+  .form-group.col
+    = f.label :guest_policy_id, class: 'col-form-label'
+    = f.select :guest_policy_id,
+      options_from_collection_for_select(@policies, 'id', 'name', f.object.guest_policy_id),
+      { include_blank: '- Optional -' },
+      { class: 'form-control custom-select', required: true }
+    %small.form-text.text-muted
+      Policy that will be applied to guests when they book a seat for a workshop of this type.
+  .form-group.col
+    = f.label :host_policy_id, class: 'col-form-label'
+    = f.select :host_policy_id,
+      options_from_collection_for_select(@policies, 'id', 'name', f.object.host_policy_id),
+      { include_blank: '- Optional -' },
+      { class: 'form-control custom-select', required: true }
+    %small.form-text.text-muted
+      Policy that will be applied to hosts when they book a reservation for a workshop of this type.

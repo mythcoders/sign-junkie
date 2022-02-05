@@ -3,6 +3,7 @@
 module Admin
   class WorkshopTypesController < AdminController
     before_action :set_workshop_type, only: %i[show edit update]
+    before_action :set_policies, only: %i[new edit]
 
     def index
       @types = WorkshopType.all.page(params[:page])
@@ -19,6 +20,7 @@ module Admin
         flash[:success] = t("create.success")
         redirect_to admin_workshop_types_path
       else
+        set_policies
         render "new", status: :unprocessable_entity
       end
     end
@@ -28,6 +30,7 @@ module Admin
         flash[:success] = t("update.success")
         redirect_to admin_workshop_types_path
       else
+        set_policies
         render "edit", status: :unprocessable_entity
       end
     end
@@ -43,7 +46,11 @@ module Admin
         :default_total_seats, :default_reservation_price, :multiple_seats, :in_person,
         :default_reservation_minimum, :default_reservation_maximum,
         :default_reservation_cancel_minimum_not_met, :default_single_seat_allow,
-        :default_reservation_allow_guest_cancel_seat)
+        :default_reservation_allow_guest_cancel_seat, :guest_policy_id, :host_policy_id)
+    end
+
+    def set_policies
+      @policies = Policy.all.order(:name)
     end
   end
 end
