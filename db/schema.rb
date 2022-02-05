@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_172249) do
+ActiveRecord::Schema.define(version: 2022_02_05_180035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(version: 2022_02_05_172249) do
     t.integer "item_description_id", null: false
     t.index ["item_description_id"], name: "index_carts_on_item_description_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "colors", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "color_type", null: false
+    t.string "hex_code", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "customer_credits", id: :serial, force: :cascade do |t|
@@ -176,6 +185,13 @@ ActiveRecord::Schema.define(version: 2022_02_05_172249) do
     t.datetime "updated_at", null: false
     t.index ["addon_id"], name: "index_project_addons_on_addon_id"
     t.index ["project_id", "addon_id"], name: "index_project_addons_on_project_id_and_addon_id", unique: true
+  end
+
+  create_table "project_colors", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "color_id"
+    t.index ["color_id"], name: "index_project_colors_on_color_id"
+    t.index ["project_id"], name: "index_project_colors_on_project_id"
   end
 
   create_table "project_stencils", id: :serial, force: :cascade do |t|
