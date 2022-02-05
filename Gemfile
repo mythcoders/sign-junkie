@@ -44,7 +44,7 @@ gem "sentry-sidekiq", ">= 4.2.0"
 
 # sidekiq
 gem "redis-namespace"
-gem "sidekiq"
+gem "sidekiq", git: "https://github.com/mperham/sidekiq"
 gem "sidekiq-scheduler"
 
 source "https://rubygems.pkg.github.com/mythcoders" do

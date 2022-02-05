@@ -10,7 +10,7 @@
         .alert.alert-info
           = announcement.content
 .row
-  .col-12.col-md-6
+  .col-12.col-md-4
     .card.mb-3
       %h5.card-header.text-center
         Public Workshops
@@ -23,7 +23,7 @@
         %a.btn.btn-primary.btn-block(href=workshops_public_path)
           View our PUBLIC Workshop Dates
 
-  .col-12.col-md-6
+  .col-12.col-md-4
     .card.mb-3
       %h5.card-header.text-center
         Private Workshops
@@ -35,3 +35,14 @@
       .card-footer.text-center
         %a.btn.btn-primary.btn-block(href=workshops_private_path)
           View our PRIVATE Workshop Dates
+
+  .col-12.col-md-4
+    .card.mb-3
+      %h5.card-header.text-center Custom Sign Orders
+      %img.card-img-top{:alt => 'A group of DIY-ers with their creations', src: asset_path("Private.jpeg")}
+      .card-body
+        .card-text
+          TBD
+      .card-footer.text-center
+        %a.btn.btn-primary.btn-block(href=workshops_private_path)
+          CUSTOM SIGN ORDERS

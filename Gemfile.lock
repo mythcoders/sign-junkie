@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/mperham/sidekiq
+  revision: 556bb6e0d678d3a3e758e7a0a2378c2965dc661f
+  specs:
+    sidekiq (6.4.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -72,17 +81,17 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.551.0)
-    aws-sdk-core (3.125.6)
+    aws-partitions (1.553.0)
+    aws-sdk-core (3.126.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.53.0)
-      aws-sdk-core (~> 3, >= 3.125.0)
+    aws-sdk-kms (1.54.0)
+      aws-sdk-core (~> 3, >= 3.126.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.111.3)
-      aws-sdk-core (~> 3, >= 3.125.0)
+    aws-sdk-s3 (1.112.0)
+      aws-sdk-core (~> 3, >= 3.126.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.4.0)
@@ -404,10 +413,6 @@ GEM
     sexp_processor (4.16.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    sidekiq (6.4.0)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      redis (>= 4.2.0)
     sidekiq-scheduler (3.1.1)
       e2mmap
       redis (>= 3, < 5)
@@ -513,7 +518,7 @@ DEPENDENCIES
   sentry-ruby (>= 4.2.0)
   sentry-sidekiq (>= 4.2.0)
   shoulda-matchers
-  sidekiq
+  sidekiq!
   sidekiq-scheduler
   sprockets-rails
   standard

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get "privacy", to: "public#privacy"
   get "workshops/public", to: "workshops#public"
   get "workshops/private", to: "workshops#private"
+  get "workshops/custom_order", to: "workshops#custom_order"
 
   get "public_policies", to: "public#public_policies"
   get "public_hostess", to: "public#public_hostess"

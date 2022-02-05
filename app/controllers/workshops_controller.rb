@@ -22,6 +22,14 @@ class WorkshopsController < ApplicationController
       .order(:start_date)
   end
 
+  def custom_order
+    @workshops = Workshop
+      .includes(:workshop_type)
+      .where(workshop_types: {name: "Custom Sign Order"})
+      .for_sale
+      .order(:start_date)
+  end
+
   def seat
     # TODO: redirect somewhere if no seat purchase
     @seat = OpenStruct.new(workshop: @workshop, selection_made?: false, persisted?: false, guest_type: nil)
