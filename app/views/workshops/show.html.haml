@@ -1,110 +1,114 @@
 - page_title @workshop.name, 'Workshops'
 
-.row.justify-content-center.mt-3
-  .col
-    .card.mb-3
-      %h2.card-header.bg-primary.text-white.text-center= @workshop.name
+%turbo-stream{action: 'replace', target: 'results'}
+  %template
+    %turbo-frame{id: 'results'}
 
-.row
-  .col-12.col-md-6
-    .card
-      .card-body
-        %img.img-fluid.mx-auto.d-block.mb-3{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
-        %p.card-text
-          = fa_solid 'calendar-alt', 'text-primary fa-fw'
-          = @workshop.when
-        %p.card-text
-          = fa_solid 'toolbox', 'text-primary fa-fw'
-          = "#{workshop_type_name(@workshop)} Workshop"
-        - if @workshop.description
-          %p.card-text= @workshop.description
+      .row.justify-content-center.mt-3
+        .col
+          .card.mb-3
+            %h2.card-header.bg-primary.text-white.text-center= @workshop.name
 
-  .col-12.col-md-6.mb-2.order-1.order-md-2
-    - if user_signed_in? && @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
-      - if @workshop.reservation_purchaseable?
-        .card.mt-2
-          %h5.card-header.bg-primary.text-white Group Reservations
-          .card-body
-            %p.card-text
-              = fa_solid 'usd-circle', 'text-primary fa-fw'
-              %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
-              %input{id: 'base-price', value: '0.00', type: 'hidden'}
-            %p.card-text
-              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-              Reservation must be booked by #{special_date @workshop.booking_deadline}
-            %p.card-text
-              = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
-            %p.card-text
-              = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.seats_available} seats remaining"
+      .row
+        .col-12.col-md-6
+          .card
+            .card-body
+              %img.img-fluid.mx-auto.d-block.mb-3{alt: "Image of #{@workshop.name}", src: image_for_workshop(@workshop), loading: 'lazy'}
+              %p.card-text
+                = fa_solid 'calendar-alt', 'text-primary fa-fw'
+                = @workshop.when
+              %p.card-text
+                = fa_solid 'toolbox', 'text-primary fa-fw'
+                = "#{workshop_type_name(@workshop)} Workshop"
+              - if @workshop.description
+                %p.card-text= @workshop.description
 
-            - unless @existing_reservation_id.zero?
-              .alert.alert-info
-                %h5.alert-heading
-                  = fa_solid 'exclamation-triangle'
-                  Heads up!
-                You already have booked a reservation for this workshop.
-                .text-center
-                  %a.alert-link.text-uppercase{href: reservation_path(@existing_reservation_id)}
-                    View in Workshop Planner
-            - else
-              %a.btn.btn-info.btn-block{href: reservation_workshop_path(@workshop)}
-                Book GROUP reservation
+        .col-12.col-md-6.mb-2.order-1.order-md-2
+          - if user_signed_in? && @workshop.seat_purchaseable? || @workshop.reservation_purchaseable?
+            - if @workshop.reservation_purchaseable?
+              .card.mt-2
+                %h5.card-header.bg-primary.text-white Group Reservations
+                .card-body
+                  %p.card-text
+                    = fa_solid 'usd-circle', 'text-primary fa-fw'
+                    %span#total-price= "#{number_to_currency @workshop.reservation_price} deposit due today"
+                    %input{id: 'base-price', value: '0.00', type: 'hidden'}
+                  %p.card-text
+                    = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+                    Reservation must be booked by #{special_date @workshop.booking_deadline}
+                  %p.card-text
+                    = fa_solid 'ticket-alt', 'text-primary fa-fw'
+                    = "#{@workshop.reservation_minimum_seats} - #{@workshop.reservation_maximum_seats} guests per reservation"
+                  %p.card-text
+                    = fa_solid 'ticket-alt', 'text-primary fa-fw'
+                    = "#{@workshop.seats_available} seats remaining"
 
-      - if @workshop.seat_purchaseable?
-        .card.mt-2
-          %h5.card-header.bg-primary.text-white Individual Seats
-          .card-body
-            %p.card-text
-              = fa_solid 'usd-circle', 'text-primary fa-fw'
-              %span= "Starting at #{number_to_currency(@workshop.starting_price)}"
-              %input{id: 'base-price', value: '0.00', type: 'hidden'}
-            %p.card-text
-              = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
-              Seats must be purchased by #{special_date @workshop.purchase_end_date}
-            %p.card-text
-              = fa_solid 'ticket-alt', 'text-primary fa-fw'
-              = "#{@workshop.seats_available} seats remaining"
+                  - unless @existing_reservation_id.zero?
+                    .alert.alert-info
+                      %h5.alert-heading
+                        = fa_solid 'exclamation-triangle'
+                        Heads up!
+                      You already have booked a reservation for this workshop.
+                      .text-center
+                        %a.alert-link.text-uppercase{href: reservation_path(@existing_reservation_id)}
+                          View in Workshop Planner
+                  - else
+                    %a.btn.btn-info.btn-block{href: reservation_workshop_path(@workshop)}
+                      Book GROUP reservation
 
-            - unless @existing_seat_id.zero?
-              .alert.alert-info
-                %h5.alert-heading
-                  = fa_solid 'exclamation-triangle'
-                  Heads up!
-                You already have a seat for this workshop!
-                %br
-                .text-center
-                  %a.alert-link.text-uppercase{href: seat_path(@existing_seat_id)}
-                    View your seat
+            - if @workshop.seat_purchaseable?
+              .card.mt-2
+                %h5.card-header.bg-primary.text-white Individual Seats
+                .card-body
+                  %p.card-text
+                    = fa_solid 'usd-circle', 'text-primary fa-fw'
+                    %span= "Starting at #{number_to_currency(@workshop.starting_price)}"
+                    %input{id: 'base-price', value: '0.00', type: 'hidden'}
+                  %p.card-text
+                    = fa_solid 'calendar-exclamation', 'text-primary fa-fw'
+                    Seats must be purchased by #{special_date @workshop.purchase_end_date}
+                  %p.card-text
+                    = fa_solid 'ticket-alt', 'text-primary fa-fw'
+                    = "#{@workshop.seats_available} seats remaining"
 
-              %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
-                Book ANOTHER seat
-            - else
-              %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
-                Book ONE seat
-    - else
-      .card.mt-2
-        .card-body
-          - unless user_signed_in?
-            %a.btn.btn-primary.btn-block{href: new_user_session_path}
-              = fa_light 'sign-in'
-              Log In or Sign up to add this to your cart
+                  - unless @existing_seat_id.zero?
+                    .alert.alert-info
+                      %h5.alert-heading
+                        = fa_solid 'exclamation-triangle'
+                        Heads up!
+                      You already have a seat for this workshop!
+                      %br
+                      .text-center
+                        %a.alert-link.text-uppercase{href: seat_path(@existing_seat_id)}
+                          View your seat
+
+                    %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
+                      Book ANOTHER seat
+                  - else
+                    %a.btn.btn-info.btn-block{href: seat_workshop_path(@workshop)}
+                      Book ONE seat
           - else
-            %p= t('workshop.empty')
+            .card.mt-2
+              .card-body
+                - unless user_signed_in?
+                  %a.btn.btn-primary.btn-block{href: new_user_session_path}
+                    = fa_light 'sign-in'
+                    Log In or Sign up to add this to your cart
+                - else
+                  %p= t('workshop.empty')
 
-          %a.btn.btn-primary.btn-block{href: workshops_public_path}
-            View PUBLIC Workshop dates
+                %a.btn.btn-primary.btn-block{href: workshops_public_path}
+                  View PUBLIC Workshop dates
 
-          %a.btn.btn-primary.btn-block{href: workshops_private_path}
-            View PRIVATE Workshop dates
+                %a.btn.btn-primary.btn-block{href: workshops_private_path}
+                  View PRIVATE Workshop dates
 
-%h3.text-info.text-center.mt-3 Projects available at this Workshop
-.row
-  - @workshop.available_projects.each do |project|
-    - project.project_images.each do |img|
-      .row-item.mb-3.text-center
-        %img.img-fluid.img-thumbnail{src: url_for(img), loading: 'lazy', alt: "Image of #{project.name}"}
-        .text-secondary
-          = project.name
-          %br= number_to_currency project.total_price
+      %h3.text-info.text-center.mt-3 Projects available at this Workshop
+      .row
+        - @workshop.available_projects.each do |project|
+          - project.project_images.each do |img|
+            .row-item.mb-3.text-center
+              %img.img-fluid.img-thumbnail{src: url_for(img), loading: 'lazy', alt: "Image of #{project.name}"}
+              .text-secondary
+                = project.name
+                %br= number_to_currency project.total_price

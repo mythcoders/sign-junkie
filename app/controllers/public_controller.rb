@@ -5,9 +5,8 @@ class PublicController < ApplicationController
   before_action :authenticate_user!, only: %i[my_account my_credits]
 
   def index
-    @q = Workshop.includes(:workshop_type).for_sale.ransack(params[:q])
-    @q.sorts = "start_date asc" if @q.sorts.empty?
-    @workshops = @q.result(distinct: true).page(params[:page])
+    @image = GalleryImage.order(Arel.sql("RANDOM()")).first
+    @workshop_types = WorkshopType.where(active: true, in_person: true).order(:name)
   end
 
   def faq

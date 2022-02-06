@@ -9,39 +9,42 @@
       - @announcements.each do |announcement|
         .alert.alert-info
           = announcement.content
+
 .row
   .col-3
-    .rendered-form
-      .formbuilder-radio-group.form-group.field-workshop_type_ids
-        %label.formbuilder-radio-group-label{:for => "workshop_type_ids"} Type
-        .radio-group
-          .formbuilder-radio
-            %input#workshop_type_ids-0{:access => "false", :checked => "checked", :name => "workshop_type_ids", :type => "radio", :value => "1"}/
-            %label{:for => "workshop_type_ids-0"} Public Workshops
-          .formbuilder-radio
-            %input#workshop_type_ids-1{:access => "false", :name => "workshop_type_ids", :type => "radio", :value => "2"}/
-            %label{:for => "workshop_type_ids-1"} Private Workshops
-      .formbuilder-radio-group.form-group.field-workshop_type_ids
-        %label.formbuilder-radio-group-label{:for => "workshop_type_ids"} Ages
-        .radio-group
-          .formbuilder-radio
-            %input#workshop_type_ids-0{:access => "false", :checked => "checked", :name => "workshop_type_ids", :type => "radio", :value => "1"}/
-            %label{:for => "workshop_type_ids-0"} Adult Only
-          .formbuilder-radio
-            %input#workshop_type_ids-1{:access => "false", :name => "workshop_type_ids", :type => "radio", :value => "2"}/
-            %label{:for => "workshop_type_ids-1"} Family Friendly
-      .formbuilder-date.form-group.field-start_date
-        %label.formbuilder-date-label{:for => "start_date"} Price Range
-        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "text"}
-      .formbuilder-date.form-group.field-start_date
-        %label.formbuilder-date-label{:for => "start_date"} Start Date
-        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "date"}
-      .formbuilder-date.form-group.field-end_date
-        %label.formbuilder-date-label{:for => "end_date"} End Date
-        %input#end_date.form-control{:access => "false", :name => "end_date", :type => "date"}
-      .formbuilder-date.form-group.field-start_date
-        %label.formbuilder-date-label{:for => "start_date"} Seats Available
-        %input#start_date.form-control{:access => "false", :name => "start_date", :type => "text"}
+    = form_tag workshops_path, method: :post do |f|
+      .form-group
+        %label Workshop Type
+        - @workshop_types.each do |workshop_type|
+          .custom-control.custom-radio
+            %input.custom-control-input{name: "workshop_type_id", type: "radio", value: workshop_type.id, id: "workshop_type#{workshop_type.id}"}
+            %label.custom-control-label{:for => "workshop_type#{workshop_type.id}"}= workshop_type.name
+
+      .form-group
+        %label Allowed Ages
+        .custom-control.custom-radio
+          %input#adults_only.custom-control-input{name: "family_friendly", type: "radio", value: "0"}
+          %label.custom-control-label{:for => "adults_only"} Adult Only
+        .custom-control.custom-radio
+          %input#family_friendly.custom-control-input{name: "family_friendly", type: "radio", value: "1"}
+          %label.custom-control-label{:for => "family_friendly"} Family Friendly
+
+      %button.btn.btn-primary.btn-block{title: "Search", type: "submit", data: { disable_with: false }}
+        %i.fas.fa-magnifying-glass
+        %span Search
   .col-9
     %turbo-frame#results
-      = render WorkshopSearchResults::Component.new(@workshops)
+      .alert.alert-info.small.mt-2
+        %h6.alert-heading Custom Sign Order
+        %p
+          Let Sign Junkie make your Sign!
+          %br= link_to "Learn more", workshops_custom_order_path, class: "alert-link"
+
+      .row.justify-content-center
+        .col
+          .card.mt-3
+            %img.card-img-top{src: @image.present? ? rails_blob_path(@image) : asset_path('ComingSoon.jpeg')}
+            .card-body
+              %p.card-text
+                Use the filters on the left to find a workshop that fits your needs!
+

@@ -7,9 +7,7 @@ class WorkshopsController < ApplicationController
   before_action :set_reservation_check, only: %i[show reservation]
 
   def index
-    @q = Workshop.includes(:workshop_type).for_sale.ransack(params[:q])
-    @q.sorts = "start_date asc" if @q.sorts.empty?
-    @workshops = @q.result(distinct: true).page(params[:page])
+    @workshops = WorkshopService::Search.perform(params)
   end
 
   def custom_order

@@ -1,0 +1,4 @@
+%turbo-stream{action: 'replace', target: 'results'}
+  %template
+    %turbo-frame{id: 'results'}
+      = render WorkshopSearchResults::Component.new(@workshops)

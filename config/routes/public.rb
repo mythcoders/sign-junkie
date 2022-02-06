@@ -33,6 +33,7 @@ module Routes
       resources :seats, only: %i[index show], concerns: :cancelable
       resources :stencils, only: %i[index show]
       resources :workshops, only: %i[show] do
+        post "index", on: :collection
         get "seat", on: :member
         get "reservation", on: :member
         get "projects", on: :member

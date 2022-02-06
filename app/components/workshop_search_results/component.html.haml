@@ -1,32 +1,34 @@
 .row
   - if @workshops.any?
     - @workshops.each do |workshop|
+      - purchasble = workshop.seat_purchaseable? || workshop.reservation_purchaseable?
+
       .col-4.col-md-3.p-1
         %a.card.shadow-light-lg.mb-1{href: workshop_path(workshop)}
           .card-body.text-center.card-body-tight
             .card-zoom
-              -# %img.zoom-img.img-fluid{alt: "Image of #{stencil.name}", src: url_for(stencil.image), loading: 'lazy'}
               - if workshop.workshop_images.any?
-                %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.workshop_images.first)}
+                %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: url_for(workshop.workshop_images.first), loading: 'lazy'}
               - else
                 %img.img-fluid.img-thumbnail{alt: "Image of #{workshop.name}", src: asset_path('cover.jpg')}
             %p.card-text.text-primary.mb-2
               = workshop.when
               %br
               = workshop.name
-            .text-primary
-              = "Starting at #{number_to_currency(workshop.starting_price)}"
-            - if workshop.seat_purchaseable? || workshop.reservation_purchaseable?
+            - if purchasble
+              .text-primary
+                = "Starting at #{number_to_currency(workshop.starting_price)}"
               %span.text-warning= workshop.seats_available
               %span.text-primary.text-uppercase seats left!
             - else
               %span.text-danger.text-uppercase= sold_out_text(workshop)
   - else
     .col.justify-content-center
-      .card.mt-3
-        %img.card-img-top{src: asset_path('NoShops.jpeg')}
+      .card
         .card-body
-          %h5.card-title Thanks for stopping by!
           %p.card-text
-            We don't have any workshops available for purchase right now, but check back soon!
-            In the meantime, please visit our Facebook page to stay updated.
+            Sorry, no workshops match your search criteria.
+          %p.card-text
+            Interested in a
+            %a{href: workshops_custom_order_path} Custom Sign Order
+            instead?
