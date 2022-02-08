@@ -1,3 +1,8 @@
+#### 2102.12 - February 7, 2022
+
+- Fixes
+  - Customer credit are no longer be deleted when attempting to edit them.
+
 #### 2102.11 - January 27, 2022
 
 - Admin Portal Improvements
