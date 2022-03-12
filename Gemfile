@@ -31,7 +31,7 @@ gem "recaptcha" # Google recaptcha
 gem "redcarpet" # Markdown rendering
 gem "sassc-rails"
 gem "uglifier"
-gem "view_component", require: "view_component/engine"
+gem "view_component"
 gem "webpacker"
 gem "websocket-extensions", ">= 0.1.5"
 
