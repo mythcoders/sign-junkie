@@ -6,7 +6,7 @@ class RedisConfigBuilder
   def build(namespace = nil)
     default_config.tap do |config|
       config[:namespace] = "#{config[:namespace]}-#{namespace}" if namespace.present?
-      config[:ssl_params] = {verify_mode: OpenSSL::SSL::VERIFY_NONE} if ENV.fetch('REDIS_SSL', '0') == '1'
+      config[:ssl_params] = {verify_mode: OpenSSL::SSL::VERIFY_NONE} if ENV.fetch("REDIS_SSL", "0") == "1"
     end
   end
 

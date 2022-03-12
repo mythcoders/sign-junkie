@@ -12,7 +12,7 @@ redis_pool_size = Sidekiq.options[:concurrency] + 5 + Rufus::Scheduler::MAX_WORK
 
 Sidekiq.configure_server do |config|
   config.log_formatter = Sidekiq::Logger::Formatters::JSON.new
-  config.redis = ConnectionPool.new(size: redis_pool_size) { Redis.new(**redis_config) }
+  config.redis = ConnectionPool.new(size: redis_pool_size, &redis_conn)
 
   # https://github.com/mperham/sidekiq/issues/4496#issuecomment-677838552
   config.death_handlers << ->(job, exception) do
@@ -22,7 +22,7 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = ConnectionPool.new(size: redis_pool_size) { Redis.new(**redis_config) }
+  config.redis = ConnectionPool.new(size: redis_pool_size, &redis_conn)
 end
 
 Sidekiq.default_worker_options = {retry: 3}
