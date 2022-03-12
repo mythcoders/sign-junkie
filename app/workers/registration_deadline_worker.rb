@@ -11,7 +11,7 @@ class RegistrationDeadlineWorker
         SeatVoidWorker.perform_async(seat.id) unless seat.selection_made?
       end
 
-      void_reservation
+      void_reservation reservation
     end
   end
 
@@ -23,7 +23,7 @@ class RegistrationDeadlineWorker
       .where("date_trunc('day', workshops.start_date - interval '7 days') = date_trunc('day', ?::date)", as_of)
   end
 
-  def void_reservation
+  def void_reservation(reservation)
     if reservation.voidable?
       Rails.logger.debug "checked reservation #{reservation.id} - ReservationVoidWorker"
       ReservationVoidWorker.perform_async(reservation.id)

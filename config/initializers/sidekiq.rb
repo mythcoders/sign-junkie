@@ -2,12 +2,9 @@
 
 require "sidekiq"
 require "sidekiq-scheduler"
+require "redis_config_builder"
 
-redis_config = {
-  url: ENV["REDIS_URL"],
-  namespace: "#{ENV["REDIS_NAMESPACE"]}-sidekiq",
-  network_timeout: 3
-}
+redis_conn = proc { Redis.new(RedisConfigBuilder.build("sidekiq")) }
 
 # This is the recommendation from sidekiq-scheduler:
 #   https://github.com/moove-it/sidekiq-scheduler#notes-about-connection-pooling

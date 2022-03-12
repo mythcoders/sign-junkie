@@ -1,23 +1,21 @@
 job "sign-junkie" {
-  datacenters = ["nyc1"]
+  datacenters = ["mcdig"]
 
   meta {
-    id = "master"
-    image = "master"
-    deployed_at = "[[ timeNowUTC ]]"
+    version = "2102.13"
   }
 
   group "app" {
     update {
       max_parallel      = 1
-      health_check      = "task_states"
-      min_healthy_time  = "15s"
-      healthy_deadline  = "2m"
+      health_check      = "checks"
+      min_healthy_time  = "20s"
+      healthy_deadline  = "3m"
       progress_deadline = "10m"
       auto_revert       = true
       auto_promote      = true
       canary            = 1
-      stagger           = "20s"
+      stagger           = "30s"
     }
 
     constraint {
@@ -65,7 +63,7 @@ job "sign-junkie" {
     }
 
     service {
-      name = "${NOMAD_JOB_NAME}-rails"
+      name = "sign-junkie-rails"
       port = "puma"
 
       tags = [
@@ -80,12 +78,6 @@ job "sign-junkie" {
           proxy {
             local_service_address = "0.0.0.0"
             local_service_port = 5000
-
-            upstreams {
-              destination_name = "${NOMAD_JOB_NAME}-redis"
-              local_bind_address = "127.0.0.1"
-              local_bind_port  = 6379
-            }
 
             upstreams {
               destination_name = "hermes-rails"
@@ -121,7 +113,7 @@ job "sign-junkie" {
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://assets.signjunkieworkshop.com"
       HERMES_URL="http://127.0.0.1:1000/api/"
-      REDIS_URL="redis://127.0.0.1:6379/0"
+      REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"
       PAYMENT_ENV="production"
@@ -160,7 +152,7 @@ job "sign-junkie" {
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://assets.signjunkieworkshop.com"
       HERMES_URL="http://127.0.0.1:1000/api/"
-      REDIS_URL="redis://127.0.0.1:6379/0"
+      REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"
       PAYMENT_ENV="production"
@@ -174,57 +166,6 @@ job "sign-junkie" {
 
         destination = "secrets/file.env"
         env         = true
-      }
-    }
-  }
-
-  group "cache" {
-    constraint {
-      attribute = "${node.class}"
-      operator  = "!="
-      value     = "job"
-    }
-
-    network {
-      mode = "bridge"
-      port "redis" {
-        to = 6379
-      }
-    }
-
-    ephemeral_disk {
-      migrate = true
-      size    = 512
-      sticky  = true
-    }
-
-    service {
-      name = "${NOMAD_JOB_NAME}-redis"
-      port = 6739
-
-      connect {
-        sidecar_service {
-          proxy {
-            local_service_address = "127.0.0.1"
-            local_service_port = 7777
-          }
-        }
-      }
-    }
-
-    task "redis" {
-      driver = "docker"
-
-      config {
-        image = "redis:6.2-alpine"
-        entrypoint = [ "redis-server", "--port", "7777", "--bind", "127.0.0.1" ]
-        ports = ["redis"]
-        auth_soft_fail = true
-      }
-
-      resources {
-        memory = 20
-        memory_max = 256
       }
     }
   }
@@ -247,17 +188,11 @@ job "sign-junkie" {
     }
 
     service {
-      name = "${NOMAD_JOB_NAME}-sidekiq"
+      name = "sign-junkie-sidekiq"
 
       connect {
         sidecar_service {
           proxy {
-            upstreams {
-              destination_name = "${NOMAD_JOB_NAME}-redis"
-              local_bind_address = "127.0.0.1"
-              local_bind_port  = 6379
-            }
-
             upstreams {
               destination_name = "hermes-rails"
               local_bind_address = "127.0.0.1"
@@ -279,7 +214,7 @@ job "sign-junkie" {
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://assets.signjunkieworkshop.com"
       HERMES_URL="http://127.0.0.1:1000/api/"
-      REDIS_URL="redis://127.0.0.1:6379/0"
+      REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"
       PAYMENT_ENV="production"
