@@ -2,22 +2,22 @@ job "sign-junkie" {
   datacenters = ["mcdig"]
 
   meta {
-    version = "2102.13"
+    run_id = "${uuidv4()}"
+  }
+
+  update {
+    max_parallel      = 1
+    health_check      = "checks"
+    min_healthy_time  = "20s"
+    healthy_deadline  = "3m"
+    progress_deadline = "10m"
+    auto_revert       = true
+    auto_promote      = true
+    canary            = 1
+    stagger           = "30s"
   }
 
   group "app" {
-    update {
-      max_parallel      = 1
-      health_check      = "checks"
-      min_healthy_time  = "20s"
-      healthy_deadline  = "3m"
-      progress_deadline = "10m"
-      auto_revert       = true
-      auto_promote      = true
-      canary            = 1
-      stagger           = "30s"
-    }
-
     constraint {
       attribute = "${node.class}"
       operator  = "="
@@ -68,9 +68,22 @@ job "sign-junkie" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.sign-junkie.rule=Host(`signjunkieworkshop.com`) || Host(`www.signjunkieworkshop.com`)",
-        "traefik.http.routers.sign-junkie.tls=true",
-        "traefik.http.routers.sign-junkie.tls.certresolver=letsEncrypt",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.sign-junkie-http.rule=Host(`signjunkieworkshop.com`) || Host(`www.signjunkieworkshop.com`)",
+        "traefik.http.routers.sign-junkie-http.entrypoints=web",
+        "traefik.http.routers.sign-junkie-http.priority=90",
+        "traefik.http.routers.sign-junkie-http.middlewares=https-upgrade@file",
+        "traefik.http.routers.sign-junkie-https.rule=Host(`signjunkieworkshop.com`) || Host(`www.signjunkieworkshop.com`)",
+        "traefik.http.routers.sign-junkie-https.middlewares=www-redirect@file",
+        "traefik.http.routers.sign-junkie-https.entrypoints=webSecure",
+        "traefik.http.routers.sign-junkie-https.priority=90",
+        "traefik.http.routers.sign-junkie-https.tls=true",
+        "traefik.http.routers.sign-junkie-https.tls.certresolver=letsEncrypt",
+      ]
+
+      canary_tags = [
+        "traefik.enable=false",
+        "traefik.consulcatalog.connect=true",
       ]
 
       connect {
