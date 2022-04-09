@@ -21,15 +21,13 @@ module InvoiceService
           @invoice.status = :paid
           @invoice.save!
         else
-          Sentry.capture_exception(@invoice, transaction: "Invoice creation failed")
-
           raise ActiveRecord::Rollback
         end
       end
 
       send_emails
     rescue StandardError, ProcessError => e
-      Sentry.capture_exception(e)
+      Appsignal.set_error(e)
       void_payments
       raise e
     end

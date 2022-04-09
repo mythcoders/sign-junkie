@@ -14,7 +14,7 @@ module BraintreePayments
   end
 
   def handle_payment_error(exception)
-    Sentry.capture_message exception.message, level: :warning
+    Appsignal.set_error exception
     flash[:error] = "Payment Error - #{exception.message}"
 
     redirect_to cart_index_path

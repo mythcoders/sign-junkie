@@ -48,7 +48,7 @@ class CartFactory
     # rescue ProcessError
     #   # nothing
     rescue => e
-      Sentry.capture_message e.message, level: :warning
+      Appsignal.set_error e.message
     end
   end
 

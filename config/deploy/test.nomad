@@ -1,17 +1,16 @@
-job "sign-junkie-pr343" {
-  name = "sign-junkie"
-  datacenters = ["nyc1"]
+job "sign-junkie-pr-PR_NUMBER" {
+  datacenters = ["mcdig"]
 
   meta {
-    id = "pr-343"
-    image = "pr-343"
+    github_run_id = "RUN_ID"
+    github_pr = "pr-PR_NUMBER"
   }
 
   group "app" {
     constraint {
       attribute = "${node.class}"
-      operator  = "!="
-      value     = "web"
+      operator  = "="
+      value     = "app"
     }
 
     network {
@@ -27,9 +26,21 @@ job "sign-junkie-pr343" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.sign-junkie.rule=Host(`${meta.id}.test.signjunkieworkshop.com`)",
-        "traefik.http.routers.sign-junkie.tls=true",
-        "traefik.http.routers.sign-junkie.tls.certresolver=letsEncrypt",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-http.rule=Host(`${NOMAD_META_github_pr}.test.signjunkieworkshop.com`)",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-http.entrypoints=web",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-http.priority=100",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-http.middlewares=https-upgrade@file",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-https.rule=Host(`${NOMAD_META_github_pr}.test.signjunkieworkshop.com`)",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-https.entrypoints=webSecure",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-https.priority=100",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-https.tls=true",
+        "traefik.http.routers.${NOMAD_JOB_NAME}-https.tls.certresolver=letsEncrypt",
+      ]
+
+      canary_tags = [
+        "traefik.enable=false",
+        "traefik.consulcatalog.connect=true",
       ]
 
       connect {
@@ -39,7 +50,7 @@ job "sign-junkie-pr343" {
             local_service_port = 5000
 
             upstreams {
-              destination_name = "${NOMAD_JOB_NAME}-redis"
+              destination_name = "redis"
               local_bind_address = "127.0.0.1"
               local_bind_port  = 6379
             }
@@ -56,36 +67,6 @@ job "sign-junkie-pr343" {
       }
     }
 
-    task "rails" {
-      driver = "docker"
-
-      config {
-        image = "ghcr.io/mythcoders/sign-junkie:${meta.image}"
-        ports = ["puma"]
-      }
-
-      template {
-        data = <<EOH
-      RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
-      DATABASE_URL="{{ key "sign-junkie/database-url" }}"
-      REDIS_URL = "redis://127.0.0.1:6379/0"
-      ENVIRONMENT_NAME="review/{{ env "meta.id" }}"
-      ENVIRONMENT_URL="https://{{ env "meta.id" }}.test.signjunkieworkshop.com"
-      PAYMENT_ENV="sandbox"
-      RAILS_ENV="review"
-      RAILS_LOG_TO_STDOUT="1"
-      RAILS_SERVE_STATIC_FILES="1"
-      REDIS_NAMESPACE="sign-junkie"
-      STORAGE_BUCKET="mcdig-rvstg-com1"
-      EOH
-
-        destination = "secrets/rails.env"
-        env         = true
-      }
-    }
-
     task "db-migrate" {
       lifecycle {
         hook = "prestart"
@@ -95,9 +76,10 @@ job "sign-junkie-pr343" {
       driver = "docker"
 
       config {
-        image = "ghcr.io/mythcoders/sign-junkie:${meta.image}"
+        image = "ghcr.io/mythcoders/sign-junkie:${NOMAD_META_github_pr}"
         entrypoint = ["./bin/rails", "db:create", "db:migrate"]
         ports = ["puma"]
+        force_pull = true
       }
 
       template {
@@ -105,71 +87,59 @@ job "sign-junkie-pr343" {
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
       HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
       HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
-      DATABASE_URL="{{ key "sign-junkie/database-url" }}"
-      REDIS_URL = "redis://127.0.0.1:6379/0"
-      ENVIRONMENT_NAME="review/{{ env "meta.id" }}"
-      ENVIRONMENT_URL="https://{{ env "meta.id" }}.test.signjunkieworkshop.com"
+      DATABASE_URL="{{ key "apps/database-url" }}//{{ env "NOMAD_JOB_NAME" }}"
+      REDIS_URL = "redis://127.0.0.1:6379/1"
+      ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"
+      ENVIRONMENT_URL="https://{{ env "NOMAD_META_github_pr" }}.test.signjunkieworkshop.com"
       PAYMENT_ENV="sandbox"
       RAILS_ENV="review"
       RAILS_LOG_TO_STDOUT="1"
       RAILS_SERVE_STATIC_FILES="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
       EOH
 
         destination = "secrets/file.env"
         env         = true
       }
     }
-  }
 
-  group "cache" {
-    constraint {
-      attribute = "${node.class}"
-      operator  = "!="
-      value     = "job"
-    }
-
-    network {
-      mode = "bridge"
-      port "redis" {
-        to = 6379
-      }
-    }
-
-    ephemeral_disk {
-      migrate = true
-      size    = 512
-      sticky  = true
-    }
-
-    service {
-      name = "${NOMAD_JOB_NAME}-redis"
-      port = 6739
-
-      connect {
-        sidecar_service {
-          proxy {
-            local_service_address = "127.0.0.1"
-            local_service_port = 7777
-          }
-        }
-      }
-    }
-
-    task "redis" {
+    task "rails" {
       driver = "docker"
 
       config {
-        image = "redis:6.2-alpine"
-        entrypoint = [ "redis-server", "--port", "7777", "--bind", "127.0.0.1" ]
-        ports = ["redis"]
-        auth_soft_fail = true
+        image = "ghcr.io/mythcoders/sign-junkie:${NOMAD_META_github_pr}"
+        ports = ["puma"]
+        force_pull = true
       }
 
       resources {
-        memory = 20
-        memory_max = 256
+        cpu    = 850
+        memory = 512
+        memory_max = 1000
+      }
+
+      template {
+        data = <<EOH
+      RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
+      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
+      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
+      DATABASE_URL="{{ key "apps/database-url" }}//{{ env "NOMAD_JOB_NAME" }}"
+      REDIS_URL = "redis://127.0.0.1:6379/1"
+      ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"
+      ENVIRONMENT_URL="https://{{ env "NOMAD_META_github_pr" }}.test.signjunkieworkshop.com"
+      PAYMENT_ENV="sandbox"
+      RAILS_ENV="review"
+      RAILS_LOG_TO_STDOUT="1"
+      RAILS_SERVE_STATIC_FILES="1"
+      REDIS_NAMESPACE="sign-junkie"
+      STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
+      EOH
+
+        destination = "secrets/rails.env"
+        env         = true
       }
     }
   }
@@ -192,7 +162,7 @@ job "sign-junkie-pr343" {
         sidecar_service {
           proxy {
             upstreams {
-              destination_name = "${NOMAD_JOB_NAME}-redis"
+              destination_name = "redis"
               local_bind_address = "127.0.0.1"
               local_bind_port  = 6379
             }
@@ -204,30 +174,40 @@ job "sign-junkie-pr343" {
     task "sidekiq" {
       driver = "docker"
 
+      config {
+        image = "ghcr.io/mythcoders/sign-junkie:${NOMAD_META_github_pr}"
+        entrypoint = ["sh", "./scripts/worker", "start"]
+        force_pull = true
+      }
+
+      kill_timeout = "30s"
+
+      resources {
+        cpu    = 750
+        memory = 512
+        memory_max = 750
+      }
+
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
       HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
       HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
-      DATABASE_URL="{{ key "sign-junkie/database-url" }}"
-      REDIS_URL = "redis://127.0.0.1:6379/0"
-      ENVIRONMENT_NAME="review/{{ env "meta.id" }}"
-      ENVIRONMENT_URL="https://{{ env "meta.id" }}.test.signjunkieworkshop.com"
+      DATABASE_URL="{{ key "apps/database-url" }}//{{ env "NOMAD_JOB_NAME" }}"
+      REDIS_URL="redis://127.0.0.1:6379/1"
+      ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"
+      ENVIRONMENT_URL="https://{{ env "NOMAD_META_github_pr" }}.test.signjunkieworkshop.com"
       PAYMENT_ENV="sandbox"
       RAILS_ENV="review"
       RAILS_LOG_TO_STDOUT="1"
       RAILS_SERVE_STATIC_FILES="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
       EOH
 
         destination = "secrets/sidekiq.env"
         env         = true
-      }
-
-      config {
-        image = "ghcr.io/mythcoders/sign-junkie:${meta.image}"
-        entrypoint = ["sh", "./scripts/worker", "start"]
       }
     }
   }

@@ -1,0 +1,64 @@
+name: assets
+
+on:
+  workflow_call:
+    inputs:
+      assetBucket:
+        description: Asset Bucket Name
+        type: string
+        required: true
+    secrets:
+      railsMasterKey:
+        required: true
+      packageToken:
+        required: true
+
+env:
+  RAILS_ENV: production
+  NODE_ENV: production
+  BUCKET_PATH: s3://${{ inputs.assetBucket }}/
+  LOCAL_PATH: assets-sync/${{ inputs.assetBucket }}/
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_MASTER_KEY: ${{ secrets.railsMasterKey }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: configure ruby
+        uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.packageToken }}
+        with:
+          bundler-cache: true
+
+      - name: compile
+        run: ASSETS_PRECOMPILE=1 ./bin/rails assets:precompile
+
+      - name: upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: |
+            public/assets/
+            public/packs/
+          retention-days: 5
+
+  sync:
+    name: sync
+    needs: compile
+    runs-on: [self-hosted, prod]
+    steps:
+      - name: download
+        uses: actions/download-artifact@v3
+        with:
+          name: assets
+          path: ${{ env.LOCAL_PATH }}
+
+      - name: sync with digitalocean cdn
+        run: |
+          s3cmd sync $LOCAL_PATH $BUCKET_PATH --recursive --no-mime-magic --acl-public --no-preserve --human-readable-sizes --guess-mime-type \
+          --add-header=Cache-Control:max-age=31536000,public

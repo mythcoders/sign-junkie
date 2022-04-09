@@ -35,7 +35,7 @@ module Apollo
     end
 
     def support_url
-      "https://mythcoders.com/support"
+      "https://mythcoders.atlassian.net/servicedesk/customer/portal/2"
     end
 
     def env_url(protocol: true)
@@ -61,6 +61,18 @@ module Apollo
         ["Rails", "v#{Rails::VERSION::STRING}"],
         ["Ruby", "v#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
       ].map { |info| "%-17s %s" % info }.join("\n") + "\n"
+    end
+
+    def appsignal_env
+      Rails.env.production? ? :production : :review
+    end
+
+    def appsignal_backend_key
+      Rails.application.credentials.dig(:appsignal, :backend)
+    end
+
+    def appsignal_frontend_key
+      Rails.application.credentials.dig(:appsignal, appsignal_env, :frontend)
     end
   end
 end
