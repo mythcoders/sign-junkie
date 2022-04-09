@@ -1,5 +1,5 @@
 import ApplicationController from "./application_controller"
-import Appsignal from "helpers/appsignal_helper"
+import Appsignal from "helpers/appsignal_helpers"
 
 export default class extends ApplicationController {
   static values = { clientToken: String, purchaseAmount: String }

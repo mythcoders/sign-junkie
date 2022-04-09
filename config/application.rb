@@ -13,7 +13,6 @@ require "action_cable/engine"
 require "action_text/engine"
 # require 'rails/test_unit/railtie'
 require "sprockets/railtie"
-require "view_component/engine"
 
 require "pinglish"
 
