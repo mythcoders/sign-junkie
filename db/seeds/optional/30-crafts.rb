@@ -2,7 +2,7 @@
 
 puts "Creating stencils categories..."
 2.times do
-  StencilCategory.create(name: Faker::Commerce.department)
+  StencilCategory.create(name: "#{Faker::Commerce.department} #{SecureRandom.hex(4)}")
 end
 
 puts "Creating stencils..."
@@ -11,6 +11,8 @@ puts "Creating stencils..."
     name: "#{Faker::Movies::StarWars.quote} #{SecureRandom.hex(4)}",
     category: StencilCategory.all.sample
   )
+
+  next unless stencil.valid?
   stencil.image.attach(new_image)
 end
 
@@ -20,6 +22,8 @@ puts "Creating addons..."
     name: "#{Faker::Commerce.material} #{Faker::House.room} #{Faker::House.furniture} #{SecureRandom.hex(4)}",
     price: Faker::Commerce.price
   )
+
+  next unless addon.valid?
   addon.addon_images.attach([new_image, new_image])
 end
 
@@ -33,5 +37,6 @@ puts "Creating projects..."
     stencils: Stencil.all.sample(4)
   )
 
+  next unless project.valid?
   project.project_images.attach([new_image, new_image])
 end

@@ -19,5 +19,7 @@ puts "Creating workshops..."
     workshop_type: WorkshopType.all.sample,
     is_for_sale: true
   )
+
+  next unless shop.valid?
   shop.workshop_images.attach([new_image, new_image])
 end
