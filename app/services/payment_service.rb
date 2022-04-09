@@ -13,8 +13,6 @@ class PaymentService < ApplicationService
 
   def deduct_credit(payment)
     return true if CustomerCredit.deduct!(payment)
-
-    Appsignal.set_error("Unable to deduct from gift card", transaction: "PostPayment")
     raise ProcessError, "Unable to deduct from gift card"
   end
 

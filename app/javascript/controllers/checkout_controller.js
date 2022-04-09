@@ -1,5 +1,4 @@
 import ApplicationController from "./application_controller"
-import Appsignal from "helpers/appsignal_helpers"
 
 export default class extends ApplicationController {
   static values = { clientToken: String, purchaseAmount: String }
@@ -18,7 +17,7 @@ export default class extends ApplicationController {
       },
     }, function (error, dropinInstance) {
       if (error) {
-        Appsignal.sendError(error)
+        console.log(error)
         return
       }
 
@@ -27,7 +26,7 @@ export default class extends ApplicationController {
         dropinInstance.requestPaymentMethod(function (paymentError, payload) {
           if (paymentError) {
             dropinInstance.clearSelectedPaymentMethod()
-            Appsignal.sendError(error)
+            console.log(paymentError)
             return
           }
 

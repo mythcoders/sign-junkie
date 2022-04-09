@@ -21,8 +21,6 @@ module InvoiceService
           @invoice.status = :paid
           @invoice.save!
         else
-          Appsignal.set_error(@invoice, transaction: "Invoice creation failed")
-
           raise ActiveRecord::Rollback
         end
       end

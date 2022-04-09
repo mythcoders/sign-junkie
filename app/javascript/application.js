@@ -11,4 +11,3 @@ application.load(
 )
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-import 'helpers/appsignal_helpers'
