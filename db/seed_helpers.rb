@@ -28,3 +28,13 @@ def new_image
     filename: "#{SecureRandom.hex(8)}_faker_image.jpg"
   }
 end
+
+def attach_images(images, count = 2)
+  count.times do
+    new_image.tap do |image|
+      next if image.nil?
+
+      images.attach(image)
+    end
+  end
+end

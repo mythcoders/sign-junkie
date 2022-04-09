@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 puts "Creating workshops..."
-
 5.times do
   start_date = Faker::Date.between(from: Date.today, to: Date.today + 6.weeks)
   end_date = start_date + 3.hours
@@ -21,5 +20,5 @@ puts "Creating workshops..."
   )
 
   next unless shop.valid?
-  shop.workshop_images.attach([new_image, new_image])
+  attach_images(shop.workshop_images, 2)
 end

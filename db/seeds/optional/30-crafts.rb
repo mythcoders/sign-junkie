@@ -13,7 +13,7 @@ puts "Creating stencils..."
   )
 
   next unless stencil.valid?
-  stencil.image.attach(new_image)
+  attach_images(stencil.stencil_images, 2)
 end
 
 puts "Creating addons..."
@@ -24,7 +24,7 @@ puts "Creating addons..."
   )
 
   next unless addon.valid?
-  addon.addon_images.attach([new_image, new_image])
+  attach_images(addon.addon_images, 2)
 end
 
 puts "Creating projects..."
@@ -38,5 +38,5 @@ puts "Creating projects..."
   )
 
   next unless project.valid?
-  project.project_images.attach([new_image, new_image])
+  attach_images(project.project_images, 2)
 end
