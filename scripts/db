@@ -2,7 +2,7 @@
 
 echo "=> Verifying database..."
 
-if [ "$RAILS_ENV" = "review" ]; then
+if [ "$RAILS_ENV" = "review" ] || [ "$RAILS_ENV" = "test" ]; then
   echo "=> Provisioning..."
   VERBOSE=true ./bin/rails db:create db:migrate db:seed
 elif [ "$RAILS_ENV" = "production" ]; then
