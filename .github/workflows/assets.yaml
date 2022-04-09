@@ -16,7 +16,6 @@ on:
 env:
   RAILS_ENV: production
   NODE_ENV: production
-  RAILS_MASTER_KEY: ${{ secrets.railsMasterKey }}
   BUCKET_PATH: s3://${{ inputs.assetBucket }}/assets/
   LOCAL_PATH: assets-sync/${{ inputs.assetBucket }}
 
@@ -24,7 +23,7 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     env:
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      RAILS_MASTER_KEY: ${{ secrets.railsMasterKey }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
