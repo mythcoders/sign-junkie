@@ -19,6 +19,8 @@ jobs:
   linters:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/linters.yaml
+    secrets:
+      packageToken: ${{ secrets.PACKAGE_TOKEN }}
 
   tests:
     if: github.event_name == 'pull_request'
