@@ -200,6 +200,7 @@ job "sign-junkie-pr-PR_NUMBER" {
       PAYMENT_ENV="sandbox"
       RAILS_ENV="review"
       RAILS_LOG_TO_STDOUT="1"
+      RAILS_SERVE_STATIC_FILES="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
       CDN_URL="https://cdn.test.signjunkieworkshop.com"
