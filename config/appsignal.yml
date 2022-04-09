@@ -14,7 +14,7 @@ development:
 
 review:
   <<: *defaults
-  active: false
+  active: true
   revision: '<%= SystemInfo.long_version %>'
 
 production:

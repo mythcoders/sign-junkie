@@ -64,11 +64,11 @@ module Apollo
     end
 
     def appsignal_env
-      Rails.env.production? ? :production : :development
+      Rails.env.production? ? :production : :review
     end
 
     def appsignal_backend_key
-      Rails.application.credentials.dig(:appsignal, appsignal_env, :backend)
+      Rails.application.credentials.dig(:appsignal, :backend)
     end
 
     def appsignal_frontend_key
