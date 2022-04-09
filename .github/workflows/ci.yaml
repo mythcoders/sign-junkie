@@ -37,6 +37,7 @@ jobs:
       assetBucket: ${{ github.event_name == 'push' && 'mcdig-pdcdn-sign-junkie' || 'mcdig-tscdn-sign-junkie' }}
     secrets:
       packageToken: ${{ secrets.PACKAGE_TOKEN }}
+      railsMasterKey: ${{ secrets.RAILS_MASTER_KEY }}
 
   deploy:
     if: github.actor != 'dependabot[bot]'
