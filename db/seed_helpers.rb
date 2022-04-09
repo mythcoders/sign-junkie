@@ -16,7 +16,7 @@ rescue OpenURI::HTTPError => e
   Appsignal.set_error(e)
   puts "HTTP error fetching image"
   random_image
-rescue StandardError => e
+rescue => e
   Appsignal.set_error(e)
   puts "Generic error fetching image"
   random_image
