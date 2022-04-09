@@ -9,7 +9,6 @@ rescue
   puts "Fatal error!"
 end
 
-# standard:disable Security/Open
 def fetch_new_image
   puts "Fetching image"
   URI.open(Faker::Avatar.image)
@@ -20,7 +19,6 @@ rescue
   puts "Generic error fetching image"
   random_image
 end
-# standard:enable Security/Open
 
 def new_image
   {
@@ -29,12 +27,12 @@ def new_image
   }
 end
 
-def attach_images(images, count = 2)
+def attach_images(image_relation, count = 2)
   count.times do
     new_image.tap do |image|
       next if image.nil?
 
-      images.attach(image)
+      image_relation.attach(image)
     end
   end
 end

@@ -13,7 +13,7 @@ puts "Creating stencils..."
   )
 
   next unless stencil.valid?
-  attach_images(stencil.stencil_images, 2)
+  attach_images(stencil.image, 1)
 end
 
 puts "Creating addons..."
