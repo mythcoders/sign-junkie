@@ -1,20 +1,24 @@
-name: docker
+name: build
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      publish:
+        description: Publish build image
+        type: boolean
+        default: true
+        required: true
+    secrets:
+      packageToken:
+        required: true
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
-    name: build
+  docker:
+    name: docker
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -36,7 +40,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
+          password: ${{ secrets.packageToken }}
 
       - name: register docker meta
         id: meta
@@ -57,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: true
+          push: ${{ inputs.publish }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache

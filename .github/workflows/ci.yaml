@@ -1,83 +1,45 @@
 name: ci
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+    with:
+      publish: ${{ github.actor != 'dependabot[bot]' }}
+    secrets:
+      packageToken: ${{ secrets.PACKAGE_TOKEN }}
+
   linters:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/linters.yaml
 
-      - name: Configure ruby
-        uses: ruby/setup-ruby@v1
-        env:
-          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.PACKAGE_TOKEN }}
-        with:
-          bundler-cache: true
-
-      - name: standardrb
-        run: ./scripts/cibuild linter
-
-      - name: brakeman
-        continue-on-error: true
-        run: |
-          gem install brakeman
-          ./scripts/cibuild brakeman
-
-      - name: bundler audit
-        run: |
-          gem install bundler-audit
-          ./scripts/cibuild audit
   tests:
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgres://sign_junkie:sign_junkie@localhost:5432/sign_junkie_test
-      RAILS_ENV: test
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      REDIS_URL: redis://localhost:6379/0
-      STORAGE_BUCKET: mcdig-rvstg-com1
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: sign_junkie
-          POSTGRES_PASSWORD: sign_junkie
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/tests.yaml
+    secrets:
+      packageToken: ${{ secrets.PACKAGE_TOKEN }}
+      railsMasterKey: ${{ secrets.RAILS_MASTER_KEY }}
 
-      - name: Configure ruby
-        uses: ruby/setup-ruby@v1
-        env:
-          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.PACKAGE_TOKEN }}
-        with:
-          bundler-cache: true
+  assets:
+    if: github.actor != 'dependabot[bot]'
+    needs: build
+    uses: ./.github/workflows/assets.yaml
+    with:
+      assetBucket: ${{ github.event_name == 'push' && 'mcdig-pdcdn-sign-junkie' || 'mcdig-tscdn-sign-junkie' }}
+    secrets:
+      packageToken: ${{ secrets.PACKAGE_TOKEN }}
 
-      - name: setup database
-        run: ./bin/rails db:setup
-
-      - name: compile assets
-        run: ASSETS_PRECOMPILE=1 ./bin/rails assets:precompile
-
-      - name: rspec
-        run: ./scripts/cibuild rspec
+  deploy:
+    if: github.actor != 'dependabot[bot]'
+    needs: build
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: ${{ github.event_name == 'push' && 'prod' || 'test' }}
+      prNumber: ${{ github.event_name == 'push' && '0' || github.event.pull_request.number }}

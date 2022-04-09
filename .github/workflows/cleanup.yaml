@@ -1,0 +1,17 @@
+name: cleanup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 6'
+
+jobs:
+  docker:
+    name: docker images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/delete-package-versions@v3
+        with:
+          package-name: 'hubble'
+          min-versions-to-keep: 5
+          token: ${{ secrets.PACKAGE_TOKEN }}

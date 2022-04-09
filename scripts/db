@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "=> Verifying database..."
+
+if [ "$RAILS_ENV" = "test" ]; then
+  echo "=> Provisioning..."
+  VERBOSE=true ./bin/rails db:create db:migrate db:seed
+elif [ "$RAILS_ENV" = "production" ]; then
+  if [ "z$NOMAD_ALLOC_INDEX" == "z0" ]; then
+    echo "=> Migrating..."
+    VERBOSE=true ./bin/rails db:migrate
+  else
+    echo "=> Skipping..."
+  fi
+else
+  echo "=> Skipping..."
+fi

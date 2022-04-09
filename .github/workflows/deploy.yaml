@@ -1,0 +1,53 @@
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Environment
+        type: string
+        required: true
+      prNumber:
+        description: PR Number
+        type: string
+        required: false
+        default: '0'
+
+jobs:
+  test:
+    if: inputs.environment == 'test'
+    name: test
+    runs-on: [self-hosted, test]
+    environment:
+      name: pr-${{ inputs.prNumber }}
+      url: "https://pr-${{ inputs.prNumber }}.test.signjunkieworkshop.com"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: nomad
+        env:
+          HUBBLE_PR_NUMBER: ${{ inputs.prNumber }}
+        run: |
+          sed -i "s|RUN_ID|$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT|g" config/deploy/test.nomad
+          sed -i "s|PR_NUMBER|$HUBBLE_PR_NUMBER|g" config/deploy/test.nomad
+
+          nomad job run -verbose config/deploy/test.nomad
+
+  prod:
+    if: inputs.environment == 'prod'
+    name: prod
+    needs: test
+    runs-on: [self-hosted, prod]
+    environment:
+      name: production
+      url: https://signjunkieworkshop.com
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: nomad
+        run: |
+          sed -i "s|RUN_ID|$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT|g" config/deploy/prod.nomad
+
+          nomad job run -verbose config/deploy/prod.nomad

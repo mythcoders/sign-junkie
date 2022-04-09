@@ -1,0 +1,58 @@
+name: tests
+
+on:
+  workflow_call:
+    secrets:
+      railsMasterKey:
+        required: true
+      packageToken:
+        required: true
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "postgres://sign_junkie:sign_junkie@localhost:5432/sign_junkie_test"
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.railsMasterKey }}
+      REDIS_URL: "redis://localhost:6379/0"
+      REDIS_NAMESPACE: sign-junkie
+      SIGN_JUNKIE_STORAGE_BUCKET: mcdig-rvstg-com1
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: sign_junkie
+          POSTGRES_PASSWORD: sign_junkie
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Configure ruby
+        uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.packageToken }}
+        with:
+          bundler-cache: true
+
+      - name: setup database
+        run: ./scripts/db
+
+      - name: rspec
+        run: ./scripts/ci rspec

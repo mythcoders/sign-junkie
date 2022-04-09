@@ -1,0 +1,32 @@
+name: linters
+
+on:
+  workflow_call:
+
+jobs:
+  ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Configure ruby
+        uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.PACKAGE_TOKEN }}
+        with:
+          bundler-cache: true
+
+      - name: standardrb
+        run: ./scripts/ci linter
+
+      - name: brakeman
+        continue-on-error: true
+        run: |
+          gem install brakeman
+          ./scripts/ci brakeman
+
+      - name: bundler audit
+        run: |
+          gem install bundler-audit
+          ./scripts/ci audit
