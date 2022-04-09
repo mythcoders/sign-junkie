@@ -54,5 +54,8 @@ jobs:
       - name: setup database
         run: ./scripts/db
 
+      - name: compile assets
+        run: ASSETS_PRECOMPILE=1 ./bin/rails assets:precompile
+
       - name: rspec
         run: ./scripts/ci rspec
