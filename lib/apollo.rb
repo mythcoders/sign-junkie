@@ -35,7 +35,7 @@ module Apollo
     end
 
     def support_url
-      "https://mythcoders.com/support"
+      "https://mythcoders.atlassian.net/servicedesk/customer/portal/2"
     end
 
     def env_url(protocol: true)
