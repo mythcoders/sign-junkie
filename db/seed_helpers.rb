@@ -4,27 +4,37 @@ require "open-uri"
 
 def random_image
   puts "Fetching backup image"
-  open("https://robohash.org/#{Faker::Lorem.characters(number: 12)}.png?set=set4")
+  URI.open("https://robohash.org/#{SecureRandom.hex(4)}.png?set=set4")
 rescue
   puts "Fatal error!"
 end
 
-# standard:disable Security/Open
 def fetch_new_image
   puts "Fetching image"
-  open(Faker::Avatar.image)
-rescue OpenURI::HTTPError
-  puts "HTTP error fetching image"
+  URI.parse(Faker::Avatar.image).open
+rescue OpenURI::HTTPError => e
+  Appsignal.set_error(e)
+  puts "HTTP error: #{e.message}"
   random_image
-rescue
-  puts "Generic error fetching image"
+rescue => e
+  Appsignal.set_error(e)
+  puts "Error: #{e.message}"
   random_image
 end
-# standard:enable Security/Open
 
 def new_image
   {
     io: fetch_new_image,
-    filename: "#{Faker::Lorem.characters(number: 8)}_faker_image.jpg"
+    filename: "#{SecureRandom.hex(8)}_faker_image.jpg"
   }
+end
+
+def attach_images(image_relation, count = 2)
+  count.times do
+    new_image.tap do |image|
+      next if image[:io].nil?
+
+      image_relation.attach(image)
+    end
+  end
 end

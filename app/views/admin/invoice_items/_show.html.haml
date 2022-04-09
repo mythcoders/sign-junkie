@@ -8,10 +8,8 @@
   %tbody
     - @invoice.items.each do |i|
       %tr
-        %td
-          = render(ItemDescriptionDisplay::Component.admin(i))}
-        %td.text-right
-          = number_to_currency(i.item_amount)
+        %td= render(ItemDescriptionDisplay::Component.admin(i))
+        %td.text-right= number_to_currency(i.item_amount)
         %td.text-right
           - if i.taxed?
             = number_to_currency(i.tax_amount)

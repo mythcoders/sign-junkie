@@ -9,7 +9,7 @@ FactoryBot.define do
 
     factory :card_payment do
       add_attribute(:method) { "credit_card" }
-      identifier { Faker::Lorem.characters(number: 8) }
+      identifier { SecureRandom.hex(4) }
 
       factory :paypal_payment, parent: :card_payment do
         add_attribute(:method) { "paypal_account" }
