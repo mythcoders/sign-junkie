@@ -8,7 +8,8 @@ puts "Creating workshops..."
   purchase_start_date = Time.zone.today - 2.hours
   purchase_end_date = start_date - 2.days
 
-  shop = Workshop.create!(name: "#{Faker::Esport.event} #{Faker::Hipster.word}",
+  shop = Workshop.create!(
+    name: "#{Faker::Esport.event} #{Faker::Hipster.word}",
     description: Faker::Hipster.paragraph,
     projects: Project.all.sample(3),
     purchase_start_date: purchase_start_date,
@@ -16,6 +17,7 @@ puts "Creating workshops..."
     start_date: start_date,
     end_date: end_date,
     workshop_type: WorkshopType.all.sample,
-    is_for_sale: true)
+    is_for_sale: true
+  )
   shop.workshop_images.attach([new_image, new_image])
 end
