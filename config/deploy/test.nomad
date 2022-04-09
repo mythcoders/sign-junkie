@@ -114,6 +114,12 @@ job "sign-junkie-pr-PR_NUMBER" {
         force_pull = true
       }
 
+      resources {
+        cpu    = 850
+        memory = 512
+        memory_max = 1000
+      }
+
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
