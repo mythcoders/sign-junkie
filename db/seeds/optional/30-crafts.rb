@@ -8,7 +8,7 @@ end
 puts "Creating stencils..."
 6.times do
   stencil = Stencil.create(
-    name: "#{Faker::Movies::StarWars.quote} #{Faker::Lorem.characters(number: 10)}",
+    name: "#{Faker::Movies::StarWars.quote} #{SecureRandom.hex(8)}",
     category: StencilCategory.all.sample
   )
   stencil.image.attach(new_image)
@@ -18,7 +18,7 @@ puts "Creating addon..."
 
 3.times do
   addon = Addon.create(
-    name: "#{Faker::Commerce.material} #{Faker::House.room} #{Faker::House.furniture}",
+    name: "#{Faker::Commerce.material} #{Faker::House.room} #{Faker::House.furniture} #{SecureRandom.hex(8)}",
     price: Faker::Commerce.price
   )
   addon.addon_images.attach([new_image, new_image])
