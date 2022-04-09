@@ -12,9 +12,9 @@ jobs:
     runs-on: [self-hosted, test]
     # environment:
     #   name: pr-${{ github.event.pull_request.number }}
-    #   url: "https://pr-${{ github.event.pull_request.number }}.test.hubble.vote"
+    #   url: "https://pr-${{ github.event.pull_request.number }}.test.signjunkieworkshop.com"
     steps:
       - name: nomad
         env:
-          HUBBLE_PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: nomad job stop -yes -purge -verbose hubble-pr-$HUBBLE_PR_NUMBER
+          SIGN_JUNKIE_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: nomad job stop -yes -purge -verbose sign-junkie-pr-$SIGN_JUNKIE_PR_NUMBER

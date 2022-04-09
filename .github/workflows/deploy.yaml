@@ -27,10 +27,10 @@ jobs:
 
       - name: nomad
         env:
-          HUBBLE_PR_NUMBER: ${{ inputs.prNumber }}
+          SIGN_JUNKIE_PR_NUMBER: ${{ inputs.prNumber }}
         run: |
           sed -i "s|RUN_ID|$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT|g" config/deploy/test.nomad
-          sed -i "s|PR_NUMBER|$HUBBLE_PR_NUMBER|g" config/deploy/test.nomad
+          sed -i "s|PR_NUMBER|$SIGN_JUNKIE_PR_NUMBER|g" config/deploy/test.nomad
 
           nomad job run -verbose config/deploy/test.nomad
 

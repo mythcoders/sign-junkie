@@ -17,7 +17,7 @@ jobs:
       RAILS_MASTER_KEY: ${{ secrets.railsMasterKey }}
       REDIS_URL: "redis://localhost:6379/0"
       REDIS_NAMESPACE: sign-junkie
-      SIGN_JUNKIE_STORAGE_BUCKET: mcdig-rvstg-com1
+      STORAGE_BUCKET: mcdig-rvstg-com1
     services:
       postgres:
         image: postgres:13

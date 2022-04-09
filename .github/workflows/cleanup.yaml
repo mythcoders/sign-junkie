@@ -12,6 +12,6 @@ jobs:
     steps:
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hubble'
+          package-name: 'sign-junkie'
           min-versions-to-keep: 5
           token: ${{ secrets.PACKAGE_TOKEN }}

@@ -11,4 +11,4 @@ application.load(
 )
 
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-import 'helpers/sentry_helpers'
+import 'helpers/appsignal_helpers'
