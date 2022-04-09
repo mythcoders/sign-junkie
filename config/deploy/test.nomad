@@ -77,7 +77,7 @@ job "sign-junkie-pr-PR_NUMBER" {
 
       config {
         image = "ghcr.io/mythcoders/sign-junkie:${NOMAD_META_github_pr}"
-        entrypoint = ["./bin/rails", "db:create", "db:migrate"]
+        entrypoint = ["sh", "./scripts/db"]
         ports = ["puma"]
         force_pull = true
       }

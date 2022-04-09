@@ -153,7 +153,7 @@ job "sign-junkie" {
 
       config {
         image = "ghcr.io/mythcoders/sign-junkie:main"
-        entrypoint = ["./bin/rails", "db:migrate"]
+        entrypoint = ["sh", "./scripts/db"]
         ports = ["puma"]
       }
 
