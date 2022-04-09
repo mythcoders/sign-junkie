@@ -2,6 +2,9 @@ name: linters
 
 on:
   workflow_call:
+    secrets:
+      packageToken:
+        required: true
 
 jobs:
   ruby:
@@ -13,7 +16,7 @@ jobs:
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
         env:
-          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.PACKAGE_TOKEN }}
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ github.actor }}:${{ secrets.packageToken }}
         with:
           bundler-cache: true
 
