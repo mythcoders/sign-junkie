@@ -42,7 +42,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: assets
-          path: public/assets/
+          path: |
+            public/assets/
+            public/packs/
           retention-days: 5
 
   sync:
