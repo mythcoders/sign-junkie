@@ -11,11 +11,13 @@ end
 
 def fetch_new_image
   puts "Fetching image"
-  URI.open(Faker::Avatar.image)
-rescue OpenURI::HTTPError
+  URI.parse(Faker::Avatar.image).open
+rescue OpenURI::HTTPError => e
+  Appsignal.set_error(e)
   puts "HTTP error fetching image"
   random_image
-rescue
+rescue StandardError => e
+  Appsignal.set_error(e)
   puts "Generic error fetching image"
   random_image
 end

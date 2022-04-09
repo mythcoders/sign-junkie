@@ -19,6 +19,5 @@ puts "Creating workshops..."
     is_for_sale: true
   )
 
-  next unless shop.valid?
-  attach_images(shop.workshop_images, 2)
+  attach_images(shop.workshop_images) if shop.valid?
 end

@@ -12,8 +12,7 @@ puts "Creating stencils..."
     category: StencilCategory.all.sample
   )
 
-  next unless stencil.valid?
-  attach_images(stencil.image, 1)
+  attach_images(stencil.image, 1) if stencil.valid?
 end
 
 puts "Creating addons..."
@@ -23,8 +22,7 @@ puts "Creating addons..."
     price: Faker::Commerce.price
   )
 
-  next unless addon.valid?
-  attach_images(addon.addon_images, 2)
+  attach_images(addon.addon_images) if addon.valid?
 end
 
 puts "Creating projects..."
@@ -37,6 +35,5 @@ puts "Creating projects..."
     stencils: Stencil.all.sample(4)
   )
 
-  next unless project.valid?
-  attach_images(project.project_images, 2)
+  attach_images(project.project_images) if project.valid?
 end
