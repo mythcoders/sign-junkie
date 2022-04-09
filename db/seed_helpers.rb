@@ -32,7 +32,7 @@ end
 def attach_images(image_relation, count = 2)
   count.times do
     new_image.tap do |image|
-      next if image.nil?
+      next if image[:io].nil?
 
       image_relation.attach(image)
     end
