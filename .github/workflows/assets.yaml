@@ -16,7 +16,7 @@ on:
 env:
   RAILS_ENV: production
   NODE_ENV: production
-  BUCKET_PATH: s3://${{ inputs.assetBucket }}/assets/
+  BUCKET_PATH: s3://${{ inputs.assetBucket }}/
   LOCAL_PATH: assets-sync/${{ inputs.assetBucket }}/
 
 jobs:
