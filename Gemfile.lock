@@ -64,6 +64,8 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    appsignal (3.0.25)
+      rack
     ast (2.4.2)
     aws-eventstream (1.1.1)
     aws-partitions (1.490.0)
@@ -417,19 +419,6 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
-    sentry-rails (4.6.5)
-      railties (>= 5.0)
-      sentry-ruby-core (~> 4.6.0)
-    sentry-ruby (4.6.5)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-      faraday (>= 1.0)
-      sentry-ruby-core (= 4.6.5)
-    sentry-ruby-core (4.6.5)
-      concurrent-ruby
-      faraday
-    sentry-sidekiq (4.6.5)
-      sentry-ruby-core (~> 4.6.0)
-      sidekiq (>= 3.0)
     sexp_processor (4.15.3)
     shellany (0.0.1)
     shoulda-matchers (5.0.0)
@@ -522,6 +511,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  appsignal
   aws-sdk-s3
   better_errors
   binding_of_caller
@@ -564,9 +554,6 @@ DEPENDENCIES
   ruby-debug-ide
   sassc-rails
   selenium-webdriver
-  sentry-rails
-  sentry-ruby (>= 4.2.0)
-  sentry-sidekiq (>= 4.2.0)
   shoulda-matchers
   sidekiq
   sidekiq-scheduler

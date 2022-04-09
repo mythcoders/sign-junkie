@@ -50,21 +50,22 @@ class BraintreeService < ApplicationService
   attr_reader :gateway
 
   def log_failed_transaction_and_raise!(result, error_klass)
-    Sentry.set_extras parameters: result.params
+    tags = {
+      parameters: result.params,
+      details: extract_error_message_from_result(result)
+    }
 
     if result.transaction.processor_response_code
-      Sentry.set_extras processor_response_code: result.transaction.processor_response_code
+      tags[:processor_response_code] = result.transaction.processor_response_code
     end
 
     if result.transaction.processor_settlement_response_code
-      Sentry.set_extras settlement_response_code: result.transaction.processor_settlement_response_code
+      tags[:settlement_response_code] = result.transaction.processor_settlement_response_code
     end
 
-    error_message = extract_error_message_from_result(result)
-
-    Sentry.set_extras error_message: error_message
-    Sentry.capture_message("Braintree Failure", level: :warning)
-    raise error_klass, error_message
+    e = error_klass.new(tags[:details])
+    Appsignal.set_error(e, tags)
+    raise e
   end
 
   def extract_error_message_from_result(result)

@@ -13,7 +13,7 @@
 
 %meta{name: 'sign-junkie-current-user', content: current_user_attributes.to_json}
 %meta{name: 'sign-junkie-environment', content: Rails.env}
-%meta{name: 'sign-junkie-error-dsn', content: Rails.application.credentials.dig(:sentry, :public_dsn)}
+%meta{name: 'sign-junkie-error-api', content: Apollo.appsignal_frontend_key}
 %meta{name: 'sign-junkie-release', content: SystemInfo.release}
 
 %meta{property: "og:site_name", content: t('site.title')}

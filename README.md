@@ -10,7 +10,7 @@ Sign Junkie Workshop is a website for Sign Junkie in Thornville, OH.
 
 ### Services used
 
-- Sentry
+- Appsignal
 - Braintree (with client credentials)
 
 ## Getting Started

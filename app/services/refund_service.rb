@@ -22,7 +22,9 @@ class RefundService < ApplicationService
       item.save! && RefundMailer.with(refund_id: refund.id).issued.deliver_later
     else
       Sentry.set_extras refund: refund.attributes, item: item.attributes
-      Sentry.capture_exception("Unable to process refund", transaction: "Post Refund")
+      Appsignal.set_error("Unable to process refund") do |exception|
+        exception.set_tags transaction: "Post Refund"
+      end
       raise ProcessError, "Unable to process refund"
     end
   end

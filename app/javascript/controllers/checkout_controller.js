@@ -1,5 +1,5 @@
 import ApplicationController from "./application_controller"
-import * as Sentry from "@sentry/browser"
+import Appsignal from "helpers/appsignal_helper"
 
 export default class extends ApplicationController {
   static values = { clientToken: String, purchaseAmount: String }
@@ -18,7 +18,7 @@ export default class extends ApplicationController {
       },
     }, function (error, dropinInstance) {
       if (error) {
-        Sentry.captureException(error)
+        Appsignal.sendError(error)
         return
       }
 
@@ -27,7 +27,7 @@ export default class extends ApplicationController {
         dropinInstance.requestPaymentMethod(function (paymentError, payload) {
           if (paymentError) {
             dropinInstance.clearSelectedPaymentMethod()
-            Sentry.captureException(paymentError)
+            Appsignal.sendError(error)
             return
           }
 

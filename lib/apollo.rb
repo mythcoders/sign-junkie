@@ -62,5 +62,17 @@ module Apollo
         ["Ruby", "v#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE})"]
       ].map { |info| "%-17s %s" % info }.join("\n") + "\n"
     end
+
+    def appsignal_env
+      Rails.env.production? ? :production : :development
+    end
+
+    def appsignal_backend_key
+      Rails.application.credentials.dig(:appsignal, appsignal_env, :backend)
+    end
+
+    def appsignal_frontend_key
+      Rails.application.credentials.dig(:appsignal, appsignal_env, :frontend)
+    end
   end
 end

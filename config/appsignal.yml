@@ -1,0 +1,23 @@
+default: &defaults
+  name: "Sign Junkie"
+  push_api_key: '<%= Apollo.appsignal_backend_key %>'
+  running_in_container: true
+  send_params: true
+  send_environment_metadata: true
+  ignore_actions:
+    - 'GET /_ping'
+    - 'GET /_heartbeat'
+
+development:
+  <<: *defaults
+  active: false
+
+review:
+  <<: *defaults
+  active: false
+  revision: '<%= SystemInfo.long_version %>'
+
+production:
+  <<: *defaults
+  active: true
+  revision: '<%= SystemInfo.long_version %>'

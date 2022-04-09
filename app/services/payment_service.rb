@@ -2,8 +2,6 @@
 
 class PaymentService < ApplicationService
   def process!(payment)
-    Sentry.set_extras payment: payment.attributes
-
     if payment.gift_card?
       deduct_credit(payment)
     else
@@ -16,7 +14,7 @@ class PaymentService < ApplicationService
   def deduct_credit(payment)
     return true if CustomerCredit.deduct!(payment)
 
-    Sentry.capture_exception("Unable to deduct from gift card", transaction: "Post Payment")
+    Appsignal.set_error("Unable to deduct from gift card", transaction: "PostPayment")
     raise ProcessError, "Unable to deduct from gift card"
   end
 
