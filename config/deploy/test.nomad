@@ -97,6 +97,7 @@ job "sign-junkie-pr-PR_NUMBER" {
       RAILS_SERVE_STATIC_FILES="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
       EOH
 
         destination = "secrets/file.env"
@@ -128,6 +129,7 @@ job "sign-junkie-pr-PR_NUMBER" {
       RAILS_SERVE_STATIC_FILES="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
       EOH
 
         destination = "secrets/rails.env"
@@ -194,6 +196,7 @@ job "sign-junkie-pr-PR_NUMBER" {
       RAILS_LOG_TO_STDOUT="1"
       REDIS_NAMESPACE="sign-junkie"
       STORAGE_BUCKET="mcdig-rvstg-com1"
+      CDN_URL="https://cdn.test.signjunkieworkshop.com"
       EOH
 
         destination = "secrets/sidekiq.env"
