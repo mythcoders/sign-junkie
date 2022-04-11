@@ -113,6 +113,12 @@ job "sign-junkie" {
     task "rails" {
       driver = "docker"
 
+      resources {
+        cpu    = 1000
+        memory = 512
+        memory_max = 1500
+      }
+
       config {
         image = "ghcr.io/mythcoders/sign-junkie:main"
         ports = ["puma"]
@@ -218,6 +224,12 @@ job "sign-junkie" {
 
     task "sidekiq" {
       driver = "docker"
+
+      resources {
+        cpu    = 1500
+        memory = 512
+        memory_max = 1500
+      }
 
       template {
         data = <<EOH
