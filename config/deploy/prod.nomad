@@ -226,7 +226,7 @@ job "sign-junkie" {
       driver = "docker"
 
       resources {
-        cpu    = 1500
+        cpu    = 1100
         memory = 512
         memory_max = 1500
       }
