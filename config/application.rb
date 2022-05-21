@@ -43,8 +43,5 @@ module Apollo
 
     # Logging
     config.lograge.enabled = true
-
-    # Mailing
-    config.action_mailer.delivery_method = :hermes
   end
 end

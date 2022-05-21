@@ -9,8 +9,6 @@ x-shared-environment-variables: &shared-environment-variables
   STORAGE_BUCKET: none
   REDIS_URL: redis://myth-redis:6379/2
   REDIS_NAMESPACE: sign-junkie-dev
-  HERMES_API_KEY: key
-  HERMES_API_SECRET: secret
 
 services:
   app:
