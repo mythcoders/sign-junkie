@@ -41,7 +41,7 @@ gem "redis-namespace"
 gem "sidekiq"
 gem "sidekiq-scheduler"
 
-gem "sendgrid"
+gem "hashie"
 
 group :development, :test do
   gem "bundler-audit"
