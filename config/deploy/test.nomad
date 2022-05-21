@@ -85,8 +85,6 @@ job "sign-junkie-pr-PR_NUMBER" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "apps/database-url" }}/{{ env "NOMAD_JOB_NAME" }}"
       REDIS_URL = "redis://127.0.0.1:6379/1"
       ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"
@@ -123,8 +121,6 @@ job "sign-junkie-pr-PR_NUMBER" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "apps/database-url" }}/{{ env "NOMAD_JOB_NAME" }}"
       REDIS_URL = "redis://127.0.0.1:6379/1"
       ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"
@@ -191,8 +187,6 @@ job "sign-junkie-pr-PR_NUMBER" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "apps/database-url" }}/{{ env "NOMAD_JOB_NAME" }}"
       REDIS_URL="redis://127.0.0.1:6379/1"
       ENVIRONMENT_NAME="review/{{ env "NOMAD_META_github_pr" }}"

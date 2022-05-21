@@ -91,12 +91,6 @@ job "sign-junkie" {
           proxy {
             local_service_address = "0.0.0.0"
             local_service_port = 5000
-
-            upstreams {
-              destination_name = "hermes-rails"
-              local_bind_address = "127.0.0.1"
-              local_bind_port  = 1000
-            }
           }
         }
       }
@@ -127,11 +121,8 @@ job "sign-junkie" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://cdn.signjunkieworkshop.com"
-      HERMES_URL="http://127.0.0.1:1000/api/"
       REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"
@@ -166,11 +157,8 @@ job "sign-junkie" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://cdn.signjunkieworkshop.com"
-      HERMES_URL="http://127.0.0.1:1000/api/"
       REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"
@@ -208,18 +196,6 @@ job "sign-junkie" {
 
     service {
       name = "sign-junkie-sidekiq"
-
-      connect {
-        sidecar_service {
-          proxy {
-            upstreams {
-              destination_name = "hermes-rails"
-              local_bind_address = "127.0.0.1"
-              local_bind_port  = 1000
-            }
-          }
-        }
-      }
     }
 
     task "sidekiq" {
@@ -234,11 +210,8 @@ job "sign-junkie" {
       template {
         data = <<EOH
       RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      HERMES_API_KEY="{{ key "sign-junkie/hermes-key" }}"
-      HERMES_API_SECRET="{{ key "sign-junkie/hermes-secret" }}"
       DATABASE_URL="{{ key "sign-junkie/database-url" }}"
       CDN_URL="https://cdn.signjunkieworkshop.com"
-      HERMES_URL="http://127.0.0.1:1000/api/"
       REDIS_URL="{{ key "sign-junkie/redis-url" }}"
       ENVIRONMENT_NAME="production"
       ENVIRONMENT_URL="https://signjunkieworkshop.com"

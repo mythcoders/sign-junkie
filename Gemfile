@@ -41,9 +41,7 @@ gem "redis-namespace"
 gem "sidekiq"
 gem "sidekiq-scheduler"
 
-source "https://rubygems.pkg.github.com/mythcoders" do
-  gem "hermes"
-end
+gem "sendgrid"
 
 group :development, :test do
   gem "bundler-audit"

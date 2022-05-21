@@ -47,7 +47,7 @@ Rails.application.configure do
     user_name: Rails.application.credentials.dig(:email, :username),
     password: Rails.application.credentials.dig(:email, :password),
     domain: "signjunkieworkshop.com",
-    address: "email-smtp.us-east-1.amazonaws.com",
+    address: Rails.application.credentials.dig(:email, :address),
     port: 587,
     authentication: :plain,
     enable_starttls_auto: true
