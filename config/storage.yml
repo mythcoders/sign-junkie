@@ -9,3 +9,4 @@ amazon:
   region: nyc3
   bucket: <%= ENV.fetch('STORAGE_BUCKET') %>
   endpoint: "https://nyc3.digitaloceanspaces.com"
+  public: true
