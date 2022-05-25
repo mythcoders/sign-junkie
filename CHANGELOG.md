@@ -1,4 +1,10 @@
-#### 2102.14 - April ?, 2022
+#### 2102.15 - May 21, 2022
+
+- Technical features and improvements
+  - Updates to system dependencies
+  - Emails are no longer delivered by the MythCoders email service, Hermes. They are now delivered by SendGrid.
+
+#### 2102.14 - April 9, 2022
 
 - Technical features and improvements
   - Updates to system dependencies
