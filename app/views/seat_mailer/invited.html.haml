@@ -13,7 +13,7 @@
 %p.mb-2
   - if @seat.reservation.paid_by_host?
     You must select a project by #{special_date @seat.reservation.workshop.registration_deadline}.
-    Don’t worry about paying for anything! Your host has already taken care of paying for your seat.
+    Don't worry about paying for anything! Your host has already taken care of paying for your seat.
   - else
     You must select a project and pay by #{special_date @seat.reservation.workshop.registration_deadline}
 
