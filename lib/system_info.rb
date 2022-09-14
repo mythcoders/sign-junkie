@@ -19,7 +19,7 @@ module SystemInfo
     end
 
     def support_mail
-      "support@mythcoders.com"
+      "help@mythcoders.com"
     end
 
     def support_key
