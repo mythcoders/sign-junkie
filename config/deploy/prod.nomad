@@ -31,37 +31,6 @@ job "sign-junkie" {
       }
     }
 
-    scaling {
-      min     = 1
-      max     = 3
-      enabled = true
-
-      policy {
-        evaluation_interval = "5s"
-        cooldown            = "1m"
-
-        check "cpu" {
-          source = "nomad-apm"
-          query  = "avg_cpu"
-
-          strategy "threshold" {
-            upper_bound = 80
-            delta = 1
-          }
-        }
-
-        check "mem" {
-          source = "nomad-apm"
-          query  = "avg_memory"
-
-          strategy "threshold" {
-            upper_bound = 80
-            delta = 1
-          }
-        }
-      }
-    }
-
     service {
       name = "sign-junkie-rails"
       port = "puma"
@@ -110,7 +79,7 @@ job "sign-junkie" {
       resources {
         cpu    = 1000
         memory = 512
-        memory_max = 1500
+        memory_max = 1000
       }
 
       config {
@@ -173,64 +142,6 @@ job "sign-junkie" {
 
         destination = "secrets/file.env"
         env         = true
-      }
-    }
-  }
-
-  group "workers" {
-    constraint {
-      attribute = "${node.class}"
-      operator  = "="
-      value     = "job"
-    }
-
-    network {
-      mode = "bridge"
-    }
-
-    ephemeral_disk {
-      migrate = true
-      size    = 512
-      sticky  = true
-    }
-
-    service {
-      name = "sign-junkie-sidekiq"
-    }
-
-    task "sidekiq" {
-      driver = "docker"
-
-      resources {
-        cpu    = 1500
-        memory = 512
-        memory_max = 1500
-      }
-
-      template {
-        data = <<EOH
-      RAILS_MASTER_KEY="{{ key "sign-junkie/rails-master-key" }}"
-      DATABASE_URL="{{ key "sign-junkie/database-url" }}"
-      CDN_URL="https://cdn.signjunkieworkshop.com"
-      REDIS_URL="{{ key "sign-junkie/redis-url" }}"
-      ENVIRONMENT_NAME="production"
-      ENVIRONMENT_URL="https://signjunkieworkshop.com"
-      PAYMENT_ENV="production"
-      NODE_ENV="production"
-      RAILS_ENV="production"
-      RAILS_LOG_TO_STDOUT="1"
-      RAILS_SERVE_STATIC_FILES="1"
-      REDIS_NAMESPACE="sign-junkie"
-      STORAGE_BUCKET="mcdig-pdstg-signjunkie"
-      EOH
-
-        destination = "secrets/sidekiq.env"
-        env         = true
-      }
-
-      config {
-        image = "ghcr.io/mythcoders/sign-junkie:main"
-        entrypoint = ["sh", "./scripts/worker", "start"]
       }
     }
   }
